@@ -1,0 +1,56 @@
+# GAAI — Quick Reference
+
+## Slash Commands
+
+| Command | What it does |
+|---|---|
+| `/gaai-bootstrap` | Scan codebase, extract decisions, build memory files |
+| `/gaai-discover` | Start Discovery — clarify intent, create Stories with acceptance criteria |
+| `/gaai-deliver` | Start the Delivery Daemon — deliver refined Stories autonomously via tmux |
+| `/gaai-status` | Show current backlog state and memory summary |
+
+> `/gaai-deliver` and `/gaai-daemon` are aliases — both launch the same daemon.
+
+## Starting a Session
+
+1. Run `/gaai-discover` and describe what you want to build
+2. Discovery creates a Story with acceptance criteria and adds it to the backlog
+3. Run `/gaai-deliver` — starts the daemon, which delivers Stories autonomously in tmux
+
+## Adding a Feature
+
+1. `/gaai-discover` — "I want to add [feature description]"
+2. Answer Discovery's clarifying questions until the Story is `refined`
+3. `/gaai-deliver` — daemon picks up the Story and delivers it in an isolated tmux session
+
+## Key Files
+
+| File | Purpose |
+|---|---|
+| `.gaai/project/contexts/backlog/active.backlog.yaml` | What's authorized for execution |
+| `.gaai/project/contexts/memory/project/context.md` | What the agent knows about your project |
+| `.gaai/project/contexts/memory/decisions/_log.md` | Decisions that persist across sessions |
+| `.gaai/core/GAAI.md` | Full framework orientation |
+
+## Core Rules
+
+Nothing gets built that isn't in the backlog. Discovery decides *what*. Delivery decides *how*. You decide *when*.
+
+**Discovery Session Brief** — When Discovery delegates to sub-agents, it passes a structured brief capturing all session intelligence (decisions, observations, hypotheses, trade-offs, scope boundaries, constraints, qualitative preferences). Sub-agents cannot change or reinterpret these items. See [`agents/discovery.agent.md`](agents/discovery.agent.md) §Mandatory Sub-Agent Delegation Protocol.
+
+---
+
+## Daemon Options
+
+```
+/gaai-deliver                          # start (default: 1 slot) + open monitor
+/gaai-deliver --max-concurrent 3       # 3 parallel deliveries
+/gaai-deliver --status                 # live monitoring dashboard
+/gaai-deliver --stop                   # graceful shutdown
+```
+
+One-time setup: `bash .gaai/core/scripts/daemon-setup.sh`
+
+---
+
+> [Full documentation](https://github.com/Fr-e-d/GAAI-framework/tree/main/docs)

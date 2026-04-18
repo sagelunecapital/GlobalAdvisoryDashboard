@@ -1,0 +1,16 @@
+# Personal files — not part of the GAAI project
+Journal/
+Sector Rotation/
+GAAI-framework-main/
+*.html
+*.docx
+*.xlsx
+*.twbx
+
+# Delivery logs — runtime artefacts, not committed
+.gaai/project/contexts/backlog/.delivery-logs/
+.gaai/project/contexts/backlog/.delivery-daemon.log
+
+# OS
+.DS_Store
+Thumbs.db

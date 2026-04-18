@@ -1,0 +1,81 @@
+# GAAI Active Backlog
+# Execution queue — contains only Stories that are validated and ready for Delivery.
+# Rules:
+#   - One item = one Story
+#   - Must have a corresponding artefact with acceptance criteria
+#   - Keep under ~20 items; archive completed items to done/
+#   - Only Discovery may add items; only Delivery may update status
+
+# Example item (remove before using):
+# - id: E01S01
+#   epic: E01
+#   title: "Example story title"
+#   priority: high
+#   status: refined
+#   artefact: contexts/artefacts/stories/E01S01.story.md
+#   dependencies: []
+
+items:
+  - id: E01S06
+    epic: E01
+    module: market-regime
+    title: "Initialize and maintain historical indicator database"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E01S06.story.md
+    dependencies: []
+
+  - id: E01S01
+    epic: E01
+    module: market-regime
+    title: "Fetch live indicator data"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E01S01.story.md
+    dependencies:
+      - E01S06
+
+  - id: E01S02
+    epic: E01
+    module: market-regime
+    title: "Detect SPX / MMTH divergence"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E01S02.story.md
+    dependencies:
+      - E01S01
+      - E01S06
+
+  - id: E01S03
+    epic: E01
+    module: market-regime
+    title: "Classify market regime"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E01S03.story.md
+    dependencies:
+      - E01S01
+      - E01S02
+
+  - id: E01S04
+    epic: E01
+    module: market-regime
+    title: "Display regime and indicators"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E01S04.story.md
+    dependencies:
+      - E01S03
+
+  - id: E01S05
+    epic: E01
+    module: market-regime
+    title: "Refresh indicator data"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E01S05.story.md
+    dependencies:
+      - E01S01
+      - E01S02
+      - E01S03
+      - E01S04
