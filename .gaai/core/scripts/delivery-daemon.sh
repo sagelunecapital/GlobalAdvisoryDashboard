@@ -1371,7 +1371,7 @@ unset CLAUDECODE 2>/dev/null || true
 
 # Slash commands don't work in -p mode — expand the command file into a prompt
 # Strip YAML frontmatter (--+\n...\n--+) — claude -p treats leading dashes as a CLI option
-DELIVERY_PROMPT=\$(tr -d '\r' < "$PROJECT_DIR/.claude/commands/gaai-deliver.md" | awk 'BEGIN{s=0} NR==1 && /^--+\$/{s=1; next} s==1 && /^--+\$/{s=0; next} s==0')
+DELIVERY_PROMPT=\$(tr -d '\r' < "$GAAI_CORE_DIR/agents/delivery.agent.md" | awk 'BEGIN{s=0} NR==1 && /^--+\$/{s=1; next} s==1 && /^--+\$/{s=0; next} s==0')
 
 # --output-format stream-json streams NDJSON events in real-time, so:
 #   - tee updates the log file continuously (natural heartbeat for daemon monitor)
@@ -1854,7 +1854,7 @@ unset CLAUDECODE 2>/dev/null || true
 # Slash commands don't work in -p mode — expand the command file into a prompt
 # Strip YAML frontmatter (--+\n...\n--+) — claude -p treats leading dashes as a CLI option
 # See: https://code.claude.com/docs/en/headless
-DELIVERY_PROMPT=\$(tr -d '\r' < "$PROJECT_DIR/.claude/commands/gaai-deliver.md" | awk 'BEGIN{s=0} NR==1 && /^--+\$/{s=1; next} s==1 && /^--+\$/{s=0; next} s==0')
+DELIVERY_PROMPT=\$(tr -d '\r' < "$GAAI_CORE_DIR/agents/delivery.agent.md" | awk 'BEGIN{s=0} NR==1 && /^--+\$/{s=1; next} s==1 && /^--+\$/{s=0; next} s==0')
 
 # Print mode (-p): claude processes the prompt and exits, freeing the daemon slot.
 # --dangerously-skip-permissions handles tool approval (required for headless).
