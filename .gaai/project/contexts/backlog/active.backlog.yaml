@@ -21,8 +21,7 @@ items:
     module: market-regime
     title: "Initialize and maintain historical indicator database"
     priority: high
-    status: in_progress
-    started_at: "2026-04-20T10:11:47Z"
+    status: refined
     artefact: contexts/artefacts/stories/E01S06.story.md
     dependencies: []
 
@@ -80,3 +79,130 @@ items:
       - E01S02
       - E01S03
       - E01S04
+
+  - id: E02S01
+    epic: E02
+    module: liquidity
+    title: "Fetch and persist FRED liquidity data and Bitcoin price"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E02S01.story.md
+    dependencies: []
+    notes: "Discovery 2026-04-20 — Liquidity module foundation"
+
+  - id: E02S02
+    epic: E02
+    module: liquidity
+    title: "Compute and persist net liquidity series"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E02S02.story.md
+    dependencies:
+      - E02S01
+    notes: "Discovery 2026-04-20"
+
+  - id: E02S03
+    epic: E02
+    module: liquidity
+    title: "Compute YoY% change and 3-month moving average"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E02S03.story.md
+    dependencies:
+      - E02S02
+    notes: "Discovery 2026-04-20"
+
+  - id: E02S04
+    epic: E02
+    module: liquidity
+    title: "Display Liquidity module (raw tabs + YoY% 3MA charts)"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E02S04.story.md
+    dependencies:
+      - E02S03
+    notes: "Discovery 2026-04-20"
+
+  - id: E02S05
+    epic: E02
+    module: liquidity
+    title: "Refresh liquidity data"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E02S05.story.md
+    dependencies:
+      - E02S01
+      - E02S02
+      - E02S03
+      - E02S04
+    notes: "Discovery 2026-04-20"
+
+  - id: E03S01
+    epic: E03
+    module: macro
+    title: "Fetch and persist 32 macro indicators"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E03S01.story.md
+    dependencies: []
+    notes: "Discovery 2026-04-20 — Macro module foundation; FRED authorized as secondary source"
+
+  - id: E03S02
+    epic: E03
+    module: macro
+    title: "Compute weekly % change and rolling 52-week standard deviation"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E03S02.story.md
+    dependencies:
+      - E03S01
+    notes: "Discovery 2026-04-20"
+
+  - id: E03S03
+    epic: E03
+    module: macro
+    title: "Detect 2σ signals and generate natural-language alert reasons"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E03S03.story.md
+    dependencies:
+      - E03S02
+    notes: "Discovery 2026-04-20"
+
+  - id: E03S04
+    epic: E03
+    module: macro
+    title: "Display Macro module (categorized table with signal alerts)"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E03S04.story.md
+    dependencies:
+      - E03S03
+    notes: "Discovery 2026-04-20"
+
+  - id: E03S05
+    epic: E03
+    module: macro
+    title: "Refresh macro indicator data"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E03S05.story.md
+    dependencies:
+      - E03S01
+      - E03S02
+      - E03S03
+      - E03S04
+    notes: "Discovery 2026-04-20"
+
+  - id: E04S01
+    epic: E04
+    module: dashboard-prototype
+    title: "Build single-file HTML dashboard prototype with sample data"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E04S01.story.md
+    dependencies:
+      - E01S04
+      - E02S04
+      - E03S04
+    notes: "Discovery 2026-04-20 — prototype depends on all three display stories being delivered"

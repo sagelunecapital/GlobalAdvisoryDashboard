@@ -1403,7 +1403,13 @@ WRAPPER_EOF
 
   chmod +x "$wrapper"
 
-  tmux new-session -d -s "gaai-deliver-${story_id}" "$wrapper"
+  # Kill any stale session with the same name (prevents duplicate-session error
+  # when a previous run's tmux session outlived its wrapper script).
+  tmux kill-session -t "gaai-deliver-${story_id}" 2>/dev/null || true
+
+  # ${wrapper@Q} single-quotes the path so spaces in the project directory
+  # (e.g. "[03] Cowork") survive the shell -c layer tmux adds.
+  tmux new-session -d -s "gaai-deliver-${story_id}" "bash ${wrapper@Q}"
 
   sleep 2
 
