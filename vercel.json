@@ -1,4 +1,6 @@
 {
+  "framework": null,
   "outputDirectory": "prototypes",
-  "buildCommand": null
+  "buildCommand": "",
+  "installCommand": ""
 }
