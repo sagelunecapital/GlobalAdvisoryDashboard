@@ -3,6 +3,7 @@ Journal/
 Sector Rotation/
 GAAI-framework-main/
 *.html
+!prototypes/index.html
 *.docx
 *.xlsx
 *.twbx
