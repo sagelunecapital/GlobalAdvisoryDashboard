@@ -21,8 +21,8 @@ items:
     module: market-regime
     title: "Initialize and maintain historical indicator database"
     priority: high
-    status: refined
-    started_at: "2026-04-21T01:22:46Z"
+    status: in_progress
+    started_at: "2026-04-22T00:16:33Z"
     tier: 2
     artefact: contexts/artefacts/stories/E01S06.story.md
     dependencies: []
