@@ -21,8 +21,12 @@ items:
     module: market-regime
     title: "Initialize and maintain historical indicator database"
     priority: high
-    status: in_progress
+    status: done
     started_at: "2026-04-22T00:16:33Z"
+    completed_at: "2026-04-22T00:33:55Z"
+    pr_url: "local-squash-merge:staging@9ceffff"
+    pr_number: "N/A"
+    pr_status: "merged"
     tier: 2
     artefact: contexts/artefacts/stories/E01S06.story.md
     dependencies: []
