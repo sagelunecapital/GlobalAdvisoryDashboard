@@ -2,5 +2,8 @@
   "framework": null,
   "outputDirectory": "prototypes",
   "buildCommand": "",
-  "installCommand": ""
+  "installCommand": "",
+  "rewrites": [
+    { "source": "/", "destination": "/dashboard-prototype.html" }
+  ]
 }
