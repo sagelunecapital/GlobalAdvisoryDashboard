@@ -6,7 +6,7 @@ tags:
   - decisions
   - governance
 created_at: 2026-04-18
-updated_at: 2026-04-18
+updated_at: 2026-04-22
 ---
 
 # Decision Log
@@ -15,6 +15,26 @@ updated_at: 2026-04-18
 > Only the Discovery Agent may add entries (or Bootstrap Agent during initialization).
 > Format: one entry per decision, newest at top.
 > For large projects, split by domain: `decisions/auth.md`, `decisions/api.md`, etc.
+
+---
+
+### DEC-2026-04-22-02 — MMTH Source: EODData (yfinance ^MMTH Unavailable)
+
+**Context:** E01S06 required fetching MMTH (% of US stocks above their 200-day MA). The execution plan specified yfinance `^MMTH` as primary with EODData as fallback.
+**Decision:** EODData (`eodhistoricaldata.com`) is the active data source for MMTH. yfinance `^MMTH` returns HTTP 404 (ticker delisted or never supported on Yahoo Finance as of 2026-04-22).
+**Rationale:** Live verification during implementation confirmed `^MMTH` unavailability. EODData fallback is implemented in `src/fetch/mmth.py` and requires `EODDATA_API_KEY` environment variable. All tests use mocked fixtures.
+**Impact:** Production deployment requires configuring `EODDATA_API_KEY` before running historical load or daily append. E01S01 (live fetch) must use the same EODData source for MMTH. Pre-go-live prerequisite: confirm EODData free tier covers 252+ days of MMTH history.
+**Date:** 2026-04-22
+
+---
+
+### DEC-2026-04-22-01 — Tech Stack: Python + SQLite + yfinance + pandas
+
+**Context:** E01S06 was the first code story for the project; no tech stack was declared. Tech choice was left open for Delivery.
+**Decision:** The project uses Python 3.x with SQLite (WAL mode via built-in `sqlite3`), yfinance for SPX data, and pandas for EMA computation.
+**Rationale:** Python: dominant for financial data/EMA work; yfinance and pandas provide direct SPX OHLC and EMA computation. SQLite: only candidate satisfying zero-ops overhead AND ACID guarantees simultaneously (CSV fails AC6; PostgreSQL adds operational cost). WAL mode enables concurrent reads without blocking.
+**Impact:** All future delivery stories use this stack. `spx_daily_high` EMA computation uses `pandas.ewm(span=N, adjust=False).mean()`. DB files stored in `data/` directory. `requirements.txt` is the dependency manifest.
+**Date:** 2026-04-22
 
 ---
 

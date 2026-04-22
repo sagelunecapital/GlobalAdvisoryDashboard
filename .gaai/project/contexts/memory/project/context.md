@@ -49,10 +49,12 @@ refresh_tier: 2
 
 ## Tech Stack & Conventions
 
-- **Language(s):** TBD — all open
-- **Frameworks:** TBD — all open
-- **Data sources:** TBD — all open
-- **Key conventions:** TBD
+- **Language(s):** Python 3.x (DEC-2026-04-22-01)
+- **Frameworks:** None yet — DB layer only
+- **Data sources:** yfinance `^GSPC` for SPX; EODData (`EODDATA_API_KEY`) for MMTH (DEC-2026-04-22-02)
+- **Database:** SQLite (WAL mode, `data/` directory)
+- **Dependencies:** `requirements.txt` (yfinance, pandas, requests, pytest)
+- **Key conventions:** `spx_daily_high` column name (DEC-2026-04-18-01); EMA via `pandas.ewm(span=N, adjust=False).mean()`; 2yr SPX fetch for EMA warm-up, trim to 1yr post-computation
 
 ---
 
