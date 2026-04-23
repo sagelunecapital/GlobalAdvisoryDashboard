@@ -36,8 +36,13 @@ items:
     module: market-regime
     title: "Fetch live indicator data"
     priority: high
-    status: in_progress
+    status: done
     started_at: "2026-04-23T01:03:12Z"
+    completed_at: "2026-04-23T01:22:54Z"
+    pr_url: "https://github.com/sagelunecapital/GlobalAdvisoryDashboard/pull/1"
+    pr_number: 1
+    pr_status: "merged"
+    tier: 2
     artefact: contexts/artefacts/stories/E01S01.story.md
     dependencies:
       - E01S06
@@ -151,6 +156,7 @@ items:
     priority: high
     status: in_progress
     started_at: "2026-04-23T01:01:50Z"
+    tier: 2
     artefact: contexts/artefacts/stories/E03S01.story.md
     dependencies: []
     notes: "Discovery 2026-04-20 — Macro module foundation; FRED authorized as secondary source"
