@@ -36,7 +36,8 @@ items:
     module: market-regime
     title: "Fetch live indicator data"
     priority: high
-    status: refined
+    status: in_progress
+    started_at: "2026-04-23T01:03:12Z"
     artefact: contexts/artefacts/stories/E01S01.story.md
     dependencies:
       - E01S06
