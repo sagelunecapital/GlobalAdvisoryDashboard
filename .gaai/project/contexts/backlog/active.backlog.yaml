@@ -150,7 +150,8 @@ items:
     module: macro
     title: "Fetch and persist 32 macro indicators"
     priority: high
-    status: refined
+    status: in_progress
+    started_at: "2026-04-23T01:01:50Z"
     artefact: contexts/artefacts/stories/E03S01.story.md
     dependencies: []
     notes: "Discovery 2026-04-20 — Macro module foundation; FRED authorized as secondary source"
