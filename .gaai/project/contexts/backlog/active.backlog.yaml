@@ -154,7 +154,7 @@ items:
     module: macro
     title: "Fetch and persist 32 macro indicators"
     priority: high
-    status: in_progress
+    status: refined
     started_at: "2026-04-23T01:01:50Z"
     tier: 2
     artefact: contexts/artefacts/stories/E03S01.story.md
