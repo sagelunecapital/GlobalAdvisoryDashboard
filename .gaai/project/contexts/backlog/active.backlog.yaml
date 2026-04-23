@@ -36,8 +36,7 @@ items:
     module: market-regime
     title: "Fetch live indicator data"
     priority: high
-    status: in_progress
-    started_at: "2026-04-23T00:47:58Z"
+    status: refined
     artefact: contexts/artefacts/stories/E01S01.story.md
     dependencies:
       - E01S06
@@ -92,8 +91,7 @@ items:
     module: liquidity
     title: "Fetch and persist FRED liquidity data and Bitcoin price"
     priority: high
-    status: in_progress
-    started_at: "2026-04-23T00:57:22Z"
+    status: refined
     artefact: contexts/artefacts/stories/E02S01.story.md
     dependencies: []
     notes: "Discovery 2026-04-20 — Liquidity module foundation"
