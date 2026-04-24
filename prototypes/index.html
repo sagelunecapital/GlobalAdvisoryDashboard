@@ -29,7 +29,7 @@
   --sidebar-w:172px;
 }
 html,body{height:100%}
-body{background:linear-gradient(145deg,#0d1e35 0%,#101419 35%,#080c12 100%);background-attachment:fixed;color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
+body{background:linear-gradient(145deg,#0070cc 0%,#080c12 75%);background-attachment:fixed;color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
 .app{max-width:1920px;margin:0 auto;padding:20px 24px}
 
 /* ── Header / nav ── */
@@ -38,8 +38,8 @@ header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;
 .header-meta{font-size:12px;color:var(--text-muted);font-weight:500}
 
 /* ── Sidebar layout ── */
-.layout{display:flex;gap:20px;align-items:flex-start}
-.sidebar{width:var(--sidebar-w);flex-shrink:0;position:sticky;top:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(28,32,38,0.55);border:1px solid rgba(139,145,158,0.18);border-radius:19px;padding:14px 10px;box-shadow:rgba(0,0,0,0.3) 0 8px 24px 0}
+.layout{display:flex;gap:0;align-items:stretch}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(28,32,38,0.55);border-right:1px solid rgba(139,145,158,0.18);border-radius:0;padding:20px 10px}
 .sidebar-label{font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
 .nav-tab{display:flex;align-items:center;width:100%;padding:10px 14px;cursor:pointer;border:none;border-radius:12px;color:var(--text-muted);font-size:13px;font-weight:500;background:transparent;font-family:inherit;text-align:left;transition:background 180ms ease,color 180ms ease,transform 180ms ease;margin-bottom:4px}
 .nav-tab:last-child{margin-bottom:0}
@@ -47,7 +47,7 @@ header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;
 .nav-tab.active{color:#fff;background:var(--ps-blue)}
 .nav-tab.active:hover{background:var(--ps-cyan);transform:translateX(2px)}
 .nav-tab-icon{margin-right:8px;font-size:14px;opacity:.8}
-.main-content{flex:1;min-width:0}
+.main-content{flex:1;min-width:0;padding:0 0 0 24px}
 .main-panel{display:none}
 .main-panel.active{display:block}
 
@@ -162,10 +162,9 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
 <div class="layout">
   <aside class="sidebar">
-    <div class="sidebar-label">Navigation</div>
-    <button class="nav-tab active" onclick="showMain('macro',this)">&#128202; Macro</button>
-    <button class="nav-tab" onclick="showMain('breadth',this)">&#128200; Breadth</button>
-    <button class="nav-tab" onclick="showMain('execution',this)">&#9889; Execution</button>
+    <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
+    <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
+    <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
   </aside>
 
   <div class="main-content">
@@ -180,13 +179,8 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="section-heading">Growth</div>
       <div class="card">
         <div class="card-header">GDP</div>
-        <div class="chart-sub-label">Quarterly Growth Rate (QoQ SAAR %)</div>
-        <div class="cw" style="height:260px" id="w-gdp-line"><div class="chart-tt" id="tt-gdp-line"></div></div>
-        <div style="margin-top:16px">
-          <div class="chart-sub-label">Component Contributions (pp)</div>
-          <div class="legend" id="gdp-bar-legend"></div>
-          <div class="cw" style="height:280px" id="w-gdp-bar"><div class="chart-tt" id="tt-gdp-bar"></div></div>
-        </div>
+        <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
+        <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
         <div class="data-date">Source: BEA / Atlanta Fed GDPNow &nbsp;|&nbsp; Q1 2020 – Q1 2026</div>
       </div>
     </div>
@@ -327,10 +321,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   <div class="card">
     <div class="legend">
-      <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Bal</div>
-      <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity</div>
-      <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance</div>
-      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin YoY% <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
+      <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
+      <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
+      <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
+      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
     </div>
     <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
     <div class="data-date">YoY% 3-Month MA &nbsp;|&nbsp; Jan 2020 – Apr 2026 &nbsp;|&nbsp; FRED (sample)</div>
@@ -824,6 +818,189 @@ function drawStackedBar(wrapId, ttId, quarters, seriesDefs, vH, legId) {
   }
 }
 
+function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
+  vH=vH||320;
+  const wrap=document.getElementById(wrapId);if(!wrap)return;
+  wrap.querySelector('svg')?.remove();
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:14,b:32,l:44};
+  const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
+  const n=quarters.length;
+  let allMax=0,allMin=0;
+  for(let i=0;i<n;i++){
+    let pos=0,neg=0;
+    seriesDefs.forEach(s=>{const v=s.values[i]||0;if(v>0)pos+=v;else neg+=v;});
+    allMax=Math.max(allMax,pos,gdpLine[i]||0);
+    allMin=Math.min(allMin,neg,gdpLine[i]||0);
+  }
+  const vR=(allMax-allMin)||1;
+  const yOf=v=>pad.t+(1-(v-allMin)/vR)*iH;
+  const y0=yOf(0);
+  const barW=Math.max(4,(iW/n)*0.72);
+  const xOf=i=>pad.l+(i+0.5)*(iW/n);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=mkSvg(ns,VW,vH);
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH,v=allMax-t*vR;
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',pad.l-3);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=v.toFixed(1)+'%';svg.appendChild(lb);
+  });
+  if(allMin<0&&allMax>0){
+    const z=document.createElementNS(ns,'line');
+    z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
+    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+  }
+  const tt=document.getElementById(ttId);
+  quarters.forEach((q,i)=>{
+    const x=xOf(i);
+    let posY=y0,negY=y0;
+    seriesDefs.forEach(s=>{
+      const v=s.values[i]||0;if(v===0)return;
+      const bH=Math.abs(yOf(v)-yOf(0));
+      const rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',x-barW/2);rect.setAttribute('width',barW);
+      rect.setAttribute('fill',s.color);rect.setAttribute('opacity','0.72');
+      if(v>0){rect.setAttribute('y',posY-bH);rect.setAttribute('height',bH);posY-=bH;}
+      else{rect.setAttribute('y',negY);rect.setAttribute('height',bH);negY+=bH;}
+      svg.appendChild(rect);
+    });
+  });
+  const linePath=document.createElementNS(ns,'path');
+  linePath.setAttribute('d',gdpLine.map((v,i)=>`${i===0?'M':'L'}${xOf(i)},${yOf(v)}`).join(' '));
+  linePath.setAttribute('fill','none');linePath.setAttribute('stroke','#ffffff');linePath.setAttribute('stroke-width','2');
+  svg.appendChild(linePath);
+  const dot=document.createElementNS(ns,'circle');
+  dot.setAttribute('r','3.5');dot.setAttribute('fill','#ffffff');dot.setAttribute('display','none');svg.appendChild(dot);
+  quarters.forEach((q,i)=>{
+    if(i%4===0||i===n-1){
+      const lb=document.createElementNS(ns,'text');
+      lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+      lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','9');lb.textContent=q;svg.appendChild(lb);
+    }
+  });
+  quarters.forEach((q,i)=>{
+    const x=xOf(i);
+    const ov=document.createElementNS(ns,'rect');
+    ov.setAttribute('x',x-barW);ov.setAttribute('y',pad.t);ov.setAttribute('width',barW*2);ov.setAttribute('height',iH);
+    ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');
+    ov.addEventListener('mouseenter',()=>{
+      const r=svg.getBoundingClientRect();
+      dot.setAttribute('cx',xOf(i));dot.setAttribute('cy',yOf(gdpLine[i]));dot.setAttribute('display','');
+      tt.style.display='block';
+      tt.style.left=Math.min((x/VW)*r.width+12,r.width-230)+'px';tt.style.top='6px';
+      const comps=seriesDefs.map(s=>`<span style="color:${s.color}">■</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}pp`);
+      const note=i===quarters.length-1?' <em style="color:#8b919e">(GDPNow est.)</em>':'';
+      tt.innerHTML='<strong>'+q+'</strong>'+note+'<br>GDP: <strong>'+gdpLine[i].toFixed(1)+'%</strong> SAAR<br>'+comps.join('<br>');
+    });
+    ov.addEventListener('mouseleave',()=>{tt.style.display='none';dot.setAttribute('display','none');});
+    svg.appendChild(ov);
+  });
+  wrap.appendChild(svg);
+  if(legId){
+    const leg=document.getElementById(legId);
+    if(leg){
+      const lineItem=`<div class="li"><div style="width:16px;height:2px;background:#fff;border-radius:1px;flex-shrink:0;margin-top:3px"></div><span style="margin-left:5px">GDP Growth</span></div>`;
+      const barItems=seriesDefs.map(s=>`<div class="li"><div class="lsq" style="background:${s.color};opacity:0.82"></div>${s.label}</div>`).join('');
+      leg.innerHTML=lineItem+barItems;
+    }
+  }
+}
+
+function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
+  vH=vH||220;
+  const wrap=document.getElementById(wrapId);if(!wrap)return;
+  wrap.querySelector('svg')?.remove();
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:50,b:24,l:94};
+  const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
+  const n=dates.length;
+  const aligned=[];
+  for(let i=0;i<n;i++){
+    const vs=seriesDefs.map(s=>s.values[i]);
+    if(vs.every(v=>v!==null))aligned.push({d:dates[i],vs});
+  }
+  if(!aligned.length)return;
+  function capVal(v,s){return s.cap?Math.max(s.cap[0],Math.min(s.cap[1],v)):v;}
+  const lhs1Idx=seriesDefs.map((s,i)=>s.axis==='lhs1'?i:null).filter(i=>i!==null);
+  const lhs2Idx=seriesDefs.map((s,i)=>s.axis==='lhs2'?i:null).filter(i=>i!==null);
+  const rhsIdx =seriesDefs.map((s,i)=>s.axis==='rhs' ?i:null).filter(i=>i!==null);
+  const lhs1Vals=aligned.flatMap(r=>lhs1Idx.map(i=>r.vs[i]));
+  const lhs2Vals=aligned.flatMap(r=>lhs2Idx.map(i=>r.vs[i]));
+  const rhsTrans=aligned.flatMap(r=>rhsIdx.map(i=>capVal(r.vs[i],seriesDefs[i])));
+  const lhs1Min=Math.min(...lhs1Vals),lhs1Max=Math.max(...lhs1Vals),lhs1R=lhs1Max-lhs1Min||1;
+  const lhs2Min=Math.min(...lhs2Vals),lhs2Max=Math.max(...lhs2Vals),lhs2R=lhs2Max-lhs2Min||1;
+  const rhsTMin=Math.min(...rhsTrans),rhsTMax=Math.max(...rhsTrans),rhsTR=rhsTMax-rhsTMin||1;
+  const xOf=i=>pad.l+(i/(aligned.length-1))*iW;
+  const yOfL1=v=>pad.t+(1-(v-lhs1Min)/lhs1R)*iH;
+  const yOfL2=v=>pad.t+(1-(v-lhs2Min)/lhs2R)*iH;
+  const yOfR =v=>pad.t+(1-(v-rhsTMin)/rhsTR)*iH;
+  const ns='http://www.w3.org/2000/svg';
+  const svg=mkSvg(ns,VW,vH);
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH;
+    const v1=lhs1Max-t*lhs1R,v2=lhs2Max-t*lhs2R,vR=rhsTMax-t*rhsTR;
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const lb2=document.createElementNS(ns,'text');
+    lb2.setAttribute('x',40);lb2.setAttribute('y',y+4);lb2.setAttribute('text-anchor','end');
+    lb2.setAttribute('fill','#e3b341');lb2.setAttribute('font-size','9');lb2.textContent=v2.toFixed(0)+'%';svg.appendChild(lb2);
+    const lb1=document.createElementNS(ns,'text');
+    lb1.setAttribute('x',88);lb1.setAttribute('y',y+4);lb1.setAttribute('text-anchor','end');
+    lb1.setAttribute('fill',AXIS_COLOR);lb1.setAttribute('font-size','9');lb1.textContent=v1.toFixed(0)+'%';svg.appendChild(lb1);
+    const lbR=document.createElementNS(ns,'text');
+    lbR.setAttribute('x',pad.l+iW+4);lbR.setAttribute('y',y+4);lbR.setAttribute('text-anchor','start');
+    lbR.setAttribute('fill','#f78166');lbR.setAttribute('font-size','9');lbR.textContent=vR.toFixed(0)+'%';svg.appendChild(lbR);
+  });
+  aligned.forEach((_,i)=>{
+    if(i%(Math.ceil(aligned.length/6))!==0&&i!==aligned.length-1)return;
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtD(aligned[i].d);svg.appendChild(lb);
+  });
+  if(lhs1Min<0&&lhs1Max>0){
+    const z=document.createElementNS(ns,'line');
+    z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOfL1(0));z.setAttribute('y2',yOfL1(0));
+    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+  }
+  seriesDefs.forEach((s,si)=>{
+    if(s.axis==='lhs1')addLine(ns,svg,aligned.map(r=>r.vs[si]),xOf,yOfL1,s.color,null);
+    else if(s.axis==='lhs2')addLine(ns,svg,aligned.map(r=>r.vs[si]),xOf,yOfL2,s.color,null);
+    else addLine(ns,svg,aligned.map(r=>capVal(r.vs[si],s)),xOf,yOfR,s.color,'5,2');
+  });
+  const dots=seriesDefs.map(s=>{
+    const c=document.createElementNS(ns,'circle');c.setAttribute('r','3');c.setAttribute('fill',s.color);c.setAttribute('display','none');svg.appendChild(c);return c;
+  });
+  const cur=document.createElementNS(ns,'line');
+  cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
+  cur.setAttribute('stroke','#2a2a2a');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  const ov=document.createElementNS(ns,'rect');
+  ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
+  ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
+  const tt=document.getElementById(ttId);
+  ov.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const mx=(e.clientX-r.left)/sx-pad.l;
+    const idx=Math.max(0,Math.min(aligned.length-1,Math.round((mx/iW)*(aligned.length-1))));
+    const row=aligned[idx],cx=xOf(idx);
+    cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
+    dots.forEach((d,si)=>{
+      const s=seriesDefs[si];
+      const yv=s.axis==='lhs1'?yOfL1(row.vs[si]):s.axis==='lhs2'?yOfL2(row.vs[si]):yOfR(capVal(row.vs[si],s));
+      d.setAttribute('cx',cx);d.setAttribute('cy',yv);d.setAttribute('display','');
+    });
+    tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
+    const lines=seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(1)}%`);
+    tt.innerHTML='<strong>'+fmtD(row.d)+'</strong><br>'+lines.join('<br>');
+  });
+  ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
+  wrap.appendChild(svg);
+}
+
 // ══ Data helpers ════════════════════════════════════════════════
 function prng(seed){
   return()=>{
@@ -862,14 +1039,14 @@ const fPct=v=>v.toFixed(2)+'%';
 // ══ Data generation ══════════════════════════════════════════════
 // ─── DATA BLOCK START ───
 const gdpQuarters=['Q1 2020','Q2 2020','Q3 2020','Q4 2020','Q1 2021','Q2 2021','Q3 2021','Q4 2021','Q1 2022','Q2 2022','Q3 2022','Q4 2022','Q1 2023','Q2 2023','Q3 2023','Q4 2023','Q1 2024','Q2 2024','Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026'];
-const gdpLine=[-5.0,-28.0,33.8,4.5,6.3,6.7,2.3,6.9,-1.6,-0.6,3.2,2.7,2.2,2.1,4.9,3.4,1.6,3.0,2.8,2.4,2.4,2.0,2.2,2.0,0.5];
+const gdpLine=[-5.0,-28.0,33.8,4.5,6.3,6.7,2.3,6.9,-1.6,-0.6,3.2,2.7,2.2,2.1,4.9,3.4,1.6,3.0,2.8,2.4,2.4,2.0,2.2,2.0,-2.2]; // Q1 2026: Atlanta Fed GDPNow estimate
 const gdpComponents=[
-  {label:'Consumer',color:'#58a6ff',values:[-2.0,-25.0,25.3,2.3,7.9,7.0,1.8,2.3,1.7,0.7,2.0,1.8,3.8,1.1,2.3,2.8,1.9,1.9,2.4,4.2,1.2,1.8,1.9,1.8,0.8]},
-  {label:'Gov',color:'#3fb950',values:[0.2,0.8,0.8,-0.1,0.7,0.7,0.1,0.8,-0.5,-0.3,0.5,0.6,0.9,0.5,0.8,0.5,0.2,0.5,0.5,0.3,0.3,0.3,0.4,0.3,0.2]},
-  {label:'Nonres Invest',color:'#e3b341',values:[-0.5,-4.0,1.7,0.5,0.7,0.8,0.7,0.9,0.3,1.0,0.8,0.6,0.6,0.3,0.7,0.7,0.5,0.7,0.5,0.4,0.5,0.4,0.5,0.4,-0.1]},
-  {label:'Res Invest',color:'#f0883e',values:[-0.3,-3.0,2.0,0.8,0.5,0.3,-0.5,0.4,-0.4,-0.7,-1.4,-1.3,0.3,0.4,0.4,0.5,0.5,0.4,0.1,0.0,0.2,0.1,0.1,0.1,-0.3]},
-  {label:'Inventories',color:'#bc8cff',values:[-0.5,-4.0,3.3,-0.2,-3.5,-1.2,2.2,4.9,-3.2,-2.0,-1.9,1.5,-2.3,0.1,1.3,-1.1,-1.4,-0.2,-0.6,-1.9,0.9,-0.4,0.0,0.1,-0.8]},
-  {label:'Net Exports',color:'#f78166',values:[-1.9,7.2,0.7,1.2,0.0,-0.9,-2.0,-2.4,0.5,0.7,3.2,-0.5,-1.1,-0.3,-0.6,0.0,-0.1,-0.3,-0.1,-0.6,-0.7,-0.2,-0.7,-0.7,0.7]},
+  {label:'Consumer Spending',color:'#58a6ff',values:[-2.0,-25.0,25.3,2.3,7.9,7.0,1.8,2.3,1.7,0.7,2.0,1.8,3.8,1.1,2.3,2.8,1.9,1.9,2.4,4.2,1.2,1.8,1.9,1.8,1.8]},
+  {label:'Government',color:'#3fb950',values:[0.2,0.8,0.8,-0.1,0.7,0.7,0.1,0.8,-0.5,-0.3,0.5,0.6,0.9,0.5,0.8,0.5,0.2,0.5,0.5,0.3,0.3,0.3,0.4,0.3,0.3]},
+  {label:'Nonresidential Investments',color:'#e3b341',values:[-0.5,-4.0,1.7,0.5,0.7,0.8,0.7,0.9,0.3,1.0,0.8,0.6,0.6,0.3,0.7,0.7,0.5,0.7,0.5,0.4,0.5,0.4,0.5,0.4,0.3]},
+  {label:'Residential Investments',color:'#f0883e',values:[-0.3,-3.0,2.0,0.8,0.5,0.3,-0.5,0.4,-0.4,-0.7,-1.4,-1.3,0.3,0.4,0.4,0.5,0.5,0.4,0.1,0.0,0.2,0.1,0.1,0.1,-0.1]},
+  {label:'Inventories',color:'#bc8cff',values:[-0.5,-4.0,3.3,-0.2,-3.5,-1.2,2.2,4.9,-3.2,-2.0,-1.9,1.5,-2.3,0.1,1.3,-1.1,-1.4,-0.2,-0.6,-1.9,0.9,-0.4,0.0,0.1,0.2]},
+  {label:'Net Exports',color:'#f78166',values:[-1.9,7.2,0.7,1.2,0.0,-0.9,-2.0,-2.4,0.5,0.7,3.2,-0.5,-1.1,-0.3,-0.6,0.0,-0.1,-0.3,-0.1,-0.6,-0.7,-0.2,-0.7,-0.7,-4.7]},
 ];
 const N=75; // monthly obs Jan 2020 — updated 2026-04-22 21:12
 const dates=['2020-01','2020-02','2020-03','2020-04','2020-05','2020-06','2020-07','2020-08','2020-09','2020-10','2020-11','2020-12','2021-01','2021-02','2021-03','2021-04','2021-05','2021-06','2021-07','2021-08','2021-09','2021-10','2021-11','2021-12','2022-01','2022-02','2022-03','2022-04','2022-05','2022-06','2022-07','2022-08','2022-09','2022-10','2022-11','2022-12','2023-01','2023-02','2023-03','2023-04','2023-05','2023-06','2023-07','2023-08','2023-09','2023-10','2023-11','2023-12','2024-01','2024-02','2024-03','2024-04','2024-05','2024-06','2024-07','2024-08','2024-09','2024-10','2024-11','2024-12','2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03'].map(s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,1)});
@@ -991,9 +1168,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawChart(`w-${key}-mom`,`tt-${key}-mom`,dates,data.mom,'#3fb950',fPct,350);
   });
 
-  // GDP charts
-  drawChart('w-gdp-line','tt-gdp-line',gdpQuarters.map((q,i)=>new Date(2020+Math.floor(i/4),(i%4)*3,1)),gdpLine,'#58a6ff',v=>v.toFixed(1)+'%',260);
-  drawStackedBar('w-gdp-bar','tt-gdp-bar',gdpQuarters,gdpComponents,280,'gdp-bar-legend');
+  // GDP combo chart
+  drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend');
 
   // Yields
   renderYieldCharts();
@@ -1010,11 +1186,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   drawChart('w-liq-btc',   'tt-liq-btc',   dates,liqBtc,   '#f78166',v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0)),350);
 
   // Liquidity YoY combined (Bitcoin cap raised to 200%)
-  drawDualAxis('w-yoy-comb','tt-yoy-comb',dates,[
-    {values:yoyRB,color:'#58a6ff',label:'Reserve Bal'},
-    {values:yoyFL,color:'#3fb950',label:'Fed Liquidity'},
-    {values:yoyTR,color:'#e3b341',label:'Trade Bal'},
-    {values:yoyBT,color:'#f78166',label:'Bitcoin YoY%',rightAxis:true,cap:[-200,200]},
+  drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,[
+    {values:yoyRB,color:'#58a6ff',label:'Reserve Balance',axis:'lhs1'},
+    {values:yoyFL,color:'#3fb950',label:'Fed Liquidity',  axis:'lhs1'},
+    {values:yoyTR,color:'#e3b341',label:'Trade Balance',  axis:'lhs2'},
+    {values:yoyBT,color:'#f78166',label:'Bitcoin',        axis:'rhs',cap:[-200,200]},
   ],350);
 
   // Restore or pre-populate sectors
