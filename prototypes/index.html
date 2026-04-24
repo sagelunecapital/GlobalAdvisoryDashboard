@@ -410,12 +410,32 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
 <script>
 // ══ Tab navigation ══════════════════════════════════════════════
+function syncTacticsHeight() {
+  const indsEl = document.querySelector('#main-execution .inds');
+  const condEl = document.querySelector('#main-execution .cond-box');
+  const dispEl = document.getElementById('tact-display');
+  const editEl = document.getElementById('tact-edit');
+  if (!indsEl || !condEl || !dispEl) return;
+  const gap = parseInt(getComputedStyle(condEl).marginTop) || 8;
+  const h = indsEl.offsetHeight + gap + condEl.offsetHeight;
+  if (h > 0) {
+    dispEl.style.minHeight = h + 'px';
+    if (editEl) editEl.style.minHeight = h + 'px';
+  }
+}
+
 function showMain(id, btn) {
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
   btn.classList.add('active');
+  if (id === 'execution') syncTacticsHeight();
 }
+
+window.addEventListener('resize', () => {
+  const ep = document.getElementById('main-execution');
+  if (ep && ep.classList.contains('active')) syncTacticsHeight();
+});
 
 function showItab(id, btn, cls) {
   document.querySelectorAll('.'+cls).forEach(p=>p.classList.remove('active'));
