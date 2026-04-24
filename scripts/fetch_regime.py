@@ -7,8 +7,8 @@ Sources:
   - MMTH (% NYSE stocks above 200d MA): Barchart overview page (lastPrice in embedded JSON)
 
 Derived:
-  - 25d EMA  = (EMA20 + EMA30) / 2
-  - 12d EMA  = (2*EMA10 - 0.523*(EMA10 - EMA20)) / 2
+  - 12d EMA  = EWM(span=12)
+  - 25d EMA  = EWM(span=25)
 
 Regime:
   - GREEN  : SPX >= EMA12 and MMTH >= 60
@@ -48,14 +48,10 @@ def fetch_spx():
         raise ValueError("No SPX history returned by yfinance")
     close = hist["Close"]
     spx   = float(close.iloc[-1])
-    e10   = float(close.ewm(span=10, adjust=False).mean().iloc[-1])
-    e20   = float(close.ewm(span=20, adjust=False).mean().iloc[-1])
-    e30   = float(close.ewm(span=30, adjust=False).mean().iloc[-1])
-    ema25 = (e20 + e30) / 2
-    ema12 = (2 * e10 - 0.523 * (e10 - e20)) / 2
+    ema12 = float(close.ewm(span=12, adjust=False).mean().iloc[-1])
+    ema25 = float(close.ewm(span=25, adjust=False).mean().iloc[-1])
     print(f"  SPX: {spx:.2f}", flush=True)
-    print(f"  EMA10: {e10:.2f}  EMA20: {e20:.2f}  EMA30: {e30:.2f}", flush=True)
-    print(f"  12d EMA (derived): {ema12:.2f}  25d EMA (derived): {ema25:.2f}", flush=True)
+    print(f"  12d EMA: {ema12:.2f}  25d EMA: {ema25:.2f}", flush=True)
     return spx, round(ema12, 2), round(ema25, 2)
 
 
