@@ -52,8 +52,8 @@ items:
     module: market-regime
     title: "Detect SPX / MMTH divergence"
     priority: high
-    status: refined
-    started_at: "2026-04-24T01:04:05Z"
+    status: in_progress
+    started_at: "2026-04-24T01:11:46Z"
     artefact: contexts/artefacts/stories/E01S02.story.md
     dependencies:
       - E01S01
@@ -100,6 +100,7 @@ items:
     priority: high
     status: in_progress
     started_at: "2026-04-24T01:05:39Z"
+    tier: 2
     artefact: contexts/artefacts/stories/E02S01.story.md
     dependencies: []
     notes: "Discovery 2026-04-20 — Liquidity module foundation"
