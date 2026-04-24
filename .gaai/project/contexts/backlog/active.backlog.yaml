@@ -52,7 +52,7 @@ items:
     module: market-regime
     title: "Detect SPX / MMTH divergence"
     priority: high
-    status: escalated
+    status: refined
     started_at: "2026-04-24T01:11:46Z"
     tier: 2
     artefact: contexts/artefacts/stories/E01S02.story.md
