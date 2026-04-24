@@ -1,0 +1,38 @@
+name: Update GDPNow data
+
+on:
+  schedule:
+    # Run weekdays at 21:00 UTC (after US market close + Atlanta Fed update window)
+    - cron: '0 21 * * 1-5'
+  workflow_dispatch:   # allow manual trigger from GitHub UI
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests openpyxl
+
+      - name: Fetch GDPNow data
+        run: python scripts/fetch_gdpnow.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prototypes/gdpnow.json
+          if git diff --cached --quiet; then
+            echo "No changes to gdpnow.json — skipping commit"
+          else
+            git commit -m "data(gdpnow): daily update $(date -u +%Y-%m-%d)"
+            git push
+          fi

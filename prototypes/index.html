@@ -178,7 +178,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <div>
       <div class="section-heading">Growth</div>
       <div class="card">
-        <div class="card-header">GDP</div>
+        <div class="card-header">GDP <span id="gdp-quarter-label" style="font-size:13px;font-weight:400;color:var(--text-muted);margin-left:6px"></span></div>
         <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
         <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
         <div class="data-date">Source: BEA / Atlanta Fed GDPNow &nbsp;|&nbsp; Q1 2020 – Q1 2026</div>
@@ -893,7 +893,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
       tt.style.display='block';
       tt.style.left=Math.min((x/VW)*r.width+12,r.width-230)+'px';tt.style.top='6px';
       const comps=seriesDefs.map(s=>`<span style="color:${s.color}">■</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}pp`);
-      const note=i===quarters.length-1?' <em style="color:#8b919e">(GDPNow est.)</em>':'';
+      const note='';
       tt.innerHTML='<strong>'+q+'</strong>'+note+'<br>GDP: <strong>'+gdpLine[i].toFixed(1)+'%</strong> SAAR<br>'+comps.join('<br>');
     });
     ov.addEventListener('mouseleave',()=>{tt.style.display='none';dot.setAttribute('display','none');});
@@ -1168,8 +1168,25 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawChart(`w-${key}-mom`,`tt-${key}-mom`,dates,data.mom,'#3fb950',fPct,350);
   });
 
-  // GDP combo chart
-  drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend');
+  // GDP combo chart — load live GDPNow data, fall back to built-in quarterly data
+  fetch('gdpnow.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{
+      const qLabel=d.latest_quarter;
+      const q=d.quarters[qLabel];
+      const qlEl=document.getElementById('gdp-quarter-label');
+      if(qlEl) qlEl.textContent='— '+qLabel+' GDPNow (updated '+d.updated.slice(0,10)+')';
+      const compsArr=Object.entries(q.components).map(([label,vals],i)=>({
+        label,
+        color:['#58a6ff','#e3b341','#f0883e','#bc8cff','#f78166','#3fb950'][i]||'#8b919e',
+        values:vals
+      }));
+      drawGDPCombo('w-gdp-combo','tt-gdp-combo',q.dates,compsArr,q.gdp,320,'gdp-combo-legend');
+    })
+    .catch(()=>{
+      // fallback: built-in quarterly data
+      drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend');
+    });
 
   // Yields
   renderYieldCharts();
