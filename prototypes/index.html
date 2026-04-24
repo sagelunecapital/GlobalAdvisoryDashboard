@@ -26,26 +26,34 @@
   --green:#3fb950;
   --red:#e05252;
   --amber:#e3a946;
+  --sidebar-w:172px;
 }
-body{background:var(--surface);color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
-.app{max-width:1800px;margin:0 auto;padding:20px 24px}
+html,body{height:100%}
+body{background:linear-gradient(145deg,#0d1e35 0%,#101419 35%,#080c12 100%);background-attachment:fixed;color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
+.app{max-width:1920px;margin:0 auto;padding:20px 24px}
 
 /* ── Header / nav ── */
 header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 20px;border-bottom:1px solid var(--outline-dim);margin-bottom:20px}
 header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;line-height:1.25}
 .header-meta{font-size:12px;color:var(--text-muted);font-weight:500}
 
-/* ── Main tabs ── */
-.main-tabs{display:flex;gap:6px;margin-bottom:20px}
-.main-tab{padding:9px 24px;cursor:pointer;border:1px solid var(--outline-dim);border-radius:999px;color:var(--text-muted);font-size:14px;font-weight:500;background:none;font-family:inherit;transition:background 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease,box-shadow 180ms ease}
-.main-tab:hover{color:var(--text);border-color:var(--outline);background:var(--surface-high);transform:scale(1.05)}
-.main-tab.active{color:#fff;background:var(--ps-blue);border-color:var(--ps-blue)}
-.main-tab.active:hover{background:var(--ps-cyan);border-color:#fff;box-shadow:0 0 0 2px var(--ps-blue);transform:scale(1.1)}
+/* ── Sidebar layout ── */
+.layout{display:flex;gap:20px;align-items:flex-start}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;position:sticky;top:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(28,32,38,0.55);border:1px solid rgba(139,145,158,0.18);border-radius:19px;padding:14px 10px;box-shadow:rgba(0,0,0,0.3) 0 8px 24px 0}
+.sidebar-label{font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
+.nav-tab{display:flex;align-items:center;width:100%;padding:10px 14px;cursor:pointer;border:none;border-radius:12px;color:var(--text-muted);font-size:13px;font-weight:500;background:transparent;font-family:inherit;text-align:left;transition:background 180ms ease,color 180ms ease,transform 180ms ease;margin-bottom:4px}
+.nav-tab:last-child{margin-bottom:0}
+.nav-tab:hover{color:var(--text);background:rgba(255,255,255,0.07);transform:translateX(2px)}
+.nav-tab.active{color:#fff;background:var(--ps-blue)}
+.nav-tab.active:hover{background:var(--ps-cyan);transform:translateX(2px)}
+.nav-tab-icon{margin-right:8px;font-size:14px;opacity:.8}
+.main-content{flex:1;min-width:0}
 .main-panel{display:none}
 .main-panel.active{display:block}
 
 /* ── Section headings ── */
-.section-heading{font-size:28px;font-weight:300;color:var(--text);margin:28px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--outline-dim);letter-spacing:0.1px;line-height:1.25}
+.section-heading{font-size:24px;font-weight:300;color:var(--text);margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim);letter-spacing:0.1px;line-height:1.25}
+.section-heading:first-child{margin-top:0}
 
 /* ── Cards ── */
 .card{background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:19px;padding:20px;margin-bottom:14px;box-shadow:rgba(0,0,0,0.08) 0 5px 9px 0}
@@ -60,14 +68,25 @@ header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;
 .ipanel{display:none}
 .ipanel.active{display:block}
 
+/* ── Inflation flat tab row ── */
+.infl-tab-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.infl-tab-row .itabs{margin-bottom:0}
+.infl-combo{display:none}
+.infl-combo.active{display:block}
+
+/* ── Macro 2-col split ── */
+.macro-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:900px){.macro-split{grid-template-columns:1fr}}
+
 /* ── Charts ── */
 .cw{position:relative;width:100%}
 .cw svg{width:100%;display:block}
 .chart-tt{position:absolute;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:6px;padding:8px 12px;font-size:12px;pointer-events:none;display:none;white-space:nowrap;color:var(--text);z-index:20;line-height:1.6}
 .chart-sub-label{font-size:13px;color:var(--text-muted);margin-bottom:8px;font-weight:500;letter-spacing:0.1px}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px}
-.li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted)}
 .ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.lsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
 /* ── 3-col grid ── */
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -105,18 +124,21 @@ header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;
 .exec-label{font-size:18px;font-weight:300;color:var(--text);letter-spacing:0.1px}
 .tact-display{font-size:13px;color:var(--text-dim);line-height:1.7;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:12px;min-height:70px;white-space:pre-wrap}
 .tact-display.hidden{display:none}
-textarea.tact-edit{width:100%;font-size:13px;color:var(--text);line-height:1.7;background:var(--surface-low);border:1px solid var(--ps-blue);border-radius:12px;padding:12px;min-height:70px;resize:vertical;font-family:inherit;display:none;outline:none;box-shadow:0 0 0 2px var(--ps-blue)}
+textarea.tact-edit,textarea.sta{overflow:hidden;resize:none}
+textarea.tact-edit{width:100%;font-size:13px;color:var(--text);line-height:1.7;background:var(--surface-low);border:1px solid var(--ps-blue);border-radius:12px;padding:12px;min-height:70px;font-family:inherit;display:none;outline:none;box-shadow:0 0 0 2px rgba(0,112,204,0.3)}
 textarea.tact-edit.shown{display:block}
 .sector-list{display:flex;flex-direction:column;gap:10px}
 .sector-item{background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:14px}
 .sector-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .sector-name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:0.1px}
 .ta-l{font-size:11px;color:var(--text-muted);margin:8px 0 4px;font-weight:500;letter-spacing:0.1px}
-textarea.sta{width:100%;font-size:12px;color:var(--text);background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:8px;padding:8px;resize:vertical;font-family:inherit;line-height:1.6}
+textarea.sta{width:100%;font-size:12px;color:var(--text);background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:8px;padding:8px;font-family:inherit;line-height:1.6;min-height:40px;display:block}
 textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px rgba(0,112,204,0.25)}
 
 /* ── Breadth ── */
 .tableau-wrap{width:100%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:19px;overflow:hidden;min-height:600px;position:relative}
+.ai-insights{font-size:14px;color:var(--text-dim);line-height:1.8;font-weight:400}
+.ai-insights-label{font-size:11px;font-weight:600;color:var(--ps-blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
 
 /* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:999px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--outline-dim);background:transparent;color:var(--text-muted);transition:background 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease,box-shadow 180ms ease;font-family:inherit}
@@ -135,95 +157,100 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 <div class="app">
 <header>
   <h1>Global Advisory Dashboard</h1>
-  <div class="header-meta">Session: Fri 18 Apr 2026 &nbsp;|&nbsp; Prototype — sample data only</div>
+  <div class="header-meta">Session: Tue 21 Apr 2026</div>
 </header>
 
-<!-- ══ Main tabs ══ -->
-<div class="main-tabs">
-  <button class="main-tab active" onclick="showMain('macro',this)">Macro</button>
-  <button class="main-tab" onclick="showMain('breadth',this)">Breadth</button>
-  <button class="main-tab" onclick="showMain('execution',this)">Execution</button>
-</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-label">Navigation</div>
+    <button class="nav-tab active" onclick="showMain('macro',this)">&#128202; Macro</button>
+    <button class="nav-tab" onclick="showMain('breadth',this)">&#128200; Breadth</button>
+    <button class="nav-tab" onclick="showMain('execution',this)">&#9889; Execution</button>
+  </aside>
+
+  <div class="main-content">
 
 <!-- ═══════════════════════════ MACRO TAB ═══════════════════════════ -->
 <div id="main-macro" class="main-panel active">
 
-  <div class="section-heading">Inflation</div>
+  <div class="macro-split">
 
-  <!-- Inflation -->
-  <div class="card">
-    <div class="itabs">
-      <button class="itab active" onclick="showItab('infl-cpi',this,'infl-outer')">CPI</button>
-      <button class="itab" onclick="showItab('infl-pce',this,'infl-outer')">PCE</button>
-      <button class="itab" onclick="showItab('infl-ppi',this,'infl-outer')">PPI</button>
-    </div>
-
-    <!-- CPI -->
-    <div id="infl-cpi" class="ipanel infl-outer active">
-      <div class="itabs">
-        <button class="itab active" onclick="showItab('cpi-head',this,'cpi-inner')">Headline</button>
-        <button class="itab" onclick="showItab('cpi-core',this,'cpi-inner')">Core</button>
-      </div>
-      <div id="cpi-head" class="ipanel cpi-inner active">
-        <div class="chart-sub-label">YoY %</div>
-        <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
-        <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-        <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
-      </div>
-      <div id="cpi-core" class="ipanel cpi-inner">
-        <div class="chart-sub-label">YoY %</div>
-        <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
-        <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-        <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
+    <!-- LEFT: Growth -->
+    <div>
+      <div class="section-heading">Growth</div>
+      <div class="card">
+        <div class="card-header">GDP</div>
+        <div class="chart-sub-label">Quarterly Growth Rate (QoQ SAAR %)</div>
+        <div class="cw" style="height:260px" id="w-gdp-line"><div class="chart-tt" id="tt-gdp-line"></div></div>
+        <div style="margin-top:16px">
+          <div class="chart-sub-label">Component Contributions (pp)</div>
+          <div class="legend" id="gdp-bar-legend"></div>
+          <div class="cw" style="height:280px" id="w-gdp-bar"><div class="chart-tt" id="tt-gdp-bar"></div></div>
+        </div>
+        <div class="data-date">Source: BEA / Atlanta Fed GDPNow &nbsp;|&nbsp; Q1 2020 – Q1 2026</div>
       </div>
     </div>
 
-    <!-- PCE -->
-    <div id="infl-pce" class="ipanel infl-outer">
-      <div class="itabs">
-        <button class="itab active" onclick="showItab('pce-head',this,'pce-inner')">Headline</button>
-        <button class="itab" onclick="showItab('pce-core',this,'pce-inner')">Core</button>
-      </div>
-      <div id="pce-head" class="ipanel pce-inner active">
-        <div class="chart-sub-label">YoY %</div>
-        <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
-        <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-        <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
-      </div>
-      <div id="pce-core" class="ipanel pce-inner">
-        <div class="chart-sub-label">YoY %</div>
-        <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
-        <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-        <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
+    <!-- RIGHT: Inflation -->
+    <div>
+      <div class="section-heading">Inflation</div>
+      <div class="card">
+        <div class="infl-tab-row">
+          <div class="itabs" id="infl-outer-tabs">
+            <button class="itab active" onclick="setInflOuter('cpi',this)">CPI</button>
+            <button class="itab" onclick="setInflOuter('pce',this)">PCE</button>
+            <button class="itab" onclick="setInflOuter('ppi',this)">PPI</button>
+          </div>
+          <div class="itabs" id="infl-sub-tabs">
+            <button class="itab active" onclick="setInflSub('head',this)">Headline</button>
+            <button class="itab" onclick="setInflSub('core',this)">Core</button>
+          </div>
+        </div>
+        <div id="ic-cpi-head" class="infl-combo active">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
+        </div>
+        <div id="ic-cpi-core" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
+        </div>
+        <div id="ic-pce-head" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
+        </div>
+        <div id="ic-pce-core" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
+        </div>
+        <div id="ic-ppi-head" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
+        </div>
+        <div id="ic-ppi-core" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
+        </div>
+        <div class="data-date">Data from Jan 2020 &nbsp;|&nbsp; Source: BLS, BEA (sample)</div>
       </div>
     </div>
 
-    <!-- PPI -->
-    <div id="infl-ppi" class="ipanel infl-outer">
-      <div class="itabs">
-        <button class="itab active" onclick="showItab('ppi-head',this,'ppi-inner')">Headline</button>
-        <button class="itab" onclick="showItab('ppi-core',this,'ppi-inner')">Core</button>
-      </div>
-      <div id="ppi-head" class="ipanel ppi-inner active">
-        <div class="chart-sub-label">YoY %</div>
-        <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
-        <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-        <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
-      </div>
-      <div id="ppi-core" class="ipanel ppi-inner">
-        <div class="chart-sub-label">YoY %</div>
-        <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
-        <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-        <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
-      </div>
-    </div>
-    <div class="data-date">Data from Jan 2020 &nbsp;|&nbsp; Source: BLS, BEA (sample)</div>
-  </div>
+  </div><!-- /macro-split -->
 
   <!-- Yields -->
   <div class="section-heading">Yields</div>
   <div class="card">
-    <!-- Yields header: label + shared duration tabs -->
     <div class="yield-header-row">
       <div class="card-header" style="margin-bottom:0">Nominal &nbsp;/&nbsp; Real &nbsp;/&nbsp; Breakeven Inflation</div>
       <div class="yield-dur-tabs" id="yield-dur-tabs">
@@ -234,8 +261,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <button class="itab" onclick="setYieldDur('30Y',this)">30Y</button>
       </div>
     </div>
-
-    <!-- 3 yield charts side by side -->
     <div class="grid3">
       <div>
         <div class="grid3-label">Nominal</div>
@@ -252,8 +277,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <div class="cw" style="height:350px" id="w-yield-be"><div class="chart-tt" id="tt-yield-be"></div></div>
       </div>
     </div>
-
-    <!-- Date period slicer -->
     <div class="yield-period-row">
       <span class="yield-period-label">Period:</span>
       <button class="itab" onclick="setYieldPeriod(252,this)">1Y</button>
@@ -261,8 +284,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <button class="itab" onclick="setYieldPeriod(1260,this)">5Y</button>
       <button class="itab active" onclick="setYieldPeriod(0,this)">All</button>
     </div>
-
-    <!-- Spreads -->
     <div class="card-header" style="margin-top:14px">Spreads</div>
     <div class="grid3">
       <div>
@@ -309,7 +330,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Bal</div>
       <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity</div>
       <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance</div>
-      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin YoY% <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 50%)</span></div>
+      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin YoY% <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
     </div>
     <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
     <div class="data-date">YoY% 3-Month MA &nbsp;|&nbsp; Jan 2020 – Apr 2026 &nbsp;|&nbsp; FRED (sample)</div>
@@ -327,6 +348,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       toolbar="yes"
       style="width:100%;height:867px;display:block;">
     </tableau-viz>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="ai-insights-label">AI Insights</div>
+    <div class="ai-insights">Equity breadth continues to deteriorate with MMTH declining toward the 50% threshold, signaling potential bear market conditions ahead. Market internals remain bifurcated — mega-cap tech maintains above-average relative strength while small-cap and cyclical names show persistent distribution patterns. The advance-decline line is weakening across NYSE and Nasdaq, consistent with a late-cycle rotation. Sector divergence is widest since Q3 2022: Energy and Healthcare hold constructive RS readings while Technology and Consumer Discretionary show decelerating momentum. Near-term risk-off signals dominate, but oversold breadth readings may create tactical bounce opportunities in select quality names.</div>
   </div>
 </div><!-- /breadth panel -->
 
@@ -352,11 +377,11 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
           <div class="cond-box">
             <div class="cond-l">Active Condition</div>
             <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
-            <div class="div-badge" id="div-badge">⚠ DIVERGENCE ACTIVE</div>
+            <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
           </div>
         </div>
       </div>
-      <div class="data-date" id="regime-date">Fri 18 Apr 2026 &nbsp;|&nbsp; 16:05 UTC</div>
+      <div class="data-date" id="regime-date">Tue 21 Apr 2026 — refreshed daily at 9am</div>
     </div>
 
     <!-- General Tactics -->
@@ -376,10 +401,14 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="exec-label">Sector Focus</div>
       <button class="btn pri" onclick="promptAddSector()">+ New Sector</button>
     </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Changes are saved in this browser. To share across devices, export manually.</p>
     <div class="sector-list" id="sector-list"></div>
   </div>
 
 </div><!-- /execution panel -->
+
+  </div><!-- /main-content -->
+</div><!-- /layout -->
 
 </div><!-- /app -->
 
@@ -387,7 +416,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 // ══ Tab navigation ══════════════════════════════════════════════
 function showMain(id, btn) {
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.main-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
   btn.classList.add('active');
 }
@@ -399,21 +428,56 @@ function showItab(id, btn, cls) {
   btn.classList.add('active');
 }
 
+let inflOuter='cpi', inflSub='head';
+function setInflOuter(outer, btn) {
+  inflOuter=outer;
+  document.querySelectorAll('#infl-outer-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateInflPanel();
+}
+function setInflSub(sub, btn) {
+  inflSub=sub;
+  document.querySelectorAll('#infl-sub-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateInflPanel();
+}
+function updateInflPanel() {
+  document.querySelectorAll('.infl-combo').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('ic-'+inflOuter+'-'+inflSub);
+  if(el) el.classList.add('active');
+}
+
 // ══ Execution interactivity ═════════════════════════════════════
 function toggleTactics() {
   const d=document.getElementById('tact-display'), e=document.getElementById('tact-edit'), b=document.getElementById('tact-btn');
   if (e.classList.contains('shown')) {
     d.textContent=e.value; d.classList.remove('hidden'); e.classList.remove('shown'); b.textContent='Edit';
+    localStorage.setItem('gaai-tactics', e.value);
   } else {
     e.value=d.textContent; d.classList.add('hidden'); e.classList.add('shown'); b.textContent='Save'; e.focus();
+    autoResize(e);
   }
 }
 
 let sectorCount=0;
+function autoResize(el) {
+  el.style.height='auto';
+  el.style.height=el.scrollHeight+'px';
+}
+function saveSectors() {
+  const sectors=[];
+  document.querySelectorAll('.sector-item').forEach(el=>{
+    const name=el.querySelector('.sector-name').textContent;
+    const tas=el.querySelectorAll('textarea');
+    sectors.push({name,thesis:tas[0].value,tickers:tas[1].value});
+  });
+  localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
+}
 function promptAddSector() {
   const name = prompt('Sector name:');
   if (!name || !name.trim()) return;
   addSector(name.trim(), '', '');
+  saveSectors();
 }
 
 function addSector(name, thesis, tickers) {
@@ -431,11 +495,15 @@ function addSector(name, thesis, tickers) {
     <div class="ta-l">Tickers</div>
     <textarea class="sta" rows="2" placeholder="e.g. XLE, CVX, XOM">${tickers}</textarea>`;
   document.getElementById('sector-list').appendChild(el);
+  el.querySelectorAll('textarea').forEach(ta=>{
+    autoResize(ta);
+    ta.addEventListener('input',()=>{ autoResize(ta); saveSectors(); });
+  });
 }
 
 function deleteSector(id) {
   const el=document.querySelector(`.sector-item[data-id="${id}"]`);
-  if(el) el.remove();
+  if(el){ el.remove(); saveSectors(); }
 }
 
 // ══ Chart engine ════════════════════════════════════════════════
@@ -681,6 +749,81 @@ function drawDualAxis(wrapId, ttId, dates, seriesDefs, vH) {
   wrap.appendChild(svg);
 }
 
+function drawStackedBar(wrapId, ttId, quarters, seriesDefs, vH, legId) {
+  vH=vH||280;
+  const wrap=document.getElementById(wrapId); if(!wrap) return;
+  wrap.querySelector('svg')?.remove();
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:14,b:32,l:44};
+  const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
+  const n=quarters.length;
+  let allMax=0,allMin=0;
+  for(let i=0;i<n;i++){
+    let pos=0,neg=0;
+    seriesDefs.forEach(s=>{const v=s.values[i]||0;if(v>0)pos+=v;else neg+=v;});
+    allMax=Math.max(allMax,pos); allMin=Math.min(allMin,neg);
+  }
+  const vR=(allMax-allMin)||1;
+  const yOf=v=>pad.t+(1-(v-allMin)/vR)*iH;
+  const y0=yOf(0);
+  const barW=Math.max(4,(iW/n)*0.72);
+  const xOf=i=>pad.l+(i+0.5)*(iW/n);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=mkSvg(ns,VW,vH);
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH,v=allMax-t*vR;
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',pad.l-3);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=v.toFixed(1);svg.appendChild(lb);
+  });
+  if(allMin<0&&allMax>0){
+    const z=document.createElementNS(ns,'line');
+    z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
+    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+  }
+  const tt=document.getElementById(ttId);
+  quarters.forEach((q,i)=>{
+    const x=xOf(i);
+    let posY=y0,negY=y0;
+    seriesDefs.forEach(s=>{
+      const v=s.values[i]||0; if(v===0) return;
+      const bH=Math.abs(yOf(v)-yOf(0));
+      const rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',x-barW/2);rect.setAttribute('width',barW);
+      rect.setAttribute('fill',s.color);rect.setAttribute('opacity','0.82');
+      if(v>0){rect.setAttribute('y',posY-bH);rect.setAttribute('height',bH);posY-=bH;}
+      else{rect.setAttribute('y',negY);rect.setAttribute('height',bH);negY+=bH;}
+      svg.appendChild(rect);
+    });
+    if(i%4===0||i===n-1){
+      const lb=document.createElementNS(ns,'text');
+      lb.setAttribute('x',x);lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+      lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','9');lb.textContent=q;svg.appendChild(lb);
+    }
+    const ov=document.createElementNS(ns,'rect');
+    ov.setAttribute('x',x-barW);ov.setAttribute('y',pad.t);ov.setAttribute('width',barW*2);ov.setAttribute('height',iH);
+    ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');
+    ov.addEventListener('mouseenter',()=>{
+      const r=svg.getBoundingClientRect();
+      tt.style.display='block';
+      tt.style.left=Math.min((x/VW)*r.width+12,r.width-210)+'px';tt.style.top='6px';
+      const lines=seriesDefs.map(s=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}pp`);
+      const total=seriesDefs.reduce((sum,s)=>sum+(s.values[i]||0),0);
+      tt.innerHTML='<strong>'+q+'</strong><br>'+lines.join('<br>')+'<br><strong>Total: '+total.toFixed(2)+'pp</strong>';
+    });
+    ov.addEventListener('mouseleave',()=>{tt.style.display='none';});
+    svg.appendChild(ov);
+  });
+  wrap.appendChild(svg);
+  if(legId){
+    const leg=document.getElementById(legId);
+    if(leg) leg.innerHTML=seriesDefs.map(s=>`<div class="li"><div class="lsq" style="background:${s.color}"></div>${s.label}</div>`).join('');
+  }
+}
+
 // ══ Data helpers ════════════════════════════════════════════════
 function prng(seed){
   return()=>{
@@ -718,6 +861,16 @@ const fPct=v=>v.toFixed(2)+'%';
 
 // ══ Data generation ══════════════════════════════════════════════
 // ─── DATA BLOCK START ───
+const gdpQuarters=['Q1 2020','Q2 2020','Q3 2020','Q4 2020','Q1 2021','Q2 2021','Q3 2021','Q4 2021','Q1 2022','Q2 2022','Q3 2022','Q4 2022','Q1 2023','Q2 2023','Q3 2023','Q4 2023','Q1 2024','Q2 2024','Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026'];
+const gdpLine=[-5.0,-28.0,33.8,4.5,6.3,6.7,2.3,6.9,-1.6,-0.6,3.2,2.7,2.2,2.1,4.9,3.4,1.6,3.0,2.8,2.4,2.4,2.0,2.2,2.0,0.5];
+const gdpComponents=[
+  {label:'Consumer',color:'#58a6ff',values:[-2.0,-25.0,25.3,2.3,7.9,7.0,1.8,2.3,1.7,0.7,2.0,1.8,3.8,1.1,2.3,2.8,1.9,1.9,2.4,4.2,1.2,1.8,1.9,1.8,0.8]},
+  {label:'Gov',color:'#3fb950',values:[0.2,0.8,0.8,-0.1,0.7,0.7,0.1,0.8,-0.5,-0.3,0.5,0.6,0.9,0.5,0.8,0.5,0.2,0.5,0.5,0.3,0.3,0.3,0.4,0.3,0.2]},
+  {label:'Nonres Invest',color:'#e3b341',values:[-0.5,-4.0,1.7,0.5,0.7,0.8,0.7,0.9,0.3,1.0,0.8,0.6,0.6,0.3,0.7,0.7,0.5,0.7,0.5,0.4,0.5,0.4,0.5,0.4,-0.1]},
+  {label:'Res Invest',color:'#f0883e',values:[-0.3,-3.0,2.0,0.8,0.5,0.3,-0.5,0.4,-0.4,-0.7,-1.4,-1.3,0.3,0.4,0.4,0.5,0.5,0.4,0.1,0.0,0.2,0.1,0.1,0.1,-0.3]},
+  {label:'Inventories',color:'#bc8cff',values:[-0.5,-4.0,3.3,-0.2,-3.5,-1.2,2.2,4.9,-3.2,-2.0,-1.9,1.5,-2.3,0.1,1.3,-1.1,-1.4,-0.2,-0.6,-1.9,0.9,-0.4,0.0,0.1,-0.8]},
+  {label:'Net Exports',color:'#f78166',values:[-1.9,7.2,0.7,1.2,0.0,-0.9,-2.0,-2.4,0.5,0.7,3.2,-0.5,-1.1,-0.3,-0.6,0.0,-0.1,-0.3,-0.1,-0.6,-0.7,-0.2,-0.7,-0.7,0.7]},
+];
 const N=75; // monthly obs Jan 2020 — updated 2026-04-22 21:12
 const dates=['2020-01','2020-02','2020-03','2020-04','2020-05','2020-06','2020-07','2020-08','2020-09','2020-10','2020-11','2020-12','2021-01','2021-02','2021-03','2021-04','2021-05','2021-06','2021-07','2021-08','2021-09','2021-10','2021-11','2021-12','2022-01','2022-02','2022-03','2022-04','2022-05','2022-06','2022-07','2022-08','2022-09','2022-10','2022-11','2022-12','2023-01','2023-02','2023-03','2023-04','2023-05','2023-06','2023-07','2023-08','2023-09','2023-10','2023-11','2023-12','2024-01','2024-02','2024-03','2024-04','2024-05','2024-06','2024-07','2024-08','2024-09','2024-10','2024-11','2024-12','2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03'].map(s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,1)});
 const inflSets={
@@ -822,11 +975,25 @@ function renderYieldCharts(){
 
 // ══ Render all charts ═══════════════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
+  // Restore localStorage: tactics
+  const savedTactics=localStorage.getItem('gaai-tactics');
+  if(savedTactics){
+    document.getElementById('tact-display').textContent=savedTactics;
+    document.getElementById('tact-edit').value=savedTactics;
+  }
+  // Auto-resize tactics textarea on open
+  const tactEdit=document.getElementById('tact-edit');
+  tactEdit.addEventListener('input',()=>autoResize(tactEdit));
+
   // Inflation
   Object.entries(inflSets).forEach(([key,data])=>{
     drawChart(`w-${key}-yoy`,`tt-${key}-yoy`,dates,data.yoy,'#58a6ff',fPct,350);
     drawChart(`w-${key}-mom`,`tt-${key}-mom`,dates,data.mom,'#3fb950',fPct,350);
   });
+
+  // GDP charts
+  drawChart('w-gdp-line','tt-gdp-line',gdpQuarters.map((q,i)=>new Date(2020+Math.floor(i/4),(i%4)*3,1)),gdpLine,'#58a6ff',v=>v.toFixed(1)+'%',260);
+  drawStackedBar('w-gdp-bar','tt-gdp-bar',gdpQuarters,gdpComponents,280,'gdp-bar-legend');
 
   // Yields
   renderYieldCharts();
@@ -842,17 +1009,22 @@ window.addEventListener('DOMContentLoaded',()=>{
   drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#e3b341',v=>v.toFixed(1),350);
   drawChart('w-liq-btc',   'tt-liq-btc',   dates,liqBtc,   '#f78166',v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0)),350);
 
-  // Liquidity YoY combined
+  // Liquidity YoY combined (Bitcoin cap raised to 200%)
   drawDualAxis('w-yoy-comb','tt-yoy-comb',dates,[
     {values:yoyRB,color:'#58a6ff',label:'Reserve Bal'},
     {values:yoyFL,color:'#3fb950',label:'Fed Liquidity'},
     {values:yoyTR,color:'#e3b341',label:'Trade Bal'},
-    {values:yoyBT,color:'#f78166',label:'Bitcoin YoY%',rightAxis:true,cap:[-200,50]},
+    {values:yoyBT,color:'#f78166',label:'Bitcoin YoY%',rightAxis:true,cap:[-200,200]},
   ],350);
 
-  // Pre-populate sectors
-  addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
-  addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
+  // Restore or pre-populate sectors
+  const savedSectors=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
+  if(savedSectors&&savedSectors.length){
+    savedSectors.forEach(s=>addSector(s.name,s.thesis,s.tickers));
+  } else {
+    addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
+    addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
+  }
 
   // Regime display
   updateRegimeDisplay();
