@@ -6,7 +6,7 @@ tags:
   - decisions
   - governance
 created_at: 2026-04-18
-updated_at: 2026-04-22
+updated_at: 2026-04-25
 ---
 
 # Decision Log
@@ -15,6 +15,16 @@ updated_at: 2026-04-22
 > Only the Discovery Agent may add entries (or Bootstrap Agent during initialization).
 > Format: one entry per decision, newest at top.
 > For large projects, split by domain: `decisions/auth.md`, `decisions/api.md`, etc.
+
+---
+
+### DEC-2026-04-25-01 — Divergence Detection API: detect_divergence() Signature and DivergenceResult Enum
+
+**Context:** E01S02 implemented the divergence detection layer. Downstream stories (E01S03 classify regime, E01S05 refresh) must consume the divergence output.
+**Decision:** `detect_divergence(db_path: str, as_of_date: str, _db_rows=None) -> tuple[DivergenceResult, str]` in `src/analysis/divergence.py`. `DivergenceResult` is an enum with 4 members: `BEARISH`, `BULLISH`, `NO_DIVERGENCE`, `DATA_GAP`. Swing anchor uses a trough-based 90-day lookback: the prior swing HIGH is the max of all rows before the global minimum (trough) in the 90-day window; the prior swing LOW is the min of all rows after the global maximum (peak). `SWING_LOOKBACK_DAYS = 90` is a module-level constant.
+**Rationale:** Enum return type prevents downstream consumers from accidentally conflating DATA_GAP with NO_DIVERGENCE (structurally distinct). Trough-based anchor satisfies DEC-2026-04-18-02 same-run persistence: the trough date is stable even when the market makes consecutive new highs within the same run. Verified by test_T9 (two-day same-run anchor persistence).
+**Impact:** E01S03 (regime classification) must call `detect_divergence(db_path, as_of_date)` and handle all 4 `DivergenceResult` cases explicitly. Treat `DATA_GAP` as an unavailable input (not clean no-divergence) — per AC5 contract. `DATA_GAP` is returned, not raised. DB must contain ≥90 calendar days of history before divergence detection is reliable.
+**Date:** 2026-04-25
 
 ---
 
