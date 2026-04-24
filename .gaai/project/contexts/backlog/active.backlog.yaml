@@ -98,7 +98,8 @@ items:
     module: liquidity
     title: "Fetch and persist FRED liquidity data and Bitcoin price"
     priority: high
-    status: refined
+    status: in_progress
+    started_at: "2026-04-24T01:05:39Z"
     artefact: contexts/artefacts/stories/E02S01.story.md
     dependencies: []
     notes: "Discovery 2026-04-20 — Liquidity module foundation"
