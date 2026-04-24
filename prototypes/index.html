@@ -29,17 +29,17 @@
   --sidebar-w:172px;
 }
 html,body{height:100%}
-body{background:linear-gradient(145deg,#0070cc 0%,#080c12 75%);background-attachment:fixed;color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
+body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attachment:fixed;color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
 .app{max-width:1920px;margin:0 auto;padding:20px 24px}
 
-/* ── Header / nav ── */
-header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 20px;border-bottom:1px solid var(--outline-dim);margin-bottom:20px}
-header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;line-height:1.25}
+/* ── Main header (inside main-content, above horizontal rule) ── */
+.main-header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 16px;border-bottom:1px solid rgba(0,112,204,0.4);margin-bottom:20px}
+.main-header h1{font-size:22px;font-weight:700;color:rgba(0,112,204,0.75);letter-spacing:0.1px;line-height:1.25}
 .header-meta{font-size:12px;color:var(--text-muted);font-weight:500}
 
 /* ── Sidebar layout ── */
 .layout{display:flex;gap:0;align-items:stretch}
-.sidebar{width:var(--sidebar-w);flex-shrink:0;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(28,32,38,0.55);border-right:1px solid rgba(139,145,158,0.18);border-radius:0;padding:20px 10px}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;border-right:1px solid rgba(0,112,204,0.4);padding:20px 10px}
 .sidebar-label{font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
 .nav-tab{display:flex;align-items:center;width:100%;padding:10px 14px;cursor:pointer;border:none;border-radius:12px;color:var(--text-muted);font-size:13px;font-weight:500;background:transparent;font-family:inherit;text-align:left;transition:background 180ms ease,color 180ms ease,transform 180ms ease;margin-bottom:4px}
 .nav-tab:last-child{margin-bottom:0}
@@ -52,7 +52,7 @@ header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;
 .main-panel.active{display:block}
 
 /* ── Section headings ── */
-.section-heading{font-size:24px;font-weight:300;color:var(--text);margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim);letter-spacing:0.1px;line-height:1.25}
+.section-heading{font-size:24px;font-weight:700;color:var(--text);margin:20px 0 12px;letter-spacing:0.1px;line-height:1.25}
 .section-heading:first-child{margin-top:0}
 
 /* ── Cards ── */
@@ -121,7 +121,7 @@ header h1{font-size:22px;font-weight:300;color:var(--text);letter-spacing:0.1px;
 /* ── Execution ── */
 .exec-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .exec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.exec-label{font-size:18px;font-weight:300;color:var(--text);letter-spacing:0.1px}
+.exec-label{font-size:24px;font-weight:700;color:var(--text);letter-spacing:0.1px}
 .tact-display{font-size:13px;color:var(--text-dim);line-height:1.7;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:12px;min-height:70px;white-space:pre-wrap}
 .tact-display.hidden{display:none}
 textarea.tact-edit,textarea.sta{overflow:hidden;resize:none}
@@ -155,11 +155,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 </head>
 <body>
 <div class="app">
-<header>
-  <h1>Global Advisory Dashboard</h1>
-  <div class="header-meta">Session: Tue 21 Apr 2026</div>
-</header>
-
 <div class="layout">
   <aside class="sidebar">
     <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
@@ -168,6 +163,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   </aside>
 
   <div class="main-content">
+  <div class="main-header">
+    <h1>Global Advisory Dashboard</h1>
+    <div class="header-meta">Session: Tue 21 Apr 2026</div>
+  </div>
 
 <!-- ═══════════════════════════ MACRO TAB ═══════════════════════════ -->
 <div id="main-macro" class="main-panel active">
@@ -178,10 +177,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <div>
       <div class="section-heading">Growth</div>
       <div class="card">
-        <div class="card-header">GDP <span id="gdp-quarter-label" style="font-size:13px;font-weight:400;color:var(--text-muted);margin-left:6px"></span></div>
+        <div class="card-header">GDP</div>
         <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
         <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
-        <div class="data-date">Source: BEA / Atlanta Fed GDPNow &nbsp;|&nbsp; Q1 2020 – Q1 2026</div>
+        <div class="data-date" id="gdp-data-date">Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated —</div>
       </div>
     </div>
 
@@ -343,10 +342,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       style="width:100%;height:867px;display:block;">
     </tableau-viz>
   </div>
-  <div class="card" style="margin-top:14px">
-    <div class="ai-insights-label">AI Insights</div>
-    <div class="ai-insights">Equity breadth continues to deteriorate with MMTH declining toward the 50% threshold, signaling potential bear market conditions ahead. Market internals remain bifurcated — mega-cap tech maintains above-average relative strength while small-cap and cyclical names show persistent distribution patterns. The advance-decline line is weakening across NYSE and Nasdaq, consistent with a late-cycle rotation. Sector divergence is widest since Q3 2022: Energy and Healthcare hold constructive RS readings while Technology and Consumer Discretionary show decelerating momentum. Near-term risk-off signals dominate, but oversold breadth readings may create tactical bounce opportunities in select quality names.</div>
-  </div>
 </div><!-- /breadth panel -->
 
 <!-- ═══════════════════════════ EXECUTION TAB ═══════════════════════════ -->
@@ -355,7 +350,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <div class="exec-top">
     <!-- Market Regime -->
     <div class="card">
-      <div class="card-header">Market Regime</div>
+      <div class="section-heading" style="margin-top:0">Market Regime</div>
       <div class="regime-grid">
         <div class="rbadge-wrap">
           <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
@@ -1174,8 +1169,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(d=>{
       const qLabel=d.latest_quarter;
       const q=d.quarters[qLabel];
-      const qlEl=document.getElementById('gdp-quarter-label');
-      if(qlEl) qlEl.textContent='— '+qLabel+' GDPNow (updated '+d.updated.slice(0,10)+')';
+      const ddEl=document.getElementById('gdp-data-date');
+      if(ddEl) ddEl.innerHTML='Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated '+d.updated.slice(0,10);
       const compsArr=Object.entries(q.components).map(([label,vals],i)=>({
         label,
         color:['#58a6ff','#e3b341','#f0883e','#bc8cff','#f78166','#3fb950'][i]||'#8b919e',
