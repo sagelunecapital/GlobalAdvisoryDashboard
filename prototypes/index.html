@@ -1255,25 +1255,32 @@ window.addEventListener('DOMContentLoaded',()=>{
     addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
   }
 
-  // Regime display
-  updateRegimeDisplay();
+  // Regime — load live data, fall back to hardcoded constants
+  fetch('regime.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>applyRegimeData(d))
+    .catch(()=>applyRegimeData({
+      spx:regimeSpx, ema12:regimeEma12, ema25:regimeEma25, mmth:regimeMmth,
+      regime_class:regimeClass, regime_div:regimeDiv, regime_since:regimeAsOf,
+      regime_cond:regimeCond, updated:regimeAsOf
+    }));
 });
 
-function updateRegimeDisplay(){
+function applyRegimeData(d){
   const badge=document.getElementById('regime-badge');
-  if(!badge||typeof regimeSpx==='undefined') return;
-  badge.className='rbadge '+regimeClass;
-  badge.innerHTML='<span class="rdot"></span>'+regimeClass.toUpperCase();
-  const divTxt=regimeDiv==='bearish'?'Bearish Divergence':regimeDiv==='bullish'?'Bullish Divergence':'No Divergence';
-  document.getElementById('regime-label').innerHTML=divTxt+'<br>As of '+regimeAsOf;
+  if(!badge) return;
+  badge.className='rbadge '+d.regime_class;
+  badge.innerHTML='<span class="rdot"></span>'+d.regime_class.toUpperCase();
+  const divTxt=d.regime_div==='bearish'?'Bearish Divergence':d.regime_div==='bullish'?'Bullish Divergence':'Aligned';
+  document.getElementById('regime-label').innerHTML=divTxt+'<br>Since '+d.regime_since;
   const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  document.getElementById('ind-spx-price').textContent=fmt(regimeSpx);
-  document.getElementById('ind-12ema').textContent=fmt(regimeEma12);
-  document.getElementById('ind-25ema').textContent=fmt(regimeEma25);
-  document.getElementById('ind-mmth').textContent=regimeMmth!==null?regimeMmth.toFixed(1)+'%':'N/A';
-  document.getElementById('regime-cond').textContent=regimeCond;
+  document.getElementById('ind-spx-price').textContent=fmt(d.spx);
+  document.getElementById('ind-12ema').textContent=fmt(d.ema12);
+  document.getElementById('ind-25ema').textContent=fmt(d.ema25);
+  document.getElementById('ind-mmth').textContent=d.mmth.toFixed(1)+'%';
+  document.getElementById('regime-cond').textContent=d.regime_cond;
   const db=document.getElementById('div-badge');
-  if(db){db.style.display=regimeDiv!=='none'?'':'none';db.textContent=regimeDiv==='bearish'?'⚠ DIVERGENCE ACTIVE':regimeDiv==='bullish'?'↑ BULLISH DIVERGENCE':'';}
+  if(db){db.style.display=d.regime_div!=='none'?'':'none';db.textContent=d.regime_div==='bearish'?'⚠ DIVERGENCE ACTIVE':d.regime_div==='bullish'?'↑ BULLISH DIVERGENCE':'';}
   document.getElementById('regime-date').textContent='Source: Bloomberg  |  updated '+regimeAsOf;
 }
 </script>

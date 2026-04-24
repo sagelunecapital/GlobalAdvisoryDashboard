@@ -1,0 +1,38 @@
+name: Update Regime data
+
+on:
+  schedule:
+    # Run weekdays at 22:00 UTC (5pm ET — after US market close)
+    - cron: '0 22 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests yfinance pandas
+
+      - name: Fetch regime data
+        run: python scripts/fetch_regime.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prototypes/regime.json
+          if git diff --cached --quiet; then
+            echo "No changes to regime.json — skipping commit"
+          else
+            git commit -m "data(regime): daily update $(date -u +%Y-%m-%d)"
+            git push
+          fi
