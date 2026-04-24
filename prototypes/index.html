@@ -32,14 +32,13 @@ html,body{height:100%}
 body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attachment:fixed;color:var(--text);font-family:'Inter',Arial,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
 .app{max-width:1920px;margin:0 auto;padding:20px 24px}
 
-/* ── Main header (inside main-content, above horizontal rule) ── */
-.main-header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 16px;border-bottom:1px solid rgba(0,112,204,0.4);margin-bottom:20px}
-.main-header h1{font-size:22px;font-weight:700;color:rgba(0,112,204,0.75);letter-spacing:0.1px;line-height:1.25}
+/* ── 4-quadrant layout ── */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:auto 1fr}
+.layout-corner{border-right:1px solid rgba(139,145,158,0.35);border-bottom:1px solid rgba(139,145,158,0.35)}
+.layout-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px 16px 24px;border-bottom:1px solid rgba(139,145,158,0.35)}
+.layout-header h1{font-size:22px;font-weight:700;color:rgba(255,255,255,0.75);letter-spacing:0.1px;line-height:1.25}
 .header-meta{font-size:12px;color:var(--text-muted);font-weight:500}
-
-/* ── Sidebar layout ── */
-.layout{display:flex;gap:0;align-items:stretch}
-.sidebar{width:var(--sidebar-w);flex-shrink:0;border-right:1px solid rgba(0,112,204,0.4);padding:20px 10px}
+.sidebar{border-right:1px solid rgba(139,145,158,0.35);padding:20px 10px}
 .sidebar-label{font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
 .nav-tab{display:flex;align-items:center;width:100%;padding:10px 14px;cursor:pointer;border:none;border-radius:12px;color:var(--text-muted);font-size:13px;font-weight:500;background:transparent;font-family:inherit;text-align:left;transition:background 180ms ease,color 180ms ease,transform 180ms ease;margin-bottom:4px}
 .nav-tab:last-child{margin-bottom:0}
@@ -47,7 +46,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .nav-tab.active{color:#fff;background:var(--ps-blue)}
 .nav-tab.active:hover{background:var(--ps-cyan);transform:translateX(2px)}
 .nav-tab-icon{margin-right:8px;font-size:14px;opacity:.8}
-.main-content{flex:1;min-width:0;padding:0 0 0 24px}
+.main-content{min-width:0;padding:20px 24px 0 24px}
 .main-panel{display:none}
 .main-panel.active{display:block}
 
@@ -149,13 +148,19 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .btn.pri:active{opacity:.7}
 .btn.dan{border-color:var(--red);color:var(--red)}
 .btn.dan:hover{background:rgba(224,82,82,0.12);border-color:var(--red);transform:scale(1.05)}
-.data-date{font-size:11px;color:var(--text-muted);text-align:right;margin-top:10px;font-weight:400}
+.data-date{font-size:11px;color:var(--text-muted);text-align:right;margin-top:10px;font-weight:400;font-style:italic}
 .chg-pos{color:var(--green)}.chg-neg{color:var(--red)}.chg-neu{color:var(--text-muted)}
 </style>
 </head>
 <body>
 <div class="app">
 <div class="layout">
+  <div class="layout-corner"></div>
+  <div class="layout-header">
+    <h1>Global Advisory Dashboard</h1>
+    <div class="header-meta">Session: Tue 21 Apr 2026</div>
+  </div>
+
   <aside class="sidebar">
     <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
     <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
@@ -163,10 +168,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   </aside>
 
   <div class="main-content">
-  <div class="main-header">
-    <h1>Global Advisory Dashboard</h1>
-    <div class="header-meta">Session: Tue 21 Apr 2026</div>
-  </div>
 
 <!-- ═══════════════════════════ MACRO TAB ═══════════════════════════ -->
 <div id="main-macro" class="main-panel active">
@@ -235,7 +236,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
           <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
           <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
         </div>
-        <div class="data-date">Data from Jan 2020 &nbsp;|&nbsp; Source: BLS, BEA (sample)</div>
+        <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
     </div>
 
@@ -292,7 +293,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <div class="cw" style="height:350px" id="w-spr-be"><div class="chart-tt" id="tt-spr-be"></div></div>
       </div>
     </div>
-    <div class="data-date">Source: US Treasury, FRED (sample) &nbsp;|&nbsp; Daily from Jan 2020</div>
+    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
 
   <!-- Liquidity -->
@@ -326,7 +327,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
     </div>
     <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
-    <div class="data-date">YoY% 3-Month MA &nbsp;|&nbsp; Jan 2020 – Apr 2026 &nbsp;|&nbsp; FRED (sample)</div>
+    <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
 
 </div><!-- /macro panel -->
@@ -349,47 +350,51 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   <div class="exec-top">
     <!-- Market Regime -->
-    <div class="card">
-      <div class="section-heading" style="margin-top:0">Market Regime</div>
-      <div class="regime-grid">
-        <div class="rbadge-wrap">
-          <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
-          <div class="rlabel" id="regime-label">Bearish Divergence<br>Since 15 Apr 2026</div>
-        </div>
-        <div>
-          <div class="inds">
-            <div class="ind"><div class="ind-l">SPX Price</div><div class="ind-v" id="ind-spx-price">5,420</div><div class="ind-s" id="ind-spx-status">Above 12d EMA</div></div>
-            <div class="ind"><div class="ind-l">12-Day EMA</div><div class="ind-v" id="ind-12ema">5,380</div></div>
-            <div class="ind"><div class="ind-l">25-Day EMA</div><div class="ind-v" id="ind-25ema">5,290</div></div>
-            <div class="ind"><div class="ind-l">MMTH (&gt;200MA)</div><div class="ind-v" id="ind-mmth">52.3%</div></div>
+    <div>
+      <div class="section-heading">Market Regime</div>
+      <div class="card">
+        <div class="regime-grid">
+          <div class="rbadge-wrap">
+            <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
+            <div class="rlabel" id="regime-label">Bearish Divergence<br>Since 15 Apr 2026</div>
           </div>
-          <div class="cond-box">
-            <div class="cond-l">Active Condition</div>
-            <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
-            <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
+          <div>
+            <div class="inds">
+              <div class="ind"><div class="ind-l">SPX Price</div><div class="ind-v" id="ind-spx-price">5,420</div><div class="ind-s" id="ind-spx-status">Above 12d EMA</div></div>
+              <div class="ind"><div class="ind-l">12-Day EMA</div><div class="ind-v" id="ind-12ema">5,380</div></div>
+              <div class="ind"><div class="ind-l">25-Day EMA</div><div class="ind-v" id="ind-25ema">5,290</div></div>
+              <div class="ind"><div class="ind-l">MMTH (&gt;200MA)</div><div class="ind-v" id="ind-mmth">52.3%</div></div>
+            </div>
+            <div class="cond-box">
+              <div class="cond-l">Active Condition</div>
+              <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
+              <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
+            </div>
           </div>
         </div>
+        <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
       </div>
-      <div class="data-date" id="regime-date">Tue 21 Apr 2026 — refreshed daily at 9am</div>
     </div>
 
     <!-- General Tactics -->
-    <div class="card">
-      <div class="exec-row">
-        <div class="exec-label">General Tactics</div>
+    <div>
+      <div class="exec-row" style="margin-bottom:12px">
+        <div class="section-heading" style="margin:0">General Tactics</div>
         <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
       </div>
-      <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
-      <textarea class="tact-edit" id="tact-edit" rows="5">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</textarea>
+      <div class="card">
+        <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
+        <textarea class="tact-edit" id="tact-edit" rows="5">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</textarea>
+      </div>
     </div>
   </div>
 
   <!-- Sector Focus -->
+  <div class="exec-row" style="margin-bottom:12px">
+    <div class="section-heading" style="margin:0">Sector Focus</div>
+    <button class="btn pri" onclick="promptAddSector()">+ New Sector</button>
+  </div>
   <div class="card">
-    <div class="exec-row">
-      <div class="exec-label">Sector Focus</div>
-      <button class="btn pri" onclick="promptAddSector()">+ New Sector</button>
-    </div>
     <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Changes are saved in this browser. To share across devices, export manually.</p>
     <div class="sector-list" id="sector-list"></div>
   </div>
@@ -799,9 +804,9 @@ function drawStackedBar(wrapId, ttId, quarters, seriesDefs, vH, legId) {
       const r=svg.getBoundingClientRect();
       tt.style.display='block';
       tt.style.left=Math.min((x/VW)*r.width+12,r.width-210)+'px';tt.style.top='6px';
-      const lines=seriesDefs.map(s=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}pp`);
+      const lines=seriesDefs.map(s=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}%`);
       const total=seriesDefs.reduce((sum,s)=>sum+(s.values[i]||0),0);
-      tt.innerHTML='<strong>'+q+'</strong><br>'+lines.join('<br>')+'<br><strong>Total: '+total.toFixed(2)+'pp</strong>';
+      tt.innerHTML='<strong>'+q+'</strong><br>'+lines.join('<br>')+'<br><strong>Total: '+total.toFixed(2)+'%</strong>';
     });
     ov.addEventListener('mouseleave',()=>{tt.style.display='none';});
     svg.appendChild(ov);
@@ -887,9 +892,8 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
       dot.setAttribute('cx',xOf(i));dot.setAttribute('cy',yOf(gdpLine[i]));dot.setAttribute('display','');
       tt.style.display='block';
       tt.style.left=Math.min((x/VW)*r.width+12,r.width-230)+'px';tt.style.top='6px';
-      const comps=seriesDefs.map(s=>`<span style="color:${s.color}">■</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}pp`);
-      const note='';
-      tt.innerHTML='<strong>'+q+'</strong>'+note+'<br>GDP: <strong>'+gdpLine[i].toFixed(1)+'%</strong> SAAR<br>'+comps.join('<br>');
+      const comps=seriesDefs.map(s=>`<span style="color:${s.color}">■</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}%`);
+      tt.innerHTML='<strong>'+q+'</strong><br>GDP: <strong>'+gdpLine[i].toFixed(1)+'%</strong> SAAR<br>'+comps.join('<br>');
     });
     ov.addEventListener('mouseleave',()=>{tt.style.display='none';dot.setAttribute('display','none');});
     svg.appendChild(ov);
@@ -898,9 +902,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
   if(legId){
     const leg=document.getElementById(legId);
     if(leg){
-      const lineItem=`<div class="li"><div style="width:16px;height:2px;background:#fff;border-radius:1px;flex-shrink:0;margin-top:3px"></div><span style="margin-left:5px">GDP Growth</span></div>`;
-      const barItems=seriesDefs.map(s=>`<div class="li"><div class="lsq" style="background:${s.color};opacity:0.82"></div>${s.label}</div>`).join('');
-      leg.innerHTML=lineItem+barItems;
+      leg.innerHTML=seriesDefs.map(s=>`<div class="li"><div class="lsq" style="background:${s.color};opacity:0.82"></div>${s.label}</div>`).join('');
     }
   }
 }
@@ -1036,7 +1038,7 @@ const fPct=v=>v.toFixed(2)+'%';
 const gdpQuarters=['Q1 2020','Q2 2020','Q3 2020','Q4 2020','Q1 2021','Q2 2021','Q3 2021','Q4 2021','Q1 2022','Q2 2022','Q3 2022','Q4 2022','Q1 2023','Q2 2023','Q3 2023','Q4 2023','Q1 2024','Q2 2024','Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026'];
 const gdpLine=[-5.0,-28.0,33.8,4.5,6.3,6.7,2.3,6.9,-1.6,-0.6,3.2,2.7,2.2,2.1,4.9,3.4,1.6,3.0,2.8,2.4,2.4,2.0,2.2,2.0,-2.2]; // Q1 2026: Atlanta Fed GDPNow estimate
 const gdpComponents=[
-  {label:'Consumer Spending',color:'#58a6ff',values:[-2.0,-25.0,25.3,2.3,7.9,7.0,1.8,2.3,1.7,0.7,2.0,1.8,3.8,1.1,2.3,2.8,1.9,1.9,2.4,4.2,1.2,1.8,1.9,1.8,1.8]},
+  {label:'Consumer',color:'#58a6ff',values:[-2.0,-25.0,25.3,2.3,7.9,7.0,1.8,2.3,1.7,0.7,2.0,1.8,3.8,1.1,2.3,2.8,1.9,1.9,2.4,4.2,1.2,1.8,1.9,1.8,1.8]},
   {label:'Government',color:'#3fb950',values:[0.2,0.8,0.8,-0.1,0.7,0.7,0.1,0.8,-0.5,-0.3,0.5,0.6,0.9,0.5,0.8,0.5,0.2,0.5,0.5,0.3,0.3,0.3,0.4,0.3,0.3]},
   {label:'Nonresidential Investments',color:'#e3b341',values:[-0.5,-4.0,1.7,0.5,0.7,0.8,0.7,0.9,0.3,1.0,0.8,0.6,0.6,0.3,0.7,0.7,0.5,0.7,0.5,0.4,0.5,0.4,0.5,0.4,0.3]},
   {label:'Residential Investments',color:'#f0883e',values:[-0.3,-3.0,2.0,0.8,0.5,0.3,-0.5,0.4,-0.4,-0.7,-1.4,-1.3,0.3,0.4,0.4,0.5,0.5,0.4,0.1,0.0,0.2,0.1,0.1,0.1,-0.1]},
@@ -1143,6 +1145,11 @@ function renderYieldCharts(){
     if(bNd) bNd.style.display='none'; bW.style.display='';
     drawChart('w-yield-be','tt-yield-be',dSlice,beData,'#e3b341',v=>v.toFixed(2)+'%',350);
   }
+
+  // Spreads — same period window as yields
+  drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#58a6ff',fPct,350);
+  drawChart('w-spr-real','tt-spr-real',dSlice,sl(sprReal),'#3fb950',fPct,350);
+  drawChart('w-spr-be','tt-spr-be',dSlice,sl(sprBE),'#e3b341',fPct,350);
 }
 
 // ══ Render all charts ═══════════════════════════════════════════
@@ -1171,8 +1178,9 @@ window.addEventListener('DOMContentLoaded',()=>{
       const q=d.quarters[qLabel];
       const ddEl=document.getElementById('gdp-data-date');
       if(ddEl) ddEl.innerHTML='Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated '+d.updated.slice(0,10);
+      const compNames=['Consumer','Nonresidential Investments','Residential Investments','Inventories','Net Exports','Government'];
       const compsArr=Object.entries(q.components).map(([label,vals],i)=>({
-        label,
+        label:compNames[i]||label,
         color:['#58a6ff','#e3b341','#f0883e','#bc8cff','#f78166','#3fb950'][i]||'#8b919e',
         values:vals
       }));
@@ -1185,11 +1193,6 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   // Yields
   renderYieldCharts();
-
-  // Spreads
-  drawChart('w-spr-nom','tt-spr-nom',dDatesArr,sprNom,'#58a6ff',fPct,350);
-  drawChart('w-spr-real','tt-spr-real',dDatesArr,sprReal,'#3fb950',fPct,350);
-  drawChart('w-spr-be','tt-spr-be',dDatesArr,sprBE,'#e3b341',fPct,350);
 
   // Liquidity raw
   drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#58a6ff',v=>v.toFixed(0),350);
