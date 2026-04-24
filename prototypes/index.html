@@ -108,7 +108,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .rdot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
 .rlabel{font-size:11px;color:var(--text-muted);text-align:center;line-height:1.5;font-weight:400}
 .inds{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.ind{background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:10px}
+.ind{background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:10px;min-height:60px}
 .ind-l{font-size:11px;color:var(--text-muted);margin-bottom:3px;font-weight:500;letter-spacing:0.1px}
 .ind-v{font-size:15px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
 .ind-s{font-size:11px;color:var(--text-muted);margin-top:2px}
@@ -119,6 +119,8 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 
 /* ── Execution ── */
 .exec-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.exec-top>div{display:flex;flex-direction:column}
+.exec-top>div>.card{flex:1}
 .exec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .exec-label{font-size:24px;font-weight:700;color:var(--text);letter-spacing:0.1px}
 .tact-display{font-size:13px;color:var(--text-dim);line-height:1.7;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:12px;min-height:70px;white-space:pre-wrap}
@@ -135,7 +137,7 @@ textarea.sta{width:100%;font-size:12px;color:var(--text);background:var(--surfac
 textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px rgba(0,112,204,0.25)}
 
 /* ── Breadth ── */
-.tableau-wrap{width:100%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:19px;overflow:hidden;min-height:600px;position:relative}
+.tableau-wrap{width:100%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:19px;overflow:auto;position:relative}
 .ai-insights{font-size:14px;color:var(--text-dim);line-height:1.8;font-weight:400}
 .ai-insights-label{font-size:11px;font-weight:600;color:var(--ps-blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
 
@@ -340,7 +342,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       src="https://public.tableau.com/views/Factors_17748612623900/RS"
       device="desktop"
       toolbar="yes"
-      style="width:100%;height:867px;display:block;">
+      style="width:1600px;height:800px;display:block;">
     </tableau-viz>
   </div>
 </div><!-- /breadth panel -->
@@ -360,10 +362,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
           </div>
           <div>
             <div class="inds">
-              <div class="ind"><div class="ind-l">SPX Price</div><div class="ind-v" id="ind-spx-price">5,420</div><div class="ind-s" id="ind-spx-status">Above 12d EMA</div></div>
+              <div class="ind"><div class="ind-l">SPX Price</div><div class="ind-v" id="ind-spx-price">5,420</div></div>
               <div class="ind"><div class="ind-l">12-Day EMA</div><div class="ind-v" id="ind-12ema">5,380</div></div>
               <div class="ind"><div class="ind-l">25-Day EMA</div><div class="ind-v" id="ind-25ema">5,290</div></div>
-              <div class="ind"><div class="ind-l">MMTH (&gt;200MA)</div><div class="ind-v" id="ind-mmth">52.3%</div></div>
+              <div class="ind"><div class="ind-l">MMTH</div><div class="ind-v" id="ind-mmth">52.3%</div></div>
             </div>
             <div class="cond-box">
               <div class="cond-l">Active Condition</div>
@@ -1230,8 +1232,6 @@ function updateRegimeDisplay(){
   document.getElementById('regime-label').innerHTML=divTxt+'<br>As of '+regimeAsOf;
   const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('ind-spx-price').textContent=fmt(regimeSpx);
-  const spxSt=regimeSpx>regimeEma12?'Above 12d EMA':regimeSpx>regimeEma25?'Between EMAs':'Below 25d EMA';
-  document.getElementById('ind-spx-status').textContent=spxSt;
   document.getElementById('ind-12ema').textContent=fmt(regimeEma12);
   document.getElementById('ind-25ema').textContent=fmt(regimeEma25);
   document.getElementById('ind-mmth').textContent=regimeMmth!==null?regimeMmth.toFixed(1)+'%':'N/A';
