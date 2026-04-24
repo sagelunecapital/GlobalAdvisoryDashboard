@@ -158,7 +158,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <div class="layout-corner"></div>
   <div class="layout-header">
     <h1>Global Advisory Dashboard</h1>
-    <div class="header-meta">Session: Tue 21 Apr 2026</div>
+    <div class="header-meta">Session: Fri 24 Apr 2026</div>
   </div>
 
   <aside class="sidebar">
@@ -1091,14 +1091,14 @@ const yoyTR=[null,null,null,null,null,null,null,null,null,null,null,null,null,nu
 const yoyBT=[null,null,null,null,null,null,null,null,null,null,null,null,null,null,498.0378,602.3139,558.8829,381.6769,281.8893,284.9564,292.4868,318.2678,280.4895,198.3607,88.7806,23.8576,-3.6016,-20.5702,-24.0812,-31.0240,-34.1053,-48.3223,-52.3515,-59.8976,-64.0279,-66.9077,-58.0065,-50.1822,-41.2482,-35.4225,-24.7468,5.7556,21.6381,36.2109,31.1236,45.7547,75.8634,114.7417,119.7021,134.6103,132.9653,140.6803,135.2020,120.2598,124.8926,118.0445,127.7701,121.5922,131.0389,126.4462,139.0956,99.8028,64.6920,36.3178,42.0415,60.4437,68.3690,77.8712,80.9280,73.2248,43.2837,14.4716,-11.9466,-16.7192,-20.3876];
 
 // --- Market Regime ---
-const regimeSpx=7137.27;
-const regimeEma12=6956.33;
-const regimeEma25=6857.06;
-const regimeMmth=57.11;
+const regimeSpx=7082.15;
+const regimeEma12=6988.74;
+const regimeEma25=6871.32;
+const regimeMmth=53.6;
 const regimeClass='yellow';
 const regimeDiv='bearish';
-const regimeCond='SPX above 12d EMA but MMTH at 57.1% — breadth divergence active. Downgrade to Yellow.';
-const regimeAsOf='Tue 21 Apr 2026';
+const regimeCond='SPX above 12d EMA but MMTH declined to 53.6% — breadth deterioration deepening. Bearish divergence persists.';
+const regimeAsOf='Fri 24 Apr 2026';
 // ─── DATA BLOCK END ───
 
 // Yield slicer state
@@ -1238,7 +1238,7 @@ function updateRegimeDisplay(){
   document.getElementById('regime-cond').textContent=regimeCond;
   const db=document.getElementById('div-badge');
   if(db){db.style.display=regimeDiv!=='none'?'':'none';db.textContent=regimeDiv==='bearish'?'⚠ DIVERGENCE ACTIVE':regimeDiv==='bullish'?'↑ BULLISH DIVERGENCE':'';}
-  document.getElementById('regime-date').textContent=regimeAsOf+' — refreshed daily at 9am';
+  document.getElementById('regime-date').textContent='Source: Bloomberg  |  updated '+regimeAsOf;
 }
 </script>
 </body>
