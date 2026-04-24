@@ -52,8 +52,8 @@ items:
     module: market-regime
     title: "Detect SPX / MMTH divergence"
     priority: high
-    status: refined
-    started_at: "2026-04-24T01:11:46Z"
+    status: in_progress
+    started_at: "2026-04-24T22:38:44Z"
     tier: 2
     artefact: contexts/artefacts/stories/E01S02.story.md
     dependencies:
