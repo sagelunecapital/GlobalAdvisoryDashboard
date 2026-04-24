@@ -52,8 +52,12 @@ items:
     module: market-regime
     title: "Detect SPX / MMTH divergence"
     priority: high
-    status: in_progress
+    status: done
     started_at: "2026-04-24T22:38:44Z"
+    completed_at: "2026-04-24T23:01:05Z"
+    pr_url: "local-squash-merge:staging@dc72ee2"
+    pr_number: "N/A"
+    pr_status: "merged"
     tier: 2
     artefact: contexts/artefacts/stories/E01S02.story.md
     dependencies:
