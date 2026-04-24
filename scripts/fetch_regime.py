@@ -4,7 +4,7 @@ Fetch S&P 500 Market Regime data and write prototypes/regime.json.
 
 Sources:
   - SPX price + EMA(10,20,30): yfinance (^GSPC daily closes)
-  - MMTH (% NYSE stocks above 200d MA): TradingView internal scanner API
+  - MMTH (% NYSE stocks above 200d MA): Barchart overview page (lastPrice in embedded JSON)
 
 Derived:
   - 25d EMA  = (EMA20 + EMA30) / 2
@@ -19,6 +19,7 @@ Regime:
 
 import json
 import os
+import re
 from datetime import datetime, timezone
 
 import requests
@@ -27,16 +28,16 @@ import yfinance as yf
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, "..", "prototypes", "regime.json")
 
-TV_SCAN_URL = "https://scanner.tradingview.com/america/scan"
-TV_HEADERS  = {
-    "Content-Type": "application/json",
+BC_URL     = "https://www.barchart.com/stocks/quotes/$MMTH/overview"
+BC_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0.0.0 Safari/537.36"
     ),
-    "Referer": "https://www.tradingview.com/",
-    "Origin":  "https://www.tradingview.com",
+    "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer":         "https://www.barchart.com/",
 }
 
 
@@ -59,16 +60,12 @@ def fetch_spx():
 
 
 def fetch_mmth():
-    payload = {
-        "symbols": {"tickers": ["INDEX:MMTH"], "query": {"types": []}},
-        "columns": ["close"],
-    }
-    r = requests.post(TV_SCAN_URL, json=payload, headers=TV_HEADERS, timeout=30)
+    r = requests.get(BC_URL, headers=BC_HEADERS, timeout=30)
     r.raise_for_status()
-    rows = r.json().get("data", [])
-    if not rows or rows[0]["d"][0] is None:
-        raise ValueError("MMTH not in TradingView scanner response")
-    mmth = float(rows[0]["d"][0])
+    m = re.search(r'"lastPrice"\s*:\s*"([0-9]+(?:\.[0-9]+)?)"', r.text)
+    if not m:
+        raise ValueError("Could not find lastPrice for $MMTH in Barchart HTML")
+    mmth = float(m.group(1))
     print(f"  MMTH: {mmth:.2f}", flush=True)
     return round(mmth, 2)
 
@@ -100,7 +97,7 @@ def main():
     print("Fetching SPX and EMAs via yfinance...", flush=True)
     spx, ema12, ema25 = fetch_spx()
 
-    print("Fetching MMTH via TradingView scanner...", flush=True)
+    print("Fetching MMTH via Barchart...", flush=True)
     mmth = fetch_mmth()
 
     regime_class, regime_div, regime_cond = classify(spx, ema12, mmth)
