@@ -117,6 +117,24 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .cond-t{color:var(--text-dim);font-size:12px;line-height:1.6}
 .div-badge{display:inline-block;padding:3px 10px;border-radius:999px;background:rgba(227,169,70,0.12);color:var(--amber);font-size:11px;margin-top:6px;border:1px solid var(--amber);font-weight:600}
 
+/* ── Macro Regime section ── */
+.regime-criteria{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+@media(max-width:1100px){.regime-criteria{grid-template-columns:repeat(2,1fr)}}
+.rcrit{background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:10px 12px}
+.rcrit-label{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
+.rcrit-value{font-size:13px;font-weight:600}
+.rcrit-value.pos{color:var(--green)}.rcrit-value.neg{color:var(--red)}.rcrit-value.amb{color:var(--amber)}
+.gcc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:8px 0}
+@media(max-width:900px){.gcc-grid{grid-template-columns:repeat(2,1fr)}}
+.gcc-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);padding:5px 8px;border-radius:8px;border:1px solid var(--outline-dim);background:var(--surface-card)}
+.gcc-imp{font-weight:600}.gcc-imp.neg{color:var(--red)}.gcc-imp.pos{color:var(--green)}
+.gcc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.gcc-dot.neg{background:var(--red)}.gcc-dot.pos{background:var(--green)}
+.regime-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.rsum{background:var(--surface-low);border:1px solid var(--ps-blue);border-radius:12px;padding:10px 12px}
+.rsum-label{font-size:10px;font-weight:600;color:var(--ps-blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
+.rsum-value{font-size:15px;font-weight:700;color:var(--text)}
+
 /* ── Execution ── */
 .exec-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .exec-top>div{display:flex;flex-direction:column}
@@ -178,6 +196,96 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
 <!-- ═══════════════════════════ MACRO TAB ═══════════════════════════ -->
 <div id="main-macro" class="main-panel active">
+
+  <!-- ── REGIME SECTION ── -->
+  <div class="section-heading">Regime</div>
+  <div class="card" style="margin-bottom:20px">
+
+    <!-- 4 Criteria -->
+    <div class="regime-criteria">
+      <div class="rcrit">
+        <div class="rcrit-label">Growth</div>
+        <div class="rcrit-value pos">Accelerating</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">GDPNow 2.4% &gt; GDP YoY 2.1%</div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">Inflation</div>
+        <div class="rcrit-value neg">Accelerating</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">T5YIE WoW &plus;0.08pp</div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">Monetary Policy Stance</div>
+        <div class="rcrit-value amb">Bear Steepener</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">US02Y &plus;2bp &nbsp;&middot;&nbsp; US10Y &plus;5bp</div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">Global Credit Creation</div>
+        <div class="rcrit-value neg">Negative Impulse</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">5 of 6 items negative</div>
+      </div>
+    </div>
+
+    <!-- GCC Checklist -->
+    <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin:10px 0 6px">Credit Creation Checklist</div>
+    <div class="gcc-grid">
+      <div class="gcc-item">
+        <span class="gcc-dot neg"></span>
+        <span>SOFR &gt; IORB &nbsp;(5.33% &gt; 5.15%)</span>
+        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+      </div>
+      <div class="gcc-item">
+        <span class="gcc-dot neg"></span>
+        <span>Net Liquidity WoW &minus;1.4%</span>
+        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+      </div>
+      <div class="gcc-item">
+        <span class="gcc-dot neg"></span>
+        <span>USDJPY WoW &minus;0.3% (falling)</span>
+        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+      </div>
+      <div class="gcc-item">
+        <span class="gcc-dot neg"></span>
+        <span>USDCNH WoW &plus;0.2% (rising)</span>
+        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+      </div>
+      <div class="gcc-item">
+        <span class="gcc-dot pos"></span>
+        <span>EURCHF WoW &plus;0.1% (rising)</span>
+        <span class="gcc-imp pos" style="margin-left:auto">Positive</span>
+      </div>
+      <div class="gcc-item">
+        <span class="gcc-dot neg"></span>
+        <span>DXY WoW &plus;0.7% (rising)</span>
+        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+      </div>
+    </div>
+
+    <!-- Market Narrative + Long Bias -->
+    <div class="regime-summary">
+      <div class="rsum">
+        <div class="rsum-label">Market Narrative</div>
+        <div class="rsum-value">Reflation</div>
+      </div>
+      <div class="rsum">
+        <div class="rsum-label">Long Bias</div>
+        <div class="rsum-value">Defensives</div>
+      </div>
+    </div>
+
+    <div class="data-date">As of Fri 24 Apr 2026</div>
+  </div><!-- /regime card -->
+
+  <!--
+    EDGE CASE STATES (for governance review — not rendered)
+
+    AC8 — MPS: Neutral → Long Bias: Unclear
+      Growth: Decelerating | Inflation: Accelerating | MPS: Neutral | GCC: Positive Impulse
+      Market Narrative: Stagflation | Long Bias: Unclear
+
+    AC9 — Unavailable criterion
+      Growth: Unavailable (GDPNow data missing — DB returned NULL)
+      All other criteria compute normally. Market Narrative: Unavailable.
+  -->
 
   <div class="macro-split">
 
