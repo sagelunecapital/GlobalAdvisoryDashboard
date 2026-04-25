@@ -234,10 +234,16 @@ items:
     module: cross-signal-regime
     title: "Fetch and persist SOFR, IORB, EURCHF, and GDP YoY%"
     priority: high
-    status: refined
+    status: done
+    started_at: "2026-04-25T00:00:00Z"
+    completed_at: "2026-04-25T00:00:00Z"
+    pr_url: "local-squash-merge:staging@f384437"
+    pr_number: "N/A"
+    pr_status: "merged"
+    tier: 2
     artefact: contexts/artefacts/stories/E05S01.story.md
     dependencies: []
-    notes: "Discovery 2026-04-25 — new data sources for Regime section; no upstream E05 deps"
+    notes: "Delivered directly outside GAAI chain — fetch logic added to update_dashboard.py pre-API-pivot. HTML injector (_regime_macro_block) will be superseded by API backend Epic."
 
   - id: E05S02
     epic: E05
