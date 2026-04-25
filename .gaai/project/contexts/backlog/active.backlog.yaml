@@ -270,8 +270,14 @@ items:
     module: cross-signal-regime
     title: "Update dashboard prototype to include Regime section"
     priority: high
-    status: refined
+    status: done
+    started_at: "2026-04-25T00:00:00Z"
+    completed_at: "2026-04-25T00:00:00Z"
+    pr_url: "local-squash-merge:staging@dab4ef9"
+    pr_number: "N/A"
+    pr_status: "merged"
+    tier: 2
     artefact: contexts/artefacts/stories/E05S04.story.md
     dependencies:
       - E05S03
-    notes: "Discovery 2026-04-25 — prototype update mirrors E05S03 delivered implementation"
+    notes: "Delivered directly outside GAAI chain — prototype uses hardcoded data, no live pipeline dependency. Dependencies on E05S03 waived by human decision 2026-04-25."
