@@ -228,3 +228,50 @@ items:
       - E02S04
       - E03S04
     notes: "Discovery 2026-04-20 — prototype depends on all three display stories being delivered"
+
+  - id: E05S01
+    epic: E05
+    module: cross-signal-regime
+    title: "Fetch and persist SOFR, IORB, EURCHF, and GDP YoY%"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E05S01.story.md
+    dependencies: []
+    notes: "Discovery 2026-04-25 — new data sources for Regime section; no upstream E05 deps"
+
+  - id: E05S02
+    epic: E05
+    module: cross-signal-regime
+    title: "Compute Regime signals (Growth, Inflation, MPS, GCC, Market Narrative, Long Bias)"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E05S02.story.md
+    dependencies:
+      - E05S01
+      - E03S01
+      - E03S02
+      - E02S02
+    notes: "Discovery 2026-04-25 — reads raw GDPNow from E03S01, WoW% from E03S02, Net Liq from E02S02, new series from E05S01"
+
+  - id: E05S03
+    epic: E05
+    module: cross-signal-regime
+    title: "Display Regime section on Macro tab"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E05S03.story.md
+    dependencies:
+      - E05S02
+      - E03S04
+    notes: "Discovery 2026-04-25 — Macro tab must exist before Regime section can be inserted above it"
+
+  - id: E05S04
+    epic: E05
+    module: cross-signal-regime
+    title: "Update dashboard prototype to include Regime section"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E05S04.story.md
+    dependencies:
+      - E05S03
+    notes: "Discovery 2026-04-25 — prototype update mirrors E05S03 delivered implementation"
