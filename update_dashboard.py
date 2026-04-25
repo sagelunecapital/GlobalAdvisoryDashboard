@@ -7,7 +7,7 @@ prototypes/dashboard-prototype.html between the DATA BLOCK markers.
 Run once daily at market close (registered via Windows Task Scheduler).
 """
 
-import os, sys, math, re
+import os, sys, math, re, json
 from datetime import datetime, date, timedelta
 
 import requests
@@ -25,7 +25,7 @@ DATA_ORIGIN = date(2020, 1, 1)
 
 
 # ── FRED ──────────────────────────────────────────────────────────
-def fetch_fred(series_id, start=DATA_ORIGIN, freq=None):
+def fetch_fred(series_id, start=DATA_ORIGIN, freq=None, aggr=None, units=None):
     """Return {date_str: float} for a FRED series (dots dropped)."""
     params = {
         "series_id":        series_id,
@@ -33,8 +33,9 @@ def fetch_fred(series_id, start=DATA_ORIGIN, freq=None):
         "file_type":        "json",
         "observation_start": str(start),
     }
-    if freq:
-        params["frequency"] = freq
+    if freq:  params["frequency"] = freq
+    if aggr:  params["aggregation_method"] = aggr
+    if units: params["units"] = units
     r = requests.get(FRED_BASE, params=params, timeout=30)
     r.raise_for_status()
     out = {}
@@ -42,6 +43,38 @@ def fetch_fred(series_id, start=DATA_ORIGIN, freq=None):
         if obs["value"] != ".":
             out[obs["date"]] = float(obs["value"])
     return out
+
+
+def fetch_yf_yield(ticker, start=DATA_ORIGIN):
+    """Return {date_str: float} for a yfinance yield ticker (Close prices)."""
+    df = yf.download(ticker, start=str(start), interval="1d", auto_adjust=True, progress=False)
+    if df is None or len(df) == 0:
+        raise RuntimeError(f"yfinance returned no data for {ticker}")
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    out = {}
+    for ts, row in df.iterrows():
+        d = ts.date() if hasattr(ts, "date") else datetime.utcfromtimestamp(ts.timestamp()).date()
+        v = float(row["Close"])
+        if v == v:  # skip NaN
+            out[str(d)] = v
+    return out
+
+
+def fetch_yf_5d_pct(ticker):
+    """Return 5-trading-day % change (latest close vs 6th-to-last close)."""
+    try:
+        df = yf.download(ticker, period="30d", interval="1d", auto_adjust=True, progress=False)
+        if df is None or len(df) == 0:
+            return 0.0
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        closes = df["Close"].dropna()
+        if len(closes) < 6:
+            return 0.0
+        return float((closes.iloc[-1] / closes.iloc[-6] - 1) * 100)
+    except Exception:
+        return 0.0
 
 
 # ── Date helpers ──────────────────────────────────────────────────
@@ -244,6 +277,28 @@ def _regime_block(spx_date, spx_high, ema12, ema25, mmth):
     )
 
 
+def _regime_macro_block(gdpnow, gdp_yoy, t5yie_wow, us2y_wow, us10y_wow,
+                         sofr, iorb, net_liq_wow, usdjpy_5d, usdcnh_5d,
+                         eurchf_5d, dxy_5d, updated):
+    return (
+        "const macroRegime={"
+        f"gdpnow:{gdpnow:.4f},"
+        f"gdp_yoy:{gdp_yoy:.4f},"
+        f"t5yie_wow:{t5yie_wow:.4f},"
+        f"us2y_wow:{us2y_wow:.4f},"
+        f"us10y_wow:{us10y_wow:.4f},"
+        f"sofr:{sofr:.4f},"
+        f"iorb:{iorb:.4f},"
+        f"net_liq_wow:{net_liq_wow:.4f},"
+        f"usdjpy_5d:{usdjpy_5d:.4f},"
+        f"usdcnh_5d:{usdcnh_5d:.4f},"
+        f"eurchf_5d:{eurchf_5d:.4f},"
+        f"dxy_5d:{dxy_5d:.4f},"
+        f"updated:'{updated}'"
+        "};"
+    )
+
+
 # ── Main ──────────────────────────────────────────────────────────
 def main():
     # ── Fetch ─────────────────────────────────────────────────────
@@ -255,13 +310,13 @@ def main():
     ppi_h  = fetch_fred("PPIACO")     # PPI All Commodities index
     ppi_c  = fetch_fred("PPICOR")     # PPI Final Demand Less Food & Energy
 
-    print("Fetching treasury yields from FRED...")
-    dgs1   = fetch_fred("DGS1")       # 1Y nominal daily
-    dgs2   = fetch_fred("DGS2")
-    dgs5   = fetch_fred("DGS5")
-    dgs10  = fetch_fred("DGS10")
-    dgs30  = fetch_fred("DGS30")
-    dfii5  = fetch_fred("DFII5")      # 5Y TIPS real yield
+    print("Fetching treasury yields (1Y/2Y: FRED, 5Y/10Y/30Y: yfinance)...")
+    dgs1   = fetch_fred("DGS1")       # 1Y nominal — no yfinance equivalent
+    dgs2   = fetch_fred("DGS2")       # 2Y nominal — no yfinance equivalent
+    dgs5   = fetch_yf_yield("^FVX")   # 5Y nominal
+    dgs10  = fetch_yf_yield("^TNX")   # 10Y nominal
+    dgs30  = fetch_yf_yield("^TYX")   # 30Y nominal
+    dfii5  = fetch_fred("DFII5")      # 5Y TIPS real yield — FRED only
     dfii10 = fetch_fred("DFII10")
     dfii30 = fetch_fred("DFII30")
 
@@ -283,6 +338,77 @@ def main():
         print("  MMTH unavailable — set EODDATA_API_KEY env var for live data")
     else:
         print(f"  MMTH {mmth_val:.1f}%")
+
+    print("Fetching regime inputs...")
+
+    # SOFR and IORB — weekly ending Friday, average
+    sofr_wk = fetch_fred("SOFR", freq="wef", aggr="avg")
+    iorb_wk = fetch_fred("IORB", freq="wef", aggr="avg")
+    sofr_latest = sofr_wk[sorted(sofr_wk)[-1]] if sofr_wk else 0.0
+    iorb_latest = iorb_wk[sorted(iorb_wk)[-1]] if iorb_wk else 0.0
+    print(f"  SOFR {sofr_latest:.2f}%  IORB {iorb_latest:.2f}%")
+
+    # GDP YoY % change (latest quarter)
+    gdp_yoy_data = fetch_fred("GDP", units="pc1")
+    gdp_yoy_latest = gdp_yoy_data[sorted(gdp_yoy_data)[-1]] if gdp_yoy_data else 0.0
+    print(f"  GDP YoY {gdp_yoy_latest:.2f}%")
+
+    # GDPNow — read from gdpnow.json (refreshed by fetch_gdpnow.py)
+    _gn_path = os.path.join(os.path.dirname(os.path.abspath(HTML_PATH)), "gdpnow.json")
+    try:
+        with open(_gn_path) as _f:
+            _gn = json.load(_f)
+        _lq = _gn["latest_quarter"]
+        gdpnow_latest = _gn["quarters"][_lq]["gdp"][-1]
+    except Exception as _e:
+        print(f"  GDPNow read failed: {_e}")
+        gdpnow_latest = 0.0
+    print(f"  GDPNow {gdpnow_latest:.2f}%")
+
+    # T5YIE WoW % change
+    t5yie_data = fetch_fred("T5YIE")
+    t5yie_dates = sorted(t5yie_data)
+    t5yie_now  = t5yie_data[t5yie_dates[-1]] if t5yie_dates else 0.0
+    _cutoff    = str((date.fromisoformat(t5yie_dates[-1]) - timedelta(days=5)).isoformat()) if t5yie_dates else ""
+    _prev_d    = [d for d in t5yie_dates if d <= _cutoff]
+    t5yie_prev = t5yie_data[_prev_d[-1]] if _prev_d else t5yie_now
+    t5yie_wow  = (t5yie_now - t5yie_prev) / abs(t5yie_prev) * 100 if t5yie_prev else 0.0
+
+    # DGS2 WoW % change (dgs2 already fetched above)
+    dgs2_dates = sorted(dgs2)
+    dgs2_now   = dgs2[dgs2_dates[-1]] if dgs2_dates else 0.0
+    _cutoff2   = str((date.fromisoformat(dgs2_dates[-1]) - timedelta(days=5)).isoformat()) if dgs2_dates else ""
+    _prev2     = [d for d in dgs2_dates if d <= _cutoff2]
+    dgs2_prev  = dgs2[_prev2[-1]] if _prev2 else dgs2_now
+    us2y_wow   = (dgs2_now - dgs2_prev) / abs(dgs2_prev) * 100 if dgs2_prev else 0.0
+
+    # DGS10 WoW % change (dgs10 now from yfinance)
+    dgs10_dates = sorted(dgs10)
+    dgs10_now   = dgs10[dgs10_dates[-1]] if dgs10_dates else 0.0
+    _cutoff10   = str((date.fromisoformat(dgs10_dates[-1]) - timedelta(days=5)).isoformat()) if dgs10_dates else ""
+    _prev10     = [d for d in dgs10_dates if d <= _cutoff10]
+    dgs10_prev  = dgs10[_prev10[-1]] if _prev10 else dgs10_now
+    us10y_wow   = (dgs10_now - dgs10_prev) / abs(dgs10_prev) * 100 if dgs10_prev else 0.0
+    print(f"  T5YIE WoW {t5yie_wow:+.2f}%  US2Y WoW {us2y_wow:+.2f}%  US10Y WoW {us10y_wow:+.2f}%")
+
+    # Net Liquidity WoW % change (proxy: WRESBAL reserve balances, already fetched)
+    resbal_dates = sorted(resbal)
+    resbal_now  = resbal[resbal_dates[-1]] if resbal_dates else 0.0
+    _cutoffnl   = str((date.fromisoformat(resbal_dates[-1]) - timedelta(days=8)).isoformat()) if resbal_dates else ""
+    _prevnl     = [d for d in resbal_dates if d <= _cutoffnl]
+    resbal_prev = resbal[_prevnl[-1]] if _prevnl else resbal_now
+    net_liq_wow = (resbal_now - resbal_prev) / abs(resbal_prev) * 100 if resbal_prev else 0.0
+    print(f"  Net Liq WoW {net_liq_wow:+.2f}%")
+
+    # FX 5-day % change from yfinance
+    print("Fetching regime FX (yfinance)...")
+    usdjpy_5d = fetch_yf_5d_pct("JPY=X")     # USDJPY: falling < 0 = negative impulse
+    usdcnh_5d = fetch_yf_5d_pct("CNH=X")     # USDCNH: rising  > 0 = negative impulse
+    if abs(usdcnh_5d) < 1e-4:
+        usdcnh_5d = fetch_yf_5d_pct("CNY=X")
+    eurchf_5d = fetch_yf_5d_pct("EURCHF=X")  # EURCHF: falling < 0 = negative impulse
+    dxy_5d    = fetch_yf_5d_pct("DX-Y.NYB")  # DXY:    rising  > 0 = negative impulse
+    print(f"  USDJPY {usdjpy_5d:+.2f}%  USDCNH {usdcnh_5d:+.2f}%  EURCHF {eurchf_5d:+.2f}%  DXY {dxy_5d:+.2f}%")
 
     # ── Monthly date axis ─────────────────────────────────────────
     today = date.today()
@@ -411,6 +537,14 @@ def main():
         "\n"
         "// --- Market Regime ---\n"
         + _regime_block(spx_date, spx_high, spx_ema12, spx_ema25, mmth_val)
+        + "\n"
+        "\n// --- Macro Regime ---\n"
+        + _regime_macro_block(
+            gdpnow_latest, gdp_yoy_latest, t5yie_wow, us2y_wow, us10y_wow,
+            sofr_latest, iorb_latest, net_liq_wow,
+            usdjpy_5d, usdcnh_5d, eurchf_5d, dxy_5d,
+            datetime.now().strftime("%Y-%m-%d")
+        )
     )
 
     # ── Inject into HTML ──────────────────────────────────────────
