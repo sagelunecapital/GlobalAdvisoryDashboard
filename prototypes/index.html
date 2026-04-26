@@ -250,26 +250,24 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
           <div class="drop-row"><span class="drop-cond">2Y ≈ 5Y ≈ 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Neutral</span></div>
         </div>
       </div>
-      <div class="rcrit rcrit-clickable" onclick="toggleDrop('gcc-checklist')">
+      <div class="rcrit rcrit-clickable" onclick="toggleDrop('gcc-drop')">
         <div class="rcrit-hdr">
           <div class="rcrit-label">Global Credit Creation</div>
           <span class="rcrit-toggle">▾</span>
         </div>
         <div class="rcrit-value neg">Negative Impulse</div>
         <div style="font-size:11px;color:var(--text-muted);margin-top:3px">5/6 Negative</div>
+        <div class="drop-table" id="gcc-drop">
+          <div class="drop-row"><span class="drop-cond">SOFR &gt; IORB</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row"><span class="drop-cond">Net Liq WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row"><span class="drop-cond">USDJPY WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row"><span class="drop-cond">USDCNH WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row"><span class="drop-cond">EURCHF 5D &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row"><span class="drop-cond">DXY WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--outline-dim)"><span class="drop-cond">Majority Negative</span><span class="drop-eq">=</span><span class="drop-result-lbl">Negative Impulse</span></div>
+          <div class="drop-row"><span class="drop-cond">Majority Positive</span><span class="drop-eq">=</span><span class="drop-result-lbl">Positive Impulse</span></div>
+        </div>
       </div>
-    </div>
-
-    <!-- GCC Checklist (dropdown — toggled by Global Credit Creation box) -->
-    <div class="drop-table" id="gcc-checklist">
-      <div class="drop-row"><span class="drop-cond">SOFR &gt; IORB</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
-      <div class="drop-row"><span class="drop-cond">Net Liq WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
-      <div class="drop-row"><span class="drop-cond">USDJPY WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
-      <div class="drop-row"><span class="drop-cond">USDCNH WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
-      <div class="drop-row"><span class="drop-cond">EURCHF 5D &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
-      <div class="drop-row"><span class="drop-cond">DXY WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
-      <div class="drop-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--outline-dim)"><span class="drop-cond">Majority Negative</span><span class="drop-eq">=</span><span class="drop-result-lbl">Negative Impulse</span></div>
-      <div class="drop-row"><span class="drop-cond">Majority Positive</span><span class="drop-eq">=</span><span class="drop-result-lbl">Positive Impulse</span></div>
     </div>
 
     <!-- Market Narrative + Long Bias (combined) -->
