@@ -382,15 +382,15 @@ def main():
     _cutoff2   = str((date.fromisoformat(dgs2_dates[-1]) - timedelta(days=5)).isoformat()) if dgs2_dates else ""
     _prev2     = [d for d in dgs2_dates if d <= _cutoff2]
     dgs2_prev  = dgs2[_prev2[-1]] if _prev2 else dgs2_now
-    us2y_wow   = (dgs2_now - dgs2_prev) * 100  # basis points
+    us2y_wow   = dgs2_now - dgs2_prev  # raw pp change (e.g. +0.079)
 
     dgs10_dates = sorted(dgs10)
     dgs10_now   = dgs10[dgs10_dates[-1]] if dgs10_dates else 0.0
     _cutoff10   = str((date.fromisoformat(dgs10_dates[-1]) - timedelta(days=5)).isoformat()) if dgs10_dates else ""
     _prev10     = [d for d in dgs10_dates if d <= _cutoff10]
     dgs10_prev  = dgs10[_prev10[-1]] if _prev10 else dgs10_now
-    us10y_wow   = (dgs10_now - dgs10_prev) * 100  # basis points
-    print(f"  T5YIE WoW {t5yie_wow:+.1f}bp  US2Y WoW {us2y_wow:+.1f}bp  US10Y WoW {us10y_wow:+.1f}bp")
+    us10y_wow   = dgs10_now - dgs10_prev  # raw pp change (e.g. +0.058)
+    print(f"  T5YIE WoW {t5yie_wow:+.1f}bp  US2Y WoW {us2y_wow:+.4f}pp  US10Y WoW {us10y_wow:+.4f}pp")
 
     # Net Liquidity WoW % change — WALCL - WDTGAL - WLRRAL (same formula as liqFedliq chart)
     def _latest(d): return d[sorted(d)[-1]] if d else 0.0
