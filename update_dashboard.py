@@ -322,9 +322,9 @@ def main():
 
     print("Fetching liquidity data from FRED...")
     resbal = fetch_fred("WRESBAL")    # Reserve Balances (weekly, billions USD) — chart use only
-    walcl  = fetch_fred("WALCL")      # Fed Total Assets (weekly, millions USD)
-    tga    = fetch_fred("WTREGEN")    # Treasury General Account (weekly, millions USD) — H.4.1
-    rrp    = fetch_fred("RRPONTSYD")  # Overnight Reverse Repo (daily, billions USD)
+    walcl  = fetch_fred("WALCL")      # Fed Total Assets (weekly, millions USD) — H.4.1
+    wdtgal = fetch_fred("WDTGAL")     # Treasury General Account (weekly, millions USD) — H.4.1
+    wlrral = fetch_fred("WLRRAL")     # Reverse Repo Agreements (weekly, millions USD) — H.4.1
     trade  = fetch_fred("BOPGSTB")    # Trade Balance (monthly, millions USD)
 
     print("Fetching Bitcoin price from CoinGecko...")
@@ -392,7 +392,7 @@ def main():
     us10y_wow   = (dgs10_now - dgs10_prev) * 100  # basis points
     print(f"  T5YIE WoW {t5yie_wow:+.1f}bp  US2Y WoW {us2y_wow:+.1f}bp  US10Y WoW {us10y_wow:+.1f}bp")
 
-    # Net Liquidity WoW % change — proper formula: Fed Assets - TGA - RRP (all billions USD)
+    # Net Liquidity WoW % change — WALCL - WDTGAL - WLRRAL (same formula as liqFedliq chart)
     def _latest(d): return d[sorted(d)[-1]] if d else 0.0
     def _prev_val(d, days=8):
         dates = sorted(d)
@@ -400,19 +400,15 @@ def main():
         prev = [x for x in dates if x <= cutoff]
         return d[prev[-1]] if prev else _latest(d)
 
-    walcl_now_b  = _latest(walcl) / 1000          # millions → billions
-    tga_now_b    = _latest(tga)   / 1000          # millions → billions
-    rrp_now_b    = _latest(rrp)                   # already billions
-    net_liq_now  = walcl_now_b - tga_now_b - rrp_now_b
+    def _net_liq_b(w, tga, rra):
+        return (w - tga - rra) / 1000  # millions → billions
 
-    walcl_prev_b = _prev_val(walcl) / 1000
-    tga_prev_b   = _prev_val(tga)   / 1000
-    rrp_prev_b   = _prev_val(rrp)
-    net_liq_prev = walcl_prev_b - tga_prev_b - rrp_prev_b
+    net_liq_now  = _net_liq_b(_latest(walcl),    _latest(wdtgal),    _latest(wlrral))
+    net_liq_prev = _net_liq_b(_prev_val(walcl),  _prev_val(wdtgal),  _prev_val(wlrral))
 
     net_liq_wow  = (net_liq_now - net_liq_prev) / abs(net_liq_prev) * 100 if net_liq_prev else 0.0
     print(f"  Net Liq {net_liq_now:.0f}B  WoW {net_liq_wow:+.2f}%  "
-          f"(WALCL {walcl_now_b:.0f}B - TGA {tga_now_b:.0f}B - RRP {rrp_now_b:.0f}B)")
+          f"(WALCL {_latest(walcl)/1000:.0f}B - WDTGAL {_latest(wdtgal)/1000:.0f}B - WLRRAL {_latest(wlrral)/1000:.0f}B)")
 
     # FX 5-day % change from yfinance
     print("Fetching regime FX (yfinance)...")
@@ -477,8 +473,13 @@ def main():
     # ── Liquidity (monthly) ───────────────────────────────────────
     liq_resbal = forward_fill(align(mkeys, resample_monthly(
         {k: v / 1000 for k, v in resbal.items()})))  # millions → billions
-    liq_fedliq = forward_fill(align(mkeys, resample_monthly(
-        {k: v / 1000 for k, v in walcl.items()})))   # millions → billions
+    # Net Liquidity = WALCL - WDTGAL - WLRRAL (all millions USD → billions)
+    _all_liq_dates = sorted(set(walcl) | set(wdtgal) | set(wlrral))
+    _net_liq_daily = {
+        d: (walcl.get(d, 0) - wdtgal.get(d, 0) - wlrral.get(d, 0)) / 1000
+        for d in _all_liq_dates if walcl.get(d) is not None
+    }
+    liq_fedliq = forward_fill(align(mkeys, resample_monthly(_net_liq_daily)))
     liq_trade  = forward_fill(align(mkeys, to_month_key(
         {k: v / 1000 for k, v in trade.items()})))   # millions → billions
     liq_btc    = forward_fill(align(mkeys, resample_monthly(btc)))

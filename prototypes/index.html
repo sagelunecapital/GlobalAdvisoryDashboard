@@ -225,21 +225,21 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <div class="regime-criteria">
       <div class="rcrit">
         <div class="rcrit-label">Growth</div>
-        <div class="rcrit-value pos">Accelerating</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">GDPNow 2.4% &gt; GDP 2.1%</div>
+        <div class="rcrit-value pos" id="rc-growth-val">Accelerating</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px" id="rc-growth-sub">GDPNow 2.4% &gt; GDP 2.1%</div>
       </div>
       <div class="rcrit">
         <div class="rcrit-label">Inflation</div>
-        <div class="rcrit-value neg">Accelerating</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">Inflation Expectations Rising</div>
+        <div class="rcrit-value neg" id="rc-infl-val">Accelerating</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px" id="rc-infl-sub">Inflation Expectations Rising</div>
       </div>
       <div class="rcrit rcrit-clickable" onclick="toggleDrop('mps-drop')">
         <div class="rcrit-hdr">
           <div class="rcrit-label">Monetary Policy Stance</div>
           <span class="rcrit-toggle">▾</span>
         </div>
-        <div class="rcrit-value amb">Bear Steepener</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">0 &lt; 2Y &lt; 5Y</div>
+        <div class="rcrit-value amb" id="rc-mps-val">Bear Steepener</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px" id="rc-mps-sub">0 &lt; 2Y &lt; 5Y</div>
         <div class="drop-table" id="mps-drop">
           <div class="drop-row"><span class="drop-cond">0 &lt; 2Y &lt; 5Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Steepener</span></div>
           <div class="drop-row"><span class="drop-cond">0 &lt; 5Y &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Flattener</span></div>
@@ -255,8 +255,8 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
           <div class="rcrit-label">Global Credit Creation</div>
           <span class="rcrit-toggle">▾</span>
         </div>
-        <div class="rcrit-value neg">Negative Impulse</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">5/6 Negative</div>
+        <div class="rcrit-value neg" id="rc-gcc-val">Negative Impulse</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px" id="rc-gcc-sub">5/6 Negative</div>
         <div class="drop-table" id="gcc-drop">
           <div class="drop-row"><span class="drop-cond">SOFR &gt; IORB</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
           <div class="drop-row"><span class="drop-cond">Net Liq WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
@@ -307,7 +307,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="high-edge-val" id="high-edge-val">BTC, SHY, TLT, GOLD, IEF, DXY, DBA, HSI</div>
     </div>
 
-    <div class="data-date">As of Fri 24 Apr 2026</div>
+    <div class="data-date" id="macro-regime-date">As of Fri 24 Apr 2026</div>
   </div><!-- /regime card -->
 
   <!--
@@ -1398,7 +1398,10 @@ window.addEventListener('DOMContentLoaded',()=>{
     addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
   }
 
-  // Regime — load live data, fall back to hardcoded constants
+  // Macro Regime — apply live data injected by update_dashboard.py
+  if(typeof macroRegime!=='undefined') applyMacroRegime(macroRegime);
+
+  // Market Regime — load live data, fall back to hardcoded constants
   fetch('regime.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject(r.status))
     .then(d=>applyRegimeData(d))
@@ -1408,6 +1411,74 @@ window.addEventListener('DOMContentLoaded',()=>{
       regime_cond:regimeCond, updated:regimeAsOf
     }));
 });
+
+function applyMacroRegime(d){
+  // Growth
+  const gAcc = d.gdpnow > d.gdp_yoy;
+  _setRcrit('rc-growth-val','rc-growth-sub',
+    gAcc ? 'Accelerating' : 'Decelerating',
+    gAcc ? 'pos' : 'neg',
+    'GDPNow '+d.gdpnow.toFixed(1)+'% '+(gAcc?'>':'<')+' GDP '+d.gdp_yoy.toFixed(1)+'%');
+
+  // Inflation
+  const iAcc = d.t5yie_wow > 0;
+  _setRcrit('rc-infl-val','rc-infl-sub',
+    iAcc ? 'Accelerating' : 'Decelerating',
+    iAcc ? 'neg' : 'pos',
+    iAcc ? 'Inflation Expectations Rising' : 'Inflation Expectations Falling');
+
+  // MPS
+  const u2=d.us2y_wow, u10=d.us10y_wow, EPS=0.01;
+  let mpsLbl, mpsCls;
+  if(Math.abs(u2)<EPS&&Math.abs(u10)<EPS){mpsLbl='Neutral';mpsCls='amb';}
+  else if(u2<u10&&u10<0){mpsLbl='Bull Steepener';mpsCls='pos';}
+  else if(u10<u2&&u2<0){mpsLbl='Bull Flattener';mpsCls='pos';}
+  else if(u2>0&&u2<u10){mpsLbl='Bear Steepener';mpsCls='neg';}
+  else if(u10>0&&u10<u2){mpsLbl='Bear Flattener';mpsCls='neg';}
+  else if(u2<0&&u10>0){mpsLbl='Steepener Twist';mpsCls='amb';}
+  else if(u10<0&&u2>0){mpsLbl='Flattener Twist';mpsCls='amb';}
+  else{mpsLbl='Neutral';mpsCls='amb';}
+  const fbp=v=>(v>=0?'+':'')+v.toFixed(1)+'bp';
+  _setRcrit('rc-mps-val','rc-mps-sub',mpsLbl,mpsCls,'2Y '+fbp(u2)+' · 10Y '+fbp(u10));
+
+  // GCC — 6 items (true = negative impulse)
+  const items=[d.sofr>d.iorb, d.net_liq_wow<0, d.usdjpy_5d<0, d.usdcnh_5d>0, d.eurchf_5d<0, d.dxy_5d>0];
+  const negN=items.filter(Boolean).length, posN=items.length-negN;
+  let gccLbl, gccCls;
+  if(negN>posN){gccLbl='Negative Impulse';gccCls='neg';}
+  else if(posN>negN){gccLbl='Positive Impulse';gccCls='pos';}
+  else{gccLbl='Unavailable';gccCls='amb';}
+  _setRcrit('rc-gcc-val','rc-gcc-sub',gccLbl,gccCls,negN+'/6 Negative');
+
+  // Market Narrative
+  const narrative=gAcc&&iAcc?'Reflation':gAcc&&!iAcc?'Goldilocks':!gAcc&&iAcc?'Stagflation':'Deflation';
+
+  // Long Bias
+  const isBull=mpsLbl.startsWith('Bull'), isBear=mpsLbl.startsWith('Bear');
+  const gccPos=gccLbl==='Positive Impulse', gccNeg=gccLbl==='Negative Impulse';
+  let longBias='Unclear';
+  if(isBull&&gccPos) longBias='High Beta';
+  else if(isBull&&gccNeg) longBias='Secular';
+  else if(isBear&&gccPos) longBias='Real Economy (Cyclicals)';
+  else if(isBear&&gccNeg) longBias='Defensives';
+
+  const mnEl=document.getElementById('mn-value');
+  const lbEl=document.getElementById('lb-value');
+  if(mnEl) mnEl.textContent=narrative;
+  if(lbEl) lbEl.textContent=longBias;
+
+  const dtEl=document.getElementById('macro-regime-date');
+  if(dtEl) dtEl.textContent='As of '+d.updated;
+
+  updateHighEdge(narrative, longBias);
+}
+
+function _setRcrit(valId, subId, label, cls, sub){
+  const v=document.getElementById(valId);
+  const s=document.getElementById(subId);
+  if(v){v.textContent=label; v.className='rcrit-value '+cls;}
+  if(s) s.textContent=sub;
+}
 
 function toggleDrop(id){
   const el=document.getElementById(id);
@@ -1460,12 +1531,12 @@ function applyRegimeData(d){
   if(d.market_narrative&&d.long_bias) updateHighEdge(d.market_narrative,d.long_bias);
 }
 
-// Initialize High Edge from hardcoded prototype values on page load
-(function(){
+// High Edge initializes via applyMacroRegime(); fallback for prototype-only loads
+if(typeof macroRegime==='undefined'){
   const mn=document.getElementById('mn-value');
   const lb=document.getElementById('lb-value');
   if(mn&&lb) updateHighEdge(mn.textContent.trim(),lb.textContent.trim());
-})();
+}
 </script>
 </body>
 </html>
