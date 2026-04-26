@@ -135,6 +135,26 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .rsum-label{font-size:10px;font-weight:600;color:var(--ps-blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
 .rsum-value{font-size:15px;font-weight:700;color:var(--text)}
 
+/* ── Regime dropdowns & combined summary ── */
+.rcrit-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+.rcrit-toggle{color:var(--ps-blue);font-size:10px;line-height:1;flex-shrink:0;user-select:none}
+.rcrit-clickable{cursor:pointer;transition:border-color 180ms ease}
+.rcrit-clickable:hover{border-color:var(--ps-blue)}
+.drop-table{display:none;margin-top:8px;border-top:1px solid var(--outline-dim);padding-top:6px}
+.drop-table.open{display:block}
+.drop-row{display:flex;align-items:baseline;gap:6px;padding:2px 0;font-size:10.5px;color:var(--text-muted)}
+.drop-cond{flex-shrink:0;min-width:120px}
+.drop-eq{color:var(--ps-blue);flex-shrink:0}
+.drop-result-lbl{font-weight:600;color:var(--text)}
+.rsum-combined{background:var(--surface-low);border:1px solid var(--ps-blue);border-radius:12px;padding:10px 12px;margin-top:8px}
+.rsum-row{cursor:pointer}
+.rsum-row:hover .rsum-label{color:var(--ps-cyan)}
+.rsum-divider{border:none;border-top:1px solid var(--outline-dim);margin:8px 0}
+.rsum-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+.high-edge-section{margin-top:8px;padding:8px 12px;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px}
+.high-edge-title{font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:4px}
+.high-edge-val{font-size:13px;color:var(--text);line-height:1.6}
+
 /* ── Execution ── */
 .exec-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .exec-top>div{display:flex;flex-direction:column}
@@ -198,7 +218,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 <div id="main-macro" class="main-panel active">
 
   <!-- ── REGIME SECTION ── -->
-  <div class="section-heading">Regime</div>
+  <div class="section-heading">Macro Regime</div>
   <div class="card" style="margin-bottom:20px">
 
     <!-- 4 Criteria -->
@@ -206,70 +226,112 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="rcrit">
         <div class="rcrit-label">Growth</div>
         <div class="rcrit-value pos">Accelerating</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">GDPNow 2.4% &gt; GDP YoY 2.1%</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">GDPNow 2.4% &gt; GDP 2.1%</div>
       </div>
       <div class="rcrit">
         <div class="rcrit-label">Inflation</div>
         <div class="rcrit-value neg">Accelerating</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">T5YIE WoW &plus;0.08pp</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">Inflation Expectations Rising</div>
       </div>
-      <div class="rcrit">
-        <div class="rcrit-label">Monetary Policy Stance</div>
+      <div class="rcrit rcrit-clickable" onclick="toggleDrop('mps-drop')">
+        <div class="rcrit-hdr">
+          <div class="rcrit-label">Monetary Policy Stance</div>
+          <span class="rcrit-toggle">▾</span>
+        </div>
         <div class="rcrit-value amb">Bear Steepener</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">US02Y &plus;2bp &nbsp;&middot;&nbsp; US10Y &plus;5bp</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">0 &lt; 2Y &lt; 5Y</div>
+        <div class="drop-table" id="mps-drop">
+          <div class="drop-row"><span class="drop-cond">0 &lt; 2Y &lt; 5Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Steepener</span></div>
+          <div class="drop-row"><span class="drop-cond">0 &lt; 5Y &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Flattener</span></div>
+          <div class="drop-row"><span class="drop-cond">2Y &lt; 5Y &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bull Steepener</span></div>
+          <div class="drop-row"><span class="drop-cond">5Y &lt; 2Y &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bull Flattener</span></div>
+          <div class="drop-row"><span class="drop-cond">2Y &lt; 0 &lt; 5Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Steepener Twist</span></div>
+          <div class="drop-row"><span class="drop-cond">5Y &lt; 0 &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Flattener Twist</span></div>
+          <div class="drop-row"><span class="drop-cond">2Y ≈ 5Y ≈ 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Neutral</span></div>
+        </div>
       </div>
-      <div class="rcrit">
-        <div class="rcrit-label">Global Credit Creation</div>
+      <div class="rcrit rcrit-clickable" onclick="toggleDrop('gcc-checklist')">
+        <div class="rcrit-hdr">
+          <div class="rcrit-label">Global Credit Creation</div>
+          <span class="rcrit-toggle">▾</span>
+        </div>
         <div class="rcrit-value neg">Negative Impulse</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">5 of 6 items negative</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px">5/6 Negative</div>
       </div>
     </div>
 
-    <!-- GCC Checklist -->
-    <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin:10px 0 6px">Credit Creation Checklist</div>
-    <div class="gcc-grid">
-      <div class="gcc-item">
-        <span class="gcc-dot neg"></span>
-        <span>SOFR &gt; IORB &nbsp;(5.33% &gt; 5.15%)</span>
-        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-      </div>
-      <div class="gcc-item">
-        <span class="gcc-dot neg"></span>
-        <span>Net Liquidity WoW &minus;1.4%</span>
-        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-      </div>
-      <div class="gcc-item">
-        <span class="gcc-dot neg"></span>
-        <span>USDJPY WoW &minus;0.3% (falling)</span>
-        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-      </div>
-      <div class="gcc-item">
-        <span class="gcc-dot neg"></span>
-        <span>USDCNH WoW &plus;0.2% (rising)</span>
-        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-      </div>
-      <div class="gcc-item">
-        <span class="gcc-dot pos"></span>
-        <span>EURCHF WoW &plus;0.1% (rising)</span>
-        <span class="gcc-imp pos" style="margin-left:auto">Positive</span>
-      </div>
-      <div class="gcc-item">
-        <span class="gcc-dot neg"></span>
-        <span>DXY WoW &plus;0.7% (rising)</span>
-        <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+    <!-- GCC Checklist (dropdown — toggled by Global Credit Creation box) -->
+    <div class="drop-table" id="gcc-checklist">
+      <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin:10px 0 6px">Credit Creation Checklist</div>
+      <div class="gcc-grid">
+        <div class="gcc-item">
+          <span class="gcc-dot neg"></span>
+          <span>SOFR &gt; IORB &nbsp;(5.33% &gt; 5.15%)</span>
+          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+        </div>
+        <div class="gcc-item">
+          <span class="gcc-dot neg"></span>
+          <span>Net Liquidity WoW &minus;1.4%</span>
+          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+        </div>
+        <div class="gcc-item">
+          <span class="gcc-dot neg"></span>
+          <span>USDJPY WoW &minus;0.3% (falling)</span>
+          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+        </div>
+        <div class="gcc-item">
+          <span class="gcc-dot neg"></span>
+          <span>USDCNH WoW &plus;0.2% (rising)</span>
+          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+        </div>
+        <div class="gcc-item">
+          <span class="gcc-dot pos"></span>
+          <span>EURCHF WoW &plus;0.1% (rising)</span>
+          <span class="gcc-imp pos" style="margin-left:auto">Positive</span>
+        </div>
+        <div class="gcc-item">
+          <span class="gcc-dot neg"></span>
+          <span>DXY WoW &plus;0.7% (rising)</span>
+          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
+        </div>
       </div>
     </div>
 
-    <!-- Market Narrative + Long Bias -->
-    <div class="regime-summary">
-      <div class="rsum">
-        <div class="rsum-label">Market Narrative</div>
-        <div class="rsum-value">Reflation</div>
+    <!-- Market Narrative + Long Bias (combined) -->
+    <div class="rsum-combined">
+      <div class="rsum-row" onclick="toggleDrop('mn-drop')">
+        <div class="rsum-hdr">
+          <div class="rsum-label">Market Narrative</div>
+          <span class="rcrit-toggle">▾</span>
+        </div>
+        <div class="rsum-value" id="mn-value">Reflation</div>
+        <div class="drop-table" id="mn-drop">
+          <div class="drop-row"><span class="drop-cond">Growth↑ + Inflation↑</span><span class="drop-eq">=</span><span class="drop-result-lbl">Reflation</span></div>
+          <div class="drop-row"><span class="drop-cond">Growth↑ + Inflation↓</span><span class="drop-eq">=</span><span class="drop-result-lbl">Goldilocks</span></div>
+          <div class="drop-row"><span class="drop-cond">Growth↓ + Inflation↑</span><span class="drop-eq">=</span><span class="drop-result-lbl">Stagflation</span></div>
+          <div class="drop-row"><span class="drop-cond">Growth↓ + Inflation↓</span><span class="drop-eq">=</span><span class="drop-result-lbl">Deflation</span></div>
+        </div>
       </div>
-      <div class="rsum">
-        <div class="rsum-label">Long Bias</div>
-        <div class="rsum-value">Defensives</div>
+      <hr class="rsum-divider">
+      <div class="rsum-row" onclick="toggleDrop('lb-drop')">
+        <div class="rsum-hdr">
+          <div class="rsum-label">Long Bias</div>
+          <span class="rcrit-toggle">▾</span>
+        </div>
+        <div class="rsum-value" id="lb-value">Defensives</div>
+        <div class="drop-table" id="lb-drop">
+          <div class="drop-row"><span class="drop-cond">Bull + GCC Positive</span><span class="drop-eq">=</span><span class="drop-result-lbl">High Beta</span></div>
+          <div class="drop-row"><span class="drop-cond">Bull + GCC Negative</span><span class="drop-eq">=</span><span class="drop-result-lbl">Secular</span></div>
+          <div class="drop-row"><span class="drop-cond">Bear + GCC Positive</span><span class="drop-eq">=</span><span class="drop-result-lbl">Real Economy (Cyclicals)</span></div>
+          <div class="drop-row"><span class="drop-cond">Bear + GCC Negative</span><span class="drop-eq">=</span><span class="drop-result-lbl">Defensives</span></div>
+          <div class="drop-row"><span class="drop-cond">Twist or Neutral MPS</span><span class="drop-eq">=</span><span class="drop-result-lbl">Unclear</span></div>
+        </div>
       </div>
+    </div>
+    <!-- High Edge -->
+    <div class="high-edge-section">
+      <div class="high-edge-title">High Edge</div>
+      <div class="high-edge-val" id="high-edge-val">BTC, SHY, TLT, GOLD, IEF, DXY, DBA, HSI</div>
     </div>
 
     <div class="data-date">As of Fri 24 Apr 2026</div>
@@ -1374,6 +1436,38 @@ window.addEventListener('DOMContentLoaded',()=>{
     }));
 });
 
+function toggleDrop(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+}
+
+const HIGH_EDGE={
+  'Goldilocks_Secular':['XLRE','PSEI','XLP','TLT','XLC','XLU','IEF','XLY','SHY','DXY'],
+  'Goldilocks_High Beta':['BTC','XLP','CPER','XLV','GOLD','XME','XLB','USO','XLE','XBI'],
+  'Goldilocks_Real Economy (Cyclicals)':['BTC','XLB','XLC','XLV','GOLD','XLI','XLK','RUT','XBI','XLY'],
+  'Goldilocks_Defensives':['BTC','XLC','XLRE','URA','DXY','CPER','XLP','XLE','XLK','NI225'],
+  'Reflation_Secular':['XLF','PSEI','SPX','XLI','NI225','XLB','XME','RUT','XLK','EEM'],
+  'Reflation_High Beta':['BTC','XLU','XLC','CPER','GOLD','XLE','XLF','XLI','SPX','XME'],
+  'Reflation_Real Economy (Cyclicals)':['XLC','IEF','TLT','DXY','CPER','GOLD','XLK','DBA','XLU','XLRE'],
+  'Reflation_Defensives':['BTC','SHY','TLT','GOLD','IEF','DXY','DBA','HSI'],
+  'Stagflation_Secular':['XME','TLT','XBI','BTC','XLK','RUT','XLV','XLY','IEF','XLB'],
+  'Stagflation_High Beta':['XME','URA','GOLD','XLB','CPER','DBA','XLV','XLE','XLI','RUT'],
+  'Stagflation_Real Economy (Cyclicals)':['XLRE','XLU','XLP','XLC','DXY'],
+  'Stagflation_Defensives':['DBA','GOLD','EEM','XLF','XLV','XBI','XLY','USO','PSEI','XLK'],
+  'Deflation_Secular':['CPER','DBA','XLF','XBI','URA','EEM','XLI','XME','GOLD','PSEI'],
+  'Deflation_High Beta':['XLE','DXY','XME','USO','URA','NI225','XLB','XLI'],
+  'Deflation_Real Economy (Cyclicals)':['DXY','XLU'],
+  'Deflation_Defensives':['XLE','USO','NI225','DBA','GOLD','XLC','XLI','XLK']
+};
+
+function updateHighEdge(narrative, longBias){
+  const key=narrative+'_'+longBias;
+  const el=document.getElementById('high-edge-val');
+  if(!el) return;
+  el.textContent=(HIGH_EDGE[key]||[]).join(', ')||'—';
+}
+
 function applyRegimeData(d){
   const badge=document.getElementById('regime-badge');
   if(!badge) return;
@@ -1390,7 +1484,15 @@ function applyRegimeData(d){
   const db=document.getElementById('div-badge');
   if(db){db.style.display=d.regime_div!=='none'?'':'none';db.textContent=d.regime_div==='bearish'?'⚠ DIVERGENCE ACTIVE':d.regime_div==='bullish'?'↑ BULLISH DIVERGENCE':'';}
   document.getElementById('regime-date').textContent='Source: Bloomberg  |  updated '+regimeAsOf;
+  if(d.market_narrative&&d.long_bias) updateHighEdge(d.market_narrative,d.long_bias);
 }
+
+// Initialize High Edge from hardcoded prototype values on page load
+(function(){
+  const mn=document.getElementById('mn-value');
+  const lb=document.getElementById('lb-value');
+  if(mn&&lb) updateHighEdge(mn.textContent.trim(),lb.textContent.trim());
+})();
 </script>
 </body>
 </html>
