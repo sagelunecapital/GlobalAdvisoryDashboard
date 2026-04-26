@@ -262,39 +262,14 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
     <!-- GCC Checklist (dropdown — toggled by Global Credit Creation box) -->
     <div class="drop-table" id="gcc-checklist">
-      <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin:10px 0 6px">Credit Creation Checklist</div>
-      <div class="gcc-grid">
-        <div class="gcc-item">
-          <span class="gcc-dot neg"></span>
-          <span>SOFR &gt; IORB &nbsp;(5.33% &gt; 5.15%)</span>
-          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-        </div>
-        <div class="gcc-item">
-          <span class="gcc-dot neg"></span>
-          <span>Net Liquidity WoW &minus;1.4%</span>
-          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-        </div>
-        <div class="gcc-item">
-          <span class="gcc-dot neg"></span>
-          <span>USDJPY WoW &minus;0.3% (falling)</span>
-          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-        </div>
-        <div class="gcc-item">
-          <span class="gcc-dot neg"></span>
-          <span>USDCNH WoW &plus;0.2% (rising)</span>
-          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-        </div>
-        <div class="gcc-item">
-          <span class="gcc-dot pos"></span>
-          <span>EURCHF WoW &plus;0.1% (rising)</span>
-          <span class="gcc-imp pos" style="margin-left:auto">Positive</span>
-        </div>
-        <div class="gcc-item">
-          <span class="gcc-dot neg"></span>
-          <span>DXY WoW &plus;0.7% (rising)</span>
-          <span class="gcc-imp neg" style="margin-left:auto">Negative</span>
-        </div>
-      </div>
+      <div class="drop-row"><span class="drop-cond">SOFR &gt; IORB</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+      <div class="drop-row"><span class="drop-cond">Net Liq WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+      <div class="drop-row"><span class="drop-cond">USDJPY WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+      <div class="drop-row"><span class="drop-cond">USDCNH WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+      <div class="drop-row"><span class="drop-cond">EURCHF 5D &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+      <div class="drop-row"><span class="drop-cond">DXY WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" style="color:var(--red)">Negative</span></div>
+      <div class="drop-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--outline-dim)"><span class="drop-cond">Majority Negative</span><span class="drop-eq">=</span><span class="drop-result-lbl">Negative Impulse</span></div>
+      <div class="drop-row"><span class="drop-cond">Majority Positive</span><span class="drop-eq">=</span><span class="drop-result-lbl">Positive Impulse</span></div>
     </div>
 
     <!-- Market Narrative + Long Bias (combined) -->

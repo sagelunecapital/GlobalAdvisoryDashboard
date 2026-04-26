@@ -321,8 +321,10 @@ def main():
     dfii30 = fetch_fred("DFII30")
 
     print("Fetching liquidity data from FRED...")
-    resbal = fetch_fred("WRESBAL")    # Reserve Balances (weekly, billions USD)
+    resbal = fetch_fred("WRESBAL")    # Reserve Balances (weekly, billions USD) — chart use only
     walcl  = fetch_fred("WALCL")      # Fed Total Assets (weekly, millions USD)
+    tga    = fetch_fred("WTREGEN")    # Treasury General Account (weekly, millions USD) — H.4.1
+    rrp    = fetch_fred("RRPONTSYD")  # Overnight Reverse Repo (daily, billions USD)
     trade  = fetch_fred("BOPGSTB")    # Trade Balance (monthly, millions USD)
 
     print("Fetching Bitcoin price from CoinGecko...")
@@ -365,40 +367,52 @@ def main():
         gdpnow_latest = 0.0
     print(f"  GDPNow {gdpnow_latest:.2f}%")
 
-    # T5YIE WoW % change
+    # T5YIE WoW change in basis points (sign = inflation direction; bp scale consistent with yields)
     t5yie_data = fetch_fred("T5YIE")
     t5yie_dates = sorted(t5yie_data)
     t5yie_now  = t5yie_data[t5yie_dates[-1]] if t5yie_dates else 0.0
     _cutoff    = str((date.fromisoformat(t5yie_dates[-1]) - timedelta(days=5)).isoformat()) if t5yie_dates else ""
     _prev_d    = [d for d in t5yie_dates if d <= _cutoff]
     t5yie_prev = t5yie_data[_prev_d[-1]] if _prev_d else t5yie_now
-    t5yie_wow  = (t5yie_now - t5yie_prev) / abs(t5yie_prev) * 100 if t5yie_prev else 0.0
+    t5yie_wow  = (t5yie_now - t5yie_prev) * 100  # basis points (e.g. +0.08pp → +8bp)
 
-    # DGS2 WoW % change (dgs2 already fetched above)
+    # MPS: absolute basis-point change (not % of yield) so 2Y/10Y ordering reflects curve shape
     dgs2_dates = sorted(dgs2)
     dgs2_now   = dgs2[dgs2_dates[-1]] if dgs2_dates else 0.0
     _cutoff2   = str((date.fromisoformat(dgs2_dates[-1]) - timedelta(days=5)).isoformat()) if dgs2_dates else ""
     _prev2     = [d for d in dgs2_dates if d <= _cutoff2]
     dgs2_prev  = dgs2[_prev2[-1]] if _prev2 else dgs2_now
-    us2y_wow   = (dgs2_now - dgs2_prev) / abs(dgs2_prev) * 100 if dgs2_prev else 0.0
+    us2y_wow   = (dgs2_now - dgs2_prev) * 100  # basis points
 
-    # DGS10 WoW % change (dgs10 now from yfinance)
     dgs10_dates = sorted(dgs10)
     dgs10_now   = dgs10[dgs10_dates[-1]] if dgs10_dates else 0.0
     _cutoff10   = str((date.fromisoformat(dgs10_dates[-1]) - timedelta(days=5)).isoformat()) if dgs10_dates else ""
     _prev10     = [d for d in dgs10_dates if d <= _cutoff10]
     dgs10_prev  = dgs10[_prev10[-1]] if _prev10 else dgs10_now
-    us10y_wow   = (dgs10_now - dgs10_prev) / abs(dgs10_prev) * 100 if dgs10_prev else 0.0
-    print(f"  T5YIE WoW {t5yie_wow:+.2f}%  US2Y WoW {us2y_wow:+.2f}%  US10Y WoW {us10y_wow:+.2f}%")
+    us10y_wow   = (dgs10_now - dgs10_prev) * 100  # basis points
+    print(f"  T5YIE WoW {t5yie_wow:+.1f}bp  US2Y WoW {us2y_wow:+.1f}bp  US10Y WoW {us10y_wow:+.1f}bp")
 
-    # Net Liquidity WoW % change (proxy: WRESBAL reserve balances, already fetched)
-    resbal_dates = sorted(resbal)
-    resbal_now  = resbal[resbal_dates[-1]] if resbal_dates else 0.0
-    _cutoffnl   = str((date.fromisoformat(resbal_dates[-1]) - timedelta(days=8)).isoformat()) if resbal_dates else ""
-    _prevnl     = [d for d in resbal_dates if d <= _cutoffnl]
-    resbal_prev = resbal[_prevnl[-1]] if _prevnl else resbal_now
-    net_liq_wow = (resbal_now - resbal_prev) / abs(resbal_prev) * 100 if resbal_prev else 0.0
-    print(f"  Net Liq WoW {net_liq_wow:+.2f}%")
+    # Net Liquidity WoW % change — proper formula: Fed Assets - TGA - RRP (all billions USD)
+    def _latest(d): return d[sorted(d)[-1]] if d else 0.0
+    def _prev_val(d, days=8):
+        dates = sorted(d)
+        cutoff = str((date.fromisoformat(dates[-1]) - timedelta(days=days)).isoformat()) if dates else ""
+        prev = [x for x in dates if x <= cutoff]
+        return d[prev[-1]] if prev else _latest(d)
+
+    walcl_now_b  = _latest(walcl) / 1000          # millions → billions
+    tga_now_b    = _latest(tga)   / 1000          # millions → billions
+    rrp_now_b    = _latest(rrp)                   # already billions
+    net_liq_now  = walcl_now_b - tga_now_b - rrp_now_b
+
+    walcl_prev_b = _prev_val(walcl) / 1000
+    tga_prev_b   = _prev_val(tga)   / 1000
+    rrp_prev_b   = _prev_val(rrp)
+    net_liq_prev = walcl_prev_b - tga_prev_b - rrp_prev_b
+
+    net_liq_wow  = (net_liq_now - net_liq_prev) / abs(net_liq_prev) * 100 if net_liq_prev else 0.0
+    print(f"  Net Liq {net_liq_now:.0f}B  WoW {net_liq_wow:+.2f}%  "
+          f"(WALCL {walcl_now_b:.0f}B - TGA {tga_now_b:.0f}B - RRP {rrp_now_b:.0f}B)")
 
     # FX 5-day % change from yfinance
     print("Fetching regime FX (yfinance)...")
