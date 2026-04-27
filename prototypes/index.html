@@ -492,13 +492,15 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 <!-- ═══════════════════════════ BREADTH TAB ═══════════════════════════ -->
 <div id="main-breadth" class="main-panel">
   <div class="tableau-wrap">
-    <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
-    <tableau-viz id="tableauViz"
-      src="https://public.tableau.com/views/Factors_17748612623900/RS"
-      device="desktop"
-      toolbar="yes"
-      style="width:1488px;height:800px;display:block;">
-    </tableau-viz>
+    <iframe
+      src="https://public.tableau.com/views/Factors_17748612623900/RS?:showVizHome=no&:embed=yes&:toolbar=yes"
+      width="1488"
+      height="800"
+      frameborder="0"
+      scrolling="no"
+      allowfullscreen
+      style="display:block;">
+    </iframe>
   </div>
   <div class="card" style="margin-top:16px">
     <div class="ta-l">Breadth Notes</div>
