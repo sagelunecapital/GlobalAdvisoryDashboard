@@ -36,9 +36,9 @@
     {
       "name": "Electrification",
       "thesis": "“On January 20, 2025, I issued Executive Order 14156 (Declaring a National Energy Emergency), under the National Emergencies Act. That order found that America’s inadequate energy production, transportation, and infrastructure constitute an unusual and extraordinary threat to the Nation’s economy, national security, and foreign policy [...]\n\nThe Nation’s capacity to design, produce, and deploy large-scale grid infrastructure, including transformers, high-voltage transmission components, advanced conductors, power electronics, substations, and grid-supporting manufacturing equipment, is dangerously limited.”",
-      "tickers": "Grid - 6501, ENR, GEV, SU, 6503, ABBN\nTransmission Lines - PRY, NEX, 5802\nOff-Grid - BE, FCEL\nRaw Materials - CPER/COPX, NUE/STLD/TS/RS, AA/CENX/KALU",
+      "tickers": "Grid - 6501, ENR, GEV, SU, 6503, ABBN\nTransmission Lines - PRY, NEX, 5802\nOff-Grid - BE, FCEL\nPower Generation - \nRaw Materials - CPER/COPX, NUE/STLD/TS/RS, AA/CENX/KALU",
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-27T11:14:49.605Z"
+  "saved_at": "2026-04-27T11:15:06.496Z"
 }
