@@ -125,6 +125,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .rcrit{background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:10px 12px}
 .rcrit-label{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
 .rcrit-value{font-size:13px;font-weight:600}
+.rcrit-sub{font-size:10px;color:var(--text-muted);margin-top:3px;line-height:1.3}
 .rcrit-value.pos{color:var(--green)}.rcrit-value.neg{color:var(--red)}.rcrit-value.amb{color:var(--amber)}
 .gcc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:8px 0}
 @media(max-width:900px){.gcc-grid{grid-template-columns:repeat(2,1fr)}}
@@ -541,6 +542,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
           <div class="rcrit">
             <div class="rcrit-label">NCFD</div>
             <div class="rcrit-value" id="ind-ncfd">—</div>
+            <div class="rcrit-sub" id="ind-ncfd-sub"></div>
           </div>
           <div class="rcrit">
             <div class="rcrit-label">NHNL</div>
@@ -1621,6 +1623,10 @@ function applyRegimeData(d){
   document.getElementById('ind-12ema').textContent=fmt(d.ema12);
   document.getElementById('ind-25ema').textContent=fmt(d.ema25);
   document.getElementById('ind-mmth').textContent=d.mmth.toFixed(1)+'%';
+  if(d.ncfd!=null){
+    document.getElementById('ind-ncfd').textContent=d.ncfd.toFixed(1)+'%';
+    document.getElementById('ind-ncfd-sub').textContent=d.ncfd<=25?'Below Oversold Threshold of 25':'Above Oversold Threshold of 25';
+  }
   document.getElementById('regime-cond').textContent=d.regime_cond;
   const db=document.getElementById('div-badge');
   if(db){db.style.display=d.regime_div!=='none'?'':'none';db.textContent=d.regime_div==='bearish'?'⚠ DIVERGENCE ACTIVE':d.regime_div==='bullish'?'↑ BULLISH DIVERGENCE':'';}

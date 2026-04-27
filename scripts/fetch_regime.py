@@ -28,7 +28,8 @@ import yfinance as yf
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, "..", "prototypes", "regime.json")
 
-BC_URL     = "https://www.barchart.com/stocks/quotes/$MMTH/overview"
+BC_URL_MMTH = "https://www.barchart.com/stocks/quotes/$MMTH/overview"
+BC_URL_NCFD = "https://www.barchart.com/stocks/quotes/$NCFD/overview"
 BC_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -56,7 +57,7 @@ def fetch_spx():
 
 
 def fetch_mmth():
-    r = requests.get(BC_URL, headers=BC_HEADERS, timeout=30)
+    r = requests.get(BC_URL_MMTH, headers=BC_HEADERS, timeout=30)
     r.raise_for_status()
     m = re.search(r'"lastPrice"\s*:\s*"([0-9]+(?:\.[0-9]+)?)"', r.text)
     if not m:
@@ -64,6 +65,17 @@ def fetch_mmth():
     mmth = float(m.group(1))
     print(f"  MMTH: {mmth:.2f}", flush=True)
     return round(mmth, 2)
+
+
+def fetch_ncfd():
+    r = requests.get(BC_URL_NCFD, headers=BC_HEADERS, timeout=30)
+    r.raise_for_status()
+    m = re.search(r'"lastPrice"\s*:\s*"([0-9]+(?:\.[0-9]+)?)"', r.text)
+    if not m:
+        raise ValueError("Could not find lastPrice for $NCFD in Barchart HTML")
+    ncfd = float(m.group(1))
+    print(f"  NCFD: {ncfd:.2f}", flush=True)
+    return round(ncfd, 2)
 
 
 def classify(spx, ema12, mmth):
@@ -96,6 +108,9 @@ def main():
     print("Fetching MMTH via Barchart...", flush=True)
     mmth = fetch_mmth()
 
+    print("Fetching NCFD via Barchart...", flush=True)
+    ncfd = fetch_ncfd()
+
     regime_class, regime_div, regime_cond = classify(spx, ema12, mmth)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -117,6 +132,7 @@ def main():
         "ema12":        round(ema12, 2),
         "ema25":        round(ema25, 2),
         "mmth":         round(mmth, 2),
+        "ncfd":         round(ncfd, 2),
         "regime_class": regime_class,
         "regime_div":   regime_div,
         "regime_since": regime_since,
