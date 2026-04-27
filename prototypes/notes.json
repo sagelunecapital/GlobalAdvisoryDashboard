@@ -36,9 +36,9 @@
     {
       "name": "Electrification",
       "thesis": "",
-      "tickers": "Grid - GEV, ETN, PWR, HUBB\n",
+      "tickers": "Grid - GEV, ETN, PWR, HUBB\nBattery - ",
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-27T10:54:29.344Z"
+  "saved_at": "2026-04-27T10:54:32.521Z"
 }
