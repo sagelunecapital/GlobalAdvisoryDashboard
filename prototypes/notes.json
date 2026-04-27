@@ -36,9 +36,9 @@
     {
       "name": "Electrification",
       "thesis": "https://gemini.google.com/share/743422485fa2",
-      "tickers": "Transformers/Circuit Breakers - 6501, ENR, GEV, SU, 6503\nTransmission Lines - PRY, NEX, 5802\n\nGrid - GEV, ETN, PWR, HUBB, NEE\nBattery - BE\nRaw Materials - CPER/COPX, NUE/STLD/TS/RS, AA/CENX/KALU",
+      "tickers": "Transformers/Circuit Breakers - 6501, ENR, GEV, SU, 6503, ABB\nTransmission Lines - PRY, NEX, 5802\n\nGrid - GEV, ETN, PWR, HUBB, NEE\nBattery - BE\nRaw Materials - CPER/COPX, NUE/STLD/TS/RS, AA/CENX/KALU",
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-27T11:09:19.547Z"
+  "saved_at": "2026-04-27T11:09:24.317Z"
 }
