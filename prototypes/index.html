@@ -99,8 +99,10 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .yield-no-data{display:none;height:350px;align-items:center;justify-content:center;font-size:12px;color:var(--text-muted);background:var(--surface-low);border-radius:12px;border:1px dashed var(--outline-dim);letter-spacing:0.1px}
 
 /* ── Regime ── */
-.regime-grid{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:start}
-.rbadge-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.regime-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.regime-indicators{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.nhnl-select{width:100%;background:transparent;border:none;color:var(--text);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;outline:none;-webkit-appearance:none;padding:0;margin-top:4px}
+.nhnl-select option{background:#1c2026}
 .rbadge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600}
 .rbadge.yellow{background:rgba(227,169,70,0.12);border:1px solid var(--amber);color:var(--amber)}
 .rbadge.green{background:rgba(63,185,80,0.12);border:1px solid var(--green);color:var(--green)}
@@ -511,23 +513,44 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <div>
       <div class="section-heading">Market Regime</div>
       <div class="card">
-        <div class="regime-grid">
-          <div class="rbadge-wrap">
-            <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
-            <div class="rlabel" id="regime-label">Bearish Divergence<br>Since 15 Apr 2026</div>
+        <div class="regime-top">
+          <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
+          <div class="cond-box" style="flex:1;margin-top:0">
+            <div class="cond-l">Active Condition</div>
+            <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
+            <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
           </div>
-          <div>
-            <div class="inds">
-              <div class="ind"><div class="ind-l">SPX Price</div><div class="ind-v" id="ind-spx-price">5,420</div></div>
-              <div class="ind"><div class="ind-l">12-Day EMA</div><div class="ind-v" id="ind-12ema">5,380</div></div>
-              <div class="ind"><div class="ind-l">25-Day EMA</div><div class="ind-v" id="ind-25ema">5,290</div></div>
-              <div class="ind"><div class="ind-l">MMTH</div><div class="ind-v" id="ind-mmth">52.3%</div></div>
-            </div>
-            <div class="cond-box">
-              <div class="cond-l">Active Condition</div>
-              <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
-              <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
-            </div>
+        </div>
+        <div class="regime-indicators">
+          <div class="rcrit">
+            <div class="rcrit-label">SPX Price</div>
+            <div class="rcrit-value" id="ind-spx-price">7,168</div>
+          </div>
+          <div class="rcrit">
+            <div class="rcrit-label">12-Day EMA</div>
+            <div class="rcrit-value" id="ind-12ema">7,034</div>
+          </div>
+          <div class="rcrit">
+            <div class="rcrit-label">25-Day EMA</div>
+            <div class="rcrit-value" id="ind-25ema">6,920</div>
+          </div>
+          <div class="rcrit">
+            <div class="rcrit-label">MMTH</div>
+            <div class="rcrit-value" id="ind-mmth">55.9%</div>
+          </div>
+          <div class="rcrit">
+            <div class="rcrit-label">NCFD</div>
+            <div class="rcrit-value" id="ind-ncfd">—</div>
+          </div>
+          <div class="rcrit">
+            <div class="rcrit-label">NHNL</div>
+            <select class="nhnl-select" id="nhnl-select" onchange="persistNotes()">
+              <option value="">Select...</option>
+              <option value="Green">Green</option>
+              <option value="Major Flush">Major Flush</option>
+              <option value="Minor Flush">Minor Flush</option>
+              <option value="Neutral">Neutral</option>
+            </select>
           </div>
         </div>
         <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
@@ -658,13 +681,15 @@ function persistNotes(){
     const collapsed=el.classList.contains('collapsed');
     sectors.push({name,thesis:tas[0].value,tickers:tas[1].value,collapsed});
   });
+  const nhnl=document.getElementById('nhnl-select')?.value||'';
   const saved_at=new Date().toISOString();
   localStorage.setItem('gaai-tactics',tactics);
   localStorage.setItem('gaai-breadth',breadth);
+  localStorage.setItem('gaai-nhnl',nhnl);
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
   localStorage.setItem('gaai-saved-at',saved_at);
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,sectors,saved_at}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,nhnl,sectors,saved_at}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1373,6 +1398,10 @@ function _applyNotes(notes){
     const bn=document.getElementById('breadth-notes');
     if(bn){bn.value=notes.breadth;autoResize(bn);}
   }
+  if(notes.nhnl!==undefined){
+    const sel=document.getElementById('nhnl-select');
+    if(sel) sel.value=notes.nhnl;
+  }
   const list=document.getElementById('sector-list');
   if(!list||list.children.length>0) return;
   if(notes.sectors&&notes.sectors.length){
@@ -1395,9 +1424,10 @@ window.addEventListener('DOMContentLoaded',()=>{
       if(localAt>serverAt||(hasLocalNotes&&!serverAt)){
         const t=localStorage.getItem('gaai-tactics')||'';
         const b=localStorage.getItem('gaai-breadth')||'';
+        const n=localStorage.getItem('gaai-nhnl')||'';
         const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-        _applyNotes({tactics:t,breadth:b,sectors:s||[]});
-        _pushNotes({tactics:t,breadth:b,sectors:s||[],saved_at:localAt||new Date().toISOString()});
+        _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
+        _pushNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],saved_at:localAt||new Date().toISOString()});
       } else {
         _applyNotes(serverNotes);
       }
@@ -1405,8 +1435,9 @@ window.addEventListener('DOMContentLoaded',()=>{
     .catch(()=>{
       const t=localStorage.getItem('gaai-tactics')||'';
       const b=localStorage.getItem('gaai-breadth')||'';
+      const n=localStorage.getItem('gaai-nhnl')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      _applyNotes({tactics:t,breadth:b,sectors:s||[]});
+      _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
@@ -1583,7 +1614,8 @@ function applyRegimeData(d){
   badge.className='rbadge '+d.regime_class;
   badge.innerHTML='<span class="rdot"></span>'+d.regime_class.toUpperCase();
   const divTxt=d.regime_div==='bearish'?'Bearish Divergence':d.regime_div==='bullish'?'Bullish Divergence':'Aligned';
-  document.getElementById('regime-label').innerHTML=divTxt+'<br>Since '+d.regime_since;
+  const lbl=document.getElementById('regime-label');
+  if(lbl) lbl.innerHTML=divTxt+'<br>Since '+d.regime_since;
   const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('ind-spx-price').textContent=fmt(d.spx);
   document.getElementById('ind-12ema').textContent=fmt(d.ema12);
