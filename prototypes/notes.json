@@ -42,9 +42,9 @@
     {
       "name": "Chemicals",
       "thesis": "Can't build power semis - especially those using advanced materials like Silicon Carbide (SiC) or Gallium Nitride (GaN) - without specialized electronic chemicals (photoresists, precursors, and high-purity gasses).",
-      "tickers": "AI, BAS, GIVN, HEN3, SY1, AKZA, YAR, BNR, IMCD, EMSN\n\nPhotoresists: 4186, 4063, 4901, DD, 4005, MRK:GR, 005290:KQ, 1717:TW, 300655:SZ, 300346:SZ\n\nPrecursors: ENTG, MRK:GR, AI:FP, 4022:TYO, 357780:KQ, 4004:TYO, 014680:KS, 4369:TYO, 092130:KQ, 104830:KQ\n\nHigh-Purity Gases: LIN:NYSE, AI:FP, APD:NYSE, 4188:TYO, 8088:TYO, 4004:TYO, 034730:KS, 104830:KQ, 4183:TYO, 4044:TYO",
+      "tickers": "AI, BAS, GIVN, HEN3, SY1, AKZA, YAR, BNR, IMCD, EMSN\n\nPhotoresists: 4186, 4063, 4901, DD, 4005, MRK:GR, 005290:KQ, 1717:TW, 300655:SZ, 300346:SZ\n\nPrecursors: ENTG, MRK:GR, AI:FP, 4022, 357780:KQ, 4004, 014680:KS, 4369, 092130:KQ, 104830:KQ\n\nHigh-Purity Gases: LIN:NYSE, AI:FP, APD:NYSE, 4188:TYO, 8088:TYO, 4004:TYO, 034730:KS, 104830:KQ, 4183:TYO, 4044:TYO",
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-27T13:17:11.214Z"
+  "saved_at": "2026-04-27T13:17:46.609Z"
 }
