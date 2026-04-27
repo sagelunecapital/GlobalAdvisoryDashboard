@@ -31,13 +31,13 @@
       "name": "Electrification",
       "thesis": "“On January 20, 2025, I issued Executive Order 14156 (Declaring a National Energy Emergency), under the National Emergencies Act. That order found that America’s inadequate energy production, transportation, and infrastructure constitute an unusual and extraordinary threat to the Nation’s economy, national security, and foreign policy [...]\n\nThe Nation’s capacity to design, produce, and deploy large-scale grid infrastructure, including transformers, high-voltage transmission components, advanced conductors, power electronics, substations, and grid-supporting manufacturing equipment, is dangerously limited.”\n\nInvoking it for the electrical grid signals two things. First, the administration views grid capacity as a national security issue, not just an economic one. AI data center load growth is now categorized alongside semiconductor capacity and critical mineral access. Second, traditional procurement timelines are being abandoned. DPA invocation lets federal agencies bypass normal contracting rules to accelerate construction.\n\nThe obvious beneficiaries cluster in three categories. Transformer manufacturers, the US faces a 2-3 year backlog on large power transformers. Grid construction firms. Power generation, accelerated approvals for new gas plants and nuclear restarts.\n\nThe less obvious beneficiaries are the second-order plays. Specialty steel for transformer cores. Specialty copper for transmission. Industrial control systems for substation automation. They become grid plays when DPA accelerates the entire stack simultaneously.\n\nhttps://www.whitehouse.gov/presidential-actions/2026/04/presidential-determination-pursuant-to-section-303-of-the-defense-production-act-of-1950-as-amended-on-grid-infrastructure-equipment-and-supply-chain-capacity/\nhttps://x.com/realarmaansidhu/status/2048661000631558299?s=20",
       "tickers": "Grid - 6501, ENR, GEV, SU, 6503, ABBN\nTransmission Lines - PRY, NEX, 5802\nGrid Construction/Engineering - PWR, MTZ, MYRG\nOff-Grid - BE, FCEL\nPower Generation - XLU, CEG, VST, TLN, NEE\nSolar - ENPH, SEDG\nSpecialty Materials - CRS, HWM\nRaw Materials - CPER/COPX, NUE/STLD/TS/RS/CLF, AA/CENX/KALU",
-      "collapsed": false
+      "collapsed": true
     },
     {
       "name": "Chemicals",
       "thesis": "Can't build semis - especially those using advanced materials like Silicon Carbide (SiC) or Gallium Nitride (GaN) - without specialized electronic chemicals (photoresists, precursors, and high-purity gasses).",
       "tickers": "AI, BAS, GIVN, HEN3, SY1, AKZA, YAR, BNR, IMCD, EMSN\n\nPhotoresists: 4186, 4063, 4901, DD, 4005, MRK:GR, 005290:KQ, 1717:TW, 300655:SZ, 300346:SZ\n\nPrecursors: ENTG, MRK:GR, AI:FP, 4022, 357780:KQ, 4004, 014680:KS, 4369, 092130:KQ, 104830:KQ\n\nHigh-Purity Gases: LIN, AI:FP, APD, 4188, 8088, 4004, 034730:KS, 104830:KQ, 4183",
-      "collapsed": false
+      "collapsed": true
     },
     {
       "name": "Physical AI",
@@ -46,5 +46,5 @@
       "collapsed": true
     }
   ],
-  "saved_at": "2026-04-27T23:37:30.245Z"
+  "saved_at": "2026-04-27T23:37:36.226Z"
 }
