@@ -1,0 +1,17 @@
+{
+  "tactics": "Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.",
+  "sectors": [
+    {
+      "name": "Energy",
+      "thesis": "Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.",
+      "tickers": "XLE, CVX, XOM, SLB",
+      "collapsed": false
+    },
+    {
+      "name": "Technology",
+      "thesis": "Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.",
+      "tickers": "QQQ, MSFT, GOOGL  —  Underweight: ARKK",
+      "collapsed": false
+    }
+  ]
+}

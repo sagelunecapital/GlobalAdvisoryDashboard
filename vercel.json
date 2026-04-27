@@ -2,5 +2,10 @@
   "framework": null,
   "outputDirectory": "prototypes",
   "buildCommand": "",
-  "installCommand": ""
+  "installCommand": "",
+  "functions": {
+    "api/*.py": {
+      "runtime": "python3.11"
+    }
+  }
 }

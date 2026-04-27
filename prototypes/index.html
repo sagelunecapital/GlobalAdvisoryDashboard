@@ -178,6 +178,10 @@ textarea.tact-edit.shown{display:block}
 .ta-l{font-size:11px;color:var(--text-muted);margin:8px 0 4px;font-weight:500;letter-spacing:0.1px}
 textarea.sta{width:100%;font-size:12px;color:var(--text);background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:8px;padding:8px;font-family:inherit;line-height:1.6;min-height:40px;display:block}
 textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px rgba(0,112,204,0.25)}
+.notes-status{font-size:11px;margin-left:10px;transition:opacity 0.3s}
+.notes-status.saving{color:var(--text-muted)}
+.notes-status.ok{color:#3fb950}
+.notes-status.err{color:#f78166}
 
 /* ── Breadth ── */
 .tableau-wrap{width:100%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:19px;overflow:auto;position:relative}
@@ -531,6 +535,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="exec-row" style="margin-bottom:12px">
         <div class="section-heading" style="margin:0">General Tactics</div>
         <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
+        <span class="notes-status" id="notes-status"></span>
       </div>
       <div class="card">
         <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
@@ -545,7 +550,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <button class="btn pri" onclick="promptAddSector()">+ New Sector</button>
   </div>
   <div class="card">
-    <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Changes are saved in this browser. To share across devices, export manually.</p>
+    <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Changes sync across all devices (~30s after saving).</p>
     <div class="sector-list" id="sector-list"></div>
   </div>
 
@@ -616,7 +621,7 @@ function toggleTactics() {
   const d=document.getElementById('tact-display'), e=document.getElementById('tact-edit'), b=document.getElementById('tact-btn');
   if (e.classList.contains('shown')) {
     d.textContent=e.value; d.classList.remove('hidden'); e.classList.remove('shown'); b.textContent='Edit';
-    localStorage.setItem('gaai-tactics', e.value);
+    persistNotes();
   } else {
     e.value=d.textContent; d.classList.add('hidden'); e.classList.add('shown'); b.textContent='Save'; e.focus();
     autoResize(e);
@@ -636,8 +641,32 @@ function saveSectors() {
     const collapsed=el.classList.contains('collapsed');
     sectors.push({name,thesis:tas[0].value,tickers:tas[1].value,collapsed});
   });
-  localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
+  persistNotes();
 }
+let _saveTimer=null;
+function persistNotes(){
+  const tactics=document.getElementById('tact-display').textContent;
+  const sectors=[];
+  document.querySelectorAll('.sector-item').forEach(el=>{
+    const name=el.querySelector('.sector-name').textContent;
+    const tas=el.querySelectorAll('textarea');
+    const collapsed=el.classList.contains('collapsed');
+    sectors.push({name,thesis:tas[0].value,tickers:tas[1].value,collapsed});
+  });
+  localStorage.setItem('gaai-tactics',tactics);
+  localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,sectors}),1500);
+}
+function _pushNotes(notes){
+  const el=document.getElementById('notes-status');
+  if(el){el.textContent='Saving…';el.className='notes-status saving';}
+  fetch('/api/save-notes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(notes)})
+    .then(r=>r.json())
+    .then(()=>{if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},3000);}})
+    .catch(()=>{if(el){el.textContent='Save failed — kept locally';el.className='notes-status err';}});
+}
+
 function promptAddSector() {
   const name = prompt('Sector name:');
   if (!name || !name.trim()) return;
@@ -1327,13 +1356,31 @@ function renderYieldCharts(){
 }
 
 // ══ Render all charts ═══════════════════════════════════════════
-window.addEventListener('DOMContentLoaded',()=>{
-  // Restore localStorage: tactics
-  const savedTactics=localStorage.getItem('gaai-tactics');
-  if(savedTactics){
-    document.getElementById('tact-display').textContent=savedTactics;
-    document.getElementById('tact-edit').value=savedTactics;
+function _applyNotes(notes){
+  if(notes.tactics){
+    document.getElementById('tact-display').textContent=notes.tactics;
+    document.getElementById('tact-edit').value=notes.tactics;
   }
+  const list=document.getElementById('sector-list');
+  if(!list||list.children.length>0) return;
+  if(notes.sectors&&notes.sectors.length){
+    notes.sectors.forEach(s=>addSector(s.name,s.thesis||'',s.tickers||'',s.collapsed||false));
+  } else {
+    addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
+    addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
+  }
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  // Load notes — server first (notes.json), localStorage fallback
+  fetch('notes.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(notes=>_applyNotes(notes))
+    .catch(()=>{
+      const t=localStorage.getItem('gaai-tactics');
+      const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
+      _applyNotes({tactics:t||'',sectors:s||[]});
+    });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
   tactEdit.addEventListener('input',()=>autoResize(tactEdit));
@@ -1381,15 +1428,6 @@ window.addEventListener('DOMContentLoaded',()=>{
     {values:yoyTR,color:'#e3b341',label:'Trade Balance',  axis:'lhs2'},
     {values:yoyBT,color:'#f78166',label:'Bitcoin',        axis:'rhs',cap:[-200,200]},
   ],350);
-
-  // Restore or pre-populate sectors
-  const savedSectors=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-  if(savedSectors&&savedSectors.length){
-    savedSectors.forEach(s=>addSector(s.name,s.thesis,s.tickers,s.collapsed||false));
-  } else {
-    addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
-    addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
-  }
 
   // Macro Regime — apply live data injected by update_dashboard.py
   if(typeof macroRegime!=='undefined') applyMacroRegime(macroRegime);
