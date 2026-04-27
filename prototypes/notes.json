@@ -31,7 +31,7 @@
       "name": "World Cup",
       "thesis": "Soccer world cup is coming up soon, is it a big enough of an event for the fans to spend past the pain coming from today’s geopolitical events?",
       "tickers": "Hotels - MAR, HLT, WH, CHH, ABNB\nBooking - BKNG, EXPE, TRIP\nRestaurants - YUM, QSR, CMG, SBUX, DPZ",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Electrification",
@@ -46,5 +46,5 @@
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-27T13:24:02.125Z"
+  "saved_at": "2026-04-27T23:09:02.612Z"
 }
