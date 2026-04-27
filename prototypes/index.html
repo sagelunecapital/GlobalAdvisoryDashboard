@@ -497,6 +497,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       style="width:1600px;height:800px;display:block;">
     </tableau-viz>
   </div>
+  <div class="card" style="margin-top:16px">
+    <div class="ta-l">Breadth Notes</div>
+    <textarea class="sta" id="breadth-notes" rows="3" placeholder="Add notes on breadth and relative strength..."></textarea>
+  </div>
 </div><!-- /breadth panel -->
 
 <!-- ═══════════════════════════ EXECUTION TAB ═══════════════════════════ -->
@@ -646,6 +650,7 @@ function saveSectors() {
 let _saveTimer=null;
 function persistNotes(){
   const tactics=document.getElementById('tact-display').textContent;
+  const breadth=document.getElementById('breadth-notes')?.value||'';
   const sectors=[];
   document.querySelectorAll('.sector-item').forEach(el=>{
     const name=el.querySelector('.sector-name').textContent;
@@ -654,9 +659,10 @@ function persistNotes(){
     sectors.push({name,thesis:tas[0].value,tickers:tas[1].value,collapsed});
   });
   localStorage.setItem('gaai-tactics',tactics);
+  localStorage.setItem('gaai-breadth',breadth);
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({tactics,sectors}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,sectors}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1361,6 +1367,10 @@ function _applyNotes(notes){
     document.getElementById('tact-display').textContent=notes.tactics;
     document.getElementById('tact-edit').value=notes.tactics;
   }
+  if(notes.breadth!==undefined){
+    const bn=document.getElementById('breadth-notes');
+    if(bn){bn.value=notes.breadth;autoResize(bn);}
+  }
   const list=document.getElementById('sector-list');
   if(!list||list.children.length>0) return;
   if(notes.sectors&&notes.sectors.length){
@@ -1378,12 +1388,16 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(notes=>_applyNotes(notes))
     .catch(()=>{
       const t=localStorage.getItem('gaai-tactics');
+      const b=localStorage.getItem('gaai-breadth')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      _applyNotes({tactics:t||'',sectors:s||[]});
+      _applyNotes({tactics:t||'',breadth:b,sectors:s||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
   tactEdit.addEventListener('input',()=>autoResize(tactEdit));
+  // Breadth notes
+  const breadthEl=document.getElementById('breadth-notes');
+  if(breadthEl) breadthEl.addEventListener('input',()=>{autoResize(breadthEl);persistNotes();});
 
   // Inflation
   Object.entries(inflSets).forEach(([key,data])=>{
