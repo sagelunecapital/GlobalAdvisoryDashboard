@@ -25,7 +25,7 @@
       "name": "Consumer AI Hardware",
       "thesis": "Hyperscalers front-loaded AI infra, device layer harvests efficiency gains as more common people adopts the use of AI tools in their day to day tasks.",
       "tickers": "CPUs - ARM, INTC, AMD\nElectronics - AAPL, DELL, 992, 2357, 2353",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "World Cup",
@@ -43,8 +43,8 @@
       "name": "Chemicals",
       "thesis": "Can't build semis - especially those using advanced materials like Silicon Carbide (SiC) or Gallium Nitride (GaN) - without specialized electronic chemicals (photoresists, precursors, and high-purity gasses).",
       "tickers": "AI, BAS, GIVN, HEN3, SY1, AKZA, YAR, BNR, IMCD, EMSN\n\nPhotoresists: 4186, 4063, 4901, DD, 4005, MRK:GR, 005290:KQ, 1717:TW, 300655:SZ, 300346:SZ\n\nPrecursors: ENTG, MRK:GR, AI:FP, 4022, 357780:KQ, 4004, 014680:KS, 4369, 092130:KQ, 104830:KQ\n\nHigh-Purity Gases: LIN, AI:FP, APD, 4188, 8088, 4004, 034730:KS, 104830:KQ, 4183",
-      "collapsed": false
+      "collapsed": true
     }
   ],
-  "saved_at": "2026-04-27T23:09:05.548Z"
+  "saved_at": "2026-04-27T23:29:15.106Z"
 }
