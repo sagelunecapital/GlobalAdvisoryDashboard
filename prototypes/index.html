@@ -658,11 +658,13 @@ function persistNotes(){
     const collapsed=el.classList.contains('collapsed');
     sectors.push({name,thesis:tas[0].value,tickers:tas[1].value,collapsed});
   });
+  const saved_at=new Date().toISOString();
   localStorage.setItem('gaai-tactics',tactics);
   localStorage.setItem('gaai-breadth',breadth);
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
+  localStorage.setItem('gaai-saved-at',saved_at);
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,sectors}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,sectors,saved_at}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1385,12 +1387,26 @@ window.addEventListener('DOMContentLoaded',()=>{
   // Load notes — server first (notes.json), localStorage fallback
   fetch('notes.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject())
-    .then(notes=>_applyNotes(notes))
+    .then(serverNotes=>{
+      const localAt=localStorage.getItem('gaai-saved-at')||'';
+      const serverAt=serverNotes.saved_at||'';
+      const hasLocalNotes=!!(localStorage.getItem('gaai-tactics')||'').trim();
+      // Prefer localStorage if: it's newer, OR server has no timestamp but local has content
+      if(localAt>serverAt||(hasLocalNotes&&!serverAt)){
+        const t=localStorage.getItem('gaai-tactics')||'';
+        const b=localStorage.getItem('gaai-breadth')||'';
+        const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
+        _applyNotes({tactics:t,breadth:b,sectors:s||[]});
+        _pushNotes({tactics:t,breadth:b,sectors:s||[],saved_at:localAt||new Date().toISOString()});
+      } else {
+        _applyNotes(serverNotes);
+      }
+    })
     .catch(()=>{
-      const t=localStorage.getItem('gaai-tactics');
+      const t=localStorage.getItem('gaai-tactics')||'';
       const b=localStorage.getItem('gaai-breadth')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      _applyNotes({tactics:t||'',breadth:b,sectors:s||[]});
+      _applyNotes({tactics:t,breadth:b,sectors:s||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
