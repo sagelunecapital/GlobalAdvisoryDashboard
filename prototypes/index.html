@@ -515,7 +515,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <div class="section-heading">Market Regime</div>
       <div class="card">
         <div class="regime-top">
-          <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
+            <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
+            <div id="regime-label" style="font-size:10px;text-align:center;color:var(--text-muted);line-height:1.4">Bearish Divergence<br>Since 2026-04-15</div>
+          </div>
           <div class="cond-box" style="flex:1;margin-top:0">
             <div class="cond-l">Active Condition</div>
             <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
@@ -525,7 +528,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <div class="regime-indicators">
           <div class="rcrit">
             <div class="rcrit-label">SPX Price</div>
-            <div class="rcrit-value" id="ind-spx-price">7,168</div>
+            <div class="rcrit-value" id="ind-spx-price">7,165</div>
           </div>
           <div class="rcrit">
             <div class="rcrit-label">12-Day EMA</div>
