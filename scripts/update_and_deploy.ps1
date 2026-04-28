@@ -16,10 +16,17 @@ if (-not $?) {
     exit 1
 }
 
-$changes = git diff --name-only prototypes/index.html
+& $python (Join-Path $projectRoot "scripts\fetch_regime.py")
+if (-not $?) {
+    git checkout - --quiet
+    git stash pop --quiet
+    exit 1
+}
+
+$changes = git diff --name-only prototypes/index.html prototypes/regime.json
 if ($changes) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-    git add prototypes/index.html
+    git add prototypes/index.html prototypes/regime.json
     git commit -m "chore: update dashboard data $timestamp"
     git push origin main
 }
