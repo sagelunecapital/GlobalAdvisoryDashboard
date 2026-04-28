@@ -8,9 +8,10 @@ GAAI-framework-main/
 *.xlsx
 *.twbx
 
-# Delivery logs — runtime artefacts, not committed
+# Delivery logs and worktrees — runtime artefacts, not committed
 .gaai/project/contexts/backlog/.delivery-logs/
 .gaai/project/contexts/backlog/.delivery-daemon.log
+.gaai/worktrees/
 
 # OS
 .DS_Store
