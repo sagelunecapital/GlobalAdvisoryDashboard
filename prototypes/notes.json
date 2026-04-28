@@ -19,19 +19,19 @@
       "name": "Power",
       "thesis": "NVIDIA’s Blackwell generation spans a range of power levels depending on configuration. Air-cooled HGX B200 is rated at 1,000W. The liquid-cooled B200 used in GB200 is rated at 1,200W. If we use 0.8V as an illustrative core voltage, 1,200W translates to roughly 1,500A of current. Apply the same arithmetic to Vera Rubin at 2,300W, and the number rises to roughly 2,875A. Real systems split power across multiple rails and voltage domains, but the direction does not change. As voltage falls, current explodes.\n\nIn AI workloads, when large blocks of tensor compute switch on together, current can swing by hundreds of amps within microseconds. Once that surge meets a copper path only a few centimeters long, the board voltage begins to move immediately. If Vcore shifts by even a few tens of millivolts, timing margin starts to shrink. The result is throttling at best, and a stability problem at worst.\n\nhttps://nuttycld.substack.com/p/the-ai-power-crisis-part-2\nhttps://nuttycld.substack.com/p/the-ai-power-crisis-part-3",
       "tickers": "MPWR, 6723, ADI, TXN, NVTS, IFX, AOSL, WOLF, ON",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "World Cup",
       "thesis": "Soccer world cup is coming up soon, is it a big enough of an event for the fans to spend past the pain coming from today’s geopolitical events?",
       "tickers": "Hotels - MAR, HLT, WH, CHH, ABNB\nBooking - BKNG, EXPE, TRIP\nRestaurants - YUM, QSR, CMG, SBUX, DPZ",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Electrification",
       "thesis": "“On January 20, 2025, I issued Executive Order 14156 (Declaring a National Energy Emergency), under the National Emergencies Act. That order found that America’s inadequate energy production, transportation, and infrastructure constitute an unusual and extraordinary threat to the Nation’s economy, national security, and foreign policy [...]\n\nThe Nation’s capacity to design, produce, and deploy large-scale grid infrastructure, including transformers, high-voltage transmission components, advanced conductors, power electronics, substations, and grid-supporting manufacturing equipment, is dangerously limited.”\n\nInvoking it for the electrical grid signals two things. First, the administration views grid capacity as a national security issue, not just an economic one. AI data center load growth is now categorized alongside semiconductor capacity and critical mineral access. Second, traditional procurement timelines are being abandoned. DPA invocation lets federal agencies bypass normal contracting rules to accelerate construction.\n\nThe obvious beneficiaries cluster in three categories. Transformer manufacturers, the US faces a 2-3 year backlog on large power transformers. Grid construction firms. Power generation, accelerated approvals for new gas plants and nuclear restarts.\n\nThe less obvious beneficiaries are the second-order plays. Specialty steel for transformer cores. Specialty copper for transmission. Industrial control systems for substation automation. They become grid plays when DPA accelerates the entire stack simultaneously.\n\nhttps://www.whitehouse.gov/presidential-actions/2026/04/presidential-determination-pursuant-to-section-303-of-the-defense-production-act-of-1950-as-amended-on-grid-infrastructure-equipment-and-supply-chain-capacity/\nhttps://x.com/realarmaansidhu/status/2048661000631558299?s=20",
       "tickers": "Grid - 6501, ENR, GEV, SU, 6503, ABBN\nTransmission Lines - PRY, NEX, 5802\nGrid Construction/Engineering - PWR, MTZ, MYRG\nOff-Grid - BE, FCEL\nPower Generation - XLU, CEG, VST, TLN, NEE\nSolar - ENPH, SEDG\nSpecialty Materials - CRS, HWM\nRaw Materials - CPER/COPX, NUE/STLD/TS/RS/CLF, AA/CENX/KALU",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Chemicals",
@@ -46,5 +46,5 @@
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-28T02:43:12.180Z"
+  "saved_at": "2026-04-28T02:43:18.399Z"
 }
