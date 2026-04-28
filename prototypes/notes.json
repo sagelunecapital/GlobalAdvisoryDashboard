@@ -7,7 +7,7 @@
       "name": "Energy",
       "thesis": "At the moment, the global refinery outage is over ~5 million b/d, with ~3 million b/d concentrated in the Middle East. Asia and Europe are both reducing refinery throughput, but just because refineries throttle back doesn’t mean end-user demand is down. The subsequent reduction in refinery throughput will lead to faster product storage draws, raising petroleum product prices. This cycle will then feed itself back into higher refining margins and, thus, higher refinery throughput.\n\nThis cycle will rinse and repeat for a few more weeks: Elevated crude prices > compressed refining margins > lower refined products > lower product storage > higher refining margins > higher throughput > higher crude prices\n\nOn the physical market, you will see this game being played by traders who hold storage and refineries that don’t have storage. This, of course, will only last as long as there is something to draw down in onshore crude storage, but that time is running out soon.\n\nBy the first week of May, the only Asian countries with real excess in crude oil inventories will be Japan and China. Everyone else will have to scramble for barrels on the market, and if the Strait of Hormuz remains closed, that’s when you will see refineries pay any price they can to secure the barrels they need. Because the alternative is shutting down the refinery.  For Europe, the lack of crude will become apparent by the same timeframe. US crude exports will have averaged near ~5.5 million b/d by then. OECD crude oil inventories will have reached operational minimum with the remaining excess crude in storage residing in the US. For US, commercial crude storage will be below ~400 million bbls and approaching the operational minimum (370 to 380 million bbls) by the end of July. This includes an estimated SPR release total of 139 million bbls.\n\nAgain, by our rough estimate in the March 25 Breaking Point write-up, the cumulative storage lost due to the closure is already ~1 billion bbls. This increases to 1.2 billion bbls by the end of April, 1.59 billion bbls by the end of May, and 1.98 billion bbls by the end of June.\n\nChina holds the entire surplus in storage. As I’ve said, this is a national security concern, so China will continue to hoard crude and ban product exports. The product export ban has jacked up Asian refining margins, and sadly, that’s still not enough. Without those teapot refinery product exports, Asia will run low on products in 3 weeks.\n\nhttps://www.hfir.com/p/wctw-the-oil-market-breaking-pointhttps://www.hfir.com/p/oil-storage-math-the-draws-are-underway",
       "tickers": "XLE, CVX",
-      "collapsed": false
+      "collapsed": true
     },
     {
       "name": "Technology",
@@ -46,5 +46,5 @@
       "collapsed": true
     }
   ],
-  "saved_at": "2026-04-28T01:59:35.358Z"
+  "saved_at": "2026-04-28T01:59:38.540Z"
 }
