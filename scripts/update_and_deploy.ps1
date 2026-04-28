@@ -1,7 +1,7 @@
 $projectRoot = Split-Path $PSScriptRoot
 $python = "C:\Users\lance\AppData\Local\Programs\Python\Python313\python.exe"
 
-Set-Location $projectRoot
+Set-Location -LiteralPath $projectRoot
 
 # Stash any in-progress work on current branch, switch to main for data commit
 git stash push -m "pre-data-update stash" --quiet
