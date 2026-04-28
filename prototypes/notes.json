@@ -19,7 +19,7 @@
       "name": "Power",
       "thesis": "NVIDIA’s Blackwell generation spans a range of power levels depending on configuration. Air-cooled HGX B200 is rated at 1,000W. The liquid-cooled B200 used in GB200 is rated at 1,200W. If we use 0.8V as an illustrative core voltage, 1,200W translates to roughly 1,500A of current. Apply the same arithmetic to Vera Rubin at 2,300W, and the number rises to roughly 2,875A. Real systems split power across multiple rails and voltage domains, but the direction does not change. As voltage falls, current explodes.\n\nIn AI workloads, when large blocks of tensor compute switch on together, current can swing by hundreds of amps within microseconds. Once that surge meets a copper path only a few centimeters long, the board voltage begins to move immediately. If Vcore shifts by even a few tens of millivolts, timing margin starts to shrink. The result is throttling at best, and a stability problem at worst.\n\nhttps://nuttycld.substack.com/p/the-ai-power-crisis-part-2\nhttps://nuttycld.substack.com/p/the-ai-power-crisis-part-3",
       "tickers": "MPWR, 6723, ADI, TXN, NVTS, IFX, AOSL, WOLF, ON",
-      "collapsed": false
+      "collapsed": true
     },
     {
       "name": "World Cup",
@@ -46,5 +46,5 @@
       "collapsed": true
     }
   ],
-  "saved_at": "2026-04-28T06:26:10.068Z"
+  "saved_at": "2026-04-28T06:26:26.834Z"
 }
