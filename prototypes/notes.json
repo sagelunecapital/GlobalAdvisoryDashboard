@@ -13,7 +13,7 @@
       "name": "Technology",
       "thesis": "Heavily derated due to expectations of AI disruption but potential rerating this earnings season.",
       "tickers": "IGV, SNOW, CRM, CRWD, APP, SHOP",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Power",
@@ -46,5 +46,5 @@
       "collapsed": false
     }
   ],
-  "saved_at": "2026-04-30T03:22:47.284Z"
+  "saved_at": "2026-04-30T03:23:09.380Z"
 }
