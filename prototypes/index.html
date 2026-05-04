@@ -1671,7 +1671,8 @@ function renderSrGap(){
     const sig=g.rs_minus_ema!=null;
     const gc=g.gap>=0?'var(--green)':'var(--red)';
     const gs=(g.gap>=0?'+':'')+g.gap.toFixed(4);
-    html+=`<tr>
+    const tkTip=(g.tickers||[]).join(', ');
+    html+=`<tr title="${tkTip}">
       <td style="color:var(--text-muted)">${i+1}</td>
       <td class="sr-name">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}</td>
       <td>${g.rs.toFixed(4)}</td>
@@ -1690,7 +1691,8 @@ function renderSrRank(){
     .slice(0,30);
   let html='';
   groups.forEach((g,i)=>{
-    html+=`<tr>
+    const tkTip2=(g.tickers||[]).join(', ');
+    html+=`<tr title="${tkTip2}">
       <td style="color:var(--text-muted)">${i+1}</td>
       <td class="sr-name">${_srName(g.group_id)}</td>
       <td style="font-weight:600;color:var(--text)">${g[rk].toFixed(1)}</td>
@@ -1752,7 +1754,8 @@ function renderSrQuadrant(){
     const xval=g[srXAxis],yval=g[srYAxis];
     const col=xval>0&&yval>0?'#3fb950':xval<0&&yval>0?'#e05252':xval<0&&yval<0?'#e05252':'#e3a946';
     const nm=_srName(g.group_id).replace(/"/g,'&quot;');
-    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" style="cursor:pointer"/>`;
+    const tks=(g.tickers||[]).join(', ').replace(/"/g,'&quot;');
+    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" data-tickers="${tks}" style="cursor:pointer"/>`;
   });
   svg+=`</g></g></svg>`;
 
@@ -1762,7 +1765,8 @@ function renderSrQuadrant(){
   const tt=document.getElementById('sr-qtt');
   wrap.querySelectorAll('.sr-dot').forEach(c=>{
     c.addEventListener('mouseenter',()=>{
-      tt.innerHTML=`<b>${c.dataset.name}</b><br><span style="color:var(--text-muted)">${xLbl}: </span><b>${c.dataset.x}%</b><br><span style="color:var(--text-muted)">${yLbl}: </span><b>${c.dataset.y}%</b>`;
+      const tks=c.dataset.tickers?`<br><span style="color:var(--text-muted);font-size:11px">${c.dataset.tickers}</span>`:'';
+      tt.innerHTML=`<b>${c.dataset.name}</b>${tks}<br><span style="color:var(--text-muted)">${xLbl}: </span><b>${c.dataset.x}%</b>&nbsp;&nbsp;<span style="color:var(--text-muted)">${yLbl}: </span><b>${c.dataset.y}%</b>`;
       tt.style.display='block';
     });
     c.addEventListener('mousemove',e=>{
