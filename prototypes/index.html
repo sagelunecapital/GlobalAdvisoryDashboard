@@ -202,6 +202,18 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .btn.dan:hover{background:rgba(224,82,82,0.12);border-color:var(--red);transform:scale(1.05)}
 .data-date{font-size:11px;color:var(--text-muted);text-align:right;margin-top:10px;font-weight:400;font-style:italic}
 .chg-pos{color:var(--green)}.chg-neg{color:var(--red)}.chg-neu{color:var(--text-muted)}
+
+/* ── Sector Rotation modules ── */
+.sr-table{width:100%;border-collapse:collapse;font-size:12px}
+.sr-table th{color:var(--text-muted);font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap;position:sticky;top:0;background:var(--surface-card);z-index:1}
+.sr-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sr-table tr:hover td{background:rgba(255,255,255,0.03)}
+.sr-table td.sr-name{white-space:normal;max-width:220px;word-break:break-word}
+.sr-sig{color:var(--green);font-size:10px;vertical-align:middle}
+.sr-controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.sr-axis-label{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px}
+.sr-scroll{max-height:380px;overflow-y:auto;border-radius:8px}
+.sr-quadrant-wrap{position:relative}
 </style>
 </head>
 <body>
@@ -492,21 +504,99 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
 <!-- ═══════════════════════════ BREADTH TAB ═══════════════════════════ -->
 <div id="main-breadth" class="main-panel">
-  <div class="tableau-wrap">
-    <iframe
-      src="https://public.tableau.com/views/Factors_17748612623900/RS?:showVizHome=no&:embed=yes&:toolbar=yes&:device=desktop"
-      width="1488"
-      height="800"
-      frameborder="0"
-      scrolling="no"
-      allowfullscreen
-      style="display:block;margin:0 auto;">
-    </iframe>
+
+  <!-- ── Country toggle (shared across all modules) ── -->
+  <div class="card" style="margin-bottom:14px;padding:14px 20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div class="card-header" style="margin-bottom:0">Sector Rotation</div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="itabs" id="sr-country-tabs" style="margin-bottom:0">
+          <button class="itab active" onclick="setSrCountry('United States',this)">United States</button>
+          <button class="itab"        onclick="setSrCountry('China',this)">China</button>
+        </div>
+        <div id="sr-updated" style="font-size:11px;color:var(--text-muted)"></div>
+      </div>
+    </div>
   </div>
-  <div class="card" style="margin-top:16px">
+
+  <!-- ── Module 1: RS vs 21D EMA gap ranking ── -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-header">RS vs 21D EMA — Gap Ranking</div>
+    <div class="chart-sub-label" style="margin-bottom:10px">All groups ranked from lowest to highest RS minus EMA gap. <span style="color:var(--green)">&#x25B2;</span> = active signal (RS above EMA).</div>
+    <div class="sr-scroll">
+      <table class="sr-table">
+        <thead>
+          <tr>
+            <th style="width:36px">#</th>
+            <th>Group</th>
+            <th>RS</th>
+            <th>EMA 21</th>
+            <th>Gap</th>
+          </tr>
+        </thead>
+        <tbody id="sr-gap-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Module 2: Top 30 by RS rank ── -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div class="card-header" style="margin-bottom:0">Top 30 by RS Rank</div>
+      <div class="itabs" id="sr-rank-tabs" style="margin-bottom:0">
+        <button class="itab active" onclick="setSrRankMode('daily',this)">Daily</button>
+        <button class="itab"        onclick="setSrRankMode('weekly',this)">Weekly</button>
+        <button class="itab"        onclick="setSrRankMode('monthly',this)">Monthly</button>
+      </div>
+    </div>
+    <table class="sr-table">
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Group</th>
+          <th>Rank</th>
+          <th>RS</th>
+          <th>1D</th>
+          <th>1M</th>
+        </tr>
+      </thead>
+      <tbody id="sr-rank-body"><tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- ── Module 3: Quadrant rotation ── -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-header" style="margin-bottom:12px">Quadrant Rotation</div>
+    <div class="sr-controls">
+      <div>
+        <div class="sr-axis-label">X-Axis (Short-Term)</div>
+        <div class="itabs" id="sr-x-tabs" style="margin-bottom:0">
+          <button class="itab active" onclick="setSrXAxis('perf_1d',this)">1D</button>
+          <button class="itab"        onclick="setSrXAxis('perf_5d',this)">5D</button>
+          <button class="itab"        onclick="setSrXAxis('perf_10d',this)">10D</button>
+        </div>
+      </div>
+      <div>
+        <div class="sr-axis-label">Y-Axis (Long-Term)</div>
+        <div class="itabs" id="sr-y-tabs" style="margin-bottom:0">
+          <button class="itab active" onclick="setSrYAxis('perf_1m',this)">1M</button>
+          <button class="itab"        onclick="setSrYAxis('perf_2m',this)">2M</button>
+          <button class="itab"        onclick="setSrYAxis('perf_3m',this)">3M</button>
+        </div>
+      </div>
+    </div>
+    <div class="sr-quadrant-wrap">
+      <div id="sr-quadrant-chart"></div>
+      <div class="chart-tt" id="sr-qtt"></div>
+    </div>
+  </div>
+
+  <!-- ── Breadth notes (existing) ── -->
+  <div class="card" style="margin-top:0">
     <div class="ta-l">Breadth Notes</div>
     <textarea class="sta" id="breadth-notes" rows="3" placeholder="Add notes on breadth and relative strength..."></textarea>
   </div>
+
 </div><!-- /breadth panel -->
 
 <!-- ═══════════════════════════ EXECUTION TAB ═══════════════════════════ -->
@@ -1510,7 +1600,181 @@ window.addEventListener('DOMContentLoaded',()=>{
       regime_class:regimeClass, regime_div:regimeDiv, regime_since:regimeAsOf,
       regime_cond:regimeCond, updated:regimeAsOf
     }));
+
+  // Sector Rotation data
+  fetch('sector_rotation.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{
+      srData=d;
+      const el=document.getElementById('sr-updated');
+      if(el&&d.updated)el.textContent='Data as of '+d.updated;
+      renderSrAll();
+    })
+    .catch(()=>{
+      ['sr-gap-body','sr-rank-body'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el)el.innerHTML='<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:16px">sector_rotation.json not found — run export_sector_json.py</td></tr>';
+      });
+    });
 });
+
+// ── Sector Rotation ─────────────────────────────────────────────────────────
+let srData=null,srCountry='United States',srRankMode='daily',srXAxis='perf_1d',srYAxis='perf_1m';
+
+function setSrCountry(c,btn){
+  srCountry=c;
+  document.querySelectorAll('#sr-country-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSrAll();
+}
+function setSrRankMode(mode,btn){
+  srRankMode=mode;
+  document.querySelectorAll('#sr-rank-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSrRank();
+}
+function setSrXAxis(key,btn){
+  srXAxis=key;
+  document.querySelectorAll('#sr-x-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSrQuadrant();
+}
+function setSrYAxis(key,btn){
+  srYAxis=key;
+  document.querySelectorAll('#sr-y-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSrQuadrant();
+}
+function renderSrAll(){
+  if(!srData)return;
+  renderSrGap();
+  renderSrRank();
+  renderSrQuadrant();
+}
+
+function _srName(gid){
+  return gid.replace(/^United States /,'').replace(/^China /,'');
+}
+function _fmtPerf(v){
+  if(v==null)return'<span style="color:var(--text-muted)">—</span>';
+  const s=(v>=0?'+':'')+v.toFixed(2)+'%';
+  return`<span style="color:${v>=0?'var(--green)':'var(--red)'}">${s}</span>`;
+}
+
+function renderSrGap(){
+  const groups=srData.groups
+    .filter(g=>g.country===srCountry&&g.rs!=null&&g.ema_21_rs!=null)
+    .map(g=>({...g,gap:g.rs_gap}))
+    .sort((a,b)=>a.gap-b.gap);
+  let html='';
+  groups.forEach((g,i)=>{
+    const nm=_srName(g.group_id);
+    const sig=g.rs_minus_ema!=null;
+    const gc=g.gap>=0?'var(--green)':'var(--red)';
+    const gs=(g.gap>=0?'+':'')+g.gap.toFixed(4);
+    html+=`<tr>
+      <td style="color:var(--text-muted)">${i+1}</td>
+      <td class="sr-name">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}</td>
+      <td>${g.rs.toFixed(4)}</td>
+      <td>${g.ema_21_rs.toFixed(4)}</td>
+      <td style="color:${gc};font-weight:600">${gs}</td>
+    </tr>`;
+  });
+  document.getElementById('sr-gap-body').innerHTML=html||'<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
+}
+
+function renderSrRank(){
+  const rk='rs_rank_'+srRankMode;
+  const groups=srData.groups
+    .filter(g=>g.country===srCountry&&g[rk]!=null)
+    .sort((a,b)=>b[rk]-a[rk])
+    .slice(0,30);
+  let html='';
+  groups.forEach((g,i)=>{
+    html+=`<tr>
+      <td style="color:var(--text-muted)">${i+1}</td>
+      <td class="sr-name">${_srName(g.group_id)}</td>
+      <td style="font-weight:600;color:var(--text)">${g[rk].toFixed(1)}</td>
+      <td>${g.rs!=null?g.rs.toFixed(4):'—'}</td>
+      <td>${_fmtPerf(g.perf_1d)}</td>
+      <td>${_fmtPerf(g.perf_1m)}</td>
+    </tr>`;
+  });
+  document.getElementById('sr-rank-body').innerHTML=html||'<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
+}
+
+function renderSrQuadrant(){
+  const wrap=document.getElementById('sr-quadrant-chart');
+  const filtered=srData.groups.filter(g=>
+    g.country===srCountry&&g[srXAxis]!=null&&g[srYAxis]!=null
+  );
+  if(!filtered.length){
+    wrap.innerHTML='<div style="height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px">No data available</div>';
+    return;
+  }
+  const W=900,H=520,mg={t:36,r:36,b:52,l:56};
+  const pw=W-mg.l-mg.r,ph=H-mg.t-mg.b;
+  const xv=filtered.map(g=>g[srXAxis]),yv=filtered.map(g=>g[srYAxis]);
+  const xAbs=Math.max(Math.abs(Math.min(...xv)),Math.abs(Math.max(...xv)))*1.18||1;
+  const yAbs=Math.max(Math.abs(Math.min(...yv)),Math.abs(Math.max(...yv)))*1.18||1;
+  const xs=v=>(v/xAbs+1)/2*pw,ys=v=>ph-(v/yAbs+1)/2*ph;
+  const ox=xs(0),oy=ys(0);
+  const xLbl={perf_1d:'1-Day Perf (%)',perf_5d:'5-Day Perf (%)',perf_10d:'10-Day Perf (%)'}[srXAxis];
+  const yLbl={perf_1m:'1-Month Perf (%)',perf_2m:'2-Month Perf (%)',perf_3m:'3-Month Perf (%)'}[srYAxis];
+
+  let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block">
+<defs><clipPath id="srCp"><rect width="${pw}" height="${ph}"/></clipPath></defs>
+<g transform="translate(${mg.l},${mg.t})">`;
+
+  // Quadrant fills
+  svg+=`<rect x="0" y="0" width="${ox}" height="${oy}" fill="rgba(224,82,82,0.06)"/>`;
+  svg+=`<rect x="${ox}" y="0" width="${pw-ox}" height="${oy}" fill="rgba(63,185,80,0.07)"/>`;
+  svg+=`<rect x="0" y="${oy}" width="${ox}" height="${ph-oy}" fill="rgba(224,82,82,0.06)"/>`;
+  svg+=`<rect x="${ox}" y="${oy}" width="${pw-ox}" height="${ph-oy}" fill="rgba(227,169,70,0.06)"/>`;
+
+  // Quadrant labels
+  svg+=`<text x="${ox/2}" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(224,82,82,0.75)" font-family="Inter,Arial,sans-serif">Fading</text>`;
+  svg+=`<text x="${ox+(pw-ox)/2}" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(63,185,80,0.85)" font-family="Inter,Arial,sans-serif">Leading</text>`;
+  svg+=`<text x="${ox/2}" y="${ph-8}" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(224,82,82,0.75)" font-family="Inter,Arial,sans-serif">Lagging</text>`;
+  svg+=`<text x="${ox+(pw-ox)/2}" y="${ph-8}" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(227,169,70,0.85)" font-family="Inter,Arial,sans-serif">Recovering</text>`;
+
+  // Axes
+  svg+=`<line x1="${ox}" y1="0" x2="${ox}" y2="${ph}" stroke="rgba(139,145,158,0.45)" stroke-width="1"/>`;
+  svg+=`<line x1="0" y1="${oy}" x2="${pw}" y2="${oy}" stroke="rgba(139,145,158,0.45)" stroke-width="1"/>`;
+
+  // Axis labels
+  svg+=`<text x="${pw/2}" y="${ph+40}" text-anchor="middle" font-size="12" fill="rgba(193,199,212,0.8)" font-family="Inter,Arial,sans-serif">${xLbl}</text>`;
+  svg+=`<text x="${-ph/2}" y="-42" text-anchor="middle" font-size="12" fill="rgba(193,199,212,0.8)" font-family="Inter,Arial,sans-serif" transform="rotate(-90)">${yLbl}</text>`;
+
+  // Dots
+  svg+=`<g clip-path="url(#srCp)">`;
+  filtered.forEach(g=>{
+    const x=xs(g[srXAxis]).toFixed(1),y=ys(g[srYAxis]).toFixed(1);
+    const xval=g[srXAxis],yval=g[srYAxis];
+    const col=xval>0&&yval>0?'#3fb950':xval<0&&yval>0?'#e05252':xval<0&&yval<0?'#e05252':'#e3a946';
+    const nm=_srName(g.group_id).replace(/"/g,'&quot;');
+    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" style="cursor:pointer"/>`;
+  });
+  svg+=`</g></g></svg>`;
+
+  wrap.innerHTML=svg;
+
+  // Tooltip
+  const tt=document.getElementById('sr-qtt');
+  wrap.querySelectorAll('.sr-dot').forEach(c=>{
+    c.addEventListener('mouseenter',()=>{
+      tt.innerHTML=`<b>${c.dataset.name}</b><br><span style="color:var(--text-muted)">${xLbl}: </span><b>${c.dataset.x}%</b><br><span style="color:var(--text-muted)">${yLbl}: </span><b>${c.dataset.y}%</b>`;
+      tt.style.display='block';
+    });
+    c.addEventListener('mousemove',e=>{
+      const r=wrap.getBoundingClientRect();
+      const lft=e.clientX-r.left+14,top=e.clientY-r.top-10;
+      tt.style.left=(lft+200>r.width?lft-220:lft)+'px';
+      tt.style.top=top+'px';
+    });
+    c.addEventListener('mouseleave',()=>{tt.style.display='none';});
+  });
+}
 
 function applyMacroRegime(d){
   // Growth
