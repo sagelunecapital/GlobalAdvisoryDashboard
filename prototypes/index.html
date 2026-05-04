@@ -521,16 +521,15 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   <!-- ── Module 1: RS vs 21D EMA gap ranking ── -->
   <div class="card" style="margin-bottom:14px">
-    <div class="card-header">RS vs 21D EMA — Gap Ranking</div>
-    <div class="chart-sub-label" style="margin-bottom:10px">All groups ranked from lowest to highest RS minus EMA gap. <span style="color:var(--green)">&#x25B2;</span> = active signal (RS above EMA).</div>
+    <div class="card-header">Industry Relative to SPX</div>
     <div class="sr-scroll">
       <table class="sr-table">
         <thead>
           <tr>
             <th style="width:36px">#</th>
             <th>Group</th>
-            <th>RS</th>
-            <th>EMA 21</th>
+            <th>Current RS</th>
+            <th>21D RS EMA</th>
             <th>Gap</th>
           </tr>
         </thead>
@@ -542,7 +541,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <!-- ── Module 2: Top 30 by RS rank ── -->
   <div class="card" style="margin-bottom:14px">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-      <div class="card-header" style="margin-bottom:0">Top 30 by RS Rank</div>
+      <div class="card-header" style="margin-bottom:0">Relative Strength Ranking</div>
       <div class="itabs" id="sr-rank-tabs" style="margin-bottom:0">
         <button class="itab active" onclick="setSrRankMode('daily',this)">Daily</button>
         <button class="itab"        onclick="setSrRankMode('weekly',this)">Weekly</button>
