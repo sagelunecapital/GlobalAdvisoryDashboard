@@ -527,7 +527,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <thead>
           <tr>
             <th style="width:36px">#</th>
-            <th>Group</th>
+            <th>Industry</th>
             <th>Current RS</th>
             <th>21D RS EMA</th>
             <th>Gap</th>
@@ -552,7 +552,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <thead>
         <tr>
           <th style="width:36px">#</th>
-          <th>Group</th>
+          <th>Industry</th>
           <th>Rank</th>
           <th>RS</th>
           <th>1D</th>
@@ -1662,7 +1662,7 @@ function _fmtPerf(v){
 
 function renderSrGap(){
   const groups=srData.groups
-    .filter(g=>g.country===srCountry&&g.rs!=null&&g.ema_21_rs!=null)
+    .filter(g=>g.country===srCountry&&g.rs!=null&&g.ema_21_rs!=null&&g.rs_gap>0)
     .map(g=>({...g,gap:g.rs_gap}))
     .sort((a,b)=>a.gap-b.gap);
   let html='';
