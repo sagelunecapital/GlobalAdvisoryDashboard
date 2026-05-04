@@ -581,9 +581,12 @@ def compute_group_summary(conn: sqlite3.Connection, industry_df: pd.DataFrame) -
     combined = combined.dropna(how="all", subset=metric_cols)
 
     conn.execute("DELETE FROM group_summary")
+    # chunksize capped at floor(999 / num_columns) for SQLite's variable limit
+    n_cols = len(combined.columns)
+    chunk  = max(1, 999 // n_cols)
     combined.to_sql(
         "group_summary", conn, if_exists="append",
-        index=False, method="multi", chunksize=5000,
+        index=False, method="multi", chunksize=chunk,
     )
     conn.commit()
 
