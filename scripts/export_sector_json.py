@@ -44,6 +44,24 @@ def main() -> None:
         sum_cols = "NULL AS rs_rank_daily,NULL AS rs_rank_weekly,NULL AS rs_rank_monthly,NULL AS perf_1d,NULL AS perf_5d,NULL AS perf_10d,NULL AS perf_1m,NULL AS perf_2m,NULL AS perf_3m"
         print("[warn] group_summary table not found — run sector_data_collector.py first.")
 
+    # Tickers per group (reconstruct group_id using the same display-name logic)
+    ticker_rows = conn.execute("""
+        SELECT
+            country || ' ' || industry ||
+                CASE WHEN TRIM(COALESCE(sub_industry,'')) != ''
+                     THEN ': ' || TRIM(sub_industry)
+                     ELSE ''
+                END AS gid,
+            ticker
+        FROM industry
+        ORDER BY gid, ticker
+    """).fetchall()
+    ticker_map: dict = {}
+    for gid, raw_ticker in ticker_rows:
+        # For China/Korea the raw ticker may be "123456 CompanyName" — keep just the code
+        clean = raw_ticker.split()[0] if raw_ticker else raw_ticker
+        ticker_map.setdefault(gid, []).append(clean)
+
     rows = conn.execute(f"""
         SELECT
             r.group_id,
@@ -85,6 +103,7 @@ def main() -> None:
             "perf_1m":        _round(r["perf_1m"], 4),
             "perf_2m":        _round(r["perf_2m"], 4),
             "perf_3m":        _round(r["perf_3m"], 4),
+            "tickers":        ticker_map.get(r["group_id"], []),
         })
 
     out = {"updated": latest, "groups": groups}
