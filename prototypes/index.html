@@ -513,6 +513,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <div class="itabs" id="sr-country-tabs" style="margin-bottom:0">
           <button class="itab active" onclick="setSrCountry('United States',this)">United States</button>
           <button class="itab"        onclick="setSrCountry('China',this)">China</button>
+          <button class="itab"        onclick="setSrCountry('Korea',this)">Korea</button>
         </div>
         <div id="sr-updated" style="font-size:11px;color:var(--text-muted)"></div>
       </div>
@@ -1652,7 +1653,7 @@ function renderSrAll(){
 }
 
 function _srName(gid){
-  return gid.replace(/^United States /,'').replace(/^China /,'');
+  return gid.replace(/^United States /,'').replace(/^China /,'').replace(/^Korea /,'');
 }
 function _fmtPerf(v){
   if(v==null)return'<span style="color:var(--text-muted)">—</span>';
@@ -1716,9 +1717,12 @@ function renderSrQuadrant(){
   const W=900,H=520,mg={t:36,r:36,b:52,l:56};
   const pw=W-mg.l-mg.r,ph=H-mg.t-mg.b;
   const xv=filtered.map(g=>g[srXAxis]),yv=filtered.map(g=>g[srYAxis]);
-  const xAbs=Math.max(Math.abs(Math.min(...xv)),Math.abs(Math.max(...xv)))*1.18||1;
-  const yAbs=Math.max(Math.abs(Math.min(...yv)),Math.abs(Math.max(...yv)))*1.18||1;
-  const xs=v=>(v/xAbs+1)/2*pw,ys=v=>ph-(v/yAbs+1)/2*ph;
+  const xPad=(Math.max(...xv)-Math.min(...xv)||2)*0.05;
+  const yPad=(Math.max(...yv)-Math.min(...yv)||2)*0.05;
+  const xLo=Math.min(...xv)-xPad, xHi=Math.max(...xv)+xPad;
+  const yLo=Math.min(...yv)-yPad, yHi=Math.max(...yv)+yPad;
+  const xs=v=>(v-xLo)/(xHi-xLo)*pw;
+  const ys=v=>ph-(v-yLo)/(yHi-yLo)*ph;
   const ox=xs(0),oy=ys(0);
   const xLbl={perf_1d:'1-Day Perf (%)',perf_5d:'5-Day Perf (%)',perf_10d:'10-Day Perf (%)'}[srXAxis];
   const yLbl={perf_1m:'1-Month Perf (%)',perf_2m:'2-Month Perf (%)',perf_3m:'3-Month Perf (%)'}[srYAxis];
