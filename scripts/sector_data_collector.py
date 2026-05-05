@@ -478,7 +478,15 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
         # ── Signal: RS - EMA only when RS > EMA ──────────────────────────
         signal = (rs - ema21).where(rs > ema21)
 
+        # Stop at the last date this group's tickers have real prices.
+        # Dates beyond that are filled with 0 returns (flat index) because
+        # other markets have already closed for the day — don't emit those.
+        real_dates = price_wide[tickers].dropna(how="all").index
+        last_real_date = real_dates[-1] if len(real_dates) else rs.index[-1]
+
         for dt in rs.index:
+            if dt > last_real_date:
+                continue
             sig = signal.get(dt)
             all_rows.append((
                 gid,

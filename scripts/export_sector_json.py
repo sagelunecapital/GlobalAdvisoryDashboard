@@ -37,11 +37,11 @@ def main() -> None:
     # group_summary may not exist on the first run (created by sector_data_collector.py)
     tables = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()}
     if "group_summary" in tables:
-        join_clause = "LEFT JOIN group_summary s ON r.group_id = s.group_id AND r.date = s.date"
-        sum_cols = "s.rs_rank_daily, s.rs_rank_weekly, s.rs_rank_monthly, s.perf_1d, s.perf_5d, s.perf_10d, s.perf_1m, s.perf_2m, s.perf_3m"
+        sum_join  = "LEFT JOIN group_summary s ON r.group_id = s.group_id AND r.date = s.date"
+        sum_cols  = "s.rs_rank_daily, s.rs_rank_weekly, s.rs_rank_monthly, s.perf_1d, s.perf_5d, s.perf_10d, s.perf_1m, s.perf_2m, s.perf_3m"
     else:
-        join_clause = ""
-        sum_cols = "NULL AS rs_rank_daily,NULL AS rs_rank_weekly,NULL AS rs_rank_monthly,NULL AS perf_1d,NULL AS perf_5d,NULL AS perf_10d,NULL AS perf_1m,NULL AS perf_2m,NULL AS perf_3m"
+        sum_join  = ""
+        sum_cols  = "NULL AS rs_rank_daily,NULL AS rs_rank_weekly,NULL AS rs_rank_monthly,NULL AS perf_1d,NULL AS perf_5d,NULL AS perf_10d,NULL AS perf_1m,NULL AS perf_2m,NULL AS perf_3m"
         print("[warn] group_summary table not found — run sector_data_collector.py first.")
 
     # Tickers per group (reconstruct group_id using the same display-name logic)
@@ -62,6 +62,9 @@ def main() -> None:
         clean = raw_ticker.split()[0] if raw_ticker else raw_ticker
         ticker_map.setdefault(gid, []).append(clean)
 
+    # Each group is exported at its own latest date so that markets closing
+    # at different times (HK ahead of US) don't produce synthetic zero-return
+    # rows for groups whose constituent stocks haven't closed yet.
     rows = conn.execute(f"""
         SELECT
             r.group_id,
@@ -73,10 +76,14 @@ def main() -> None:
             r.rs_minus_ema,
             {sum_cols}
         FROM group_rs r
-        {join_clause}
-        WHERE r.date = ?
+        JOIN (
+            SELECT group_id, MAX(date) AS max_date
+            FROM group_rs
+            GROUP BY group_id
+        ) m ON r.group_id = m.group_id AND r.date = m.max_date
+        {sum_join}
         ORDER BY r.group_id
-    """, (latest,)).fetchall()
+    """).fetchall()
 
     conn.close()
 
