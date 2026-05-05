@@ -669,6 +669,41 @@ def main() -> None:
 
     today = date.today()
 
+    # 2b. Backfill tickers that are new (no data) or recently added (< 14 days
+    #     of history — caught on the first incremental run after being added).
+    industry_set     = set(yf_tickers)
+    existing_tickers = {
+        r[0] for r in conn.execute("SELECT DISTINCT yf_ticker FROM daily").fetchall()
+    }
+    no_data = [t for t in yf_tickers if t not in existing_tickers]
+
+    recent_cutoff = (today - timedelta(days=14)).strftime("%Y-%m-%d")
+    short_history = [
+        r[0] for r in conn.execute(
+            """SELECT yf_ticker FROM (
+                   SELECT yf_ticker, MIN(date) AS first_date
+                   FROM daily GROUP BY yf_ticker
+               ) WHERE first_date >= ? AND yf_ticker != ?""",
+            (recent_cutoff, SPX_TICKER),
+        ).fetchall()
+        if r[0] in industry_set
+    ]
+
+    backfill_targets = no_data + [t for t in short_history if t not in no_data]
+    if backfill_targets:
+        bf_start = (today - timedelta(days=HISTORY_DAYS)).strftime("%Y-%m-%d")
+        bf_end   = (today + timedelta(days=1)).strftime("%Y-%m-%d")
+        print(f"\n[2b] {len(backfill_targets)} tickers need history backfill "
+              f"({len(no_data)} new, {len(short_history)} short) — from {bf_start}...")
+        bf_data = fetch(backfill_targets, bf_start, bf_end)
+        if bf_data.empty:
+            print("  No historical data returned.")
+        else:
+            inserted = compute_and_insert(conn, bf_data, ticker_lkp)
+            print(f"  Backfilled {inserted:,} rows across {bf_data['YF_Ticker'].nunique()} tickers.")
+    else:
+        print("  No new tickers detected.")
+
     # 3. Determine fetch window
     if last_date is None:
         migrated  = migrate_from_excel(conn)
