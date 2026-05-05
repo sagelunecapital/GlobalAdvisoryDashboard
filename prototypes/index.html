@@ -524,14 +524,14 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <div class="card" style="margin-bottom:14px">
     <div class="card-header">Industry Relative to SPX</div>
     <div class="sr-scroll">
-      <table class="sr-table">
+      <table class="sr-table" style="table-layout:fixed">
         <thead>
           <tr>
             <th style="width:36px">#</th>
             <th>Industry</th>
-            <th>Current RS</th>
-            <th>21D RS EMA</th>
-            <th>Gap</th>
+            <th style="width:90px;text-align:right">Current RS</th>
+            <th style="width:100px;text-align:right">21D RS EMA</th>
+            <th style="width:80px;text-align:right">Gap</th>
           </tr>
         </thead>
         <tbody id="sr-gap-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
@@ -549,14 +549,14 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <button class="itab"        onclick="setSrRankMode('monthly',this)">Monthly</button>
       </div>
     </div>
-    <table class="sr-table">
+    <table class="sr-table" style="table-layout:fixed">
       <thead>
         <tr>
           <th style="width:36px">#</th>
           <th>Industry</th>
-          <th>Daily Rank</th>
-          <th>Weekly Rank</th>
-          <th>Monthly Rank</th>
+          <th style="width:90px;text-align:right">Daily Rank</th>
+          <th style="width:100px;text-align:right">Weekly Rank</th>
+          <th style="width:80px;text-align:right">Monthly Rank</th>
         </tr>
       </thead>
       <tbody id="sr-rank-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
@@ -1662,7 +1662,7 @@ function _fmtPerf(v){
 
 function renderSrGap(){
   const groups=srData.groups
-    .filter(g=>g.country===srCountry&&g.rs!=null&&g.ema_21_rs!=null&&g.rs_gap>0)
+    .filter(g=>g.country===srCountry&&g.rs!=null&&g.ema_21_rs!=null&&g.rs_gap>-0.01)
     .map(g=>({...g,gap:g.rs_gap}))
     .sort((a,b)=>a.gap-b.gap);
   let html='';
@@ -1675,9 +1675,9 @@ function renderSrGap(){
     html+=`<tr title="${tkTip}">
       <td style="color:var(--text-muted)">${i+1}</td>
       <td class="sr-name">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}</td>
-      <td>${g.rs.toFixed(4)}</td>
-      <td>${g.ema_21_rs.toFixed(4)}</td>
-      <td style="color:${gc};font-weight:600">${gs}</td>
+      <td style="text-align:right">${g.rs.toFixed(4)}</td>
+      <td style="text-align:right">${g.ema_21_rs.toFixed(4)}</td>
+      <td style="text-align:right;color:${gc};font-weight:600">${gs}</td>
     </tr>`;
   });
   document.getElementById('sr-gap-body').innerHTML=html||'<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
@@ -1708,11 +1708,11 @@ function renderSrRank(){
     const dr=dRanks[g.group_id],wr=wRanks[g.group_id],mr=mRanks[g.group_id];
     const activeRank=srRankMode==='daily'?dr:srRankMode==='weekly'?wr:mr;
     function rankCell(rank,isActive){
-      if(isActive)return`<td style="font-weight:600;color:var(--text)">${rank}</td>`;
+      if(isActive)return`<td style="text-align:right;font-weight:600;color:var(--text)">${rank}</td>`;
       const better=rank<activeRank,worse=rank>activeRank;
       const arrow=better?'↑':worse?'↓':'';
       const col=better?'#3fb950':worse?'#e05252':'var(--text-muted)';
-      return`<td>${rank}${arrow?` <span style="color:${col};font-weight:700">${arrow}</span>`:''}</td>`;
+      return`<td style="text-align:right">${rank}${arrow?` <span style="color:${col};font-weight:700">${arrow}</span>`:''}</td>`;
     }
     const tkTip2=(g.tickers||[]).join(', ');
     html+=`<tr title="${tkTip2}">
