@@ -46,3 +46,10 @@ if ($changes) {
 # Return to previous branch and restore stash
 git checkout - --quiet
 git stash pop --quiet
+
+# Sync the data files from main into the current branch so the local dashboard
+# reflects the latest data regardless of which branch is checked out.
+$currentBranch = git rev-parse --abbrev-ref HEAD
+if ($currentBranch -ne "main") {
+    git checkout main -- prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json --quiet
+}
