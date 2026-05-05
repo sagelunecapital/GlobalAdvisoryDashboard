@@ -208,7 +208,9 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .sr-table th{color:var(--text-muted);font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap;position:sticky;top:0;background:var(--surface-card);z-index:1}
 .sr-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
 .sr-table tr:hover td{background:rgba(255,255,255,0.03)}
-.sr-table td.sr-name{white-space:normal;max-width:220px;word-break:break-word}
+.sr-table td.sr-name{white-space:normal;max-width:220px;word-break:break-word;cursor:pointer;user-select:none}
+.sr-name-tickers{display:none;font-size:10px;color:var(--text-muted);margin-top:4px;line-height:1.5;white-space:normal}
+.sr-name.open .sr-name-tickers{display:block}
 .sr-sig{color:var(--green);font-size:10px;vertical-align:middle}
 .sr-controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
 .sr-axis-label{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px}
@@ -1672,9 +1674,9 @@ function renderSrGap(){
     const gc=g.gap>=0?'var(--green)':'var(--red)';
     const gs=(g.gap>=0?'+':'')+g.gap.toFixed(4);
     const tkTip=(g.tickers||[]).join(', ');
-    html+=`<tr title="${tkTip}">
+    html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}</td>
+      <td class="sr-name" onclick="this.classList.toggle('open')">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
       <td style="text-align:right">${g.rs.toFixed(4)}</td>
       <td style="text-align:right">${g.ema_21_rs.toFixed(4)}</td>
       <td style="text-align:right;color:${gc};font-weight:600">${gs}</td>
@@ -1715,9 +1717,9 @@ function renderSrRank(){
       return`<td style="text-align:right">${rank}${arrow?` <span style="color:${col};font-weight:700">${arrow}</span>`:''}</td>`;
     }
     const tkTip2=(g.tickers||[]).join(', ');
-    html+=`<tr title="${tkTip2}">
+    html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name">${_srName(g.group_id)}</td>
+      <td class="sr-name" onclick="this.classList.toggle('open')">${_srName(g.group_id)}<div class="sr-name-tickers">${tkTip2||'—'}</div></td>
       ${rankCell(dr,srRankMode==='daily')}
       ${rankCell(wr,srRankMode==='weekly')}
       ${rankCell(mr,srRankMode==='monthly')}
