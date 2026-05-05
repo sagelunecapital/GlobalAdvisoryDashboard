@@ -180,8 +180,22 @@ def upsert_industry(conn: sqlite3.Connection, df: pd.DataFrame) -> None:
 
 
 def get_last_date(conn: sqlite3.Connection) -> date | None:
+    # Use the earliest per-ticker max among recently-active tickers (last_date
+    # within 7 days of the global max). This fills gaps from markets with
+    # different calendars (HK vs US) without being dragged back by delisted
+    # tickers that permanently stopped updating.
     row = conn.execute("SELECT MAX(date) FROM daily").fetchone()
-    return datetime.strptime(row[0], "%Y-%m-%d").date() if row[0] else None
+    if not row[0]:
+        return None
+    global_max = datetime.strptime(row[0], "%Y-%m-%d").date()
+    cutoff = (global_max - timedelta(days=7)).strftime("%Y-%m-%d")
+    row2 = conn.execute(
+        "SELECT MIN(last_date) FROM "
+        "(SELECT MAX(date) AS last_date FROM daily GROUP BY yf_ticker "
+        " HAVING MAX(date) >= ?)",
+        (cutoff,),
+    ).fetchone()
+    return datetime.strptime(row2[0], "%Y-%m-%d").date() if row2[0] else global_max
 
 
 def db_row_count(conn: sqlite3.Connection) -> int:
