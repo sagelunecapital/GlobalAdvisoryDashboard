@@ -554,13 +554,12 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <tr>
           <th style="width:36px">#</th>
           <th>Industry</th>
-          <th>Rank</th>
-          <th>RS</th>
-          <th>1D</th>
-          <th>1M</th>
+          <th>Daily Rank</th>
+          <th>Weekly Rank</th>
+          <th>Monthly Rank</th>
         </tr>
       </thead>
-      <tbody id="sr-rank-body"><tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
+      <tbody id="sr-rank-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
     </table>
   </div>
 
@@ -1685,24 +1684,46 @@ function renderSrGap(){
 }
 
 function renderSrRank(){
-  const rk='rs_rank_'+srRankMode;
-  const groups=srData.groups
-    .filter(g=>g.country===srCountry&&g[rk]!=null)
-    .sort((a,b)=>b[rk]-a[rk])
-    .slice(0,30);
+  const perfKey={daily:'perf_1d',weekly:'perf_5d',monthly:'perf_1m'};
+  const activePerf=perfKey[srRankMode];
+
+  // All groups with valid data in all three periods for consistent ranking
+  const pool=srData.groups.filter(g=>
+    g.country===srCountry&&g.perf_1d!=null&&g.perf_5d!=null&&g.perf_1m!=null
+  );
+
+  // Rank each group in all three periods (1 = best)
+  function rankMap(field){
+    const m={};
+    [...pool].sort((a,b)=>b[field]-a[field]).forEach((g,i)=>m[g.group_id]=i+1);
+    return m;
+  }
+  const dRanks=rankMap('perf_1d'),wRanks=rankMap('perf_5d'),mRanks=rankMap('perf_1m');
+
+  // Top 30 sorted by the active period
+  const top30=[...pool].sort((a,b)=>b[activePerf]-a[activePerf]).slice(0,30);
+
   let html='';
-  groups.forEach((g,i)=>{
+  top30.forEach((g,i)=>{
+    const dr=dRanks[g.group_id],wr=wRanks[g.group_id],mr=mRanks[g.group_id];
+    const activeRank=srRankMode==='daily'?dr:srRankMode==='weekly'?wr:mr;
+    function rankCell(rank,isActive){
+      if(isActive)return`<td style="font-weight:600;color:var(--text)">${rank}</td>`;
+      const better=rank<activeRank,worse=rank>activeRank;
+      const arrow=better?'↑':worse?'↓':'';
+      const col=better?'#3fb950':worse?'#e05252':'var(--text-muted)';
+      return`<td>${rank}${arrow?` <span style="color:${col};font-weight:700">${arrow}</span>`:''}</td>`;
+    }
     const tkTip2=(g.tickers||[]).join(', ');
     html+=`<tr title="${tkTip2}">
       <td style="color:var(--text-muted)">${i+1}</td>
       <td class="sr-name">${_srName(g.group_id)}</td>
-      <td style="font-weight:600;color:var(--text)">${g[rk].toFixed(1)}</td>
-      <td>${g.rs!=null?g.rs.toFixed(4):'—'}</td>
-      <td>${_fmtPerf(g.perf_1d)}</td>
-      <td>${_fmtPerf(g.perf_1m)}</td>
+      ${rankCell(dr,srRankMode==='daily')}
+      ${rankCell(wr,srRankMode==='weekly')}
+      ${rankCell(mr,srRankMode==='monthly')}
     </tr>`;
   });
-  document.getElementById('sr-rank-body').innerHTML=html||'<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
+  document.getElementById('sr-rank-body').innerHTML=html||'<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
 }
 
 function renderSrQuadrant(){
