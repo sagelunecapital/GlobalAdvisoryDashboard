@@ -63,6 +63,10 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .stir-table td:first-child{text-align:left;color:var(--text)}
 .stir-table tr.stir-terminal td{color:var(--amber);font-weight:600}
+.stir-table tr.stir-yr td{text-align:left;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.6px;font-size:10px;padding:8px 8px 4px;border-bottom:1px solid var(--outline-dim);background:rgba(0,0,0,0.25)}
+.stir-table tr.stir-yr td:first-child{color:var(--text-muted)}
+.stir-meet-cell{display:flex;flex-direction:column;line-height:1.25}
+.stir-meet-cell .stir-meet-sym{font-size:10px;color:var(--text-muted);font-variant-numeric:tabular-nums}
 .stir-spread-pos{color:var(--green)}
 .stir-spread-neg{color:var(--red)}
 .main-content{min-width:0;padding:20px 24px 0 24px}
@@ -248,7 +252,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   <aside class="sidebar">
     <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
-    <button class="nav-tab nav-sub" onclick="showMain('stir',this)">US STIR</button>
+    <button class="nav-tab nav-sub" onclick="showMain('stir',this)">Yields</button>
     <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
   </aside>
@@ -434,8 +438,140 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   </div><!-- /macro-split -->
 
-  <!-- Yields -->
-  <div class="section-heading">Yields</div>
+  <!-- Liquidity -->
+  <div class="section-heading">Liquidity</div>
+  <div class="card">
+    <div class="itabs">
+      <button class="itab active" onclick="showItab('liq-resbal',this,'liq-inner')">Reserve Balance</button>
+      <button class="itab" onclick="showItab('liq-fedliq',this,'liq-inner')">Fed Liquidity</button>
+      <button class="itab" onclick="showItab('liq-trade',this,'liq-inner')">Trade Balance</button>
+      <button class="itab" onclick="showItab('liq-btc',this,'liq-inner')">Bitcoin</button>
+    </div>
+    <div id="liq-resbal" class="ipanel liq-inner active">
+      <div class="cw" style="height:350px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
+    </div>
+    <div id="liq-fedliq" class="ipanel liq-inner">
+      <div class="cw" style="height:350px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
+    </div>
+    <div id="liq-trade" class="ipanel liq-inner">
+      <div class="cw" style="height:350px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
+    </div>
+    <div id="liq-btc" class="ipanel liq-inner">
+      <div class="cw" style="height:350px" id="w-liq-btc"><div class="chart-tt" id="tt-liq-btc"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="legend">
+      <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
+      <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
+      <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
+      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
+    </div>
+    <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
+    <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
+  </div>
+
+</div><!-- /macro panel -->
+
+<!-- ═══════════════════════════ YIELDS TAB ═══════════════════════════ -->
+<div id="main-stir" class="main-panel">
+
+  <div class="section-heading">US STIR</div>
+
+  <!-- KPI strip: 4 boxes anchored on M+2 terminal contract -->
+  <div class="stir-kpi-row">
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">Terminal Rate (M+2)</div>
+      <div class="stir-kpi-value" id="stir-kpi-terminal">—</div>
+      <div class="stir-kpi-sub" id="stir-kpi-terminal-sub"></div>
+    </div>
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">Terminal − EFFR</div>
+      <div class="stir-kpi-value" id="stir-kpi-vseffr">—</div>
+      <div class="stir-kpi-sub" id="stir-kpi-vseffr-sub">vs effective FFR</div>
+    </div>
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">Terminal − +6M</div>
+      <div class="stir-kpi-value" id="stir-kpi-vs6m">—</div>
+      <div class="stir-kpi-sub" id="stir-kpi-vs6m-sub"></div>
+    </div>
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">Terminal − +12M</div>
+      <div class="stir-kpi-value" id="stir-kpi-vs12m">—</div>
+      <div class="stir-kpi-sub" id="stir-kpi-vs12m-sub"></div>
+    </div>
+  </div>
+
+  <!-- Main tabs: Meetings / Strip / Spreads -->
+  <div class="itabs" id="stir-main-tabs">
+    <button class="itab active" onclick="setStirMain('meetings',this)">Meetings</button>
+    <button class="itab" onclick="setStirMain('strip',this)">Strip</button>
+    <button class="itab" onclick="setStirMain('spreads',this)">Spreads</button>
+  </div>
+
+  <!-- Sub tabs: SOFR Futures / Fed Funds Futures -->
+  <div class="itabs" id="stir-sub-tabs" style="margin-bottom:14px">
+    <button class="itab" onclick="setStirProduct('sofr',this)">SOFR Futures</button>
+    <button class="itab active" onclick="setStirProduct('ff',this)">Fed Funds Futures</button>
+  </div>
+
+  <!-- ── MEETINGS panel ── -->
+  <div id="stir-pane-meetings" class="stir-pane">
+    <div class="card">
+      <div class="card-header" id="stir-meet-hdr">Implied Policy Path</div>
+      <div class="stir-chart" id="stir-path-chart"></div>
+      <div style="overflow-x:auto;margin-top:12px">
+        <table class="stir-table">
+          <thead>
+            <tr>
+              <th>Meeting / Contract</th><th>Rate</th><th>Post-Mtg</th>
+              <th>Hold %</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th>
+              <th>+25 bp</th><th>+50 bp</th><th>Cum Hikes</th>
+            </tr>
+          </thead>
+          <tbody id="stir-meet-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STRIP panel ── -->
+  <div id="stir-pane-strip" class="stir-pane" style="display:none">
+    <div class="card">
+      <div class="card-header" id="stir-strip-hdr">Contract Strip</div>
+      <div style="overflow-x:auto">
+        <table class="stir-table">
+          <thead>
+            <tr>
+              <th>Contract</th><th>Last PX</th><th>Implied Rate</th><th>± OCR</th>
+              <th>PX 1D</th><th>PX 5D</th><th>PX 1M</th>
+              <th>Volume</th><th>OI</th><th>OI Chg</th>
+            </tr>
+          </thead>
+          <tbody id="stir-strip-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SPREADS panel ── -->
+  <div id="stir-pane-spreads" class="stir-pane" style="display:none">
+    <div class="card">
+      <div class="card-header" id="stir-spread-hdr">Calendar Spread Matrix</div>
+      <div style="overflow-x:auto">
+        <table class="stir-table">
+          <thead>
+            <tr><th>Contract</th><th>+3M</th><th>+6M</th><th>+9M</th><th>+12M</th></tr>
+          </thead>
+          <tbody id="stir-spread-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Treasury Yields (moved from Macro tab) -->
+  <div class="section-heading" style="margin-top:24px">Treasury Yields</div>
   <div class="card">
     <div class="yield-header-row">
       <div class="card-header" style="margin-bottom:0">Nominal &nbsp;/&nbsp; Real &nbsp;/&nbsp; Breakeven Inflation</div>
@@ -486,134 +622,6 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       </div>
     </div>
     <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
-  </div>
-
-  <!-- Liquidity -->
-  <div class="section-heading">Liquidity</div>
-  <div class="card">
-    <div class="itabs">
-      <button class="itab active" onclick="showItab('liq-resbal',this,'liq-inner')">Reserve Balance</button>
-      <button class="itab" onclick="showItab('liq-fedliq',this,'liq-inner')">Fed Liquidity</button>
-      <button class="itab" onclick="showItab('liq-trade',this,'liq-inner')">Trade Balance</button>
-      <button class="itab" onclick="showItab('liq-btc',this,'liq-inner')">Bitcoin</button>
-    </div>
-    <div id="liq-resbal" class="ipanel liq-inner active">
-      <div class="cw" style="height:350px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
-    </div>
-    <div id="liq-fedliq" class="ipanel liq-inner">
-      <div class="cw" style="height:350px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
-    </div>
-    <div id="liq-trade" class="ipanel liq-inner">
-      <div class="cw" style="height:350px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
-    </div>
-    <div id="liq-btc" class="ipanel liq-inner">
-      <div class="cw" style="height:350px" id="w-liq-btc"><div class="chart-tt" id="tt-liq-btc"></div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="legend">
-      <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
-      <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
-      <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
-      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
-    </div>
-    <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
-    <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
-  </div>
-
-</div><!-- /macro panel -->
-
-<!-- ═══════════════════════════ US STIR TAB ═══════════════════════════ -->
-<div id="main-stir" class="main-panel">
-
-  <div class="section-heading">US STIR</div>
-
-  <!-- KPI strip -->
-  <div class="stir-kpi-row">
-    <div class="stir-kpi">
-      <div class="stir-kpi-label">EFFR</div>
-      <div class="stir-kpi-value" id="stir-effr">—</div>
-      <div class="stir-kpi-sub" id="stir-asof"></div>
-    </div>
-    <div class="stir-kpi">
-      <div class="stir-kpi-label">SOFR</div>
-      <div class="stir-kpi-value" id="stir-sofr">—</div>
-      <div class="stir-kpi-sub" id="stir-basis"></div>
-    </div>
-    <div class="stir-kpi">
-      <div class="stir-kpi-label">Terminal (FF)</div>
-      <div class="stir-kpi-value" id="stir-terminal">—</div>
-      <div class="stir-kpi-sub" id="stir-terminal-sub"></div>
-    </div>
-    <div class="stir-kpi">
-      <div class="stir-kpi-label">Cuts Priced (12M)</div>
-      <div class="stir-kpi-value" id="stir-cuts">—</div>
-      <div class="stir-kpi-sub">vs today's EFFR</div>
-    </div>
-  </div>
-
-  <!-- Outer tabs: PRODUCTS / MEETINGS -->
-  <div class="itabs">
-    <button class="itab active" onclick="setStirOuter('products',this)">Products</button>
-    <button class="itab" onclick="setStirOuter('meetings',this)">Meetings</button>
-  </div>
-
-  <!-- ── PRODUCTS panel ── -->
-  <div id="stir-out-products" class="stir-outer active">
-    <div class="card">
-      <div class="itabs">
-        <button class="itab active" onclick="setStirProduct('sofr',this)">SOFR (SR3)</button>
-        <button class="itab" onclick="setStirProduct('ff',this)">Fed Funds (ZQ)</button>
-      </div>
-      <div class="stir-chart" id="stir-strip-chart"></div>
-    </div>
-  </div>
-
-  <!-- ── MEETINGS panel ── -->
-  <div id="stir-out-meetings" class="stir-outer" style="display:none">
-    <div class="card">
-      <div class="itabs">
-        <button class="itab active" onclick="setStirMeeting('strip',this)">Strip</button>
-        <button class="itab" onclick="setStirMeeting('spreads',this)">Spreads</button>
-        <button class="itab" onclick="setStirMeeting('cblvl',this)">CB LVL</button>
-      </div>
-
-      <!-- Strip view: meeting path + probability table -->
-      <div id="stir-mtg-strip" class="stir-mtg-panel">
-        <div class="stir-grid">
-          <div>
-            <div class="stir-chart" id="stir-path-chart"></div>
-          </div>
-          <div style="overflow-x:auto">
-            <table class="stir-table">
-              <thead>
-                <tr>
-                  <th>Meeting</th><th>Post-rate</th><th>Cum cuts</th>
-                  <th>Hold</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th><th>+25 bp</th>
-                </tr>
-              </thead>
-              <tbody id="stir-prob-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spreads matrix -->
-      <div id="stir-mtg-spreads" class="stir-mtg-panel" style="display:none;overflow-x:auto">
-        <table class="stir-table">
-          <thead>
-            <tr><th>Contract</th><th>+3M</th><th>+6M</th><th>+9M</th><th>+12M</th></tr>
-          </thead>
-          <tbody id="stir-spread-body"></tbody>
-        </table>
-      </div>
-
-      <!-- CB LVL chart -->
-      <div id="stir-mtg-cblvl" class="stir-mtg-panel" style="display:none">
-        <div class="stir-chart" id="stir-cblvl-chart"></div>
-      </div>
-    </div>
   </div>
 
 </div><!-- /stir panel -->
@@ -2060,9 +2068,9 @@ if(typeof macroRegime==='undefined'){
   if(mn&&lb) updateHighEdge(mn.textContent.trim(),lb.textContent.trim());
 }
 
-// ══ US STIR tab ═══════════════════════════════════════════════════════
+// ══ Yields tab (US STIR) ══════════════════════════════════════════════
 const STIR={
-  data:null, product:'sofr', meeting:'strip',
+  data:null, main:'meetings', product:'ff',
   PALETTE:{bg:'#000',plot:'#050505',orange:'#FE7C04',orangeHot:'#FF9533',orangeDim:'#5A2C00',text:'#D0D0D0'},
 };
 
@@ -2071,73 +2079,79 @@ function stirLayout(extra){
   return Object.assign({
     paper_bgcolor:p.bg, plot_bgcolor:p.plot,
     font:{family:'Inter,Segoe UI,sans-serif',color:p.text,size:11},
-    margin:{l:50,r:30,t:20,b:40},
+    margin:{l:50,r:60,t:20,b:40},
     xaxis:{gridcolor:'#1a1a1a',zerolinecolor:'#2a2a2a'},
     yaxis:{gridcolor:'#1a1a1a',zerolinecolor:'#2a2a2a',title:'Implied rate (%)'},
     hoverlabel:{bgcolor:'#101419',bordercolor:p.orange,font:{color:p.text}},
   }, extra||{});
 }
 
-function setStirOuter(which, btn){
-  document.querySelectorAll('#main-stir > .itabs .itab').forEach(b=>b.classList.remove('active'));
+function setStirMain(which, btn){
+  STIR.main=which;
+  document.querySelectorAll('#stir-main-tabs .itab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('stir-out-products').style.display = which==='products' ? '' : 'none';
-  document.getElementById('stir-out-meetings').style.display = which==='meetings' ? '' : 'none';
-  if(which==='products') renderStirStrip();
-  else renderStirMeetings();
+  document.getElementById('stir-pane-meetings').style.display = which==='meetings' ? '' : 'none';
+  document.getElementById('stir-pane-strip').style.display    = which==='strip'    ? '' : 'none';
+  document.getElementById('stir-pane-spreads').style.display  = which==='spreads'  ? '' : 'none';
+  // Sub-product toggle is meaningless for Meetings (math is FF-only); hide it.
+  document.getElementById('stir-sub-tabs').style.display      = which==='meetings' ? 'none' : '';
+  renderStirActive();
 }
 
 function setStirProduct(which, btn){
   STIR.product=which;
-  btn.parentElement.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#stir-sub-tabs .itab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  renderStirStrip();
+  renderStirKpis();
+  renderStirActive();
 }
 
-function setStirMeeting(which, btn){
-  STIR.meeting=which;
-  btn.parentElement.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('stir-mtg-strip').style.display   = which==='strip'   ? '' : 'none';
-  document.getElementById('stir-mtg-spreads').style.display = which==='spreads' ? '' : 'none';
-  document.getElementById('stir-mtg-cblvl').style.display   = which==='cblvl'   ? '' : 'none';
-  if(which==='strip') renderStirPath();
-  else if(which==='cblvl') renderStirCbLvl();
+function renderStirActive(){
+  if(STIR.main==='meetings')    renderStirMeetings();
+  else if(STIR.main==='strip')  renderStirStripTable();
+  else                          renderStirSpreadsTable();
 }
 
-function renderStirStrip(){
+function _fmtBp(v, withSign){
+  if(v==null||isNaN(v)) return '—';
+  const s = withSign && v>0 ? '+' : '';
+  return `${s}${v.toFixed(1)} bp`;
+}
+
+function renderStirKpis(){
   if(!STIR.data) return;
-  const d=STIR.data;
-  const strip = STIR.product==='sofr' ? d.sofr_strip : d.ff_strip;
-  if(!strip||!strip.length) return;
-  const p=STIR.PALETTE;
-  const colors = strip.map(r=> r.is_terminal ? p.orangeHot : p.orangeDim);
-  const trace={
-    type:'bar', x:strip.map(r=>r.symbol), y:strip.map(r=>r.implied_rate),
-    marker:{color:colors, line:{color:'#9A4A02',width:1}},
-    hovertemplate:'%{x}<br>%{y:.3f}%<extra></extra>',
+  const k = STIR.data.kpis[STIR.product];
+  if(!k) return;
+  const setVal=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  setVal('stir-kpi-terminal', k.terminal!=null ? k.terminal.toFixed(2)+'%' : '—');
+  setVal('stir-kpi-terminal-sub', k.terminal_symbol ? `${k.terminal_symbol} (3rd contract)` : '');
+  const cls=v=> v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
+  const setSpread=(id,v,subId,subTxt)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.textContent = _fmtBp(v, true);
+    el.className = 'stir-kpi-value '+cls(v);
+    if(subId) document.getElementById(subId).textContent = subTxt||'';
   };
-  const layout=stirLayout({
-    shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:d.effr,y1:d.effr,
-             line:{color:p.orange,dash:'dash',width:1.4}}],
-    annotations:[{xref:'paper',x:1.0,xanchor:'right',y:d.effr,yanchor:'bottom',
-                  text:`EFFR ${d.effr.toFixed(2)}%`,showarrow:false,
-                  font:{color:p.orange,size:10}}],
-  });
-  Plotly.react('stir-strip-chart',[trace],layout,{displayModeBar:false,responsive:true});
+  setSpread('stir-kpi-vseffr', k.vs_effr_bp);
+  setSpread('stir-kpi-vs6m',   k.vs_6m_bp,  'stir-kpi-vs6m-sub',  k.h6_symbol  ? 'vs '+k.h6_symbol  : '');
+  setSpread('stir-kpi-vs12m',  k.vs_12m_bp, 'stir-kpi-vs12m-sub', k.h12_symbol ? 'vs '+k.h12_symbol : '');
 }
 
-function renderStirPath(){
+function renderStirMeetings(){
   if(!STIR.data||!STIR.data.meeting_path.length) return;
-  const d=STIR.data, p=STIR.PALETTE;
-  const path=d.meeting_path;
+  const d=STIR.data, p=STIR.PALETTE, path=d.meeting_path;
+
   const trace={
-    type:'scatter', mode:'lines+markers', line:{shape:'hv',color:p.orangeHot,width:2.4},
-    marker:{color:p.bg, line:{color:p.orangeHot,width:1.5}, size:9},
+    type:'scatter', mode:'lines+markers',
+    line:{shape:'hv',color:p.orangeHot,width:2.4},
+    marker:{color:p.bg,line:{color:p.orangeHot,width:1.5},size:9},
     x:path.map(r=>r.meeting), y:path.map(r=>r.post_rate),
-    hovertemplate:'%{x}<br>Post-rate %{y:.3f}%<extra></extra>',
+    customdata:path.map(r=>r.contract),
+    hovertemplate:'%{x} · %{customdata}<br>Post-rate %{y:.3f}%<extra></extra>',
   };
   const layout=stirLayout({
+    height:380,
     yaxis:{gridcolor:'#1a1a1a',title:'Implied post-meeting rate (%)'},
     shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:d.effr,y1:d.effr,
              line:{color:p.orange,dash:'dash',width:1.4}}],
@@ -2147,113 +2161,107 @@ function renderStirPath(){
   });
   Plotly.react('stir-path-chart',[trace],layout,{displayModeBar:false,responsive:true});
 
-  // Probability table
-  const tb=document.getElementById('stir-prob-body');
-  tb.innerHTML = path.map(r=>{
-    const f=v=> v>0 ? v.toFixed(0) : '—';
-    return `<tr>
-      <td>${r.meeting}</td>
-      <td>${r.post_rate.toFixed(3)}%</td>
-      <td>${r.cum_cuts.toFixed(2)}</td>
-      <td>${f(r.probs.hold)}</td>
-      <td>${f(r.probs.cut25)}</td>
-      <td>${f(r.probs.cut50)}</td>
-      <td>${f(r.probs.cut75)}</td>
-      <td>${f(r.probs.hike25)}</td>
-    </tr>`;
-  }).join('');
-}
-
-function renderStirSpreads(){
-  if(!STIR.data) return;
-  const tb=document.getElementById('stir-spread-body');
-  tb.innerHTML = STIR.data.spreads.map(r=>{
-    const cell=v=>{
-      if(v==null) return '<td>—</td>';
-      const cls = v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
-      const sign= v>0?'+':'';
-      return `<td class="${cls}">${sign}${v} bp</td>`;
-    };
-    return `<tr><td>${r.contract}</td>${cell(r['+3M'])}${cell(r['+6M'])}${cell(r['+9M'])}${cell(r['+12M'])}</tr>`;
-  }).join('');
-}
-
-function renderStirCbLvl(){
-  if(!STIR.data||!STIR.data.meeting_path.length) return;
-  const d=STIR.data, p=STIR.PALETTE;
-  const path=d.meeting_path;
-  const trace={
-    type:'scatter', mode:'lines+markers', line:{shape:'hv',color:p.orangeHot,width:2.4},
-    marker:{color:p.bg, line:{color:p.orangeHot,width:1.5}, size:9},
-    x:path.map(r=>r.meeting), y:path.map(r=>r.post_rate),
-    hovertemplate:'%{x}<br>%{y:.3f}%<extra></extra>',
+  const f0 = v => v>0.05 ? v.toFixed(0) : '—';
+  const fHikes = v => {
+    if(v==null||isNaN(v)) return '—';
+    const cls = v>0.005?'stir-spread-pos':v<-0.005?'stir-spread-neg':'';
+    const sign= v>0?'+':'';
+    return `<span class="${cls}">${sign}${v.toFixed(2)}</span>`;
   };
-  const shapes=[];
-  const annotations=[];
-  d.cb_levels.forEach(lv=>{
-    const isS = Math.abs(lv-d.cb_settle)<0.005;
-    shapes.push({type:'line',xref:'paper',x0:0,x1:1,y0:lv,y1:lv,
-                 line:{color:isS?p.orange:p.orangeDim,dash:isS?'solid':'dot',width:isS?1.4:0.6}});
-    annotations.push({xref:'paper',x:1,xanchor:'left',y:lv,yanchor:'middle',
-                      text:`${lv.toFixed(2)}%${isS?' · SETTLE':''}`,showarrow:false,
-                      font:{color:isS?p.orange:p.orangeDim,size:9,family:'IBM Plex Mono,monospace'}});
-  });
-  const layout=stirLayout({
-    yaxis:{gridcolor:'#1a1a1a',title:'Implied post-meeting rate (%)'},
-    shapes, annotations,
-    margin:{l:50,r:80,t:20,b:40},
-  });
-  Plotly.react('stir-cblvl-chart',[trace],layout,{displayModeBar:false,responsive:true});
+  document.getElementById('stir-meet-body').innerHTML = path.map(r=>`
+    <tr>
+      <td><div class="stir-meet-cell"><span>${r.meeting}</span><span class="stir-meet-sym">${r.contract}</span></div></td>
+      <td>${r.contract_rate.toFixed(3)}%</td>
+      <td>${r.post_rate.toFixed(3)}%</td>
+      <td>${f0(r.probs.hold)}</td>
+      <td>${f0(r.probs.cut25)}</td>
+      <td>${f0(r.probs.cut50)}</td>
+      <td>${f0(r.probs.cut75)}</td>
+      <td>${f0(r.probs.hike25)}</td>
+      <td>${f0(r.probs.hike50)}</td>
+      <td>${fHikes(r.cum_hikes)}</td>
+    </tr>`).join('');
 }
 
-function renderStirMeetings(){
-  if(STIR.meeting==='strip')   renderStirPath();
-  if(STIR.meeting==='spreads') renderStirSpreads();
-  if(STIR.meeting==='cblvl')   renderStirCbLvl();
+function renderStirStripTable(){
+  if(!STIR.data) return;
+  const strip = STIR.product==='sofr' ? STIR.data.sofr_strip : STIR.data.ff_strip;
+  document.getElementById('stir-strip-hdr').textContent =
+    (STIR.product==='sofr' ? 'SOFR (SR3) ' : 'Fed Funds (ZQ) ') + 'Contract Strip';
+  if(!strip||!strip.length){ document.getElementById('stir-strip-body').innerHTML=''; return; }
+
+  const fNum = (v, dp, sign) => {
+    if(v==null||isNaN(v)) return '—';
+    const s = sign && v>0 ? '+' : '';
+    return `${s}${v.toFixed(dp)}`;
+  };
+  const fInt = v => v==null ? '—' : v.toLocaleString('en-US');
+  const fSigned = (v, suf) => {
+    if(v==null||isNaN(v)) return '—';
+    const cls = v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
+    const sign= v>0?'+':'';
+    return `<span class="${cls}">${sign}${typeof v==='number' ? v.toFixed(suf===' bp'?1:4) : v}${suf||''}</span>`;
+  };
+
+  let lastYr=null, html='';
+  strip.forEach(r=>{
+    if(r.year!==lastYr){
+      html += `<tr class="stir-yr"><td colspan="10">${r.year}</td></tr>`;
+      lastYr=r.year;
+    }
+    const trCls = r.is_terminal ? ' class="stir-terminal"' : '';
+    html += `<tr${trCls}>
+      <td>${r.symbol}</td>
+      <td>${fNum(r.settle,4)}</td>
+      <td>${fNum(r.implied_rate,3)}%</td>
+      <td>${fSigned(r.vs_ocr_bp,' bp')}</td>
+      <td>${fSigned(r.px_1d)}</td>
+      <td>${fSigned(r.px_5d)}</td>
+      <td>${fSigned(r.px_1m)}</td>
+      <td>${fInt(r.volume)}</td>
+      <td>${fInt(r.oi)}</td>
+      <td>${fInt(r.oi_chg)}</td>
+    </tr>`;
+  });
+  document.getElementById('stir-strip-body').innerHTML = html;
+}
+
+function renderStirSpreadsTable(){
+  if(!STIR.data) return;
+  const rows = STIR.product==='sofr' ? STIR.data.spreads_sofr : STIR.data.spreads_ff;
+  document.getElementById('stir-spread-hdr').textContent =
+    (STIR.product==='sofr' ? 'SOFR (SR3) ' : 'Fed Funds (ZQ) ') + 'Calendar Spread Matrix';
+  const cell=v=>{
+    if(v==null) return '<td>—</td>';
+    const cls = v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
+    const sign= v>0?'+':'';
+    return `<td class="${cls}">${sign}${v} bp</td>`;
+  };
+  document.getElementById('stir-spread-body').innerHTML = (rows||[]).map(r=>`
+    <tr><td>${r.contract}</td>${cell(r['+3M'])}${cell(r['+6M'])}${cell(r['+9M'])}${cell(r['+12M'])}</tr>
+  `).join('');
 }
 
 function applyStirData(d){
   STIR.data=d;
-  document.getElementById('stir-effr').textContent = d.effr.toFixed(2)+'%';
-  document.getElementById('stir-asof').textContent = 'as of '+d.asof_date;
-  document.getElementById('stir-sofr').textContent = d.sofr.toFixed(2)+'%';
-  const sign = d.basis_bp>0?'+':'';
-  document.getElementById('stir-basis').textContent = `basis ${sign}${d.basis_bp.toFixed(1)} bp`;
-
-  const ffStrip = d.ff_strip||[];
-  const term = ffStrip.find(r=>r.is_terminal);
-  if(term){
-    document.getElementById('stir-terminal').textContent = term.implied_rate.toFixed(2)+'%';
-    document.getElementById('stir-terminal-sub').textContent = `${term.symbol} · ${term.expiry}`;
-  }
-
-  // Cuts priced over the next ~12 months: last meeting in path
-  const path=d.meeting_path||[];
-  if(path.length){
-    const last = path[Math.min(path.length-1, 7)];
-    document.getElementById('stir-cuts').textContent = last.cum_cuts.toFixed(2);
-  }
-
-  renderStirStrip();
-  renderStirSpreads();
+  renderStirKpis();
+  // Hide the SOFR/FF toggle on the default Meetings view at startup.
+  document.getElementById('stir-sub-tabs').style.display = STIR.main==='meetings' ? 'none' : '';
+  renderStirActive();
 }
 
 fetch('stir.json?_='+Date.now())
   .then(r=>r.ok?r.json():null)
   .then(d=>{ if(d) applyStirData(d); })
-  .catch(()=>{ /* silent — STIR tab simply stays empty */ });
+  .catch(()=>{ /* silent — Yields tab simply stays empty if no stir.json */ });
 
-// Re-render Plotly charts when the user activates the tab (Plotly needs the
+// Re-render Plotly when the user activates the tab (Plotly needs the
 // container to be visible to size correctly).
 const _origShowMain = showMain;
 showMain = function(id, btn){
   _origShowMain(id, btn);
   if(id==='stir' && STIR.data){
-    setTimeout(()=>{
-      renderStirStrip();
-      if(STIR.meeting==='strip') renderStirPath();
-      else if(STIR.meeting==='cblvl') renderStirCbLvl();
-    }, 30);
+    setTimeout(renderStirActive, 30);
   }
 };
 </script>

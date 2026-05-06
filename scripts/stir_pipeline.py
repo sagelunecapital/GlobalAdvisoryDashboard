@@ -103,12 +103,40 @@ def _expiry_for_month(y: int, m: int) -> date:
     return date(y, m, monthrange(y, m)[1])
 
 
-def _fetch_settle(symbol: str) -> float | None:
+def _fetch_history(symbol: str) -> dict | None:
+    """Return {settle, px_1d, px_5d, px_1m, volume, oi, oi_chg} for a contract.
+
+    OI is fetched best-effort from Ticker.info; many CME futures don't expose
+    it on Yahoo Finance, in which case it stays None. PX deltas are change
+    in price (not implied rate) over the trailing 1/5/21 trading sessions.
+    """
     try:
-        h = yf.Ticker(symbol).history(period="5d")
+        tk = yf.Ticker(symbol)
+        h  = tk.history(period="35d")
         if h.empty:
             return None
-        return float(h["Close"].iloc[-1])
+        closes = h["Close"]
+        settle = float(closes.iloc[-1])
+        def _back(n: int) -> float | None:
+            if len(closes) <= n:
+                return None
+            return round(settle - float(closes.iloc[-1 - n]), 4)
+        vol = h["Volume"].iloc[-1] if "Volume" in h.columns else None
+        oi = None
+        try:
+            info = tk.info or {}
+            oi = info.get("openInterest")
+        except Exception:
+            oi = None
+        return {
+            "settle":  round(settle, 4),
+            "px_1d":   _back(1),
+            "px_5d":   _back(5),
+            "px_1m":   _back(21),
+            "volume":  int(vol) if vol is not None and not pd.isna(vol) else None,
+            "oi":      int(oi) if oi else None,
+            "oi_chg":  None,   # not available from yfinance free feed
+        }
     except Exception:
         return None
 
@@ -117,7 +145,7 @@ def load_strip(today: date,
                zq_months: int = 18,
                sr3_quarters: int = 8) -> pd.DataFrame:
     """Settlement strip: ZQ (Fed Funds, monthly) and SR3 (3M SOFR, quarterly)."""
-    contracts: list[Contract] = []
+    rows: list[dict] = []
 
     # ZQ - one per calendar month, ~18 months out
     for i in range(zq_months):
@@ -125,9 +153,10 @@ def load_strip(today: date,
         y = today.year + (today.month + i - 1) // 12
         exp = _expiry_for_month(y, m)
         sym = f"ZQ{_CME_MONTH_CODES[m]}{y % 100:02d}.CBT"
-        s = _fetch_settle(sym)
-        if s is not None:
-            contracts.append(Contract(_cme_symbol("ZQ", exp), "ZQ", exp, s))
+        d = _fetch_history(sym)
+        if d is not None:
+            rows.append({"symbol": _cme_symbol("ZQ", exp), "root": "ZQ",
+                         "expiry": exp, **d})
 
     # SR3 - quarterly listings (Mar/Jun/Sep/Dec), ~2 years out
     cur_q = ((today.month - 1) // 3) * 3 + 3
@@ -138,12 +167,15 @@ def load_strip(today: date,
             y += 1
         exp = _expiry_for_month(y, q)
         sym = f"SR3{_CME_MONTH_CODES[q]}{y % 100:02d}.CME"
-        s = _fetch_settle(sym)
-        if s is not None:
-            contracts.append(Contract(_cme_symbol("SR3", exp), "SR3", exp, s))
+        d = _fetch_history(sym)
+        if d is not None:
+            rows.append({"symbol": _cme_symbol("SR3", exp), "root": "SR3",
+                         "expiry": exp, **d})
         q += 3
 
-    return to_strip(contracts).sort_values(["root", "expiry"]).reset_index(drop=True)
+    return (pd.DataFrame(rows)
+            .sort_values(["root", "expiry"])
+            .reset_index(drop=True))
 
 
 # A3 - Implied rate, terminal, strip view
@@ -234,9 +266,14 @@ def build_meeting_path(zq_strip: pd.DataFrame, effr_today: float,
             post = next_rate                                 # next-month shortcut
         else:
             post = post_meeting_rate(rate, prev, d.day, N)
-        rows.append({"meeting":   d,
-                     "post_rate": post,
-                     "cum_cuts":  (effr_today - post) / 0.25})
+        # ZQ contract for this meeting's calendar month (e.g. ZQM6 for June 2026)
+        contract = f"ZQ{_CME_MONTH_CODES[d.month]}{d.year % 10}"
+        rows.append({"meeting":      d,
+                     "contract":     contract,
+                     "contract_rate": rate,
+                     "post_rate":    post,
+                     "cum_cuts":     (effr_today - post) / 0.25,
+                     "cum_hikes":    (post - effr_today) / 0.25})
         prev = post
     return pd.DataFrame(rows)
 
@@ -253,7 +290,8 @@ def meeting_probs(post_rate: float, effr: float) -> dict[str, float]:
             "cut25":  100 * mass.get(1,  0.0),
             "cut50":  100 * mass.get(2,  0.0),
             "cut75":  100 * mass.get(3,  0.0),
-            "hike25": 100 * mass.get(-1, 0.0)}
+            "hike25": 100 * mass.get(-1, 0.0),
+            "hike50": 100 * mass.get(-2, 0.0)}
 
 
 # A5 - Spread matrix, meeting-path plot, CB LVL overlay
@@ -313,10 +351,44 @@ def plot_cb_lvl(path: pd.DataFrame, effr: float) -> go.Figure:
     return fig
 
 
-# Dashboard JSON export (consumed by prototypes/index.html, US STIR tab)
+# Dashboard JSON export (consumed by prototypes/index.html, "Yields" tab)
+def _kpis(s: pd.DataFrame, today: date, ocr: float) -> dict:
+    """Terminal M+2 KPI block: terminal rate (3rd contract on the strip),
+    plus its spread vs EFFR and vs the +6M / +12M contracts.
+    """
+    if s.empty or len(s) < 3:
+        return {"terminal": None, "vs_effr_bp": None,
+                "vs_6m_bp": None, "vs_12m_bp": None,
+                "terminal_symbol": None, "h6_symbol": None, "h12_symbol": None}
+
+    term = s.iloc[2]
+    term_rate = float(term["implied_rate"])
+
+    def _at_horizon(months: int) -> tuple[str | None, float | None]:
+        target_key = today.year * 12 + today.month + months
+        cand = s[s["expiry"].apply(lambda d: d.year * 12 + d.month) >= target_key]
+        if cand.empty:
+            return None, None
+        r = cand.iloc[0]
+        return r["symbol"], float(r["implied_rate"])
+
+    h6_sym,  h6_rate  = _at_horizon(6)
+    h12_sym, h12_rate = _at_horizon(12)
+
+    return {
+        "terminal":        round(term_rate, 4),
+        "terminal_symbol": term["symbol"],
+        "vs_effr_bp":      round((term_rate - ocr) * 100, 1),
+        "vs_6m_bp":        round((term_rate - h6_rate)  * 100, 1) if h6_rate  is not None else None,
+        "vs_12m_bp":       round((term_rate - h12_rate) * 100, 1) if h12_rate is not None else None,
+        "h6_symbol":       h6_sym,
+        "h12_symbol":      h12_sym,
+    }
+
+
 def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
                             fomc_dates: list[date], path_df: pd.DataFrame,
-                            effr: float, sofr: float) -> dict:
+                            effr: float, sofr: float, today: date) -> dict:
     sofr_strip = strip[strip["root"] == "SR3"].reset_index(drop=True)
     ff_strip   = strip[strip["root"] == "ZQ"].reset_index(drop=True)
 
@@ -327,30 +399,41 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
         return [
             {"symbol":       r["symbol"],
              "expiry":       r["expiry"].isoformat(),
-             "settle":       round(r["settle"], 4),
-             "implied_rate": round(r["implied_rate"], 4),
-             "vs_ocr_bp":    round(r["vs_ocr_bp"], 1),
+             "year":         r["expiry"].year,
+             "settle":       round(float(r["settle"]), 4),
+             "implied_rate": round(float(r["implied_rate"]), 4),
+             "vs_ocr_bp":    round(float(r["vs_ocr_bp"]), 1),
+             "px_1d":        None if r.get("px_1d") is None or pd.isna(r["px_1d"]) else round(float(r["px_1d"]), 4),
+             "px_5d":        None if r.get("px_5d") is None or pd.isna(r["px_5d"]) else round(float(r["px_5d"]), 4),
+             "px_1m":        None if r.get("px_1m") is None or pd.isna(r["px_1m"]) else round(float(r["px_1m"]), 4),
+             "volume":       None if r.get("volume") is None or pd.isna(r["volume"]) else int(r["volume"]),
+             "oi":           None if r.get("oi")     is None or pd.isna(r["oi"])     else int(r["oi"]),
+             "oi_chg":       None if r.get("oi_chg") is None or pd.isna(r["oi_chg"]) else int(r["oi_chg"]),
              "is_terminal":  term_sym is not None and r["symbol"] == term_sym}
             for _, r in s.iterrows()
         ]
 
-    spreads = spread_matrix(ff_strip, effr)
-    spread_rows = []
-    if not spreads.empty:
-        for sym, row in spreads.iterrows():
-            spread_rows.append({
-                "contract": sym,
-                **{k: (None if pd.isna(v) else int(v)) for k, v in row.items()},
-            })
+    def _spread_rows(view: pd.DataFrame) -> list[dict]:
+        m = spread_matrix(view, effr)
+        if m.empty:
+            return []
+        out = []
+        for sym, row in m.iterrows():
+            out.append({"contract": sym,
+                        **{k: (None if pd.isna(v) else int(v)) for k, v in row.items()}})
+        return out
 
     path_rows = []
     for _, r in path_df.iterrows():
         probs = meeting_probs(r["post_rate"], effr)
         path_rows.append({
-            "meeting":   r["meeting"].isoformat(),
-            "post_rate": round(r["post_rate"], 4),
-            "cum_cuts":  round(r["cum_cuts"], 2),
-            "probs":     {k: round(v, 1) for k, v in probs.items()},
+            "meeting":       r["meeting"].isoformat(),
+            "contract":      r["contract"],
+            "contract_rate": round(float(r["contract_rate"]), 4),
+            "post_rate":     round(float(r["post_rate"]), 4),
+            "cum_cuts":      round(float(r["cum_cuts"]),  2),
+            "cum_hikes":     round(float(r["cum_hikes"]), 2),
+            "probs":         {k: round(v, 1) for k, v in probs.items()},
         })
 
     asof = (ref_rates.index[-1].date().isoformat()
@@ -362,13 +445,18 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
         "effr":         round(effr, 4),
         "sofr":         round(sofr, 4),
         "basis_bp":     round((sofr - effr) * 100, 1),
-        "sofr_strip":   _rows(sofr_strip, sofr_term["symbol"] if sofr_term is not None else None),
-        "ff_strip":     _rows(ff_strip,   ff_term["symbol"]   if ff_term   is not None else None),
-        "fomc_dates":   [d.isoformat() for d in fomc_dates],
-        "meeting_path": path_rows,
-        "spreads":      spread_rows,
-        "cb_levels":    [round(lv, 2) for lv in cb_levels(effr, band_bp=150)],
-        "cb_settle":    round(round(effr / 0.25) * 0.25, 2),
+        "kpis": {
+            "ff":   _kpis(ff_strip,   today, effr),
+            "sofr": _kpis(sofr_strip, today, effr),
+        },
+        "sofr_strip":    _rows(sofr_strip, sofr_term["symbol"] if sofr_term is not None else None),
+        "ff_strip":      _rows(ff_strip,   ff_term["symbol"]   if ff_term   is not None else None),
+        "fomc_dates":    [d.isoformat() for d in fomc_dates],
+        "meeting_path":  path_rows,
+        "spreads_ff":    _spread_rows(ff_strip),
+        "spreads_sofr":  _spread_rows(sofr_strip),
+        "cb_levels":     [round(lv, 2) for lv in cb_levels(effr, band_bp=150)],
+        "cb_settle":     round(round(effr / 0.25) * 0.25, 2),
     }
 
 
@@ -404,7 +492,8 @@ def main(show_plots: bool = False) -> None:
     print(f"    Path covers {len(path)} meetings", flush=True)
 
     print("[5] Exporting dashboard JSON...", flush=True)
-    payload = build_dashboard_payload(strip, ref_rates, fomc_dates, path, OCR, SOFR)
+    payload = build_dashboard_payload(strip, ref_rates, fomc_dates, path,
+                                      OCR, SOFR, today)
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     with open(JSON_OUT, "w", encoding="utf-8") as f:
         json.dump(payload, f, separators=(",", ":"))
