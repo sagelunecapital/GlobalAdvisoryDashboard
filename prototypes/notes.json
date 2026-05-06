@@ -1,5 +1,5 @@
 {
-  "tactics": "Market Regime: Not quite our spot yet and looks like the next oversold level will come at a period when leaders are still running hot. \n\nMacro: Markets will contend with the convergence of 1) elevated oil prices and inflation swaps, and 2) the interviews of Warsh and Trump- which were bearish, focusing on balance sheet reduction (while according to Lyn Alden its unlikely, the tone takes precedence) and inflation.\nNext market event will be the inauguration of Warsh on May 15, coupled with the ongoing situation surrounding the Strait of Hormuz, it looks like we are headed towards volatility in the medium to long-term.\n\nBottom Up: Semiconductors overheating, some new sectors showing strength are lodging,  railroads, networking. Important sectors to track are banks.",
+  "tactics": "Market Regime: Not quite our spot yet and looks like the next oversold level will come at a period when leaders are still running hot. \n\nMacro: Inflation expectations continue to rise, breaking out on the 1Y and 2Y inflation swaps, even as oil prices stay flat. Yields can be pricing this in and may be signaling policy error as rates have been put on hold. Additionally, with the transition in Fed chair, the regime change that Warsh wants to bring in will shake things up in the market. Liquidity looks tight - currencies, Fed balance sheet, metals breaking down.\n\nBottom Up: Semiconductors are filling the gap so its critical that IGV/MAGS bears the responsibility since 40-45% of the market cannot go up without these sectors going up. We will see if semiconductors are the last mohicans since it is the only true leader this round. Banks seem important to track.",
   "breadth": "",
   "nhnl": "Green",
   "sectors": [
@@ -7,44 +7,44 @@
       "name": "Energy",
       "thesis": "At the moment, the global refinery outage is over ~5 million b/d, with ~3 million b/d concentrated in the Middle East. Asia and Europe are both reducing refinery throughput, but just because refineries throttle back doesn’t mean end-user demand is down. The subsequent reduction in refinery throughput will lead to faster product storage draws, raising petroleum product prices. This cycle will then feed itself back into higher refining margins and, thus, higher refinery throughput.\n\nThis cycle will rinse and repeat for a few more weeks: Elevated crude prices > compressed refining margins > lower refined products > lower product storage > higher refining margins > higher throughput > higher crude prices\n\nOn the physical market, you will see this game being played by traders who hold storage and refineries that don’t have storage. This, of course, will only last as long as there is something to draw down in onshore crude storage, but that time is running out soon.\n\nBy the first week of May, the only Asian countries with real excess in crude oil inventories will be Japan and China. Everyone else will have to scramble for barrels on the market, and if the Strait of Hormuz remains closed, that’s when you will see refineries pay any price they can to secure the barrels they need. Because the alternative is shutting down the refinery.  For Europe, the lack of crude will become apparent by the same timeframe. US crude exports will have averaged near ~5.5 million b/d by then. OECD crude oil inventories will have reached operational minimum with the remaining excess crude in storage residing in the US. For US, commercial crude storage will be below ~400 million bbls and approaching the operational minimum (370 to 380 million bbls) by the end of July. This includes an estimated SPR release total of 139 million bbls.\n\nAgain, by our rough estimate in the March 25 Breaking Point write-up, the cumulative storage lost due to the closure is already ~1 billion bbls. This increases to 1.2 billion bbls by the end of April, 1.59 billion bbls by the end of May, and 1.98 billion bbls by the end of June.\n\nChina holds the entire surplus in storage. As I’ve said, this is a national security concern, so China will continue to hoard crude and ban product exports. The product export ban has jacked up Asian refining margins, and sadly, that’s still not enough. Without those teapot refinery product exports, Asia will run low on products in 3 weeks.\n\nhttps://www.hfir.com/p/wctw-the-oil-market-breaking-pointhttps://www.hfir.com/p/oil-storage-math-the-draws-are-underway",
       "tickers": "XLE, CVX",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Technology",
       "thesis": "Heavily derated due to expectations of AI disruption but potential rerating this earnings season.",
       "tickers": "IGV, SNOW, CRM, CRWD, APP, SHOP",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Power",
       "thesis": "NVIDIA’s Blackwell generation spans a range of power levels depending on configuration. Air-cooled HGX B200 is rated at 1,000W. The liquid-cooled B200 used in GB200 is rated at 1,200W. If we use 0.8V as an illustrative core voltage, 1,200W translates to roughly 1,500A of current. Apply the same arithmetic to Vera Rubin at 2,300W, and the number rises to roughly 2,875A. Real systems split power across multiple rails and voltage domains, but the direction does not change. As voltage falls, current explodes.\n\nIn AI workloads, when large blocks of tensor compute switch on together, current can swing by hundreds of amps within microseconds. Once that surge meets a copper path only a few centimeters long, the board voltage begins to move immediately. If Vcore shifts by even a few tens of millivolts, timing margin starts to shrink. The result is throttling at best, and a stability problem at worst.\n\nhttps://nuttycld.substack.com/p/the-ai-power-crisis-part-2\nhttps://nuttycld.substack.com/p/the-ai-power-crisis-part-3",
       "tickers": "MPWR, 6723, ADI, TXN, NVTS, IFX, AOSL, WOLF, ON",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "World Cup",
       "thesis": "Soccer world cup is coming up soon, is it a big enough of an event for the fans to spend past the pain coming from today’s geopolitical events?",
       "tickers": "Hotels - MAR, HLT, WH, CHH, ABNB\nBooking - BKNG, EXPE, TRIP\nRestaurants - YUM, QSR, CMG, SBUX, DPZ",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Electrification",
       "thesis": "“On January 20, 2025, I issued Executive Order 14156 (Declaring a National Energy Emergency), under the National Emergencies Act. That order found that America’s inadequate energy production, transportation, and infrastructure constitute an unusual and extraordinary threat to the Nation’s economy, national security, and foreign policy [...]\n\nThe Nation’s capacity to design, produce, and deploy large-scale grid infrastructure, including transformers, high-voltage transmission components, advanced conductors, power electronics, substations, and grid-supporting manufacturing equipment, is dangerously limited.”\n\nInvoking it for the electrical grid signals two things. First, the administration views grid capacity as a national security issue, not just an economic one. AI data center load growth is now categorized alongside semiconductor capacity and critical mineral access. Second, traditional procurement timelines are being abandoned. DPA invocation lets federal agencies bypass normal contracting rules to accelerate construction.\n\nThe obvious beneficiaries cluster in three categories. Transformer manufacturers, the US faces a 2-3 year backlog on large power transformers. Grid construction firms. Power generation, accelerated approvals for new gas plants and nuclear restarts.\n\nThe less obvious beneficiaries are the second-order plays. Specialty steel for transformer cores. Specialty copper for transmission. Industrial control systems for substation automation. They become grid plays when DPA accelerates the entire stack simultaneously.\n\nhttps://www.whitehouse.gov/presidential-actions/2026/04/presidential-determination-pursuant-to-section-303-of-the-defense-production-act-of-1950-as-amended-on-grid-infrastructure-equipment-and-supply-chain-capacity/\nhttps://x.com/realarmaansidhu/status/2048661000631558299?s=20",
       "tickers": "Grid - 6501, ENR, GEV, SU, 6503, ABBN\nTransmission Lines - PRY, NEX, 5802\nGrid Construction/Engineering - PWR, MTZ, MYRG\nOff-Grid - BE, FCEL\nPower Generation - XLU, CEG, VST, TLN, NEE\nSolar - ENPH, SEDG\nSpecialty Materials - CRS, HWM\nRaw Materials - CPER/COPX, NUE/STLD/TS/RS/CLF, AA/CENX/KALU",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Chemicals",
       "thesis": "Can't build semis - especially those using advanced materials like Silicon Carbide (SiC) or Gallium Nitride (GaN) - without specialized electronic chemicals (photoresists, precursors, and high-purity gasses).",
       "tickers": "AI, BAS, GIVN, HEN3, SY1, AKZA, YAR, BNR, IMCD, EMSN\n\nPhotoresists: 4186, 4063, 4901, DD, 4005, MRK:GR, 005290:KQ, 1717:TW, 300655:SZ, 300346:SZ\n\nPrecursors: ENTG, MRK:GR, AI:FP, 4022, 357780:KQ, 4004, 014680:KS, 4369, 092130:KQ, 104830:KQ\n\nHigh-Purity Gases: LIN, AI:FP, APD, 4188, 8088, 4004, 034730:KS, 104830:KQ, 4183",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "name": "Physical AI",
       "thesis": "Hyperscalers front-loaded AI infrastructure, device layer harvests efficiency gains. Computers benefit as more common people adopts the use of AI tools in their day to day tasks. Robotics benefit to some extent as well as viability in automation improves.",
       "tickers": "CPUs - ARM, INTC, AMD\nLaptops - AAPL, DELL, 992, 2357, 2432\nRobotics - SHA0, 6954, 6506, 9880, 9660\n",
-      "collapsed": true
+      "collapsed": false
     }
   ],
-  "saved_at": "2026-04-27T23:37:36.226Z"
+  "saved_at": "2026-05-05T04:15:16.591Z"
 }
