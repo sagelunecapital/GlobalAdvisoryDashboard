@@ -169,6 +169,17 @@ def migrate_schema_to_ema(conn: sqlite3.Connection) -> None:
 
 
 def upsert_industry(conn: sqlite3.Connection, df: pd.DataFrame) -> None:
+    current = set(df["YF_Ticker"].tolist())
+    removed = conn.execute(
+        f"SELECT yf_ticker FROM industry WHERE yf_ticker NOT IN ({','.join('?'*len(current))})",
+        list(current),
+    ).fetchall()
+    if removed:
+        removed_tickers = [r[0] for r in removed]
+        ph = ','.join('?' * len(removed_tickers))
+        conn.execute(f"DELETE FROM industry WHERE yf_ticker IN ({ph})", removed_tickers)
+        conn.execute(f"DELETE FROM daily WHERE yf_ticker IN ({ph})", removed_tickers)
+        print(f"  Removed {len(removed_tickers)} tickers no longer in CSV: {removed_tickers}")
     conn.executemany(
         """INSERT OR REPLACE INTO industry
            (ticker, yf_ticker, country, sector, industry, sub_industry)
@@ -264,11 +275,14 @@ def fetch(yf_tickers: list, start: str, end: str) -> pd.DataFrame:
             except (KeyError, TypeError):
                 continue
             for dt, c in close.items():
+                vol = int(volume.get(dt, 0))
+                if vol == 0:
+                    continue  # holiday echo — yfinance repeats prior close with 0 volume
                 rows.append({
                     "YF_Ticker": t,
                     "Date":      pd.Timestamp(dt).date(),
                     "Close":     round(float(c), 4),
-                    "Volume":    int(volume.get(dt, 0)),
+                    "Volume":    vol,
                 })
 
     return pd.DataFrame(rows)
@@ -400,8 +414,11 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
     # Normalise SPX to 100 at first date
     spx_perf = spx_aligned / spx_aligned.iloc[0] * 100
 
-    # Daily returns for all tickers
-    daily_ret = price_wide.pct_change()
+    # Daily returns for all tickers.
+    # ffill so that the first trading day back after a holiday computes its
+    # return against the last real close, not a NaN row (which would produce
+    # NaN → fillna(0) → a flat index level, losing the real price move).
+    daily_ret = price_wide.ffill().pct_change()
 
     trading_dates = price_wide.index
     date_month    = pd.PeriodIndex(pd.DatetimeIndex(trading_dates), freq="M")
@@ -478,14 +495,13 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
         # ── Signal: RS - EMA only when RS > EMA ──────────────────────────
         signal = (rs - ema21).where(rs > ema21)
 
-        # Stop at the last date this group's tickers have real prices.
-        # Dates beyond that are filled with 0 returns (flat index) because
-        # other markets have already closed for the day — don't emit those.
-        real_dates = price_wide[tickers].dropna(how="all").index
-        last_real_date = real_dates[-1] if len(real_dates) else rs.index[-1]
+        # Only emit rows for dates where this group's tickers actually traded.
+        # Holiday echoes are already excluded from `daily` (volume=0 purge),
+        # so any non-NaN date here is a real trading day for this market.
+        real_dates = set(price_wide[tickers].dropna(how="all").index)
 
         for dt in rs.index:
-            if dt > last_real_date:
+            if dt not in real_dates:
                 continue
             sig = signal.get(dt)
             all_rows.append((
@@ -549,12 +565,17 @@ def compute_group_summary(conn: sqlite3.Connection, industry_df: pd.DataFrame) -
     rs_wide  = rs_df.pivot(index="date", columns="group_id", values="rs")
 
     # ── Performance metrics (pct change of index_level) ──────────────────────
+    # ffill bridges holiday gaps from other markets in the combined date index
+    # so pct_change uses the last real trading day as the base, not a NaN row.
+    # Results are then masked back to actual trading days only.
+    idx_filled = idx_wide.ffill()
     perf_frames: dict = {}
     for label, n in [
         ("perf_1d", 1), ("perf_5d", 5), ("perf_10d", 10),
         ("perf_1m", 21), ("perf_2m", 42), ("perf_3m", 63),
     ]:
-        perf_frames[label] = (idx_wide.pct_change(n) * 100).round(4)
+        raw = (idx_filled.pct_change(n) * 100).round(4)
+        perf_frames[label] = raw.where(idx_wide.notna())
 
     # ── RS rankings within country ────────────────────────────────────────────
     def _percentrank_row(row: pd.Series) -> pd.Series:
@@ -662,6 +683,12 @@ def main() -> None:
     init_db(conn)
     migrate_schema_to_ema(conn)
     upsert_industry(conn, industry)
+
+    # Remove holiday echoes already in the DB (volume=0 means no real trading)
+    purged = conn.execute("DELETE FROM daily WHERE volume = 0 OR volume IS NULL").rowcount
+    if purged:
+        conn.commit()
+        print(f"  Purged {purged:,} zero-volume rows (holiday echoes).")
 
     existing_rows = db_row_count(conn)
     last_date     = get_last_date(conn)

@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 <style>
 /* ── Reset & base ── */
 *{box-sizing:border-box;margin:0;padding:0}
@@ -46,6 +47,24 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .nav-tab.active{color:#fff;background:var(--ps-blue)}
 .nav-tab.active:hover{background:var(--ps-cyan);transform:translateX(2px)}
 .nav-tab-icon{margin-right:8px;font-size:14px;opacity:.8}
+.nav-tab.nav-sub{padding-left:28px;font-size:12px}
+/* ── US STIR tab ── */
+.stir-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stir-grid-1{display:grid;grid-template-columns:1fr;gap:14px}
+.stir-kpi-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.stir-kpi{flex:1;min-width:140px;background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:14px;padding:10px 14px}
+.stir-kpi-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
+.stir-kpi-value{font-size:22px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+.stir-kpi-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.stir-chart{width:100%;height:380px;background:#050505;border-radius:12px}
+.stir-table{width:100%;border-collapse:collapse;font-size:12px}
+.stir-table th{color:var(--text-muted);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap}
+.stir-table th:first-child{text-align:left}
+.stir-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.stir-table td:first-child{text-align:left;color:var(--text)}
+.stir-table tr.stir-terminal td{color:var(--amber);font-weight:600}
+.stir-spread-pos{color:var(--green)}
+.stir-spread-neg{color:var(--red)}
 .main-content{min-width:0;padding:20px 24px 0 24px}
 .main-panel{display:none}
 .main-panel.active{display:block}
@@ -208,7 +227,9 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .sr-table th{color:var(--text-muted);font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap;position:sticky;top:0;background:var(--surface-card);z-index:1}
 .sr-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);font-variant-numeric:tabular-nums;white-space:nowrap}
 .sr-table tr:hover td{background:rgba(255,255,255,0.03)}
-.sr-table td.sr-name{white-space:normal;max-width:220px;word-break:break-word}
+.sr-table td.sr-name{white-space:normal;max-width:220px;word-break:break-word;cursor:pointer;user-select:none}
+.sr-name-tickers{display:none;font-size:10px;color:var(--text-muted);margin-top:4px;line-height:1.5;white-space:normal}
+.sr-name.open .sr-name-tickers{display:block}
 .sr-sig{color:var(--green);font-size:10px;vertical-align:middle}
 .sr-controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10px}
 .sr-axis-label{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px}
@@ -227,6 +248,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   <aside class="sidebar">
     <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
+    <button class="nav-tab nav-sub" onclick="showMain('stir',this)">US STIR</button>
     <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
   </aside>
@@ -501,6 +523,100 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   </div>
 
 </div><!-- /macro panel -->
+
+<!-- ═══════════════════════════ US STIR TAB ═══════════════════════════ -->
+<div id="main-stir" class="main-panel">
+
+  <div class="section-heading">US STIR</div>
+
+  <!-- KPI strip -->
+  <div class="stir-kpi-row">
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">EFFR</div>
+      <div class="stir-kpi-value" id="stir-effr">—</div>
+      <div class="stir-kpi-sub" id="stir-asof"></div>
+    </div>
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">SOFR</div>
+      <div class="stir-kpi-value" id="stir-sofr">—</div>
+      <div class="stir-kpi-sub" id="stir-basis"></div>
+    </div>
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">Terminal (FF)</div>
+      <div class="stir-kpi-value" id="stir-terminal">—</div>
+      <div class="stir-kpi-sub" id="stir-terminal-sub"></div>
+    </div>
+    <div class="stir-kpi">
+      <div class="stir-kpi-label">Cuts Priced (12M)</div>
+      <div class="stir-kpi-value" id="stir-cuts">—</div>
+      <div class="stir-kpi-sub">vs today's EFFR</div>
+    </div>
+  </div>
+
+  <!-- Outer tabs: PRODUCTS / MEETINGS -->
+  <div class="itabs">
+    <button class="itab active" onclick="setStirOuter('products',this)">Products</button>
+    <button class="itab" onclick="setStirOuter('meetings',this)">Meetings</button>
+  </div>
+
+  <!-- ── PRODUCTS panel ── -->
+  <div id="stir-out-products" class="stir-outer active">
+    <div class="card">
+      <div class="itabs">
+        <button class="itab active" onclick="setStirProduct('sofr',this)">SOFR (SR3)</button>
+        <button class="itab" onclick="setStirProduct('ff',this)">Fed Funds (ZQ)</button>
+      </div>
+      <div class="stir-chart" id="stir-strip-chart"></div>
+    </div>
+  </div>
+
+  <!-- ── MEETINGS panel ── -->
+  <div id="stir-out-meetings" class="stir-outer" style="display:none">
+    <div class="card">
+      <div class="itabs">
+        <button class="itab active" onclick="setStirMeeting('strip',this)">Strip</button>
+        <button class="itab" onclick="setStirMeeting('spreads',this)">Spreads</button>
+        <button class="itab" onclick="setStirMeeting('cblvl',this)">CB LVL</button>
+      </div>
+
+      <!-- Strip view: meeting path + probability table -->
+      <div id="stir-mtg-strip" class="stir-mtg-panel">
+        <div class="stir-grid">
+          <div>
+            <div class="stir-chart" id="stir-path-chart"></div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="stir-table">
+              <thead>
+                <tr>
+                  <th>Meeting</th><th>Post-rate</th><th>Cum cuts</th>
+                  <th>Hold</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th><th>+25 bp</th>
+                </tr>
+              </thead>
+              <tbody id="stir-prob-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spreads matrix -->
+      <div id="stir-mtg-spreads" class="stir-mtg-panel" style="display:none;overflow-x:auto">
+        <table class="stir-table">
+          <thead>
+            <tr><th>Contract</th><th>+3M</th><th>+6M</th><th>+9M</th><th>+12M</th></tr>
+          </thead>
+          <tbody id="stir-spread-body"></tbody>
+        </table>
+      </div>
+
+      <!-- CB LVL chart -->
+      <div id="stir-mtg-cblvl" class="stir-mtg-panel" style="display:none">
+        <div class="stir-chart" id="stir-cblvl-chart"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /stir panel -->
 
 <!-- ═══════════════════════════ BREADTH TAB ═══════════════════════════ -->
 <div id="main-breadth" class="main-panel">
@@ -1672,9 +1788,9 @@ function renderSrGap(){
     const gc=g.gap>=0?'var(--green)':'var(--red)';
     const gs=(g.gap>=0?'+':'')+g.gap.toFixed(4);
     const tkTip=(g.tickers||[]).join(', ');
-    html+=`<tr title="${tkTip}">
+    html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}</td>
+      <td class="sr-name" onclick="this.classList.toggle('open')">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
       <td style="text-align:right">${g.rs.toFixed(4)}</td>
       <td style="text-align:right">${g.ema_21_rs.toFixed(4)}</td>
       <td style="text-align:right;color:${gc};font-weight:600">${gs}</td>
@@ -1715,9 +1831,9 @@ function renderSrRank(){
       return`<td style="text-align:right">${rank}${arrow?` <span style="color:${col};font-weight:700">${arrow}</span>`:''}</td>`;
     }
     const tkTip2=(g.tickers||[]).join(', ');
-    html+=`<tr title="${tkTip2}">
+    html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name">${_srName(g.group_id)}</td>
+      <td class="sr-name" onclick="this.classList.toggle('open')">${_srName(g.group_id)}<div class="sr-name-tickers">${tkTip2||'—'}</div></td>
       ${rankCell(dr,srRankMode==='daily')}
       ${rankCell(wr,srRankMode==='weekly')}
       ${rankCell(mr,srRankMode==='monthly')}
@@ -1943,6 +2059,203 @@ if(typeof macroRegime==='undefined'){
   const lb=document.getElementById('lb-value');
   if(mn&&lb) updateHighEdge(mn.textContent.trim(),lb.textContent.trim());
 }
+
+// ══ US STIR tab ═══════════════════════════════════════════════════════
+const STIR={
+  data:null, product:'sofr', meeting:'strip',
+  PALETTE:{bg:'#000',plot:'#050505',orange:'#FE7C04',orangeHot:'#FF9533',orangeDim:'#5A2C00',text:'#D0D0D0'},
+};
+
+function stirLayout(extra){
+  const p=STIR.PALETTE;
+  return Object.assign({
+    paper_bgcolor:p.bg, plot_bgcolor:p.plot,
+    font:{family:'Inter,Segoe UI,sans-serif',color:p.text,size:11},
+    margin:{l:50,r:30,t:20,b:40},
+    xaxis:{gridcolor:'#1a1a1a',zerolinecolor:'#2a2a2a'},
+    yaxis:{gridcolor:'#1a1a1a',zerolinecolor:'#2a2a2a',title:'Implied rate (%)'},
+    hoverlabel:{bgcolor:'#101419',bordercolor:p.orange,font:{color:p.text}},
+  }, extra||{});
+}
+
+function setStirOuter(which, btn){
+  document.querySelectorAll('#main-stir > .itabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('stir-out-products').style.display = which==='products' ? '' : 'none';
+  document.getElementById('stir-out-meetings').style.display = which==='meetings' ? '' : 'none';
+  if(which==='products') renderStirStrip();
+  else renderStirMeetings();
+}
+
+function setStirProduct(which, btn){
+  STIR.product=which;
+  btn.parentElement.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStirStrip();
+}
+
+function setStirMeeting(which, btn){
+  STIR.meeting=which;
+  btn.parentElement.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('stir-mtg-strip').style.display   = which==='strip'   ? '' : 'none';
+  document.getElementById('stir-mtg-spreads').style.display = which==='spreads' ? '' : 'none';
+  document.getElementById('stir-mtg-cblvl').style.display   = which==='cblvl'   ? '' : 'none';
+  if(which==='strip') renderStirPath();
+  else if(which==='cblvl') renderStirCbLvl();
+}
+
+function renderStirStrip(){
+  if(!STIR.data) return;
+  const d=STIR.data;
+  const strip = STIR.product==='sofr' ? d.sofr_strip : d.ff_strip;
+  if(!strip||!strip.length) return;
+  const p=STIR.PALETTE;
+  const colors = strip.map(r=> r.is_terminal ? p.orangeHot : p.orangeDim);
+  const trace={
+    type:'bar', x:strip.map(r=>r.symbol), y:strip.map(r=>r.implied_rate),
+    marker:{color:colors, line:{color:'#9A4A02',width:1}},
+    hovertemplate:'%{x}<br>%{y:.3f}%<extra></extra>',
+  };
+  const layout=stirLayout({
+    shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:d.effr,y1:d.effr,
+             line:{color:p.orange,dash:'dash',width:1.4}}],
+    annotations:[{xref:'paper',x:1.0,xanchor:'right',y:d.effr,yanchor:'bottom',
+                  text:`EFFR ${d.effr.toFixed(2)}%`,showarrow:false,
+                  font:{color:p.orange,size:10}}],
+  });
+  Plotly.react('stir-strip-chart',[trace],layout,{displayModeBar:false,responsive:true});
+}
+
+function renderStirPath(){
+  if(!STIR.data||!STIR.data.meeting_path.length) return;
+  const d=STIR.data, p=STIR.PALETTE;
+  const path=d.meeting_path;
+  const trace={
+    type:'scatter', mode:'lines+markers', line:{shape:'hv',color:p.orangeHot,width:2.4},
+    marker:{color:p.bg, line:{color:p.orangeHot,width:1.5}, size:9},
+    x:path.map(r=>r.meeting), y:path.map(r=>r.post_rate),
+    hovertemplate:'%{x}<br>Post-rate %{y:.3f}%<extra></extra>',
+  };
+  const layout=stirLayout({
+    yaxis:{gridcolor:'#1a1a1a',title:'Implied post-meeting rate (%)'},
+    shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:d.effr,y1:d.effr,
+             line:{color:p.orange,dash:'dash',width:1.4}}],
+    annotations:[{xref:'paper',x:1.0,xanchor:'right',y:d.effr,yanchor:'bottom',
+                  text:`EFFR ${d.effr.toFixed(2)}%`,showarrow:false,
+                  font:{color:p.orange,size:10}}],
+  });
+  Plotly.react('stir-path-chart',[trace],layout,{displayModeBar:false,responsive:true});
+
+  // Probability table
+  const tb=document.getElementById('stir-prob-body');
+  tb.innerHTML = path.map(r=>{
+    const f=v=> v>0 ? v.toFixed(0) : '—';
+    return `<tr>
+      <td>${r.meeting}</td>
+      <td>${r.post_rate.toFixed(3)}%</td>
+      <td>${r.cum_cuts.toFixed(2)}</td>
+      <td>${f(r.probs.hold)}</td>
+      <td>${f(r.probs.cut25)}</td>
+      <td>${f(r.probs.cut50)}</td>
+      <td>${f(r.probs.cut75)}</td>
+      <td>${f(r.probs.hike25)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderStirSpreads(){
+  if(!STIR.data) return;
+  const tb=document.getElementById('stir-spread-body');
+  tb.innerHTML = STIR.data.spreads.map(r=>{
+    const cell=v=>{
+      if(v==null) return '<td>—</td>';
+      const cls = v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
+      const sign= v>0?'+':'';
+      return `<td class="${cls}">${sign}${v} bp</td>`;
+    };
+    return `<tr><td>${r.contract}</td>${cell(r['+3M'])}${cell(r['+6M'])}${cell(r['+9M'])}${cell(r['+12M'])}</tr>`;
+  }).join('');
+}
+
+function renderStirCbLvl(){
+  if(!STIR.data||!STIR.data.meeting_path.length) return;
+  const d=STIR.data, p=STIR.PALETTE;
+  const path=d.meeting_path;
+  const trace={
+    type:'scatter', mode:'lines+markers', line:{shape:'hv',color:p.orangeHot,width:2.4},
+    marker:{color:p.bg, line:{color:p.orangeHot,width:1.5}, size:9},
+    x:path.map(r=>r.meeting), y:path.map(r=>r.post_rate),
+    hovertemplate:'%{x}<br>%{y:.3f}%<extra></extra>',
+  };
+  const shapes=[];
+  const annotations=[];
+  d.cb_levels.forEach(lv=>{
+    const isS = Math.abs(lv-d.cb_settle)<0.005;
+    shapes.push({type:'line',xref:'paper',x0:0,x1:1,y0:lv,y1:lv,
+                 line:{color:isS?p.orange:p.orangeDim,dash:isS?'solid':'dot',width:isS?1.4:0.6}});
+    annotations.push({xref:'paper',x:1,xanchor:'left',y:lv,yanchor:'middle',
+                      text:`${lv.toFixed(2)}%${isS?' · SETTLE':''}`,showarrow:false,
+                      font:{color:isS?p.orange:p.orangeDim,size:9,family:'IBM Plex Mono,monospace'}});
+  });
+  const layout=stirLayout({
+    yaxis:{gridcolor:'#1a1a1a',title:'Implied post-meeting rate (%)'},
+    shapes, annotations,
+    margin:{l:50,r:80,t:20,b:40},
+  });
+  Plotly.react('stir-cblvl-chart',[trace],layout,{displayModeBar:false,responsive:true});
+}
+
+function renderStirMeetings(){
+  if(STIR.meeting==='strip')   renderStirPath();
+  if(STIR.meeting==='spreads') renderStirSpreads();
+  if(STIR.meeting==='cblvl')   renderStirCbLvl();
+}
+
+function applyStirData(d){
+  STIR.data=d;
+  document.getElementById('stir-effr').textContent = d.effr.toFixed(2)+'%';
+  document.getElementById('stir-asof').textContent = 'as of '+d.asof_date;
+  document.getElementById('stir-sofr').textContent = d.sofr.toFixed(2)+'%';
+  const sign = d.basis_bp>0?'+':'';
+  document.getElementById('stir-basis').textContent = `basis ${sign}${d.basis_bp.toFixed(1)} bp`;
+
+  const ffStrip = d.ff_strip||[];
+  const term = ffStrip.find(r=>r.is_terminal);
+  if(term){
+    document.getElementById('stir-terminal').textContent = term.implied_rate.toFixed(2)+'%';
+    document.getElementById('stir-terminal-sub').textContent = `${term.symbol} · ${term.expiry}`;
+  }
+
+  // Cuts priced over the next ~12 months: last meeting in path
+  const path=d.meeting_path||[];
+  if(path.length){
+    const last = path[Math.min(path.length-1, 7)];
+    document.getElementById('stir-cuts').textContent = last.cum_cuts.toFixed(2);
+  }
+
+  renderStirStrip();
+  renderStirSpreads();
+}
+
+fetch('stir.json?_='+Date.now())
+  .then(r=>r.ok?r.json():null)
+  .then(d=>{ if(d) applyStirData(d); })
+  .catch(()=>{ /* silent — STIR tab simply stays empty */ });
+
+// Re-render Plotly charts when the user activates the tab (Plotly needs the
+// container to be visible to size correctly).
+const _origShowMain = showMain;
+showMain = function(id, btn){
+  _origShowMain(id, btn);
+  if(id==='stir' && STIR.data){
+    setTimeout(()=>{
+      renderStirStrip();
+      if(STIR.meeting==='strip') renderStirPath();
+      else if(STIR.meeting==='cblvl') renderStirCbLvl();
+    }, 30);
+  }
+};
 </script>
 </body>
 </html>
