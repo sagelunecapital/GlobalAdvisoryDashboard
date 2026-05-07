@@ -239,6 +239,47 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .sr-axis-label{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px}
 .sr-scroll{max-height:380px;overflow-y:auto;border-radius:8px}
 .sr-quadrant-wrap{position:relative}
+
+/* ── Research Tab ── */
+.rs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:24px}
+@media(max-width:1100px){.rs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.rs-grid{grid-template-columns:1fr}}
+.rs-card{background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:19px;padding:20px;cursor:pointer;transition:border-color 220ms ease,transform 220ms ease,box-shadow 220ms ease;display:flex;flex-direction:column;gap:8px;box-shadow:rgba(0,0,0,0.08) 0 5px 9px 0}
+.rs-card:hover{border-color:var(--ps-blue);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,112,204,0.18)}
+.rs-card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.rs-card-title{font-size:16px;font-weight:600;color:var(--text);line-height:1.3}
+.rs-card-arrow{font-size:15px;color:var(--text-muted);transition:color 220ms ease,transform 220ms ease;flex-shrink:0}
+.rs-card:hover .rs-card-arrow{color:var(--ps-blue);transform:translate(2px,-2px)}
+.rs-card-perf{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.rs-card-perf.pos{color:var(--green)}.rs-card-perf.neg{color:var(--red)}.rs-card-perf.neu{color:var(--text-muted)}
+.rs-card-date{font-size:11px;color:var(--text-muted)}
+.rs-card-divider{border:none;border-top:1px solid var(--outline-dim);margin:4px 0}
+.rs-card-tickers{font-size:11px;color:var(--text-muted);line-height:1.6;word-break:break-word}
+/* ── Research Page ── */
+#research-page{padding:20px 24px 40px}
+.rp-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-top:4px}
+.rp-title{font-size:22px;font-weight:700;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rp-title-input{display:none;flex:1;min-width:0;background:var(--surface-high);border:1px solid var(--ps-blue);border-radius:10px;padding:8px 12px;color:var(--text);font-size:20px;font-weight:700;font-family:inherit;outline:none;box-shadow:0 0 0 2px rgba(0,112,204,0.2)}
+#research-page.editing .rp-title{display:none}
+#research-page.editing .rp-title-input{display:block}
+.rp-label{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
+.rp-view-text{font-size:14px;color:var(--text-dim);line-height:1.75;min-height:36px}
+.rp-edit-field{display:none}
+#research-page.editing .rp-view-text{display:none}
+#research-page.editing .rp-edit-field{display:block}
+.rp-charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:800px){.rp-charts-row{grid-template-columns:1fr}}
+.rp-table-wrap{overflow-x:auto}
+.rp-table{width:100%;border-collapse:collapse;font-size:12px}
+.rp-table th{color:var(--text-muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;cursor:pointer;user-select:none;text-align:right;transition:color 150ms}
+.rp-table th:first-child{text-align:left;cursor:default}
+.rp-table th:hover{color:var(--text)}
+.rp-table th.sort-asc::after{content:' ▲';font-size:9px;opacity:.65}
+.rp-table th.sort-desc::after{content:' ▼';font-size:9px;opacity:.65}
+.rp-table td{padding:7px 10px;border-bottom:1px solid rgba(65,71,82,.35);color:var(--text-dim);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.rp-table td:first-child{text-align:left;color:var(--text);font-weight:500}
+.rp-table tr:hover td{background:rgba(255,255,255,.025)}
+.rp-placeholder{text-align:center;padding:36px 20px;color:var(--text-muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -255,6 +296,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)">Yields</button>
     <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
+    <button class="nav-tab" onclick="showMain('research',this)">Research</button>
   </aside>
 
   <div class="main-content">
@@ -792,20 +834,71 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     </div>
   </div>
 
-  <!-- Sector Focus -->
-  <div class="exec-row" style="margin-bottom:12px">
-    <div class="section-heading" style="margin:0">Sector Focus</div>
-    <button class="btn pri" onclick="promptAddSector()">+ New Sector</button>
-  </div>
-  <div class="card">
-    <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Changes sync across all devices (~30s after saving).</p>
-    <div class="sector-list" id="sector-list"></div>
-  </div>
 
 </div><!-- /execution panel -->
 
+<!-- ════════════════════════════ RESEARCH TAB ════════════════════════════ -->
+<div id="main-research" class="main-panel">
+  <div class="exec-row" style="margin-bottom:20px;align-items:center">
+    <div class="section-heading" style="margin:0">Research</div>
+    <button class="btn pri" onclick="addResearchSector()">+ New</button>
+  </div>
+  <div class="rs-grid" id="rs-grid"></div>
+</div>
+
   </div><!-- /main-content -->
 </div><!-- /layout -->
+
+<!-- ════════════════════════════ RESEARCH PAGE ════════════════════════════ -->
+<div id="research-page" style="display:none">
+  <div class="rp-header">
+    <button class="btn" onclick="closeResearchPage()">&#8592; Back</button>
+    <div class="rp-title" id="rp-title">Sector</div>
+    <input class="rp-title-input" id="rp-title-input" type="text" placeholder="Sector name">
+    <div style="display:flex;gap:8px;flex-shrink:0">
+      <button class="btn dan" onclick="deleteCurrentResearch()">Delete</button>
+      <button class="btn pri" onclick="toggleRpEdit()" id="rp-edit-btn">Edit</button>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="rp-label">Thesis</div>
+    <div class="rp-view-text" id="rp-thesis-view">No thesis defined yet.</div>
+    <textarea class="sta rp-edit-field" id="rp-thesis-edit" rows="4" placeholder="Describe the investment thesis..."></textarea>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="rp-label">Constituents</div>
+    <div class="rp-view-text" id="rp-tickers-view">No tickers defined yet.</div>
+    <textarea class="sta rp-edit-field" id="rp-tickers-edit" rows="2" placeholder="e.g. AAPL, MSFT, NVDA"></textarea>
+  </div>
+  <div class="rp-charts-row">
+    <div class="card">
+      <div class="card-header" style="margin-bottom:4px">YTD Performance</div>
+      <div id="rp-bar-chart"></div>
+    </div>
+    <div class="card">
+      <div class="card-header" style="margin-bottom:4px">Market Cap vs YTD Return</div>
+      <div id="rp-bubble-chart"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" style="margin-bottom:12px">Constituents Detail</div>
+    <div class="rp-table-wrap">
+      <table class="rp-table">
+        <thead><tr>
+          <th style="cursor:default;text-align:left">Ticker</th>
+          <th onclick="rpSort('perf_1d',this)">1D</th>
+          <th onclick="rpSort('perf_5d',this)">1W</th>
+          <th onclick="rpSort('perf_1m',this)">1M</th>
+          <th onclick="rpSort('perf_6m',this)">6M</th>
+          <th onclick="rpSort('perf_1y',this)">1Y</th>
+          <th onclick="rpSort('perf_ytd',this)" class="sort-desc">YTD</th>
+          <th onclick="rpSort('mktcap',this)">Mkt Cap</th>
+        </tr></thead>
+        <tbody id="rp-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 </div><!-- /app -->
 
@@ -1739,6 +1832,13 @@ window.addEventListener('DOMContentLoaded',()=>{
         if(el)el.innerHTML='<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:16px">sector_rotation.json not found — run export_sector_json.py</td></tr>';
       });
     });
+
+  // Research tab — load ticker performance data, then render sector grid
+  fetch('ticker_perf.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{ tickerPerf=d; })
+    .catch(()=>{ tickerPerf=null; })
+    .finally(()=>{ loadRS(); });
 });
 
 // ── Sector Rotation ─────────────────────────────────────────────────────────
@@ -2264,6 +2364,261 @@ showMain = function(id, btn){
     setTimeout(renderStirActive, 30);
   }
 };
+
+// ══ Research Tab ════════════════════════════════════════════════
+let researchSectors=[], currentRpId=null, rpSortCol='perf_ytd', rpSortDir=-1, tickerPerf=null;
+
+function _parseTks(str){
+  return (str||'').split(/[\s,;]+/).map(t=>t.trim().toUpperCase()).filter(Boolean);
+}
+function _tp(tk){
+  if(!tickerPerf||!tickerPerf.tickers) return null;
+  return tickerPerf.tickers[tk]||null;
+}
+
+function persistRS(){
+  localStorage.setItem('gaai-research',JSON.stringify(researchSectors));
+}
+function loadRS(){
+  const raw=localStorage.getItem('gaai-research');
+  if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
+  if(!researchSectors.length){
+    const old=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
+    if(old&&old.length){
+      researchSectors=old.map((s,i)=>({id:i+1,name:s.name||'Sector '+(i+1),thesis:s.thesis||'',tickers:s.tickers||''}));
+    } else {
+      researchSectors=[
+        {id:1,name:'Energy',thesis:'',tickers:'CVX, XOM, SLB, COP, EOG'},
+        {id:2,name:'Technology',thesis:'',tickers:'MSFT, GOOGL, NVDA, META, AAPL'},
+      ];
+    }
+    persistRS();
+  }
+  renderRsGrid();
+}
+
+function renderRsGrid(){
+  const grid=document.getElementById('rs-grid');
+  if(!grid) return;
+  if(!researchSectors.length){
+    grid.innerHTML='<div class="rp-placeholder" style="grid-column:1/-1">No research sectors yet. Click &ldquo;+ New&rdquo; to get started.</div>';
+    return;
+  }
+  const upd=tickerPerf?tickerPerf.updated:null;
+  grid.innerHTML=researchSectors.map(s=>{
+    const tks=_parseTks(s.tickers);
+    let s1=0,cnt=0;
+    tks.forEach(t=>{const d=_tp(t);if(d&&d.perf_1d!=null){s1+=d.perf_1d;cnt++;}});
+    const avg=cnt>0?s1/cnt:null;
+    const pfmt=avg==null?{t:'&#8212;',c:'neu'}:{t:(avg>=0?'+':'')+avg.toFixed(2)+'%',c:avg>=0?'pos':'neg'};
+    const tkDisp=tks.slice(0,10).join(' &middot; ')+(tks.length>10?' &hellip;':'');
+    return `<div class="rs-card" onclick="openRp(${s.id})">
+      <div class="rs-card-top">
+        <div class="rs-card-title">${s.name}</div>
+        <div class="rs-card-arrow">&#8599;</div>
+      </div>
+      <div class="rs-card-perf ${pfmt.c}">${pfmt.t}</div>
+      <div class="rs-card-date">${upd?'Data as of '+upd:'No data yet'}</div>
+      <hr class="rs-card-divider">
+      <div class="rs-card-tickers">${tkDisp||'<em style="opacity:.5">No tickers defined</em>'}</div>
+    </div>`;
+  }).join('');
+}
+
+function addResearchSector(){
+  const maxId=researchSectors.reduce((m,s)=>Math.max(m,s.id),0);
+  const ns={id:maxId+1,name:'New Sector',thesis:'',tickers:''};
+  researchSectors.push(ns);
+  persistRS();
+  renderRsGrid();
+  const rBtn=document.querySelector('.nav-tab[onclick*="\'research\'"]');
+  if(rBtn&&!document.getElementById('main-research').classList.contains('active')) showMain('research',rBtn);
+  openRp(ns.id,true);
+}
+
+function openRp(id,editMode){
+  editMode=!!editMode;
+  const s=researchSectors.find(x=>x.id===id);
+  if(!s) return;
+  currentRpId=id; rpSortCol='perf_ytd'; rpSortDir=-1;
+  document.querySelector('.layout').style.display='none';
+  const rp=document.getElementById('research-page');
+  rp.style.display='block';
+  rp.classList.toggle('editing',editMode);
+  document.getElementById('rp-title').textContent=s.name;
+  document.getElementById('rp-title-input').value=s.name;
+  document.getElementById('rp-thesis-view').textContent=s.thesis||'No thesis defined yet.';
+  document.getElementById('rp-thesis-edit').value=s.thesis||'';
+  document.getElementById('rp-tickers-view').textContent=s.tickers||'No tickers defined yet.';
+  document.getElementById('rp-tickers-edit').value=s.tickers||'';
+  document.getElementById('rp-edit-btn').textContent=editMode?'Save':'Edit';
+  document.querySelectorAll('.rp-table th').forEach(h=>h.classList.remove('sort-asc','sort-desc'));
+  const ytdTh=document.querySelector('.rp-table th[onclick*="perf_ytd"]');
+  if(ytdTh) ytdTh.classList.add('sort-desc');
+  renderRpCharts(s);
+  renderRpTable(s);
+  if(editMode) setTimeout(()=>document.getElementById('rp-title-input').focus(),60);
+  window.scrollTo(0,0);
+}
+
+function closeResearchPage(){
+  document.querySelector('.layout').style.display='';
+  document.getElementById('research-page').style.display='none';
+  renderRsGrid();
+  window.scrollTo(0,0);
+}
+
+function toggleRpEdit(){
+  const rp=document.getElementById('research-page');
+  const isEditing=rp.classList.contains('editing');
+  if(isEditing){
+    const s=researchSectors.find(x=>x.id===currentRpId);
+    if(s){
+      s.name=(document.getElementById('rp-title-input').value||s.name).trim();
+      s.thesis=document.getElementById('rp-thesis-edit').value;
+      s.tickers=document.getElementById('rp-tickers-edit').value;
+      document.getElementById('rp-title').textContent=s.name;
+      document.getElementById('rp-thesis-view').textContent=s.thesis||'No thesis defined yet.';
+      document.getElementById('rp-tickers-view').textContent=s.tickers||'No tickers defined yet.';
+      persistRS();
+      renderRpCharts(s);
+      renderRpTable(s);
+    }
+    rp.classList.remove('editing');
+    document.getElementById('rp-edit-btn').textContent='Edit';
+  } else {
+    rp.classList.add('editing');
+    document.getElementById('rp-edit-btn').textContent='Save';
+    setTimeout(()=>document.getElementById('rp-title-input').focus(),60);
+  }
+}
+
+function deleteCurrentResearch(){
+  if(!confirm('Delete this research sector?')) return;
+  researchSectors=researchSectors.filter(s=>s.id!==currentRpId);
+  persistRS();
+  closeResearchPage();
+}
+
+function _noData(id,msg){
+  const el=document.getElementById(id);
+  if(el) el.innerHTML='<div class="rp-placeholder">'+(msg||'No data available.')+'</div>';
+}
+
+function renderRpCharts(sector){
+  const tks=_parseTks(sector.tickers);
+  if(!tks.length){_noData('rp-bar-chart','No tickers defined.');_noData('rp-bubble-chart','No tickers defined.');return;}
+  if(!tickerPerf){_noData('rp-bar-chart','Loading performance data…');_noData('rp-bubble-chart','Loading performance data…');return;}
+  const data=tks.map(t=>{const d=_tp(t)||{};return{ticker:t,...d};}).filter(d=>d.perf_ytd!=null);
+  if(!data.length){
+    _noData('rp-bar-chart','No YTD data found. Tickers may not be in the tracked universe.');
+    _noData('rp-bubble-chart','No data.');
+    return;
+  }
+  const spxYtd=tickerPerf.spx_ytd;
+  const sorted=[...data].sort((a,b)=>a.perf_ytd-b.perf_ytd);
+
+  // Horizontal bar chart
+  const barEl=document.getElementById('rp-bar-chart');
+  if(barEl){
+    Plotly.newPlot(barEl,[{
+      type:'bar',orientation:'h',
+      x:sorted.map(d=>d.perf_ytd),
+      y:sorted.map(d=>d.ticker),
+      marker:{color:sorted.map(d=>d.perf_ytd>=0?'#3fb950':'#e05252'),opacity:.85},
+      hovertemplate:'<b>%{y}</b><br>YTD: %{x:.2f}%<extra></extra>'
+    }],{
+      paper_bgcolor:'transparent',plot_bgcolor:'transparent',
+      font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:11},
+      margin:{t:12,b:44,l:80,r:20},
+      xaxis:{gridcolor:'#1f2328',zerolinecolor:'#555',zerolinewidth:2,ticksuffix:'%',
+        title:{text:'YTD Return',font:{size:11,color:'#8b919e'}}},
+      yaxis:{gridcolor:'transparent',tickfont:{size:11,color:'#c1c7d4'}},
+      shapes:spxYtd!=null?[{type:'line',x0:spxYtd,x1:spxYtd,y0:-0.5,y1:sorted.length-0.5,
+        line:{color:'#e3a946',width:1.5,dash:'dot'}}]:[],
+      annotations:spxYtd!=null?[{x:spxYtd,y:sorted.length-0.5,xanchor:'left',yanchor:'bottom',
+        text:'SPX',showarrow:false,font:{color:'#e3a946',size:10}}]:[],
+      height:Math.max(260,sorted.length*30+60)
+    },{responsive:true,displayModeBar:false});
+  }
+
+  // Bubble chart
+  const bubEl=document.getElementById('rp-bubble-chart');
+  if(bubEl){
+    const bdata=data.filter(d=>d.mktcap!=null&&d.mktcap>0);
+    if(!bdata.length){
+      bubEl.innerHTML='<div class="rp-placeholder">Market cap data not available for these tickers.</div>';
+    } else {
+      const maxMc=Math.max(...bdata.map(d=>d.mktcap),1);
+      const sizes=bdata.map(d=>Math.sqrt(d.mktcap/maxMc)*50+8);
+      Plotly.newPlot(bubEl,[{
+        type:'scatter',mode:'markers+text',
+        x:bdata.map(d=>d.mktcap),y:bdata.map(d=>d.perf_ytd),
+        text:bdata.map(d=>d.ticker),textposition:'top center',
+        textfont:{size:10,color:'#c1c7d4'},
+        marker:{size:sizes,color:bdata.map(d=>d.perf_ytd>=0?'#3fb950':'#e05252'),
+          opacity:.72,line:{color:'rgba(255,255,255,0.1)',width:1}},
+        hovertemplate:'<b>%{text}</b><br>Mkt Cap: $%{x:.3s}<br>YTD: %{y:.2f}%<extra></extra>'
+      }],{
+        paper_bgcolor:'transparent',plot_bgcolor:'transparent',
+        font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:11},
+        margin:{t:12,b:50,l:60,r:20},
+        xaxis:{type:'log',gridcolor:'#1f2328',
+          title:{text:'Market Cap (log)',font:{size:11,color:'#8b919e'}},tickformat:'$.2s'},
+        yaxis:{gridcolor:'#1f2328',zerolinecolor:'#444',zerolinewidth:1,ticksuffix:'%',
+          title:{text:'YTD Return',font:{size:11,color:'#8b919e'}}},
+        shapes:spxYtd!=null?[{type:'line',x0:0,x1:1,y0:spxYtd,y1:spxYtd,
+          xref:'paper',yref:'y',line:{color:'#e3a946',width:1.5,dash:'dot'}}]:[],
+        annotations:spxYtd!=null?[{x:1,y:spxYtd,xref:'paper',yref:'y',xanchor:'right',yanchor:'bottom',
+          text:'SPX',showarrow:false,font:{color:'#e3a946',size:10}}]:[],
+        height:300
+      },{responsive:true,displayModeBar:false});
+    }
+  }
+}
+
+function renderRpTable(sector){
+  const tks=_parseTks(sector.tickers);
+  const tbody=document.getElementById('rp-table-body');
+  if(!tbody) return;
+  if(!tks.length){tbody.innerHTML='<tr><td colspan="8" class="rp-placeholder">No tickers defined.</td></tr>';return;}
+  const rows=tks.map(t=>{
+    const d=_tp(t)||{};
+    return{ticker:t,perf_1d:d.perf_1d??null,perf_5d:d.perf_5d??null,perf_1m:d.perf_1m??null,
+      perf_6m:d.perf_6m??null,perf_1y:d.perf_1y??null,perf_ytd:d.perf_ytd??null,mktcap:d.mktcap??null};
+  });
+  rows.sort((a,b)=>{
+    const av=a[rpSortCol],bv=b[rpSortCol];
+    if(av==null&&bv==null)return 0;
+    if(av==null)return 1; if(bv==null)return -1;
+    return rpSortDir*(av<bv?-1:av>bv?1:0);
+  });
+  function fp(v){
+    if(v==null)return'<span style="color:var(--text-muted)">&#8212;</span>';
+    return`<span style="color:${v>=0?'var(--green)':'var(--red)'}">${v>=0?'+':''}${v.toFixed(2)}%</span>`;
+  }
+  function fmc(v){
+    if(v==null)return'<span style="color:var(--text-muted)">&#8212;</span>';
+    if(v>=1e12)return'$'+(v/1e12).toFixed(2)+'T';
+    if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';
+    return'$'+(v/1e6).toFixed(0)+'M';
+  }
+  tbody.innerHTML=rows.map(r=>`<tr>
+    <td>${r.ticker}</td>
+    <td>${fp(r.perf_1d)}</td><td>${fp(r.perf_5d)}</td><td>${fp(r.perf_1m)}</td>
+    <td>${fp(r.perf_6m)}</td><td>${fp(r.perf_1y)}</td><td>${fp(r.perf_ytd)}</td>
+    <td>${fmc(r.mktcap)}</td>
+  </tr>`).join('');
+}
+
+function rpSort(col,th){
+  if(rpSortCol===col){rpSortDir=-rpSortDir;}
+  else{rpSortCol=col;rpSortDir=-1;}
+  document.querySelectorAll('.rp-table th').forEach(h=>h.classList.remove('sort-asc','sort-desc'));
+  th.classList.add(rpSortDir===1?'sort-asc':'sort-desc');
+  const s=researchSectors.find(x=>x.id===currentRpId);
+  if(s) renderRpTable(s);
+}
 </script>
 </body>
 </html>
