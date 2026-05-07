@@ -56,7 +56,9 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-kpi-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
 .stir-kpi-value{font-size:22px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
 .stir-kpi-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
-.stir-chart{width:100%;height:380px;background:#050505;border-radius:12px}
+.stir-chart{width:100%;height:360px}
+.stir-meet-layout{display:grid;grid-template-columns:3fr 2fr;gap:16px;align-items:start}
+@media(max-width:900px){.stir-meet-layout{grid-template-columns:1fr}}
 .stir-table{width:100%;border-collapse:collapse;font-size:12px}
 .stir-table th{color:var(--text-muted);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap}
 .stir-table th:first-child{text-align:left}
@@ -290,7 +292,9 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 ::-webkit-scrollbar-thumb{background:rgba(139,145,158,0.35);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(139,145,158,0.6)}
 ::-webkit-scrollbar-corner{background:transparent}
+html::-webkit-scrollbar-track{background:var(--surface)}
 *{scrollbar-width:thin;scrollbar-color:rgba(139,145,158,0.35) transparent}
+html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 /* ── Liquidity side-by-side ── */
 .liq-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:900px){.liq-row{grid-template-columns:1fr}}
@@ -582,18 +586,20 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <div id="stir-pane-meetings" class="stir-pane">
     <div class="card">
       <div class="card-header" id="stir-meet-hdr">Implied Policy Path</div>
-      <div class="stir-chart" id="stir-path-chart"></div>
-      <div style="overflow-x:auto;margin-top:12px">
-        <table class="stir-table">
-          <thead>
-            <tr>
-              <th>Meeting / Contract</th><th>Rate</th><th>Post-Mtg</th>
-              <th>Hold %</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th>
-              <th>+25 bp</th><th>+50 bp</th><th>Cum Hikes</th>
-            </tr>
-          </thead>
-          <tbody id="stir-meet-body"></tbody>
-        </table>
+      <div class="stir-meet-layout">
+        <div class="stir-chart" id="stir-path-chart"></div>
+        <div style="overflow-x:auto">
+          <table class="stir-table">
+            <thead>
+              <tr>
+                <th>Meeting / Contract</th><th>Rate</th><th>Post-Mtg</th>
+                <th>Hold %</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th>
+                <th>+25 bp</th><th>+50 bp</th><th>Cum Hikes</th>
+              </tr>
+            </thead>
+            <tbody id="stir-meet-body"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -1120,7 +1126,7 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH) {
   wrap.querySelector('svg')?.remove();
   const VW=wrap.clientWidth||FALLBACK_VW;
 
-  const pad={t:8,r:14,b:24,l:44};
+  const pad={t:8,r:14,b:24,l:62};
   const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
   const pts=dates.map((d,i)=>({d,v:values[i]})).filter(p=>p.v!==null);
   if(!pts.length) return;
@@ -1136,14 +1142,14 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH) {
     g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
     g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
     const lb=document.createElementNS(ns,'text');
-    lb.setAttribute('x',pad.l-3);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmt(v);svg.appendChild(lb);
+    lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','11');lb.textContent=fmt(v);svg.appendChild(lb);
   });
   pts.forEach((_,i)=>{
     if(i%(Math.ceil(pts.length/7))!==0 && i!==pts.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtD(pts[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','11');lb.textContent=fmtD(pts[i].d);svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -1808,20 +1814,20 @@ window.addEventListener('DOMContentLoaded',()=>{
   fetch('gdpnow.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject(r.status))
     .then(d=>{
-      const qLabel=d.latest_quarter;
-      const q=d.quarters[qLabel];
       const ddEl=document.getElementById('gdp-data-date');
       if(ddEl) ddEl.innerHTML='Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated '+d.updated.slice(0,10);
-      const compNames=['Consumer','Nonresidential Investments','Residential Investments','Inventories','Net Exports','Government'];
-      const compsArr=Object.entries(q.components).map(([label,vals],i)=>({
-        label:compNames[i]||label,
-        color:['#58a6ff','#e3b341','#f0883e','#bc8cff','#f78166','#3fb950'][i]||'#8b919e',
-        values:vals
-      }));
-      drawGDPCombo('w-gdp-combo','tt-gdp-combo',q.dates,compsArr,q.gdp,320,'gdp-combo-legend');
+      // Concatenate all quarters chronologically into a single history line
+      const sortedQ=Object.keys(d.quarters).sort((a,b)=>{
+        const p=s=>{const[q,y]=s.split(' ');return parseInt(y)*10+parseInt(q[1]);};
+        return p(a)-p(b);
+      });
+      const allDates=[],allGdp=[];
+      sortedQ.forEach(q=>{allDates.push(...d.quarters[q].dates);allGdp.push(...d.quarters[q].gdp);});
+      const leg=document.getElementById('gdp-combo-legend');
+      if(leg) leg.innerHTML='<span style="font-size:11px;color:var(--text-muted)">GDPNow tracking estimate — all quarters</span>';
+      drawChart('w-gdp-combo','tt-gdp-combo',allDates,allGdp,'#58a6ff',v=>v.toFixed(1)+'%',320);
     })
     .catch(()=>{
-      // fallback: built-in quarterly data
       drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend');
     });
 
@@ -1829,10 +1835,13 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderYieldCharts();
 
   // Liquidity raw
-  drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#58a6ff',v=>v.toFixed(0),350);
-  drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',v=>v.toFixed(0),350);
-  drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#e3b341',v=>v.toFixed(1),350);
-  drawChart('w-liq-btc',   'tt-liq-btc',   dates,liqBtc,   '#f78166',v=>'$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0)),350);
+  const _fBn=v=>'$'+Math.round(Math.abs(v)).toLocaleString('en-US')+'B';
+  const _fTrade=v=>(v<0?'-$':'$')+Math.round(Math.abs(v)).toLocaleString('en-US')+'B';
+  const _fBtc=v=>'$'+Math.round(v).toLocaleString('en-US');
+  drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#58a6ff',_fBn,320);
+  drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',_fBn,320);
+  drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#e3b341',_fTrade,320);
+  drawChart('w-liq-btc',   'tt-liq-btc',   dates,liqBtc,   '#f78166',_fBtc,320);
 
   // Liquidity YoY combined (Bitcoin cap raised to 200%)
   drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,[
@@ -2209,7 +2218,7 @@ if(typeof macroRegime==='undefined'){
 // ══ Yields tab (US STIR) ══════════════════════════════════════════════
 const STIR={
   data:null, main:'meetings', product:'ff',
-  PALETTE:{bg:'#000',plot:'#050505',orange:'rgba(255,255,255,0.45)',orangeHot:'#ffffff',orangeDim:'rgba(255,255,255,0.06)',text:'#D0D0D0'},
+  PALETTE:{bg:'transparent',plot:'transparent',orange:'rgba(255,255,255,0.45)',orangeHot:'#ffffff',orangeDim:'rgba(255,255,255,0.06)',text:'#D0D0D0'},
 };
 
 function stirLayout(extra){
