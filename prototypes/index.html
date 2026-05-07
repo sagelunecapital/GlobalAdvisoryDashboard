@@ -263,7 +263,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 #research-page.editing .rp-title{display:none}
 #research-page.editing .rp-title-input{display:block}
 .rp-label{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
-.rp-view-block{margin-bottom:20px}
+.rp-view-block{margin-bottom:20px;background:rgba(255,255,255,0.04);border-radius:14px;padding:16px 18px}
 .rp-view-text{font-size:14px;color:var(--text-dim);line-height:1.75;white-space:pre-wrap}
 .rp-group-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 4px}
 .rp-group-label:first-child{margin-top:0}
@@ -876,11 +876,11 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <!-- Edit mode: card boxes with textareas -->
   <div class="card rp-edit-card">
     <div class="rp-label">Thesis</div>
-    <textarea class="sta" id="rp-thesis-edit" rows="4" placeholder="Describe the investment thesis..."></textarea>
+    <textarea class="sta" id="rp-thesis-edit" style="height:220px" placeholder="Describe the investment thesis..."></textarea>
   </div>
   <div class="card rp-edit-card">
     <div class="rp-label">Constituents</div>
-    <textarea class="sta" id="rp-tickers-edit" rows="3" placeholder="Flat: AAPL, MSFT, NVDA&#10;Grouped: [Grid]&#10;NEE, AES, PPL"></textarea>
+    <textarea class="sta" id="rp-tickers-edit" style="height:220px" placeholder="Flat: AAPL, MSFT, NVDA&#10;Grouped: [Grid]&#10;NEE, AES, PPL"></textarea>
   </div>
   <div class="rp-charts-row">
     <div class="card">
@@ -2587,7 +2587,9 @@ function renderRpCharts(sector){
       bubEl.innerHTML='<div class="rp-placeholder">Market cap data not available for these tickers.</div>';
     } else {
       const maxMc=Math.max(...bdata.map(d=>d.mktcap),1);
+      const minMc=Math.min(...bdata.map(d=>d.mktcap));
       const sizes=bdata.map(d=>Math.sqrt(d.mktcap/maxMc)*50+8);
+      function fmc(v){if(v>=1e12)return'$'+(v/1e12).toFixed(1)+'T';if(v>=1e9)return'$'+(v/1e9).toFixed(0)+'B';return'$'+(v/1e6).toFixed(0)+'M';}
       Plotly.newPlot(bubEl,[{
         type:'scatter',mode:'markers+text',
         x:bdata.map(d=>d.mktcap),y:bdata.map(d=>d.perf_ytd),
@@ -2600,8 +2602,10 @@ function renderRpCharts(sector){
         paper_bgcolor:'transparent',plot_bgcolor:'transparent',
         font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:11},
         margin:{t:12,b:50,l:60,r:20},
-        xaxis:{type:'log',gridcolor:'#1f2328',
-          title:{text:'Market Cap (log)',font:{size:11,color:'#8b919e'}},tickformat:'$.2s'},
+        xaxis:{gridcolor:'#1f2328',
+          title:{text:'Market Cap',font:{size:11,color:'#8b919e'}},
+          tickvals:[minMc,maxMc],ticktext:[fmc(minMc),fmc(maxMc)],
+          range:[minMc*0.85,maxMc*1.15]},
         yaxis:{gridcolor:'#1f2328',zerolinecolor:'#444',zerolinewidth:1,ticksuffix:'%',
           title:{text:'YTD Return',font:{size:11,color:'#8b919e'}}},
         shapes:spxYtd!=null?[{type:'line',x0:0,x1:1,y0:spxYtd,y1:spxYtd,
