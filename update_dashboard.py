@@ -350,8 +350,8 @@ def main():
     iorb_latest = iorb_wk[sorted(iorb_wk)[-1]] if iorb_wk else 0.0
     print(f"  SOFR {sofr_latest:.2f}%  IORB {iorb_latest:.2f}%")
 
-    # Nominal GDP QoQ % change (pca = compounded annual rate, same as BEA press release)
-    gdp_yoy_data = fetch_fred("GDP", units="pca")
+    # Real GDP QoQ compounded annual rate of change (A191RL1Q225SBEA = BEA's own series)
+    gdp_yoy_data = fetch_fred("A191RL1Q225SBEA")
     gdp_yoy_latest = gdp_yoy_data[sorted(gdp_yoy_data)[-1]] if gdp_yoy_data else 0.0
     print(f"  GDP QoQ {gdp_yoy_latest:.2f}%")
 
