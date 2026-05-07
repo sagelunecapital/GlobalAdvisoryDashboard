@@ -24,7 +24,7 @@
     {
       "name": "World Cup",
       "thesis": "Soccer world cup is coming up soon, is it a big enough of an event for the fans to spend past the pain coming from today’s geopolitical events?",
-      "tickers": "Hotels - MAR, HLT, WH, CHH, ABNB\nBooking - BKNG, EXPE, TRIP\nRestaurants - YUM, QSR, CMG, SBUX, DPZ",
+      "tickers": "Hotels - MAR, HLT, WH, CHH, ABNB\nBooking - BKNG, EXPE, TRIP \nRestaurants - YUM, QSR, CMG, SBUX, DPZ",
       "collapsed": false
     },
     {
@@ -46,5 +46,5 @@
       "collapsed": false
     }
   ],
-  "saved_at": "2026-05-07T00:15:04.521Z"
+  "saved_at": "2026-05-07T00:15:12.192Z"
 }
