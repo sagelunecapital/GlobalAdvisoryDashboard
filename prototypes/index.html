@@ -57,7 +57,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-kpi-value{font-size:22px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
 .stir-kpi-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
 .stir-chart{width:100%;height:360px}
-.stir-meet-layout{display:grid;grid-template-columns:3fr 2fr;gap:16px;align-items:start}
+.stir-meet-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
 @media(max-width:900px){.stir-meet-layout{grid-template-columns:1fr}}
 .stir-table{width:100%;border-collapse:collapse;font-size:12px}
 .stir-table th{color:var(--text-muted);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap}
@@ -1816,16 +1816,20 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(d=>{
       const ddEl=document.getElementById('gdp-data-date');
       if(ddEl) ddEl.innerHTML='Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated '+d.updated.slice(0,10);
-      // Concatenate all quarters chronologically into a single history line
+      // Last 90 days of tracking estimates across all quarters
       const sortedQ=Object.keys(d.quarters).sort((a,b)=>{
         const p=s=>{const[q,y]=s.split(' ');return parseInt(y)*10+parseInt(q[1]);};
         return p(a)-p(b);
       });
       const allDates=[],allGdp=[];
       sortedQ.forEach(q=>{allDates.push(...d.quarters[q].dates);allGdp.push(...d.quarters[q].gdp);});
+      const cutoff=new Date(Date.now()-90*24*60*60*1000).toISOString().slice(0,10);
+      const i90=allDates.findIndex(dt=>dt>=cutoff);
+      const sliceDates=i90>=0?allDates.slice(i90):allDates;
+      const sliceGdp=i90>=0?allGdp.slice(i90):allGdp;
       const leg=document.getElementById('gdp-combo-legend');
-      if(leg) leg.innerHTML='<span style="font-size:11px;color:var(--text-muted)">GDPNow tracking estimate — all quarters</span>';
-      drawChart('w-gdp-combo','tt-gdp-combo',allDates,allGdp,'#58a6ff',v=>v.toFixed(1)+'%',320);
+      if(leg) leg.innerHTML='<span style="font-size:11px;color:var(--text-muted)">GDPNow tracking estimate — last 90 days</span>';
+      drawChart('w-gdp-combo','tt-gdp-combo',sliceDates,sliceGdp,'#58a6ff',v=>v.toFixed(1)+'%',320);
     })
     .catch(()=>{
       drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend');
