@@ -284,6 +284,16 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .rp-table td:first-child{text-align:left;color:var(--text);font-weight:500}
 .rp-table tr:hover td{background:rgba(255,255,255,.025)}
 .rp-placeholder{text-align:center;padding:36px 20px;color:var(--text-muted);font-size:13px}
+/* ── Scrollbars ── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(139,145,158,0.35);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(139,145,158,0.6)}
+::-webkit-scrollbar-corner{background:transparent}
+*{scrollbar-width:thin;scrollbar-color:rgba(139,145,158,0.35) transparent}
+/* ── Liquidity side-by-side ── */
+.liq-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.liq-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -491,36 +501,37 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 <div id="main-liquidity" class="main-panel">
 
   <div class="section-heading">Liquidity</div>
-  <div class="card">
-    <div class="itabs">
-      <button class="itab active" onclick="showItab('liq-resbal',this,'liq-inner')">Reserve Balance</button>
-      <button class="itab" onclick="showItab('liq-fedliq',this,'liq-inner')">Fed Liquidity</button>
-      <button class="itab" onclick="showItab('liq-trade',this,'liq-inner')">Trade Balance</button>
-      <button class="itab" onclick="showItab('liq-btc',this,'liq-inner')">Bitcoin</button>
+  <div class="liq-row">
+    <div class="card">
+      <div class="itabs">
+        <button class="itab active" onclick="showItab('liq-resbal',this,'liq-inner')">Reserve Balance</button>
+        <button class="itab" onclick="showItab('liq-fedliq',this,'liq-inner')">Fed Liquidity</button>
+        <button class="itab" onclick="showItab('liq-trade',this,'liq-inner')">Trade Balance</button>
+        <button class="itab" onclick="showItab('liq-btc',this,'liq-inner')">Bitcoin</button>
+      </div>
+      <div id="liq-resbal" class="ipanel liq-inner active">
+        <div class="cw" style="height:320px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
+      </div>
+      <div id="liq-fedliq" class="ipanel liq-inner">
+        <div class="cw" style="height:320px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
+      </div>
+      <div id="liq-trade" class="ipanel liq-inner">
+        <div class="cw" style="height:320px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
+      </div>
+      <div id="liq-btc" class="ipanel liq-inner">
+        <div class="cw" style="height:320px" id="w-liq-btc"><div class="chart-tt" id="tt-liq-btc"></div></div>
+      </div>
     </div>
-    <div id="liq-resbal" class="ipanel liq-inner active">
-      <div class="cw" style="height:350px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
+    <div class="card">
+      <div class="legend">
+        <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
+        <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
+        <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
+        <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
+      </div>
+      <div class="cw" style="height:320px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
+      <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
     </div>
-    <div id="liq-fedliq" class="ipanel liq-inner">
-      <div class="cw" style="height:350px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
-    </div>
-    <div id="liq-trade" class="ipanel liq-inner">
-      <div class="cw" style="height:350px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
-    </div>
-    <div id="liq-btc" class="ipanel liq-inner">
-      <div class="cw" style="height:350px" id="w-liq-btc"><div class="chart-tt" id="tt-liq-btc"></div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="legend">
-      <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
-      <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
-      <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
-      <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
-    </div>
-    <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
-    <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
 
 </div><!-- /liquidity panel -->
