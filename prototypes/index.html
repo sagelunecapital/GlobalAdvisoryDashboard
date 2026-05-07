@@ -263,10 +263,14 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 #research-page.editing .rp-title{display:none}
 #research-page.editing .rp-title-input{display:block}
 .rp-label{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
-.rp-view-text{font-size:14px;color:var(--text-dim);line-height:1.75;min-height:36px}
-.rp-edit-field{display:none}
-#research-page.editing .rp-view-text{display:none}
-#research-page.editing .rp-edit-field{display:block}
+.rp-view-block{margin-bottom:20px}
+.rp-view-text{font-size:14px;color:var(--text-dim);line-height:1.75;white-space:pre-wrap}
+.rp-group-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 4px}
+.rp-group-label:first-child{margin-top:0}
+.rp-group-tickers{font-size:13px;color:var(--text-dim);line-height:1.9}
+.rp-edit-card{display:none;margin-bottom:14px}
+#research-page.editing .rp-view-block{display:none}
+#research-page.editing .rp-edit-card{display:block}
 .rp-charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:800px){.rp-charts-row{grid-template-columns:1fr}}
 .rp-table-wrap{overflow-x:auto}
@@ -860,15 +864,23 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
       <button class="btn pri" onclick="toggleRpEdit()" id="rp-edit-btn">Edit</button>
     </div>
   </div>
-  <div class="card" style="margin-bottom:14px">
+  <!-- View mode: clean inline text, no card box -->
+  <div class="rp-view-block">
     <div class="rp-label">Thesis</div>
     <div class="rp-view-text" id="rp-thesis-view">No thesis defined yet.</div>
-    <textarea class="sta rp-edit-field" id="rp-thesis-edit" rows="4" placeholder="Describe the investment thesis..."></textarea>
   </div>
-  <div class="card" style="margin-bottom:14px">
+  <div class="rp-view-block">
     <div class="rp-label">Constituents</div>
-    <div class="rp-view-text" id="rp-tickers-view">No tickers defined yet.</div>
-    <textarea class="sta rp-edit-field" id="rp-tickers-edit" rows="2" placeholder="e.g. AAPL, MSFT, NVDA"></textarea>
+    <div id="rp-tickers-view"></div>
+  </div>
+  <!-- Edit mode: card boxes with textareas -->
+  <div class="card rp-edit-card">
+    <div class="rp-label">Thesis</div>
+    <textarea class="sta" id="rp-thesis-edit" rows="4" placeholder="Describe the investment thesis..."></textarea>
+  </div>
+  <div class="card rp-edit-card">
+    <div class="rp-label">Constituents</div>
+    <textarea class="sta" id="rp-tickers-edit" rows="3" placeholder="Flat: AAPL, MSFT, NVDA&#10;Grouped: [Grid]&#10;NEE, AES, PPL"></textarea>
   </div>
   <div class="rp-charts-row">
     <div class="card">
@@ -2171,7 +2183,7 @@ if(typeof macroRegime==='undefined'){
 // ══ Yields tab (US STIR) ══════════════════════════════════════════════
 const STIR={
   data:null, main:'meetings', product:'ff',
-  PALETTE:{bg:'#000',plot:'#050505',orange:'#FE7C04',orangeHot:'#FF9533',orangeDim:'#5A2C00',text:'#D0D0D0'},
+  PALETTE:{bg:'#000',plot:'#050505',orange:'rgba(255,255,255,0.45)',orangeHot:'#ffffff',orangeDim:'rgba(255,255,255,0.06)',text:'#D0D0D0'},
 };
 
 function stirLayout(extra){
@@ -2368,8 +2380,32 @@ showMain = function(id, btn){
 // ══ Research Tab ════════════════════════════════════════════════
 let researchSectors=[], currentRpId=null, rpSortCol='perf_ytd', rpSortDir=-1, tickerPerf=null;
 
+function _parseTksGrouped(str){
+  const groups=[];let cur={name:null,tickers:[]};
+  for(const raw of (str||'').split('\n')){
+    const line=raw.trim();
+    const m=line.match(/^\[(.+)\]$/);
+    if(m){if(cur.tickers.length||cur.name)groups.push(cur);cur={name:m[1].trim(),tickers:[]};}
+    else{const tks=line.split(/[\s,;]+/).map(t=>t.trim().toUpperCase()).filter(Boolean);cur.tickers.push(...tks);}
+  }
+  if(cur.tickers.length||cur.name)groups.push(cur);
+  return groups.length?groups:[{name:null,tickers:[]}];
+}
 function _parseTks(str){
-  return (str||'').split(/[\s,;]+/).map(t=>t.trim().toUpperCase()).filter(Boolean);
+  return _parseTksGrouped(str).flatMap(g=>g.tickers);
+}
+function _renderTickersView(str){
+  const groups=_parseTksGrouped(str);
+  const hasGroups=groups.some(g=>g.name);
+  if(!hasGroups){
+    const tks=groups.flatMap(g=>g.tickers);
+    if(!tks.length)return'<em style="opacity:.4">No tickers defined yet.</em>';
+    return'<div class="rp-group-tickers">'+tks.join(' &middot; ')+'</div>';
+  }
+  return groups.map(g=>{
+    const tkStr=g.tickers.length?g.tickers.join(' &middot; '):'<em style="opacity:.4">—</em>';
+    return(g.name?'<div class="rp-group-label">'+g.name+'</div>':'')+'<div class="rp-group-tickers">'+tkStr+'</div>';
+  }).join('');
 }
 function _tp(tk){
   if(!tickerPerf||!tickerPerf.tickers) return null;
@@ -2385,11 +2421,11 @@ function loadRS(){
   if(!researchSectors.length){
     const old=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
     if(old&&old.length){
-      researchSectors=old.map((s,i)=>({id:i+1,name:s.name||'Sector '+(i+1),thesis:s.thesis||'',tickers:s.tickers||''}));
+      researchSectors=old.map((s,i)=>({id:i+1,name:s.name||'Sector '+(i+1),thesis:s.thesis||'',tickers:s.tickers||'',lastUpdated:null}));
     } else {
       researchSectors=[
-        {id:1,name:'Energy',thesis:'',tickers:'CVX, XOM, SLB, COP, EOG'},
-        {id:2,name:'Technology',thesis:'',tickers:'MSFT, GOOGL, NVDA, META, AAPL'},
+        {id:1,name:'Energy',thesis:'',tickers:'CVX, XOM, SLB, COP, EOG',lastUpdated:null},
+        {id:2,name:'Technology',thesis:'',tickers:'MSFT, GOOGL, NVDA, META, AAPL',lastUpdated:null},
       ];
     }
     persistRS();
@@ -2404,7 +2440,6 @@ function renderRsGrid(){
     grid.innerHTML='<div class="rp-placeholder" style="grid-column:1/-1">No research sectors yet. Click &ldquo;+ New&rdquo; to get started.</div>';
     return;
   }
-  const upd=tickerPerf?tickerPerf.updated:null;
   grid.innerHTML=researchSectors.map(s=>{
     const tks=_parseTks(s.tickers);
     let s1=0,cnt=0;
@@ -2412,13 +2447,14 @@ function renderRsGrid(){
     const avg=cnt>0?s1/cnt:null;
     const pfmt=avg==null?{t:'&#8212;',c:'neu'}:{t:(avg>=0?'+':'')+avg.toFixed(2)+'%',c:avg>=0?'pos':'neg'};
     const tkDisp=tks.slice(0,10).join(' &middot; ')+(tks.length>10?' &hellip;':'');
+    const dateStr=s.lastUpdated?'Updated '+s.lastUpdated:'Not yet saved';
     return `<div class="rs-card" onclick="openRp(${s.id})">
       <div class="rs-card-top">
         <div class="rs-card-title">${s.name}</div>
         <div class="rs-card-arrow">&#8599;</div>
       </div>
       <div class="rs-card-perf ${pfmt.c}">${pfmt.t}</div>
-      <div class="rs-card-date">${upd?'Data as of '+upd:'No data yet'}</div>
+      <div class="rs-card-date">${dateStr}</div>
       <hr class="rs-card-divider">
       <div class="rs-card-tickers">${tkDisp||'<em style="opacity:.5">No tickers defined</em>'}</div>
     </div>`;
@@ -2427,7 +2463,7 @@ function renderRsGrid(){
 
 function addResearchSector(){
   const maxId=researchSectors.reduce((m,s)=>Math.max(m,s.id),0);
-  const ns={id:maxId+1,name:'New Sector',thesis:'',tickers:''};
+  const ns={id:maxId+1,name:'New Sector',thesis:'',tickers:'',lastUpdated:null};
   researchSectors.push(ns);
   persistRS();
   renderRsGrid();
@@ -2449,7 +2485,7 @@ function openRp(id,editMode){
   document.getElementById('rp-title-input').value=s.name;
   document.getElementById('rp-thesis-view').textContent=s.thesis||'No thesis defined yet.';
   document.getElementById('rp-thesis-edit').value=s.thesis||'';
-  document.getElementById('rp-tickers-view').textContent=s.tickers||'No tickers defined yet.';
+  document.getElementById('rp-tickers-view').innerHTML=_renderTickersView(s.tickers||'');
   document.getElementById('rp-tickers-edit').value=s.tickers||'';
   document.getElementById('rp-edit-btn').textContent=editMode?'Save':'Edit';
   document.querySelectorAll('.rp-table th').forEach(h=>h.classList.remove('sort-asc','sort-desc'));
@@ -2477,9 +2513,10 @@ function toggleRpEdit(){
       s.name=(document.getElementById('rp-title-input').value||s.name).trim();
       s.thesis=document.getElementById('rp-thesis-edit').value;
       s.tickers=document.getElementById('rp-tickers-edit').value;
+      s.lastUpdated=new Date().toISOString().slice(0,10);
       document.getElementById('rp-title').textContent=s.name;
       document.getElementById('rp-thesis-view').textContent=s.thesis||'No thesis defined yet.';
-      document.getElementById('rp-tickers-view').textContent=s.tickers||'No tickers defined yet.';
+      document.getElementById('rp-tickers-view').innerHTML=_renderTickersView(s.tickers||'');
       persistRS();
       renderRpCharts(s);
       renderRpTable(s);
@@ -2535,9 +2572,9 @@ function renderRpCharts(sector){
         title:{text:'YTD Return',font:{size:11,color:'#8b919e'}}},
       yaxis:{gridcolor:'transparent',tickfont:{size:11,color:'#c1c7d4'}},
       shapes:spxYtd!=null?[{type:'line',x0:spxYtd,x1:spxYtd,y0:-0.5,y1:sorted.length-0.5,
-        line:{color:'#e3a946',width:1.5,dash:'dot'}}]:[],
+        line:{color:'rgba(255,255,255,0.6)',width:1.5,dash:'dot'}}]:[],
       annotations:spxYtd!=null?[{x:spxYtd,y:sorted.length-0.5,xanchor:'left',yanchor:'bottom',
-        text:'SPX',showarrow:false,font:{color:'#e3a946',size:10}}]:[],
+        text:'SPX',showarrow:false,font:{color:'rgba(255,255,255,0.6)',size:10}}]:[],
       height:Math.max(260,sorted.length*30+60)
     },{responsive:true,displayModeBar:false});
   }
@@ -2568,9 +2605,9 @@ function renderRpCharts(sector){
         yaxis:{gridcolor:'#1f2328',zerolinecolor:'#444',zerolinewidth:1,ticksuffix:'%',
           title:{text:'YTD Return',font:{size:11,color:'#8b919e'}}},
         shapes:spxYtd!=null?[{type:'line',x0:0,x1:1,y0:spxYtd,y1:spxYtd,
-          xref:'paper',yref:'y',line:{color:'#e3a946',width:1.5,dash:'dot'}}]:[],
+          xref:'paper',yref:'y',line:{color:'rgba(255,255,255,0.6)',width:1.5,dash:'dot'}}]:[],
         annotations:spxYtd!=null?[{x:1,y:spxYtd,xref:'paper',yref:'y',xanchor:'right',yanchor:'bottom',
-          text:'SPX',showarrow:false,font:{color:'#e3a946',size:10}}]:[],
+          text:'SPX',showarrow:false,font:{color:'rgba(255,255,255,0.6)',size:10}}]:[],
         height:300
       },{responsive:true,displayModeBar:false});
     }

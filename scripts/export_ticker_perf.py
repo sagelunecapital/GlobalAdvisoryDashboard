@@ -100,6 +100,54 @@ def main() -> None:
 
     conn.close()
 
+    # ── Supplemental ETF fetch (not in DB) ───────────────────────
+    SUPP_ETFS = [
+        "XLE","XLK","XLF","XLV","XLI","XLC","XLY","XLP","XLB","XLRE","XLU",
+        "SPY","QQQ","IWM","DIA","VTI",
+        "GLD","SLV","TLT","IEF","HYG","EMB","LQD",
+        "VNQ","IBB","XBI","ICLN","LIT","COPX","PICK","URNM","WOOD","CPER",
+        "ARKK","XME","XOP","OIH","KRE","IAT","SMH","SOXX",
+    ]
+    try:
+        import yfinance as yf
+        import pandas as pd
+        # Download 1Y+ of data to cover all reference periods
+        etf_raw = yf.download(
+            SUPP_ETFS, start=date_1y, auto_adjust=True, progress=False
+        )
+        closes = etf_raw["Close"] if "Close" in etf_raw else etf_raw
+        if isinstance(closes, pd.Series):
+            closes = closes.to_frame(name=SUPP_ETFS[0])
+        for etf in SUPP_ETFS:
+            if etf not in closes.columns:
+                continue
+            s = closes[etf].dropna()
+            if s.empty:
+                continue
+            def _get(d: str):
+                idx = s.index[s.index <= pd.Timestamp(d)]
+                return float(s[idx[-1]]) if len(idx) else None
+            p_now = _get(latest)
+            if p_now is None:
+                continue
+            def _ep(fd: str, td: str):
+                pf, pt = _get(fd), _get(td)
+                if pf and pt and pf > 0:
+                    return round((pt / pf - 1) * 100, 4)
+                return None
+            result[etf] = {
+                "perf_1d":  _ep(date_1d,  latest),
+                "perf_5d":  _ep(date_5d,  latest),
+                "perf_1m":  _ep(date_1m,  latest),
+                "perf_6m":  _ep(date_6m,  latest),
+                "perf_1y":  _ep(date_1y,  latest),
+                "perf_ytd": _ep(date_ytd, latest),
+                "mktcap":   None,
+            }
+        print(f"  +{sum(e in result for e in SUPP_ETFS)} ETF tickers added")
+    except Exception as exc:
+        print(f"[warn] ETF supplemental fetch skipped: {exc}")
+
     out = {"updated": latest, "spx_ytd": spx_ytd, "tickers": result}
     with open(OUT_F, "w", encoding="utf-8") as f:
         json.dump(out, f, separators=(",", ":"))
