@@ -57,8 +57,8 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-kpi-value{font-size:22px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
 .stir-kpi-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
 .stir-chart{width:100%;height:360px}
-.stir-meet-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-@media(max-width:900px){.stir-meet-layout{grid-template-columns:1fr}}
+.stir-meet-layout{display:grid;grid-template-columns:1fr 0.1fr 1fr;gap:0 16px;align-items:start}
+@media(max-width:900px){.stir-meet-layout{grid-template-columns:1fr;gap:16px 0}}
 .stir-table{width:100%;border-collapse:collapse;font-size:12px}
 .stir-table th{color:var(--text-muted);font-weight:600;text-align:right;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap}
 .stir-table th:first-child{text-align:left}
@@ -588,13 +588,14 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div class="card-header" id="stir-meet-hdr">Implied Policy Path</div>
       <div class="stir-meet-layout">
         <div class="stir-chart" id="stir-path-chart"></div>
+        <div></div>
         <div style="overflow-x:auto">
           <table class="stir-table">
             <thead>
               <tr>
                 <th>Meeting / Contract</th><th>Rate</th><th>Post-Mtg</th>
-                <th>Hold %</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th>
-                <th>+25 bp</th><th>+50 bp</th><th>Cum Hikes</th>
+                <th>Cum Hikes</th><th>Hold %</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th>
+                <th>+25 bp</th><th>+50 bp</th>
               </tr>
             </thead>
             <tbody id="stir-meet-body"></tbody>
@@ -1816,20 +1817,29 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(d=>{
       const ddEl=document.getElementById('gdp-data-date');
       if(ddEl) ddEl.innerHTML='Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated '+d.updated.slice(0,10);
-      // Last 90 days of tracking estimates across all quarters
+      // Last 90 days — concatenate quarters, then slice, preserving component breakdown
       const sortedQ=Object.keys(d.quarters).sort((a,b)=>{
         const p=s=>{const[q,y]=s.split(' ');return parseInt(y)*10+parseInt(q[1]);};
         return p(a)-p(b);
       });
-      const allDates=[],allGdp=[];
-      sortedQ.forEach(q=>{allDates.push(...d.quarters[q].dates);allGdp.push(...d.quarters[q].gdp);});
+      const allDates=[],allGdp=[],compArrays={};
+      sortedQ.forEach(q=>{
+        const qt=d.quarters[q];
+        allDates.push(...qt.dates);allGdp.push(...qt.gdp);
+        Object.entries(qt.components).forEach(([name,vals])=>{
+          if(!compArrays[name])compArrays[name]=[];
+          compArrays[name].push(...vals);
+        });
+      });
       const cutoff=new Date(Date.now()-90*24*60*60*1000).toISOString().slice(0,10);
       const i90=allDates.findIndex(dt=>dt>=cutoff);
-      const sliceDates=i90>=0?allDates.slice(i90):allDates;
-      const sliceGdp=i90>=0?allGdp.slice(i90):allGdp;
-      const leg=document.getElementById('gdp-combo-legend');
-      if(leg) leg.innerHTML='<span style="font-size:11px;color:var(--text-muted)">GDPNow tracking estimate — last 90 days</span>';
-      drawChart('w-gdp-combo','tt-gdp-combo',sliceDates,sliceGdp,'#58a6ff',v=>v.toFixed(1)+'%',320);
+      const sl=arr=>i90>=0?arr.slice(i90):arr;
+      const compNames=['Consumer','Non-Res. Invest.','Residential','Inventories','Net Exports','Government'];
+      const colors=['#58a6ff','#e3b341','#f0883e','#bc8cff','#f78166','#3fb950'];
+      const compsArr=Object.entries(compArrays).map(([lbl,vals],i)=>({
+        label:compNames[i]||lbl,color:colors[i]||'#8b919e',values:sl(vals)
+      }));
+      drawGDPCombo('w-gdp-combo','tt-gdp-combo',sl(allDates),compsArr,sl(allGdp),320,'gdp-combo-legend');
     })
     .catch(()=>{
       drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend');
@@ -2324,13 +2334,13 @@ function renderStirMeetings(){
       <td><div class="stir-meet-cell"><span>${r.meeting}</span><span class="stir-meet-sym">${r.contract}</span></div></td>
       <td>${r.contract_rate.toFixed(3)}%</td>
       <td>${r.post_rate.toFixed(3)}%</td>
+      <td>${fHikes(r.cum_hikes)}</td>
       <td>${f0(r.probs.hold)}</td>
       <td>${f0(r.probs.cut25)}</td>
       <td>${f0(r.probs.cut50)}</td>
       <td>${f0(r.probs.cut75)}</td>
       <td>${f0(r.probs.hike25)}</td>
       <td>${f0(r.probs.hike50)}</td>
-      <td>${fHikes(r.cum_hikes)}</td>
     </tr>`).join('');
 }
 
