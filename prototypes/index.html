@@ -292,12 +292,13 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <div class="layout-corner"></div>
   <div class="layout-header">
     <h1>Global Advisory Dashboard</h1>
-    <div class="header-meta">Session: Fri 24 Apr 2026</div>
+    <div class="header-meta" id="session-date">Session: —</div>
   </div>
 
   <aside class="sidebar">
     <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)">Yields</button>
+    <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)">Liquidity</button>
     <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
     <button class="nav-tab" onclick="showMain('research',this)">Research</button>
@@ -484,7 +485,11 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 
   </div><!-- /macro-split -->
 
-  <!-- Liquidity -->
+</div><!-- /macro panel -->
+
+<!-- ══════════════════════════ LIQUIDITY TAB ══════════════════════════ -->
+<div id="main-liquidity" class="main-panel">
+
   <div class="section-heading">Liquidity</div>
   <div class="card">
     <div class="itabs">
@@ -518,7 +523,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
 
-</div><!-- /macro panel -->
+</div><!-- /liquidity panel -->
 
 <!-- ═══════════════════════════ YIELDS TAB ═══════════════════════════ -->
 <div id="main-stir" class="main-panel">
@@ -676,17 +681,15 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 <div id="main-breadth" class="main-panel">
 
   <!-- ── Country toggle (shared across all modules) ── -->
-  <div class="card" style="margin-bottom:14px;padding:14px 20px">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-      <div class="card-header" style="margin-bottom:0">Sector Rotation</div>
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-        <div class="itabs" id="sr-country-tabs" style="margin-bottom:0">
-          <button class="itab active" onclick="setSrCountry('United States',this)">United States</button>
-          <button class="itab"        onclick="setSrCountry('China',this)">China</button>
-          <button class="itab"        onclick="setSrCountry('Korea',this)">Korea</button>
-        </div>
-        <div id="sr-updated" style="font-size:11px;color:var(--text-muted)"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <div class="section-heading" style="margin:0">Sector Rotation</div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="itabs" id="sr-country-tabs" style="margin-bottom:0">
+        <button class="itab active" onclick="setSrCountry('United States',this)">United States</button>
+        <button class="itab"        onclick="setSrCountry('China',this)">China</button>
+        <button class="itab"        onclick="setSrCountry('Korea',this)">Korea</button>
       </div>
+      <div id="sr-updated" style="font-size:11px;color:var(--text-muted)"></div>
     </div>
   </div>
 
@@ -694,14 +697,17 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
   <div class="card" style="margin-bottom:14px">
     <div class="card-header">Industry Relative to SPX</div>
     <div class="sr-scroll">
-      <table class="sr-table" style="table-layout:fixed">
+      <table class="sr-table">
+        <colgroup>
+          <col style="width:5%"><col style="width:43%"><col style="width:17%"><col style="width:18%"><col style="width:17%">
+        </colgroup>
         <thead>
           <tr>
-            <th style="width:36px">#</th>
+            <th>#</th>
             <th>Industry</th>
-            <th style="width:90px;text-align:right">Current RS</th>
-            <th style="width:100px;text-align:right">21D RS EMA</th>
-            <th style="width:80px;text-align:right">Gap</th>
+            <th style="text-align:right">Current RS</th>
+            <th style="text-align:right">21D RS EMA</th>
+            <th style="text-align:right">Gap</th>
           </tr>
         </thead>
         <tbody id="sr-gap-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
@@ -719,14 +725,17 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
         <button class="itab"        onclick="setSrRankMode('monthly',this)">Monthly</button>
       </div>
     </div>
-    <table class="sr-table" style="table-layout:fixed">
+    <table class="sr-table">
+      <colgroup>
+        <col style="width:5%"><col style="width:43%"><col style="width:17%"><col style="width:18%"><col style="width:17%">
+      </colgroup>
       <thead>
         <tr>
-          <th style="width:36px">#</th>
+          <th>#</th>
           <th>Industry</th>
-          <th style="width:90px;text-align:right">Daily Rank</th>
-          <th style="width:100px;text-align:right">Weekly Rank</th>
-          <th style="width:80px;text-align:right">Monthly Rank</th>
+          <th style="text-align:right">Daily Rank</th>
+          <th style="text-align:right">Weekly Rank</th>
+          <th style="text-align:right">Monthly Rank</th>
         </tr>
       </thead>
       <tbody id="sr-rank-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
@@ -828,8 +837,10 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
     <div>
       <div class="exec-row" style="margin-bottom:12px">
         <div class="section-heading" style="margin:0">General Tactics</div>
-        <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
-        <span class="notes-status" id="notes-status"></span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="notes-status" id="notes-status"></span>
+          <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
+        </div>
       </div>
       <div class="card">
         <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
@@ -1739,6 +1750,10 @@ function _applyNotes(notes){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
+  // Dynamic session date
+  const _sd=document.getElementById('session-date');
+  if(_sd){const _n=new Date();_sd.textContent='Session: '+_n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
+
   // Load notes — server first (notes.json), localStorage fallback
   fetch('notes.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject())
