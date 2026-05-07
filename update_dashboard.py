@@ -350,10 +350,10 @@ def main():
     iorb_latest = iorb_wk[sorted(iorb_wk)[-1]] if iorb_wk else 0.0
     print(f"  SOFR {sofr_latest:.2f}%  IORB {iorb_latest:.2f}%")
 
-    # GDP YoY % change (latest quarter)
-    gdp_yoy_data = fetch_fred("GDP", units="pc1")
+    # Nominal GDP QoQ % change (pca = compounded annual rate, same as BEA press release)
+    gdp_yoy_data = fetch_fred("GDP", units="pca")
     gdp_yoy_latest = gdp_yoy_data[sorted(gdp_yoy_data)[-1]] if gdp_yoy_data else 0.0
-    print(f"  GDP YoY {gdp_yoy_latest:.2f}%")
+    print(f"  GDP QoQ {gdp_yoy_latest:.2f}%")
 
     # GDPNow — read from gdpnow.json (refreshed by fetch_gdpnow.py)
     _gn_path = os.path.join(os.path.dirname(os.path.abspath(HTML_PATH)), "gdpnow.json")
