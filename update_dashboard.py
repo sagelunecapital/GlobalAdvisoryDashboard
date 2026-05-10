@@ -24,6 +24,66 @@ BLOCK_END   = "// ─── DATA BLOCK END ───"
 DATA_ORIGIN = date(2020, 1, 1)
 
 
+# ── Investing.com ─────────────────────────────────────────────────
+INVEST_2Y_URL  = "https://ph.investing.com/rates-bonds/u.s.-2-year-bond-yield-historical-data"
+INVEST_10Y_URL = "https://ph.investing.com/rates-bonds/u.s.-10-year-bond-yield-historical-data"
+_INVEST_HDRS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer":         "https://ph.investing.com/",
+}
+
+def fetch_investing_wow(url: str, label: str) -> float:
+    """Return WoW yield change (pp) scraped from an investing.com historical-data page.
+    Raises RuntimeError if the page is blocked or data cannot be parsed."""
+    r = requests.get(url, headers=_INVEST_HDRS, timeout=30)
+    if r.status_code in (403, 429):
+        raise RuntimeError(f"investing.com blocked request for {label} (HTTP {r.status_code})")
+    r.raise_for_status()
+
+    # Parse date + closing price from the historical table.
+    # Table rows contain: Date | Price | Open | High | Low | Change%
+    # Try two common date formats: "May 09, 2026" and "05/09/2026"
+    rows = re.findall(
+        r'<td[^>]*>\s*([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})\s*</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>',
+        r.text,
+    )
+    if not rows:
+        rows = re.findall(
+            r'<td[^>]*>\s*(\d{2}/\d{2}/\d{4})\s*</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>',
+            r.text,
+        )
+    if len(rows) < 6:
+        raise RuntimeError(f"Too few rows ({len(rows)}) parsed from investing.com for {label}")
+
+    prices: dict[date, float] = {}
+    for date_str, price_str in rows:
+        ds = date_str.strip()
+        for fmt in ("%b %d, %Y", "%m/%d/%Y"):
+            try:
+                prices[datetime.strptime(ds, fmt).date()] = float(price_str)
+                break
+            except ValueError:
+                continue
+
+    if len(prices) < 6:
+        raise RuntimeError(f"Not enough parseable rows for {label}")
+
+    sorted_dates = sorted(prices)
+    latest_d = sorted_dates[-1]
+    cutoff   = latest_d - timedelta(days=8)   # ~5 business days back
+    prev_dates = [d for d in sorted_dates if d <= cutoff]
+    if not prev_dates:
+        raise RuntimeError(f"No previous-week date found for {label}")
+
+    return round(prices[latest_d] - prices[prev_dates[-1]], 4)
+
+
 # ── FRED ──────────────────────────────────────────────────────────
 def fetch_fred(series_id, start=DATA_ORIGIN, freq=None, aggr=None, units=None):
     """Return {date_str: float} for a FRED series (dots dropped)."""
@@ -310,10 +370,10 @@ def main():
     ppi_h  = fetch_fred("PPIACO")     # PPI All Commodities index
     ppi_c  = fetch_fred("PPICOR")     # PPI Final Demand Less Food & Energy
 
-    print("Fetching treasury yields (1Y/2Y: FRED, 5Y/10Y/30Y: yfinance)...")
-    dgs1   = fetch_fred("DGS1")       # 1Y nominal — no yfinance equivalent
-    dgs2   = fetch_fred("DGS2")       # 2Y nominal — no yfinance equivalent
-    dgs5   = fetch_yf_yield("^FVX")   # 5Y nominal
+    print("Fetching treasury yields (1Y/2Y/5Y: FRED, 10Y/30Y: yfinance)...")
+    dgs1   = fetch_fred("DGS1")       # 1Y nominal
+    dgs2   = fetch_fred("DGS2")       # 2Y nominal
+    dgs5   = fetch_fred("DGS5")       # 5Y nominal — ^FVX unreliable on yfinance
     dgs10  = fetch_yf_yield("^TNX")   # 10Y nominal
     dgs30  = fetch_yf_yield("^TYX")   # 30Y nominal
     dfii5  = fetch_fred("DFII5")      # 5Y TIPS real yield — FRED only
@@ -376,21 +436,29 @@ def main():
     t5yie_prev = t5yie_data[_prev_d[-1]] if _prev_d else t5yie_now
     t5yie_wow  = (t5yie_now - t5yie_prev) * 100  # basis points (e.g. +0.08pp → +8bp)
 
-    # MPS: absolute basis-point change (not % of yield) so 2Y/10Y ordering reflects curve shape
-    dgs2_dates = sorted(dgs2)
-    dgs2_now   = dgs2[dgs2_dates[-1]] if dgs2_dates else 0.0
-    _cutoff2   = str((date.fromisoformat(dgs2_dates[-1]) - timedelta(days=5)).isoformat()) if dgs2_dates else ""
-    _prev2     = [d for d in dgs2_dates if d <= _cutoff2]
-    dgs2_prev  = dgs2[_prev2[-1]] if _prev2 else dgs2_now
-    us2y_wow   = dgs2_now - dgs2_prev  # raw pp change (e.g. +0.079)
+    # MPS: try investing.com first; fall back to FRED/yfinance if blocked
+    print("  Fetching MPS yields from investing.com...")
+    try:
+        us2y_wow  = fetch_investing_wow(INVEST_2Y_URL,  "US 2Y")
+        us10y_wow = fetch_investing_wow(INVEST_10Y_URL, "US 10Y")
+        print(f"  [investing.com] US2Y WoW {us2y_wow:+.4f}pp  US10Y WoW {us10y_wow:+.4f}pp")
+    except Exception as _inv_err:
+        print(f"  [warn] investing.com yields failed ({_inv_err}), falling back to FRED/yfinance")
+        dgs2_dates = sorted(dgs2)
+        dgs2_now   = dgs2[dgs2_dates[-1]] if dgs2_dates else 0.0
+        _cutoff2   = str((date.fromisoformat(dgs2_dates[-1]) - timedelta(days=5)).isoformat()) if dgs2_dates else ""
+        _prev2     = [d for d in dgs2_dates if d <= _cutoff2]
+        dgs2_prev  = dgs2[_prev2[-1]] if _prev2 else dgs2_now
+        us2y_wow   = dgs2_now - dgs2_prev
 
-    dgs10_dates = sorted(dgs10)
-    dgs10_now   = dgs10[dgs10_dates[-1]] if dgs10_dates else 0.0
-    _cutoff10   = str((date.fromisoformat(dgs10_dates[-1]) - timedelta(days=5)).isoformat()) if dgs10_dates else ""
-    _prev10     = [d for d in dgs10_dates if d <= _cutoff10]
-    dgs10_prev  = dgs10[_prev10[-1]] if _prev10 else dgs10_now
-    us10y_wow   = dgs10_now - dgs10_prev  # raw pp change (e.g. +0.058)
-    print(f"  T5YIE WoW {t5yie_wow:+.1f}bp  US2Y WoW {us2y_wow:+.4f}pp  US10Y WoW {us10y_wow:+.4f}pp")
+        dgs10_dates = sorted(dgs10)
+        dgs10_now   = dgs10[dgs10_dates[-1]] if dgs10_dates else 0.0
+        _cutoff10   = str((date.fromisoformat(dgs10_dates[-1]) - timedelta(days=5)).isoformat()) if dgs10_dates else ""
+        _prev10     = [d for d in dgs10_dates if d <= _cutoff10]
+        dgs10_prev  = dgs10[_prev10[-1]] if _prev10 else dgs10_now
+        us10y_wow   = dgs10_now - dgs10_prev
+        print(f"  [FRED/yf] US2Y WoW {us2y_wow:+.4f}pp  US10Y WoW {us10y_wow:+.4f}pp")
+    print(f"  T5YIE WoW {t5yie_wow:+.1f}bp")
 
     # Net Liquidity WoW % change — WALCL - WDTGAL - WLRRAL (same formula as liqFedliq chart)
     def _latest(d): return d[sorted(d)[-1]] if d else 0.0
