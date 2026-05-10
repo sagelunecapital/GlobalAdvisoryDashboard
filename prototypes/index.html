@@ -874,7 +874,15 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 <div id="main-research" class="main-panel">
   <div class="exec-row" style="margin-bottom:20px;align-items:center">
     <div class="section-heading" style="margin:0">Research</div>
-    <button class="btn pri" onclick="addResearchSector()">+ New</button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <label style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px">Sort</label>
+      <select id="rs-sort-select" onchange="rsSetSort(this.value)" style="background:var(--surface-high);border:1px solid var(--outline-dim);border-radius:8px;color:var(--text);font-size:12px;font-family:inherit;padding:5px 10px;cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;padding-right:24px;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b919e'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 8px center">
+        <option value="name">Name</option>
+        <option value="date">Date</option>
+        <option value="perf">Performance</option>
+      </select>
+      <button class="btn pri" onclick="addResearchSector()">+ New</button>
+    </div>
   </div>
   <div class="rs-grid" id="rs-grid"></div>
 </div>
@@ -2437,7 +2445,13 @@ showMain = function(id, btn){
 };
 
 // ══ Research Tab ════════════════════════════════════════════════
-let researchSectors=[], currentRpId=null, rpSortCol='perf_ytd', rpSortDir=-1, tickerPerf=null;
+let researchSectors=[], currentRpId=null, rpSortCol='perf_ytd', rpSortDir=-1, tickerPerf=null, rsSort='name';
+
+function rsSetSort(v){
+  rsSort=v;
+  localStorage.setItem('gaai-rs-sort',v);
+  renderRsGrid();
+}
 
 function _parseTksGrouped(str){
   const groups=[];let cur={name:null,tickers:[]};
@@ -2475,6 +2489,12 @@ function persistRS(){
   localStorage.setItem('gaai-research',JSON.stringify(researchSectors));
 }
 function loadRS(){
+  const savedSort=localStorage.getItem('gaai-rs-sort');
+  if(savedSort){
+    rsSort=savedSort;
+    const sel=document.getElementById('rs-sort-select');
+    if(sel) sel.value=savedSort;
+  }
   const raw=localStorage.getItem('gaai-research');
   if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
   if(!researchSectors.length){
@@ -2499,11 +2519,31 @@ function renderRsGrid(){
     grid.innerHTML='<div class="rp-placeholder" style="grid-column:1/-1">No research sectors yet. Click &ldquo;+ New&rdquo; to get started.</div>';
     return;
   }
-  grid.innerHTML=researchSectors.map(s=>{
+  // Compute perf for each sector so we can sort by it
+  const enriched=researchSectors.map(s=>{
     const tks=_parseTks(s.tickers);
     let s1=0,cnt=0;
     tks.forEach(t=>{const d=_tp(t);if(d&&d.perf_1d!=null){s1+=d.perf_1d;cnt++;}});
-    const avg=cnt>0?s1/cnt:null;
+    return{s,tks,avg:cnt>0?s1/cnt:null};
+  });
+  if(rsSort==='name'){
+    enriched.sort((a,b)=>a.s.name.localeCompare(b.s.name));
+  } else if(rsSort==='date'){
+    enriched.sort((a,b)=>{
+      if(!a.s.lastUpdated&&!b.s.lastUpdated) return 0;
+      if(!a.s.lastUpdated) return 1;
+      if(!b.s.lastUpdated) return -1;
+      return b.s.lastUpdated.localeCompare(a.s.lastUpdated);
+    });
+  } else if(rsSort==='perf'){
+    enriched.sort((a,b)=>{
+      if(a.avg==null&&b.avg==null) return 0;
+      if(a.avg==null) return 1;
+      if(b.avg==null) return -1;
+      return b.avg-a.avg;
+    });
+  }
+  grid.innerHTML=enriched.map(({s,tks,avg})=>{
     const pfmt=avg==null?{t:'&#8212;',c:'neu'}:{t:(avg>=0?'+':'')+avg.toFixed(2)+'%',c:avg>=0?'pos':'neg'};
     const tkDisp=tks.slice(0,10).join(' &middot; ')+(tks.length>10?' &hellip;':'');
     const dateStr=s.lastUpdated?'Updated '+s.lastUpdated:'Not yet saved';
