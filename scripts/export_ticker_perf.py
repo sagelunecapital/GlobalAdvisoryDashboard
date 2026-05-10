@@ -148,6 +148,62 @@ def main() -> None:
     except Exception as exc:
         print(f"[warn] ETF supplemental fetch skipped: {exc}")
 
+    # ── Watchlist tickers (user-defined, not in DB) ───────────────
+    WATCHLIST_F = BASE_DIR / "research_watchlist.json"
+    if WATCHLIST_F.exists():
+        try:
+            import yfinance as yf
+            import pandas as pd
+            raw_list = json.loads(WATCHLIST_F.read_text(encoding="utf-8"))
+            # Normalize: uppercase, dots→dashes (yfinance format)
+            def _norm(t: str) -> str:
+                return t.strip().upper().replace(".", "-")
+            wl = [_norm(t) for t in raw_list if t.strip()]
+            missing = [t for t in wl if t not in result]
+            if missing:
+                wl_raw = yf.download(
+                    missing, start=date_1y, auto_adjust=True, progress=False
+                )
+                wl_closes = wl_raw["Close"] if "Close" in wl_raw else wl_raw
+                if isinstance(wl_closes, pd.Series):
+                    wl_closes = wl_closes.to_frame(name=missing[0])
+                added = 0
+                for tk in missing:
+                    if tk not in wl_closes.columns:
+                        continue
+                    s = wl_closes[tk].dropna()
+                    if s.empty:
+                        continue
+                    def _gwl(d: str, _s=s) -> float | None:
+                        idx = _s.index[_s.index <= pd.Timestamp(d)]
+                        return float(_s[idx[-1]]) if len(idx) else None
+                    if _gwl(latest) is None:
+                        continue
+                    def _epwl(fd: str, td: str, _g=_gwl) -> float | None:
+                        pf, pt = _g(fd), _g(td)
+                        return round((pt / pf - 1) * 100, 4) if pf and pt and pf > 0 else None
+                    mc = None
+                    try:
+                        fi = yf.Ticker(tk).fast_info
+                        mc = float(fi.market_cap) if fi.market_cap else None
+                    except Exception:
+                        pass
+                    result[tk] = {
+                        "perf_1d":  _epwl(date_1d,  latest),
+                        "perf_5d":  _epwl(date_5d,  latest),
+                        "perf_1m":  _epwl(date_1m,  latest),
+                        "perf_6m":  _epwl(date_6m,  latest),
+                        "perf_1y":  _epwl(date_1y,  latest),
+                        "perf_ytd": _epwl(date_ytd, latest),
+                        "mktcap":   mc,
+                    }
+                    added += 1
+                print(f"  +{added}/{len(missing)} watchlist tickers added")
+            else:
+                print(f"  Watchlist: all {len(wl)} tickers already tracked")
+        except Exception as exc:
+            print(f"[warn] Watchlist fetch skipped: {exc}")
+
     out = {"updated": latest, "spx_ytd": spx_ytd, "tickers": result}
     with open(OUT_F, "w", encoding="utf-8") as f:
         json.dump(out, f, separators=(",", ":"))
