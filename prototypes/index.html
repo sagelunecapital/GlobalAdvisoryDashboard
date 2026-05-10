@@ -911,6 +911,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="rp-label">Constituents</div>
     <textarea class="sta" id="rp-tickers-edit" style="height:220px" placeholder="Flat: AAPL, MSFT, NVDA&#10;Grouped: [Grid]&#10;NEE, AES, PPL"></textarea>
   </div>
+  <div id="rp-missing-notice" style="display:none;margin-bottom:14px;padding:10px 14px;background:rgba(224,165,70,0.08);border:1px solid rgba(224,165,70,0.22);border-radius:10px;font-size:12px;color:var(--text-muted);display:flex;gap:10px;align-items:center">
+    <span id="rp-missing-text" style="flex:1"></span>
+    <button class="btn" onclick="copyMissingTickers()" id="rp-copy-btn" style="font-size:11px;padding:4px 10px;flex-shrink:0">Copy</button>
+  </div>
   <div class="rp-charts-row">
     <div class="card">
       <div class="card-header" style="margin-bottom:4px">YTD Performance</div>
@@ -2548,6 +2552,7 @@ function openRp(id,editMode){
   if(ytdTh) ytdTh.classList.add('sort-desc');
   renderRpCharts(s);
   renderRpTable(s);
+  updateMissingNotice(_parseTks(s.tickers));
   if(editMode) setTimeout(()=>document.getElementById('rp-title-input').focus(),60);
   window.scrollTo(0,0);
 }
@@ -2575,6 +2580,7 @@ function toggleRpEdit(){
       persistRS();
       renderRpCharts(s);
       renderRpTable(s);
+      updateMissingNotice(_parseTks(s.tickers));
     }
     rp.classList.remove('editing');
     document.getElementById('rp-edit-btn').textContent='Edit';
@@ -2705,6 +2711,25 @@ function renderRpTable(sector){
     <td>${fp(r.perf_6m)}</td><td>${fp(r.perf_1y)}</td><td>${fp(r.perf_ytd)}</td>
     <td>${fmc(r.mktcap)}</td>
   </tr>`).join('');
+}
+
+function updateMissingNotice(tks){
+  const missing=tks.filter(t=>!_tp(t));
+  const el=document.getElementById('rp-missing-notice');
+  if(!el) return;
+  if(!missing.length||!tickerPerf){el.style.display='none';return;}
+  window._rpMissingTickers=missing;
+  document.getElementById('rp-missing-text').textContent=
+    missing.length+' ticker'+(missing.length>1?'s':'')+' not in watchlist: '+missing.join(', ');
+  el.style.display='flex';
+}
+function copyMissingTickers(){
+  const list=(window._rpMissingTickers||[]).join(', ');
+  navigator.clipboard.writeText(list).then(()=>{
+    const btn=document.getElementById('rp-copy-btn');
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy',1500);
+  });
 }
 
 function rpSort(col,th){
