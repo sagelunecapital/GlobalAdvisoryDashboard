@@ -25,8 +25,8 @@ DATA_ORIGIN = date(2020, 1, 1)
 
 
 # ── Investing.com ─────────────────────────────────────────────────
-INVEST_2Y_URL  = "https://ph.investing.com/rates-bonds/u.s.-2-year-bond-yield-historical-data"
-INVEST_10Y_URL = "https://ph.investing.com/rates-bonds/u.s.-10-year-bond-yield-historical-data"
+INVEST_2Y_URL  = "https://www.investing.com/rates-bonds/u.s.-2-year-bond-yield-historical-data"
+INVEST_10Y_URL = "https://www.investing.com/rates-bonds/u.s.-10-year-bond-yield-historical-data"
 _INVEST_HDRS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -35,7 +35,7 @@ _INVEST_HDRS = {
     ),
     "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
-    "Referer":         "https://ph.investing.com/",
+    "Referer":         "https://www.investing.com/",
 }
 
 def fetch_investing_wow(url: str, label: str) -> float:
@@ -47,17 +47,12 @@ def fetch_investing_wow(url: str, label: str) -> float:
     r.raise_for_status()
 
     # Parse date + closing price from the historical table.
-    # Table rows contain: Date | Price | Open | High | Low | Change%
-    # Try two common date formats: "May 09, 2026" and "05/09/2026"
+    # investing.com uses <time dateTime="May 08, 2026"> inside the date cell.
     rows = re.findall(
-        r'<td[^>]*>\s*([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})\s*</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>',
+        r'<td[^>]*>\s*<time[^>]+dateTime="([^"]+)"[^>]*>[^<]*</time>\s*</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>',
         r.text,
+        re.IGNORECASE,
     )
-    if not rows:
-        rows = re.findall(
-            r'<td[^>]*>\s*(\d{2}/\d{2}/\d{4})\s*</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>',
-            r.text,
-        )
     if len(rows) < 6:
         raise RuntimeError(f"Too few rows ({len(rows)}) parsed from investing.com for {label}")
 
@@ -76,7 +71,7 @@ def fetch_investing_wow(url: str, label: str) -> float:
 
     sorted_dates = sorted(prices)
     latest_d = sorted_dates[-1]
-    cutoff   = latest_d - timedelta(days=8)   # ~5 business days back
+    cutoff   = latest_d - timedelta(days=7)   # same weekday last week
     prev_dates = [d for d in sorted_dates if d <= cutoff]
     if not prev_dates:
         raise RuntimeError(f"No previous-week date found for {label}")
