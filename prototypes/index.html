@@ -3098,15 +3098,16 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
   const tt=document.getElementById(ttId);
   ov.addEventListener('mousemove',e=>{
-    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const r=svg.getBoundingClientRect(),sx=r.width/VW,sy=r.height/vH;
     const mx=(e.clientX-r.left)/sx-pad.l;
     const idx=Math.max(0,Math.min(aligned.length-1,Math.round((mx/iW)*(aligned.length-1))));
     const row=aligned[idx],cx=xOf(idx);
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     dots.forEach((d,si)=>{d.setAttribute('cx',cx);d.setAttribute('cy',yOf(row.vs[si]));d.setAttribute('display','');});
+    const avgV=row.vs.reduce((a,b)=>a+b,0)/row.vs.length;
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
-    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
+    tt.style.top=Math.max(yOf(avgV)*sy-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(row.d)+'</strong><br>'+
       seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
   });
@@ -3171,14 +3172,14 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
   const tt=document.getElementById(ttId);
   ov.addEventListener('mousemove',e=>{
-    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const r=svg.getBoundingClientRect(),sx=r.width/VW,sy=r.height/vH;
     const mx=(e.clientX-r.left)/sx-pad.l;
     const idx=Math.max(0,Math.min(pts.length-1,Math.floor((mx/iW)*pts.length)));
     const p=pts[idx],cx=xOfBar(idx)+barW/2;
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
-    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
+    tt.style.top=Math.max(yOf(p.v)*sy-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(p.d)+'</strong><br>&#9632; Open Interest: '+fmtK(p.v);
   });
   ov.addEventListener('mouseleave',()=>{cur.setAttribute('display','none');tt.style.display='none';});
