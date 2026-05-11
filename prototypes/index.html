@@ -833,16 +833,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
   <!-- Net Positions + Open Interest in one card -->
   <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
-      <div class="card-header" style="margin-bottom:0">Net Positions</div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
       <div id="cot-pos-legend" class="legend" style="margin-bottom:0"></div>
     </div>
     <div id="cot-pos-wrap" style="position:relative"></div>
     <div class="chart-tt" id="cot-pos-tt"></div>
 
     <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
-
-    <div class="card-header" style="margin-bottom:10px">Open Interest</div>
     <div id="cot-oi-wrap" style="position:relative"></div>
     <div class="chart-tt" id="cot-oi-tt"></div>
 
@@ -1251,7 +1248,7 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH) {
     tt.style.display='block';
     tt.style.left=Math.min(xOf(idx)*sx+10,r.width-160)+'px';
     tt.style.top=Math.max(yOf(p.v)*sy-28,2)+'px';
-    tt.textContent=fmtD(p.d)+'  '+fmt(p.v);
+    tt.innerHTML='<strong>'+fmtD(p.d)+'</strong><br><span style="color:'+color+'">&#9632;</span> '+fmt(p.v);
   });
   ov.addEventListener('mouseleave',()=>{dot.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
@@ -1318,9 +1315,10 @@ function drawMulti(wrapId, ttId, dates, seriesDefs, vH, legId) {
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     dots.forEach((d,si)=>{d.setAttribute('cx',cx);d.setAttribute('cy',yOf(row.vs[si]));d.setAttribute('display','');});
     tt.style.display='block';
-    tt.style.left=Math.min(cx*sx+12,r.width-200)+'px';tt.style.top='6px';
+    tt.style.left=Math.min(cx*sx+12,r.width-200)+'px';
+    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
     tt.innerHTML='<strong>'+fmtD(row.d)+'</strong><br>'+
-      seriesDefs.map((s,si)=>`<span style="color:${s.color}">■</span> ${s.label}: ${row.vs[si].toFixed(2)}%`).join('<br>');
+      seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(2)}%`).join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
@@ -1410,9 +1408,10 @@ function drawDualAxis(wrapId, ttId, dates, seriesDefs, vH) {
       const vt=s.rightAxis?capVal(row.vs[si],s):row.vs[si];
       d.setAttribute('cx',cx);d.setAttribute('cy',s.rightAxis?yOfR(vt):yOfL(row.vs[si]));d.setAttribute('display','');
     });
-    tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
-    const lLines=seriesDefs.filter(s=>!s.rightAxis).map(s=>{const si=seriesDefs.indexOf(s);return`<span style="color:${s.color}">■</span> ${s.label}: ${row.vs[si].toFixed(1)}%`;});
-    const rLines=seriesDefs.filter(s=>s.rightAxis).map(s=>{const si=seriesDefs.indexOf(s);return`<span style="color:${s.color}">■</span> ${s.label} (RHS): ${row.vs[si].toFixed(1)}%`;});
+    tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
+    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
+    const lLines=seriesDefs.filter(s=>!s.rightAxis).map(s=>{const si=seriesDefs.indexOf(s);return`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(1)}%`;});
+    const rLines=seriesDefs.filter(s=>s.rightAxis).map(s=>{const si=seriesDefs.indexOf(s);return`<span style="color:${s.color}">&#9632;</span> ${s.label} (RHS): ${row.vs[si].toFixed(1)}%`;});
     tt.innerHTML='<strong>'+fmtD(row.d)+'</strong><br>'+[...lLines,...rLines].join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
@@ -1479,7 +1478,8 @@ function drawStackedBar(wrapId, ttId, quarters, seriesDefs, vH, legId) {
     ov.addEventListener('mouseenter',()=>{
       const r=svg.getBoundingClientRect();
       tt.style.display='block';
-      tt.style.left=Math.min((x/VW)*r.width+12,r.width-210)+'px';tt.style.top='6px';
+      tt.style.left=Math.min((x/VW)*r.width+12,r.width-210)+'px';
+      tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
       const lines=seriesDefs.map(s=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}%`);
       const total=seriesDefs.reduce((sum,s)=>sum+(s.values[i]||0),0);
       tt.innerHTML='<strong>'+q+'</strong><br>'+lines.join('<br>')+'<br><strong>Total: '+total.toFixed(2)+'%</strong>';
@@ -1567,8 +1567,9 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
       const r=svg.getBoundingClientRect();
       dot.setAttribute('cx',xOf(i));dot.setAttribute('cy',yOf(gdpLine[i]));dot.setAttribute('display','');
       tt.style.display='block';
-      tt.style.left=Math.min((x/VW)*r.width+12,r.width-230)+'px';tt.style.top='6px';
-      const comps=seriesDefs.map(s=>`<span style="color:${s.color}">■</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}%`);
+      tt.style.left=Math.min((x/VW)*r.width+12,r.width-230)+'px';
+      tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
+      const comps=seriesDefs.map(s=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${(s.values[i]||0).toFixed(2)}%`);
       tt.innerHTML='<strong>'+q+'</strong><br>GDP: <strong>'+gdpLine[i].toFixed(1)+'%</strong> SAAR<br>'+comps.join('<br>');
     });
     ov.addEventListener('mouseleave',()=>{tt.style.display='none';dot.setAttribute('display','none');});
@@ -1666,7 +1667,8 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
       const yv=s.axis==='lhs1'?yOfL1(row.vs[si]):s.axis==='lhs2'?yOfL2(row.vs[si]):yOfR(capVal(row.vs[si],s));
       d.setAttribute('cx',cx);d.setAttribute('cy',yv);d.setAttribute('display','');
     });
-    tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
+    tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
+    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
     const lines=seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(1)}%`);
     tt.innerHTML='<strong>'+fmtD(row.d)+'</strong><br>'+lines.join('<br>');
   });
@@ -2924,7 +2926,7 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
   const wrap=document.getElementById(wrapId); if(!wrap) return;
   wrap.innerHTML='';
   const VW=wrap.clientWidth||FALLBACK_VW;
-  const pad={t:8,r:14,b:24,l:64};
+  const pad={t:8,r:50,b:24,l:64};
   const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
   const aligned=[];
   for(let i=0;i<weeks.length;i++){
@@ -2945,6 +2947,9 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtK(v);svg.appendChild(lb);
+    const rb=document.createElementNS(ns,'text');
+    rb.setAttribute('x',pad.l+iW+4);rb.setAttribute('y',y+4);rb.setAttribute('text-anchor','start');
+    rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(v);svg.appendChild(rb);
   });
   aligned.forEach((_,i)=>{
     if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
@@ -2977,7 +2982,8 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     dots.forEach((d,si)=>{d.setAttribute('cx',cx);d.setAttribute('cy',yOf(row.vs[si]));d.setAttribute('display','');});
     tt.style.display='block';
-    tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
+    tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
+    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
     tt.innerHTML='<strong>'+row.w+'</strong><br>'+
       seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
   });
@@ -2994,7 +3000,7 @@ function drawCotBar(wrapId,ttId,weeks,values,vH){
   const wrap=document.getElementById(wrapId); if(!wrap) return;
   wrap.innerHTML='';
   const VW=wrap.clientWidth||FALLBACK_VW;
-  const pad={t:8,r:14,b:24,l:64};
+  const pad={t:8,r:50,b:24,l:64};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
   const pts=weeks.map((w,i)=>({w,v:values[i]})).filter(p=>p.v!==null);
   if(!pts.length) return;
@@ -3012,6 +3018,9 @@ function drawCotBar(wrapId,ttId,weeks,values,vH){
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtK(v);svg.appendChild(lb);
+    const rb=document.createElementNS(ns,'text');
+    rb.setAttribute('x',pad.l+iW+4);rb.setAttribute('y',y+4);rb.setAttribute('text-anchor','start');
+    rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(v);svg.appendChild(rb);
   });
   pts.forEach((_,i)=>{
     if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
@@ -3040,8 +3049,9 @@ function drawCotBar(wrapId,ttId,weeks,values,vH){
     const p=pts[idx],cx=xOfBar(idx)+barW/2;
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     tt.style.display='block';
-    tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
-    tt.innerHTML='<strong>'+p.w+'</strong><br>Open Interest: '+fmtK(p.v);
+    tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
+    tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
+    tt.innerHTML='<strong>'+p.w+'</strong><br>&#9632; Open Interest: '+fmtK(p.v);
   });
   ov.addEventListener('mouseleave',()=>{cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
