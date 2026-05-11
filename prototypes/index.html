@@ -835,7 +835,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div class="card">
     <!-- Price candlestick chart (top) -->
     <div id="cot-candle-section">
-      <div id="cot-candle-wrap" style="min-height:200px"></div>
+      <div id="cot-candle-wrap" style="min-height:300px"></div>
     </div>
     <div id="cot-candle-divider" style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
 
@@ -2929,10 +2929,15 @@ function fmtWeek(w){
 
 const _MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function fmtDate(d){
-  // d = "YYYY-MM-DD"
   if(!d) return '';
   const p=d.split('-');
-  return _MONTHS[parseInt(p[1])-1]+" '"+p[0].slice(2);
+  return _MONTHS[parseInt(p[1])-1]+' '+p[0];
+}
+function fmtDateAuto(d,rangeMs){
+  if(!d) return '';
+  const p=d.split('-');
+  if(rangeMs>730*864e5) return p[0];          // >2 years: year only
+  return _MONTHS[parseInt(p[1])-1]+' '+p[0]; // ≤2 years: MMM YYYY
 }
 
 function fmtK(v){
@@ -3021,7 +3026,7 @@ function drawCotCandle(code, nWeeks){
     paper_bgcolor:'transparent', plot_bgcolor:'transparent',
     font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:10},
     margin:{t:8,b:36,l:64,r:50},
-    height:200,
+    height:300,
     xaxis:{
       type:'date', color:'#6b7280',
       gridcolor:'#1f2328', showgrid:true,
@@ -3068,11 +3073,12 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
     rb.setAttribute('x',pad.l+iW+4);rb.setAttribute('y',y+4);rb.setAttribute('text-anchor','start');
     rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(v);svg.appendChild(rb);
   });
+  const _rMs=aligned.length>1?(new Date(aligned[aligned.length-1].d)-new Date(aligned[0].d)):0;
   aligned.forEach((_,i)=>{
     if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDate(aligned[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateAuto(aligned[i].d,_rMs);svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -3139,11 +3145,12 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
     rb.setAttribute('x',pad.l+iW+4);rb.setAttribute('y',y+4);rb.setAttribute('text-anchor','start');
     rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(v);svg.appendChild(rb);
   });
+  const _rMs=pts.length>1?(new Date(pts[pts.length-1].d)-new Date(pts[0].d)):0;
   pts.forEach((_,i)=>{
     if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOfLbl(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDate(pts[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateAuto(pts[i].d,_rMs);svg.appendChild(lb);
   });
   pts.forEach((p,i)=>{
     const rect=document.createElementNS(ns,'rect');
