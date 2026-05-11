@@ -835,10 +835,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div class="card">
     <!-- Price candlestick chart (top) -->
     <div id="cot-candle-section">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px">
-        <span id="cot-candle-label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Price</span>
-        <span id="cot-candle-ticker" style="font-size:11px;color:var(--text-muted)"></span>
-      </div>
       <div id="cot-candle-wrap" style="min-height:200px"></div>
     </div>
     <div id="cot-candle-divider" style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
@@ -2986,18 +2982,15 @@ function cotSlide(){
 }
 
 function drawCotCandle(code, nWeeks){
-  const section   = document.getElementById('cot-candle-section');
-  const divider   = document.getElementById('cot-candle-divider');
-  const tickerLbl = document.getElementById('cot-candle-ticker');
-  const ticker    = COT_TICKER_MAP[code];
-  const pw        = PRICE_DATA_WEEKLY[code];
+  const section = document.getElementById('cot-candle-section');
+  const divider = document.getElementById('cot-candle-divider');
+  const ticker  = COT_TICKER_MAP[code];
+  const pw      = PRICE_DATA_WEEKLY[code];
 
   const hide = !ticker || !pw || !pw.dates || pw.dates.length < 5;
   if(section) section.style.display = hide ? 'none' : '';
   if(divider) divider.style.display = hide ? 'none' : '';
   if(hide) return;
-
-  if(tickerLbl) tickerLbl.textContent = ticker;
 
   const s = Math.max(0, pw.dates.length - nWeeks);
   const dates = pw.dates.slice(s);
