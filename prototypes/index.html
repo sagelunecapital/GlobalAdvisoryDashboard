@@ -314,6 +314,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)">Yields</button>
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)">Liquidity</button>
     <button class="nav-tab" onclick="showMain('breadth',this)">Breadth</button>
+    <button class="nav-tab" onclick="showMain('positioning',this)">Positioning</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
     <button class="nav-tab" onclick="showMain('research',this)">Research</button>
   </aside>
@@ -800,6 +801,58 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   </div>
 
 </div><!-- /breadth panel -->
+
+<!-- ═══════════════════════════ POSITIONING TAB ═══════════════════════════ -->
+<div id="main-positioning" class="main-panel">
+
+  <!-- Controls row -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <div class="section-heading" style="margin:0">CFTC Positioning</div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Asset Class</span>
+        <select id="cot-class-sel" onchange="cotSetClass(this.value)"
+          style="background:var(--surface-high);border:1px solid var(--outline-dim);border-radius:8px;color:var(--text);font-size:12px;padding:5px 10px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none">
+          <option value="Agriculture">Agriculture</option>
+          <option value="Energy" selected>Energy</option>
+          <option value="Metals">Metals</option>
+          <option value="Currencies">Currencies</option>
+          <option value="Bonds">Bonds</option>
+          <option value="Indices">Indices</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Contract</span>
+        <select id="cot-contract-sel" onchange="cotUpdateChart(this.value)"
+          style="background:var(--surface-high);border:1px solid var(--outline-dim);border-radius:8px;color:var(--text);font-size:12px;padding:5px 10px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none">
+        </select>
+      </div>
+      <div id="cot-updated" style="font-size:11px;color:var(--text-muted)"></div>
+    </div>
+  </div>
+
+  <!-- Net Positions line chart -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+      <div class="card-header" style="margin-bottom:0">Net Positions</div>
+      <div id="cot-pos-legend" class="legend" style="margin-bottom:0"></div>
+    </div>
+    <div id="cot-pos-wrap" style="position:relative">
+      <div style="color:var(--text-muted);text-align:center;padding:40px;font-size:13px">Loading positioning data&hellip;</div>
+    </div>
+    <div class="chart-tt" id="cot-pos-tt"></div>
+  </div>
+
+  <!-- Open Interest bar chart -->
+  <div class="card">
+    <div class="card-header" style="margin-bottom:10px">Open Interest</div>
+    <div id="cot-oi-wrap" style="position:relative">
+      <div style="color:var(--text-muted);text-align:center;padding:40px;font-size:13px">Loading open interest data&hellip;</div>
+    </div>
+    <div class="chart-tt" id="cot-oi-tt"></div>
+  </div>
+
+</div><!-- /positioning panel -->
 
 <!-- ═══════════════════════════ EXECUTION TAB ═══════════════════════════ -->
 <div id="main-execution" class="main-panel">
@@ -1924,6 +1977,12 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(d=>{ tickerPerf=d; })
     .catch(()=>{ tickerPerf=null; })
     .finally(()=>{ loadRS(); });
+
+  // Load COT positioning data
+  fetch('cot_data.json?_='+Date.now())
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{ if(d){ COT_DATA=d; cotSetClass(document.getElementById('cot-class-sel').value||'Energy'); } })
+    .catch(()=>{});
 });
 
 // ── Sector Rotation ─────────────────────────────────────────────────────────
@@ -2448,6 +2507,10 @@ showMain = function(id, btn){
   if(id==='stir' && STIR.data){
     setTimeout(renderStirActive, 30);
   }
+  if(id==='positioning'){
+    const sel=document.getElementById('cot-contract-sel');
+    if(sel&&sel.value) setTimeout(()=>cotUpdateChart(sel.value),30);
+  }
 };
 
 // ══ Research Tab ════════════════════════════════════════════════
@@ -2776,6 +2839,186 @@ function copyMissingTickers(){
     btn.textContent='Copied!';
     setTimeout(()=>btn.textContent='Copy',1500);
   });
+}
+
+// ══ CFTC Positioning ════════════════════════════════════════════
+
+var COT_DATA = {};
+
+const COT_CLASS_MAP = {
+  Agriculture: ['002602','005602','001602','073732','083731','033661','080732','054642','057642'],
+  Energy:      ['067651','111659','023651'],
+  Metals:      ['088691','084691','085692','075651','076651','191693','189691'],
+  Currencies:  ['099741','096742','097741','090741','232741','092741','098662'],
+  Bonds:       ['020601','043602','044601','042601'],
+  Indices:     ['13874A','209742','239742','12460+','133741','133742'],
+};
+
+function fmtWeek(w){
+  const m=w.match(/(\d{4}) Report Week (\d+)/);
+  return m ? m[1].slice(2)+' W'+parseInt(m[2]) : w;
+}
+
+function fmtK(v){
+  const a=Math.abs(v);
+  if(a>=1e6) return (v/1e6).toFixed(1)+'M';
+  if(a>=1e3) return (v/1e3).toFixed(0)+'K';
+  return v.toFixed(0);
+}
+
+function cotSetClass(cls){
+  const sel=document.getElementById('cot-contract-sel'); if(!sel) return;
+  sel.innerHTML='';
+  (COT_CLASS_MAP[cls]||[]).forEach(code=>{
+    const d=COT_DATA[code]; if(!d) return;
+    const o=document.createElement('option');
+    o.value=code; o.textContent=d.name; sel.appendChild(o);
+  });
+  if(sel.options.length) cotUpdateChart(sel.options[0].value);
+}
+
+function cotUpdateChart(code){
+  const d=COT_DATA[code]; if(!d) return;
+  const weeks=d.weeks;
+  const comm =d.cl.map((v,i)=>v!==null&&d.cs[i]!==null?v-d.cs[i]:null);
+  const lspec=d.nl.map((v,i)=>v!==null&&d.ns[i]!==null?v-d.ns[i]:null);
+  const sspec=comm.map((v,i)=>v!==null&&lspec[i]!==null?-(v+lspec[i]):null);
+  drawCotLines('cot-pos-wrap','cot-pos-tt',weeks,[
+    {label:'Commercials', values:comm,  color:'#4ade80'},
+    {label:'Large Specs', values:lspec, color:'#60a5fa'},
+    {label:'Small Specs', values:sspec, color:'#fb923c'},
+  ],220,'cot-pos-legend');
+  drawCotBar('cot-oi-wrap','cot-oi-tt',weeks,d.oi,160);
+  const upd=document.getElementById('cot-updated');
+  if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
+}
+
+function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
+  vH=vH||220;
+  const wrap=document.getElementById(wrapId); if(!wrap) return;
+  wrap.querySelector('svg')?.remove();
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:14,b:24,l:64};
+  const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
+  const aligned=[];
+  for(let i=0;i<weeks.length;i++){
+    const vs=seriesDefs.map(s=>s.values[i]);
+    if(vs.every(v=>v!==null)) aligned.push({w:weeks[i],vs});
+  }
+  if(!aligned.length) return;
+  const allV=aligned.flatMap(r=>r.vs);
+  const vMin=Math.min(...allV),vMax=Math.max(...allV),vR=vMax-vMin||1;
+  const xOf=i=>pad.l+(i/Math.max(aligned.length-1,1))*iW;
+  const yOf=v=>pad.t+(1-(v-vMin)/vR)*iH;
+  const ns='http://www.w3.org/2000/svg'; const svg=mkSvg(ns,VW,vH);
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH,v=vMax-t*vR;
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtK(v);svg.appendChild(lb);
+  });
+  aligned.forEach((_,i)=>{
+    if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtWeek(aligned[i].w);svg.appendChild(lb);
+  });
+  if(vMin<0&&vMax>0){
+    const z=document.createElementNS(ns,'line');
+    z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOf(0));z.setAttribute('y2',yOf(0));
+    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+  }
+  seriesDefs.forEach((s,si)=>addLine(ns,svg,aligned.map(r=>r.vs[si]),xOf,yOf,s.color,null));
+  const dots=seriesDefs.map(s=>{
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('r','3');c.setAttribute('fill',s.color);c.setAttribute('display','none');svg.appendChild(c); return c;
+  });
+  const cur=document.createElementNS(ns,'line');
+  cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
+  cur.setAttribute('stroke','#2a2a2a');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  const ov=document.createElementNS(ns,'rect');
+  ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
+  ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
+  const tt=document.getElementById(ttId);
+  ov.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const mx=(e.clientX-r.left)/sx-pad.l;
+    const idx=Math.max(0,Math.min(aligned.length-1,Math.round((mx/iW)*(aligned.length-1))));
+    const row=aligned[idx],cx=xOf(idx);
+    cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
+    dots.forEach((d,si)=>{d.setAttribute('cx',cx);d.setAttribute('cy',yOf(row.vs[si]));d.setAttribute('display','');});
+    tt.style.display='block';
+    tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
+    tt.innerHTML='<strong>'+row.w+'</strong><br>'+
+      seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
+  });
+  ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
+  wrap.appendChild(svg);
+  if(legId){
+    const leg=document.getElementById(legId);
+    if(leg) leg.innerHTML=seriesDefs.map(s=>`<div class="li"><div class="ld" style="background:${s.color}"></div>${s.label}</div>`).join('');
+  }
+}
+
+function drawCotBar(wrapId,ttId,weeks,values,vH){
+  vH=vH||160;
+  const wrap=document.getElementById(wrapId); if(!wrap) return;
+  wrap.querySelector('svg')?.remove();
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:14,b:24,l:64};
+  const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
+  const pts=weeks.map((w,i)=>({w,v:values[i]})).filter(p=>p.v!==null);
+  if(!pts.length) return;
+  const vMax=Math.max(...pts.map(p=>p.v));
+  const xOfBar=i=>pad.l+(i/pts.length)*iW;
+  const xOfLbl=i=>pad.l+(i/Math.max(pts.length-1,1))*iW;
+  const barW=Math.max(1,iW/pts.length);
+  const yOf=v=>pad.t+(1-v/vMax)*iH;
+  const ns='http://www.w3.org/2000/svg'; const svg=mkSvg(ns,VW,vH);
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH,v=vMax*(1-t);
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtK(v);svg.appendChild(lb);
+  });
+  pts.forEach((_,i)=>{
+    if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',xOfLbl(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtWeek(pts[i].w);svg.appendChild(lb);
+  });
+  pts.forEach((p,i)=>{
+    const rect=document.createElementNS(ns,'rect');
+    rect.setAttribute('x',xOfBar(i));rect.setAttribute('y',yOf(p.v));
+    rect.setAttribute('width',barW);rect.setAttribute('height',Math.max(0,pad.t+iH-yOf(p.v)));
+    rect.setAttribute('fill','#38bdf8');rect.setAttribute('opacity','0.7');
+    svg.appendChild(rect);
+  });
+  const cur=document.createElementNS(ns,'line');
+  cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
+  cur.setAttribute('stroke','#555');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  const ov=document.createElementNS(ns,'rect');
+  ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
+  ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
+  const tt=document.getElementById(ttId);
+  ov.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const mx=(e.clientX-r.left)/sx-pad.l;
+    const idx=Math.max(0,Math.min(pts.length-1,Math.floor((mx/iW)*pts.length)));
+    const p=pts[idx],cx=xOfBar(idx)+barW/2;
+    cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
+    tt.style.display='block';
+    tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';tt.style.top='6px';
+    tt.innerHTML='<strong>'+p.w+'</strong><br>Open Interest: '+fmtK(p.v);
+  });
+  ov.addEventListener('mouseleave',()=>{cur.setAttribute('display','none');tt.style.display='none';});
+  wrap.appendChild(svg);
 }
 
 function rpSort(col,th){
