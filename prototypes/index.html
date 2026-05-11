@@ -2402,7 +2402,8 @@ function renderStirMeetings(){
     marker:{color:p.bg,line:{color:p.orangeHot,width:1.5},size:9},
     x:path.map(r=>r.meeting), y:path.map(r=>r.post_rate),
     customdata:path.map(r=>r.contract),
-    hovertemplate:'%{x} · %{customdata}<br>Post-rate %{y:.3f}%<extra></extra>',
+    hovertemplate:'<b>%{x}</b><br>&#9632; %{customdata}<br>&#9632; Post-rate: %{y:.3f}%<extra></extra>',
+    hoverlabel:{bgcolor:'#181c21',bordercolor:'#414752',font:{family:'Inter,Arial,sans-serif',size:12,color:'#e0e2ea'}},
   };
   const layout=stirLayout({
     height:380,
@@ -2743,7 +2744,8 @@ function renderRpCharts(sector){
       x:sorted.map(d=>d.perf_ytd),
       y:sorted.map(d=>d.ticker),
       marker:{color:sorted.map(d=>d.perf_ytd>=0?'#3fb950':'#e05252'),opacity:.85},
-      hovertemplate:'<b>%{y}</b><br>YTD: %{x:.2f}%<extra></extra>'
+      hovertemplate:'<b>%{y}</b><br>&#9632; YTD Return: %{x:.2f}%<extra></extra>',
+      hoverlabel:{bgcolor:'#181c21',bordercolor:'#414752',font:{family:'Inter,Arial,sans-serif',size:12,color:'#e0e2ea'}}
     }],{
       paper_bgcolor:'transparent',plot_bgcolor:'transparent',
       font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:11},
@@ -2777,7 +2779,8 @@ function renderRpCharts(sector){
         textfont:{size:10,color:'#c1c7d4'},
         marker:{size:sizes,color:bdata.map(d=>d.perf_ytd>=0?'#3fb950':'#e05252'),
           opacity:.72,line:{color:'rgba(255,255,255,0.1)',width:1}},
-        hovertemplate:'<b>%{text}</b><br>Mkt Cap: $%{x:.3s}<br>YTD: %{y:.2f}%<extra></extra>'
+        hovertemplate:'<b>%{text}</b><br>&#9632; Mkt Cap: $%{x:.3s}<br>&#9632; YTD Return: %{y:.2f}%<extra></extra>',
+        hoverlabel:{bgcolor:'#181c21',bordercolor:'#414752',font:{family:'Inter,Arial,sans-serif',size:12,color:'#e0e2ea'}}
       }],{
         paper_bgcolor:'transparent',plot_bgcolor:'transparent',
         font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:11},
