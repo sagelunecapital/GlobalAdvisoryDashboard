@@ -842,12 +842,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
       <div id="cot-pos-legend" class="legend" style="margin-bottom:0"></div>
     </div>
-    <div id="cot-pos-wrap" style="position:relative"></div>
-    <div class="chart-tt" id="cot-pos-tt"></div>
+    <div id="cot-pos-wrap" style="position:relative"><div class="chart-tt" id="cot-pos-tt"></div></div>
 
     <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
-    <div id="cot-oi-wrap" style="position:relative"></div>
-    <div class="chart-tt" id="cot-oi-tt"></div>
+    <div id="cot-oi-wrap" style="position:relative"><div class="chart-tt" id="cot-oi-tt"></div></div>
 
     <!-- Period slider -->
     <div style="padding:14px 14px 2px 64px">
@@ -3046,7 +3044,7 @@ function drawCotCandle(code, nWeeks){
 function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
   vH=vH||220;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
-  wrap.innerHTML='';
+  wrap.querySelectorAll('svg').forEach(s=>s.remove());
   const VW=wrap.clientWidth||FALLBACK_VW;
   const pad={t:8,r:50,b:24,l:64};
   const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
@@ -3098,7 +3096,7 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
   const tt=document.getElementById(ttId);
   ov.addEventListener('mousemove',e=>{
-    const r=svg.getBoundingClientRect(),sx=r.width/VW,sy=r.height/vH;
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
     const mx=(e.clientX-r.left)/sx-pad.l;
     const idx=Math.max(0,Math.min(aligned.length-1,Math.round((mx/iW)*(aligned.length-1))));
     const row=aligned[idx],cx=xOf(idx);
@@ -3107,7 +3105,7 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
     const avgV=row.vs.reduce((a,b)=>a+b,0)/row.vs.length;
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
-    tt.style.top=Math.max(yOf(avgV)*sy-10,2)+'px';
+    tt.style.top=Math.max(yOf(avgV)-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(row.d)+'</strong><br>'+
       seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
   });
@@ -3122,7 +3120,7 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
 function drawCotBar(wrapId,ttId,dates,values,vH){
   vH=vH||160;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
-  wrap.innerHTML='';
+  wrap.querySelectorAll('svg').forEach(s=>s.remove());
   const VW=wrap.clientWidth||FALLBACK_VW;
   const pad={t:8,r:50,b:24,l:64};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
@@ -3172,14 +3170,14 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
   const tt=document.getElementById(ttId);
   ov.addEventListener('mousemove',e=>{
-    const r=svg.getBoundingClientRect(),sx=r.width/VW,sy=r.height/vH;
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
     const mx=(e.clientX-r.left)/sx-pad.l;
     const idx=Math.max(0,Math.min(pts.length-1,Math.floor((mx/iW)*pts.length)));
     const p=pts[idx],cx=xOfBar(idx)+barW/2;
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
-    tt.style.top=Math.max(yOf(p.v)*sy-10,2)+'px';
+    tt.style.top=Math.max(yOf(p.v)-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(p.d)+'</strong><br>&#9632; Open Interest: '+fmtK(p.v);
   });
   ov.addEventListener('mouseleave',()=>{cur.setAttribute('display','none');tt.style.display='none';});
