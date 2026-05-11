@@ -833,6 +833,16 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
   <!-- Net Positions + Open Interest in one card -->
   <div class="card">
+    <!-- Price candlestick chart (top) -->
+    <div id="cot-candle-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px">
+        <span id="cot-candle-label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Price</span>
+        <span id="cot-candle-ticker" style="font-size:11px;color:var(--text-muted)"></span>
+      </div>
+      <div id="cot-candle-wrap" style="min-height:200px"></div>
+    </div>
+    <div id="cot-candle-divider" style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
+
     <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
       <div id="cot-pos-legend" class="legend" style="margin-bottom:0"></div>
     </div>
@@ -853,16 +863,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <span id="cot-slider-label"></span>
         <span id="cot-slider-to"></span>
       </div>
-    </div>
-
-    <!-- Price candlestick chart -->
-    <div id="cot-candle-divider" style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
-    <div id="cot-candle-section">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px">
-        <span id="cot-candle-label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Price</span>
-        <span id="cot-candle-ticker" style="font-size:11px;color:var(--text-muted)"></span>
-      </div>
-      <div id="cot-candle-wrap" style="min-height:200px"></div>
     </div>
   </div>
 
@@ -2006,7 +2006,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   // Load price data for COT candlestick chart
   fetch('price_data.json?_='+Date.now())
     .then(r=>r.ok?r.json():null)
-    .then(d=>{ if(d) PRICE_DATA=d; })
+    .then(d=>{
+      if(!d) return;
+      PRICE_DATA=d;
+      Object.keys(d).forEach(code=>{ PRICE_DATA_WEEKLY[code]=buildWeeklyPrice(d[code]); });
+    })
     .catch(()=>{});
 });
 
@@ -2874,6 +2878,35 @@ function copyMissingTickers(){
 
 var COT_DATA = {};
 var PRICE_DATA = {};
+var PRICE_DATA_WEEKLY = {};
+
+function buildWeeklyPrice(pd){
+  if(!pd||!pd.dates||pd.dates.length<2) return null;
+  const wks={}, order=[];
+  pd.dates.forEach((d,i)=>{
+    const dt=new Date(d+'T00:00:00');
+    const day=dt.getDay();
+    const diff=dt.getDate()-day+(day===0?-6:1);
+    dt.setDate(diff);
+    const k=dt.toISOString().slice(0,10);
+    if(!wks[k]){
+      wks[k]={o:pd.open[i],h:pd.high[i],l:pd.low[i],c:pd.close[i]};
+      order.push(k);
+    } else {
+      wks[k].h=Math.max(wks[k].h,pd.high[i]);
+      wks[k].l=Math.min(wks[k].l,pd.low[i]);
+      wks[k].c=pd.close[i];
+    }
+  });
+  return {
+    ticker: pd.ticker,
+    dates:  order,
+    open:   order.map(k=>wks[k].o),
+    high:   order.map(k=>wks[k].h),
+    low:    order.map(k=>wks[k].l),
+    close:  order.map(k=>wks[k].c),
+  };
+}
 
 const COT_CLASS_MAP = {
   Agriculture: ['002602','005602','001602','073732','083731','033661','080732','054642','057642'],
@@ -2957,22 +2990,21 @@ function drawCotCandle(code, nWeeks){
   const divider   = document.getElementById('cot-candle-divider');
   const tickerLbl = document.getElementById('cot-candle-ticker');
   const ticker    = COT_TICKER_MAP[code];
-  const pd        = PRICE_DATA[code];
+  const pw        = PRICE_DATA_WEEKLY[code];
 
-  const hide = !ticker || !pd || !pd.dates || pd.dates.length < 5;
+  const hide = !ticker || !pw || !pw.dates || pw.dates.length < 5;
   if(section) section.style.display = hide ? 'none' : '';
   if(divider) divider.style.display = hide ? 'none' : '';
   if(hide) return;
 
   if(tickerLbl) tickerLbl.textContent = ticker;
 
-  const maxDays = Math.min(pd.dates.length, nWeeks * 5);
-  const s = Math.max(0, pd.dates.length - maxDays);
-  const dates = pd.dates.slice(s);
-  const open  = pd.open.slice(s);
-  const high  = pd.high.slice(s);
-  const low   = pd.low.slice(s);
-  const close = pd.close.slice(s);
+  const s = Math.max(0, pw.dates.length - nWeeks);
+  const dates = pw.dates.slice(s);
+  const open  = pw.open.slice(s);
+  const high  = pw.high.slice(s);
+  const low   = pw.low.slice(s);
+  const close = pw.close.slice(s);
 
   const HL = {bgcolor:'#181c21',bordercolor:'#414752',font:{family:'Inter,Arial,sans-serif',size:12,color:'#e0e2ea'}};
 
