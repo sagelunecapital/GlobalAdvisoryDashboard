@@ -1475,7 +1475,7 @@ function drawStackedBar(wrapId, ttId, quarters, seriesDefs, vH, legId) {
     const ov=document.createElementNS(ns,'rect');
     ov.setAttribute('x',x-barW);ov.setAttribute('y',pad.t);ov.setAttribute('width',barW*2);ov.setAttribute('height',iH);
     ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');
-    ov.addEventListener('mouseenter',()=>{
+    ov.addEventListener('mouseenter',(e)=>{
       const r=svg.getBoundingClientRect();
       tt.style.display='block';
       tt.style.left=Math.min((x/VW)*r.width+12,r.width-210)+'px';
@@ -1563,7 +1563,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
     const ov=document.createElementNS(ns,'rect');
     ov.setAttribute('x',x-barW);ov.setAttribute('y',pad.t);ov.setAttribute('width',barW*2);ov.setAttribute('height',iH);
     ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');
-    ov.addEventListener('mouseenter',()=>{
+    ov.addEventListener('mouseenter',(e)=>{
       const r=svg.getBoundingClientRect();
       dot.setAttribute('cx',xOf(i));dot.setAttribute('cy',yOf(gdpLine[i]));dot.setAttribute('display','');
       tt.style.display='block';
@@ -2157,7 +2157,7 @@ function renderSrQuadrant(){
     const col=xval>0&&yval>0?'#3fb950':xval<0&&yval>0?'#e05252':xval<0&&yval<0?'#e05252':'#e3a946';
     const nm=_srName(g.group_id).replace(/"/g,'&quot;');
     const tks=(g.tickers||[]).join(', ').replace(/"/g,'&quot;');
-    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" data-tickers="${tks}" style="cursor:pointer"/>`;
+    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" data-tickers="${tks}" data-color="${col}" style="cursor:pointer"/>`;
   });
   svg+=`</g></g></svg>`;
 
@@ -2167,8 +2167,9 @@ function renderSrQuadrant(){
   const tt=document.getElementById('sr-qtt');
   wrap.querySelectorAll('.sr-dot').forEach(c=>{
     c.addEventListener('mouseenter',()=>{
+      const col=c.dataset.color||'#e0e2ea';
       const tks=c.dataset.tickers?`<br><span style="color:var(--text-muted);font-size:11px">${c.dataset.tickers}</span>`:'';
-      tt.innerHTML=`<b>${c.dataset.name}</b>${tks}<br><span style="color:var(--text-muted)">${xLbl}: </span><b>${c.dataset.x}%</b>&nbsp;&nbsp;<span style="color:var(--text-muted)">${yLbl}: </span><b>${c.dataset.y}%</b>`;
+      tt.innerHTML=`<strong>${c.dataset.name}</strong>${tks}<br><span style="color:${col}">&#9632;</span> ${xLbl}: ${c.dataset.x}%<br><span style="color:${col}">&#9632;</span> ${yLbl}: ${c.dataset.y}%`;
       tt.style.display='block';
     });
     c.addEventListener('mousemove',e=>{
