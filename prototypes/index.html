@@ -3128,13 +3128,17 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   const pts=dates.map((d,i)=>({d,v:values[i]})).filter(p=>p.v!==null);
   if(!pts.length) return;
   const vMax=Math.max(...pts.map(p=>p.v));
+  const vMin=Math.min(...pts.map(p=>p.v));
+  const vPad=(vMax-vMin)*0.1||vMax*0.05;
+  const vBase=Math.max(0,vMin-vPad);
+  const vR=vMax-vBase||1;
   const xOfBar=i=>pad.l+(i/pts.length)*iW;
   const xOfLbl=i=>pad.l+(i/Math.max(pts.length-1,1))*iW;
   const barW=Math.max(1,iW/pts.length);
-  const yOf=v=>pad.t+(1-v/vMax)*iH;
+  const yOf=v=>pad.t+(1-(v-vBase)/vR)*iH;
   const ns='http://www.w3.org/2000/svg'; const svg=mkSvg(ns,VW,vH);
   [0,.25,.5,.75,1].forEach(t=>{
-    const y=pad.t+t*iH,v=vMax*(1-t);
+    const y=pad.t+t*iH,v=vMax-t*vR;
     const g=document.createElementNS(ns,'line');
     g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
     g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
