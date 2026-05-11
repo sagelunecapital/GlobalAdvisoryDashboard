@@ -2927,6 +2927,14 @@ function fmtWeek(w){
   return m ? m[1].slice(2)+' W'+parseInt(m[2]) : w;
 }
 
+const _MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(d){
+  // d = "YYYY-MM-DD"
+  if(!d) return '';
+  const p=d.split('-');
+  return _MONTHS[parseInt(p[1])-1]+" '"+p[0].slice(2);
+}
+
 function fmtK(v){
   const a=Math.abs(v);
   if(a>=1e6) return (v/1e6).toFixed(1)+'M';
@@ -2953,26 +2961,27 @@ function cotUpdateChart(code){
   const nWeeks=slider?Math.min(parseInt(slider.value)||maxN,maxN):maxN;
   const start=Math.max(0,maxN-nWeeks);
   const weeks=d.weeks.slice(start);
+  const dates=(d.dates||[]).slice(start);
   const oi=d.oi.slice(start);
   const cl=d.cl.slice(start), cs=d.cs.slice(start);
   const nl=d.nl.slice(start), ns=d.ns.slice(start);
   const comm =cl.map((v,i)=>v!==null&&cs[i]!==null?v-cs[i]:null);
   const lspec=nl.map((v,i)=>v!==null&&ns[i]!==null?v-ns[i]:null);
   const sspec=comm.map((v,i)=>v!==null&&lspec[i]!==null?-(v+lspec[i]):null);
-  drawCotLines('cot-pos-wrap','cot-pos-tt',weeks,[
+  drawCotLines('cot-pos-wrap','cot-pos-tt',dates,[
     {label:'Commercials', values:comm,  color:'#4ade80'},
     {label:'Large Specs', values:lspec, color:'#60a5fa'},
     {label:'Small Specs', values:sspec, color:'#fb923c'},
   ],220,'cot-pos-legend');
-  drawCotBar('cot-oi-wrap','cot-oi-tt',weeks,oi,160);
+  drawCotBar('cot-oi-wrap','cot-oi-tt',dates,oi,160);
   drawCotCandle(code, nWeeks);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
   const fromEl=document.getElementById('cot-slider-from');
   const toEl=document.getElementById('cot-slider-to');
   const lblEl=document.getElementById('cot-slider-label');
-  if(fromEl) fromEl.textContent=weeks.length?fmtWeek(weeks[0]):'';
-  if(toEl)   toEl.textContent  =weeks.length?fmtWeek(weeks[weeks.length-1]):'';
+  if(fromEl) fromEl.textContent=dates.length?fmtDate(dates[0]):'';
+  if(toEl)   toEl.textContent  =dates.length?fmtDate(dates[dates.length-1]):'';
   if(lblEl)  lblEl.textContent =nWeeks+' weeks';
 }
 
@@ -3029,7 +3038,7 @@ function drawCotCandle(code, nWeeks){
   },{responsive:true,displayModeBar:false});
 }
 
-function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
+function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
   vH=vH||220;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
   wrap.innerHTML='';
@@ -3037,9 +3046,9 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
   const pad={t:8,r:50,b:24,l:64};
   const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
   const aligned=[];
-  for(let i=0;i<weeks.length;i++){
+  for(let i=0;i<dates.length;i++){
     const vs=seriesDefs.map(s=>s.values[i]);
-    if(vs.every(v=>v!==null)) aligned.push({w:weeks[i],vs});
+    if(vs.every(v=>v!==null)) aligned.push({d:dates[i],vs});
   }
   if(!aligned.length) return;
   const allV=aligned.flatMap(r=>r.vs);
@@ -3063,7 +3072,7 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
     if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtWeek(aligned[i].w);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDate(aligned[i].d);svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -3092,7 +3101,7 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
     tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
-    tt.innerHTML='<strong>'+row.w+'</strong><br>'+
+    tt.innerHTML='<strong>'+fmtDate(row.d)+'</strong><br>'+
       seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
@@ -3103,14 +3112,14 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
   }
 }
 
-function drawCotBar(wrapId,ttId,weeks,values,vH){
+function drawCotBar(wrapId,ttId,dates,values,vH){
   vH=vH||160;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
   wrap.innerHTML='';
   const VW=wrap.clientWidth||FALLBACK_VW;
   const pad={t:8,r:50,b:24,l:64};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
-  const pts=weeks.map((w,i)=>({w,v:values[i]})).filter(p=>p.v!==null);
+  const pts=dates.map((d,i)=>({d,v:values[i]})).filter(p=>p.v!==null);
   if(!pts.length) return;
   const vMax=Math.max(...pts.map(p=>p.v));
   const xOfBar=i=>pad.l+(i/pts.length)*iW;
@@ -3134,7 +3143,7 @@ function drawCotBar(wrapId,ttId,weeks,values,vH){
     if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOfLbl(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtWeek(pts[i].w);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDate(pts[i].d);svg.appendChild(lb);
   });
   pts.forEach((p,i)=>{
     const rect=document.createElementNS(ns,'rect');
@@ -3159,7 +3168,7 @@ function drawCotBar(wrapId,ttId,weeks,values,vH){
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
     tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
-    tt.innerHTML='<strong>'+p.w+'</strong><br>&#9632; Open Interest: '+fmtK(p.v);
+    tt.innerHTML='<strong>'+fmtDate(p.d)+'</strong><br>&#9632; Open Interest: '+fmtK(p.v);
   });
   ov.addEventListener('mouseleave',()=>{cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);

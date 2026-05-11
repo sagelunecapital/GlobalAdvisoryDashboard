@@ -90,6 +90,7 @@ for cls, codes in CLASS_MAP.items():
             "name":  DISPLAY_NAMES.get(code, code),
             "class": cls,
             "weeks": [r["yyyy_report_week_ww"] for r in rows],
+            "dates": [r["report_date"] for r in rows],
             "oi":    [r2i(r["oi"]) for r in rows],
             "cl":    [r2i(r["cl"]) for r in rows],
             "cs":    [r2i(r["cs"]) for r in rows],
@@ -113,6 +114,9 @@ def _build_composite(key, display_name, cls, component_codes, data_dict):
     if not common_weeks:
         return
 
+    # Dates from the first component (same date for a given week across components)
+    first_date_map = {w: parts[0]["dates"][i] for i, w in enumerate(parts[0]["weeks"])}
+
     def _sum_col(col):
         result = []
         for w in common_weeks:
@@ -127,6 +131,7 @@ def _build_composite(key, display_name, cls, component_codes, data_dict):
         "name":  display_name,
         "class": cls,
         "weeks": common_weeks,
+        "dates": [first_date_map.get(w, "") for w in common_weeks],
         "oi":    _sum_col("oi"),
         "cl":    _sum_col("cl"),
         "cs":    _sum_col("cs"),
