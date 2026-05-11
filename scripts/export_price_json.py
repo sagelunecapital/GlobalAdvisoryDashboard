@@ -52,7 +52,7 @@ TICKER_MAP = {
 }
 
 end   = datetime.today()
-start = end - timedelta(days=365 * 3)
+start = end - timedelta(days=365 * 11)  # cover full COT history (~500 weeks back to ~2015)
 
 out = {}
 for code, ticker in TICKER_MAP.items():
