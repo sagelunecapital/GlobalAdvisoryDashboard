@@ -854,6 +854,16 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <span id="cot-slider-to"></span>
       </div>
     </div>
+
+    <!-- Price candlestick chart -->
+    <div id="cot-candle-divider" style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
+    <div id="cot-candle-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 4px">
+        <span id="cot-candle-label" style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Price</span>
+        <span id="cot-candle-ticker" style="font-size:11px;color:var(--text-muted)"></span>
+      </div>
+      <div id="cot-candle-wrap" style="min-height:200px"></div>
+    </div>
   </div>
 
 </div><!-- /positioning panel -->
@@ -1992,6 +2002,12 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(r=>r.ok?r.json():null)
     .then(d=>{ if(d){ COT_DATA=d; cotSetClass(document.getElementById('cot-class-sel').value||'Energy'); } })
     .catch(()=>{});
+
+  // Load price data for COT candlestick chart
+  fetch('price_data.json?_='+Date.now())
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{ if(d) PRICE_DATA=d; })
+    .catch(()=>{});
 });
 
 // ── Sector Rotation ─────────────────────────────────────────────────────────
@@ -2857,14 +2873,24 @@ function copyMissingTickers(){
 // ══ CFTC Positioning ════════════════════════════════════════════
 
 var COT_DATA = {};
+var PRICE_DATA = {};
 
 const COT_CLASS_MAP = {
   Agriculture: ['002602','005602','001602','073732','083731','033661','080732','054642','057642'],
   Energy:      ['067651','111659','023651'],
   Metals:      ['088691','084691','085692','075651','076651','191693','189691'],
-  Currencies:  ['099741','096742','097741','090741','232741','092741','098662'],
+  Currencies:  ['099741','096742','097741','090741','232741','092741','098662','CURRENCY_INDEX'],
   Bonds:       ['020601','043602','044601','042601'],
-  Indices:     ['13874A','209742','239742','12460+','133741','133742'],
+  Indices:     ['13874A','209742','239742','12460+','133742','EQUITIES_INDEX'],
+};
+
+const COT_TICKER_MAP = {
+  '067651':'CL=F','111659':'RB=F','023651':'NG=F',
+  '088691':'GC=F','084691':'SI=F','085692':'HG=F','075651':'PA=F','076651':'PL=F','191693':'ALI=F','189691':'LTH=F',
+  '002602':'ZC=F','005602':'ZS=F','001602':'ZW=F','073732':'CC=F','083731':'KC=F','033661':'CT=F','080732':'SB=F','054642':'HE=F','057642':'LE=F',
+  '099741':'6E=F','096742':'6B=F','097741':'6J=F','090741':'6C=F','232741':'6A=F','092741':'6S=F','098662':'DX-Y.NYB',
+  '020601':'ZB=F','043602':'ZN=F','044601':'ZF=F','042601':'ZT=F',
+  '13874A':'ES=F','209742':'NQ=F','239742':'RTY=F','12460+':'YM=F','133742':'BTC=F',
 };
 
 function fmtWeek(w){
@@ -2910,6 +2936,7 @@ function cotUpdateChart(code){
     {label:'Small Specs', values:sspec, color:'#fb923c'},
   ],220,'cot-pos-legend');
   drawCotBar('cot-oi-wrap','cot-oi-tt',weeks,oi,160);
+  drawCotCandle(code, nWeeks);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
   const fromEl=document.getElementById('cot-slider-from');
@@ -2923,6 +2950,58 @@ function cotUpdateChart(code){
 function cotSlide(){
   const code=document.getElementById('cot-contract-sel').value;
   if(code) cotUpdateChart(code);
+}
+
+function drawCotCandle(code, nWeeks){
+  const section   = document.getElementById('cot-candle-section');
+  const divider   = document.getElementById('cot-candle-divider');
+  const tickerLbl = document.getElementById('cot-candle-ticker');
+  const ticker    = COT_TICKER_MAP[code];
+  const pd        = PRICE_DATA[code];
+
+  const hide = !ticker || !pd || !pd.dates || pd.dates.length < 5;
+  if(section) section.style.display = hide ? 'none' : '';
+  if(divider) divider.style.display = hide ? 'none' : '';
+  if(hide) return;
+
+  if(tickerLbl) tickerLbl.textContent = ticker;
+
+  const maxDays = Math.min(pd.dates.length, nWeeks * 5);
+  const s = Math.max(0, pd.dates.length - maxDays);
+  const dates = pd.dates.slice(s);
+  const open  = pd.open.slice(s);
+  const high  = pd.high.slice(s);
+  const low   = pd.low.slice(s);
+  const close = pd.close.slice(s);
+
+  const HL = {bgcolor:'#181c21',bordercolor:'#414752',font:{family:'Inter,Arial,sans-serif',size:12,color:'#e0e2ea'}};
+
+  Plotly.react('cot-candle-wrap',[{
+    type:'candlestick', x:dates, open, high, low, close,
+    increasing:{line:{color:'#4ade80',width:1},fillcolor:'#4ade80'},
+    decreasing:{line:{color:'#f87171',width:1},fillcolor:'#f87171'},
+    hovertemplate:'<b>%{x|%b %d, %Y}</b><br>O: %{open}  H: %{high}<br>L: %{low}  C: %{close}<extra></extra>',
+    hoverlabel:HL,
+    whiskerwidth:0.5,
+  }],{
+    paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+    font:{family:'Inter,Arial,sans-serif',color:'#8b919e',size:10},
+    margin:{t:8,b:36,l:64,r:50},
+    height:200,
+    xaxis:{
+      type:'date', color:'#6b7280',
+      gridcolor:'#1f2328', showgrid:true,
+      rangeslider:{visible:false},
+      tickfont:{size:10,color:'#8b919e'},
+    },
+    yaxis:{
+      color:'#6b7280',
+      gridcolor:'#1f2328', showgrid:true,
+      tickfont:{size:10,color:'#8b919e'},
+      side:'left',
+    },
+    showlegend:false,
+  },{responsive:true,displayModeBar:false});
 }
 
 function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){

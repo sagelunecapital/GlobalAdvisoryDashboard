@@ -12,8 +12,8 @@ DB_PATH  = Path(__file__).parent.parent / "data" / "cftc_cot.db"
 OUT_PATH = Path(__file__).parent.parent / "prototypes" / "cot_data.json"
 
 DISPLAY_NAMES = {
-    "067651": "Crude Oil (WTI)",
-    "111659": "Gasoline (RBOB)",
+    "067651": "Crude Oil",
+    "111659": "Gasoline",
     "023651": "Natural Gas",
     "088691": "Gold",
     "084691": "Silver",
@@ -24,13 +24,13 @@ DISPLAY_NAMES = {
     "189691": "Lithium Hydroxide",
     "002602": "Corn",
     "005602": "Soybeans",
-    "001602": "Wheat (SRW)",
+    "001602": "Wheat",
     "073732": "Cocoa",
-    "083731": "Coffee C",
-    "033661": "Cotton No. 2",
+    "083731": "Coffee",
+    "033661": "Cotton",
     "054642": "Lean Hogs",
     "057642": "Live Cattle",
-    "080732": "Sugar No. 11",
+    "080732": "Sugar",
     "099741": "Euro FX",
     "096742": "British Pound",
     "097741": "Japanese Yen",
@@ -38,16 +38,15 @@ DISPLAY_NAMES = {
     "232741": "Australian Dollar",
     "092741": "Swiss Franc",
     "098662": "US Dollar Index",
-    "020601": "Treasury Bonds (30Y)",
-    "043602": "Treasury Notes (10Y)",
-    "044601": "Treasury Notes (5Y)",
-    "042601": "Treasury Notes (2Y)",
-    "13874A": "E-Mini S&P 500",
-    "209742": "Nasdaq Mini",
-    "239742": "E-Mini Russell 2000",
-    "12460+": "DJIA",
-    "133741": "Bitcoin",
-    "133742": "Micro Bitcoin",
+    "020601": "30Y Bonds",
+    "043602": "10Y Notes",
+    "044601": "5Y Notes",
+    "042601": "2Y Notes",
+    "13874A": "S&P 500",
+    "209742": "Nasdaq",
+    "239742": "Russell 2000",
+    "12460+": "Dow Jones",
+    "133742": "Bitcoin",
 }
 
 CLASS_MAP = {
@@ -56,8 +55,11 @@ CLASS_MAP = {
     "Agriculture": ["002602", "005602", "001602", "073732", "083731", "033661", "080732", "054642", "057642"],
     "Currencies":  ["099741", "096742", "097741", "090741", "232741", "092741", "098662"],
     "Bonds":       ["020601", "043602", "044601", "042601"],
-    "Indices":     ["13874A", "209742", "239742", "12460+", "133741", "133742"],
+    "Indices":     ["13874A", "209742", "239742", "12460+", "133742"],
 }
+
+CURRENCY_INDEX_COMPONENTS = ["099741", "096742", "097741", "090741", "232741", "092741"]
+EQUITIES_INDEX_COMPONENTS  = ["13874A", "209742", "239742", "12460+"]
 
 conn = sqlite3.connect(DB_PATH)
 conn.row_factory = sqlite3.Row
@@ -96,6 +98,45 @@ for cls, codes in CLASS_MAP.items():
         }
 
 conn.close()
+
+
+def _build_composite(key, display_name, cls, component_codes, data_dict):
+    """Sum net-position columns across component contracts, intersecting on report_date."""
+    parts = [data_dict[c] for c in component_codes if c in data_dict]
+    if not parts:
+        return
+    # Build week→index maps for each component
+    week_idx = [{w: i for i, w in enumerate(p["weeks"])} for p in parts]
+    common_weeks = sorted(
+        set(week_idx[0]).intersection(*(m.keys() for m in week_idx[1:]))
+    )
+    if not common_weeks:
+        return
+
+    def _sum_col(col):
+        result = []
+        for w in common_weeks:
+            total = 0
+            for p, idx_map in zip(parts, week_idx):
+                v = p[col][idx_map[w]]
+                total += v if v is not None else 0
+            result.append(round(total))
+        return result
+
+    data_dict[key] = {
+        "name":  display_name,
+        "class": cls,
+        "weeks": common_weeks,
+        "oi":    _sum_col("oi"),
+        "cl":    _sum_col("cl"),
+        "cs":    _sum_col("cs"),
+        "nl":    _sum_col("nl"),
+        "ns":    _sum_col("ns"),
+    }
+
+
+_build_composite("CURRENCY_INDEX", "Currency Index", "Currencies", CURRENCY_INDEX_COMPONENTS, out)
+_build_composite("EQUITIES_INDEX", "Equities Index", "Indices",    EQUITIES_INDEX_COMPONENTS,  out)
 
 with open(OUT_PATH, "w", encoding="utf-8") as f:
     json.dump(out, f, separators=(",", ":"))

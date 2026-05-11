@@ -19,6 +19,7 @@ Group indices: market-cap weighted, rebalanced monthly.
   Signal = RS - EMA_21_RS  (only populated when RS > EMA_21_RS)
 """
 
+import importlib.util
 import sqlite3
 import warnings
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -796,6 +797,24 @@ def main() -> None:
 
     with open(LOG_F, "a") as f:
         f.write(f"{ts.isoformat()} | {elapsed}s\n")
+
+    print("\n[8] Exporting sector_rotation.json...")
+    _spec = importlib.util.spec_from_file_location(
+        "export_sector_json",
+        Path(__file__).parent / "export_sector_json.py",
+    )
+    _mod = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_mod)
+    _mod.main()
+
+    print("\n[9] Exporting ticker_perf.json...")
+    _spec2 = importlib.util.spec_from_file_location(
+        "export_ticker_perf",
+        Path(__file__).parent / "export_ticker_perf.py",
+    )
+    _mod2 = importlib.util.module_from_spec(_spec2)
+    _spec2.loader.exec_module(_mod2)
+    _mod2.main()
 
 
 if __name__ == "__main__":
