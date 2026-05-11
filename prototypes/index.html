@@ -807,7 +807,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
   <!-- Controls row -->
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-    <div class="section-heading" style="margin:0">CFTC Positioning</div>
+    <div class="section-heading" style="margin:0">Commitment of Traders</div>
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Asset Class</span>
@@ -831,25 +831,32 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
   </div>
 
-  <!-- Net Positions line chart -->
-  <div class="card" style="margin-bottom:14px">
+  <!-- Net Positions + Open Interest in one card -->
+  <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
       <div class="card-header" style="margin-bottom:0">Net Positions</div>
       <div id="cot-pos-legend" class="legend" style="margin-bottom:0"></div>
     </div>
-    <div id="cot-pos-wrap" style="position:relative">
-      <div style="color:var(--text-muted);text-align:center;padding:40px;font-size:13px">Loading positioning data&hellip;</div>
-    </div>
+    <div id="cot-pos-wrap" style="position:relative"></div>
     <div class="chart-tt" id="cot-pos-tt"></div>
-  </div>
 
-  <!-- Open Interest bar chart -->
-  <div class="card">
+    <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
+
     <div class="card-header" style="margin-bottom:10px">Open Interest</div>
-    <div id="cot-oi-wrap" style="position:relative">
-      <div style="color:var(--text-muted);text-align:center;padding:40px;font-size:13px">Loading open interest data&hellip;</div>
-    </div>
+    <div id="cot-oi-wrap" style="position:relative"></div>
     <div class="chart-tt" id="cot-oi-tt"></div>
+
+    <!-- Period slider -->
+    <div style="padding:14px 14px 2px 64px">
+      <input type="range" id="cot-period-slider" min="52" max="500" value="500"
+        oninput="cotSlide()"
+        style="width:100%;accent-color:#60a5fa;cursor:pointer">
+      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--text-muted)">
+        <span id="cot-slider-from"></span>
+        <span id="cot-slider-label"></span>
+        <span id="cot-slider-to"></span>
+      </div>
+    </div>
   </div>
 
 </div><!-- /positioning panel -->
@@ -2879,24 +2886,43 @@ function cotSetClass(cls){
 
 function cotUpdateChart(code){
   const d=COT_DATA[code]; if(!d) return;
-  const weeks=d.weeks;
-  const comm =d.cl.map((v,i)=>v!==null&&d.cs[i]!==null?v-d.cs[i]:null);
-  const lspec=d.nl.map((v,i)=>v!==null&&d.ns[i]!==null?v-d.ns[i]:null);
+  const slider=document.getElementById('cot-period-slider');
+  const maxN=d.weeks.length;
+  if(slider) slider.max=maxN;
+  const nWeeks=slider?Math.min(parseInt(slider.value)||maxN,maxN):maxN;
+  const start=Math.max(0,maxN-nWeeks);
+  const weeks=d.weeks.slice(start);
+  const oi=d.oi.slice(start);
+  const cl=d.cl.slice(start), cs=d.cs.slice(start);
+  const nl=d.nl.slice(start), ns=d.ns.slice(start);
+  const comm =cl.map((v,i)=>v!==null&&cs[i]!==null?v-cs[i]:null);
+  const lspec=nl.map((v,i)=>v!==null&&ns[i]!==null?v-ns[i]:null);
   const sspec=comm.map((v,i)=>v!==null&&lspec[i]!==null?-(v+lspec[i]):null);
   drawCotLines('cot-pos-wrap','cot-pos-tt',weeks,[
     {label:'Commercials', values:comm,  color:'#4ade80'},
     {label:'Large Specs', values:lspec, color:'#60a5fa'},
     {label:'Small Specs', values:sspec, color:'#fb923c'},
   ],220,'cot-pos-legend');
-  drawCotBar('cot-oi-wrap','cot-oi-tt',weeks,d.oi,160);
+  drawCotBar('cot-oi-wrap','cot-oi-tt',weeks,oi,160);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
+  const fromEl=document.getElementById('cot-slider-from');
+  const toEl=document.getElementById('cot-slider-to');
+  const lblEl=document.getElementById('cot-slider-label');
+  if(fromEl) fromEl.textContent=weeks.length?fmtWeek(weeks[0]):'';
+  if(toEl)   toEl.textContent  =weeks.length?fmtWeek(weeks[weeks.length-1]):'';
+  if(lblEl)  lblEl.textContent =nWeeks+' weeks';
+}
+
+function cotSlide(){
+  const code=document.getElementById('cot-contract-sel').value;
+  if(code) cotUpdateChart(code);
 }
 
 function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
   vH=vH||220;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
-  wrap.querySelector('svg')?.remove();
+  wrap.innerHTML='';
   const VW=wrap.clientWidth||FALLBACK_VW;
   const pad={t:8,r:14,b:24,l:64};
   const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
@@ -2966,7 +2992,7 @@ function drawCotLines(wrapId,ttId,weeks,seriesDefs,vH,legId){
 function drawCotBar(wrapId,ttId,weeks,values,vH){
   vH=vH||160;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
-  wrap.querySelector('svg')?.remove();
+  wrap.innerHTML='';
   const VW=wrap.clientWidth||FALLBACK_VW;
   const pad={t:8,r:14,b:24,l:64};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
