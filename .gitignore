@@ -28,3 +28,9 @@ __pycache__/
 # GAAI daemon — local runtime state, not committed
 data/gaai-jobs.db
 data/gaai-deliver.log
+
+# Playwright — test runner artifacts
+node_modules/
+playwright-report/
+test-results/
+tests/ui/screenshots/
