@@ -18,6 +18,26 @@ updated_at: 2026-04-25
 
 ---
 
+### DEC-2026-05-12-02 — Authorized Recovery Transition: in_progress → refined for Daemon Orphan Detection
+
+**Context:** base.rules.md defines `in_progress → done | failed` as the only authorized exits from `in_progress`, requiring human review before any reset to `refined`. E07 requires `gaai_deliver.py` to automatically reset stale `in_progress` backlog entries to `refined` when the executing `claude -p` process is confirmed dead. The existing bash daemon already performs an equivalent reset via `GAAI_STALENESS_THRESHOLD`, but this behavior was never formally governed. E07S02 (orphan detection on startup) and E07S03 (`--doctor` staleness check) both require this transition.
+**Decision:** An automated `in_progress → refined` reset is authorized as a governed recovery transition under either: (a) E07S02 startup path — `gaai-jobs.db` has `status='running'` for the story AND `psutil.pid_exists(pid)` returns False; or (b) E07S03 `--doctor` path — `active.backlog.yaml` has `status: in_progress` AND `started_at` is older than `GAAI_STALENESS_THRESHOLD` seconds. Both conditions require positive evidence the agent is no longer running. This reset may ONLY be performed by `gaai_deliver.py`; no other component is authorized to make this transition.
+**Rationale:** The bash daemon's `GAAI_STALENESS_THRESHOLD` rescue already performs this operation; the E07 stories formalize and extend it to survive process death. Human review is still required for `failed` stories — this exception covers only zombie `in_progress` entries with confirmed dead or timed-out PIDs. The conditions are conservative and idempotent.
+**Impact:** E07S02 AC5 and E07S03 AC5 are authorized under this DEC. Affected E07 stories list `DEC-2026-05-12-02` in `related_decs`. base.rules.md lifecycle table is not amended — this is a governed exception, not a state machine change. E07.epic.md Out of Scope ("Changes to backlog lifecycle states") explicitly excludes this authorized recovery operation.
+**Date:** 2026-05-12
+
+---
+
+### DEC-2026-05-12-01 — GAAI Daemon Job Queue: SQLite (data/gaai-jobs.db)
+
+**Context:** E07 requires durable job state for the Windows delivery daemon so that usage-limit hits and process kills do not permanently orphan `in_progress` stories. An alternative was a lightweight atomic-write JSON/YAML file. DEC-2026-04-22-01 covers SQLite usage for the dashboard data pipeline only — it does not authorize daemon infrastructure storage.
+**Decision:** Daemon job state is persisted in `data/gaai-jobs.db` — a SQLite database separate from all dashboard databases. Schema: `jobs(id TEXT PRIMARY KEY, story_id TEXT NOT NULL, status TEXT NOT NULL, started_at TEXT, updated_at TEXT, pid INTEGER, log_path TEXT)`. WAL mode enabled. `data/gaai-jobs.db` is listed in `.gitignore` (local state, not committed).
+**Rationale:** Multiple concurrent `claude -p` subprocesses write status updates independently. JSON file rewrites are not atomic on Windows without OS-level locking. SQLite WAL mode serializes writes without explicit application locks. JSON fallback is viable if the single-process constraint holds — evaluate during E07S02 QA if the concurrency assumption fails.
+**Impact:** E07S02 implements this schema. All E07 stories that read job state must use this database. `data/gaai-jobs.db` must NOT be used for dashboard data — its schema, WAL settings, and lifecycle are independent. DEC-2026-04-22-01 remains the authority for dashboard SQLite usage.
+**Date:** 2026-05-12
+
+---
+
 ### DEC-2026-04-27-04 — src/ Library and update_dashboard.py are Parallel Implementations (Accepted)
 
 **Context:** The `src/` library (built for E01) persists data to local SQLite via structured modules. `update_dashboard.py` independently implements fetch + compute + inject logic for the dashboard with no dependency on `src/`. `src/macro/db/macro_schema.py` explicitly states it does NOT import from `src/db/`. Two codebase paths cover overlapping data concerns.
