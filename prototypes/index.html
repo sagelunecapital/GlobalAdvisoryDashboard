@@ -849,7 +849,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
     <!-- Period slider -->
     <div style="padding:14px 14px 2px 64px">
-      <input type="range" id="cot-period-slider" min="52" max="500" value="500"
+      <input type="range" id="cot-period-slider" min="52" max="500" value="156"
         oninput="cotSlide()"
         style="width:100%;accent-color:#60a5fa;cursor:pointer">
       <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--text-muted)">
@@ -1123,7 +1123,7 @@ function persistNotes(){
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
   localStorage.setItem('gaai-saved-at',saved_at);
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,nhnl,sectors,saved_at}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,nhnl,sectors,research:researchSectors,saved_at}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1849,6 +1849,10 @@ function _applyNotes(notes){
     addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
     addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
   }
+  if(notes.research && notes.research.length){
+    researchSectors=notes.research;
+    renderRsGrid();
+  }
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
@@ -1869,8 +1873,9 @@ window.addEventListener('DOMContentLoaded',()=>{
         const b=localStorage.getItem('gaai-breadth')||'';
         const n=localStorage.getItem('gaai-nhnl')||'';
         const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-        _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
-        _pushNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],saved_at:localAt||new Date().toISOString()});
+        const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
+        _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],research:r||[]});
+        _pushNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],research:r||[],saved_at:localAt||new Date().toISOString()});
       } else {
         _applyNotes(serverNotes);
       }
@@ -1880,7 +1885,8 @@ window.addEventListener('DOMContentLoaded',()=>{
       const b=localStorage.getItem('gaai-breadth')||'';
       const n=localStorage.getItem('gaai-nhnl')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
+      const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
+      _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],research:r||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
@@ -2581,6 +2587,7 @@ function _tp(tk){
 
 function persistRS(){
   localStorage.setItem('gaai-research',JSON.stringify(researchSectors));
+  persistNotes();
 }
 function loadRS(){
   const savedSort=localStorage.getItem('gaai-rs-sort');
@@ -2589,8 +2596,10 @@ function loadRS(){
     const sel=document.getElementById('rs-sort-select');
     if(sel) sel.value=savedSort;
   }
-  const raw=localStorage.getItem('gaai-research');
-  if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
+  if(!researchSectors.length){
+    const raw=localStorage.getItem('gaai-research');
+    if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
+  }
   if(!researchSectors.length){
     const old=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
     if(old&&old.length){

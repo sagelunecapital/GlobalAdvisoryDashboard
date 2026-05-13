@@ -5,6 +5,37 @@
 
 ---
 
+## Environment
+- Primary OS is Windows (PowerShell); WSL is available but daemons/scripts don't persist across WSL sessions reliably
+- Use Python fallbacks instead of WebFetch for FRED (returns 403)
+- Avoid Unicode characters in print() statements (Windows console crashes on them)
+- `flock` and `gh` CLI are not available — use direct git operations and GitHub API via PowerShell as fallback
+- Watch for paths containing brackets — quote them properly in PowerShell
+
+---
+
+## Git Workflow Rules
+- NEVER run `git checkout <branch> --` against files with uncommitted changes; stash or commit first
+- Confirm the target branch (main vs staging) before pushing automated commits
+- When updating dashboard data, update BOTH the source file AND any generated/cached JSON (e.g., regime.json) that the UI actually reads from
+- After code fixes that change displayed values, verify the data block in index.html was regenerated
+
+---
+
+## Data Sources
+- For GDP growth use FRED series A191RL1Q225SBEA (real GDP, compounded annual rate, pre-computed)
+- Do NOT compute YoY/QoQ from nominal series via units transformation
+- For GDPNow, use the official Atlanta Fed CSV endpoint, not generic web scraping
+- Verify FRED series units (e.g., WRESBAL) before applying scaling
+
+---
+
+## Deployment Checklist
+- Check .gitignore is not blocking the file you just generated (HTML dashboards were blocked at least once)
+- After deploy, verify the live URL renders the new values, not just that the push succeeded
+
+---
+
 ## You Are Operating Under GAAI Governance
 
 This project uses the **GAAI framework** (`.gaai/` folder). Read `.gaai/core/GAAI.md` first.
