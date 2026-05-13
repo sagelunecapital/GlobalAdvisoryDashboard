@@ -32,7 +32,7 @@ import yfinance as yf
 warnings.filterwarnings("ignore")
 
 # ── Config ─────────────────────────────────────────────────────────────────
-BASE_DIR     = Path(r"P:\OneDrive\[03] Cowork\Sector Rotation")
+BASE_DIR     = Path(__file__).resolve().parent.parent / "Sector Rotation"
 INDUSTRY_F   = BASE_DIR / "Industry Classification Data.csv"
 DB_F         = BASE_DIR / "sector_rotation.db"
 EXCEL_F      = BASE_DIR / "Sector_Rotation_Data.xlsx"

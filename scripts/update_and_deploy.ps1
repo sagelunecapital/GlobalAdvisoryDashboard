@@ -1,8 +1,7 @@
-﻿$projectRoot = "P:\OneDrive\[03] Cowork"
+﻿$projectRoot = Split-Path -Parent $PSScriptRoot
 Start-Transcript -Path "$env:TEMP\gaai_dashboard_update.log" -Append -Force
 
-$hardcoded = "C:\Users\lance\AppData\Local\Programs\Python\Python313\python.exe"
-$python = if (Test-Path $hardcoded) { $hardcoded } else { (Get-Command python -ErrorAction Stop).Source }
+$python = (Get-Command python -ErrorAction Stop).Source
 
 Set-Location -LiteralPath $projectRoot
 Write-Host "projectRoot: $projectRoot"

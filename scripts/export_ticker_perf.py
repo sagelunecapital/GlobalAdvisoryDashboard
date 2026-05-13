@@ -7,7 +7,7 @@ import json
 import sqlite3
 from pathlib import Path
 
-BASE_DIR = Path(r"P:\OneDrive\[03] Cowork")
+BASE_DIR = Path(__file__).resolve().parent.parent
 DB_F     = BASE_DIR / "Sector Rotation" / "sector_rotation.db"
 OUT_F    = BASE_DIR / "prototypes" / "ticker_perf.json"
 

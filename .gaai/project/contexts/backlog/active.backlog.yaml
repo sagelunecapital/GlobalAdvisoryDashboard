@@ -287,3 +287,63 @@ items:
     dependencies:
       - E05S03
     notes: "Delivered directly outside GAAI chain — prototype uses hardcoded data, no live pipeline dependency. Dependencies on E05S03 waived by human decision 2026-04-25."
+
+  - id: E07S01
+    epic: E07
+    module: gaai-daemon
+    title: "Build Python Delivery Entrypoint with Platform Detection"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E07S01.story.md
+    dependencies: []
+    notes: "Discovery 2026-05-12 — Windows robustness E07; platform-detection layer replacing bash entrypoint"
+
+  - id: E07S02
+    epic: E07
+    module: gaai-daemon
+    title: "Implement SQLite Job Queue for Resumable Delivery State"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E07S02.story.md
+    dependencies:
+      - E07S01
+    notes: "Discovery 2026-05-12 — gaai-jobs.db; _set_backlog_status(); filelock; psutil; authorized by DEC-2026-05-12-01"
+
+  - id: E07S03
+    epic: E07
+    module: gaai-daemon
+    title: "Build gaai doctor Pre-Flight Command"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E07S03.story.md
+    dependencies:
+      - E07S01
+      - E07S02
+    notes: "Discovery 2026-05-12 — --doctor pre-flight; auto-fixes settings, locks, stale PIDs; authorized by DEC-2026-05-12-02"
+
+  - id: E07S04
+    epic: E07
+    module: gaai-daemon
+    title: "Add --unattended Mode and Task Scheduler Integration"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E07S04.story.md
+    dependencies:
+      - E07S01
+      - E07S02
+      - E07S03
+    notes: "Discovery 2026-05-12 — gaai-deliver.bat; --unattended; docs/windows-task-scheduler.md"
+
+  - id: E07S05
+    epic: E07
+    module: gaai-daemon
+    title: "Integration Tests for All Documented Failure Modes"
+    priority: high
+    status: refined
+    artefact: contexts/artefacts/stories/E07S05.story.md
+    dependencies:
+      - E07S01
+      - E07S02
+      - E07S03
+      - E07S04
+    notes: "Discovery 2026-05-12 — S-4(a-e) failure mode tests; pytest; no live claude -p invocations"

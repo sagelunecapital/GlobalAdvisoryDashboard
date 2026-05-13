@@ -1,0 +1,65 @@
+name: Data Audit
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly Monday 10:00 UTC — catch data drift between PRs
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas yfinance openpyxl
+
+      - name: Run data-source validator
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python scripts/validate_data_sources.py
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-audit-report
+          path: data_audit.md
+          retention-days: 30
+
+      - name: Comment audit summary on PR
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '## Data Audit: HIGH-risk findings detected\n\n';
+            try {
+              const report = fs.readFileSync('data_audit.md', 'utf8');
+              // Extract just the HIGH section (up to first ## after it)
+              const match = report.match(/## HIGH Risk[\s\S]*?(?=\n## |$)/);
+              if (match) {
+                body += match[0].slice(0, 3000);
+                if (match[0].length > 3000) body += '\n\n_(truncated — download full report artifact)_';
+              } else {
+                body += '_Could not extract HIGH section — download artifact for full report._';
+              }
+            } catch (e) {
+              body += '_data_audit.md not found — check workflow logs._';
+            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });

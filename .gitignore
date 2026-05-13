@@ -24,3 +24,13 @@ __pycache__/
 *.pyd
 .pytest_cache/
 *.egg-info/
+
+# GAAI daemon — local runtime state, not committed
+data/gaai-jobs.db
+data/gaai-deliver.log
+
+# Playwright — test runner artifacts
+node_modules/
+playwright-report/
+test-results/
+tests/ui/screenshots/
