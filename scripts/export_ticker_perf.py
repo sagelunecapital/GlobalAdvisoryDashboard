@@ -56,9 +56,25 @@ def main() -> None:
     ).fetchall():
         prices.setdefault(row[0], {})[row[1]] = row[2]
 
+    # Most recent close before latest per ticker (ffill semantics for perf_1d).
+    # Handles international tickers whose market was closed on date_1d.
+    prev_close: dict[str, float] = dict(conn.execute("""
+        SELECT d.yf_ticker, d.close
+        FROM daily d
+        JOIN (SELECT yf_ticker, MAX(date) AS pd FROM daily WHERE date < ?) x
+          ON d.yf_ticker = x.yf_ticker AND d.date = x.pd
+    """, (latest,)).fetchall())
+
     def perf(yf_tk: str, from_d: str, to_d: str):
         p = prices.get(yf_tk, {})
         f, t = p.get(from_d), p.get(to_d)
+        if f and t and f > 0:
+            return round((t / f - 1) * 100, 4)
+        return None
+
+    def perf_1d_ffill(yf_tk: str):
+        f = prev_close.get(yf_tk)
+        t = prices.get(yf_tk, {}).get(latest)
         if f and t and f > 0:
             return round((t / f - 1) * 100, 4)
         return None
@@ -86,7 +102,7 @@ def main() -> None:
             continue                    # no current price — skip
         disp = name_map.get(yf_tk, yf_tk)
         entry = {
-            "perf_1d":  perf(yf_tk, date_1d,  latest),
+            "perf_1d":  perf_1d_ffill(yf_tk),
             "perf_5d":  perf(yf_tk, date_5d,  latest),
             "perf_1m":  perf(yf_tk, date_1m,  latest),
             "perf_6m":  perf(yf_tk, date_6m,  latest),
