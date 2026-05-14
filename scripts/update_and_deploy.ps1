@@ -28,6 +28,12 @@ if (-not $?) {
     Write-Warning "stir_pipeline.py failed  -  stir.json may be stale."
 }
 
+# ── Sector rotation pipeline (price collection → MFRA → JSON export) ──────
+& $python (Join-Path $projectRoot "scripts\sector_data_collector.py")
+if (-not $?) {
+    Write-Warning "sector_data_collector.py failed  -  sector DB may be stale."
+}
+
 & $python (Join-Path $projectRoot "scripts\export_sector_json.py")
 if (-not $?) {
     Write-Warning "export_sector_json.py failed  -  sector_rotation.json may be stale."
@@ -38,15 +44,26 @@ if (-not $?) {
     Write-Warning "export_ticker_perf.py failed  -  ticker_perf.json may be stale."
 }
 
+& $python (Join-Path $projectRoot "scripts\mfra_compute.py")
+if (-not $?) {
+    Write-Warning "mfra_compute.py failed  -  mfra_daily in DB may be stale."
+}
+
+& $python (Join-Path $projectRoot "scripts\mfra_export.py")
+if (-not $?) {
+    Write-Warning "mfra_export.py failed  -  mfra_group.json may be stale."
+}
+# ──────────────────────────────────────────────────────────────────────────
+
 & $python (Join-Path $projectRoot "scripts\fetch_gdpnow.py")
 if (-not $?) {
     Write-Warning "fetch_gdpnow.py failed  -  gdpnow.json may be stale."
 }
 
-$changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/gdpnow.json
+$changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/gdpnow.json prototypes/mfra_group.json
 if ($changes) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-    git add prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/gdpnow.json
+    git add prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/gdpnow.json prototypes/mfra_group.json
     git commit -m "chore: update dashboard data $timestamp"
     git push origin main
     if (-not $?) { Write-Warning "git push failed  -  local files still updated but remote is stale." }
@@ -62,7 +79,7 @@ git stash pop --quiet
 # reflects the latest data regardless of which branch is checked out.
 $currentBranch = git rev-parse --abbrev-ref HEAD
 if ($currentBranch -ne "main") {
-    git checkout main -- prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/gdpnow.json --quiet
+    git checkout main -- prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/gdpnow.json prototypes/mfra_group.json --quiet
 }
 
 Stop-Transcript
