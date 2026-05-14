@@ -2231,7 +2231,7 @@ function renderSrQuadrant(){
   filtered.forEach(g=>{
     const x=xs(g[srXAxis]).toFixed(1),y=ys(g[srYAxis]).toFixed(1);
     const xval=g[srXAxis],yval=g[srYAxis];
-    const col=xval>0&&yval>0?'#3fb950':xval<0&&yval>0?'#e05252':xval<0&&yval<0?'#e05252':'#e3a946';
+    const col=xval>0&&yval>0?'#3fb950':xval<0&&yval>0?'#e3a946':xval<0&&yval<0?'#e05252':'#0070cc';
     const nm=_srName(g.group_id).replace(/"/g,'&quot;');
     const tks=(g.tickers||[]).join(', ').replace(/"/g,'&quot;');
     svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" data-tickers="${tks}" data-color="${col}" style="cursor:pointer"/>`;
