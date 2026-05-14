@@ -71,6 +71,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-meet-cell .stir-meet-sym{font-size:10px;color:var(--text-muted);font-variant-numeric:tabular-nums}
 .stir-spread-pos{color:var(--green)}
 .stir-spread-neg{color:var(--red)}
+.stir-prob-max{color:var(--amber);font-weight:700}
 .main-content{min-width:0;padding:20px 24px 0 24px}
 .main-panel{display:none}
 .main-panel.active{display:block}
@@ -598,13 +599,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div></div>
         <div style="overflow-x:auto">
           <table class="stir-table">
-            <thead>
-              <tr>
-                <th>Meeting / Contract</th><th>Rate</th><th>Post-Mtg</th>
-                <th>Cum Hikes</th><th>Hold %</th><th>−25 bp</th><th>−50 bp</th><th>−75 bp</th>
-                <th>+25 bp</th><th>+50 bp</th>
-              </tr>
-            </thead>
+            <thead id="stir-meet-head"></thead>
             <tbody id="stir-meet-body"></tbody>
           </table>
         </div>
@@ -2436,26 +2431,49 @@ function renderStirMeetings(){
   });
   Plotly.react('stir-path-chart',[trace],layout,{displayModeBar:false,responsive:true});
 
-  const f0 = v => v>0.05 ? v.toFixed(0) : '—';
   const fHikes = v => {
     if(v==null||isNaN(v)) return '—';
     const cls = v>0.005?'stir-spread-pos':v<-0.005?'stir-spread-neg':'';
     const sign= v>0?'+':'';
     return `<span class="${cls}">${sign}${v.toFixed(2)}</span>`;
   };
-  document.getElementById('stir-meet-body').innerHTML = path.map(r=>`
+
+  // Only show BP columns that have at least one row with real data
+  const optCols = [
+    {key:'cut25',  label:'−25 bp'},
+    {key:'cut50',  label:'−50 bp'},
+    {key:'cut75',  label:'−75 bp'},
+    {key:'hike25', label:'+25 bp'},
+    {key:'hike50', label:'+50 bp'},
+  ];
+  const activeCols = optCols.filter(c => path.some(r => (r.probs[c.key]||0) > 0.05));
+
+  document.getElementById('stir-meet-head').innerHTML = `<tr>
+    <th>Meeting / Contract</th><th>Rate</th><th>Post-Mtg</th>
+    <th>Cum Hikes</th><th>Hold %</th>
+    ${activeCols.map(c=>`<th>${c.label}</th>`).join('')}
+  </tr>`;
+
+  document.getElementById('stir-meet-body').innerHTML = path.map(r => {
+    const allVals = [
+      {key:'hold',  val: r.probs.hold||0},
+      ...activeCols.map(c => ({key:c.key, val: r.probs[c.key]||0}))
+    ];
+    const maxVal = Math.max(...allVals.map(c => c.val));
+    const fProb = val => {
+      if((val||0) <= 0.05) return '—';
+      return val === maxVal ? `<span class="stir-prob-max">${val.toFixed(0)}</span>` : val.toFixed(0);
+    };
+    return `
     <tr>
       <td><div class="stir-meet-cell"><span>${r.meeting}</span><span class="stir-meet-sym">${r.contract}</span></div></td>
       <td>${r.contract_rate.toFixed(3)}%</td>
       <td>${r.post_rate.toFixed(3)}%</td>
       <td>${fHikes(r.cum_hikes)}</td>
-      <td>${f0(r.probs.hold)}</td>
-      <td>${f0(r.probs.cut25)}</td>
-      <td>${f0(r.probs.cut50)}</td>
-      <td>${f0(r.probs.cut75)}</td>
-      <td>${f0(r.probs.hike25)}</td>
-      <td>${f0(r.probs.hike50)}</td>
-    </tr>`).join('');
+      <td>${fProb(r.probs.hold)}</td>
+      ${activeCols.map(c=>`<td>${fProb(r.probs[c.key])}</td>`).join('')}
+    </tr>`;
+  }).join('');
 }
 
 function renderStirStripTable(){
