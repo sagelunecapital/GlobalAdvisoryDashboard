@@ -3,5 +3,21 @@
   "breadth": "",
   "nhnl": "Green",
   "sectors": [],
-  "saved_at": "2026-05-07T03:36:09.077Z"
+  "research": [
+    {
+      "id": 1,
+      "name": "Energy",
+      "thesis": "",
+      "tickers": "CVX, XOM, SLB, COP, EOG",
+      "lastUpdated": null
+    },
+    {
+      "id": 2,
+      "name": "Technology",
+      "thesis": "",
+      "tickers": "MSFT, GOOGL, NVDA, META, AAPL",
+      "lastUpdated": null
+    }
+  ],
+  "saved_at": "2026-05-14T02:52:13.714Z"
 }
