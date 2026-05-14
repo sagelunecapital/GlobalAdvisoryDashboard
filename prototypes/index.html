@@ -743,13 +743,14 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <button class="itab active" onclick="setSrRankMode('daily',this)">Daily</button>
         <button class="itab"        onclick="setSrRankMode('weekly',this)">Weekly</button>
         <button class="itab"        onclick="setSrRankMode('monthly',this)">Monthly</button>
+        <button class="itab" id="sr-attr-btn" onclick="toggleSrAttrib(this)">See Return Attribution</button>
       </div>
     </div>
-    <table class="sr-table">
-      <colgroup>
+    <table class="sr-table" id="sr-rank-table">
+      <colgroup id="sr-rank-cg">
         <col style="width:5%"><col style="width:43%"><col style="width:17%"><col style="width:18%"><col style="width:17%">
       </colgroup>
-      <thead>
+      <thead id="sr-rank-head">
         <tr>
           <th>#</th>
           <th>Industry</th>
@@ -1985,6 +1986,12 @@ window.addEventListener('DOMContentLoaded',()=>{
       });
     });
 
+  // MFRA attribution data
+  fetch('mfra_group.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{ mfraData=d; if(srAttribMode)renderSrRank(); })
+    .catch(()=>{});
+
   // Research tab — load ticker performance data, then render sector grid
   fetch('ticker_perf.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject(r.status))
@@ -2011,6 +2018,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 // ── Sector Rotation ─────────────────────────────────────────────────────────
 let srData=null,srCountry='United States',srRankMode='daily',srXAxis='perf_1d',srYAxis='perf_1m';
+let mfraData=null,srAttribMode=false;
 
 function setSrCountry(c,btn){
   srCountry=c;
@@ -2020,8 +2028,14 @@ function setSrCountry(c,btn){
 }
 function setSrRankMode(mode,btn){
   srRankMode=mode;
-  document.querySelectorAll('#sr-rank-tabs .itab').forEach(b=>b.classList.remove('active'));
+  // keep period tabs active independently of attribution button
+  document.querySelectorAll('#sr-rank-tabs .itab:not(#sr-attr-btn)').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  renderSrRank();
+}
+function toggleSrAttrib(btn){
+  srAttribMode=!srAttribMode;
+  btn.classList.toggle('active',srAttribMode);
   renderSrRank();
 }
 function setSrXAxis(key,btn){
@@ -2076,25 +2090,34 @@ function renderSrGap(){
 }
 
 function renderSrRank(){
+  if(!srData)return;
+  const cg=document.getElementById('sr-rank-cg');
+  const hd=document.getElementById('sr-rank-head');
+  if(srAttribMode){
+    const pLabel=srRankMode==='daily'?'1D':srRankMode==='weekly'?'5D':'21D';
+    cg.innerHTML='<col style="width:5%"><col style="width:43%"><col style="width:10.4%"><col style="width:10.4%"><col style="width:10.4%"><col style="width:10.4%"><col style="width:10.4%">';
+    hd.innerHTML=`<tr><th>#</th><th>Industry</th><th style="text-align:right">Total ${pLabel}</th><th style="text-align:right">Mkt</th><th style="text-align:right">Sector</th><th style="text-align:right">Sub</th><th style="text-align:right">Idio</th></tr>`;
+    _renderSrRankAttr();
+  } else {
+    cg.innerHTML='<col style="width:5%"><col style="width:43%"><col style="width:17%"><col style="width:18%"><col style="width:17%">';
+    hd.innerHTML='<tr><th>#</th><th>Industry</th><th style="text-align:right">Daily Rank</th><th style="text-align:right">Weekly Rank</th><th style="text-align:right">Monthly Rank</th></tr>';
+    _renderSrRankStd();
+  }
+}
+
+function _renderSrRankStd(){
   const perfKey={daily:'perf_1d',weekly:'perf_5d',monthly:'perf_1m'};
   const activePerf=perfKey[srRankMode];
-
-  // All groups with valid data in all three periods for consistent ranking
   const pool=srData.groups.filter(g=>
     g.country===srCountry&&g.perf_1d!=null&&g.perf_5d!=null&&g.perf_1m!=null
   );
-
-  // Rank each group in all three periods (1 = best)
   function rankMap(field){
     const m={};
     [...pool].sort((a,b)=>b[field]-a[field]).forEach((g,i)=>m[g.group_id]=i+1);
     return m;
   }
   const dRanks=rankMap('perf_1d'),wRanks=rankMap('perf_5d'),mRanks=rankMap('perf_1m');
-
-  // Top 30 sorted by the active period
   const top30=[...pool].sort((a,b)=>b[activePerf]-a[activePerf]).slice(0,30);
-
   let html='';
   top30.forEach((g,i)=>{
     const dr=dRanks[g.group_id],wr=wRanks[g.group_id],mr=mRanks[g.group_id];
@@ -2102,7 +2125,7 @@ function renderSrRank(){
     function rankCell(rank,isActive){
       if(isActive)return`<td style="text-align:right;font-weight:600;color:var(--text)">${rank}</td>`;
       const better=rank<activeRank,worse=rank>activeRank;
-      const arrow=better?'↑':worse?'↓':'';
+      const arrow=better?'&#8593;':worse?'&#8595;':'';
       const col=better?'#3fb950':worse?'#e05252':'var(--text-muted)';
       return`<td style="text-align:right">${rank}${arrow?` <span style="color:${col};font-weight:700">${arrow}</span>`:''}</td>`;
     }
@@ -2116,6 +2139,44 @@ function renderSrRank(){
     </tr>`;
   });
   document.getElementById('sr-rank-body').innerHTML=html||'<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
+}
+
+function _renderSrRankAttr(){
+  const body=document.getElementById('sr-rank-body');
+  if(!mfraData){
+    body.innerHTML='<tr><td colspan="7" style="color:var(--text-muted);text-align:center;padding:16px">mfra_group.json not loaded — run mfra_export.py</td></tr>';
+    return;
+  }
+  const pKey=srRankMode==='daily'?'1d':srRankMode==='weekly'?'5d':'21d';
+  const pool=srData.groups
+    .filter(g=>g.country===srCountry)
+    .map(g=>({...g,attr:(mfraData.groups[g.group_id]||{})[pKey]}))
+    .filter(g=>g.attr!=null)
+    .sort((a,b)=>b.attr.total-a.attr.total)
+    .slice(0,30);
+  const C='var(--amber)';
+  const fV=(v,bold)=>{
+    const s=(v>=0?'+':'')+v.toFixed(2);
+    return bold?`<span style="color:${C};font-weight:700">${s}</span>`:`<span style="color:${C}">${s}</span>`;
+  };
+  let html='';
+  pool.forEach((g,i)=>{
+    const a=g.attr,d=a.driver;
+    const nm=_srName(g.group_id);
+    const tkTip=(g.tickers||[]).join(', ');
+    const idioSuffix=(d==='resid'&&a.idio_ticker)?` (${a.idio_ticker})`:'';
+    const idioHtml=`<span style="color:${C};${d==='resid'?'font-weight:700;':''}">${(a.resid>=0?'+':'')+a.resid.toFixed(2)}${idioSuffix}</span>`;
+    html+=`<tr>
+      <td style="color:var(--text-muted)">${i+1}</td>
+      <td class="sr-name" onclick="this.classList.toggle('open')">${nm}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
+      <td style="text-align:right">${fV(a.total,false)}</td>
+      <td style="text-align:right">${fV(a.mkt,d==='mkt')}</td>
+      <td style="text-align:right">${fV(a.sec,d==='sec')}</td>
+      <td style="text-align:right">${fV(a.sub,d==='sub')}</td>
+      <td style="text-align:right">${idioHtml}</td>
+    </tr>`;
+  });
+  body.innerHTML=html||'<tr><td colspan="7" style="color:var(--text-muted);text-align:center;padding:16px">No attribution data for this country</td></tr>';
 }
 
 function renderSrQuadrant(){
