@@ -1856,8 +1856,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   const _sd=document.getElementById('session-date');
   if(_sd){const _n=new Date();_sd.textContent='Session: '+_n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
 
-  // Load notes — server first (notes.json), localStorage fallback
-  fetch('notes.json?_='+Date.now())
+  // Load notes — KV store first, localStorage fallback
+  fetch('/api/save-notes?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject())
     .then(serverNotes=>{
       const localAt=localStorage.getItem('gaai-saved-at')||'';
