@@ -2207,10 +2207,10 @@ function renderSrQuadrant(){
 <g transform="translate(${mg.l},${mg.t})">`;
 
   // Quadrant fills
-  svg+=`<rect x="0" y="0" width="${ox}" height="${oy}" fill="rgba(224,82,82,0.06)"/>`;
+  svg+=`<rect x="0" y="0" width="${ox}" height="${oy}" fill="rgba(227,169,70,0.06)"/>`;
   svg+=`<rect x="${ox}" y="0" width="${pw-ox}" height="${oy}" fill="rgba(63,185,80,0.07)"/>`;
   svg+=`<rect x="0" y="${oy}" width="${ox}" height="${ph-oy}" fill="rgba(224,82,82,0.06)"/>`;
-  svg+=`<rect x="${ox}" y="${oy}" width="${pw-ox}" height="${ph-oy}" fill="rgba(227,169,70,0.06)"/>`;
+  svg+=`<rect x="${ox}" y="${oy}" width="${pw-ox}" height="${ph-oy}" fill="rgba(0,112,204,0.06)"/>`;
 
   // Quadrant labels
   svg+=`<text x="${ox/2}" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(227,169,70,0.85)" font-family="Inter,Arial,sans-serif">Fading</text>`;
