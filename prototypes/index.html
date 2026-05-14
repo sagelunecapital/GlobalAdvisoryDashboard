@@ -2096,7 +2096,7 @@ function renderSrRank(){
   if(srAttribMode){
     const pLabel=srRankMode==='daily'?'1D':srRankMode==='weekly'?'5D':'21D';
     cg.innerHTML='<col style="width:5%"><col style="width:43%"><col style="width:10.4%"><col style="width:10.4%"><col style="width:10.4%"><col style="width:10.4%"><col style="width:10.4%">';
-    hd.innerHTML=`<tr><th>#</th><th>Industry</th><th style="text-align:right">Total ${pLabel}</th><th style="text-align:right">Mkt</th><th style="text-align:right">Sector</th><th style="text-align:right">Sub</th><th style="text-align:right">Idio</th></tr>`;
+    hd.innerHTML=`<tr><th>#</th><th>Industry</th><th style="text-align:right">Total ${pLabel}</th><th style="text-align:right">Mkt</th><th style="text-align:right">Sec</th><th style="text-align:right">Sub</th><th style="text-align:right">Idio</th></tr>`;
     _renderSrRankAttr();
   } else {
     cg.innerHTML='<col style="width:5%"><col style="width:43%"><col style="width:17%"><col style="width:18%"><col style="width:17%">';
@@ -2154,18 +2154,19 @@ function _renderSrRankAttr(){
     .filter(g=>g.attr!=null)
     .sort((a,b)=>b.attr.total-a.attr.total)
     .slice(0,30);
-  const C='var(--amber)';
-  const fV=(v,bold)=>{
+  const C='var(--amber)',W='var(--text)';
+  const fV=(v,isDriver)=>{
     const s=(v>=0?'+':'')+v.toFixed(2);
-    return bold?`<span style="color:${C};font-weight:700">${s}</span>`:`<span style="color:${C}">${s}</span>`;
+    return isDriver?`<span style="color:${C};font-weight:700">${s}</span>`:`<span style="color:${W}">${s}</span>`;
   };
   let html='';
   pool.forEach((g,i)=>{
     const a=g.attr,d=a.driver;
     const nm=_srName(g.group_id);
     const tkTip=(g.tickers||[]).join(', ');
-    const idioSuffix=(d==='resid'&&a.idio_ticker)?` (${a.idio_ticker})`:'';
-    const idioHtml=`<span style="color:${C};${d==='resid'?'font-weight:700;':''}">${(a.resid>=0?'+':'')+a.resid.toFixed(2)}${idioSuffix}</span>`;
+    const idioTickers=(a.idio_tickers&&a.idio_tickers.length)?a.idio_tickers:(a.idio_ticker?[a.idio_ticker]:[]);
+    const idioSuffix=(d==='resid'&&idioTickers.length)?` (${idioTickers.join(', ')})`:'';
+    const idioHtml=`<span style="color:${d==='resid'?C:W};${d==='resid'?'font-weight:700;':''}">${(a.resid>=0?'+':'')+a.resid.toFixed(2)}${idioSuffix}</span>`;
     html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
       <td class="sr-name" onclick="this.classList.toggle('open')">${nm}<div class="sr-name-tickers">${tkTip||'—'}</div></td>

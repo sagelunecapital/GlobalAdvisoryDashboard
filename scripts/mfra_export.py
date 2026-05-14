@@ -84,10 +84,11 @@ def main() -> None:
             factors = {"mkt": gm, "sec": gs, "sub": gu, "resid": gr}
             driver  = max(factors, key=lambda k: abs(factors[k]))
 
-            idio_ticker: str | None = None
+            idio_tickers: list[str] = []
             if driver == "resid" and len(avail) > 1:
-                dom_yf = pivots["resid_contrib"][avail].loc[wd].sum().abs().idxmax()
-                idio_ticker = ticker_label.get(dom_yf, dom_yf)
+                resid_sums = pivots["resid_contrib"][avail].loc[wd].sum().abs()
+                top_yf = resid_sums.nlargest(3).index.tolist()
+                idio_tickers = [ticker_label.get(t, t) for t in top_yf]
 
             entry[pkey] = {
                 "total": round(gt, 2),
@@ -96,7 +97,7 @@ def main() -> None:
                 "sub":   round(gu, 2),
                 "resid": round(gr, 2),
                 "driver": driver,
-                "idio_ticker": idio_ticker,
+                "idio_tickers": idio_tickers,
             }
 
         result["groups"][gid] = entry
