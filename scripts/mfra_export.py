@@ -87,7 +87,7 @@ def main() -> None:
             idio_tickers: list[str] = []
             if driver == "resid" and len(avail) > 1:
                 resid_sums = pivots["resid_contrib"][avail].loc[wd].sum()
-                threshold = abs(gr) * 0.20
+                threshold = abs(gr) * 2.0
                 amplifying = resid_sums[
                     (resid_sums * gr > 0) & (resid_sums.abs() >= threshold)
                 ].abs().nlargest(3).index.tolist()
