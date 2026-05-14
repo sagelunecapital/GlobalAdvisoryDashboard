@@ -2213,10 +2213,10 @@ function renderSrQuadrant(){
   svg+=`<rect x="${ox}" y="${oy}" width="${pw-ox}" height="${ph-oy}" fill="rgba(227,169,70,0.06)"/>`;
 
   // Quadrant labels
-  svg+=`<text x="${ox/2}" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(224,82,82,0.75)" font-family="Inter,Arial,sans-serif">Fading</text>`;
+  svg+=`<text x="${ox/2}" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(227,169,70,0.85)" font-family="Inter,Arial,sans-serif">Fading</text>`;
   svg+=`<text x="${ox+(pw-ox)/2}" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(63,185,80,0.85)" font-family="Inter,Arial,sans-serif">Leading</text>`;
   svg+=`<text x="${ox/2}" y="${ph-8}" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(224,82,82,0.75)" font-family="Inter,Arial,sans-serif">Lagging</text>`;
-  svg+=`<text x="${ox+(pw-ox)/2}" y="${ph-8}" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(227,169,70,0.85)" font-family="Inter,Arial,sans-serif">Recovering</text>`;
+  svg+=`<text x="${ox+(pw-ox)/2}" y="${ph-8}" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(0,112,204,0.9)" font-family="Inter,Arial,sans-serif">Recovering</text>`;
 
   // Axes
   svg+=`<line x1="${ox}" y1="0" x2="${ox}" y2="${ph}" stroke="rgba(139,145,158,0.45)" stroke-width="1"/>`;
