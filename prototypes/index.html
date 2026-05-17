@@ -2146,7 +2146,8 @@ function _renderSrRankAttr(){
     .filter(g=>g.country===srCountry)
     .map(g=>({...g,attr:(mfraData.groups[g.group_id]||{})[pKey]}))
     .filter(g=>g.attr!=null)
-    .sort((a,b)=>b.attr.total-a.attr.total);
+    .sort((a,b)=>b.attr.total-a.attr.total)
+    .slice(0,30);
   const C='var(--amber)',W='var(--text)';
   const fV=(v,isDriver)=>{
     const s=(v>=0?'+':'')+v.toFixed(2);
