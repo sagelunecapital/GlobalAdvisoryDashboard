@@ -1119,7 +1119,7 @@ function persistNotes(){
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
   localStorage.setItem('gaai-saved-at',saved_at);
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,nhnl,sectors,research:researchSectors,saved_at}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,nhnl,sectors,saved_at}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1845,10 +1845,6 @@ function _applyNotes(notes){
     addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
     addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
   }
-  if(notes.research && notes.research.length){
-    researchSectors=notes.research;
-    renderRsGrid();
-  }
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
@@ -1869,9 +1865,8 @@ window.addEventListener('DOMContentLoaded',()=>{
         const b=localStorage.getItem('gaai-breadth')||'';
         const n=localStorage.getItem('gaai-nhnl')||'';
         const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-        const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
-        _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],research:r||[]});
-        _pushNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],research:r||[],saved_at:localAt||new Date().toISOString()});
+        _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
+        _pushNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],saved_at:localAt||new Date().toISOString()});
       } else {
         _applyNotes(serverNotes);
       }
@@ -1881,8 +1876,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       const b=localStorage.getItem('gaai-breadth')||'';
       const n=localStorage.getItem('gaai-nhnl')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
-      _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],research:r||[]});
+      _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
@@ -2625,7 +2619,7 @@ showMain = function(id, btn){
 };
 
 // ══ Research Tab ════════════════════════════════════════════════
-let researchSectors=[], currentRpId=null, rpSortCol='perf_ytd', rpSortDir=-1, tickerPerf=null, rsSort='name';
+let researchSectors=[], currentRpId=null, rpSortCol='perf_ytd', rpSortDir=-1, tickerPerf=null, rsSort='name', _rsSaveTimer=null;
 
 function rsSetSort(v){
   rsSort=v;
@@ -2667,19 +2661,17 @@ function _tp(tk){
 
 function persistRS(){
   localStorage.setItem('gaai-research',JSON.stringify(researchSectors));
-  persistNotes();
+  clearTimeout(_rsSaveTimer);
+  _rsSaveTimer=setTimeout(()=>_pushResearch(researchSectors),1500);
 }
-function loadRS(){
-  const savedSort=localStorage.getItem('gaai-rs-sort');
-  if(savedSort){
-    rsSort=savedSort;
-    const sel=document.getElementById('rs-sort-select');
-    if(sel) sel.value=savedSort;
-  }
-  if(!researchSectors.length){
-    const raw=localStorage.getItem('gaai-research');
-    if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
-  }
+function _pushResearch(sectors){
+  fetch('/api/save-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sectors)})
+    .catch(()=>{});
+}
+function _rsFromLocal(){
+  if(researchSectors.length) return;
+  const raw=localStorage.getItem('gaai-research');
+  if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
   if(!researchSectors.length){
     const old=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
     if(old&&old.length){
@@ -2690,9 +2682,31 @@ function loadRS(){
         {id:2,name:'Technology',thesis:'',tickers:'MSFT, GOOGL, NVDA, META, AAPL',lastUpdated:null},
       ];
     }
-    persistRS();
   }
-  renderRsGrid();
+}
+function loadRS(){
+  const savedSort=localStorage.getItem('gaai-rs-sort');
+  if(savedSort){
+    rsSort=savedSort;
+    const sel=document.getElementById('rs-sort-select');
+    if(sel) sel.value=savedSort;
+  }
+  fetch('/api/save-research?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(data=>{
+      if(Array.isArray(data)&&data.length){
+        researchSectors=data;
+      } else {
+        _rsFromLocal();
+        // Migrate any local data up to the server on first load
+        if(researchSectors.length) _pushResearch(researchSectors);
+      }
+      renderRsGrid();
+    })
+    .catch(()=>{
+      _rsFromLocal();
+      renderRsGrid();
+    });
 }
 
 function renderRsGrid(){

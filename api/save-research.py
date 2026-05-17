@@ -2,10 +2,10 @@ import os, json
 from http.server import BaseHTTPRequestHandler
 import urllib.request
 
-SB_URL   = os.environ.get("SUPABASE_URL", "").rstrip("/")
-SB_KEY   = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
-TABLE    = "notes"
-ROW_ID   = "main"
+SB_URL  = os.environ.get("SUPABASE_URL", "").rstrip("/")
+SB_KEY  = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+TABLE   = "notes"
+ROW_ID  = "research"
 
 HEADERS = {
     "apikey": SB_KEY,
@@ -20,12 +20,12 @@ def _get():
     req = urllib.request.Request(url, headers=HEADERS, method="GET")
     r = urllib.request.urlopen(req, timeout=10)
     rows = json.loads(r.read())
-    return rows[0]["data"] if rows else {}
+    return rows[0]["data"] if rows else []
 
 
-def _set(notes):
+def _set(sectors):
     url = f"{SB_URL}/rest/v1/{TABLE}"
-    body = json.dumps({"id": ROW_ID, "data": notes}).encode()
+    body = json.dumps({"id": ROW_ID, "data": sectors}).encode()
     hdrs = {**HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"}
     req = urllib.request.Request(url, data=body, headers=hdrs, method="POST")
     urllib.request.urlopen(req, timeout=10)
@@ -63,12 +63,12 @@ class handler(BaseHTTPRequestHandler):
             return
         length = int(self.headers.get("Content-Length", 0))
         try:
-            notes = json.loads(self.rfile.read(length))
+            sectors = json.loads(self.rfile.read(length))
         except Exception:
             _send(self, 400, {"error": "Invalid JSON"})
             return
         try:
-            _set(notes)
+            _set(sectors)
             _send(self, 200, {"ok": True})
         except Exception as e:
             _send(self, 500, {"error": str(e)})
