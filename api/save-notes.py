@@ -2,8 +2,8 @@ import os, json
 from http.server import BaseHTTPRequestHandler
 import urllib.request
 
-SB_URL   = os.environ.get("SUPABASE_URL", "").rstrip("/")
-SB_KEY   = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+SB_URL   = (os.environ.get("SUPABASE_URL") or os.environ.get("main_SUPABASE_URL", "")).rstrip("/")
+SB_KEY   = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("main_SUPABASE_SERVICE_ROLE_KEY", "")
 TABLE    = "notes"
 ROW_ID   = "main"
 
