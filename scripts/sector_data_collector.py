@@ -286,7 +286,62 @@ def fetch(yf_tickers: list, start: str, end: str) -> pd.DataFrame:
                     "Volume":    vol,
                 })
 
-    return pd.DataFrame(rows)
+    df = pd.DataFrame(rows) if rows else pd.DataFrame(
+        columns=["YF_Ticker", "Date", "Close", "Volume"]
+    )
+
+    # KQ fallback: retry .KS tickers with no data using the KOSDAQ exchange suffix.
+    # Data is stored under the original .KS key so the industry table stays consistent.
+    returned  = set(df["YF_Ticker"].unique()) if not df.empty else set()
+    ks_missed = [t for t in yf_tickers if t.endswith(".KS") and t not in returned]
+    if ks_missed:
+        kq_map  = {t.replace(".KS", ".KQ"): t for t in ks_missed}
+        kq_rows = []
+        kq_list = list(kq_map.keys())
+        for i in range(0, len(kq_list), BATCH_SIZE):
+            kq_batch = kq_list[i : i + BATCH_SIZE]
+            try:
+                raw = yf.download(
+                    kq_batch, start=start, end=end,
+                    auto_adjust=True, progress=False,
+                    threads=True, group_by="ticker",
+                )
+            except Exception:
+                continue
+            if raw is None or raw.empty:
+                continue
+            if len(kq_batch) == 1 and not isinstance(raw.columns, pd.MultiIndex):
+                t = kq_batch[0]
+                if "Close" not in raw.columns:
+                    continue
+                tmp = raw[["Close", "Volume"]].copy()
+                tmp.columns = pd.MultiIndex.from_tuples([(t, "Close"), (t, "Volume")])
+                raw = tmp
+            for kq_t in kq_batch:
+                try:
+                    close  = raw[kq_t]["Close"].dropna()
+                    volume = raw[kq_t]["Volume"].reindex(close.index).fillna(0)
+                except (KeyError, TypeError):
+                    continue
+                ks_t = kq_map[kq_t]
+                for dt, c in close.items():
+                    vol = int(volume.get(dt, 0))
+                    if vol == 0:
+                        continue
+                    kq_rows.append({
+                        "YF_Ticker": ks_t,
+                        "Date":      pd.Timestamp(dt).date(),
+                        "Close":     round(float(c), 4),
+                        "Volume":    vol,
+                    })
+        if kq_rows:
+            kq_df     = pd.DataFrame(kq_rows)
+            recovered = kq_df["YF_Ticker"].nunique()
+            print(f"  KQ fallback: recovered data for {recovered} Korean tickers "
+                  f"({', '.join(sorted(kq_df['YF_Ticker'].unique())[:8])}{'...' if recovered > 8 else ''})")
+            df = pd.concat([df, kq_df], ignore_index=True) if not df.empty else kq_df
+
+    return df
 
 
 # ── EMA insert (only needs previous EMA per ticker — 1 row each) ───────────
