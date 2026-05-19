@@ -331,6 +331,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .scr-pill.withdrawn{background:rgba(224,82,82,0.1);color:var(--red);border:1px solid var(--red)}
 .scr-no-data{padding:48px 24px;text-align:center;color:var(--text-muted);font-size:13px;background:var(--surface-low);border-radius:14px;border:1px dashed var(--outline-dim)}
 .scr-as-of{grid-column:1/-1;font-size:11px;color:var(--text-muted);padding-top:2px}
+.scr-card-hl{background:rgba(30,100,255,0.12)!important;border-color:rgba(30,100,255,0.55)!important}
 </style>
 </head>
 <body>
@@ -3426,41 +3427,37 @@ function scrRenderMovers(){
     grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Run screener_fetch.py to populate movers data.</div>';
     return;
   }
-  const rows=scrMoversData.movers||[];
+  const byDate=scrMoversData.by_date||{};
+  const rows=byDate[scrIso(scrDate)]||[];
   if(!rows.length){
-    grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">No movers found for current filter.</div>';
+    const keys=Object.keys(byDate).sort();
+    const msg=keys.length
+      ?`No movers data for ${scrFmtDate(scrDate)}. History from ${keys[0]} onwards.`
+      :'No movers data available. Run screener_fetch.py to populate.';
+    grid.innerHTML=`<div class="scr-no-data" style="grid-column:1/-1">${msg}</div>`;
     return;
   }
   const chgCls=v=>v>0?'pos':v<0?'neg':'neu';
   const fChg=v=>v==null?'—':((v>0?'+':'')+v.toFixed(2)+'%');
-  const fVol=v=>{
-    if(v==null) return '—';
-    if(v>=1e9)  return (v/1e9).toFixed(1)+'B';
-    if(v>=1e6)  return (v/1e6).toFixed(1)+'M';
-    if(v>=1e3)  return Math.round(v/1e3)+'K';
-    return String(v);
-  };
   const fMc=v=>{
-    if(v==null) return '—';
+    if(v==null) return '';
     if(v>=1e12) return '$'+(v/1e12).toFixed(1)+'T';
     if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
     return '$'+(v/1e6).toFixed(0)+'M';
   };
-  grid.innerHTML=rows.map(r=>`
-    <div class="scr-card">
+  grid.innerHTML=rows.map(r=>{
+    const cap=fMc(r.mkt_cap);
+    const name=r.company+(cap?' | '+cap:'');
+    return`<div class="scr-card">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker}</div>
         <div class="scr-change ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</div>
       </div>
-      <div class="scr-name">${r.company||''}</div>
+      <div class="scr-name">${name}</div>
       <hr class="scr-divider">
-      <div class="scr-meta">
-        <div>Price&nbsp;<strong>$${r.price!=null?r.price.toFixed(2):'—'}</strong></div>
-        <div>Vol&nbsp;<strong>${fVol(r.volume)}</strong></div>
-        <div>Cap&nbsp;<strong>${fMc(r.mkt_cap)}</strong>&nbsp;&middot;&nbsp;${r.sector||'—'}</div>
-      </div>
-    </div>`).join('')
-    +'<div class="scr-as-of">As of '+( scrMoversData.fetched_date||'today')+'</div>';
+      <div class="scr-meta"><div>${r.sector||'—'}</div></div>
+    </div>`;
+  }).join('')+'<div class="scr-as-of" style="grid-column:1/-1">As of '+scrIso(scrDate)+'</div>';
 }
 
 function scrRenderIpos(){
@@ -3497,26 +3494,34 @@ function scrRenderIpos(){
     if(sl.includes('with')) return 'withdrawn';
     return 'filed';
   };
-  const fDeal=v=>{
-    if(v==null) return null;
-    if(v>=1e9) return '$'+(v/1e9).toFixed(1)+'B';
-    if(v>=1e6) return '$'+(v/1e6).toFixed(0)+'M';
-    return '$'+v;
+  const fMc=v=>{
+    if(v==null) return '';
+    if(v>=1e12) return '$'+(v/1e12).toFixed(1)+'T';
+    if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
+    return '$'+(v/1e6).toFixed(0)+'M';
   };
-  grid.innerHTML=ipos.map(r=>`
-    <div class="scr-card">
+  const fP=v=>v!=null?'$'+v.toFixed(2):null;
+  grid.innerHTML=ipos.map(r=>{
+    const cap=fMc(r.mkt_cap_usd);
+    const name=(r.company||'')+(cap?' | '+cap:'');
+    // Price line: IPO Price $X.XX | Close $Y.YY
+    const offerStr=r.price_usd!=null?fP(r.price_usd):(r.price_range||null);
+    const closeStr=r.ipo_close!=null?fP(r.ipo_close):null;
+    let priceLine='';
+    if(offerStr) priceLine='IPO&nbsp;<strong>'+offerStr+'</strong>'+(closeStr?' | Close&nbsp;<strong>'+closeStr+'</strong>':'');
+    // Highlight if first-day return >= 30%
+    const ret=r.price_usd&&r.ipo_close?(r.ipo_close/r.price_usd-1):null;
+    const hl=ret!=null&&ret>=0.30;
+    return`<div class="scr-card${hl?' scr-card-hl':''}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker||'—'}</div>
         <span class="scr-pill ${statusCls(r.status)}">${r.status||'Filed'}</span>
       </div>
-      <div class="scr-name">${r.company||''}</div>
+      <div class="scr-name">${name}</div>
       <hr class="scr-divider">
-      <div class="scr-meta">
-        <div>Exchange&nbsp;<strong>${r.exchange||'—'}</strong></div>
-        <div>Price&nbsp;<strong>${r.price_usd!=null?'$'+r.price_usd.toFixed(2):(r.price_range||'—')}</strong></div>
-        ${fDeal(r.deal_amount_usd)?`<div>Deal&nbsp;<strong>${fDeal(r.deal_amount_usd)}</strong></div>`:''}
-      </div>
-    </div>`).join('');
+      <div class="scr-meta">${priceLine?`<div>${priceLine}</div>`:''}</div>
+    </div>`;
+  }).join('');
 }
 
 let _scrFetched=false;

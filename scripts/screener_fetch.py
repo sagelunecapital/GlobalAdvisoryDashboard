@@ -216,7 +216,53 @@ def fetch_ipos() -> list[dict]:
             "mkt_cap_usd":     float(mkt_cap)     if mkt_cap    else None,
         })
 
-    print(f"[screener] Got {len(ipos)} IPOs from TradingView.", flush=True)
+    # Filter: deal size OR market cap >= $300M
+    ipos = [
+        i for i in ipos
+        if (i.get("deal_amount_usd") or 0) >= 300e6
+        or (i.get("mkt_cap_usd")     or 0) >= 300e6
+    ]
+
+    print(f"[screener] Got {len(ipos)} IPOs ($300M+ filter) from TradingView.", flush=True)
+    return ipos
+
+
+def enrich_ipo_closes(ipos: list[dict], existing_by_ticker: dict) -> list[dict]:
+    """Fetch closing price on IPO day for past IPOs using yfinance."""
+    import yfinance as yf
+    today = date.today()
+    for ipo in ipos:
+        ticker = ipo.get("ticker")
+        if not ticker:
+            continue
+        # Carry over already-fetched close
+        if existing_by_ticker.get(ticker, {}).get("ipo_close") is not None:
+            ipo["ipo_close"] = existing_by_ticker[ticker]["ipo_close"]
+            continue
+        ipo_date_str = ipo.get("date")
+        if not ipo_date_str:
+            continue
+        ipo_date = date.fromisoformat(ipo_date_str)
+        if ipo_date >= today:   # Future or today — no close yet
+            continue
+        try:
+            end = ipo_date + timedelta(days=5)
+            hist = yf.download(
+                ticker,
+                start=ipo_date.isoformat(),
+                end=end.isoformat(),
+                progress=False,
+                auto_adjust=True,
+            )
+            if not hist.empty:
+                close_val = hist["Close"].iloc[0]
+                # yfinance may return a Series; extract scalar
+                if hasattr(close_val, "item"):
+                    close_val = close_val.item()
+                ipo["ipo_close"] = round(float(close_val), 2)
+                print(f"[screener]   {ticker} IPO close: ${ipo['ipo_close']:.2f}", flush=True)
+        except Exception as e:
+            print(f"[screener]   {ticker} close fetch failed: {e}", flush=True)
     return ipos
 
 
@@ -224,26 +270,46 @@ def main():
     now_iso = datetime.utcnow().isoformat() + "Z"
     today   = date.today().isoformat()
 
-    # Movers
+    # ── Movers: accumulate by date ──────────────────────────────────────────
+    existing_by_date: dict = {}
+    if MOVERS_OUT.exists():
+        try:
+            existing_by_date = json.loads(MOVERS_OUT.read_text()).get("by_date", {})
+        except Exception:
+            existing_by_date = {}
+
     try:
         movers = fetch_movers()
     except Exception as e:
         print(f"[screener] Movers fetch FAILED: {e}", flush=True)
         movers = []
 
+    if movers:
+        existing_by_date[today] = movers
+
     MOVERS_OUT.write_text(json.dumps({
-        "fetched_at":   now_iso,
-        "fetched_date": today,
-        "movers":       movers,
+        "updated_at": now_iso,
+        "by_date":    existing_by_date,
     }, indent=2))
     print(f"[screener] Saved -> {MOVERS_OUT}", flush=True)
 
-    # IPOs
+    # ── IPOs: preserve existing close prices, enrich new ones ──────────────
+    existing_by_ticker: dict = {}
+    if IPOS_OUT.exists():
+        try:
+            for old in json.loads(IPOS_OUT.read_text()).get("ipos", []):
+                if old.get("ticker"):
+                    existing_by_ticker[old["ticker"]] = old
+        except Exception:
+            pass
+
     try:
         ipos = fetch_ipos()
     except Exception as e:
         print(f"[screener] IPO fetch FAILED: {e}", flush=True)
         ipos = []
+
+    ipos = enrich_ipo_closes(ipos, existing_by_ticker)
 
     IPOS_OUT.write_text(json.dumps({
         "fetched_at": now_iso,

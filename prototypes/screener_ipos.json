@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-05-19T09:28:09.662745Z",
+  "fetched_at": "2026-05-19T10:34:33.229438Z",
   "ipos": [
     {
       "ticker": "REA",
@@ -11,19 +11,8 @@
       "status": "Closed",
       "shares": 3333331,
       "deal_amount_usd": 63333289.0,
-      "mkt_cap_usd": 378801803.0
-    },
-    {
-      "ticker": "SUJA",
-      "company": "Suja Life, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-07",
-      "price_usd": 21.0,
-      "price_range": "21.00 - 24.00",
-      "status": "Closed",
-      "shares": 8888889,
-      "deal_amount_usd": 186666669.0,
-      "mkt_cap_usd": 811125252.0
+      "mkt_cap_usd": 378801803.0,
+      "ipo_close": 19.0
     },
     {
       "ticker": "HAWK",
@@ -35,19 +24,21 @@
       "status": "Closed",
       "shares": 16000000,
       "deal_amount_usd": 416000000.0,
-      "mkt_cap_usd": 2420061072.0
+      "mkt_cap_usd": 2420061072.0,
+      "ipo_close": 34.0
     },
     {
-      "ticker": "MOBI",
-      "company": "Mobia Medical, Inc.",
+      "ticker": "SUJA",
+      "company": "Suja Life, Inc.",
       "exchange": "NASDAQ",
-      "date": "2026-05-08",
-      "price_usd": 15.0,
-      "price_range": "14.00 - 16.00",
+      "date": "2026-05-07",
+      "price_usd": 21.0,
+      "price_range": "21.00 - 24.00",
       "status": "Closed",
-      "shares": 10000000,
-      "deal_amount_usd": 150000000.0,
-      "mkt_cap_usd": 496280865.0
+      "shares": 8888889,
+      "deal_amount_usd": 186666669.0,
+      "mkt_cap_usd": 811125252.0,
+      "ipo_close": 17.85
     },
     {
       "ticker": "ODTX",
@@ -59,31 +50,34 @@
       "status": "Closed",
       "shares": 15500000,
       "deal_amount_usd": 279000000.0,
-      "mkt_cap_usd": 849134808.0
+      "mkt_cap_usd": 849134808.0,
+      "ipo_close": 16.42
     },
     {
-      "ticker": "EMI",
-      "company": "Encore Medical Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-11",
-      "price_usd": null,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 3000000,
-      "deal_amount_usd": 15000000.0,
-      "mkt_cap_usd": null
-    },
-    {
-      "ticker": "BOT",
-      "company": "RoboStrategy, Inc.",
+      "ticker": "MOBI",
+      "company": "Mobia Medical, Inc.",
       "exchange": "NASDAQ",
-      "date": "2026-05-11",
-      "price_usd": null,
-      "price_range": null,
+      "date": "2026-05-08",
+      "price_usd": 15.0,
+      "price_range": "14.00 - 16.00",
       "status": "Closed",
-      "shares": 19655968,
-      "deal_amount_usd": null,
-      "mkt_cap_usd": null
+      "shares": 10000000,
+      "deal_amount_usd": 150000000.0,
+      "mkt_cap_usd": 496280865.0,
+      "ipo_close": 11.75
+    },
+    {
+      "ticker": "FRVO",
+      "company": "Fervo Energy Company",
+      "exchange": "NASDAQ",
+      "date": "2026-05-13",
+      "price_usd": 27.0,
+      "price_range": "25.00 - 26.00",
+      "status": "Closed",
+      "shares": 70000000,
+      "deal_amount_usd": 1890000000.0,
+      "mkt_cap_usd": 7656182991.0,
+      "ipo_close": 36.54
     },
     {
       "ticker": "GMRS",
@@ -98,28 +92,17 @@
       "mkt_cap_usd": 3347175510.0
     },
     {
-      "ticker": "FRVO",
-      "company": "Fervo Energy Company",
-      "exchange": "NASDAQ",
-      "date": "2026-05-13",
-      "price_usd": 27.0,
-      "price_range": "25.00 - 26.00",
-      "status": "Closed",
-      "shares": 70000000,
-      "deal_amount_usd": 1890000000.0,
-      "mkt_cap_usd": 7656182991.0
-    },
-    {
-      "ticker": "BXDC",
-      "company": "Blackstone Digital Infrastructure Trust Inc.",
+      "ticker": "EROK",
+      "company": "EagleRock Land, LLC",
       "exchange": "NYSE",
       "date": "2026-05-14",
-      "price_usd": 20.0,
-      "price_range": null,
+      "price_usd": 18.5,
+      "price_range": "17.00 - 20.00",
       "status": "Closed",
-      "shares": 87500000,
-      "deal_amount_usd": 1734833900.0,
-      "mkt_cap_usd": 1750000100.0
+      "shares": 17300000,
+      "deal_amount_usd": 320050000.0,
+      "mkt_cap_usd": 2407312500.0,
+      "ipo_close": 23.0
     },
     {
       "ticker": "MWC",
@@ -131,19 +114,21 @@
       "status": "Closed",
       "shares": 2850000,
       "deal_amount_usd": 22800000.0,
-      "mkt_cap_usd": 471935312.0
+      "mkt_cap_usd": 471935312.0,
+      "ipo_close": 8.2
     },
     {
-      "ticker": "EROK",
-      "company": "EagleRock Land, LLC",
+      "ticker": "BXDC",
+      "company": "Blackstone Digital Infrastructure Trust Inc.",
       "exchange": "NYSE",
       "date": "2026-05-14",
-      "price_usd": 18.5,
-      "price_range": "17.00 - 20.00",
+      "price_usd": 20.0,
+      "price_range": null,
       "status": "Closed",
-      "shares": 17300000,
-      "deal_amount_usd": 320050000.0,
-      "mkt_cap_usd": 2407312500.0
+      "shares": 87500000,
+      "deal_amount_usd": 1734833900.0,
+      "mkt_cap_usd": 1750000100.0,
+      "ipo_close": 19.81
     },
     {
       "ticker": "CBRS",
@@ -155,91 +140,8 @@
       "status": "Closed",
       "shares": 34500000,
       "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39817280085.0
-    },
-    {
-      "ticker": "DUKR",
-      "company": "DUKE Robotics Corp.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-15",
-      "price_usd": 8.2,
-      "price_range": "9.50 - 11.50",
-      "status": "Closed",
-      "shares": 1125000,
-      "deal_amount_usd": 9225000.0,
-      "mkt_cap_usd": 27945411.4
-    },
-    {
-      "ticker": "EXYN",
-      "company": "Exyn Technologies, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-15",
-      "price_usd": 7.75,
-      "price_range": "7.75 - 8.75",
-      "status": "Closed",
-      "shares": 2500000,
-      "deal_amount_usd": 19375000.0,
-      "mkt_cap_usd": 59732815.0
-    },
-    {
-      "ticker": "VIDA",
-      "company": "VIDA Global Inc.",
-      "exchange": "AMEX",
-      "date": "2026-05-15",
-      "price_usd": 4.0,
-      "price_range": "4.50 - 5.00",
-      "status": "Closed",
-      "shares": 3750000,
-      "deal_amount_usd": 15000000.0,
-      "mkt_cap_usd": 55415064.0
-    },
-    {
-      "ticker": "OPTH",
-      "company": "Optimi Health Corp.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-15",
-      "price_usd": null,
-      "price_range": "6.00 - 8.00",
-      "status": "Pending",
-      "shares": 2500000,
-      "deal_amount_usd": 20000000.0,
-      "mkt_cap_usd": null
-    },
-    {
-      "ticker": "BWGC",
-      "company": "BW Industrial Holdings Inc.",
-      "exchange": "AMEX",
-      "date": "2026-05-18",
-      "price_usd": null,
-      "price_range": "6.00 - 7.00",
-      "status": "Pending",
-      "shares": 2625000,
-      "deal_amount_usd": 18375000.0,
-      "mkt_cap_usd": null
-    },
-    {
-      "ticker": "DRIL",
-      "company": "Lannister Mining Corp. (Old)",
-      "exchange": "AMEX",
-      "date": "2026-05-21",
-      "price_usd": null,
-      "price_range": "4.00 - 6.00",
-      "status": "Pending",
-      "shares": 2000000,
-      "deal_amount_usd": 12000000.0,
-      "mkt_cap_usd": null
-    },
-    {
-      "ticker": "SPACEX",
-      "company": "Space Exploration Technologies Corp. (SpaceX)",
-      "exchange": "NASDAQ",
-      "date": "2026-06-19",
-      "price_usd": null,
-      "price_range": null,
-      "status": "Pending",
-      "shares": null,
-      "deal_amount_usd": null,
-      "mkt_cap_usd": null
+      "mkt_cap_usd": 39817280085.0,
+      "ipo_close": 311.07
     }
   ]
 }
