@@ -39,10 +39,20 @@ if (-not $?) {
     Write-Warning "export_ticker_perf.py failed  -  ticker_perf.json may be stale."
 }
 
-$changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json
+& $python (Join-Path $projectRoot "scripts\mfra_compute.py")
+if (-not $?) {
+    Write-Warning "mfra_compute.py failed  -  mfra_group.json may be stale."
+}
+
+& $python (Join-Path $projectRoot "scripts\mfra_export.py")
+if (-not $?) {
+    Write-Warning "mfra_export.py failed  -  mfra_group.json may be stale."
+}
+
+$changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json
 if ($changes) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-    git add prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json
+    git add prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json
     git commit -m "chore: update dashboard data $timestamp"
     git push origin main
     if (-not $?) { Write-Warning "git push failed  -  local files still updated but remote is stale." }

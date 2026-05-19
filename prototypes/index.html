@@ -2142,11 +2142,12 @@ function _renderSrRankAttr(){
     return;
   }
   const pKey=srRankMode==='daily'?'1d':srRankMode==='weekly'?'5d':'21d';
+  const perfField={daily:'perf_1d',weekly:'perf_5d',monthly:'perf_1m'}[srRankMode];
   const pool=srData.groups
-    .filter(g=>g.country===srCountry)
+    .filter(g=>g.country===srCountry&&g[perfField]!=null)
     .map(g=>({...g,attr:(mfraData.groups[g.group_id]||{})[pKey]}))
     .filter(g=>g.attr!=null)
-    .sort((a,b)=>b.attr.total-a.attr.total)
+    .sort((a,b)=>b[perfField]-a[perfField])
     .slice(0,30);
   const C='var(--amber)',W='var(--text)';
   const fV=(v,isDriver)=>{
