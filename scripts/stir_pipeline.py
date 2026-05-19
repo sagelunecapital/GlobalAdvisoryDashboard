@@ -142,8 +142,8 @@ def _fetch_history(symbol: str) -> dict | None:
 
 
 def load_strip(today: date,
-               zq_months: int = 18,
-               sr3_quarters: int = 8) -> pd.DataFrame:
+               zq_months: int = 36,
+               sr3_quarters: int = 12) -> pd.DataFrame:
     """Settlement strip: ZQ (Fed Funds, monthly) and SR3 (3M SOFR, quarterly)."""
     rows: list[dict] = []
 
