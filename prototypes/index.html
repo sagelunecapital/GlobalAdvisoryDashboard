@@ -416,12 +416,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         </div>
       </div>
     </div>
-    <!-- High Edge -->
-    <div class="high-edge-section">
-      <div class="high-edge-title">High Edge</div>
-      <div class="high-edge-val" id="high-edge-val">BTC, SHY, TLT, GOLD, IEF, DXY, DBA, HSI</div>
-    </div>
-
     <div class="data-date" id="macro-regime-date">As of Fri 24 Apr 2026</div>
   </div><!-- /regime card -->
 
@@ -436,76 +430,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       Growth: Unavailable (GDPNow data missing — DB returned NULL)
       All other criteria compute normally. Market Narrative: Unavailable.
   -->
-
-  <div class="macro-split">
-
-    <!-- LEFT: Growth -->
-    <div>
-      <div class="section-heading">Growth</div>
-      <div class="card">
-        <div class="card-header">GDP</div>
-        <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
-        <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
-        <div class="data-date" id="gdp-data-date">Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated —</div>
-      </div>
-    </div>
-
-    <!-- RIGHT: Inflation -->
-    <div>
-      <div class="section-heading">Inflation</div>
-      <div class="card">
-        <div class="infl-tab-row">
-          <div class="itabs" id="infl-outer-tabs">
-            <button class="itab active" onclick="setInflOuter('cpi',this)">CPI</button>
-            <button class="itab" onclick="setInflOuter('pce',this)">PCE</button>
-            <button class="itab" onclick="setInflOuter('ppi',this)">PPI</button>
-          </div>
-          <div class="itabs" id="infl-sub-tabs">
-            <button class="itab active" onclick="setInflSub('head',this)">Headline</button>
-            <button class="itab" onclick="setInflSub('core',this)">Core</button>
-          </div>
-        </div>
-        <div id="ic-cpi-head" class="infl-combo active">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
-        </div>
-        <div id="ic-cpi-core" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
-        </div>
-        <div id="ic-pce-head" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
-        </div>
-        <div id="ic-pce-core" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
-        </div>
-        <div id="ic-ppi-head" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
-        </div>
-        <div id="ic-ppi-core" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
-        </div>
-        <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; updated 2026-04-24</div>
-      </div>
-    </div>
-
-  </div><!-- /macro-split -->
 
   <div style="margin-top:28px;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
     <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
@@ -699,6 +623,75 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
     <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
+
+  <div class="macro-split" style="margin-top:8px">
+
+    <!-- LEFT: Growth -->
+    <div>
+      <div class="section-heading">Growth</div>
+      <div class="card">
+        <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
+        <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
+        <div class="data-date" id="gdp-data-date">Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated —</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Inflation -->
+    <div>
+      <div class="section-heading">Inflation</div>
+      <div class="card">
+        <div class="infl-tab-row">
+          <div class="itabs" id="infl-outer-tabs">
+            <button class="itab active" onclick="setInflOuter('cpi',this)">CPI</button>
+            <button class="itab" onclick="setInflOuter('pce',this)">PCE</button>
+            <button class="itab" onclick="setInflOuter('ppi',this)">PPI</button>
+          </div>
+          <div class="itabs" id="infl-sub-tabs">
+            <button class="itab active" onclick="setInflSub('head',this)">Headline</button>
+            <button class="itab" onclick="setInflSub('core',this)">Core</button>
+          </div>
+        </div>
+        <div id="ic-cpi-head" class="infl-combo active">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
+        </div>
+        <div id="ic-cpi-core" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
+        </div>
+        <div id="ic-pce-head" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
+        </div>
+        <div id="ic-pce-core" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
+        </div>
+        <div id="ic-ppi-head" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
+        </div>
+        <div id="ic-ppi-core" class="infl-combo">
+          <div class="chart-sub-label">YoY %</div>
+          <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
+          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+          <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
+        </div>
+        <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; updated 2026-04-24</div>
+      </div>
+    </div>
+
+  </div><!-- /macro-split -->
 
   <div style="margin-top:28px;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
     <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
@@ -1509,7 +1502,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
   const wrap=document.getElementById(wrapId);if(!wrap)return;
   wrap.querySelector('svg')?.remove();
   const VW=wrap.clientWidth||FALLBACK_VW;
-  const pad={t:8,r:14,b:32,l:44};
+  const pad={t:8,r:14,b:52,l:44};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
   const n=quarters.length;
   let allMax=0,allMin=0;
@@ -1563,9 +1556,13 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId){
   dot.setAttribute('r','3.5');dot.setAttribute('fill','#ffffff');dot.setAttribute('display','none');svg.appendChild(dot);
   quarters.forEach((q,i)=>{
     if(i%4===0||i===n-1){
+      const x=xOf(i),y=vH-pad.b+4;
       const lb=document.createElementNS(ns,'text');
-      lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
-      lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','9');lb.textContent=q;svg.appendChild(lb);
+      lb.setAttribute('x',x);lb.setAttribute('y',y);lb.setAttribute('text-anchor','end');
+      lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','9');
+      lb.setAttribute('transform',`rotate(-45,${x},${y})`);
+      lb.textContent=q.length>=10?q.slice(5,10):q;
+      svg.appendChild(lb);
     }
   });
   quarters.forEach((q,i)=>{
