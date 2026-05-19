@@ -64,7 +64,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-table th:first-child{text-align:left}
 .stir-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .stir-table td:first-child{text-align:left;color:var(--text)}
-.stir-table tr.stir-terminal td{color:var(--amber);font-weight:600}
+.stir-table tr.stir-terminal td{background:rgba(30,100,255,0.25);font-weight:600}
 .stir-table tr.stir-yr td{text-align:left;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.6px;font-size:10px;padding:8px 8px 4px;border-bottom:1px solid var(--outline-dim);background:rgba(0,0,0,0.25)}
 .stir-table tr.stir-yr td:first-child{color:var(--text-muted)}
 .stir-meet-cell{display:flex;flex-direction:column;line-height:1.25}
@@ -2557,6 +2557,14 @@ function renderStirStripTable(){
     return `<span class="${cls}">${sign}${typeof v==='number' ? v.toFixed(suf===' bp'?1:4) : v}${suf||''}</span>`;
   };
 
+  const maxVol = Math.max(0, ...strip.filter(r=>r.volume!=null).map(r=>r.volume));
+  const maxOI  = Math.max(0, ...strip.filter(r=>r.oi!=null).map(r=>r.oi));
+  const barBg = (val, max) => {
+    if(val==null||max===0) return '';
+    const pct = Math.round(val/max*100);
+    return ` style="background:linear-gradient(to right,rgba(254,124,4,0.18) ${pct}%,transparent ${pct}%)"`;
+  };
+
   let lastYr=null, html='';
   strip.forEach(r=>{
     if(r.year!==lastYr){
@@ -2572,8 +2580,8 @@ function renderStirStripTable(){
       <td>${fSigned(r.px_1d)}</td>
       <td>${fSigned(r.px_5d)}</td>
       <td>${fSigned(r.px_1m)}</td>
-      <td>${fInt(r.volume)}</td>
-      <td>${fInt(r.oi)}</td>
+      <td${barBg(r.volume,maxVol)}>${fInt(r.volume)}</td>
+      <td${barBg(r.oi,maxOI)}>${fInt(r.oi)}</td>
       <td>${fInt(r.oi_chg)}</td>
     </tr>`;
   });

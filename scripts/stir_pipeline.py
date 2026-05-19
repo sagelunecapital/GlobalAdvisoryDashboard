@@ -445,8 +445,8 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
     sofr_strip = strip[strip["root"] == "SR3"].reset_index(drop=True)
     ff_strip   = strip[strip["root"] == "ZQ"].reset_index(drop=True)
 
-    sofr_term = find_terminal(sofr_strip, effr) if not sofr_strip.empty else None
-    ff_term   = find_terminal(ff_strip,   effr) if not ff_strip.empty   else None
+    ff_kpis   = _kpis(ff_strip,   today, effr, steps_6m=6,  steps_12m=12)
+    sofr_kpis = _kpis(sofr_strip, today, effr, steps_6m=2,  steps_12m=4)
 
     def _rows(s: pd.DataFrame, term_sym: str | None) -> list[dict]:
         return [
@@ -498,12 +498,9 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
         "effr":         round(effr, 4),
         "sofr":         round(sofr, 4),
         "basis_bp":     round((sofr - effr) * 100, 1),
-        "kpis": {
-            "ff":   _kpis(ff_strip,   today, effr, steps_6m=6,  steps_12m=12),
-            "sofr": _kpis(sofr_strip, today, effr, steps_6m=2,  steps_12m=4),
-        },
-        "sofr_strip":    _rows(sofr_strip, sofr_term["symbol"] if sofr_term is not None else None),
-        "ff_strip":      _rows(ff_strip,   ff_term["symbol"]   if ff_term   is not None else None),
+        "kpis": {"ff": ff_kpis, "sofr": sofr_kpis},
+        "sofr_strip":    _rows(sofr_strip, sofr_kpis.get("terminal_symbol")),
+        "ff_strip":      _rows(ff_strip,   ff_kpis.get("terminal_symbol")),
         "fomc_dates":    [d.isoformat() for d in fomc_dates],
         "meeting_path":  path_rows,
         "spreads_ff":    _spread_rows(ff_strip),
