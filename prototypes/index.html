@@ -3507,10 +3507,16 @@ function scrRenderIpos(){
     // Price line: IPO Price $X.XX | Close $Y.YY
     const offerStr=r.price_usd!=null?fP(r.price_usd):(r.price_range||null);
     const closeStr=r.ipo_close!=null?fP(r.ipo_close):null;
-    let priceLine='';
-    if(offerStr) priceLine='IPO&nbsp;<strong>'+offerStr+'</strong>'+(closeStr?' | Close&nbsp;<strong>'+closeStr+'</strong>':'');
-    // Highlight if first-day return >= 30%
     const ret=r.price_usd&&r.ipo_close?(r.ipo_close/r.price_usd-1):null;
+    let priceLine='';
+    if(offerStr){
+      let closePart='';
+      if(closeStr){
+        const retStr=ret!=null?` <span style="color:var(--${ret>=0?'green':'red'})">(${ret>=0?'+':''}${(ret*100).toFixed(1)}%)</span>`:'';
+        closePart=' | Close&nbsp;<strong>'+closeStr+'</strong>'+retStr;
+      }
+      priceLine='IPO&nbsp;<strong>'+offerStr+'</strong>'+closePart;
+    }
     const hl=ret!=null&&ret>=0.30;
     return`<div class="scr-card${hl?' scr-card-hl':''}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
