@@ -59,6 +59,11 @@ if (-not $?) {
     Write-Warning "screener_fetch.py failed  -  screener JSON files may be stale."
 }
 
+& $python (Join-Path $projectRoot "scripts\screener_enrich.py")
+if (-not $?) {
+    Write-Warning "screener_enrich.py failed  -  mover catalysts may be missing."
+}
+
 $changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json prototypes/screener_movers.json prototypes/screener_ipos.json
 if ($changes) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
