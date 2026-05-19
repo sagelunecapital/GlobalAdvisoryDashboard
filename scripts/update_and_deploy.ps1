@@ -24,6 +24,11 @@ if (-not $?) {
     Write-Warning "fetch_regime.py failed  -  continuing without regime data update."
 }
 
+& $python (Join-Path $projectRoot "scripts\barchart_fetch.py")
+if (-not $?) {
+    Write-Warning "barchart_fetch.py failed  -  ZQ cache may be stale (stir_pipeline will fall back to yfinance)."
+}
+
 & $python (Join-Path $projectRoot "scripts\stir_pipeline.py")
 if (-not $?) {
     Write-Warning "stir_pipeline.py failed  -  stir.json may be stale."
