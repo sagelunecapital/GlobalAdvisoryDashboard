@@ -1,0 +1,102 @@
+{
+  "fetched_at": "2026-05-19T09:28:09.662745Z",
+  "fetched_date": "2026-05-19",
+  "movers": [
+    {
+      "ticker": "RAMP",
+      "company": "LiveRamp Holdings Inc",
+      "sector": "Technology",
+      "industry": "Software - Infrastructure",
+      "country": "USA",
+      "mkt_cap": 2380000000.0,
+      "pe": 16.62,
+      "price": 37.77,
+      "change_pct": 27.34,
+      "volume": 13097578
+    },
+    {
+      "ticker": "BRC",
+      "company": "Brady Corp",
+      "sector": "Industrials",
+      "industry": "Security & Protection Services",
+      "country": "USA",
+      "mkt_cap": 3990000000.0,
+      "pe": 19.24,
+      "price": 84.43,
+      "change_pct": 18.98,
+      "volume": 1026495
+    },
+    {
+      "ticker": "VOYG",
+      "company": "Voyager Technologies Inc",
+      "sector": "Industrials",
+      "industry": "Aerospace & Defense",
+      "country": "USA",
+      "mkt_cap": 2270000000.0,
+      "pe": null,
+      "price": 38.38,
+      "change_pct": 11.44,
+      "volume": 3622881
+    },
+    {
+      "ticker": "DXYZ",
+      "company": "Destiny Tech100 Inc",
+      "sector": "Financial",
+      "industry": "Asset Management",
+      "country": "USA",
+      "mkt_cap": 764790000.0,
+      "pe": 14.97,
+      "price": 53.0,
+      "change_pct": 11.3,
+      "volume": 6273005
+    },
+    {
+      "ticker": "BKSY",
+      "company": "BlackSky Technology Inc",
+      "sector": "Industrials",
+      "industry": "Specialty Business Services",
+      "country": "USA",
+      "mkt_cap": 1600000000.0,
+      "pe": null,
+      "price": 43.0,
+      "change_pct": 10.97,
+      "volume": 4126027
+    },
+    {
+      "ticker": "D",
+      "company": "Dominion Energy Inc",
+      "sector": "Utilities",
+      "industry": "Utilities - Regulated Electric",
+      "country": "USA",
+      "mkt_cap": 59420000000.0,
+      "pe": 19.99,
+      "price": 67.56,
+      "change_pct": 9.44,
+      "volume": 40094564
+    },
+    {
+      "ticker": "YPF",
+      "company": "YPF ADR",
+      "sector": "Energy",
+      "industry": "Oil & Gas Integrated",
+      "country": "Argentina",
+      "mkt_cap": 18670000000.0,
+      "pe": null,
+      "price": 47.48,
+      "change_pct": 8.75,
+      "volume": 5812415
+    },
+    {
+      "ticker": "LPTH",
+      "company": "Lightpath Technologies Inc",
+      "sector": "Technology",
+      "industry": "Electronic Components",
+      "country": "USA",
+      "mkt_cap": 781100000.0,
+      "pe": null,
+      "price": 12.44,
+      "change_pct": 7.99,
+      "volume": 7818215
+    }
+  ]
+}

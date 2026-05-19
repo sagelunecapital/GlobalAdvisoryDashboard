@@ -244,8 +244,9 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .sr-quadrant-wrap{position:relative}
 
 /* ── Research Tab ── */
-.rs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:24px}
-@media(max-width:1100px){.rs-grid{grid-template-columns:repeat(2,1fr)}}
+.rs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-bottom:24px}
+@media(max-width:1200px){.rs-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.rs-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.rs-grid{grid-template-columns:1fr}}
 .rs-card{background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:19px;padding:20px;cursor:pointer;transition:border-color 220ms ease,transform 220ms ease,box-shadow 220ms ease;display:flex;flex-direction:column;gap:8px;box-shadow:rgba(0,0,0,0.08) 0 5px 9px 0}
 .rs-card:hover{border-color:var(--ps-blue);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,112,204,0.18)}
@@ -299,6 +300,37 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 /* ── Liquidity side-by-side ── */
 .liq-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:900px){.liq-row{grid-template-columns:1fr}}
+
+/* ── Screener Tab ── */
+.scr-nav{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.scr-nav-btn{background:var(--surface-high);border:1px solid var(--outline-dim);border-radius:8px;color:var(--text-muted);font-size:17px;font-family:inherit;cursor:pointer;padding:3px 12px;line-height:1.4;transition:color 150ms,border-color 150ms}
+.scr-nav-btn:hover{color:var(--text);border-color:var(--outline)}
+.scr-nav-date{font-size:15px;font-weight:600;color:var(--text);min-width:200px;text-align:center}
+.scr-view-toggle{display:flex;gap:4px;margin-left:6px}
+.scr-view-btn{padding:5px 14px;cursor:pointer;border:1px solid var(--outline-dim);border-radius:999px;color:var(--text-muted);font-size:12px;font-weight:500;background:transparent;font-family:inherit;transition:background 150ms,color 150ms,border-color 150ms}
+.scr-view-btn.active{color:#fff;background:var(--ps-blue);border-color:var(--ps-blue)}
+.scr-section{margin-bottom:36px}
+.scr-section-label{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)}
+.scr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1200px){.scr-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.scr-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.scr-grid{grid-template-columns:1fr}}
+.scr-card{background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:19px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;box-shadow:rgba(0,0,0,0.08) 0 5px 9px 0;transition:border-color 220ms,transform 220ms,box-shadow 220ms}
+.scr-card:hover{border-color:var(--ps-blue);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,112,204,0.18)}
+.scr-ticker{font-size:15px;font-weight:700;color:var(--text)}
+.scr-name{font-size:11px;color:var(--text-muted);line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scr-change{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.scr-change.pos{color:var(--green)}.scr-change.neg{color:var(--red)}.scr-change.neu{color:var(--text-muted)}
+.scr-divider{border:none;border-top:1px solid var(--outline-dim);margin:2px 0}
+.scr-meta{font-size:11px;color:var(--text-muted);line-height:1.8}
+.scr-meta strong{color:var(--text-dim)}
+.scr-pill{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.4px;flex-shrink:0}
+.scr-pill.priced{background:rgba(63,185,80,0.1);color:var(--green);border:1px solid var(--green)}
+.scr-pill.expected{background:rgba(227,169,70,0.1);color:var(--amber);border:1px solid var(--amber)}
+.scr-pill.filed{background:rgba(139,145,158,0.1);color:var(--text-muted);border:1px solid var(--outline-dim)}
+.scr-pill.withdrawn{background:rgba(224,82,82,0.1);color:var(--red);border:1px solid var(--red)}
+.scr-no-data{padding:48px 24px;text-align:center;color:var(--text-muted);font-size:13px;background:var(--surface-low);border-radius:14px;border:1px dashed var(--outline-dim)}
+.scr-as-of{grid-column:1/-1;font-size:11px;color:var(--text-muted);padding-top:2px}
 </style>
 </head>
 <body>
@@ -318,6 +350,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab" onclick="showMain('positioning',this)">Positioning</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Execution</button>
     <button class="nav-tab" onclick="showMain('research',this)">Research</button>
+    <button class="nav-tab" onclick="showMain('screener',this)">Screener</button>
   </aside>
 
   <div class="main-content">
@@ -953,6 +986,33 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div class="rs-grid" id="rs-grid"></div>
 </div>
 
+<!-- ════════════════════════════ SCREENER TAB ════════════════════════════ -->
+<div id="main-screener" class="main-panel">
+  <div class="scr-nav">
+    <button class="scr-nav-btn" onclick="scrStep(-1)">&#8592;</button>
+    <div class="scr-nav-date" id="scr-date-label"></div>
+    <button class="scr-nav-btn" onclick="scrStep(1)">&#8594;</button>
+    <div class="scr-view-toggle">
+      <button class="scr-view-btn active" id="scr-btn-daily" onclick="scrSetView('daily',this)">Daily</button>
+      <button class="scr-view-btn" id="scr-btn-weekly" onclick="scrSetView('weekly',this)">Weekly</button>
+    </div>
+  </div>
+
+  <div class="scr-section">
+    <div class="scr-section-label">Movers</div>
+    <div class="scr-grid" id="scr-movers-grid">
+      <div class="scr-no-data" style="grid-column:1/-1">Loading movers...</div>
+    </div>
+  </div>
+
+  <div class="scr-section">
+    <div class="scr-section-label">IPOs</div>
+    <div class="scr-grid" id="scr-ipos-grid">
+      <div class="scr-no-data" style="grid-column:1/-1">Loading IPOs...</div>
+    </div>
+  </div>
+</div>
+
   </div><!-- /main-content -->
 </div><!-- /layout -->
 
@@ -1043,6 +1103,7 @@ function showMain(id, btn) {
   document.getElementById('main-'+id).classList.add('active');
   btn.classList.add('active');
   if (id === 'execution') syncTacticsHeight();
+  if (id === 'screener')  scrInit();
 }
 
 window.addEventListener('resize', () => {
@@ -3317,6 +3378,172 @@ function rpSort(col,th){
   th.classList.add(rpSortDir===1?'sort-asc':'sort-desc');
   const s=researchSectors.find(x=>x.id===currentRpId);
   if(s) renderRpTable(s);
+}
+
+// ══ Screener Tab ════════════════════════════════════════════
+let scrDate=new Date(), scrView='daily', scrMoversData=null, scrIposData=null, scrLoaded=false;
+
+function scrFmtDate(d){
+  return d.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
+}
+function scrIso(d){
+  // local date as YYYY-MM-DD (avoid UTC shift)
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${dd}`;
+}
+function scrStep(n){
+  const d=new Date(scrDate);
+  d.setDate(d.getDate()+(scrView==='weekly'?n*7:n));
+  scrDate=d;
+  scrUpdateLabel();
+  scrRenderBoth();
+}
+function scrSetView(v){
+  scrView=v;
+  document.getElementById('scr-btn-daily').classList.toggle('active',v==='daily');
+  document.getElementById('scr-btn-weekly').classList.toggle('active',v==='weekly');
+  scrUpdateLabel();
+  scrRenderBoth();
+}
+function scrUpdateLabel(){
+  const el=document.getElementById('scr-date-label');
+  if(!el) return;
+  if(scrView==='weekly'){
+    const day=scrDate.getDay();
+    const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
+    const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+    el.textContent=scrFmtDate(mon)+' – '+scrFmtDate(sun);
+  } else {
+    el.textContent=scrFmtDate(scrDate);
+  }
+}
+function scrRenderBoth(){scrRenderMovers();scrRenderIpos();}
+
+function scrRenderMovers(){
+  const grid=document.getElementById('scr-movers-grid');
+  if(!grid) return;
+  if(!scrMoversData){
+    grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Run screener_fetch.py to populate movers data.</div>';
+    return;
+  }
+  const rows=scrMoversData.movers||[];
+  if(!rows.length){
+    grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">No movers found for current filter.</div>';
+    return;
+  }
+  const chgCls=v=>v>0?'pos':v<0?'neg':'neu';
+  const fChg=v=>v==null?'—':((v>0?'+':'')+v.toFixed(2)+'%');
+  const fVol=v=>{
+    if(v==null) return '—';
+    if(v>=1e9)  return (v/1e9).toFixed(1)+'B';
+    if(v>=1e6)  return (v/1e6).toFixed(1)+'M';
+    if(v>=1e3)  return Math.round(v/1e3)+'K';
+    return String(v);
+  };
+  const fMc=v=>{
+    if(v==null) return '—';
+    if(v>=1e12) return '$'+(v/1e12).toFixed(1)+'T';
+    if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
+    return '$'+(v/1e6).toFixed(0)+'M';
+  };
+  grid.innerHTML=rows.map(r=>`
+    <div class="scr-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
+        <div class="scr-ticker">${r.ticker}</div>
+        <div class="scr-change ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</div>
+      </div>
+      <div class="scr-name">${r.company||''}</div>
+      <hr class="scr-divider">
+      <div class="scr-meta">
+        <div>Price&nbsp;<strong>$${r.price!=null?r.price.toFixed(2):'—'}</strong></div>
+        <div>Vol&nbsp;<strong>${fVol(r.volume)}</strong></div>
+        <div>Cap&nbsp;<strong>${fMc(r.mkt_cap)}</strong>&nbsp;&middot;&nbsp;${r.sector||'—'}</div>
+      </div>
+    </div>`).join('')
+    +'<div class="scr-as-of">As of '+( scrMoversData.fetched_date||'today')+'</div>';
+}
+
+function scrRenderIpos(){
+  const grid=document.getElementById('scr-ipos-grid');
+  if(!grid) return;
+  if(!scrIposData){
+    grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Run screener_fetch.py to populate IPO data.</div>';
+    return;
+  }
+  const allIpos=scrIposData.ipos||[];
+  const ipos=allIpos.filter(ipo=>{
+    if(!ipo.date) return false;
+    if(scrView==='weekly'){
+      const ipoD=new Date(ipo.date+'T12:00:00');
+      const day=scrDate.getDay();
+      const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
+      const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+      mon.setHours(0,0,0,0); sun.setHours(23,59,59,999);
+      return ipoD>=mon&&ipoD<=sun;
+    } else {
+      return ipo.date===scrIso(scrDate);
+    }
+  });
+  if(!ipos.length){
+    const lbl=scrView==='weekly'?'this week':'on this date';
+    grid.innerHTML=`<div class="scr-no-data" style="grid-column:1/-1">No IPOs ${lbl}. Try navigating to another date.</div>`;
+    return;
+  }
+  const statusCls=s=>{
+    if(!s) return 'filed';
+    const sl=s.toLowerCase();
+    if(sl.includes('pric')) return 'priced';
+    if(sl.includes('expect')||sl.includes('schedul')) return 'expected';
+    if(sl.includes('with')) return 'withdrawn';
+    return 'filed';
+  };
+  const fDeal=v=>{
+    if(v==null) return null;
+    if(v>=1e9) return '$'+(v/1e9).toFixed(1)+'B';
+    if(v>=1e6) return '$'+(v/1e6).toFixed(0)+'M';
+    return '$'+v;
+  };
+  grid.innerHTML=ipos.map(r=>`
+    <div class="scr-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
+        <div class="scr-ticker">${r.ticker||'—'}</div>
+        <span class="scr-pill ${statusCls(r.status)}">${r.status||'Filed'}</span>
+      </div>
+      <div class="scr-name">${r.company||''}</div>
+      <hr class="scr-divider">
+      <div class="scr-meta">
+        <div>Exchange&nbsp;<strong>${r.exchange||'—'}</strong></div>
+        <div>Price&nbsp;<strong>${r.price_usd!=null?'$'+r.price_usd.toFixed(2):(r.price_range||'—')}</strong></div>
+        ${fDeal(r.deal_amount_usd)?`<div>Deal&nbsp;<strong>${fDeal(r.deal_amount_usd)}</strong></div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+let _scrFetched=false;
+function scrInit(){
+  scrDate=new Date();
+  scrUpdateLabel();
+  if(_scrFetched){scrRenderBoth();return;}
+  _scrFetched=true;
+  // Show loading state
+  const mg=document.getElementById('scr-movers-grid');
+  const ig=document.getElementById('scr-ipos-grid');
+  if(mg) mg.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Loading movers...</div>';
+  if(ig) ig.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Loading IPOs...</div>';
+
+  fetch('screener_movers.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{scrMoversData=d;scrRenderMovers();})
+    .catch(()=>{
+      if(mg) mg.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Movers data unavailable. Run screener_fetch.py to populate.</div>';
+    });
+
+  fetch('screener_ipos.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{scrIposData=d;scrRenderIpos();})
+    .catch(()=>{
+      if(ig) ig.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">IPO data unavailable. Run screener_fetch.py to populate.</div>';
+    });
 }
 </script>
 </body>
