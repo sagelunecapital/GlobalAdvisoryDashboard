@@ -2563,7 +2563,8 @@ function renderStirStripTable(){
     if(val==null||max===0) return ' style="text-align:left"';
     const pct = Math.round(val/max*100);
     const bar = `linear-gradient(to right,rgba(254,124,4,0.18) ${pct}%,transparent ${pct}%)`;
-    const bg  = isTerminal ? `rgba(30,100,255,0.25),${bar}` : bar;
+    const blue = `linear-gradient(rgba(30,100,255,0.25),rgba(30,100,255,0.25))`;
+    const bg   = isTerminal ? `${blue},${bar}` : bar;
     return ` style="text-align:left;background:${bg}"`;
   };
 
