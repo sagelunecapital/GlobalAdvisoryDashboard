@@ -71,7 +71,7 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 .stir-meet-cell .stir-meet-sym{font-size:10px;color:var(--text-muted);font-variant-numeric:tabular-nums}
 .stir-spread-pos{color:var(--green)}
 .stir-spread-neg{color:var(--red)}
-.stir-prob-max{background:rgba(30,100,255,0.5);font-weight:700;border-radius:3px;padding:0 4px}
+.stir-prob-max{background:rgba(30,100,255,0.25);font-weight:700}
 .main-content{min-width:0;padding:20px 24px 0 24px}
 .main-panel{display:none}
 .main-panel.active{display:block}
@@ -2519,7 +2519,11 @@ function renderStirMeetings(){
     const maxVal = Math.max(...allVals.map(c => c.val));
     const fProb = val => {
       if((val||0) <= 0.05) return '—';
-      return val === maxVal ? `<span class="stir-prob-max">${val.toFixed(0)}</span>` : val.toFixed(0);
+      return val.toFixed(0);
+    };
+    const probTd = val => {
+      const hi = (val||0) > 0.05 && val === maxVal;
+      return `<td${hi?' class="stir-prob-max"':''}>${fProb(val)}</td>`;
     };
     return `
     <tr>
@@ -2527,8 +2531,8 @@ function renderStirMeetings(){
       <td>${r.contract_rate.toFixed(3)}%</td>
       <td${r.post_rate<r.contract_rate?' style="color:var(--green)"':''}>${r.post_rate.toFixed(3)}%</td>
       <td>${fHikes(r.cum_hikes)}</td>
-      <td>${fProb(r.probs.hold)}</td>
-      ${activeCols.map(c=>`<td>${fProb(r.probs[c.key])}</td>`).join('')}
+      ${probTd(r.probs.hold)}
+      ${activeCols.map(c=>probTd(r.probs[c.key])).join('')}
     </tr>`;
   }).join('');
 }
