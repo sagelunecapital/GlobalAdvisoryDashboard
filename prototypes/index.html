@@ -2560,9 +2560,11 @@ function renderStirStripTable(){
   const maxVol = Math.max(0, ...strip.filter(r=>r.volume!=null).map(r=>r.volume));
   const maxOI  = Math.max(0, ...strip.filter(r=>r.oi!=null).map(r=>r.oi));
   const barBg = (val, max, isTerminal) => {
-    if(isTerminal||val==null||max===0) return ' style="text-align:left"';
+    if(val==null||max===0) return ' style="text-align:left"';
     const pct = Math.round(val/max*100);
-    return ` style="text-align:left;background:linear-gradient(to right,rgba(254,124,4,0.18) ${pct}%,transparent ${pct}%)"`;
+    const bar = `linear-gradient(to right,rgba(254,124,4,0.18) ${pct}%,transparent ${pct}%)`;
+    const bg  = isTerminal ? `rgba(30,100,255,0.25),${bar}` : bar;
+    return ` style="text-align:left;background:${bg}"`;
   };
 
   let lastYr=null, html='';
