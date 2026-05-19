@@ -352,28 +352,36 @@ def plot_cb_lvl(path: pd.DataFrame, effr: float) -> go.Figure:
 
 
 # Dashboard JSON export (consumed by prototypes/index.html, "Yields" tab)
-def _kpis(s: pd.DataFrame, today: date, ocr: float) -> dict:
-    """Terminal M+2 KPI block: terminal rate (3rd contract on the strip),
-    plus its spread vs EFFR and vs the +6M / +12M contracts.
+def _kpis(s: pd.DataFrame, today: date, ocr: float, steps_6m: int, steps_12m: int) -> dict:
+    """Terminal KPI block: highest implied rate in 18-month window,
+    plus its spread vs EFFR and vs the +6M / +12M contracts (by contract count from terminal).
     """
-    if s.empty or len(s) < 3:
-        return {"terminal": None, "vs_effr_bp": None,
-                "vs_6m_bp": None, "vs_12m_bp": None,
-                "terminal_symbol": None, "h6_symbol": None, "h12_symbol": None}
+    empty = {"terminal": None, "vs_effr_bp": None, "vs_6m_bp": None, "vs_12m_bp": None,
+             "terminal_symbol": None, "h6_symbol": None, "h12_symbol": None,
+             "h6_rate": None, "h12_rate": None}
+    if s.empty:
+        return empty
 
-    term = s.iloc[2]
+    # Limit search to 18-month window
+    cutoff_key = today.year * 12 + today.month + 18
+    s18 = s[s["expiry"].apply(lambda d: d.year * 12 + d.month) <= cutoff_key]
+    if s18.empty:
+        s18 = s
+
+    # Terminal = highest implied rate in the 18M window
+    term_pos = int(s18["implied_rate"].idxmax())  # label == iloc position (reset_index strip)
+    term = s.loc[term_pos]
     term_rate = float(term["implied_rate"])
 
-    def _at_horizon(months: int) -> tuple[str | None, float | None]:
-        target_key = today.year * 12 + today.month + months
-        cand = s[s["expiry"].apply(lambda d: d.year * 12 + d.month) >= target_key]
-        if cand.empty:
+    def _at_steps(steps: int):
+        pos = term_pos + steps
+        if pos >= len(s):
             return None, None
-        r = cand.iloc[0]
+        r = s.iloc[pos]
         return r["symbol"], float(r["implied_rate"])
 
-    h6_sym,  h6_rate  = _at_horizon(6)
-    h12_sym, h12_rate = _at_horizon(12)
+    h6_sym,  h6_rate  = _at_steps(steps_6m)
+    h12_sym, h12_rate = _at_steps(steps_12m)
 
     return {
         "terminal":        round(term_rate, 4),
@@ -383,6 +391,8 @@ def _kpis(s: pd.DataFrame, today: date, ocr: float) -> dict:
         "vs_12m_bp":       round((term_rate - h12_rate) * 100, 1) if h12_rate is not None else None,
         "h6_symbol":       h6_sym,
         "h12_symbol":      h12_sym,
+        "h6_rate":         round(h6_rate,  4) if h6_rate  is not None else None,
+        "h12_rate":        round(h12_rate, 4) if h12_rate is not None else None,
     }
 
 
@@ -446,8 +456,8 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
         "sofr":         round(sofr, 4),
         "basis_bp":     round((sofr - effr) * 100, 1),
         "kpis": {
-            "ff":   _kpis(ff_strip,   today, effr),
-            "sofr": _kpis(sofr_strip, today, effr),
+            "ff":   _kpis(ff_strip,   today, effr, steps_6m=6,  steps_12m=12),
+            "sofr": _kpis(sofr_strip, today, effr, steps_6m=2,  steps_12m=4),
         },
         "sofr_strip":    _rows(sofr_strip, sofr_term["symbol"] if sofr_term is not None else None),
         "ff_strip":      _rows(ff_strip,   ff_term["symbol"]   if ff_term   is not None else None),

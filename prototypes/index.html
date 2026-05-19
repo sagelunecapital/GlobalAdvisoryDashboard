@@ -556,14 +556,14 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <!-- KPI strip: 4 boxes anchored on M+2 terminal contract -->
   <div class="stir-kpi-row">
     <div class="stir-kpi">
-      <div class="stir-kpi-label">Terminal Rate (M+2)</div>
+      <div class="stir-kpi-label">Terminal Rate</div>
       <div class="stir-kpi-value" id="stir-kpi-terminal">—</div>
       <div class="stir-kpi-sub" id="stir-kpi-terminal-sub"></div>
     </div>
     <div class="stir-kpi">
       <div class="stir-kpi-label">Terminal − EFFR</div>
       <div class="stir-kpi-value" id="stir-kpi-vseffr">—</div>
-      <div class="stir-kpi-sub" id="stir-kpi-vseffr-sub">vs effective FFR</div>
+      <div class="stir-kpi-sub" id="stir-kpi-vseffr-sub"></div>
     </div>
     <div class="stir-kpi">
       <div class="stir-kpi-label">Terminal − +6M</div>
@@ -2450,7 +2450,7 @@ function renderStirKpis(){
   if(!k) return;
   const setVal=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
   setVal('stir-kpi-terminal', k.terminal!=null ? k.terminal.toFixed(2)+'%' : '—');
-  setVal('stir-kpi-terminal-sub', k.terminal_symbol ? `${k.terminal_symbol} (3rd contract)` : '');
+  setVal('stir-kpi-terminal-sub', k.terminal_symbol ? `${k.terminal_symbol} | Peak` : '');
   const cls=v=> v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
   const setSpread=(id,v,subId,subTxt)=>{
     const el=document.getElementById(id);
@@ -2459,9 +2459,10 @@ function renderStirKpis(){
     el.className = 'stir-kpi-value '+cls(v);
     if(subId) document.getElementById(subId).textContent = subTxt||'';
   };
-  setSpread('stir-kpi-vseffr', k.vs_effr_bp);
-  setSpread('stir-kpi-vs6m',   k.vs_6m_bp,  'stir-kpi-vs6m-sub',  k.h6_symbol  ? 'vs '+k.h6_symbol  : '');
-  setSpread('stir-kpi-vs12m',  k.vs_12m_bp, 'stir-kpi-vs12m-sub', k.h12_symbol ? 'vs '+k.h12_symbol : '');
+  const effr=STIR.data.effr;
+  setSpread('stir-kpi-vseffr', k.vs_effr_bp, 'stir-kpi-vseffr-sub', `EFFR (${effr!=null?effr.toFixed(2)+'%':'—'})`);
+  setSpread('stir-kpi-vs6m',   k.vs_6m_bp,  'stir-kpi-vs6m-sub',  k.h6_symbol  ? `${k.h6_symbol} (${k.h6_rate!=null?k.h6_rate.toFixed(3)+'%':'—'})`  : '');
+  setSpread('stir-kpi-vs12m',  k.vs_12m_bp, 'stir-kpi-vs12m-sub', k.h12_symbol ? `${k.h12_symbol} (${k.h12_rate!=null?k.h12_rate.toFixed(3)+'%':'—'})` : '');
 }
 
 function renderStirMeetings(){
