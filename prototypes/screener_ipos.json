@@ -1,32 +1,6 @@
 {
-  "fetched_at": "2026-05-21T14:27:34.557818Z",
+  "fetched_at": "2026-05-21T23:41:44.206992Z",
   "ipos": [
-    {
-      "ticker": "SUJA",
-      "company": "Suja Life, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-07",
-      "price_usd": 21.0,
-      "price_range": "21.00 - 24.00",
-      "status": "Closed",
-      "shares": 8888889,
-      "deal_amount_usd": 186666669.0,
-      "mkt_cap_usd": 811125252.0,
-      "ipo_close": 17.85
-    },
-    {
-      "ticker": "HAWK",
-      "company": "HawkEye 360, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-07",
-      "price_usd": 26.0,
-      "price_range": "24.00 - 26.00",
-      "status": "Closed",
-      "shares": 16000000,
-      "deal_amount_usd": 416000000.0,
-      "mkt_cap_usd": 2420061072.0,
-      "ipo_close": 34.0
-    },
     {
       "ticker": "ODTX",
       "company": "Odyssey Therapeutics, Inc.",
@@ -54,6 +28,19 @@
       "ipo_close": 11.75
     },
     {
+      "ticker": "FRVO",
+      "company": "Fervo Energy Company",
+      "exchange": "NASDAQ",
+      "date": "2026-05-13",
+      "price_usd": 27.0,
+      "price_range": "25.00 - 26.00",
+      "status": "Closed",
+      "shares": 70000000,
+      "deal_amount_usd": 1890000000.0,
+      "mkt_cap_usd": 7656182991.0,
+      "ipo_close": 36.54
+    },
+    {
       "ticker": "GMRS",
       "company": "GMR Solutions Inc.",
       "exchange": "NYSE",
@@ -67,17 +54,17 @@
       "ipo_close": 13.98
     },
     {
-      "ticker": "FRVO",
-      "company": "Fervo Energy Company",
-      "exchange": "NASDAQ",
-      "date": "2026-05-13",
-      "price_usd": 27.0,
-      "price_range": "25.00 - 26.00",
+      "ticker": "BXDC",
+      "company": "Blackstone Digital Infrastructure Trust Inc.",
+      "exchange": "NYSE",
+      "date": "2026-05-14",
+      "price_usd": 20.0,
+      "price_range": null,
       "status": "Closed",
-      "shares": 70000000,
-      "deal_amount_usd": 1890000000.0,
-      "mkt_cap_usd": 7656182991.0,
-      "ipo_close": 36.54
+      "shares": 100490000,
+      "deal_amount_usd": 1734833900.0,
+      "mkt_cap_usd": 1750000100.0,
+      "ipo_close": 19.81
     },
     {
       "ticker": "MWC",
@@ -93,19 +80,6 @@
       "ipo_close": 8.2
     },
     {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
-      "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
-    },
-    {
       "ticker": "EROK",
       "company": "EagleRock Land, LLC",
       "exchange": "NYSE",
@@ -119,17 +93,17 @@
       "ipo_close": 23.0
     },
     {
-      "ticker": "BXDC",
-      "company": "Blackstone Digital Infrastructure Trust Inc.",
-      "exchange": "NYSE",
+      "ticker": "CBRS",
+      "company": "Cerebras Systems Inc.",
+      "exchange": "NASDAQ",
       "date": "2026-05-14",
-      "price_usd": 20.0,
-      "price_range": null,
+      "price_usd": 185.0,
+      "price_range": "150.00 - 160.00",
       "status": "Closed",
-      "shares": 100490000,
-      "deal_amount_usd": 1734833900.0,
-      "mkt_cap_usd": 1750000100.0,
-      "ipo_close": 19.81
+      "shares": 34500000,
+      "deal_amount_usd": 5550000000.0,
+      "mkt_cap_usd": 39795413825.0,
+      "ipo_close": 311.07
     },
     {
       "ticker": "LCLN",
