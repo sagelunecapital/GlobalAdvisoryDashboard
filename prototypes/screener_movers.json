@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-19T10:34:33.229438Z",
+  "updated_at": "2026-05-21T06:41:14.330204Z",
   "by_date": {
     "2026-05-19": [
       {
@@ -97,6 +97,188 @@
         "price": 12.44,
         "change_pct": 7.99,
         "volume": 7818215
+      }
+    ],
+    "2026-05-21": [
+      {
+        "ticker": "MWC",
+        "company": "Micware Co Ltd ADR",
+        "sector": "Consumer Cyclical",
+        "industry": "Auto Parts",
+        "country": "Japan",
+        "mkt_cap": 421780000.0,
+        "pe": 40.12,
+        "price": 7.15,
+        "change_pct": 51.48,
+        "volume": 39250263
+      },
+      {
+        "ticker": "IMVT",
+        "company": "Immunovant Inc",
+        "sector": "Healthcare",
+        "industry": "Biotechnology",
+        "country": "USA",
+        "mkt_cap": 7240000000.0,
+        "pe": null,
+        "price": 35.56,
+        "change_pct": 35.26,
+        "volume": 19556238
+      },
+      {
+        "ticker": "XNDU",
+        "company": "Xanadu Quantum Technologies Ltd",
+        "sector": "Technology",
+        "industry": "Software - Infrastructure",
+        "country": "Canada",
+        "mkt_cap": 611610000.0,
+        "pe": 118.14,
+        "price": 14.13,
+        "change_pct": 20.56,
+        "volume": 7951076
+      },
+      {
+        "ticker": "GH",
+        "company": "Guardant Health Inc",
+        "sector": "Healthcare",
+        "industry": "Diagnostics & Research",
+        "country": "USA",
+        "mkt_cap": 15250000000.0,
+        "pe": null,
+        "price": 114.97,
+        "change_pct": 17.09,
+        "volume": 4471418
+      },
+      {
+        "ticker": "FCEL",
+        "company": "Fuelcell Energy Inc",
+        "sector": "Industrials",
+        "industry": "Electrical Equipment & Parts",
+        "country": "USA",
+        "mkt_cap": 1070000000.0000001,
+        "pe": null,
+        "price": 20.22,
+        "change_pct": 16.47,
+        "volume": 15972692
+      },
+      {
+        "ticker": "ARM",
+        "company": "Arm Holdings Plc ADR",
+        "sector": "Technology",
+        "industry": "Semiconductors",
+        "country": "United Kingdom",
+        "mkt_cap": 273160000000.00003,
+        "pe": 303.32,
+        "price": 256.73,
+        "change_pct": 15.05,
+        "volume": 17803256
+      },
+      {
+        "ticker": "ROIV",
+        "company": "Roivant Sciences Ltd",
+        "sector": "Healthcare",
+        "industry": "Biotechnology",
+        "country": "United Kingdom",
+        "mkt_cap": 23200000000.0,
+        "pe": null,
+        "price": 32.41,
+        "change_pct": 14.89,
+        "volume": 16996652
+      },
+      {
+        "ticker": "RXO",
+        "company": "RXO Inc",
+        "sector": "Industrials",
+        "industry": "Trucking",
+        "country": "USA",
+        "mkt_cap": 3930000000.0,
+        "pe": null,
+        "price": 23.85,
+        "change_pct": 12.87,
+        "volume": 6917760
+      },
+      {
+        "ticker": "LPG",
+        "company": "Dorian LPG Ltd",
+        "sector": "Energy",
+        "industry": "Oil & Gas Midstream",
+        "country": "USA",
+        "mkt_cap": 2040000000.0,
+        "pe": 16.84,
+        "price": 47.72,
+        "change_pct": 12.76,
+        "volume": 1670558
+      },
+      {
+        "ticker": "BURL",
+        "company": "Burlington Stores Inc",
+        "sector": "Consumer Cyclical",
+        "industry": "Apparel Retail",
+        "country": "USA",
+        "mkt_cap": 19490000000.0,
+        "pe": 32.57,
+        "price": 310.19,
+        "change_pct": 8.42,
+        "volume": 1572698
+      },
+      {
+        "ticker": "AMBQ",
+        "company": "Ambiq Micro Inc",
+        "sector": "Technology",
+        "industry": "Semiconductors",
+        "country": "USA",
+        "mkt_cap": 1640000000.0,
+        "pe": null,
+        "price": 76.61,
+        "change_pct": 7.69,
+        "volume": 1098995
+      },
+      {
+        "ticker": "TKR",
+        "company": "Timken Co",
+        "sector": "Industrials",
+        "industry": "Tools & Accessories",
+        "country": "USA",
+        "mkt_cap": 8140000000.000001,
+        "pe": 26.67,
+        "price": 117.2,
+        "change_pct": 7.17,
+        "volume": 1940360
+      },
+      {
+        "ticker": "DXCM",
+        "company": "Dexcom Inc",
+        "sector": "Healthcare",
+        "industry": "Medical Devices",
+        "country": "USA",
+        "mkt_cap": 27570000000.0,
+        "pe": 30.55,
+        "price": 71.44,
+        "change_pct": 6.71,
+        "volume": 11241158
+      },
+      {
+        "ticker": "RDW",
+        "company": "Redwire Corp",
+        "sector": "Industrials",
+        "industry": "Aerospace & Defense",
+        "country": "USA",
+        "mkt_cap": 2940000000.0,
+        "pe": null,
+        "price": 14.77,
+        "change_pct": 6.18,
+        "volume": 52100980
+      },
+      {
+        "ticker": "DSGN",
+        "company": "Design Therapeutics Inc",
+        "sector": "Healthcare",
+        "industry": "Biotechnology",
+        "country": "USA",
+        "mkt_cap": 693270000.0,
+        "pe": null,
+        "price": 11.1,
+        "change_pct": 5.82,
+        "volume": 2502113
       }
     ]
   }
