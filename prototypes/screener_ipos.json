@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-05-21T14:14:15.742350Z",
+  "fetched_at": "2026-05-21T14:27:34.557818Z",
   "ipos": [
-    {
-      "ticker": "HAWK",
-      "company": "HawkEye 360, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-07",
-      "price_usd": 26.0,
-      "price_range": "24.00 - 26.00",
-      "status": "Closed",
-      "shares": 16000000,
-      "deal_amount_usd": 416000000.0,
-      "mkt_cap_usd": 2420061072.0,
-      "ipo_close": 34.0
-    },
     {
       "ticker": "SUJA",
       "company": "Suja Life, Inc.",
@@ -26,6 +13,19 @@
       "deal_amount_usd": 186666669.0,
       "mkt_cap_usd": 811125252.0,
       "ipo_close": 17.85
+    },
+    {
+      "ticker": "HAWK",
+      "company": "HawkEye 360, Inc.",
+      "exchange": "NYSE",
+      "date": "2026-05-07",
+      "price_usd": 26.0,
+      "price_range": "24.00 - 26.00",
+      "status": "Closed",
+      "shares": 16000000,
+      "deal_amount_usd": 416000000.0,
+      "mkt_cap_usd": 2420061072.0,
+      "ipo_close": 34.0
     },
     {
       "ticker": "ODTX",
@@ -80,6 +80,32 @@
       "ipo_close": 36.54
     },
     {
+      "ticker": "MWC",
+      "company": "Micware Co., Ltd.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 8.0,
+      "price_range": "7.00 - 9.00",
+      "status": "Closed",
+      "shares": 2850000,
+      "deal_amount_usd": 22800000.0,
+      "mkt_cap_usd": 471935312.0,
+      "ipo_close": 8.2
+    },
+    {
+      "ticker": "CBRS",
+      "company": "Cerebras Systems Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 185.0,
+      "price_range": "150.00 - 160.00",
+      "status": "Closed",
+      "shares": 34500000,
+      "deal_amount_usd": 5550000000.0,
+      "mkt_cap_usd": 39795413825.0,
+      "ipo_close": 311.07
+    },
+    {
       "ticker": "EROK",
       "company": "EagleRock Land, LLC",
       "exchange": "NYSE",
@@ -104,32 +130,6 @@
       "deal_amount_usd": 1734833900.0,
       "mkt_cap_usd": 1750000100.0,
       "ipo_close": 19.81
-    },
-    {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
-      "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
-    },
-    {
-      "ticker": "MWC",
-      "company": "Micware Co., Ltd.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 8.0,
-      "price_range": "7.00 - 9.00",
-      "status": "Closed",
-      "shares": 2850000,
-      "deal_amount_usd": 22800000.0,
-      "mkt_cap_usd": 471935312.0,
-      "ipo_close": 8.2
     },
     {
       "ticker": "LCLN",

@@ -100,7 +100,7 @@ def _summarise(client: anthropic.Anthropic,
                move_date: str, article_text: str | None,
                snippets: str) -> dict:
     """
-    Call Claude Haiku to write a 3-4 sentence catalyst summary.
+    Call Claude to write a 3-4 sentence catalyst summary.
     Returns {'catalyst': str, 'source': str, 'source_url': str | None}
     """
     if article_text:
@@ -113,27 +113,38 @@ def _summarise(client: anthropic.Anthropic,
             f"Write only the summary — no headers, no preamble.\n\n"
             f"Article:\n{article_text[:5000]}"
         )
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=300,
+            messages=[{"role": "user", "content": prompt}],
+        )
         source = "Motley Fool"
     else:
-        ctx = f"\n\nNews context:\n{snippets}" if snippets else ""
         prompt = (
-            f"You are a concise financial analyst. "
-            f"{company} ({ticker}) moved {change_pct:+.2f}% on {move_date}. "
-            f"Write exactly 3-4 sentences explaining the most likely catalyst "
-            f"for this move. Be specific: name the exact catalyst type "
-            f"(earnings, analyst upgrade, product news, M&A, macro event, etc.), "
-            f"explain the business context, and note any key figures if known. "
-            f"Write only the summary — no headers, no preamble.{ctx}"
+            f"Search for news about why {company} ({ticker}) stock moved "
+            f"{change_pct:+.2f}% on {move_date}. "
+            f"Then write exactly 3-4 sentences explaining the catalyst. "
+            f"Name the exact event (earnings beat/miss, analyst action, product news, "
+            f"M&A, FDA/regulatory decision, macro event), cite key figures, "
+            f"and explain the business context. "
+            f"Write only the summary — no headers, no preamble."
         )
-        source = "Claude | Your Source"
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=500,
+            tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 2}],
+            messages=[{"role": "user", "content": prompt}],
+        )
+        source = "Claude | Web"
 
-    msg = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=300,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    # Extract text from final response (web_search may produce multiple content blocks)
+    text_parts = [block.text.strip() for block in msg.content if hasattr(block, "text")]
+    text = " ".join(p for p in text_parts if p)
+    # Strip any header lines Claude may prepend (e.g. "# Company +X% on DATE")
+    lines = [l for l in text.splitlines() if not l.startswith("#")]
+    catalyst = "\n".join(lines).strip()
     return {
-        "catalyst":    msg.content[0].text.strip(),
+        "catalyst":    catalyst,
         "source":      source,
         "source_url":  None,
     }
