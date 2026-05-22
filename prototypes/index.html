@@ -1013,8 +1013,8 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <button class="scr-view-btn active" id="scr-btn-daily" onclick="scrSetView('daily',this)">Daily</button>
       <button class="scr-view-btn" id="scr-btn-weekly" onclick="scrSetView('weekly',this)">Weekly</button>
     </div>
-    <div class="scr-view-toggle" style="margin-left:6px">
-      <button class="scr-view-btn active" id="scr-btn-us" onclick="scrSetMarket('us')">US</button>
+    <div class="scr-view-toggle" style="margin-left:auto">
+      <button class="scr-view-btn active" id="scr-btn-us" onclick="scrSetMarket('us')">United States</button>
       <button class="scr-view-btn" id="scr-btn-cn" onclick="scrSetMarket('cn')">China</button>
     </div>
   </div>
@@ -3788,21 +3788,23 @@ function scrRenderIpos(){
     return;
   }
   const allIpos=scrMarket==='cn'?(scrIposData.hk||[]):(scrIposData.us||scrIposData.ipos||[]);
-  const ipos=allIpos.filter(ipo=>{
-    if(!ipo.date) return false;
-    if(scrView==='weekly'){
-      const ipoD=new Date(ipo.date+'T12:00:00');
-      const day=scrDate.getDay();
-      const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
-      const sun=new Date(mon); sun.setDate(mon.getDate()+6);
-      mon.setHours(0,0,0,0); sun.setHours(23,59,59,999);
-      return ipoD>=mon&&ipoD<=sun;
-    } else {
-      return ipo.date===scrIso(scrDate);
-    }
-  });
+  const ipos=scrMarket==='cn'
+    ? allIpos.filter(ipo=>ipo.date).slice().sort((a,b)=>a.date.localeCompare(b.date))
+    : allIpos.filter(ipo=>{
+        if(!ipo.date) return false;
+        if(scrView==='weekly'){
+          const ipoD=new Date(ipo.date+'T12:00:00');
+          const day=scrDate.getDay();
+          const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
+          const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+          mon.setHours(0,0,0,0); sun.setHours(23,59,59,999);
+          return ipoD>=mon&&ipoD<=sun;
+        } else {
+          return ipo.date===scrIso(scrDate);
+        }
+      });
   if(!ipos.length){
-    const lbl=scrView==='weekly'?'this week':'on this date';
+    const lbl=scrMarket==='cn'?'in the HK IPO calendar':scrView==='weekly'?'this week':'on this date';
     grid.innerHTML=`<div class="scr-no-data" style="grid-column:1/-1">No IPOs ${lbl}. Try navigating to another date.</div>`;
     return;
   }
