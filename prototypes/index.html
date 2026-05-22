@@ -365,9 +365,9 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab" onclick="showMain('execution',this)">Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)">Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)">Positioning</button>
-    <button class="nav-tab" onclick="showMain('journal',this)">Journal</button>
     <button class="nav-tab" onclick="showMain('research',this)">Research</button>
     <button class="nav-tab nav-sub" onclick="showMain('screener',this)">Screener</button>
+    <button class="nav-tab" onclick="showMain('journal',this)">Journal</button>
   </aside>
 
   <div class="main-content">
@@ -972,16 +972,20 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="scr-nav-btn" onclick="jrnlStep(-1)">&#8592;</button>
     <div class="scr-nav-date" id="jrnl-date-label"></div>
     <button class="scr-nav-btn" onclick="jrnlStep(1)">&#8594;</button>
-  </div>
-
-  <div class="section-heading" style="margin-bottom:12px">General Tactics</div>
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px;gap:8px">
+    <div class="scr-view-toggle">
+      <button class="scr-view-btn active" id="jrnl-btn-daily" onclick="jrnlSetView('daily',this)">Daily</button>
+      <button class="scr-view-btn" id="jrnl-btn-weekly" onclick="jrnlSetView('weekly',this)">Weekly</button>
+    </div>
+    <div id="jrnl-edit-wrap" style="margin-left:auto;display:flex;align-items:center;gap:8px">
       <span class="notes-status" id="jrnl-status"></span>
       <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
     </div>
-    <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
-    <textarea class="tact-edit" id="tact-edit" rows="5">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</textarea>
+  </div>
+  <div id="jrnl-body">
+    <div class="card">
+      <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
+      <textarea class="tact-edit" id="tact-edit" rows="5">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</textarea>
+    </div>
   </div>
 </div><!-- /journal panel -->
 
@@ -3395,47 +3399,125 @@ function rpSort(col,th){
 }
 
 // ══ Journal Tab ════════════════════════════════════════════
-let jrnlDate=new Date();
+let jrnlDate=new Date(), jrnlView='daily';
 
 function jrnlFmtDate(d){
   return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
 }
-function jrnlKey(d){
+function jrnlIso(d){
   const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
-  return `gaai-journal-${y}-${m}-${dd}`;
+  return `${y}-${m}-${dd}`;
 }
+function jrnlKey(d){ return 'gaai-journal-'+jrnlIso(d); }
 function jrnlUpdateLabel(){
   const el=document.getElementById('jrnl-date-label');
-  if(el) el.textContent=jrnlFmtDate(jrnlDate);
+  if(!el) return;
+  if(jrnlView==='weekly'){
+    const start=new Date(jrnlDate); start.setDate(start.getDate()-2);
+    const fmt=d=>d.toLocaleDateString('en-US',{month:'short',day:'2-digit'});
+    el.textContent=`${fmt(start)} – ${fmt(jrnlDate)}, ${jrnlDate.getFullYear()}`;
+  } else {
+    el.textContent=jrnlFmtDate(jrnlDate);
+  }
 }
 function jrnlLoad(){
   const key=jrnlKey(jrnlDate);
   let text=localStorage.getItem(key);
-  // First open today: fall back to legacy gaai-tactics so existing notes migrate
-  if(text===null && jrnlKey(new Date())===key) text=localStorage.getItem('gaai-tactics')||'';
+  if(text===null&&jrnlIso(new Date())===jrnlIso(jrnlDate)) text=localStorage.getItem('gaai-tactics')||'';
   const disp=document.getElementById('tact-display');
   const edit=document.getElementById('tact-edit');
   if(disp) disp.textContent=text||'';
-  if(edit) edit.value=text||'';
+  if(edit){edit.value=text||'';autoResize(edit);}
 }
 function jrnlSave(){
+  if(jrnlView==='weekly') return;
   const text=document.getElementById('tact-display')?.textContent||'';
   localStorage.setItem(jrnlKey(jrnlDate),text);
   const el=document.getElementById('jrnl-status');
   if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}
 }
 function jrnlStep(n){
-  jrnlSave();
-  const d=new Date(jrnlDate);
-  d.setDate(d.getDate()+n);
+  if(jrnlView==='daily') jrnlSave();
+  const step=jrnlView==='weekly'?n*3:n;
+  const d=new Date(jrnlDate); d.setDate(d.getDate()+step);
   jrnlDate=d;
   jrnlUpdateLabel();
+  jrnlRender();
+}
+function jrnlSetView(v,btn){
+  if(jrnlView==='daily') jrnlSave();
+  jrnlView=v;
+  document.querySelectorAll('#main-journal .scr-view-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  jrnlUpdateLabel();
+  jrnlRender();
+}
+function jrnlRenderDaily(){
+  const body=document.getElementById('jrnl-body');
+  body.innerHTML=`<div class="card"><div class="tact-display" id="tact-display"></div><textarea class="tact-edit" id="tact-edit" rows="5"></textarea></div>`;
+  const ta=document.getElementById('tact-edit');
+  if(ta) ta.addEventListener('input',()=>autoResize(ta));
   jrnlLoad();
 }
+function jrnlWeekEdit(btn){
+  const card=btn.closest('.card');
+  const iso=btn.dataset.iso;
+  const disp=card.querySelector('.tact-display');
+  const edit=card.querySelector('textarea.tact-edit');
+  if(edit.classList.contains('shown')){
+    disp.textContent=edit.value; disp.classList.remove('hidden'); edit.classList.remove('shown'); btn.textContent='Edit';
+    localStorage.setItem('gaai-journal-'+iso,disp.textContent);
+    const el=document.getElementById('jrnl-status');
+    if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}
+  } else {
+    edit.value=disp.textContent; disp.classList.add('hidden'); edit.classList.add('shown'); btn.textContent='Save'; edit.focus(); autoResize(edit);
+  }
+}
+function jrnlRenderWeekly(){
+  const body=document.getElementById('jrnl-body');
+  const dates=[];
+  for(let i=2;i>=0;i--){const d=new Date(jrnlDate);d.setDate(d.getDate()-i);dates.push(d);}
+  const cols=dates.map((d,idx)=>{
+    const iso=jrnlIso(d);
+    const label=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
+    return `<div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;text-align:center">${label}</div>
+      <div class="card">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
+          <button class="btn pri" style="font-size:11px;padding:3px 10px" data-iso="${iso}" onclick="jrnlWeekEdit(this)">Edit</button>
+        </div>
+        <div class="tact-display" id="jrnl-disp-${idx}" style="min-height:120px"></div>
+        <textarea class="tact-edit" id="jrnl-edit-${idx}" style="min-height:120px"></textarea>
+      </div>
+    </div>`;
+  }).join('');
+  body.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">${cols}</div>`;
+  dates.forEach((d,idx)=>{
+    const iso=jrnlIso(d);
+    const text=localStorage.getItem('gaai-journal-'+iso)||'';
+    const disp=document.getElementById(`jrnl-disp-${idx}`);
+    const edit=document.getElementById(`jrnl-edit-${idx}`);
+    if(disp) disp.textContent=text;
+    if(edit){edit.value=text;edit.addEventListener('input',()=>autoResize(edit));}
+  });
+}
+function jrnlRender(){
+  const wrap=document.getElementById('jrnl-edit-wrap');
+  if(jrnlView==='weekly'){
+    if(wrap) wrap.style.display='none';
+    jrnlRenderWeekly();
+  } else {
+    if(wrap) wrap.style.display='';
+    jrnlRenderDaily();
+  }
+}
 function jrnlInit(){
-  jrnlDate=new Date();
+  jrnlDate=new Date(); jrnlView='daily';
+  const db=document.getElementById('jrnl-btn-daily'),wb=document.getElementById('jrnl-btn-weekly');
+  if(db) db.classList.add('active');
+  if(wb) wb.classList.remove('active');
   jrnlUpdateLabel();
-  jrnlLoad();
+  jrnlRender();
 }
 
 // ══ Screener Tab ════════════════════════════════════════════
