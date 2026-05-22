@@ -69,7 +69,13 @@ items:
     module: market-regime
     title: "Classify market regime"
     priority: high
-    status: refined
+    status: done
+    started_at: "2026-05-22T00:00:00Z"
+    completed_at: "2026-05-22T00:00:00Z"
+    pr_url: "https://github.com/sagelunecapital/GlobalAdvisoryDashboard/pull/5"
+    pr_number: 5
+    pr_status: "open"
+    tier: 2
     artefact: contexts/artefacts/stories/E01S03.story.md
     dependencies:
       - E01S01
@@ -103,8 +109,12 @@ items:
     module: liquidity
     title: "Fetch and persist FRED liquidity data and Bitcoin price"
     priority: high
-    status: refined
+    status: done
     started_at: "2026-04-24T01:05:39Z"
+    completed_at: "2026-05-22T00:00:00Z"
+    pr_url: "https://github.com/sagelunecapital/GlobalAdvisoryDashboard/pull/4"
+    pr_number: 4
+    pr_status: "open"
     tier: 2
     artefact: contexts/artefacts/stories/E02S01.story.md
     dependencies: []
@@ -162,8 +172,12 @@ items:
     module: macro
     title: "Fetch and persist 32 macro indicators"
     priority: high
-    status: refined
+    status: done
     started_at: "2026-04-23T01:01:50Z"
+    completed_at: "2026-04-23T09:27:42Z"
+    pr_url: "https://github.com/sagelunecapital/GlobalAdvisoryDashboard/pull/2"
+    pr_number: 2
+    pr_status: "merged"
     tier: 2
     artefact: contexts/artefacts/stories/E03S01.story.md
     dependencies: []
@@ -293,7 +307,10 @@ items:
     module: gaai-daemon
     title: "Build Python Delivery Entrypoint with Platform Detection"
     priority: high
-    status: refined
+    status: done
+    started_at: "2026-05-22T00:00:00Z"
+    completed_at: "2026-05-22T00:00:00Z"
+    tier: 2
     artefact: contexts/artefacts/stories/E07S01.story.md
     dependencies: []
     notes: "Discovery 2026-05-12 — Windows robustness E07; platform-detection layer replacing bash entrypoint"
