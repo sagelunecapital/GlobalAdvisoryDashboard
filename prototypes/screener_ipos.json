@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-05-22T00:26:59.708469Z",
+  "fetched_at": "2026-05-22T00:39:09.984570Z",
   "ipos": [
-    {
-      "ticker": "MOBI",
-      "company": "Mobia Medical, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-08",
-      "price_usd": 15.0,
-      "price_range": "14.00 - 16.00",
-      "status": "Closed",
-      "shares": 10000000,
-      "deal_amount_usd": 150000000.0,
-      "mkt_cap_usd": 496280865.0,
-      "ipo_close": 11.75
-    },
     {
       "ticker": "ODTX",
       "company": "Odyssey Therapeutics, Inc.",
@@ -26,6 +13,19 @@
       "deal_amount_usd": 279000000.0,
       "mkt_cap_usd": 849134808.0,
       "ipo_close": 16.42
+    },
+    {
+      "ticker": "MOBI",
+      "company": "Mobia Medical, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-08",
+      "price_usd": 15.0,
+      "price_range": "14.00 - 16.00",
+      "status": "Closed",
+      "shares": 10000000,
+      "deal_amount_usd": 150000000.0,
+      "mkt_cap_usd": 496280865.0,
+      "ipo_close": 11.75
     },
     {
       "ticker": "FRVO",
@@ -54,32 +54,6 @@
       "ipo_close": 13.98
     },
     {
-      "ticker": "MWC",
-      "company": "Micware Co., Ltd.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 8.0,
-      "price_range": "7.00 - 9.00",
-      "status": "Closed",
-      "shares": 2850000,
-      "deal_amount_usd": 22800000.0,
-      "mkt_cap_usd": 471935312.0,
-      "ipo_close": 8.2
-    },
-    {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
-      "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
-    },
-    {
       "ticker": "BXDC",
       "company": "Blackstone Digital Infrastructure Trust Inc.",
       "exchange": "NYSE",
@@ -93,6 +67,19 @@
       "ipo_close": 19.81
     },
     {
+      "ticker": "MWC",
+      "company": "Micware Co., Ltd.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 8.0,
+      "price_range": "7.00 - 9.00",
+      "status": "Closed",
+      "shares": 2850000,
+      "deal_amount_usd": 22800000.0,
+      "mkt_cap_usd": 471935312.0,
+      "ipo_close": 8.2
+    },
+    {
       "ticker": "EROK",
       "company": "EagleRock Land, LLC",
       "exchange": "NYSE",
@@ -104,6 +91,19 @@
       "deal_amount_usd": 320050000.0,
       "mkt_cap_usd": 2407312500.0,
       "ipo_close": 23.0
+    },
+    {
+      "ticker": "CBRS",
+      "company": "Cerebras Systems Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 185.0,
+      "price_range": "150.00 - 160.00",
+      "status": "Closed",
+      "shares": 34500000,
+      "deal_amount_usd": 5550000000.0,
+      "mkt_cap_usd": 39795413825.0,
+      "ipo_close": 311.07
     },
     {
       "ticker": "LCLN",
