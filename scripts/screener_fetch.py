@@ -48,13 +48,30 @@ _TV_EXTRACT_JS_US = r"""
     const cells = Array.from(tr.querySelectorAll('td'));
     if (cells.length < 3) return;
     const texts = cells.map(td => td.textContent.trim());
-    const first = texts[0];
-    if (!first) return;
-    const tickerM = first.match(/^([A-Z][A-Z0-9\.]{0,6})/);
-    if (!tickerM) return;
-    const ticker = tickerM[1];
-    if (ticker.length < 2) return;
-    let company = first.slice(ticker.length).replace(/\s+[A-Z]\s*$/, '').trim();
+
+    // Extract ticker from leaf elements to avoid grabbing first chars of company name
+    const firstCell = cells[0];
+    let ticker = null;
+    const leaves = Array.from(firstCell.querySelectorAll('*'))
+      .filter(el => el.children.length === 0);
+    for (const leaf of leaves) {
+      const t = leaf.textContent.trim();
+      if (/^[A-Z][A-Z0-9\.]{0,5}$/.test(t) && t.length >= 2) {
+        ticker = t; break;
+      }
+    }
+    // Fallback: stop at CamelCase boundary (UpperLower) or space
+    if (!ticker) {
+      const m = texts[0].match(/^([A-Z][A-Z0-9\.]{0,5})(?=[A-Z][a-z]|\s|$)/);
+      if (m) ticker = m[1];
+    }
+    if (!ticker || ticker.length < 2) return;
+
+    // Company: full cell text minus ticker, strip trailing type badges (D, CEF, ETF…)
+    let company = firstCell.textContent.replace(ticker, '').trim()
+      .replace(/[A-Z]+$/, '').trim()
+      .replace(/\s+[A-Z]+$/, '').trim();
+
     let changePct = null;
     for (const t of texts) {
       const m = t.match(/^([+\-]?\d+\.?\d*)%$/);
@@ -85,13 +102,23 @@ _TV_EXTRACT_JS_CN = r"""
     const cells = Array.from(tr.querySelectorAll('td'));
     if (cells.length < 3) return;
     const texts = cells.map(td => td.textContent.trim());
-    const first = texts[0];
-    if (!first) return;
-    const tickerM = first.match(/^([0-9]{3,5}|[A-Z0-9\.]{2,6})/);
-    if (!tickerM) return;
-    const ticker = tickerM[1];
-    if (ticker.length < 2) return;
-    let company = first.slice(ticker.length).replace(/\s+[A-Z]\s*$/, '').trim();
+
+    const firstCell = cells[0];
+    let ticker = null;
+    const leaves = Array.from(firstCell.querySelectorAll('*'))
+      .filter(el => el.children.length === 0);
+    for (const leaf of leaves) {
+      const t = leaf.textContent.trim();
+      if (/^([0-9]{3,5}|[A-Z0-9\.]{2,6})$/.test(t)) { ticker = t; break; }
+    }
+    if (!ticker) {
+      const m = texts[0].match(/^([0-9]{3,5}|[A-Z0-9\.]{2,6})(?=[^A-Z0-9\.]|$)/);
+      if (m) ticker = m[1];
+    }
+    if (!ticker || ticker.length < 2) return;
+    let company = firstCell.textContent.replace(ticker, '').trim()
+      .replace(/[A-Z]+$/, '').trim()
+      .replace(/\s+[A-Z]+$/, '').trim();
     let changePct = null;
     for (const t of texts) {
       const m = t.match(/^([+\-]?\d+\.?\d*)%$/);
