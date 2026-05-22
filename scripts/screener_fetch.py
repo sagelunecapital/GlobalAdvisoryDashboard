@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
 screener_fetch.py
-Fetches:
-  1. Top movers from Finviz (Playwright headless – React-rendered page)
-  2. IPO calendar from TradingView scanner API (requests.post)
+Fetches and enriches screener data in one pass:
+  1. Top movers from Finviz (Playwright headless)
+  2. IPO calendar from TradingView scanner API
+  3. Catalyst enrichment via Claude API (skipped if ANTHROPIC_API_KEY not set)
 
 Outputs:
   prototypes/screener_movers.json
@@ -12,10 +13,15 @@ Outputs:
 
 import asyncio
 import json
+import os
+import re
+import time
 import requests
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+import anthropic
+from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 ROOT       = Path(__file__).resolve().parent.parent
@@ -68,6 +74,8 @@ _FINVIZ_EXTRACT_JS = """
 """
 
 
+# ── Parsers ──────────────────────────────────────────────────────────────────
+
 def _parse_float(s):
     try:
         return float(str(s).replace("%", "").replace(",", "").replace("$", "").strip())
@@ -103,13 +111,14 @@ def _parse_mc(s):
         return None
 
 
+# ── Finviz fetch ─────────────────────────────────────────────────────────────
+
 async def _fetch_movers_async() -> list[dict]:
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         ctx = await browser.new_context(user_agent=BROWSER_UA)
         page = await ctx.new_page()
         await page.goto(FINVIZ_URL, wait_until="load", timeout=45_000)
-        # Wait until at least one ticker row is visible
         await page.wait_for_selector("table tr td a", timeout=20_000)
         raw = await page.evaluate(_FINVIZ_EXTRACT_JS)
         await browser.close()
@@ -136,6 +145,8 @@ def fetch_movers() -> list[dict]:
     print(f"[screener] Got {len(movers)} movers from Finviz.", flush=True)
     return movers
 
+
+# ── TradingView IPO fetch ────────────────────────────────────────────────────
 
 def fetch_ipos() -> list[dict]:
     print("[screener] Fetching IPOs from TradingView...", flush=True)
@@ -187,21 +198,18 @@ def fetch_ipos() -> list[dict]:
         # d[4]=type, d[5]=exchange, d[6]=market, d[7]=ipo_offer_time (unix),
         # d[8]=price_usd, d[9]=status_code, d[10]=status_display,
         # d[11]=shares, d[12]=deal_amount, d[13]=mkt_cap, d[14]=price_range
-        ticker  = d[1] or row.get("s", "").split(":")[-1]
-        company = d[2] or ""
-        exch    = d[5] or ""
-        offer_ts = d[7]
-        price_usd  = d[8]
-        status     = d[10] or d[9] or ""
-        shares     = d[11]
-        deal_amt   = d[12]
-        mkt_cap    = d[13]
+        ticker      = d[1] or row.get("s", "").split(":")[-1]
+        company     = d[2] or ""
+        exch        = d[5] or ""
+        offer_ts    = d[7]
+        price_usd   = d[8]
+        status      = d[10] or d[9] or ""
+        shares      = d[11]
+        deal_amt    = d[12]
+        mkt_cap     = d[13]
         price_range = d[14]
 
-        if offer_ts:
-            ipo_date = datetime.utcfromtimestamp(offer_ts).strftime("%Y-%m-%d")
-        else:
-            ipo_date = None
+        ipo_date = datetime.utcfromtimestamp(offer_ts).strftime("%Y-%m-%d") if offer_ts else None
 
         ipos.append({
             "ticker":          ticker,
@@ -216,7 +224,6 @@ def fetch_ipos() -> list[dict]:
             "mkt_cap_usd":     float(mkt_cap)     if mkt_cap    else None,
         })
 
-    # Filter: deal size OR market cap >= $300M
     ipos = [
         i for i in ipos
         if (i.get("deal_amount_usd") or 0) >= 300e6
@@ -228,14 +235,12 @@ def fetch_ipos() -> list[dict]:
 
 
 def enrich_ipo_closes(ipos: list[dict], existing_by_ticker: dict) -> list[dict]:
-    """Fetch closing price on IPO day for past IPOs using yfinance."""
     import yfinance as yf
     today = date.today()
     for ipo in ipos:
         ticker = ipo.get("ticker")
         if not ticker:
             continue
-        # Carry over already-fetched close
         if existing_by_ticker.get(ticker, {}).get("ipo_close") is not None:
             ipo["ipo_close"] = existing_by_ticker[ticker]["ipo_close"]
             continue
@@ -243,20 +248,14 @@ def enrich_ipo_closes(ipos: list[dict], existing_by_ticker: dict) -> list[dict]:
         if not ipo_date_str:
             continue
         ipo_date = date.fromisoformat(ipo_date_str)
-        if ipo_date >= today:   # Future or today — no close yet
+        if ipo_date >= today:
             continue
         try:
             end = ipo_date + timedelta(days=5)
-            hist = yf.download(
-                ticker,
-                start=ipo_date.isoformat(),
-                end=end.isoformat(),
-                progress=False,
-                auto_adjust=True,
-            )
+            hist = yf.download(ticker, start=ipo_date.isoformat(), end=end.isoformat(),
+                               progress=False, auto_adjust=True)
             if not hist.empty:
                 close_val = hist["Close"].iloc[0]
-                # yfinance may return a Series; extract scalar
                 if hasattr(close_val, "item"):
                     close_val = close_val.item()
                 ipo["ipo_close"] = round(float(close_val), 2)
@@ -266,34 +265,192 @@ def enrich_ipo_closes(ipos: list[dict], existing_by_ticker: dict) -> list[dict]:
     return ipos
 
 
-def main():
+# ── Catalyst enrichment (Claude API) ────────────────────────────────────────
+
+def _ddg_fool_links(ticker: str, company: str, move_date: str) -> list[str]:
+    query = f'site:fool.com {ticker} {company} {move_date}'
+    url   = f'https://html.duckduckgo.com/html/?q={requests.utils.quote(query)}'
+    try:
+        resp = requests.get(url, headers={"User-Agent": BROWSER_UA}, timeout=15)
+        soup = BeautifulSoup(resp.text, "html.parser")
+        links = []
+        for a in soup.select("a.result__url"):
+            href = a.get("href", "")
+            if "fool.com" in href and any(
+                seg in href for seg in ["/investing/", "/the-", "/earnings/", "/coverage/"]
+            ):
+                links.append(href)
+        return links[:3]
+    except Exception:
+        return []
+
+
+async def _scrape_article(url: str) -> str | None:
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        ctx  = await browser.new_context(user_agent=BROWSER_UA)
+        page = await ctx.new_page()
+        try:
+            await page.goto(url, wait_until="domcontentloaded", timeout=25_000)
+            text = await page.evaluate("""
+                () => {
+                    for (const sel of ['article', '[data-testid="article-body"]',
+                                       '.article-body', '.tailwind-article-body',
+                                       'main']) {
+                        const el = document.querySelector(sel);
+                        if (el && el.innerText.length > 200)
+                            return el.innerText.slice(0, 6000);
+                    }
+                    return document.body.innerText.slice(0, 6000);
+                }
+            """)
+            return text.strip() if text and len(text) > 100 else None
+        except Exception:
+            return None
+        finally:
+            await browser.close()
+
+
+def _ddg_news_snippets(ticker: str, company: str, move_date: str) -> str:
+    query = f'{ticker} {company} stock move news {move_date}'
+    url   = f'https://html.duckduckgo.com/html/?q={requests.utils.quote(query)}'
+    try:
+        resp = requests.get(url, headers={"User-Agent": BROWSER_UA}, timeout=15)
+        soup = BeautifulSoup(resp.text, "html.parser")
+        snippets = [s.get_text(" ", strip=True) for s in soup.select(".result__snippet")]
+        return "\n".join(snippets[:6])
+    except Exception:
+        return ""
+
+
+def _summarise(client: anthropic.Anthropic,
+               ticker: str, company: str, change_pct: float,
+               move_date: str, article_text: str | None, snippets: str) -> dict:
+    if article_text:
+        prompt = (
+            f"You are a concise financial analyst. "
+            f"Based on the Motley Fool article below, write exactly 3-4 sentences "
+            f"explaining why {company} ({ticker}) moved {change_pct:+.2f}% on {move_date}. "
+            f"Be specific: name the exact catalyst (earnings beat, product launch, M&A, etc.), "
+            f"cite key figures where mentioned, and explain the business context. "
+            f"Write only the summary — no headers, no preamble.\n\n"
+            f"Article:\n{article_text[:5000]}"
+        )
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=300,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        source = "Motley Fool"
+    else:
+        prompt = (
+            f"Search for news about why {company} ({ticker}) stock moved "
+            f"{change_pct:+.2f}% on {move_date}. "
+            f"Then write exactly 3-4 sentences explaining the catalyst. "
+            f"Name the exact event (earnings beat/miss, analyst action, product news, "
+            f"M&A, FDA/regulatory decision, macro event), cite key figures, "
+            f"and explain the business context. "
+            f"Write only the summary — no headers, no preamble."
+        )
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=500,
+            tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 2}],
+            messages=[{"role": "user", "content": prompt}],
+        )
+        source = "Claude | Web"
+
+    text_parts = [block.text.strip() for block in msg.content if hasattr(block, "text")]
+    text = " ".join(p for p in text_parts if p)
+    lines = [l for l in text.splitlines() if not l.startswith("#")]
+    catalyst = "\n".join(lines).strip()
+    return {"catalyst": catalyst, "source": source, "source_url": None}
+
+
+async def _enrich_one(client: anthropic.Anthropic, mover: dict, move_date: str) -> dict:
+    ticker     = mover["ticker"]
+    company    = mover.get("company", ticker)
+    change_pct = mover.get("change_pct") or 0.0
+
+    print(f"  [{ticker}] searching Motley Fool...", flush=True)
+    links = _ddg_fool_links(ticker, company, move_date)
+
+    article_text = None
+    source_url   = None
+    for link in links:
+        print(f"  [{ticker}] trying {link[:70]}...", flush=True)
+        text = await _scrape_article(link)
+        if text:
+            pct_pat = re.compile(r'\d+\s*%', re.I)
+            if ticker.upper() in text.upper() and pct_pat.search(text):
+                article_text = text
+                source_url   = link
+                print(f"  [{ticker}] article captured ({len(text)} chars)", flush=True)
+                break
+
+    if not article_text:
+        print(f"  [{ticker}] no article — using web snippets + Claude knowledge", flush=True)
+        snippets = _ddg_news_snippets(ticker, company, move_date)
+    else:
+        snippets = ""
+
+    result = _summarise(client, ticker, company, change_pct, move_date, article_text, snippets)
+    result["source_url"] = source_url
+    mover.update(result)
+    return mover
+
+
+async def _enrich_movers(movers: list[dict], today: str) -> list[dict]:
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        print("[enrich] ANTHROPIC_API_KEY not set — skipping enrichment.", flush=True)
+        return movers
+
+    to_enrich = [m for m in movers if not m.get("catalyst")]
+    if not to_enrich:
+        print(f"[enrich] All {len(movers)} movers already enriched.", flush=True)
+        return movers
+
+    print(f"[enrich] Enriching {len(to_enrich)} movers for {today}...", flush=True)
+    client = anthropic.Anthropic(api_key=api_key)
+
+    enriched = []
+    for mover in movers:
+        if not mover.get("catalyst"):
+            mover = await _enrich_one(client, mover, today)
+            time.sleep(0.5)
+        enriched.append(mover)
+    return enriched
+
+
+# ── Main ─────────────────────────────────────────────────────────────────────
+
+async def _main_async():
     now_iso = datetime.utcnow().isoformat() + "Z"
     today   = date.today().isoformat()
 
-    # ── Movers: accumulate by date ──────────────────────────────────────────
+    # Movers
     existing_by_date: dict = {}
     if MOVERS_OUT.exists():
         try:
             existing_by_date = json.loads(MOVERS_OUT.read_text()).get("by_date", {})
         except Exception:
-            existing_by_date = {}
+            pass
 
     try:
         movers = fetch_movers()
     except Exception as e:
         print(f"[screener] Movers fetch FAILED: {e}", flush=True)
-        movers = []
+        movers = existing_by_date.get(today, [])
 
     if movers:
+        movers = await _enrich_movers(movers, today)
         existing_by_date[today] = movers
 
-    MOVERS_OUT.write_text(json.dumps({
-        "updated_at": now_iso,
-        "by_date":    existing_by_date,
-    }, indent=2))
+    MOVERS_OUT.write_text(json.dumps({"updated_at": now_iso, "by_date": existing_by_date}, indent=2))
     print(f"[screener] Saved -> {MOVERS_OUT}", flush=True)
 
-    # ── IPOs: preserve existing close prices, enrich new ones ──────────────
+    # IPOs
     existing_by_ticker: dict = {}
     if IPOS_OUT.exists():
         try:
@@ -311,11 +468,12 @@ def main():
 
     ipos = enrich_ipo_closes(ipos, existing_by_ticker)
 
-    IPOS_OUT.write_text(json.dumps({
-        "fetched_at": now_iso,
-        "ipos":       ipos,
-    }, indent=2))
+    IPOS_OUT.write_text(json.dumps({"fetched_at": now_iso, "ipos": ipos}, indent=2))
     print(f"[screener] Saved -> {IPOS_OUT}", flush=True)
+
+
+def main():
+    asyncio.run(_main_async())
 
 
 if __name__ == "__main__":
