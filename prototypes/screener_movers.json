@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-22T22:12:45.945326+00:00",
+  "updated_at": "2026-05-22T22:28:15.803562+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -332,7 +332,7 @@
     ],
     "2026-05-23": [
       {
-        "ticker": "AEVAA",
+        "ticker": "AEVA",
         "company": "Aeva Technologies, Inc.",
         "mkt_cap": 3880000,
         "change_pct": 17.82,
@@ -342,7 +342,7 @@
         "catalyst_type": "earnings"
       },
       {
-        "ticker": "ATKRA",
+        "ticker": "ATKR",
         "company": "Atkore Inc.",
         "mkt_cap": 1020000,
         "change_pct": 11.25,
@@ -352,9 +352,9 @@
         "catalyst_type": "earnings"
       },
       {
-        "ticker": "DXYZD",
+        "ticker": "DXYZ",
         "company": "Destiny Tech100 Inc.",
-        "mkt_cap": 8900000,
+        "mkt_cap": 8930000,
         "change_pct": 8.08,
         "catalyst": "Continued momentum from SpaceX's anticipated 5-for-1 stock split and reported plans for a Nasdaq IPO targeting a ~$1.75T valuation as soon as June 12, 2026. SpaceX constitutes 52.4% of DXYZ's economic exposure, making the fund the primary liquid retail proxy for the imminent listing. Elevated short positioning and a widening premium-to-NAV amplified the move for a second consecutive session.",
         "source": "Claude | Web",
@@ -362,7 +362,7 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "GFSG",
+        "ticker": "GFS",
         "company": "GlobalFoundries Inc.",
         "mkt_cap": 11780000,
         "change_pct": 5.27,
@@ -372,9 +372,9 @@
         "catalyst_type": "earnings"
       },
       {
-        "ticker": "HPQHP",
+        "ticker": "HPQ",
         "company": "HP Inc.",
-        "mkt_cap": 48630000,
+        "mkt_cap": 48650000,
         "change_pct": 15.25,
         "catalyst": "HPQ surged on pre-earnings positioning ahead of Q2 fiscal 2026 results due May 27, with consensus expecting $14.05B in revenue and EPS of $0.70-$0.76. Sentiment was boosted by the launch of the HP IQ on-device AI platform and growing AI PC cycle enthusiasm. A broad tech relief rally driven by reports of a U.S.-Iran ceasefire, which eased inflation fears and oil prices, added a macro tailwind.",
         "source": "Claude | Web",
@@ -382,7 +382,7 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "IMAXI",
+        "ticker": "IMAX",
         "company": "IMAX Corporation",
         "mkt_cap": 3890000,
         "change_pct": 15.47,
@@ -392,9 +392,9 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "INFQI",
+        "ticker": "INFQ",
         "company": "Infleqtion, Inc.",
-        "mkt_cap": 65319999.99999999,
+        "mkt_cap": 65340000,
         "change_pct": 11.22,
         "catalyst": "Continued momentum from the May 21-22 $2B U.S. quantum computing initiative, in which Infleqtion signed a $100M CHIPS R&D Letter of Intent with the U.S. Department of Commerce to accelerate neutral-atom quantum systems and photonics. The proposed investment, contingent on development milestones, positions INFQ alongside D-Wave, Rigetti, and IBM as a direct beneficiary of the federal quantum buildout.",
         "source": "Claude | Web",
@@ -404,7 +404,7 @@
         "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
       },
       {
-        "ticker": "LNTHL",
+        "ticker": "LNTH",
         "company": "Lantheus Holdings, Inc.",
         "mkt_cap": 2020000,
         "change_pct": 9.03,
@@ -414,7 +414,7 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "LPTHL",
+        "ticker": "LPTH",
         "company": "LightPath Technologies, Inc.",
         "mkt_cap": 7830000,
         "change_pct": 18.7,
@@ -424,7 +424,7 @@
         "catalyst_type": "earnings"
       },
       {
-        "ticker": "NTAPN",
+        "ticker": "NTAP",
         "company": "NetApp, Inc.",
         "mkt_cap": 6670000,
         "change_pct": 12.44,
@@ -434,9 +434,9 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "QBTSD",
+        "ticker": "QBTS",
         "company": "D-Wave Quantum Inc.",
-        "mkt_cap": 141220000,
+        "mkt_cap": 141280000,
         "change_pct": 14.22,
         "catalyst": "Continued second-day momentum from D-Wave's May 21 $100M CHIPS and Science Act Letter of Intent with the U.S. Department of Commerce, part of the $2B federal quantum initiative. Q1 2026 bookings surged 1,994% year-over-year, and the proposed non-dilutive capital would accelerate development of large-scale annealing and gate-model quantum systems. The stock gained 42%+ over the prior week on the combined quantum funding and bookings catalysts.",
         "source": "Claude | Web",
@@ -446,9 +446,9 @@
         "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
       },
       {
-        "ticker": "QUBTQ",
+        "ticker": "QUBT",
         "company": "Quantum Computing Inc.",
-        "mkt_cap": 67850000,
+        "mkt_cap": 67860000,
         "change_pct": 7.89,
         "catalyst": "Quantum Computing Inc. benefited from sustained sector enthusiasm following the Trump administration's $2B federal quantum computing initiative announced May 21, which directed funding to D-Wave, Rigetti, Infleqtion, and IBM. While QUBT was not a direct LOI recipient, the initiative triggered broad-based buying across the quantum sector as investors rotated into pure-play quantum names.",
         "source": "Claude | Web",
@@ -456,9 +456,9 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "RDWR",
+        "ticker": "RDW",
         "company": "Redwire Corporation",
-        "mkt_cap": 55140000,
+        "mkt_cap": 55170000,
         "change_pct": 13.94,
         "catalyst": "Redwire extended a three-day winning streak driven by a series of contract awards, including two drone contracts worth tens of millions of dollars combined announced this week. The integrated space and defense tech company has been consistently booking new business across aerospace infrastructure, autonomous systems, and multi-domain operations. The stock hit successive 52-week highs intraday with the market cap now above $2.3B.",
         "source": "Claude | Web",
@@ -466,9 +466,9 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "RGTIR",
+        "ticker": "RGTI",
         "company": "Rigetti Computing, Inc.",
-        "mkt_cap": 203260000,
+        "mkt_cap": 203380000,
         "change_pct": 19.87,
         "catalyst": "Rigetti continued its multi-day rally, now up 42%+ on the week, following its May 21 Letter of Intent with the U.S. Department of Commerce for up to $100M over three years to accelerate superconducting quantum computing R&D — with the government potentially taking an equity stake. Rigetti ended Q1 2026 with $569M in cash and no debt, giving it ample runway to deploy the additional non-dilutive capital toward its hardware roadmap.",
         "source": "Claude | Web",
@@ -478,7 +478,7 @@
         "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
       },
       {
-        "ticker": "SHAZS",
+        "ticker": "SHAZ",
         "company": "SharonAI Holdings, Inc.",
         "mkt_cap": 1220000,
         "change_pct": 17.95,
@@ -488,7 +488,7 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "SMTCS",
+        "ticker": "SMTC",
         "company": "Semtech Corporation",
         "mkt_cap": 6410000,
         "change_pct": 7.0,
@@ -498,7 +498,7 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "SPOTS",
+        "ticker": "SPOT",
         "company": "Spotify Technology S.A.",
         "mkt_cap": 5290000,
         "change_pct": 6.11,
@@ -508,8 +508,8 @@
         "catalyst_type": "guidance"
       },
       {
-        "ticker": "UTIU",
-        "company": "Universal Technical Institute Inc.",
+        "ticker": "UTI",
+        "company": "Universal Technical Institute Inc",
         "mkt_cap": 3350000,
         "change_pct": 9.45,
         "catalyst": "S&P Dow Jones Indices announced Universal Technical Institute will join the S&P SmallCap 600 index effective May 27, triggering mandatory passive fund buying. B. Riley raised its price target to $49 from $36, citing strong durable free cash flow and a clear growth roadmap through fiscal 2028 driven by AI-boosting demand for skilled technicians. The index addition came despite Q2 EPS of $0.01 versus the prior year's $0.21, as analysts framed margin pressure as strategic investment.",
@@ -518,7 +518,7 @@
         "catalyst_type": "other"
       },
       {
-        "ticker": "VSHV",
+        "ticker": "VSH",
         "company": "Vishay Intertechnology, Inc.",
         "mkt_cap": 9100000,
         "change_pct": 12.05,
@@ -528,7 +528,7 @@
         "catalyst_type": "earnings"
       },
       {
-        "ticker": "ZMZ",
+        "ticker": "ZM",
         "company": "Zoom Communications, Inc.",
         "mkt_cap": 9630000,
         "change_pct": 9.19,
