@@ -64,10 +64,15 @@ if (-not $?) {
     Write-Warning "export_cot_json.py failed  -  cot_data.json may be stale."
 }
 
-$changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json prototypes/screener_movers.json prototypes/screener_ipos.json prototypes/cot_data.json
+& $python (Join-Path $projectRoot "scripts\export_price_json.py")
+if (-not $?) {
+    Write-Warning "export_price_json.py failed  -  price_data.json may be stale."
+}
+
+$changes = git diff --name-only prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json prototypes/screener_movers.json prototypes/screener_ipos.json prototypes/cot_data.json prototypes/price_data.json
 if ($changes) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-    git add prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json prototypes/screener_movers.json prototypes/screener_ipos.json prototypes/cot_data.json
+    git add prototypes/index.html prototypes/regime.json prototypes/sector_rotation.json prototypes/stir.json prototypes/ticker_perf.json prototypes/mfra_group.json prototypes/screener_movers.json prototypes/screener_ipos.json prototypes/cot_data.json prototypes/price_data.json
     git commit -m "chore: update dashboard data $timestamp"
     git push origin main
     if (-not $?) { Write-Warning "git push failed  -  local files still updated but remote is stale." }

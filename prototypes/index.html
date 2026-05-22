@@ -3134,7 +3134,7 @@ const _MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'
 function fmtDate(d){
   if(!d) return '';
   const p=d.split('-');
-  return _MONTHS[parseInt(p[1])-1]+' '+p[0];
+  return _MONTHS[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
 }
 function fmtDateAuto(d,rangeMs){
   if(!d) return '';
@@ -3288,7 +3288,26 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOf(0));z.setAttribute('y2',yOf(0));
     z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
-  seriesDefs.forEach((s,si)=>addLine(ns,svg,aligned.map(r=>r.vs[si]),xOf,yOf,s.color,null));
+  const nSeries=seriesDefs.length;
+  const slotW=aligned.length>1?iW/(aligned.length-1):iW;
+  const bW=Math.max(1,slotW/nSeries*0.75);
+  const y0=yOf(0);
+  seriesDefs.forEach((s,si)=>{
+    const xOff=(si-(nSeries-1)/2)*(slotW/nSeries);
+    aligned.forEach((row,i)=>{
+      const v=row.vs[si]; if(v===null) return;
+      const cx=xOf(i)+xOff;
+      const rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',cx-bW/2);
+      const barY=v>=0?yOf(v):y0;
+      rect.setAttribute('y',barY);
+      rect.setAttribute('width',Math.max(1,bW));
+      rect.setAttribute('height',Math.max(1,Math.abs(yOf(v)-y0)));
+      rect.setAttribute('fill',s.color);
+      rect.setAttribute('opacity','0.8');
+      svg.appendChild(rect);
+    });
+  });
   const dots=seriesDefs.map(s=>{
     const c=document.createElementNS(ns,'circle');
     c.setAttribute('r','3');c.setAttribute('fill',s.color);c.setAttribute('display','none');svg.appendChild(c); return c;
@@ -3333,16 +3352,13 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   if(!pts.length) return;
   const vMax=Math.max(...pts.map(p=>p.v));
   const vMin=Math.min(...pts.map(p=>p.v));
-  const vPad=(vMax-vMin)*0.1||vMax*0.05;
-  const vBase=Math.max(0,vMin-vPad);
-  const vR=vMax-vBase||1;
-  const xOfBar=i=>pad.l+(i/pts.length)*iW;
-  const xOfLbl=i=>pad.l+(i/Math.max(pts.length-1,1))*iW;
-  const barW=Math.max(1,iW/pts.length);
-  const yOf=v=>pad.t+(1-(v-vBase)/vR)*iH;
+  const vPad=(vMax-vMin)*0.05||vMax*0.05;
+  const vLow=vMin-vPad, vHigh=vMax+vPad, vR=vHigh-vLow||1;
+  const xOf=i=>pad.l+(i/Math.max(pts.length-1,1))*iW;
+  const yOf=v=>pad.t+(1-(v-vLow)/vR)*iH;
   const ns='http://www.w3.org/2000/svg'; const svg=mkSvg(ns,VW,vH);
   [0,.25,.5,.75,1].forEach(t=>{
-    const y=pad.t+t*iH,v=vMax-t*vR;
+    const y=pad.t+t*iH,v=vHigh-t*vR;
     const g=document.createElementNS(ns,'line');
     g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
     g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
@@ -3357,19 +3373,15 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   pts.forEach((_,i)=>{
     if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
     const lb=document.createElementNS(ns,'text');
-    lb.setAttribute('x',xOfLbl(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+    lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateAuto(pts[i].d,_rMs);svg.appendChild(lb);
   });
-  pts.forEach((p,i)=>{
-    const rect=document.createElementNS(ns,'rect');
-    rect.setAttribute('x',xOfBar(i));rect.setAttribute('y',yOf(p.v));
-    rect.setAttribute('width',barW);rect.setAttribute('height',Math.max(0,pad.t+iH-yOf(p.v)));
-    rect.setAttribute('fill','#38bdf8');rect.setAttribute('opacity','0.7');
-    svg.appendChild(rect);
-  });
+  addLine(ns,svg,pts.map(p=>p.v),xOf,yOf,'#38bdf8',null);
+  const dot=document.createElementNS(ns,'circle');
+  dot.setAttribute('r','3');dot.setAttribute('fill','#38bdf8');dot.setAttribute('display','none');svg.appendChild(dot);
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#555');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke','#2a2a2a');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -3377,15 +3389,16 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   ov.addEventListener('mousemove',e=>{
     const r=svg.getBoundingClientRect(),sx=r.width/VW;
     const mx=(e.clientX-r.left)/sx-pad.l;
-    const idx=Math.max(0,Math.min(pts.length-1,Math.floor((mx/iW)*pts.length)));
-    const p=pts[idx],cx=xOfBar(idx)+barW/2;
+    const idx=Math.max(0,Math.min(pts.length-1,Math.round((mx/iW)*(pts.length-1))));
+    const p=pts[idx],cx=xOf(idx);
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
+    dot.setAttribute('cx',cx);dot.setAttribute('cy',yOf(p.v));dot.setAttribute('display','');
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
     tt.style.top=Math.max(yOf(p.v)-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(p.d)+'</strong><br>&#9632; Open Interest: '+fmtK(p.v);
   });
-  ov.addEventListener('mouseleave',()=>{cur.setAttribute('display','none');tt.style.display='none';});
+  ov.addEventListener('mouseleave',()=>{dot.setAttribute('display','none');cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
 }
 
