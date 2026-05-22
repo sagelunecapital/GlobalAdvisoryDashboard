@@ -332,6 +332,18 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .scr-no-data{padding:48px 24px;text-align:center;color:var(--text-muted);font-size:13px;background:var(--surface-low);border-radius:14px;border:1px dashed var(--outline-dim)}
 .scr-as-of{grid-column:1/-1;font-size:11px;color:var(--text-muted);padding-top:2px}
 .scr-card-hl{background:rgba(30,100,255,0.12)!important;border-color:rgba(30,100,255,0.55)!important}
+.hl-green{background:rgba(63,185,80,0.06)!important;border-color:rgba(63,185,80,0.3)!important}
+.hl-blue{background:rgba(0,112,204,0.08)!important;border-color:rgba(0,112,204,0.35)!important}
+.hl-purple{background:rgba(168,85,247,0.07)!important;border-color:rgba(168,85,247,0.3)!important}
+.scr-card-group{grid-column:1/-1}
+.scr-group-tickers{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.scr-gticker{display:flex;flex-direction:column;gap:2px;background:var(--surface-high);border-radius:10px;padding:8px 14px;min-width:110px}
+.scr-gticker-sym{font-size:14px;font-weight:700;color:var(--text)}
+.scr-gticker-name{font-size:10px;color:var(--text-muted)}
+.scr-gticker-chg{font-size:13px;font-weight:600}
+.scr-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.scr-leg{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-muted)}
+.scr-leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -1001,6 +1013,12 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
   <div class="scr-section">
     <div class="scr-section-label">Movers</div>
+    <div class="scr-legend">
+      <div class="scr-leg"><div class="scr-leg-dot" style="background:rgba(63,185,80,0.5);border:1px solid rgba(63,185,80,0.7)"></div>Earnings / Guidance</div>
+      <div class="scr-leg"><div class="scr-leg-dot" style="background:rgba(168,85,247,0.5);border:1px solid rgba(168,85,247,0.7)"></div>Analyst Action</div>
+      <div class="scr-leg"><div class="scr-leg-dot" style="background:rgba(0,112,204,0.5);border:1px solid rgba(0,112,204,0.7)"></div>Other catalyst</div>
+      <div class="scr-leg"><div class="scr-leg-dot" style="background:var(--surface-card);border:1px solid var(--outline-dim)"></div>No specific catalyst</div>
+    </div>
     <div class="scr-grid" id="scr-movers-grid">
       <div class="scr-no-data" style="grid-column:1/-1">Loading movers...</div>
     </div>
@@ -3445,9 +3463,34 @@ function scrRenderMovers(){
     if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
     return '$'+(v/1e6).toFixed(0)+'M';
   };
-  grid.innerHTML=rows.map(r=>{
+  const hlCls=t=>t==='earnings'||t==='guidance'?'hl-green':t==='analyst'?'hl-purple':t==='other'?'hl-blue':'';
+
+  const groupMap={};
+  const ungrouped=[];
+  rows.forEach(r=>{
+    if(r.group_id){(groupMap[r.group_id]=groupMap[r.group_id]||[]).push(r);}
+    else ungrouped.push(r);
+  });
+
+  const groupHtml=Object.values(groupMap).map(members=>{
+    const hl=hlCls(members[0].catalyst_type||'other');
+    const chips=members.map(r=>`<div class="scr-gticker">
+      <span class="scr-gticker-sym">${r.ticker}</span>
+      <span class="scr-gticker-name">${r.company}</span>
+      <span class="scr-gticker-chg ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</span>
+    </div>`).join('');
+    const summary=members[0].group_summary||'';
+    return`<div class="scr-card scr-card-group ${hl}">
+      <div class="scr-group-tickers">${chips}</div>
+      <hr class="scr-divider">
+      <p style="font-size:11.5px;color:var(--text-dim);line-height:1.75;margin:6px 0 4px">${summary}</p>
+    </div>`;
+  }).join('');
+
+  const individualHtml=ungrouped.map(r=>{
     const cap=fMc(r.mkt_cap);
     const name=r.company+(cap?' | '+cap:'');
+    const hl=hlCls(r.catalyst_type);
     const catalystHtml=r.catalyst
       ?`<p style="font-size:11.5px;color:var(--text-dim);line-height:1.75;margin:6px 0 4px">${r.catalyst}</p>
         <p style="font-size:10px;color:var(--text-muted);font-style:italic;margin:0">${
@@ -3456,7 +3499,7 @@ function scrRenderMovers(){
             :r.source||''
         }</p>`
       :'';
-    return`<div class="scr-card">
+    return`<div class="scr-card ${hl}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker}</div>
         <div class="scr-change ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</div>
@@ -3466,7 +3509,9 @@ function scrRenderMovers(){
       <div class="scr-meta"><div>${r.sector||'—'}</div></div>
       ${catalystHtml}
     </div>`;
-  }).join('')+'<div class="scr-as-of" style="grid-column:1/-1">As of '+scrIso(scrDate)+'</div>';
+  }).join('');
+
+  grid.innerHTML=groupHtml+individualHtml+'<div class="scr-as-of" style="grid-column:1/-1">As of '+scrIso(scrDate)+'</div>';
 }
 
 function scrRenderIpos(){

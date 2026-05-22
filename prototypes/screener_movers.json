@@ -103,7 +103,7 @@
         "price": 59.88,
         "change_pct": 14.13,
         "volume": 24085551,
-        "catalyst": "IonQ reported Q1 2026 revenue of $64.7 million, a 755% year-over-year surge from $7.6 million, significantly exceeding Wall Street's $49.7 million forecast and triggering raised full-year 2026 guidance to $260-$270 million. Major Wall Street desks\u2014Jefferies, Wedbush, JPMorgan, and Morgan Stanley\u2014lifted or reaffirmed upbeat targets and ratings on IONQ following the earnings beat. The company beat its own guidance for a fourth consecutive quarter, with Morgan Stanley highlighting a planned 256-qubit milestone for demos by year-end, while new customer wins included a 100-qubit Tempo system for South Korea's National Quantum Computing Center. The planned acquisition of SkyWater Technology received shareholder approval, keeping the closing on track for Q2 or Q3 2026 pending regulatory sign-off.",
+        "catalyst": "IonQ reported Q1 2026 revenue of $64.7 million, a 755% year-over-year surge from $7.6 million, significantly exceeding Wall Street's $49.7 million forecast and triggering raised full-year 2026 guidance to $260-$270 million. Major Wall Street desks—Jefferies, Wedbush, JPMorgan, and Morgan Stanley—lifted or reaffirmed upbeat targets and ratings on IONQ following the earnings beat. The company beat its own guidance for a fourth consecutive quarter, with Morgan Stanley highlighting a planned 256-qubit milestone for demos by year-end, while new customer wins included a 100-qubit Tempo system for South Korea's National Quantum Computing Center. The planned acquisition of SkyWater Technology received shareholder approval, keeping the closing on track for Q2 or Q3 2026 pending regulatory sign-off.",
         "source": "Claude | Web",
         "source_url": null
       },
@@ -118,7 +118,7 @@
         "price": 66.08,
         "change_pct": 12.73,
         "volume": 2414045,
-        "catalyst": "Wolfspeed (WOLF) surged on May 21 following a bullish Citrini Research note that tied the company directly to accelerating AI infrastructure demand. AI data centers are becoming so power-intensive that next-generation AI racks consuming hundreds of kilowatts will require a complete redesign of power conversion systems, creating massive new demand for silicon carbide components\u2014one of Wolfspeed's core businesses. Citrini described Wolfspeed's Mohawk Valley fab in New York as \"the only 200mm SiC fab operating at commercial scale in the entire world,\" while calling the John Palmour facility in North Carolina \"the largest SiC wafer fab ever built.\" Citrini estimates AI infrastructure could account for roughly half of global silicon carbide demand by 2030.",
+        "catalyst": "Wolfspeed (WOLF) surged on May 21 following a bullish Citrini Research note that tied the company directly to accelerating AI infrastructure demand. AI data centers are becoming so power-intensive that next-generation AI racks consuming hundreds of kilowatts will require a complete redesign of power conversion systems, creating massive new demand for silicon carbide components—one of Wolfspeed's core businesses. Citrini described Wolfspeed's Mohawk Valley fab in New York as \"the only 200mm SiC fab operating at commercial scale in the entire world,\" while calling the John Palmour facility in North Carolina \"the largest SiC wafer fab ever built.\" Citrini estimates AI infrastructure could account for roughly half of global silicon carbide demand by 2030.",
         "source": "Claude | Web",
         "source_url": null
       },
@@ -193,7 +193,7 @@
         "price": 282.67,
         "change_pct": 10.1,
         "volume": 7540361,
-        "catalyst": "Bernstein initiated coverage on ARM with an Outperform rating and a $300 price target , serving as the primary catalyst for the stock's 10.10% surge. Analyst David Dai argued that the AI paradigm is shifting from chatbots to agents, positioning Arm as the structural beneficiary of the CPU renaissance for agentic AI given its power efficiency . Arm's Q4 FY2026 results showed data center royalty revenue more than doubling year-over-year, driven by higher Armv9 royalty rates and Compute Subsystems packages . Citigroup and Bernstein both project major expansion in the server CPU market\u2014to $131.5 billion and $137 billion by 2030 respectively\u2014reinforcing the long-term demand narrative supporting Arm's royalty model .",
+        "catalyst": "Bernstein initiated coverage on ARM with an Outperform rating and a $300 price target , serving as the primary catalyst for the stock's 10.10% surge. Analyst David Dai argued that the AI paradigm is shifting from chatbots to agents, positioning Arm as the structural beneficiary of the CPU renaissance for agentic AI given its power efficiency . Arm's Q4 FY2026 results showed data center royalty revenue more than doubling year-over-year, driven by higher Armv9 royalty rates and Compute Subsystems packages . Citigroup and Bernstein both project major expansion in the server CPU market—to $131.5 billion and $137 billion by 2030 respectively—reinforcing the long-term demand narrative supporting Arm's royalty model .",
         "source": "Claude | Web",
         "source_url": null
       },
@@ -315,9 +315,11 @@
         "price": 58.62,
         "change_pct": 14.4,
         "volume": 8647628,
-        "catalyst": "Advance Auto Parts reported Q1 2026 earnings on May 21, 2026 , which drove the +14.40% stock surge on May 22. The company beat revenue expectations with $2.61 billion in sales and reported adjusted EPS of $0.77 per share, which was 75.6% above consensus estimates of $0.44 . Comparable store sales increased 3.5% , signaling strong underlying demand in the auto parts retail segment. The company reaffirmed full-year 2026 revenue guidance of $8.485 billion\u2013$8.575 billion , providing confidence that the earnings beat was sustainable and not a one-time anomaly.",
+        "catalyst": "Advance Auto Parts reported Q1 2026 earnings on May 21, 2026 , which drove the +14.40% stock surge on May 22. The company beat revenue expectations with $2.61 billion in sales and reported adjusted EPS of $0.77 per share, which was 75.6% above consensus estimates of $0.44 . Comparable store sales increased 3.5% , signaling strong underlying demand in the auto parts retail segment. The company reaffirmed full-year 2026 revenue guidance of $8.485 billion–$8.575 billion , providing confidence that the earnings beat was sustainable and not a one-time anomaly.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "earnings",
+        "group_id": null
       },
       {
         "ticker": "APLD",
@@ -332,7 +334,9 @@
         "volume": 42805242,
         "catalyst": "Applied Digital announced two major long-term leases: a 15-year agreement with a new U.S. investment-grade hyperscaler at Delta Forge 1 worth approximately $7.5B in revenue, and a second 15-year take-or-pay lease for Polaris Forge 3 that pushed total contracted lease revenue to $31B. Analysts responded positively, with Roth Capital raising its price target to $65 and Needham to $51, both citing long-duration hyperscaler deals and scalable AI data center economics. The deals diversified the tenant roster to three hyperscale names and shifted more than half of revenue to investment-grade credit quality, reducing demand and default risk. The catalyst was the 15-year lease with the new U.S. investment-grade hyperscaler for 300 MW at the Delta Forge 1 AI Factory campus, adding roughly $7.5B in revenue over the term.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": null
       },
       {
         "ticker": "ARM",
@@ -345,9 +349,11 @@
         "price": 298.23,
         "change_pct": 16.16,
         "volume": 21600714,
-        "catalyst": "Bernstein initiated coverage of Arm Holdings with an \"Outperform\" rating and a $300 price target, representing 16.8% upside \u2014the immediate catalyst for the surge. The company reported a 49% increase in net income to $313 million for Q4 FY2026, with revenue climbing 20% to $1.49 billion , demonstrating strong earnings momentum. Bernstein's thesis emphasizes the industry's transition toward AI agents\u2014autonomous systems capable of executing multi-step tasks\u2014which puts CPUs back at the technological center, positioning Arm uniquely to capitalize . Additionally, Nvidia's earnings report indicated it expects $20 billion in CPU revenue this year, with much coming from its Vera CPU licensed from Arm , signaling substantial future royalty income for the company's licensing business model.",
+        "catalyst": "Bernstein initiated coverage of Arm Holdings with an \"Outperform\" rating and a $300 price target, representing 16.8% upside —the immediate catalyst for the surge. The company reported a 49% increase in net income to $313 million for Q4 FY2026, with revenue climbing 20% to $1.49 billion , demonstrating strong earnings momentum. Bernstein's thesis emphasizes the industry's transition toward AI agents—autonomous systems capable of executing multi-step tasks—which puts CPUs back at the technological center, positioning Arm uniquely to capitalize . Additionally, Nvidia's earnings report indicated it expects $20 billion in CPU revenue this year, with much coming from its Vera CPU licensed from Arm , signaling substantial future royalty income for the company's licensing business model.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "analyst",
+        "group_id": null
       },
       {
         "ticker": "BIRK",
@@ -360,9 +366,11 @@
         "price": 39.67,
         "change_pct": 19.45,
         "volume": 8180398,
-        "catalyst": "Birkenstock's Q2 FY2026 earnings delivered revenue of \u20ac618 million (up 14% in constant currency) but missed consensus expectations, with EPS declining to \u20ac0.50 from \u20ac0.55 amid foreign-exchange pressure and higher U.S. tariffs. Initial market reaction sent shares down approximately 12% intraday to near $33, but the stock rebounded sharply following the earnings miss. The catalyst for the May 22 rebound was Birkenstock's announcement of a $250 million accelerated share buyback program, which management positioned to capitalize on the perceived undervaluation following the earnings disappointment. Major brokers maintained predominantly bullish ratings (Buy, Overweight, or Outperform), citing strong consumer demand, Asia-Pacific growth, and owned retail expansion as long-term positives.",
+        "catalyst": "Birkenstock's Q2 FY2026 earnings delivered revenue of €618 million (up 14% in constant currency) but missed consensus expectations, with EPS declining to €0.50 from €0.55 amid foreign-exchange pressure and higher U.S. tariffs. Initial market reaction sent shares down approximately 12% intraday to near $33, but the stock rebounded sharply following the earnings miss. The catalyst for the May 22 rebound was Birkenstock's announcement of a $250 million accelerated share buyback program, which management positioned to capitalize on the perceived undervaluation following the earnings disappointment. Major brokers maintained predominantly bullish ratings (Buy, Overweight, or Outperform), citing strong consumer demand, Asia-Pacific growth, and owned retail expansion as long-term positives.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "earnings",
+        "group_id": null
       },
       {
         "ticker": "BKKT",
@@ -375,9 +383,11 @@
         "price": 12.32,
         "change_pct": 21.02,
         "volume": 4681378,
-        "catalyst": "Let me search for more specific news about May 22, 2026 to find the exact catalyst for the +21.02% move. Based on the search results, I found information about Bakkt's recent corporate actions but did not find a specific news item explicitly tied to the May 22, 2026 +21.02% move. However, the most recent catalyst mentioned in the search results relates to CEO insider buying activity. From the search results, I can see references to insider stock moves and CEO confidence signals in late May 2026. Let me provide the summary based on the available information: CEO insider buying activity drew investors' cheer after an open market purchase, with retail commending \"skin in the game.\" Insider buying activity at Bakkt over the past 90 days may reflect management confidence in the company's direction, and institutional investors and analysts often monitor insider purchases as a potential bullish indicator for the stock. The company recently completed its acquisition of Distributed Technologies Research on April 30, 2026, which combines Bakkt's regulated institutional-grade infrastructure with DTR's AI-native engine and scalable compliance stack. The stock rally likely reflects both the CEO's open market share purchase signal and renewed investor optimism around the DTR integration strategy driving stablecoin and payments growth.",
+        "catalyst": "Bakkt completed its acquisition of Distributed Technologies Research on April 30, 2026, combining institutional-grade infrastructure with DTR's AI-native compliance stack for stablecoin and payments. CEO insider buying activity was noted in the period but no material announcement was identified as the direct catalyst for the session's move.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": null,
+        "group_id": null
       },
       {
         "ticker": "DXYZ",
@@ -390,9 +400,11 @@
         "price": 61.66,
         "change_pct": 26.87,
         "volume": 10028231,
-        "catalyst": "I can see that DXYZ jumped 26.87% on May 21, 2026 (not May 22), but the search results don't contain specific news about the catalyst for that particular day. Let me search for more specific news about this event. Based on the search results, I found relevant information about DXYZ's 26.87% jump on May 21, 2026 (the date provided appears to refer to May 21, not May 22). Here is the summary: SpaceX IPO expectations drove the 26.87% surge, as traders watched for the company's 5-for-1 stock split processing the week of May 18-22 and Elon Musk's rocket firm's planned IPO on Nasdaq possibly as soon as June 12, with the offering expected to raise around $75 billion at a target valuation near $1.75 trillion . DXYZ's fund has SpaceX representing 52.4% of its economic exposure , making it a leveraged proxy for the private company's impending public listing. As a closed-end fund, DXYZ's share price can swing sharply as the market premium/discount to NAV expands or contracts, with elevated short positioning amplifying rallies , meaning the jump reflected both fundamental excitement over SpaceX's IPO prospects and technical fund dynamics rather than earnings or other company-specific catalysts.",
+        "catalyst": "SpaceX's anticipated 5-for-1 stock split processing the week of May 18-22 and reported plans for a Nasdaq IPO as soon as June 12 - targeting a $75 billion raise at a ~$1.75 trillion valuation - drove sustained momentum in DXYZ. SpaceX represents 52.4% of DXYZ's economic exposure, making the closed-end fund a leveraged retail proxy for the private company's impending listing. Elevated short positioning amplified the rally as the market premium to NAV expanded.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": null
       },
       {
         "ticker": "ENPH",
@@ -405,9 +417,11 @@
         "price": 62.34,
         "change_pct": 17.29,
         "volume": 17702596,
-        "catalyst": "Let me search for more specific information about May 22, 2026. Goldman Sachs' analyst action\u2014upgrading its price target on Enphase Energy to $57 from $51 while maintaining a Buy rating\u2014drove the stock surge, catalyzed by anticipated demand before the July 4 deadline for a federal 30% solar tax credit on rooftop installations. Goldman's constructive view reflects a cooperative interest rate environment supporting residential solar financing, validated by Q4 2025 U.S. sell-through demand that climbed 21% sequentially, the strongest in over two years. The stock momentum was also supported by Enphase's development of a 1.25 MW IQ Solid-State Transformer for AI data centers and recent U.S. pre-order openings for its IQ9S-3P commercial microinverter, which allows customers to equipment purchases ahead of tax credit deadlines.",
+        "catalyst": "Goldman Sachs raised its price target on Enphase Energy to $57 from $51 with a Buy rating, citing a cooperative rate environment supporting residential solar financing and a July 4 deadline for the federal 30% solar tax credit. Q4 2025 U.S. sell-through demand climbed 21% sequentially - the strongest in over two years - validating the recovery thesis. Enphase's development of a 1.25 MW IQ Solid-State Transformer for AI data centers added a second growth narrative beyond residential solar.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "analyst",
+        "group_id": null
       },
       {
         "ticker": "FCEL",
@@ -420,9 +434,11 @@
         "price": 26.38,
         "change_pct": 30.46,
         "volume": 22223299,
-        "catalyst": "Let me search more specifically for what happened on May 22, 2026. FuelCell Energy (FCEL) stock surged Thursday after the company announced the appointment of veteran technology and cybersecurity executive John Livingston to its board of directors. Livingston was elected to the Board of Directors effective May 19, 2026, increasing the board size from eight to nine members. Livingston brings more than 25 years of experience in strategy, technology, industrial operations and cybersecurity, with his background closely aligning with FuelCell Energy's focus on delivering resilient, infrastructure-grade power solutions for data centers, digital infrastructure, utilities and other critical applications. Livingston previously founded and served as CEO of Verve Industrial Protection, an operational technology cybersecurity platform acquired by Rockwell Automation, and spent more than 20 years at McKinsey & Co. advising industrial, technology and infrastructure clients on growth strategy and operational transformation.",
+        "catalyst": "FuelCell Energy appointed John Livingston - founder of Verve Industrial Protection (acquired by Rockwell Automation) and 20+ year McKinsey veteran - to its board of directors effective May 19, 2026. His cybersecurity and industrial infrastructure background aligns with FuelCell's focus on data center power, where the company's business development pipeline has surged 275% since February 2025. The appointment signals management confidence in executing the data center growth strategy.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": null
       },
       {
         "ticker": "GFS",
@@ -435,9 +451,11 @@
         "price": 81.35,
         "change_pct": 14.92,
         "volume": 10811686,
-        "catalyst": "GlobalFoundries delivered a Q1 earnings beat, with adjusted EPS of $0.40 topping the $0.35 consensus, and Q2 guidance of $0.38\u2013$0.48 coming in slightly above Street expectations . The company announced its first-ever quarterly dividend of $0.12 per share at its 2026 Investor Day , paired with a new capital allocation framework targeting returning up to 50% of trailing twelve-month Non-IFRS adjusted free cash flow to shareholders through dividends and share repurchases . Additionally, GF launched its SCALE optical module solution for co-packaged optics in May 2026, the industry's first Optical Compute Interconnect Multi-Source Agreement tailored platform exceeding OCI MSA optical interconnect specification requirements , positioning the company as both a growth and income story in AI infrastructure.",
+        "catalyst": "GlobalFoundries delivered a Q1 earnings beat, with adjusted EPS of $0.40 topping the $0.35 consensus, and Q2 guidance of $0.38–$0.48 coming in slightly above Street expectations . The company announced its first-ever quarterly dividend of $0.12 per share at its 2026 Investor Day , paired with a new capital allocation framework targeting returning up to 50% of trailing twelve-month Non-IFRS adjusted free cash flow to shareholders through dividends and share repurchases . Additionally, GF launched its SCALE optical module solution for co-packaged optics in May 2026, the industry's first Optical Compute Interconnect Multi-Source Agreement tailored platform exceeding OCI MSA optical interconnect specification requirements , positioning the company as both a growth and income story in AI infrastructure.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "earnings",
+        "group_id": null
       },
       {
         "ticker": "IBM",
@@ -452,7 +470,10 @@
         "volume": 25312499,
         "catalyst": "IBM surged 12.43% after the U.S. government announced a $2 billion investment in quantum computing, with IBM set to receive $1 billion for a new foundry . IBM and the Commerce Department announced Anderon, America's first pure-play quantum foundry, with IBM contributing $1 billion and the Commerce Department providing an additional $1 billion via 2022 CHIPS Act funding for the Albany, N.Y. facility . This regulatory/government funding action represents a macro event that validates IBM's quantum computing strategy and positions the company to benefit from federal investment in critical technology infrastructure. The foundry model gives IBM a competitive advantage in commercializing quantum computing technology while strengthening U.S. capabilities in the sector.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "INFQ",
@@ -465,9 +486,12 @@
         "price": 14.7,
         "change_pct": 31.48,
         "volume": 76227230,
-        "catalyst": "I'll search for information about Infleqtion Inc's stock movement on May 22, 2026. Infleqtion Inc. (NYSE: INFQ) shares surged after signing a $100 million CHIPS R&D Letter of Intent to accelerate neutral-atom quantum systems . The proposed funding is contingent on the achievement of certain development milestones and is intended to support the advancement of U.S.-based quantum computing technologies focused on economic competitiveness and national security . The proposed investment would support development across quantum hardware, photonics and full-stack quantum system development, while also expanding domestic quantum engineering, workforce, hardware, software and infrastructure capabilities across Infleqtion's U.S. operations . This regulatory/government funding announcement represented a major validation of the company's quantum technology platform and provided significant non-dilutive capital for critical R&D initiatives.",
+        "catalyst": "Infleqtion signed a $100 million CHIPS R&D Letter of Intent with the U.S. Department of Commerce to accelerate neutral-atom quantum systems, with proposed funding contingent on development milestones supporting national security and economic competitiveness. The investment would support quantum hardware, photonics, and full-stack system development while expanding domestic quantum engineering, workforce, and infrastructure capabilities across Infleqtion's U.S. operations.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "IONQ",
@@ -482,7 +506,9 @@
         "volume": 62161824,
         "catalyst": "IonQ (IONQ) surged 12.24% on May 22, 2026, after announcing a $1.8 billion acquisition of SkyWater Technology, significantly enhancing its semiconductor capabilities. The stock also moved higher after enthusiasm over a new $2 billion U.S. quantum funding plan and IonQ's record Q1 results , creating dual catalysts for the rally. The broader tech sector rose only 0.54% , underscoring the outsized magnitude of IonQ's gain driven by the M&A announcement and record quarterly performance. The acquisition of the U.S.-based chip foundry represents a strategic integration move to vertically control semiconductor manufacturing for IonQ's quantum systems.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": null
       },
       {
         "ticker": "OPTX",
@@ -495,9 +521,11 @@
         "price": 10.94,
         "change_pct": 21.29,
         "volume": 4968321,
-        "catalyst": "Let me search for more specific news about May 22, 2026 stock movement. On May 19, 2026, Syntec Optics announced a series of product delivery milestones achieved over nearly 12 months, demonstrating successful manufacturing and delivery of next-generation products operating at leading-edge accuracy in nanoscale irregularity across defense, space, and AI platforms. The company highlighted deliveries ranging from ultra-precision mirrors for multi-spectral drone, aircraft, and armored vehicle defense systems to advanced satellite optics for space-based tracking and the Artemis rocket launcher's nano-surfaced components. The milestone announcements covered deliveries of nanoscale-accuracy optics for defense imaging, military space optics for hyperspectral Earth observation, optics for space-solar beaming, orbital AI compute, and terrestrial fusion energy applications. This product news demonstrating execution across multiple high-growth end markets\u2014defense tech, space tech, and AI\u2014catalyzed investor confidence in the company's technical capabilities and market positioning.",
+        "catalyst": "Syntec Optics announced delivery milestones achieved over nearly 12 months: ultra-precision mirrors for multi-spectral drone and armored vehicle defense systems, advanced satellite optics for the Artemis rocket launcher and space-based tracking applications, and nanoscale-accuracy optics for defense imaging, hyperspectral Earth observation, and orbital AI compute. The breadth of execution across defense, space, and AI platforms at leading-edge nanoscale accuracy drove investor confidence in the company's technical capabilities across multiple high-growth end markets.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": null
       },
       {
         "ticker": "QBTS",
@@ -510,9 +538,12 @@
         "price": 25.74,
         "change_pct": 33.37,
         "volume": 114491662,
-        "catalyst": "I'll search for information about D-Wave's stock movement on May 22, 2026. On May 21, 2026, D-Wave Quantum signed a Letter of Intent with the U.S. Department of Commerce for $100 million in proposed CHIPS and Science Act funding, with the Department expected to receive an equivalent value of D-Wave common stock upon execution of definitive award documents. QBTS stock surged over 22% on the news, having already jumped 17.9% in pre-market trading. The prospective funding would speed development of large-scale annealing and gate-model quantum systems, strengthening D-Wave's role in U.S. quantum leadership and domestic tech resilience. The funding is part of a broader $2 billion Trump administration initiative spread across nine quantum computing companies, with IBM receiving $1 billion.",
+        "catalyst": "D-Wave Quantum signed a Letter of Intent with the U.S. Department of Commerce for $100 million in proposed CHIPS and Science Act funding, with the Department receiving an equivalent equity stake upon finalization. The prospective funding would accelerate development of large-scale annealing and gate-model quantum systems, strengthening D-Wave's role in U.S. quantum leadership. Q1 2026 bookings surged 1,994% year-over-year, providing additional commercial context for the government's confidence in D-Wave's platform.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "RGTI",
@@ -527,7 +558,10 @@
         "volume": 143067952,
         "catalyst": "Rigetti Computing announced a regulatory/government award: a letter of intent with the U.S. Department of Commerce for up to $100 million in funding over three years to expedite research and development on superconducting quantum computing. The U.S. government may also take an equity stake as part of the deal. The announcement was part of a broader $2 billion funding initiative by the Trump administration to support nine quantum firms with minority equity stakes, which analysts believe may enhance institutional investor interest in the quantum computing sector. The company had ended Q1 2026 with $569 million in cash, equivalents, and investments with no debt, positioning it to benefit from the additional capital.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "RL",
@@ -540,9 +574,11 @@
         "price": 374.9,
         "change_pct": 13.87,
         "volume": 2116110,
-        "catalyst": "I can see from the search results that Ralph Lauren reported earnings on May 21, 2026, and the stock moved on May 22. Let me search for more specific details about the earnings beat and China sales impact mentioned in one of the results. Ralph Lauren reported Q4 fiscal 2026 earnings that beat expectations with adjusted EPS of $2.80 versus analyst estimates of $2.54, and revenue of $1.98 billion versus estimates of $1.85 billion . Sales in Asia led growth with exceptionally strong results in China during Lunar New Year, pointing to more than 50% sales growth in the country . Full-year revenue surpassed $8 billion for the first time, driven by growth in both retail and wholesale channels across all regions . The company also raised its quarterly dividend 10% to $1.00 per share .",
+        "catalyst": "Ralph Lauren reported Q4 fiscal 2026 adjusted EPS of $2.80 beating the $2.54 estimate and revenue of $1.98 billion versus the $1.85 billion consensus. Sales in Asia led growth with more than 50% growth in China during Lunar New Year, and full-year revenue surpassed $8 billion for the first time. The company raised its quarterly dividend 10% to $1.00 per share.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "earnings",
+        "group_id": null
       },
       {
         "ticker": "SPOT",
@@ -557,7 +593,9 @@
         "volume": 7297716,
         "catalyst": "Spotify shares jumped 13% on May 21, 2026, after the music streaming platform laid out 2030 guidance and reached an artificial intelligence deal with Universal Music . The product news catalysts included a deal with Universal that allows users to make AI covers , which will launch as a paid add-on for premium users and offer a new revenue stream for artists . Spotify shared 2030 guidance forecasting revenue at a compounded annual growth rate in the mid-teens and gross margins between 35% and 40% , with plans to reach 1 billion subscribers and $100 billion in revenue as its \"north star\" . This guidance proved pivotal after Spotify reported Q1 results showing premium subscriber and advertising revenue growth below market expectations , making the Investor Day announcement a turning point for the oversold stock.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "guidance",
+        "group_id": null
       },
       {
         "ticker": "VSH",
@@ -570,9 +608,11 @@
         "price": 42.17,
         "change_pct": 5.0,
         "volume": 6115025,
-        "catalyst": "Let me search for more specific news about May 22, 2026 activity. Based on my search results, I cannot find specific news about a +5.00% stock movement on May 22, 2026. The most recent catalyst I found was Vishay's Q1 2026 earnings report on May 13, which beat consensus estimates with earnings of $0.05 per share versus $0.03 expected . Additionally, on May 18, 2026, Vishay shareholders approved an amendment to expand the company's Long-Term Incentive Plan, doubling available shares to about 12 million . However, I was unable to locate specific news directly tied to the May 22 date you mentioned. The search results do not contain detailed information about stock price movements on that specific date.",
+        "catalyst": null,
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": null,
+        "group_id": null
       },
       {
         "ticker": "WSM",
@@ -587,7 +627,9 @@
         "volume": 2602915,
         "catalyst": "Williams-Sonoma reported Q1 2026 earnings beat, with GAAP profit of $1.93 per share 7.3% above consensus estimates and revenue of $1.81 billion meeting expectations with 4.4% year-over-year growth. The company also announced a 15% increase in its quarterly cash dividend to $0.76 per common share on March 18, 2026. The dividend was payable on May 22, 2026, to stockholders of record as of April 17, 2026. The combination of solid operational performance with margin strength and shareholder-friendly capital allocation through dividend growth supported the stock's advance on the ex-dividend and earnings announcement date.",
         "source": "Claude | Web",
-        "source_url": null
+        "source_url": null,
+        "catalyst_type": "earnings",
+        "group_id": null
       }
     ]
   }
