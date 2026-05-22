@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-22T07:30:58.950131+00:00",
+  "updated_at": "2026-05-22T22:12:45.945326+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -137,6 +137,56 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": null
+      }
+    ],
+    "2026-05-23": [
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings LimitedD",
+        "mkt_cap": 21500000,
+        "change_pct": 7.07
+      },
+      {
+        "ticker": "179",
+        "company": "Johnson Electric Holdings LimitedD",
+        "mkt_cap": 18780000,
+        "change_pct": 6.61
+      },
+      {
+        "ticker": "2382",
+        "company": "Sunny Optical Technology (Group) Co., Ltd.D",
+        "mkt_cap": 44480000,
+        "change_pct": 6.78
+      },
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.D",
+        "mkt_cap": 8240000,
+        "change_pct": 18.38
+      },
+      {
+        "ticker": "3898",
+        "company": "Zhuzhou CRRC Times Electric Co., Ltd. Class HD",
+        "mkt_cap": 11180000,
+        "change_pct": 8.21
+      },
+      {
+        "ticker": "6651",
+        "company": "Beijing 51WORLD Digital Twin Technology Co., Ltd. Class HD",
+        "mkt_cap": 23920000,
+        "change_pct": 28.57
+      },
+      {
+        "ticker": "981",
+        "company": "Semiconductor Manufacturing International Corp.D",
+        "mkt_cap": 212610000,
+        "change_pct": 7.61
+      },
+      {
+        "ticker": "9880",
+        "company": "UBTECH ROBOTICS CORP LTD Class HD",
+        "mkt_cap": 18110000,
+        "change_pct": 10.13
       }
     ]
   }

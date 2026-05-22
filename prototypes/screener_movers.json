@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-22T00:39:09.984570Z",
+  "updated_at": "2026-05-22T22:12:45.945326+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -171,7 +171,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "INFQ",
@@ -189,7 +189,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "IONQ",
@@ -241,7 +241,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "RGTI",
@@ -259,7 +259,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "RL",
@@ -328,6 +328,214 @@
         "source_url": null,
         "catalyst_type": "earnings",
         "group_id": null
+      }
+    ],
+    "2026-05-23": [
+      {
+        "ticker": "AEVAA",
+        "company": "Aeva Technologies, Inc.",
+        "mkt_cap": 3880000,
+        "change_pct": 17.82,
+        "catalyst": "AEVA reported Q1 2026 revenue of $6.3M, up 90% year-over-year, driven by strength across automotive, defense, infrastructure, and industrial markets. Cadence Design Systems licensed its Tensilica Vision DSP IP to AEVA to accelerate signal processing in its 4D LiDAR systems, and AEVA was selected by Forterra to supply 4D LiDAR sensors and perception technology for the AutoDrive autonomous vehicle platform. Multiple analysts maintain Buy or Strong Buy ratings with a consensus 12-month target of $24-$26.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings"
+      },
+      {
+        "ticker": "ATKRA",
+        "company": "Atkore Inc.",
+        "mkt_cap": 1020000,
+        "change_pct": 11.25,
+        "catalyst": "Atkore reported Q2 fiscal 2026 adjusted EPS of $1.23, beating consensus by 16%, with net sales of $731M up 11% sequentially and 4.2% year-over-year — the company's first quarterly revenue increase since Q4 2022. Full-year guidance was reaffirmed, signaling a durable inflection in the electrical infrastructure business. Citi raised its price target to $86 from $74 following the May 5 earnings release.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings"
+      },
+      {
+        "ticker": "DXYZD",
+        "company": "Destiny Tech100 Inc.",
+        "mkt_cap": 8900000,
+        "change_pct": 8.08,
+        "catalyst": "Continued momentum from SpaceX's anticipated 5-for-1 stock split and reported plans for a Nasdaq IPO targeting a ~$1.75T valuation as soon as June 12, 2026. SpaceX constitutes 52.4% of DXYZ's economic exposure, making the fund the primary liquid retail proxy for the imminent listing. Elevated short positioning and a widening premium-to-NAV amplified the move for a second consecutive session.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "GFSG",
+        "company": "GlobalFoundries Inc.",
+        "mkt_cap": 11780000,
+        "change_pct": 5.27,
+        "catalyst": "Continued follow-through from GlobalFoundries' May 22 catalyst: Q1 2026 adjusted EPS of $0.40 beat the $0.35 consensus with Q2 guidance above Street expectations, the company's first-ever quarterly dividend of $0.12/share, and the launch of the SCALE optical module — the industry's first OCI MSA-compliant co-packaged optics platform for AI data centers.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings"
+      },
+      {
+        "ticker": "HPQHP",
+        "company": "HP Inc.",
+        "mkt_cap": 48630000,
+        "change_pct": 15.25,
+        "catalyst": "HPQ surged on pre-earnings positioning ahead of Q2 fiscal 2026 results due May 27, with consensus expecting $14.05B in revenue and EPS of $0.70-$0.76. Sentiment was boosted by the launch of the HP IQ on-device AI platform and growing AI PC cycle enthusiasm. A broad tech relief rally driven by reports of a U.S.-Iran ceasefire, which eased inflation fears and oil prices, added a macro tailwind.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "IMAXI",
+        "company": "IMAX Corporation",
+        "mkt_cap": 3890000,
+        "change_pct": 15.47,
+        "catalyst": "IMAX soared on reports the company has begun an early-stage sale process and reached out to potential buyers, with Apple, Sony, and Netflix cited as the most likely strategic acquirers. IMAX reaffirmed its 2026 outlook of a projected record $1.4B global box office and 160-175 new system installations, providing a solid operational backdrop for deal speculation.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "INFQI",
+        "company": "Infleqtion, Inc.",
+        "mkt_cap": 65319999.99999999,
+        "change_pct": 11.22,
+        "catalyst": "Continued momentum from the May 21-22 $2B U.S. quantum computing initiative, in which Infleqtion signed a $100M CHIPS R&D Letter of Intent with the U.S. Department of Commerce to accelerate neutral-atom quantum systems and photonics. The proposed investment, contingent on development milestones, positions INFQ alongside D-Wave, Rigetti, and IBM as a direct beneficiary of the federal quantum buildout.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
+      },
+      {
+        "ticker": "LNTHL",
+        "company": "Lantheus Holdings, Inc.",
+        "mkt_cap": 2020000,
+        "change_pct": 9.03,
+        "catalyst": "Lantheus announced two presentations at the 2026 ASCO Annual Meeting (May 29 - June 2, Chicago): Phase 1/2 safety and activity data for LNTH-2403, a LRRC15-targeted 177Lu-labeled antibody in relapsed/refractory osteosarcoma, and a real-world study of piflufolastat F 18 in early-stage prostate cancer. Pre-ASCO positioning was reinforced by Q1 2026 results of $377M in sales and reaffirmed full-year guidance of $1.40B-$1.45B.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "LPTHL",
+        "company": "LightPath Technologies, Inc.",
+        "mkt_cap": 7830000,
+        "change_pct": 18.7,
+        "catalyst": "LightPath reported fiscal Q3 2026 revenue of $19.1M, up 109% year-over-year, with gross margin of 36% and adjusted EBITDA turning positive at $1.1M versus a loss of $1.6M a year prior; backlog surged 196% to $110.6M. The January 2026 acquisition of Amorphous Materials' assets doubled BlackDiamond glass capacity and positioned LPTH to capitalize on U.S. defense supply chain mandates replacing China-sourced germanium. Canaccord raised its target to $16.50 and Lake Street to $15, both with Buy ratings.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings"
+      },
+      {
+        "ticker": "NTAPN",
+        "company": "NetApp, Inc.",
+        "mkt_cap": 6670000,
+        "change_pct": 12.44,
+        "catalyst": "NetApp continued its pre-earnings run ahead of Q4 fiscal 2026 results due May 28 (consensus: $2.27 EPS, +17.6% YoY). The recent launch of Google Cloud NetApp Volumes Flex Unified and Data Migrator deepened NetApp's AI cloud infrastructure positioning, while the OpenShift enhancement and Iterate.ai private AI bundle reframed the company as an intelligent data platform. Bank of America raised its price target to $125, though Morgan Stanley's Underweight kept sentiment mixed.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "QBTSD",
+        "company": "D-Wave Quantum Inc.",
+        "mkt_cap": 141220000,
+        "change_pct": 14.22,
+        "catalyst": "Continued second-day momentum from D-Wave's May 21 $100M CHIPS and Science Act Letter of Intent with the U.S. Department of Commerce, part of the $2B federal quantum initiative. Q1 2026 bookings surged 1,994% year-over-year, and the proposed non-dilutive capital would accelerate development of large-scale annealing and gate-model quantum systems. The stock gained 42%+ over the prior week on the combined quantum funding and bookings catalysts.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
+      },
+      {
+        "ticker": "QUBTQ",
+        "company": "Quantum Computing Inc.",
+        "mkt_cap": 67850000,
+        "change_pct": 7.89,
+        "catalyst": "Quantum Computing Inc. benefited from sustained sector enthusiasm following the Trump administration's $2B federal quantum computing initiative announced May 21, which directed funding to D-Wave, Rigetti, Infleqtion, and IBM. While QUBT was not a direct LOI recipient, the initiative triggered broad-based buying across the quantum sector as investors rotated into pure-play quantum names.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "RDWR",
+        "company": "Redwire Corporation",
+        "mkt_cap": 55140000,
+        "change_pct": 13.94,
+        "catalyst": "Redwire extended a three-day winning streak driven by a series of contract awards, including two drone contracts worth tens of millions of dollars combined announced this week. The integrated space and defense tech company has been consistently booking new business across aerospace infrastructure, autonomous systems, and multi-domain operations. The stock hit successive 52-week highs intraday with the market cap now above $2.3B.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "RGTIR",
+        "company": "Rigetti Computing, Inc.",
+        "mkt_cap": 203260000,
+        "change_pct": 19.87,
+        "catalyst": "Rigetti continued its multi-day rally, now up 42%+ on the week, following its May 21 Letter of Intent with the U.S. Department of Commerce for up to $100M over three years to accelerate superconducting quantum computing R&D — with the government potentially taking an equity stake. Rigetti ended Q1 2026 with $569M in cash and no debt, giving it ample runway to deploy the additional non-dilutive capital toward its hardware roadmap.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other",
+        "group_id": "chips_quantum_may21",
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
+      },
+      {
+        "ticker": "SHAZS",
+        "company": "SharonAI Holdings, Inc.",
+        "mkt_cap": 1220000,
+        "change_pct": 17.95,
+        "catalyst": "SharonAI closed a $350M private offering of 6.00% Convertible Senior Notes due 2031 on May 20, with proceeds earmarked for GPU and network procurement tied to AI cloud deployments. The financing underpins a five-year $1.25B total contract value AI infrastructure agreement with ESDS Software Solutions for an 8K B300 GPU cluster in Australia, with revenue expected to start Q3 2026. The stock is up 38% over the prior 30 days on the combination of deal flow and capital raise.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "SMTCS",
+        "company": "Semtech Corporation",
+        "mkt_cap": 6410000,
+        "change_pct": 7.0,
+        "catalyst": "Semtech rallied into its Q1 fiscal 2027 earnings report scheduled for May 26, with consensus expecting ~$283M in revenue. The market has priced in an implied earnings move of +/-22%, reflecting high uncertainty around data center and IoT demand trends. The March 2026 acquisition of HieFo Corporation for $34M adds capabilities to Semtech's connectivity stack ahead of the print.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "SPOTS",
+        "company": "Spotify Technology S.A.",
+        "mkt_cap": 5290000,
+        "change_pct": 6.11,
+        "catalyst": "Continued follow-through from Spotify's May 22 Investor Day, where management outlined 2030 targets of 1 billion subscribers, $100B in revenue, and 35-40% gross margins. Spotify also announced a deal with Universal Music allowing paid premium users to create AI covers, opening a new revenue stream. Full-year FY27 guidance was raised with steady mid-single-digit revenue growth and expanded margins expected.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "guidance"
+      },
+      {
+        "ticker": "UTIU",
+        "company": "Universal Technical Institute Inc.",
+        "mkt_cap": 3350000,
+        "change_pct": 9.45,
+        "catalyst": "S&P Dow Jones Indices announced Universal Technical Institute will join the S&P SmallCap 600 index effective May 27, triggering mandatory passive fund buying. B. Riley raised its price target to $49 from $36, citing strong durable free cash flow and a clear growth roadmap through fiscal 2028 driven by AI-boosting demand for skilled technicians. The index addition came despite Q2 EPS of $0.01 versus the prior year's $0.21, as analysts framed margin pressure as strategic investment.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "other"
+      },
+      {
+        "ticker": "VSHV",
+        "company": "Vishay Intertechnology, Inc.",
+        "mkt_cap": 9100000,
+        "change_pct": 12.05,
+        "catalyst": "Continued momentum from Vishay's Q1 2026 earnings beat reported May 13: revenue of $839.2M with a book-to-bill ratio of 1.34 (1.47 for semiconductors), the strongest order intake in years. Q2 guidance called for revenue of $875M-$905M with gross margin of ~22%, implying sequential improvement. The strong book-to-bill signals inventory restocking is underway across both passive components and semiconductor product lines.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings"
+      },
+      {
+        "ticker": "ZMZ",
+        "company": "Zoom Communications, Inc.",
+        "mkt_cap": 9630000,
+        "change_pct": 9.19,
+        "catalyst": "Continued post-earnings momentum from Zoom's May 21 Q1 fiscal 2027 beat: revenue of $1.24B (up 5.5% YoY, above the $1.22B consensus) with adjusted EPS of $1.55 vs. the $1.42 estimate. AI Companion paid users grew 184% YoY, and the Board authorized an incremental $1B share repurchase on top of $625M remaining. Full-year FY27 EPS guidance was raised to $5.96-$6.00 with revenue guided to $5.08B-$5.09B.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings"
       }
     ]
   }
