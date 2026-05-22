@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-05-21T23:41:44.206992Z",
+  "fetched_at": "2026-05-22T00:12:25.605417Z",
   "ipos": [
-    {
-      "ticker": "ODTX",
-      "company": "Odyssey Therapeutics, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-08",
-      "price_usd": 18.0,
-      "price_range": "16.00 - 18.00",
-      "status": "Closed",
-      "shares": 15500000,
-      "deal_amount_usd": 279000000.0,
-      "mkt_cap_usd": 849134808.0,
-      "ipo_close": 16.42
-    },
     {
       "ticker": "MOBI",
       "company": "Mobia Medical, Inc.",
@@ -28,17 +15,17 @@
       "ipo_close": 11.75
     },
     {
-      "ticker": "FRVO",
-      "company": "Fervo Energy Company",
+      "ticker": "ODTX",
+      "company": "Odyssey Therapeutics, Inc.",
       "exchange": "NASDAQ",
-      "date": "2026-05-13",
-      "price_usd": 27.0,
-      "price_range": "25.00 - 26.00",
+      "date": "2026-05-08",
+      "price_usd": 18.0,
+      "price_range": "16.00 - 18.00",
       "status": "Closed",
-      "shares": 70000000,
-      "deal_amount_usd": 1890000000.0,
-      "mkt_cap_usd": 7656182991.0,
-      "ipo_close": 36.54
+      "shares": 15500000,
+      "deal_amount_usd": 279000000.0,
+      "mkt_cap_usd": 849134808.0,
+      "ipo_close": 16.42
     },
     {
       "ticker": "GMRS",
@@ -54,17 +41,30 @@
       "ipo_close": 13.98
     },
     {
-      "ticker": "BXDC",
-      "company": "Blackstone Digital Infrastructure Trust Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-14",
-      "price_usd": 20.0,
-      "price_range": null,
+      "ticker": "FRVO",
+      "company": "Fervo Energy Company",
+      "exchange": "NASDAQ",
+      "date": "2026-05-13",
+      "price_usd": 27.0,
+      "price_range": "25.00 - 26.00",
       "status": "Closed",
-      "shares": 100490000,
-      "deal_amount_usd": 1734833900.0,
-      "mkt_cap_usd": 1750000100.0,
-      "ipo_close": 19.81
+      "shares": 70000000,
+      "deal_amount_usd": 1890000000.0,
+      "mkt_cap_usd": 7656182991.0,
+      "ipo_close": 36.54
+    },
+    {
+      "ticker": "CBRS",
+      "company": "Cerebras Systems Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 185.0,
+      "price_range": "150.00 - 160.00",
+      "status": "Closed",
+      "shares": 34500000,
+      "deal_amount_usd": 5550000000.0,
+      "mkt_cap_usd": 39795413825.0,
+      "ipo_close": 311.07
     },
     {
       "ticker": "MWC",
@@ -93,17 +93,17 @@
       "ipo_close": 23.0
     },
     {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
+      "ticker": "BXDC",
+      "company": "Blackstone Digital Infrastructure Trust Inc.",
+      "exchange": "NYSE",
       "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
+      "price_usd": 20.0,
+      "price_range": null,
       "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
+      "shares": 100490000,
+      "deal_amount_usd": 1734833900.0,
+      "mkt_cap_usd": 1750000100.0,
+      "ipo_close": 19.81
     },
     {
       "ticker": "LCLN",
