@@ -1013,6 +1013,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <button class="scr-view-btn active" id="scr-btn-daily" onclick="scrSetView('daily',this)">Daily</button>
       <button class="scr-view-btn" id="scr-btn-weekly" onclick="scrSetView('weekly',this)">Weekly</button>
     </div>
+    <div class="scr-view-toggle" style="margin-left:6px">
+      <button class="scr-view-btn active" id="scr-btn-us" onclick="scrSetMarket('us')">US</button>
+      <button class="scr-view-btn" id="scr-btn-cn" onclick="scrSetMarket('cn')">China</button>
+    </div>
   </div>
 
   <div class="scr-section">
@@ -3654,7 +3658,7 @@ function jrnlInit(){
 }
 
 // ══ Screener Tab ════════════════════════════════════════════
-let scrDate=new Date(), scrView='daily', scrMoversData=null, scrIposData=null, scrLoaded=false;
+let scrDate=new Date(), scrView='daily', scrMarket='us', scrMoversData=null, scrMoversDataCn=null, scrIposData=null, scrLoaded=false;
 
 function scrFmtDate(d){
   return d.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
@@ -3678,6 +3682,14 @@ function scrSetView(v){
   scrUpdateLabel();
   scrRenderBoth();
 }
+function scrSetMarket(m){
+  scrMarket=m;
+  document.getElementById('scr-btn-us').classList.toggle('active',m==='us');
+  document.getElementById('scr-btn-cn').classList.toggle('active',m==='cn');
+  const leg=document.querySelector('.scr-legend');
+  if(leg) leg.style.display=m==='cn'?'none':'';
+  scrRenderBoth();
+}
 function scrUpdateLabel(){
   const el=document.getElementById('scr-date-label');
   if(!el) return;
@@ -3695,11 +3707,12 @@ function scrRenderBoth(){scrRenderMovers();scrRenderIpos();}
 function scrRenderMovers(){
   const grid=document.getElementById('scr-movers-grid');
   if(!grid) return;
-  if(!scrMoversData){
-    grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Run screener_fetch.py to populate movers data.</div>';
+  const _mData=scrMarket==='cn'?scrMoversDataCn:scrMoversData;
+  if(!_mData){
+    grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">'+(scrMarket==='cn'?'Loading China movers...':'Run screener_fetch.py to populate movers data.')+'</div>';
     return;
   }
-  const byDate=scrMoversData.by_date||{};
+  const byDate=_mData.by_date||{};
   const rows=byDate[scrIso(scrDate)]||[];
   if(!rows.length){
     const keys=Object.keys(byDate).sort();
@@ -3774,7 +3787,7 @@ function scrRenderIpos(){
     grid.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">Run screener_fetch.py to populate IPO data.</div>';
     return;
   }
-  const allIpos=scrIposData.ipos||[];
+  const allIpos=scrMarket==='cn'?(scrIposData.hk||[]):(scrIposData.us||scrIposData.ipos||[]);
   const ipos=allIpos.filter(ipo=>{
     if(!ipo.date) return false;
     if(scrView==='weekly'){
@@ -3862,6 +3875,10 @@ function scrInit(){
     .catch(()=>{
       if(ig) ig.innerHTML='<div class="scr-no-data" style="grid-column:1/-1">IPO data unavailable. Run screener_fetch.py to populate.</div>';
     });
+  fetch('screener_movers_cn.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{scrMoversDataCn=d;if(scrMarket==='cn')scrRenderMovers();})
+    .catch(()=>{});
 }
 </script>
 </body>
