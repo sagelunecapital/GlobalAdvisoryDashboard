@@ -310,6 +310,9 @@ items:
     status: done
     started_at: "2026-05-22T00:00:00Z"
     completed_at: "2026-05-22T00:00:00Z"
+    pr_url: "https://github.com/sagelunecapital/GlobalAdvisoryDashboard/pull/6"
+    pr_number: 6
+    pr_status: "open"
     tier: 2
     artefact: contexts/artefacts/stories/E07S01.story.md
     dependencies: []
