@@ -1,0 +1,63 @@
+{
+  "updated_at": "2026-05-22T07:30:58.950131+00:00",
+  "by_date": {
+    "2026-05-22": [
+      {
+        "ticker": "179",
+        "company": "Johnson Electric Holdings Limited",
+        "mkt_cap": 17470000,
+        "change_pct": 6.39,
+        "catalyst": "Trump-Xi trade deal optimism boosted component suppliers; EV cycle ramp positioning with expanded capacity in Mexico and Central Europe."
+      },
+      {
+        "ticker": "2382",
+        "company": "Sunny Optical Technology (Group) Co., Ltd.",
+        "mkt_cap": 39190000,
+        "change_pct": 7.43,
+        "catalyst": "Post-summit trade relief; strong 2026 guidance — hybrid zoom lens growth >150%, periscope lens +40%, high-end smartphone optics demand."
+      },
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 6350000,
+        "change_pct": 15.98,
+        "catalyst": "100,000-unit robotaxi fleet target by 2030; Eva Cab AV entering production 2027; EV/AV sector optimism from US-China trade normalization."
+      },
+      {
+        "ticker": "3200",
+        "company": "Shenzhen Han's CNC Technology Co., Ltd.",
+        "mkt_cap": 4080000,
+        "change_pct": 6.25,
+        "catalyst": "Strong demand for ultrafast laser drilling for AI PCB production; post-HK IPO (Feb 2026) momentum reinforced by trade deal reducing semiconductor supply chain uncertainty."
+      },
+      {
+        "ticker": "6651",
+        "company": "Beijing 51WORLD Digital Twin Technology Co., Ltd.",
+        "mkt_cap": 17980000,
+        "change_pct": 23.29,
+        "catalyst": "\"Physical AI\" narrative amplified post-Trump-Xi summit; digital twin platforms for AV, smart city simulation seen as critical to China tech self-sufficiency."
+      },
+      {
+        "ticker": "981",
+        "company": "Semiconductor Manufacturing International Corp.",
+        "mkt_cap": 173050000,
+        "change_pct": 7.14,
+        "catalyst": "Q2 2026 guidance of 14-16% sequential revenue growth from AI and automotive chip demand; trade deal reduced tariff and geopolitical risk for China's largest foundry."
+      },
+      {
+        "ticker": "9880",
+        "company": "UBTECH Robotics Corp Ltd",
+        "mkt_cap": 15520000,
+        "change_pct": 10.13,
+        "catalyst": "Siemens partnership targeting 10,000 humanoid robot units by 2026; expanding to Airbus and TI; trade deal de-escalation reduced supply chain constraints."
+      },
+      {
+        "ticker": "9936",
+        "company": "Ximei Resources Holding Ltd.",
+        "mkt_cap": 2880000,
+        "change_pct": 7.06,
+        "catalyst": "Tantalum and niobium demand from AI infrastructure and aerospace; trade deal signaled easing supply chain tensions and renewed capex for advanced materials."
+      }
+    ]
+  }
+}
