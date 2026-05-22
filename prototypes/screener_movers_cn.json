@@ -3,6 +3,23 @@
   "by_date": {
     "2026-05-22": [
       {
+        "ticker": "148",
+        "company": "Kingboard Holdings Ltd",
+        "sector": "Technology",
+        "industry": "Electronic Components",
+        "country": "Hong Kong",
+        "mkt_cap": 8200000000.0,
+        "pe": null,
+        "price": null,
+        "change_pct": 6.39,
+        "volume": null,
+        "catalyst": "Pre-AGM (May 26) bid-up on record dividend approval — HK$1.51/share total (+57% YoY) off a 207% FY2025 profit surge. AI data center buildout driving fourth CCL/PCB laminate price hike of 2026 as supply tightens.",
+        "source": "Claude | Web",
+        "source_url": null,
+        "catalyst_type": "earnings",
+        "group_id": null
+      },
+      {
         "ticker": "179",
         "company": "Johnson Electric Holdings Ltd",
         "sector": "Industrials",
@@ -13,12 +30,11 @@
         "price": null,
         "change_pct": 6.39,
         "volume": null,
-        "catalyst": "US-China trade normalization following the Trump-Xi summit (May 18) lifted sentiment across HK-listed manufacturers. Johnson Electric's EV drivetrain and motion systems exposure positions it as a direct beneficiary of resumed cross-border supply chain confidence and recovering automotive capex in China.",
+        "catalyst": "US-China trade normalization (Trump-Xi summit, May 18) lifted sentiment across HK-listed manufacturers. Johnson Electric's EV drivetrain and motion systems exposure positions it as a direct beneficiary of resumed cross-border supply chain confidence and recovering China automotive capex.",
         "source": "Claude | Web",
         "source_url": null,
         "catalyst_type": "other",
-        "group_id": "trump-xi-trade",
-        "group_summary": "The Trump-Xi summit (May 18) delivered a broad US-China trade normalization package — $17B+ in annual agricultural purchases, 200 Boeing aircraft orders, and rare earth supply agreements — triggering a multi-day re-rating of HK-listed manufacturers, semiconductors, and materials names exposed to cross-border supply chains. Johnson Electric (179), Han's CNC (3200), SMIC (981), and Ximei Resources (9936) all rallied on reduced tariff risk and renewed expectations for China capex recovery."
+        "group_id": null
       },
       {
         "ticker": "2382",
@@ -55,21 +71,21 @@
         "group_id": null
       },
       {
-        "ticker": "3200",
-        "company": "Shenzhen Han's CNC Technology Co Ltd",
+        "ticker": "3898",
+        "company": "Zhuzhou CRRC Times Electric Co Ltd",
         "sector": "Industrials",
         "industry": "Specialty Industrial Machinery",
         "country": "China",
-        "mkt_cap": 525000000.0,
+        "mkt_cap": 9000000000.0,
         "pe": null,
         "price": null,
-        "change_pct": 6.25,
+        "change_pct": 7.06,
         "volume": null,
-        "catalyst": "Strong demand for ultrafast laser drilling systems driven by AI PCB production expansion. Post-HK IPO (February 2026) momentum reinforced by trade deal reducing semiconductor supply chain uncertainty and boosting AI infrastructure capex sentiment.",
+        "catalyst": "Q1 2026 earnings beat — revenue +12% YoY to CNY 5.1B, net profit +1.9% to CNY 643M. China NDRC formally designated 10 new key railway projects for 2026 construction starts, directly expanding the addressable pipeline for CRRC Times Electric's traction and signaling systems.",
         "source": "Claude | Web",
         "source_url": null,
-        "catalyst_type": "other",
-        "group_id": "trump-xi-trade"
+        "catalyst_type": "earnings",
+        "group_id": null
       },
       {
         "ticker": "6651",
@@ -103,7 +119,7 @@
         "source": "Claude | Web",
         "source_url": null,
         "catalyst_type": "guidance",
-        "group_id": "trump-xi-trade"
+        "group_id": null
       },
       {
         "ticker": "9880",
@@ -121,23 +137,6 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": null
-      },
-      {
-        "ticker": "9936",
-        "company": "Ximei Resources Holding Ltd",
-        "sector": "Basic Materials",
-        "industry": "Other Industrial Metals & Mining",
-        "country": "China",
-        "mkt_cap": 370000000.0,
-        "pe": null,
-        "price": null,
-        "change_pct": 7.06,
-        "volume": null,
-        "catalyst": "Tantalum and niobium demand surge from AI infrastructure buildout and aerospace. Trade deal signaled easing of rare earth supply chain tensions and renewed advanced materials capex, with Ximei as a key processor of critical minerals for semiconductor and defense applications.",
-        "source": "Claude | Web",
-        "source_url": null,
-        "catalyst_type": "other",
-        "group_id": "trump-xi-trade"
       }
     ]
   }

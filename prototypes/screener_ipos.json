@@ -1,6 +1,6 @@
 {
-  "fetched_at": "2026-05-22T00:39:09.984570Z",
-  "ipos": [
+  "fetched_at": "2026-05-22T07:30:58.950131+00:00",
+  "us": [
     {
       "ticker": "ODTX",
       "company": "Odyssey Therapeutics, Inc.",
@@ -54,32 +54,6 @@
       "ipo_close": 13.98
     },
     {
-      "ticker": "BXDC",
-      "company": "Blackstone Digital Infrastructure Trust Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-14",
-      "price_usd": 20.0,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 100490000,
-      "deal_amount_usd": 1734833900.0,
-      "mkt_cap_usd": 1750000100.0,
-      "ipo_close": 19.81
-    },
-    {
-      "ticker": "MWC",
-      "company": "Micware Co., Ltd.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 8.0,
-      "price_range": "7.00 - 9.00",
-      "status": "Closed",
-      "shares": 2850000,
-      "deal_amount_usd": 22800000.0,
-      "mkt_cap_usd": 471935312.0,
-      "ipo_close": 8.2
-    },
-    {
       "ticker": "EROK",
       "company": "EagleRock Land, LLC",
       "exchange": "NYSE",
@@ -106,6 +80,32 @@
       "ipo_close": 311.07
     },
     {
+      "ticker": "BXDC",
+      "company": "Blackstone Digital Infrastructure Trust Inc.",
+      "exchange": "NYSE",
+      "date": "2026-05-14",
+      "price_usd": 20.0,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 100490000,
+      "deal_amount_usd": 1734833900.0,
+      "mkt_cap_usd": 1750000100.0,
+      "ipo_close": 19.81
+    },
+    {
+      "ticker": "MWC",
+      "company": "Micware Co., Ltd.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 8.0,
+      "price_range": "7.00 - 9.00",
+      "status": "Closed",
+      "shares": 2850000,
+      "deal_amount_usd": 22800000.0,
+      "mkt_cap_usd": 471935312.0,
+      "ipo_close": 8.2
+    },
+    {
       "ticker": "LCLN",
       "company": "Lincoln International, Inc.",
       "exchange": "NYSE",
@@ -117,6 +117,140 @@
       "deal_amount_usd": 420999760.0,
       "mkt_cap_usd": 2039658240.0,
       "ipo_close": 22.52
+    }
+  ],
+  "hk": [
+    {
+      "ticker": "1236",
+      "company": "Shenzhen LDRobot Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-11",
+      "price_usd": 3.367054975648,
+      "price_range": "3.07 - 3.83",
+      "status": "Closed",
+      "shares": 33333400,
+      "deal_amount_usd": 101011649.26944,
+      "mkt_cap_usd": 1122373388.3906
+    },
+    {
+      "ticker": "7630",
+      "company": "IMPACT Therapeutics, Inc. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-13",
+      "price_usd": 2.56755807276,
+      "price_range": "2.52 - 2.78",
+      "status": "Closed",
+      "shares": 41977000,
+      "deal_amount_usd": 97000289.9424146,
+      "mkt_cap_usd": 708866271.3417
+    },
+    {
+      "ticker": "7666",
+      "company": "Metis TechBio Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-13",
+      "price_usd": 1.3412616798,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 201229000,
+      "deal_amount_usd": 256405642.1731665,
+      "mkt_cap_usd": 1545378500.0869
+    },
+    {
+      "ticker": "6871",
+      "company": "Robotphoenix Intelligent Technology Co Ltd Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-18",
+      "price_usd": 3.8958716524,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 24600000,
+      "deal_amount_usd": 91046520.516588,
+      "mkt_cap_usd": 954028938.9183
+    },
+    {
+      "ticker": "1511",
+      "company": "UISEE Technologies (Beijing) Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-20",
+      "price_usd": 7.69805250669,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 14461200,
+      "deal_amount_usd": 89058384.54727128,
+      "mkt_cap_usd": 1250826199.7759
+    },
+    {
+      "ticker": "7688",
+      "company": "Shanghai Top Numerical Control Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-20",
+      "price_usd": 3.369015019097,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 65330000,
+      "deal_amount_usd": 198087976.07784632,
+      "mkt_cap_usd": 1378885299.2442
+    },
+    {
+      "ticker": "6872",
+      "company": "TenNor Therapeutics Suzhou Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-22",
+      "price_usd": 9.66411765404,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 8280550,
+      "deal_amount_usd": 72021353.6108504,
+      "mkt_cap_usd": 500151681.0695
+    },
+    {
+      "ticker": "901",
+      "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-27",
+      "price_usd": 4.18842818992,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 19207300,
+      "deal_amount_usd": 72403263.90505208,
+      "mkt_cap_usd": 87741945.0234
+    },
+    {
+      "ticker": "2723",
+      "company": "Beijing DeepZero Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-27",
+      "price_usd": null,
+      "price_range": "5.55 - 7.09",
+      "status": "Pending",
+      "shares": 9068000,
+      "deal_amount_usd": 57824692.64725752,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "3310",
+      "company": "Viewtrix Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-27",
+      "price_usd": 2.657709721293,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 52859200,
+      "deal_amount_usd": 126435756.11301614,
+      "mkt_cap_usd": 1136469590.4576
+    },
+    {
+      "ticker": "3388",
+      "company": "Shenzhen Creality 3D Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-29",
+      "price_usd": 2.40007149136,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 73427550,
+      "deal_amount_usd": 158608124.48865277,
+      "mkt_cap_usd": 1120449617.4337
     }
   ]
 }
