@@ -1020,7 +1020,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div class="scr-legend">
         <span class="scr-leg-pill scr-leg-green">Earnings / Guidance</span>
         <span class="scr-leg-pill scr-leg-purple">Analyst Action</span>
-        <span class="scr-leg-pill scr-leg-blue">Other catalyst</span>
+        <span class="scr-leg-pill scr-leg-blue">Other</span>
       </div>
     </div>
     <div class="scr-grid" id="scr-movers-grid">
@@ -3478,12 +3478,11 @@ function scrRenderMovers(){
 
   const groupHtml=Object.values(groupMap).map(members=>{
     const hl=hlCls(members[0].catalyst_type||'other');
-    const chips=members.map(r=>`<div class="scr-gticker">
+    const chips=members.map(r=>{const cap=fMc(r.mkt_cap);return`<div class="scr-gticker">
       <span class="scr-gticker-sym">${r.ticker}</span>
-      <span class="scr-gticker-name">${r.company}</span>
+      <span class="scr-gticker-name">${r.company}${cap?' | '+cap:''}</span>
       <span class="scr-gticker-chg ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</span>
-      ${fMc(r.mkt_cap)?`<span class="scr-gticker-cap">${fMc(r.mkt_cap)}</span>`:''}
-    </div>`).join('');
+    </div>`;}).join('');
     const summary=members[0].group_summary||'';
     return`<div class="scr-card scr-card-group ${hl}">
       <div class="scr-group-tickers">${chips}</div>
