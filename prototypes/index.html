@@ -336,14 +336,17 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .hl-blue{background:rgba(0,112,204,0.08)!important;border-color:rgba(0,112,204,0.35)!important}
 .hl-purple{background:rgba(168,85,247,0.07)!important;border-color:rgba(168,85,247,0.3)!important}
 .scr-card-group{grid-column:1/-1}
-.scr-group-tickers{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:4px}
-.scr-gticker{display:flex;flex-direction:column;gap:2px;background:var(--surface-high);border-radius:10px;padding:8px 14px;min-width:110px}
+.scr-group-tickers{display:flex;gap:10px;flex-wrap:nowrap;margin-bottom:4px}
+.scr-gticker{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;background:var(--surface-high);border-radius:10px;padding:8px 14px}
 .scr-gticker-sym{font-size:14px;font-weight:700;color:var(--text)}
-.scr-gticker-name{font-size:10px;color:var(--text-muted)}
+.scr-gticker-name{font-size:10px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .scr-gticker-chg{font-size:13px;font-weight:600}
-.scr-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
-.scr-leg{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-muted)}
-.scr-leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.scr-gticker-cap{font-size:10px;color:var(--text-muted)}
+.scr-legend{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.scr-leg-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:999px;letter-spacing:0.3px;white-space:nowrap}
+.scr-leg-green{background:rgba(63,185,80,0.12);color:var(--green);border:1px solid rgba(63,185,80,0.3)}
+.scr-leg-purple{background:rgba(168,85,247,0.12);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
+.scr-leg-blue{background:rgba(0,112,204,0.12);color:#60a5fa;border:1px solid rgba(0,112,204,0.3)}
 </style>
 </head>
 <body>
@@ -1012,12 +1015,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   </div>
 
   <div class="scr-section">
-    <div class="scr-section-label">Movers</div>
-    <div class="scr-legend">
-      <div class="scr-leg"><div class="scr-leg-dot" style="background:rgba(63,185,80,0.5);border:1px solid rgba(63,185,80,0.7)"></div>Earnings / Guidance</div>
-      <div class="scr-leg"><div class="scr-leg-dot" style="background:rgba(168,85,247,0.5);border:1px solid rgba(168,85,247,0.7)"></div>Analyst Action</div>
-      <div class="scr-leg"><div class="scr-leg-dot" style="background:rgba(0,112,204,0.5);border:1px solid rgba(0,112,204,0.7)"></div>Other catalyst</div>
-      <div class="scr-leg"><div class="scr-leg-dot" style="background:var(--surface-card);border:1px solid var(--outline-dim)"></div>No specific catalyst</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)">
+      <div class="scr-section-label" style="margin:0;padding:0;border:none">Movers</div>
+      <div class="scr-legend">
+        <span class="scr-leg-pill scr-leg-green">Earnings / Guidance</span>
+        <span class="scr-leg-pill scr-leg-purple">Analyst Action</span>
+        <span class="scr-leg-pill scr-leg-blue">Other catalyst</span>
+      </div>
     </div>
     <div class="scr-grid" id="scr-movers-grid">
       <div class="scr-no-data" style="grid-column:1/-1">Loading movers...</div>
@@ -3478,6 +3482,7 @@ function scrRenderMovers(){
       <span class="scr-gticker-sym">${r.ticker}</span>
       <span class="scr-gticker-name">${r.company}</span>
       <span class="scr-gticker-chg ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</span>
+      ${fMc(r.mkt_cap)?`<span class="scr-gticker-cap">${fMc(r.mkt_cap)}</span>`:''}
     </div>`).join('');
     const summary=members[0].group_summary||'';
     return`<div class="scr-card scr-card-group ${hl}">
@@ -3506,7 +3511,6 @@ function scrRenderMovers(){
       </div>
       <div class="scr-name">${name}</div>
       <hr class="scr-divider">
-      <div class="scr-meta"><div>${r.sector||'—'}</div></div>
       ${catalystHtml}
     </div>`;
   }).join('');
