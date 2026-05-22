@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-05-22T00:12:25.605417Z",
+  "fetched_at": "2026-05-22T00:26:59.708469Z",
   "ipos": [
     {
       "ticker": "MOBI",
@@ -28,19 +28,6 @@
       "ipo_close": 16.42
     },
     {
-      "ticker": "GMRS",
-      "company": "GMR Solutions Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-13",
-      "price_usd": 15.0,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 31914893,
-      "deal_amount_usd": 478723395.0,
-      "mkt_cap_usd": 3347175510.0,
-      "ipo_close": 13.98
-    },
-    {
       "ticker": "FRVO",
       "company": "Fervo Energy Company",
       "exchange": "NASDAQ",
@@ -54,17 +41,17 @@
       "ipo_close": 36.54
     },
     {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
+      "ticker": "GMRS",
+      "company": "GMR Solutions Inc.",
+      "exchange": "NYSE",
+      "date": "2026-05-13",
+      "price_usd": 15.0,
+      "price_range": null,
       "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
+      "shares": 31914893,
+      "deal_amount_usd": 478723395.0,
+      "mkt_cap_usd": 3347175510.0,
+      "ipo_close": 13.98
     },
     {
       "ticker": "MWC",
@@ -80,17 +67,17 @@
       "ipo_close": 8.2
     },
     {
-      "ticker": "EROK",
-      "company": "EagleRock Land, LLC",
-      "exchange": "NYSE",
+      "ticker": "CBRS",
+      "company": "Cerebras Systems Inc.",
+      "exchange": "NASDAQ",
       "date": "2026-05-14",
-      "price_usd": 18.5,
-      "price_range": "17.00 - 20.00",
+      "price_usd": 185.0,
+      "price_range": "150.00 - 160.00",
       "status": "Closed",
-      "shares": 17300000,
-      "deal_amount_usd": 320050000.0,
-      "mkt_cap_usd": 2407312500.0,
-      "ipo_close": 23.0
+      "shares": 34500000,
+      "deal_amount_usd": 5550000000.0,
+      "mkt_cap_usd": 39795413825.0,
+      "ipo_close": 311.07
     },
     {
       "ticker": "BXDC",
@@ -104,6 +91,19 @@
       "deal_amount_usd": 1734833900.0,
       "mkt_cap_usd": 1750000100.0,
       "ipo_close": 19.81
+    },
+    {
+      "ticker": "EROK",
+      "company": "EagleRock Land, LLC",
+      "exchange": "NYSE",
+      "date": "2026-05-14",
+      "price_usd": 18.5,
+      "price_range": "17.00 - 20.00",
+      "status": "Closed",
+      "shares": 17300000,
+      "deal_amount_usd": 320050000.0,
+      "mkt_cap_usd": 2407312500.0,
+      "ipo_close": 23.0
     },
     {
       "ticker": "LCLN",
