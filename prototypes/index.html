@@ -3686,8 +3686,6 @@ function scrSetMarket(m){
   scrMarket=m;
   document.getElementById('scr-btn-us').classList.toggle('active',m==='us');
   document.getElementById('scr-btn-cn').classList.toggle('active',m==='cn');
-  const leg=document.querySelector('.scr-legend');
-  if(leg) leg.style.display=m==='cn'?'none':'';
   scrRenderBoth();
 }
 function scrUpdateLabel(){
@@ -3823,10 +3821,10 @@ function scrRenderIpos(){
     return '$'+(v/1e6).toFixed(0)+'M';
   };
   const fP=v=>v!=null?'$'+v.toFixed(2):null;
-  grid.innerHTML=ipos.map(r=>{
+  const fDate=s=>{if(!s)return'';const[y,m,d]=s.split('-');return new Date(+y,+m-1,+d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});};
+  const renderIpoCard=r=>{
     const cap=fMc(r.mkt_cap_usd);
     const name=(r.company||'')+(cap?' | '+cap:'');
-    // Price line: IPO Price $X.XX | Close $Y.YY
     const offerStr=r.price_usd!=null?fP(r.price_usd):(r.price_range||null);
     const closeStr=r.ipo_close!=null?fP(r.ipo_close):null;
     const ret=r.price_usd&&r.ipo_close?(r.ipo_close/r.price_usd-1):null;
@@ -3839,7 +3837,7 @@ function scrRenderIpos(){
       }
       priceLine='IPO&nbsp;<strong>'+offerStr+'</strong>'+closePart;
     }
-    const hl=ret!=null&&ret>=0.30;
+    const hl=(ret!=null&&ret>=0.30)||(scrMarket==='cn'&&(r.deal_amount_usd||0)>=500e6);
     return`<div class="scr-card${hl?' scr-card-hl':''}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker||'—'}</div>
@@ -3849,7 +3847,20 @@ function scrRenderIpos(){
       <hr class="scr-divider">
       <div class="scr-meta">${priceLine?`<div>${priceLine}</div>`:''}</div>
     </div>`;
-  }).join('');
+  };
+  if(scrMarket==='cn'){
+    let html='';let lastDate=null;
+    ipos.forEach(r=>{
+      if(r.date!==lastDate){
+        html+=`<div style="grid-column:1/-1;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.7px;text-transform:uppercase;padding:6px 0 4px;border-bottom:1px solid var(--outline-dim);margin-top:${lastDate?'8px':'0'}">${fDate(r.date)}</div>`;
+        lastDate=r.date;
+      }
+      html+=renderIpoCard(r);
+    });
+    grid.innerHTML=html;
+  } else {
+    grid.innerHTML=ipos.map(renderIpoCard).join('');
+  }
 }
 
 let _scrFetched=false;
