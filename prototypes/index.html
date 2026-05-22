@@ -365,6 +365,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab" onclick="showMain('execution',this)">Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)">Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)">Positioning</button>
+    <button class="nav-tab" onclick="showMain('journal',this)">Journal</button>
     <button class="nav-tab" onclick="showMain('research',this)">Research</button>
     <button class="nav-tab nav-sub" onclick="showMain('screener',this)">Screener</button>
   </aside>
@@ -913,77 +914,76 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 <!-- ═══════════════════════════ EXECUTION TAB ═══════════════════════════ -->
 <div id="main-execution" class="main-panel">
 
-  <div class="exec-top">
-    <!-- Market Regime -->
-    <div>
-      <div class="section-heading">Market Regime</div>
-      <div class="card">
-        <div class="regime-top">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
-            <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
-            <div id="regime-label" style="font-size:10px;text-align:center;color:var(--text-muted);line-height:1.4">Bearish Divergence<br>Since 2026-04-15</div>
-          </div>
-          <div class="cond-box" style="flex:1;margin-top:0">
-            <div class="cond-l">Active Condition</div>
-            <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
-            <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
-          </div>
-        </div>
-        <div class="regime-indicators">
-          <div class="rcrit">
-            <div class="rcrit-label">SPX Price</div>
-            <div class="rcrit-value" id="ind-spx-price">7,165</div>
-          </div>
-          <div class="rcrit">
-            <div class="rcrit-label">12-Day EMA</div>
-            <div class="rcrit-value" id="ind-12ema">7,034</div>
-          </div>
-          <div class="rcrit">
-            <div class="rcrit-label">25-Day EMA</div>
-            <div class="rcrit-value" id="ind-25ema">6,920</div>
-          </div>
-          <div class="rcrit">
-            <div class="rcrit-label">MMTH</div>
-            <div class="rcrit-value" id="ind-mmth">55.9%</div>
-          </div>
-          <div class="rcrit">
-            <div class="rcrit-label">NCFD</div>
-            <div class="rcrit-value" id="ind-ncfd">—</div>
-            <div class="rcrit-sub" id="ind-ncfd-sub"></div>
-          </div>
-          <div class="rcrit">
-            <div class="rcrit-label">NHNL</div>
-            <select class="nhnl-select" id="nhnl-select" onchange="persistNotes()">
-              <option value="">Select...</option>
-              <option value="Green">Green</option>
-              <option value="Major Flush">Major Flush</option>
-              <option value="Minor Flush">Minor Flush</option>
-              <option value="Neutral">Neutral</option>
-            </select>
-          </div>
-        </div>
-        <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
+  <!-- Market Regime -->
+  <div class="section-heading">Market Regime</div>
+  <div class="card">
+    <div class="regime-top">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
+        <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
+        <div id="regime-label" style="font-size:10px;text-align:center;color:var(--text-muted);line-height:1.4">Bearish Divergence<br>Since 2026-04-15</div>
+      </div>
+      <div class="cond-box" style="flex:1;margin-top:0">
+        <div class="cond-l">Active Condition</div>
+        <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
+        <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
       </div>
     </div>
-
-    <!-- General Tactics -->
-    <div>
-      <div class="exec-row" style="margin-bottom:12px">
-        <div class="section-heading" style="margin:0">General Tactics</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="notes-status" id="notes-status"></span>
-          <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
-        </div>
+    <div class="regime-indicators">
+      <div class="rcrit">
+        <div class="rcrit-label">SPX Price</div>
+        <div class="rcrit-value" id="ind-spx-price">7,165</div>
       </div>
-      <div class="card">
-        <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
-        <textarea class="tact-edit" id="tact-edit" rows="5">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</textarea>
+      <div class="rcrit">
+        <div class="rcrit-label">12-Day EMA</div>
+        <div class="rcrit-value" id="ind-12ema">7,034</div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">25-Day EMA</div>
+        <div class="rcrit-value" id="ind-25ema">6,920</div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">MMTH</div>
+        <div class="rcrit-value" id="ind-mmth">55.9%</div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">NCFD</div>
+        <div class="rcrit-value" id="ind-ncfd">—</div>
+        <div class="rcrit-sub" id="ind-ncfd-sub"></div>
+      </div>
+      <div class="rcrit">
+        <div class="rcrit-label">NHNL</div>
+        <select class="nhnl-select" id="nhnl-select" onchange="persistNotes()">
+          <option value="">Select...</option>
+          <option value="Green">Green</option>
+          <option value="Major Flush">Major Flush</option>
+          <option value="Minor Flush">Minor Flush</option>
+          <option value="Neutral">Neutral</option>
+        </select>
       </div>
     </div>
+    <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
   </div>
 
-
 </div><!-- /execution panel -->
+
+<!-- ════════════════════════════ JOURNAL TAB ════════════════════════════ -->
+<div id="main-journal" class="main-panel">
+  <div class="scr-nav">
+    <button class="scr-nav-btn" onclick="jrnlStep(-1)">&#8592;</button>
+    <div class="scr-nav-date" id="jrnl-date-label"></div>
+    <button class="scr-nav-btn" onclick="jrnlStep(1)">&#8594;</button>
+  </div>
+
+  <div class="section-heading" style="margin-bottom:12px">General Tactics</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px;gap:8px">
+      <span class="notes-status" id="jrnl-status"></span>
+      <button class="btn pri" id="tact-btn" onclick="toggleTactics()">Edit</button>
+    </div>
+    <div class="tact-display" id="tact-display">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</div>
+    <textarea class="tact-edit" id="tact-edit" rows="5">Maintain defensive posture. Reduce HY exposure given credit spread widening (+2.3σ). Increase duration via TLT as rate cut expectations build. Hold gold as inflation hedge. Avoid adding broad equity risk until MMTH recovers above 60%.</textarea>
+  </div>
+</div><!-- /journal panel -->
 
 <!-- ════════════════════════════ RESEARCH TAB ════════════════════════════ -->
 <div id="main-research" class="main-panel">
@@ -1125,8 +1125,8 @@ function showMain(id, btn) {
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
   btn.classList.add('active');
-  if (id === 'execution') syncTacticsHeight();
-  if (id === 'screener')  scrInit();
+  if (id === 'screener') scrInit();
+  if (id === 'journal')  jrnlInit();
 }
 
 window.addEventListener('resize', () => {
@@ -1165,7 +1165,7 @@ function toggleTactics() {
   const d=document.getElementById('tact-display'), e=document.getElementById('tact-edit'), b=document.getElementById('tact-btn');
   if (e.classList.contains('shown')) {
     d.textContent=e.value; d.classList.remove('hidden'); e.classList.remove('shown'); b.textContent='Edit';
-    persistNotes();
+    jrnlSave();
   } else {
     e.value=d.textContent; d.classList.add('hidden'); e.classList.add('shown'); b.textContent='Save'; e.focus();
     autoResize(e);
@@ -1189,7 +1189,6 @@ function saveSectors() {
 }
 let _saveTimer=null;
 function persistNotes(){
-  const tactics=document.getElementById('tact-display').textContent;
   const breadth=document.getElementById('breadth-notes')?.value||'';
   const sectors=[];
   document.querySelectorAll('.sector-item').forEach(el=>{
@@ -1200,13 +1199,12 @@ function persistNotes(){
   });
   const nhnl=document.getElementById('nhnl-select')?.value||'';
   const saved_at=new Date().toISOString();
-  localStorage.setItem('gaai-tactics',tactics);
   localStorage.setItem('gaai-breadth',breadth);
   localStorage.setItem('gaai-nhnl',nhnl);
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
   localStorage.setItem('gaai-saved-at',saved_at);
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,nhnl,sectors,saved_at}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({breadth,nhnl,sectors,saved_at}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1916,10 +1914,6 @@ function renderYieldCharts(){
 
 // ══ Render all charts ═══════════════════════════════════════════
 function _applyNotes(notes){
-  if(notes.tactics){
-    document.getElementById('tact-display').textContent=notes.tactics;
-    document.getElementById('tact-edit').value=notes.tactics;
-  }
   if(notes.breadth!==undefined){
     const bn=document.getElementById('breadth-notes');
     if(bn){bn.value=notes.breadth;autoResize(bn);}
@@ -1949,25 +1943,22 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(serverNotes=>{
       const localAt=localStorage.getItem('gaai-saved-at')||'';
       const serverAt=serverNotes.saved_at||'';
-      const hasLocalNotes=!!(localStorage.getItem('gaai-tactics')||'').trim();
-      // Prefer localStorage if: it's newer, OR server has no timestamp but local has content
+      const hasLocalNotes=!!(localStorage.getItem('gaai-sectors')||localStorage.getItem('gaai-nhnl'));
       if(localAt>serverAt||(hasLocalNotes&&!serverAt)){
-        const t=localStorage.getItem('gaai-tactics')||'';
         const b=localStorage.getItem('gaai-breadth')||'';
         const n=localStorage.getItem('gaai-nhnl')||'';
         const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-        _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
-        _pushNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[],saved_at:localAt||new Date().toISOString()});
+        _applyNotes({breadth:b,nhnl:n,sectors:s||[]});
+        _pushNotes({breadth:b,nhnl:n,sectors:s||[],saved_at:localAt||new Date().toISOString()});
       } else {
         _applyNotes(serverNotes);
       }
     })
     .catch(()=>{
-      const t=localStorage.getItem('gaai-tactics')||'';
       const b=localStorage.getItem('gaai-breadth')||'';
       const n=localStorage.getItem('gaai-nhnl')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      _applyNotes({tactics:t,breadth:b,nhnl:n,sectors:s||[]});
+      _applyNotes({breadth:b,nhnl:n,sectors:s||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
@@ -3401,6 +3392,50 @@ function rpSort(col,th){
   th.classList.add(rpSortDir===1?'sort-asc':'sort-desc');
   const s=researchSectors.find(x=>x.id===currentRpId);
   if(s) renderRpTable(s);
+}
+
+// ══ Journal Tab ════════════════════════════════════════════
+let jrnlDate=new Date();
+
+function jrnlFmtDate(d){
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
+}
+function jrnlKey(d){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
+  return `gaai-journal-${y}-${m}-${dd}`;
+}
+function jrnlUpdateLabel(){
+  const el=document.getElementById('jrnl-date-label');
+  if(el) el.textContent=jrnlFmtDate(jrnlDate);
+}
+function jrnlLoad(){
+  const key=jrnlKey(jrnlDate);
+  let text=localStorage.getItem(key);
+  // First open today: fall back to legacy gaai-tactics so existing notes migrate
+  if(text===null && jrnlKey(new Date())===key) text=localStorage.getItem('gaai-tactics')||'';
+  const disp=document.getElementById('tact-display');
+  const edit=document.getElementById('tact-edit');
+  if(disp) disp.textContent=text||'';
+  if(edit) edit.value=text||'';
+}
+function jrnlSave(){
+  const text=document.getElementById('tact-display')?.textContent||'';
+  localStorage.setItem(jrnlKey(jrnlDate),text);
+  const el=document.getElementById('jrnl-status');
+  if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}
+}
+function jrnlStep(n){
+  jrnlSave();
+  const d=new Date(jrnlDate);
+  d.setDate(d.getDate()+n);
+  jrnlDate=d;
+  jrnlUpdateLabel();
+  jrnlLoad();
+}
+function jrnlInit(){
+  jrnlDate=new Date();
+  jrnlUpdateLabel();
+  jrnlLoad();
 }
 
 // ══ Screener Tab ════════════════════════════════════════════
