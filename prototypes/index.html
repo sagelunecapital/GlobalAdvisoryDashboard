@@ -863,11 +863,11 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <select id="cot-class-sel" onchange="cotSetClass(this.value)"
           style="background:var(--surface-high);border:1px solid var(--outline-dim);border-radius:8px;color:var(--text);font-size:12px;padding:5px 10px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none">
           <option value="Agriculture">Agriculture</option>
-          <option value="Energy" selected>Energy</option>
+          <option value="Energy">Energy</option>
           <option value="Metals">Metals</option>
           <option value="Currencies">Currencies</option>
           <option value="Bonds">Bonds</option>
-          <option value="Indices">Indices</option>
+          <option value="Indices" selected>Indices</option>
         </select>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
@@ -893,12 +893,9 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
     <div id="cot-pos-wrap" style="position:relative"><div class="chart-tt" id="cot-pos-tt"></div></div>
 
-    <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
-    <div id="cot-oi-wrap" style="position:relative"><div class="chart-tt" id="cot-oi-tt"></div></div>
-
     <!-- Period slider -->
     <div style="padding:14px 14px 2px 64px">
-      <input type="range" id="cot-period-slider" min="52" max="500" value="156"
+      <input type="range" id="cot-period-slider" min="52" max="500" value="78"
         oninput="cotSlide()"
         style="width:100%;accent-color:#60a5fa;cursor:pointer">
       <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--text-muted)">
@@ -2082,7 +2079,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   // Load COT positioning data
   fetch('cot_data.json?_='+Date.now())
     .then(r=>r.ok?r.json():null)
-    .then(d=>{ if(d){ COT_DATA=d; cotSetClass(document.getElementById('cot-class-sel').value||'Energy'); } })
+    .then(d=>{ if(d){ COT_DATA=d; cotSetClass(document.getElementById('cot-class-sel').value||'Indices'); } })
     .catch(()=>{});
 
   // Load price data for COT candlestick chart
@@ -3176,12 +3173,11 @@ function cotUpdateChart(code){
   const comm =cl.map((v,i)=>v!==null&&cs[i]!==null?v-cs[i]:null);
   const lspec=nl.map((v,i)=>v!==null&&ns[i]!==null?v-ns[i]:null);
   const sspec=comm.map((v,i)=>v!==null&&lspec[i]!==null?-(v+lspec[i]):null);
-  drawCotLines('cot-pos-wrap','cot-pos-tt',dates,[
+  drawCotCombined('cot-pos-wrap','cot-pos-tt',dates,[
     {label:'Commercials', values:comm,  color:'#4ade80'},
     {label:'Large Specs', values:lspec, color:'#60a5fa'},
     {label:'Small Specs', values:sspec, color:'#fb923c'},
-  ],220,'cot-pos-legend');
-  drawCotBar('cot-oi-wrap','cot-oi-tt',dates,oi,160);
+  ],oi,300,'cot-pos-legend');
   drawCotCandle(code, nWeeks);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
@@ -3244,6 +3240,130 @@ function drawCotCandle(code, nWeeks){
     },
     showlegend:false,
   },{responsive:true,displayModeBar:false});
+}
+
+function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
+  vH=vH||300;
+  const wrap=document.getElementById(wrapId); if(!wrap) return;
+  wrap.querySelectorAll('svg').forEach(s=>s.remove());
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:64,b:24,l:64};
+  const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
+  // Align: only include rows where all net series AND oi are non-null
+  const aligned=[];
+  for(let i=0;i<dates.length;i++){
+    const vs=seriesDefs.map(s=>s.values[i]);
+    const oiV=oiValues[i];
+    if(vs.every(v=>v!==null)&&oiV!==null) aligned.push({d:dates[i],vs,oi:oiV});
+  }
+  if(!aligned.length) return;
+  // Right scale — net positions
+  const allNetV=aligned.flatMap(r=>r.vs);
+  const netMin=Math.min(...allNetV),netMax=Math.max(...allNetV),netR=netMax-netMin||1;
+  const yOfR=v=>pad.t+(1-(v-netMin)/netR)*iH;
+  const y0R=yOfR(0);
+  // Left scale — OI
+  const oiMax=Math.max(...aligned.map(r=>r.oi));
+  const oiMin=Math.min(...aligned.map(r=>r.oi));
+  const oiPad=(oiMax-oiMin)*0.05||oiMax*0.05;
+  const oiLow=oiMin-oiPad,oiHigh=oiMax+oiPad,oiRange=oiHigh-oiLow||1;
+  const yOfL=v=>pad.t+(1-(v-oiLow)/oiRange)*iH;
+  const xOf=i=>pad.l+(i/Math.max(aligned.length-1,1))*iW;
+  const ns='http://www.w3.org/2000/svg'; const svg=mkSvg(ns,VW,vH);
+  // Grid + dual axis labels
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH;
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    // Left — OI
+    const oiV=oiHigh-t*oiRange;
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill','#888');lb.setAttribute('font-size','10');lb.textContent=fmtK(oiV);svg.appendChild(lb);
+    // Right — net positions
+    const netV=netMax-t*netR;
+    const rb=document.createElementNS(ns,'text');
+    rb.setAttribute('x',pad.l+iW+4);rb.setAttribute('y',y+4);rb.setAttribute('text-anchor','start');
+    rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(netV);svg.appendChild(rb);
+  });
+  // X labels
+  const _rMs=aligned.length>1?(new Date(aligned[aligned.length-1].d)-new Date(aligned[0].d)):0;
+  aligned.forEach((_,i)=>{
+    if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateAuto(aligned[i].d,_rMs);svg.appendChild(lb);
+  });
+  // Zero line for net positions
+  if(netMin<0&&netMax>0){
+    const z=document.createElementNS(ns,'line');
+    z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0R);z.setAttribute('y2',y0R);
+    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+  }
+  // Net position bars (right scale)
+  const nSeries=seriesDefs.length;
+  const slotW=aligned.length>1?iW/(aligned.length-1):iW;
+  const bW=Math.max(1,slotW/nSeries*0.75);
+  seriesDefs.forEach((s,si)=>{
+    const xOff=(si-(nSeries-1)/2)*(slotW/nSeries);
+    aligned.forEach((row,i)=>{
+      const v=row.vs[si]; if(v===null) return;
+      const cx=xOf(i)+xOff;
+      const rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',cx-bW/2);
+      const barY=v>=0?yOfR(v):y0R;
+      rect.setAttribute('y',barY);
+      rect.setAttribute('width',Math.max(1,bW));
+      rect.setAttribute('height',Math.max(1,Math.abs(yOfR(v)-y0R)));
+      rect.setAttribute('fill',s.color);rect.setAttribute('opacity','0.8');svg.appendChild(rect);
+    });
+  });
+  // OI line on top (left scale, white)
+  addLine(ns,svg,aligned.map(r=>r.oi),xOf,yOfL,'#e0e2ea',null);
+  // Hover dots
+  const dots=seriesDefs.map(s=>{
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('r','3');c.setAttribute('fill',s.color);c.setAttribute('display','none');svg.appendChild(c); return c;
+  });
+  const oiDot=document.createElementNS(ns,'circle');
+  oiDot.setAttribute('r','3');oiDot.setAttribute('fill','#e0e2ea');oiDot.setAttribute('display','none');svg.appendChild(oiDot);
+  const cur=document.createElementNS(ns,'line');
+  cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
+  cur.setAttribute('stroke','#2a2a2a');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  const ov=document.createElementNS(ns,'rect');
+  ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
+  ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
+  const tt=document.getElementById(ttId);
+  ov.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const mx=(e.clientX-r.left)/sx-pad.l;
+    const idx=Math.max(0,Math.min(aligned.length-1,Math.round((mx/iW)*(aligned.length-1))));
+    const row=aligned[idx],cx=xOf(idx);
+    cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
+    dots.forEach((d,si)=>{d.setAttribute('cx',cx);d.setAttribute('cy',yOfR(row.vs[si]));d.setAttribute('display','');});
+    oiDot.setAttribute('cx',cx);oiDot.setAttribute('cy',yOfL(row.oi));oiDot.setAttribute('display','');
+    const avgV=row.vs.reduce((a,b)=>a+b,0)/row.vs.length;
+    tt.style.display='block';
+    tt.style.left=Math.min(cx*sx+12,r.width-220)+'px';
+    tt.style.top=Math.max(yOfR(avgV)-10,2)+'px';
+    tt.innerHTML='<strong>'+fmtDate(row.d)+'</strong><br>'+
+      '<span style="color:#e0e2ea">&#9632;</span> OI: '+fmtK(row.oi)+'<br>'+
+      seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
+  });
+  ov.addEventListener('mouseleave',()=>{
+    dots.forEach(d=>d.setAttribute('display','none'));
+    oiDot.setAttribute('display','none');
+    cur.setAttribute('display','none');
+    tt.style.display='none';
+  });
+  wrap.appendChild(svg);
+  if(legId){
+    const leg=document.getElementById(legId);
+    if(leg) leg.innerHTML=
+      '<div class="li"><div class="ld" style="background:#e0e2ea"></div>Open Interest</div>'+
+      seriesDefs.map(s=>`<div class="li"><div class="ld" style="background:${s.color}"></div>${s.label}</div>`).join('');
+  }
 }
 
 function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
