@@ -12,7 +12,7 @@ Write-Host "python: $python"
 git stash push -m "pre-data-update stash" --quiet
 git fetch origin main --quiet
 git checkout main --quiet
-git pull origin main --quiet
+git pull -X ours origin main --quiet
 
 & $python (Join-Path $projectRoot "update_dashboard.py")
 if (-not $?) {

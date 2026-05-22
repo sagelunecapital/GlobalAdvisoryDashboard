@@ -26,8 +26,8 @@ FINVIZ_URL = (
     "https://finviz.com/screener.ashx"
     "?v=111"
     "&f=cap_smallover,ind_stocksonlyspac,sh_curvol_o1000,sh_price_o1,"
-    "sh_relvol_o2,ta_averagetruerange_o1,ta_perf_d5o,ta_sma200_pa"
-    "&ft=4&o=-change"
+    "sh_relvol_o2,ta_averagetruerange_o1,ta_perf_d5o,ta_perf2_1wup,ta_sma20_pa,ta_sma50_pa"
+    "&ft=4&c=0,1,2,3,4,5,6,7,67,65,66,42&preset=s151594605"
 )
 
 TV_IPO_URL = "https://scanner.tradingview.com/global/scan?label-product=calendar-ipo"
