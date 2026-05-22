@@ -3786,23 +3786,21 @@ function scrRenderIpos(){
     return;
   }
   const allIpos=scrMarket==='cn'?(scrIposData.hk||[]):(scrIposData.us||scrIposData.ipos||[]);
-  const ipos=scrMarket==='cn'
-    ? allIpos.filter(ipo=>ipo.date).slice().sort((a,b)=>a.date.localeCompare(b.date))
-    : allIpos.filter(ipo=>{
-        if(!ipo.date) return false;
-        if(scrView==='weekly'){
-          const ipoD=new Date(ipo.date+'T12:00:00');
-          const day=scrDate.getDay();
-          const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
-          const sun=new Date(mon); sun.setDate(mon.getDate()+6);
-          mon.setHours(0,0,0,0); sun.setHours(23,59,59,999);
-          return ipoD>=mon&&ipoD<=sun;
-        } else {
-          return ipo.date===scrIso(scrDate);
-        }
-      });
+  const ipos=allIpos.filter(ipo=>{
+    if(!ipo.date) return false;
+    if(scrView==='weekly'){
+      const ipoD=new Date(ipo.date+'T12:00:00');
+      const day=scrDate.getDay();
+      const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
+      const sun=new Date(mon); sun.setDate(mon.getDate()+6);
+      mon.setHours(0,0,0,0); sun.setHours(23,59,59,999);
+      return ipoD>=mon&&ipoD<=sun;
+    } else {
+      return ipo.date===scrIso(scrDate);
+    }
+  });
   if(!ipos.length){
-    const lbl=scrMarket==='cn'?'in the HK IPO calendar':scrView==='weekly'?'this week':'on this date';
+    const lbl=scrView==='weekly'?'this week':'on this date';
     grid.innerHTML=`<div class="scr-no-data" style="grid-column:1/-1">No IPOs ${lbl}. Try navigating to another date.</div>`;
     return;
   }
@@ -3821,8 +3819,7 @@ function scrRenderIpos(){
     return '$'+(v/1e6).toFixed(0)+'M';
   };
   const fP=v=>v!=null?'$'+v.toFixed(2):null;
-  const fDate=s=>{if(!s)return'';const[y,m,d]=s.split('-');return new Date(+y,+m-1,+d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});};
-  const renderIpoCard=r=>{
+  grid.innerHTML=ipos.map(r=>{
     const cap=fMc(r.mkt_cap_usd);
     const name=(r.company||'')+(cap?' | '+cap:'');
     const offerStr=r.price_usd!=null?fP(r.price_usd):(r.price_range||null);
@@ -3837,7 +3834,7 @@ function scrRenderIpos(){
       }
       priceLine='IPO&nbsp;<strong>'+offerStr+'</strong>'+closePart;
     }
-    const hl=(ret!=null&&ret>=0.30)||(scrMarket==='cn'&&(r.deal_amount_usd||0)>=500e6);
+    const hl=ret!=null&&ret>=0.30;
     return`<div class="scr-card${hl?' scr-card-hl':''}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker||'—'}</div>
@@ -3847,20 +3844,7 @@ function scrRenderIpos(){
       <hr class="scr-divider">
       <div class="scr-meta">${priceLine?`<div>${priceLine}</div>`:''}</div>
     </div>`;
-  };
-  if(scrMarket==='cn'){
-    let html='';let lastDate=null;
-    ipos.forEach(r=>{
-      if(r.date!==lastDate){
-        html+=`<div style="grid-column:1/-1;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.7px;text-transform:uppercase;padding:6px 0 4px;border-bottom:1px solid var(--outline-dim);margin-top:${lastDate?'8px':'0'}">${fDate(r.date)}</div>`;
-        lastDate=r.date;
-      }
-      html+=renderIpoCard(r);
-    });
-    grid.innerHTML=html;
-  } else {
-    grid.innerHTML=ipos.map(renderIpoCard).join('');
-  }
+  }).join('');
 }
 
 let _scrFetched=false;
