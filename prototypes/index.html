@@ -3818,9 +3818,19 @@ function scrRenderIpos(){
     if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
     return '$'+(v/1e6).toFixed(0)+'M';
   };
-  const fP=v=>v!=null?'$'+v.toFixed(2):null;
+  const HKD=7.78;
+  const isCn=scrMarket==='cn';
+  const fP=v=>v!=null?(isCn?'HK$'+(v*HKD).toFixed(2):'$'+v.toFixed(2)):null;
+  const fMcIpo=v=>{
+    if(v==null) return '';
+    const val=isCn?v*HKD:v;
+    const sym=isCn?'HK$':'$';
+    if(val>=1e12) return sym+(val/1e12).toFixed(1)+'T';
+    if(val>=1e9)  return sym+(val/1e9).toFixed(1)+'B';
+    return sym+(val/1e6).toFixed(0)+'M';
+  };
   grid.innerHTML=ipos.map(r=>{
-    const cap=fMc(r.mkt_cap_usd);
+    const cap=fMcIpo(r.mkt_cap_usd);
     const name=(r.company||'')+(cap?' | '+cap:'');
     const offerStr=r.price_usd!=null?fP(r.price_usd):(r.price_range||null);
     const closeStr=r.ipo_close!=null?fP(r.ipo_close):null;
