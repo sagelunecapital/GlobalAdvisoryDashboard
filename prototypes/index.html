@@ -347,6 +347,8 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .scr-leg-green{background:rgba(63,185,80,0.12);color:var(--green);border:1px solid rgba(63,185,80,0.3)}
 .scr-leg-purple{background:rgba(168,85,247,0.12);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
 .scr-leg-blue{background:rgba(0,112,204,0.12);color:#60a5fa;border:1px solid rgba(0,112,204,0.3)}
+.scr-leg-grey{background:rgba(128,128,128,0.10);color:var(--text-muted);border:1px solid rgba(128,128,128,0.25)}
+.scr-cont-badge{font-size:9px;color:var(--text-muted);background:rgba(128,128,128,0.15);border-radius:3px;padding:1px 4px;margin-left:4px;vertical-align:middle;font-weight:600}
 </style>
 </head>
 <body>
@@ -1023,6 +1025,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)">
       <div class="scr-section-label" style="margin:0;padding:0;border:none">Movers</div>
       <div class="scr-legend">
+        <span class="scr-leg-pill scr-leg-grey">&#8593; Continuation</span>
         <span class="scr-leg-pill scr-leg-green">Earnings / Guidance</span>
         <span class="scr-leg-pill scr-leg-purple">Analyst Action</span>
         <span class="scr-leg-pill scr-leg-blue">Other</span>
@@ -3741,11 +3744,13 @@ function scrRenderMovers(){
   }
   const chgCls=v=>v>0?'pos':v<0?'neg':'neu';
   const fChg=v=>v==null?'—':((v>0?'+':'')+v.toFixed(2)+'%');
+  const isCn=scrMarket==='cn';
+  const fMcSym=isCn?'HK$':'$';
   const fMc=v=>{
     if(v==null) return '';
-    if(v>=1e12) return '$'+(v/1e12).toFixed(1)+'T';
-    if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
-    return '$'+(v/1e6).toFixed(0)+'M';
+    if(v>=1e12) return fMcSym+(v/1e12).toFixed(1)+'T';
+    if(v>=1e9)  return fMcSym+(v/1e9).toFixed(1)+'B';
+    return fMcSym+(v/1e6).toFixed(0)+'M';
   };
   const hlCls=t=>t==='earnings'||t==='guidance'?'hl-green':t==='analyst'?'hl-purple':t==='other'?'hl-blue':'';
 
@@ -3761,7 +3766,7 @@ function scrRenderMovers(){
     const chips=members.map(r=>{const cap=fMc(r.mkt_cap);return`<div class="scr-gticker">
       <span class="scr-gticker-sym">${r.ticker}</span>
       <span class="scr-gticker-name">${r.company}${cap?' | '+cap:''}</span>
-      <span class="scr-gticker-chg ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</span>
+      <span class="scr-gticker-chg ${chgCls(r.change_pct)}">${fChg(r.change_pct)}${r.continuation?'<span class="scr-cont-badge">&#8593;</span>':''}</span>
     </div>`;}).join('');
     const summary=members[0].group_summary||'';
     return`<div class="scr-card scr-card-group ${hl}">
@@ -3786,7 +3791,7 @@ function scrRenderMovers(){
     return`<div class="scr-card ${hl}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker}</div>
-        <div class="scr-change ${chgCls(r.change_pct)}">${fChg(r.change_pct)}</div>
+        <div class="scr-change ${chgCls(r.change_pct)}">${fChg(r.change_pct)}${r.continuation?'<span class="scr-cont-badge">&#8593;</span>':''}</div>
       </div>
       <div class="scr-name">${name}</div>
       <hr class="scr-divider">

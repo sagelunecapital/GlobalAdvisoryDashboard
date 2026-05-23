@@ -57,7 +57,7 @@ _EXTRACT_JS = r"""
       const m = t.match(/([\d.]+)\s+(B|M|T)\s+HKD/i);
       if (m) {
         const mult = {B: 1e9, M: 1e6, T: 1e12}[m[2].toUpperCase()] || 1e9;
-        mktCap = Math.round(parseFloat(m[1]) * mult / 7.78);
+        mktCap = Math.round(parseFloat(m[1]) * mult);
         break;
       }
       const m2 = t.match(/^([\d.]+)\s*(B|M|T)$/i);
