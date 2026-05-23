@@ -3556,7 +3556,9 @@ function jrnlLastNTradingDays(d,n){
 }
 
 function jrnlFmtDate(d){
-  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
+  const wday=d.toLocaleDateString('en-US',{weekday:'long'});
+  const rest=d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  return wday+' - '+rest;
 }
 function jrnlIso(d){
   const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
@@ -3630,7 +3632,9 @@ function jrnlRenderWeekly(){
   const dates=jrnlLastNTradingDays(jrnlDate,3);
   const cols=dates.map((d,idx)=>{
     const iso=jrnlIso(d);
-    const label=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
+    const wday=d.toLocaleDateString('en-US',{weekday:'long'});
+    const rest=d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    const label=wday+' - '+rest;
     return `<div>
       <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;text-align:center">${label}</div>
       <div class="card">
@@ -3675,7 +3679,9 @@ function jrnlInit(){
 let scrDate=new Date(), scrView='daily', scrMarket='us', scrMoversData=null, scrMoversDataCn=null, scrIposData=null, scrLoaded=false;
 
 function scrFmtDate(d){
-  return d.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
+  const wday=d.toLocaleDateString('en-US',{weekday:'long'});
+  const rest=d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  return wday+' - '+rest;
 }
 function scrIso(d){
   // local date as YYYY-MM-DD (avoid UTC shift)
@@ -3683,9 +3689,7 @@ function scrIso(d){
   return `${y}-${m}-${dd}`;
 }
 function scrStep(n){
-  const d=new Date(scrDate);
-  d.setDate(d.getDate()+(scrView==='weekly'?n*7:n));
-  scrDate=d;
+  scrDate=scrView==='weekly'?jrnlAddTradingDays(scrDate,n*5):jrnlAddTradingDays(scrDate,n);
   scrUpdateLabel();
   scrRenderBoth();
 }
@@ -3708,8 +3712,9 @@ function scrUpdateLabel(){
   if(scrView==='weekly'){
     const day=scrDate.getDay();
     const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
-    const sun=new Date(mon); sun.setDate(mon.getDate()+6);
-    el.textContent=scrFmtDate(mon)+' – '+scrFmtDate(sun);
+    const fri=new Date(mon); fri.setDate(mon.getDate()+4);
+    const fmtShort=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    el.textContent=fmtShort(mon)+' – '+fmtShort(fri)+', '+scrDate.getFullYear();
   } else {
     el.textContent=scrFmtDate(scrDate);
   }
@@ -3806,9 +3811,9 @@ function scrRenderIpos(){
       const ipoD=new Date(ipo.date+'T12:00:00');
       const day=scrDate.getDay();
       const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
-      const sun=new Date(mon); sun.setDate(mon.getDate()+6);
-      mon.setHours(0,0,0,0); sun.setHours(23,59,59,999);
-      return ipoD>=mon&&ipoD<=sun;
+      const fri=new Date(mon); fri.setDate(mon.getDate()+4);
+      mon.setHours(0,0,0,0); fri.setHours(23,59,59,999);
+      return ipoD>=mon&&ipoD<=fri;
     } else {
       return ipo.date===scrIso(scrDate);
     }
@@ -3873,7 +3878,7 @@ function scrRenderIpos(){
 
 let _scrFetched=false;
 function scrInit(){
-  scrDate=new Date();
+  scrDate=jrnlSnapWeekday(new Date());
   scrUpdateLabel();
   if(_scrFetched){scrRenderBoth();return;}
   _scrFetched=true;
