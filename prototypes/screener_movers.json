@@ -1,7 +1,7 @@
 {
   "updated_at": "2026-05-22T22:28:15.803562+00:00",
   "by_date": {
-    "2026-05-22": [
+    "2026-05-21": [
       {
         "ticker": "AAP",
         "company": "Advance Auto Parts Inc",
@@ -330,7 +330,7 @@
         "group_id": null
       }
     ],
-    "2026-05-23": [
+    "2026-05-22": [
       {
         "ticker": "AEVA",
         "company": "Aeva Technologies, Inc.",
@@ -346,7 +346,7 @@
         "company": "Atkore Inc.",
         "mkt_cap": 1020000,
         "change_pct": 11.25,
-        "catalyst": "Atkore reported Q2 fiscal 2026 adjusted EPS of $1.23, beating consensus by 16%, with net sales of $731M up 11% sequentially and 4.2% year-over-year — the company's first quarterly revenue increase since Q4 2022. Full-year guidance was reaffirmed, signaling a durable inflection in the electrical infrastructure business. Citi raised its price target to $86 from $74 following the May 5 earnings release.",
+        "catalyst": "Atkore reported Q2 fiscal 2026 adjusted EPS of $1.23, beating consensus by 16%, with net sales of $731M up 11% sequentially and 4.2% year-over-year \u00e2\u20ac\u201d the company's first quarterly revenue increase since Q4 2022. Full-year guidance was reaffirmed, signaling a durable inflection in the electrical infrastructure business. Citi raised its price target to $86 from $74 following the May 5 earnings release.",
         "source": "Claude | Web",
         "source_url": null,
         "catalyst_type": "earnings"
@@ -366,7 +366,7 @@
         "company": "GlobalFoundries Inc.",
         "mkt_cap": 11780000,
         "change_pct": 5.27,
-        "catalyst": "Continued follow-through from GlobalFoundries' May 22 catalyst: Q1 2026 adjusted EPS of $0.40 beat the $0.35 consensus with Q2 guidance above Street expectations, the company's first-ever quarterly dividend of $0.12/share, and the launch of the SCALE optical module — the industry's first OCI MSA-compliant co-packaged optics platform for AI data centers.",
+        "catalyst": "Continued follow-through from GlobalFoundries' May 22 catalyst: Q1 2026 adjusted EPS of $0.40 beat the $0.35 consensus with Q2 guidance above Street expectations, the company's first-ever quarterly dividend of $0.12/share, and the launch of the SCALE optical module \u00e2\u20ac\u201d the industry's first OCI MSA-compliant co-packaged optics platform for AI data centers.",
         "source": "Claude | Web",
         "source_url": null,
         "catalyst_type": "earnings"
@@ -401,7 +401,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
       },
       {
         "ticker": "LNTH",
@@ -443,7 +443,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
       },
       {
         "ticker": "QUBT",
@@ -470,12 +470,12 @@
         "company": "Rigetti Computing, Inc.",
         "mkt_cap": 203380000,
         "change_pct": 19.87,
-        "catalyst": "Rigetti continued its multi-day rally, now up 42%+ on the week, following its May 21 Letter of Intent with the U.S. Department of Commerce for up to $100M over three years to accelerate superconducting quantum computing R&D — with the government potentially taking an equity stake. Rigetti ended Q1 2026 with $569M in cash and no debt, giving it ample runway to deploy the additional non-dilutive capital toward its hardware roadmap.",
+        "catalyst": "Rigetti continued its multi-day rally, now up 42%+ on the week, following its May 21 Letter of Intent with the U.S. Department of Commerce for up to $100M over three years to accelerate superconducting quantum computing R&D \u00e2\u20ac\u201d with the government potentially taking an equity stake. Rigetti ended Q1 2026 with $569M in cash and no debt, giving it ample runway to deploy the additional non-dilutive capital toward its hardware roadmap.",
         "source": "Claude | Web",
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation — $1 billion matched by $1 billion in CHIPS Act funds — to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y."
       },
       {
         "ticker": "SHAZ",

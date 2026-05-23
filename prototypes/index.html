@@ -3546,6 +3546,23 @@ function rpSort(col,th){
 // ══ Journal Tab ════════════════════════════════════════════
 let jrnlDate=new Date(), jrnlView='daily';
 
+function jrnlIsWeekend(d){ return d.getDay()===0||d.getDay()===6; }
+function jrnlSnapWeekday(d){
+  const r=new Date(d);
+  while(jrnlIsWeekend(r)) r.setDate(r.getDate()-1);
+  return r;
+}
+function jrnlAddTradingDays(d,n){
+  const r=new Date(d), dir=n>0?1:-1; let count=Math.abs(n);
+  while(count>0){ r.setDate(r.getDate()+dir); if(!jrnlIsWeekend(r)) count--; }
+  return r;
+}
+function jrnlLastNTradingDays(d,n){
+  const days=[]; let cur=jrnlSnapWeekday(new Date(d));
+  for(let i=0;i<n;i++){ days.unshift(new Date(cur)); cur=jrnlAddTradingDays(cur,-1); }
+  return days;
+}
+
 function jrnlFmtDate(d){
   return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
 }
@@ -3558,9 +3575,9 @@ function jrnlUpdateLabel(){
   const el=document.getElementById('jrnl-date-label');
   if(!el) return;
   if(jrnlView==='weekly'){
-    const start=new Date(jrnlDate); start.setDate(start.getDate()-2);
+    const days=jrnlLastNTradingDays(jrnlDate,3);
     const fmt=d=>d.toLocaleDateString('en-US',{month:'short',day:'2-digit'});
-    el.textContent=`${fmt(start)} – ${fmt(jrnlDate)}, ${jrnlDate.getFullYear()}`;
+    el.textContent=`${fmt(days[0])} – ${fmt(days[days.length-1])}, ${jrnlDate.getFullYear()}`;
   } else {
     el.textContent=jrnlFmtDate(jrnlDate);
   }
@@ -3583,9 +3600,7 @@ function jrnlSave(){
 }
 function jrnlStep(n){
   if(jrnlView==='daily') jrnlSave();
-  const step=jrnlView==='weekly'?n*3:n;
-  const d=new Date(jrnlDate); d.setDate(d.getDate()+step);
-  jrnlDate=d;
+  jrnlDate=jrnlView==='weekly'?jrnlAddTradingDays(jrnlDate,n*3):jrnlAddTradingDays(jrnlDate,n);
   jrnlUpdateLabel();
   jrnlRender();
 }
@@ -3620,8 +3635,7 @@ function jrnlWeekEdit(btn){
 }
 function jrnlRenderWeekly(){
   const body=document.getElementById('jrnl-body');
-  const dates=[];
-  for(let i=2;i>=0;i--){const d=new Date(jrnlDate);d.setDate(d.getDate()-i);dates.push(d);}
+  const dates=jrnlLastNTradingDays(jrnlDate,3);
   const cols=dates.map((d,idx)=>{
     const iso=jrnlIso(d);
     const label=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'2-digit',year:'numeric'});
@@ -3657,7 +3671,7 @@ function jrnlRender(){
   }
 }
 function jrnlInit(){
-  jrnlDate=new Date(); jrnlView='daily';
+  jrnlDate=jrnlSnapWeekday(new Date()); jrnlView='daily';
   const db=document.getElementById('jrnl-btn-daily'),wb=document.getElementById('jrnl-btn-weekly');
   if(db) db.classList.add('active');
   if(wb) wb.classList.remove('active');

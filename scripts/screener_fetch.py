@@ -20,6 +20,21 @@ import requests
 from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
 
+
+def _prev_trading_day(d: date) -> date:
+    """Return the most recent trading day before d (the close day for US, screened day-after)."""
+    d = d - timedelta(days=1)
+    while d.weekday() >= 5:
+        d = d - timedelta(days=1)
+    return d
+
+
+def _safe_trading_day(d: date) -> date:
+    """Return d if weekday, else the most recent Friday (weekend-safety for CN/HK)."""
+    while d.weekday() >= 5:
+        d = d - timedelta(days=1)
+    return d
+
 import yfinance as yf
 from playwright.async_api import async_playwright
 
@@ -271,8 +286,9 @@ def _enrich_ipo_closes(ipos: list[dict], existing_by_ticker: dict) -> list[dict]
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 async def _main_async():
-    now_iso = datetime.now(timezone.utc).isoformat()
-    today   = date.today().isoformat()
+    now_iso    = datetime.now(timezone.utc).isoformat()
+    us_date    = _prev_trading_day(date.today()).isoformat()
+    cn_date    = _safe_trading_day(date.today()).isoformat()
 
     # ── US Movers ──────────────────────────────────────────────────────────
     print("[screener] Fetching US movers...", flush=True)
@@ -291,8 +307,8 @@ async def _main_async():
             "mkt_cap":    r.get("mkt_cap"),
             "change_pct": r.get("change_pct"),
         } for r in raw_us if r.get("ticker")]
-        print(f"[screener] Got {len(us_movers)} US movers.", flush=True)
-        existing_us[today] = us_movers
+        print(f"[screener] Got {len(us_movers)} US movers (key: {us_date}).", flush=True)
+        existing_us[us_date] = us_movers
     except Exception as e:
         print(f"[screener] US movers fetch FAILED: {e}", flush=True)
 
@@ -318,8 +334,8 @@ async def _main_async():
             "mkt_cap":    r.get("mkt_cap"),
             "change_pct": r.get("change_pct"),
         } for r in raw_cn if r.get("ticker")]
-        print(f"[screener] Got {len(cn_movers)} China/HK movers.", flush=True)
-        existing_cn[today] = cn_movers
+        print(f"[screener] Got {len(cn_movers)} China/HK movers (key: {cn_date}).", flush=True)
+        existing_cn[cn_date] = cn_movers
     except Exception as e:
         print(f"[screener] China movers fetch FAILED: {e}", flush=True)
 
