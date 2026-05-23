@@ -92,15 +92,16 @@ _TV_EXTRACT_JS_US = r"""
       const m = t.match(/^([+\-]?\d+\.?\d*)%$/);
       if (m) { changePct = parseFloat(m[1]); break; }
     }
-    let mktCap = null;
+    // Collect all plain B/M/T values; first is volume, second is market cap
+    const bmtUs = [];
     for (const t of texts) {
       const m = t.match(/^([\d.]+)\s*(B|M|T)$/i);
       if (m) {
         const mult = {b: 1e9, m: 1e6, t: 1e12}[m[2].toLowerCase()] || 1e9;
-        mktCap = parseFloat(m[1]) * mult;
-        break;
+        bmtUs.push(parseFloat(m[1]) * mult);
       }
     }
+    const mktCap = bmtUs.length >= 2 ? bmtUs[1] : (bmtUs.length === 1 ? bmtUs[0] : null);
     if (changePct !== null) {
       rows.push({ ticker, company, change_pct: changePct, mkt_cap: mktCap });
     }
@@ -147,12 +148,19 @@ _TV_EXTRACT_JS_CN = r"""
         mktCap = Math.round(parseFloat(m[1]) * mult);
         break;
       }
-      const m2 = t.match(/^([\d.]+)\s*(B|M|T)$/i);
-      if (m2 && mktCap === null) {
-        const mult = {b: 1e9, m: 1e6, t: 1e12}[m2[2].toLowerCase()] || 1e9;
-        mktCap = parseFloat(m2[1]) * mult;
-        break;
+    }
+    if (mktCap === null) {
+      // Collect all plain B/M/T values; first is volume, second is market cap
+      const bmtCn = [];
+      for (const t of texts) {
+        const m = t.match(/^([\d.]+)\s*(B|M|T)$/i);
+        if (m) {
+          const mult = {b: 1e9, m: 1e6, t: 1e12}[m[2].toLowerCase()] || 1e9;
+          bmtCn.push(Math.round(parseFloat(m[1]) * mult));
+        }
       }
+      if (bmtCn.length >= 2) mktCap = bmtCn[1];
+      else if (bmtCn.length === 1) mktCap = bmtCn[0];
     }
     if (changePct !== null) {
       rows.push({ ticker, company, change_pct: changePct, mkt_cap: mktCap });

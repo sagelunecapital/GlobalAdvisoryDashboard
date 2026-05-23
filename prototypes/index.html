@@ -348,7 +348,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .scr-leg-purple{background:rgba(168,85,247,0.12);color:#c084fc;border:1px solid rgba(168,85,247,0.3)}
 .scr-leg-blue{background:rgba(0,112,204,0.12);color:#60a5fa;border:1px solid rgba(0,112,204,0.3)}
 .scr-leg-grey{background:rgba(128,128,128,0.10);color:var(--text-muted);border:1px solid rgba(128,128,128,0.25)}
-.scr-cont-badge{font-size:9px;color:var(--text-muted);background:rgba(128,128,128,0.15);border-radius:3px;padding:1px 4px;margin-left:4px;vertical-align:middle;font-weight:600}
+.scr-cont-badge{font-size:14px;color:var(--text-muted);background:rgba(128,128,128,0.15);border-radius:3px;padding:0px 4px;margin-left:5px;vertical-align:middle;font-weight:700;line-height:1}
+.scr-change.chg-green,.scr-gticker-chg.chg-green{color:#3fb950}
+.scr-change.chg-purple,.scr-gticker-chg.chg-purple{color:#a855f7}
+.scr-change.chg-blue,.scr-gticker-chg.chg-blue{color:#60a5fa}
 </style>
 </head>
 <body>
@@ -3761,6 +3764,7 @@ function scrRenderMovers(){
     return fMcSym+(v/1e6).toFixed(0)+'M';
   };
   const hlCls=t=>t==='earnings'||t==='guidance'?'hl-green':t==='analyst'?'hl-purple':t==='other'?'hl-blue':'';
+  const chgColorCls=r=>{const t=r.catalyst_type;if(t==='earnings'||t==='guidance')return'chg-green';if(t==='analyst')return'chg-purple';if(t==='other')return'chg-blue';return chgCls(r.change_pct);};
 
   const groupMap={};
   const ungrouped=[];
@@ -3774,7 +3778,7 @@ function scrRenderMovers(){
     const chips=members.map(r=>{const cap=fMc(r.mkt_cap);return`<div class="scr-gticker">
       <span class="scr-gticker-sym">${r.ticker}</span>
       <span class="scr-gticker-name">${r.company}${cap?' | '+cap:''}</span>
-      <span class="scr-gticker-chg ${chgCls(r.change_pct)}">${fChg(r.change_pct)}${r.continuation?'<span class="scr-cont-badge">&#8593;</span>':''}</span>
+      <span class="scr-gticker-chg ${chgColorCls(r)}">${fChg(r.change_pct)}${r.continuation?'<span class="scr-cont-badge">&#8593;</span>':''}</span>
     </div>`;}).join('');
     const summary=members[0].group_summary||'';
     return`<div class="scr-card scr-card-group ${hl}">
@@ -3799,7 +3803,7 @@ function scrRenderMovers(){
     return`<div class="scr-card ${hl}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px">
         <div class="scr-ticker">${r.ticker}</div>
-        <div class="scr-change ${chgCls(r.change_pct)}">${fChg(r.change_pct)}${r.continuation?'<span class="scr-cont-badge">&#8593;</span>':''}</div>
+        <div class="scr-change ${chgColorCls(r)}">${fChg(r.change_pct)}${r.continuation?'<span class="scr-cont-badge">&#8593;</span>':''}</div>
       </div>
       <div class="scr-name">${name}</div>
       <hr class="scr-divider">
