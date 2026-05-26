@@ -127,8 +127,6 @@ body{background:linear-gradient(145deg,#0070cc 0%,#080c12 10%);background-attach
 /* ── Regime ── */
 .regime-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
 .regime-indicators{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-.nhnl-select{width:100%;background:transparent;border:none;color:var(--text);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;outline:none;-webkit-appearance:none;padding:0;margin-top:4px}
-.nhnl-select option{background:#1c2026}
 .rbadge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600}
 .rbadge.yellow{background:rgba(227,169,70,0.12);border:1px solid var(--amber);color:var(--amber)}
 .rbadge.green{background:rgba(63,185,80,0.12);border:1px solid var(--green);color:var(--green)}
@@ -954,14 +952,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       </div>
       <div class="rcrit">
         <div class="rcrit-label">NHNL</div>
-        <select class="nhnl-select" id="nhnl-select" onchange="persistNotes()">
-          <option value="">Select...</option>
-          <option value="Green">Green</option>
-          <option value="Major Flush">Major Flush</option>
-          <option value="Minor Flush">Minor Flush</option>
-          <option value="Neutral">Neutral</option>
-        </select>
+        <div class="rcrit-value" id="ind-nhnl-val">—</div>
+        <div class="rcrit-sub" id="ind-nhnl-sub"></div>
       </div>
+    </div>
+    <div id="regime-signal-wrap" style="display:none;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:8px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;flex-shrink:0">Buying Signal</span>
+      <span id="regime-signal-val" style="font-size:14px;font-weight:700">—</span>
     </div>
     <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
   </div>
@@ -1208,14 +1205,12 @@ function persistNotes(){
     const collapsed=el.classList.contains('collapsed');
     sectors.push({name,thesis:tas[0].value,tickers:tas[1].value,collapsed});
   });
-  const nhnl=document.getElementById('nhnl-select')?.value||'';
   const saved_at=new Date().toISOString();
   localStorage.setItem('gaai-breadth',breadth);
-  localStorage.setItem('gaai-nhnl',nhnl);
   localStorage.setItem('gaai-sectors',JSON.stringify(sectors));
   localStorage.setItem('gaai-saved-at',saved_at);
   clearTimeout(_saveTimer);
-  _saveTimer=setTimeout(()=>_pushNotes({breadth,nhnl,sectors,saved_at}),1500);
+  _saveTimer=setTimeout(()=>_pushNotes({tactics,breadth,sectors,research:researchSectors,saved_at}),1500);
 }
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
@@ -1929,10 +1924,6 @@ function _applyNotes(notes){
     const bn=document.getElementById('breadth-notes');
     if(bn){bn.value=notes.breadth;autoResize(bn);}
   }
-  if(notes.nhnl!==undefined){
-    const sel=document.getElementById('nhnl-select');
-    if(sel) sel.value=notes.nhnl;
-  }
   const list=document.getElementById('sector-list');
   if(!list||list.children.length>0) return;
   if(notes.sectors&&notes.sectors.length){
@@ -1940,6 +1931,10 @@ function _applyNotes(notes){
   } else {
     addSector('Energy','Oil supply tightening expected in Q3 2026 as OPEC+ cuts take effect. WTI support above $80. Prefer integrated majors over E&P given margin resilience.','XLE, CVX, XOM, SLB');
     addSector('Technology','Cautious near-term on growth derating. Prefer cash-generative mega-cap over unprofitable growth. Avoid rate-sensitive small-cap tech.','QQQ, MSFT, GOOGL  —  Underweight: ARKK');
+  }
+  if(notes.research && notes.research.length){
+    researchSectors=notes.research;
+    renderRsGrid();
   }
 }
 
@@ -1954,22 +1949,22 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(serverNotes=>{
       const localAt=localStorage.getItem('gaai-saved-at')||'';
       const serverAt=serverNotes.saved_at||'';
-      const hasLocalNotes=!!(localStorage.getItem('gaai-sectors')||localStorage.getItem('gaai-nhnl'));
+      const hasLocalNotes=!!localStorage.getItem('gaai-sectors');
       if(localAt>serverAt||(hasLocalNotes&&!serverAt)){
         const b=localStorage.getItem('gaai-breadth')||'';
-        const n=localStorage.getItem('gaai-nhnl')||'';
         const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-        _applyNotes({breadth:b,nhnl:n,sectors:s||[]});
-        _pushNotes({breadth:b,nhnl:n,sectors:s||[],saved_at:localAt||new Date().toISOString()});
+        const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
+        _applyNotes({tactics:t,breadth:b,sectors:s||[],research:r||[]});
+        _pushNotes({tactics:t,breadth:b,sectors:s||[],research:r||[],saved_at:localAt||new Date().toISOString()});
       } else {
         _applyNotes(serverNotes);
       }
     })
     .catch(()=>{
       const b=localStorage.getItem('gaai-breadth')||'';
-      const n=localStorage.getItem('gaai-nhnl')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
-      _applyNotes({breadth:b,nhnl:n,sectors:s||[]});
+      const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
+      _applyNotes({tactics:t,breadth:b,sectors:s||[],research:r||[]});
     });
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
@@ -2470,12 +2465,46 @@ function applyRegimeData(d){
   document.getElementById('ind-25ema').textContent=fmt(d.ema25);
   document.getElementById('ind-mmth').textContent=d.mmth.toFixed(1)+'%';
   if(d.ncfd!=null){
-    document.getElementById('ind-ncfd').textContent=d.ncfd.toFixed(1)+'%';
-    document.getElementById('ind-ncfd-sub').textContent=d.ncfd<=25?'Below Oversold Threshold of 25':'Above Oversold Threshold of 25';
+    const ncfdEl=document.getElementById('ind-ncfd');
+    const ncfdSubEl=document.getElementById('ind-ncfd-sub');
+    const ncfdLbl=d.ncfd_label||(d.ncfd_high>=75?'Hot':d.ncfd_low<=25?'Cold':d.ncfd>50?'Warm':d.ncfd>25?'Lukewarm':'Cold');
+    const ncfdColors={Hot:'var(--amber)',Warm:'var(--green)',Lukewarm:'var(--text-muted)',Cold:'#58a6ff'};
+    ncfdEl.textContent=ncfdLbl;
+    ncfdEl.style.color=ncfdColors[ncfdLbl]||'';
+    if(ncfdSubEl) ncfdSubEl.textContent='Close: '+d.ncfd.toFixed(1);
+  }
+  if(d.nhnl!=null){
+    const nhnlEl=document.getElementById('ind-nhnl-val');
+    const nhnlSubEl=document.getElementById('ind-nhnl-sub');
+    if(nhnlEl){
+      nhnlEl.textContent=(d.nhnl>0?'+':'')+Math.round(d.nhnl);
+      nhnlEl.style.color=d.nhnl>0?'var(--green)':d.nhnl<0?'var(--red)':'var(--text)';
+    }
+    if(nhnlSubEl){
+      const parts=[];
+      if(d.nhnl_momentum) parts.push(d.nhnl_momentum);
+      if(d.nhnl_highs) parts.push('Highs');
+      if(d.nhnl_lows)  parts.push('Lows');
+      nhnlSubEl.textContent=parts.join(' · ')||'—';
+      const momColor={Hot:'var(--amber)',Cold:'#58a6ff'};
+      nhnlSubEl.style.color=d.nhnl_momentum?momColor[d.nhnl_momentum]:'var(--text-muted)';
+    }
   }
   document.getElementById('regime-cond').textContent=d.regime_cond;
   const db=document.getElementById('div-badge');
   if(db){db.style.display=d.regime_div!=='none'?'':'none';db.textContent=d.regime_div==='bearish'?'⚠ DIVERGENCE ACTIVE':d.regime_div==='bullish'?'↑ BULLISH DIVERGENCE':'';}
+  const sigWrap=document.getElementById('regime-signal-wrap');
+  const sigVal=document.getElementById('regime-signal-val');
+  if(sigWrap&&sigVal){
+    if(d.buying_signal){
+      const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)'};
+      sigVal.textContent=d.buying_signal;
+      sigVal.style.color=sigColors[d.buying_signal]||'var(--text)';
+      sigWrap.style.display='flex';
+    } else {
+      sigWrap.style.display='none';
+    }
+  }
   document.getElementById('regime-date').textContent='Source: Bloomberg  |  updated '+regimeAsOf;
   if(d.market_narrative&&d.long_bias) updateHighEdge(d.market_narrative,d.long_bias);
 }
@@ -2770,17 +2799,19 @@ function _tp(tk){
 
 function persistRS(){
   localStorage.setItem('gaai-research',JSON.stringify(researchSectors));
-  clearTimeout(_rsSaveTimer);
-  _rsSaveTimer=setTimeout(()=>_pushResearch(researchSectors),1500);
+  persistNotes();
 }
-function _pushResearch(sectors){
-  fetch('/api/save-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sectors)})
-    .catch(()=>{});
-}
-function _rsFromLocal(){
-  if(researchSectors.length) return;
-  const raw=localStorage.getItem('gaai-research');
-  if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
+function loadRS(){
+  const savedSort=localStorage.getItem('gaai-rs-sort');
+  if(savedSort){
+    rsSort=savedSort;
+    const sel=document.getElementById('rs-sort-select');
+    if(sel) sel.value=savedSort;
+  }
+  if(!researchSectors.length){
+    const raw=localStorage.getItem('gaai-research');
+    if(raw){try{researchSectors=JSON.parse(raw);}catch(e){researchSectors=[];}}
+  }
   if(!researchSectors.length){
     const old=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
     if(old&&old.length){

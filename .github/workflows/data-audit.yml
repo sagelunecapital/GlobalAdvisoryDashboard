@@ -2,7 +2,7 @@ name: Data Audit
 
 on:
   pull_request:
-    branches: [main]
+    branches: [staging]
   schedule:
     # Weekly Monday 10:00 UTC — catch data drift between PRs
     - cron: '0 10 * * 1'
