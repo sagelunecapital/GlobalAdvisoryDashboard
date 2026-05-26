@@ -173,7 +173,7 @@ def main() -> None:
             raw_list = json.loads(WATCHLIST_F.read_text(encoding="utf-8"))
             # Normalize: uppercase, dots→dashes (yfinance format)
             def _norm(t: str) -> str:
-                return t.strip().upper().replace(".", "-")
+                return t.strip().upper()
             wl = [_norm(t) for t in raw_list if t.strip()]
             missing = [t for t in wl if t not in result]
             if missing:
@@ -215,6 +215,51 @@ def main() -> None:
                     }
                     added += 1
                 print(f"  +{added}/{len(missing)} watchlist tickers added")
+                # KQ fallback: retry .KS tickers that returned no data as .KQ (KOSDAQ)
+                ks_failed = [tk for tk in missing if tk.endswith('.KS') and tk not in result]
+                if ks_failed:
+                    kq_map = {tk.replace('.KS', '.KQ'): tk for tk in ks_failed}
+                    kq_raw = yf.download(
+                        list(kq_map), start=date_1y, auto_adjust=True, progress=False
+                    )
+                    kq_closes = kq_raw["Close"] if "Close" in kq_raw else kq_raw
+                    if isinstance(kq_closes, pd.Series):
+                        kq_closes = kq_closes.to_frame(name=list(kq_map)[0])
+                    kq_added = 0
+                    for kq_tk, orig_tk in kq_map.items():
+                        if kq_tk not in kq_closes.columns:
+                            continue
+                        s = kq_closes[kq_tk].dropna()
+                        if s.empty:
+                            continue
+                        def _gkq(d, _s=s):
+                            idx = _s.index[_s.index <= pd.Timestamp(d)]
+                            return float(_s[idx[-1]]) if len(idx) else None
+                        if _gkq(latest) is None:
+                            continue
+                        def _epkq(fd, td, _g=_gkq):
+                            pf, pt = _g(fd), _g(td)
+                            return round((pt/pf-1)*100, 4) if pf and pt and pf > 0 else None
+                        mc = None
+                        try:
+                            fi = yf.Ticker(kq_tk).fast_info
+                            mc = float(fi.market_cap) if fi.market_cap else None
+                        except Exception:
+                            pass
+                        entry = {
+                            "perf_1d":  _epkq(date_1d,  latest),
+                            "perf_5d":  _epkq(date_5d,  latest),
+                            "perf_1m":  _epkq(date_1m,  latest),
+                            "perf_6m":  _epkq(date_6m,  latest),
+                            "perf_1y":  _epkq(date_1y,  latest),
+                            "perf_ytd": _epkq(date_ytd, latest),
+                            "mktcap":   mc,
+                        }
+                        result[orig_tk] = entry
+                        result[kq_tk]   = entry
+                        kq_added += 1
+                    if kq_added:
+                        print(f"  +{kq_added} Korean tickers recovered via .KQ fallback")
             else:
                 print(f"  Watchlist: all {len(wl)} tickers already tracked")
         except Exception as exc:

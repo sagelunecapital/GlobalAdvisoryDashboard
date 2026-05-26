@@ -1,0 +1,93 @@
+{
+  "updated_at": "2026-05-23T03:09:23.885004+00:00",
+  "by_date": {
+    "2026-05-22": [
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 61900000000,
+        "change_pct": 7.07,
+        "catalyst": "148 jumped as China's AI server buildout triggered a new order cycle for copper clad laminate - Kingboard's core product and an irreplaceable input for every server PCB. As the largest CCL producer in China, 148 is a direct beneficiary of domestic hyperscaler capex. The US-China tariff truce reducing duties from 145% to 30% added a margin recovery catalyst.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "group_id": "china-ai-supply-chain",
+        "group_summary": "981, 2382, and 148 all surged on China's accelerating AI infrastructure buildout - driving demand for advanced semiconductors (981), high-pixel optical modules (2382), and copper clad laminate for AI server PCBs (148). The US-China tariff truce announced May 12 - reducing tariffs from 145% to 30% - provided an additional re-export tailwind for the entire supply chain group."
+      },
+      {
+        "ticker": "179",
+        "company": "Johnson Electric Holdings Limited",
+        "mkt_cap": 25050000000,
+        "change_pct": 6.61,
+        "catalyst": "179 rose alongside the broader auto-parts rally as China's NEV penetration rate exceeded 50% for the first time. Johnson Electric's precision motors and actuators are embedded in EV drivetrains, HVAC, and locking systems across major Chinese OEMs. Improving gross margins (23.6% in the interim period) and robust order flow from EV customers supported the re-rating.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "group_id": "china-ev-industrial",
+        "group_summary": "3898 and 179 both rallied on China's NEV penetration rate exceeding 50% for the first time - 3898 via traction power systems for high-speed rail and EV inverters, 179 via precision motors and actuators embedded across EV drivetrains and HVAC systems. Incremental 2026-2027 rail capex announcements added a second growth leg for 3898."
+      },
+      {
+        "ticker": "2382",
+        "company": "Sunny Optical Technology (Group) Co., Ltd.",
+        "mkt_cap": 72510000000,
+        "change_pct": 6.78,
+        "catalyst": "2382 surged after May 2026 monthly shipment data showed handset lens sets at 98.1M units and vehicle lens sets at 10.71M units - both above consensus. This followed FY2025 net income of RMB 4.64B, beating estimates of RMB 3.72B by 25%, alongside a dividend increase and plans to spin off the vehicle optics unit. The AI smartphone optical upgrade cycle and automotive vision sensor ramp are dual demand drivers.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "group_id": "china-ai-supply-chain",
+        "group_summary": "981, 2382, and 148 all surged on China's accelerating AI infrastructure buildout - driving demand for advanced semiconductors (981), high-pixel optical modules (2382), and copper clad laminate for AI server PCBs (148). The US-China tariff truce announced May 12 - reducing tariffs from 145% to 30% - provided an additional re-export tailwind for the entire supply chain group."
+      },
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 12950000000,
+        "change_pct": 18.38,
+        "catalyst": "2643 surged after reporting its first-ever adjusted quarterly profit - driven by higher vehicle utilisation rates, reduced subsidy reliance, and improved unit economics across its Geely-backed EV ride-hailing fleet. Management announced plans to scale robotaxi deployments in China and expand internationally, re-framing 2643 from an unprofitable ride-hailer to a self-sustaining mobility platform.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web"
+      },
+      {
+        "ticker": "3898",
+        "company": "Zhuzhou CRRC Times Electric Co., Ltd. Class",
+        "mkt_cap": 69740000000,
+        "change_pct": 8.21,
+        "catalyst": "3898 rallied on China's accelerating high-speed rail infrastructure spending, with the Ministry of Railways confirming incremental 2026-2027 capex that directly feeds 3898's traction inverter and converter order book. NEV sector momentum added a secondary tailwind via its industrial power module segment supplying EV OEMs. The dual rail-plus-EV exposure gives 3898 visibility on both infrastructure and consumer EV cycles.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "group_id": "china-ev-industrial",
+        "group_summary": "3898 and 179 both rallied on China's NEV penetration rate exceeding 50% for the first time - 3898 via traction power systems for high-speed rail and EV inverters, 179 via precision motors and actuators embedded across EV drivetrains and HVAC systems. Incremental 2026-2027 rail capex announcements added a second growth leg for 3898."
+      },
+      {
+        "ticker": "6651",
+        "company": "Beijing 51WORLD Digital Twin Technology Co., Ltd. Class",
+        "mkt_cap": 21700000000,
+        "change_pct": 28.57,
+        "catalyst": "6651 surged on continued momentum from its NVIDIA Global L4 Autonomous Driving Simulation partnership - announced at GTC March 2026 - where 51WORLD's SimOne platform integrates with NVIDIA Omniverse NuRec to create closed-loop simulation from real-world fleet data. 6651 commands 53.5% of China's L3+ simulation market, and accelerating city-level robotaxi approvals in Q1-Q2 2026 drove institutional accumulation to fresh post-IPO highs.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "group_id": "china-ai-automation",
+        "group_summary": "9880 and 6651 are both pure-play Chinese AI automation names re-rating on structural growth. 9880 reported 53% revenue growth in 2025 as full-size humanoid robots became its largest segment, while 6651 commands 53.5% of China's L3+ simulation market on the back of its NVIDIA Global L4 partnership. Accelerating robotaxi city approvals and industrial robot subsidies in China drove institutional accumulation in both."
+      },
+      {
+        "ticker": "981",
+        "company": "Semiconductor Manufacturing International Corp.",
+        "mkt_cap": 566000000000,
+        "change_pct": 7.61,
+        "catalyst": "981 rallied after Q1 2026 results showed a sustained recovery, with co-CEO Zhao Haijun guiding Q2 revenue to rise 14-16% sequentially on AI chip and automotive chip demand. Orders from overseas clients are growing as tight capacity at foreign foundries redirects production to SMIC. The results validated 981 as the primary beneficiary of China's semiconductor self-sufficiency push.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "group_id": "china-ai-supply-chain",
+        "group_summary": "981, 2382, and 148 all surged on China's accelerating AI infrastructure buildout - driving demand for advanced semiconductors (981), high-pixel optical modules (2382), and copper clad laminate for AI server PCBs (148). The US-China tariff truce announced May 12 - reducing tariffs from 145% to 30% - provided an additional re-export tailwind for the entire supply chain group."
+      },
+      {
+        "ticker": "9880",
+        "company": "UBTECH ROBOTICS CORP LTD Class",
+        "mkt_cap": 62400000000,
+        "change_pct": 10.13,
+        "catalyst": "9880 rallied as UBTECH reported 2025 operating revenue of RMB 2.0B - up 53.3% YoY - with full-size humanoid robots now the largest revenue segment. China's industrial robot deployment subsidies and a visible order pipeline from automotive OEMs deploying Walker-series robots in factory automation drove the re-rating. The humanoid robot sector remains a high-conviction domestic AI hardware theme for institutional investors.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "group_id": "china-ai-automation",
+        "group_summary": "9880 and 6651 are both pure-play Chinese AI automation names re-rating on structural growth. 9880 reported 53% revenue growth in 2025 as full-size humanoid robots became its largest segment, while 6651 commands 53.5% of China's L3+ simulation market on the back of its NVIDIA Global L4 partnership. Accelerating robotaxi city approvals and industrial robot subsidies in China drove institutional accumulation in both."
+      }
+    ]
+  }
+}

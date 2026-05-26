@@ -40,6 +40,7 @@ CFR = {
 
 _CME_MONTH_CODES = {1: "F", 2: "G", 3: "H", 4: "J", 5: "K", 6: "M",
                     7: "N", 8: "Q", 9: "U", 10: "V", 11: "X", 12: "Z"}
+_CME_MONTH_TO_NUM = {v: k for k, v in _CME_MONTH_CODES.items()}
 
 
 def _cme_symbol(root: str, expiry: date) -> str:
@@ -58,8 +59,9 @@ def to_strip(contracts: list[Contract]) -> pd.DataFrame:
     return pd.DataFrame([c.__dict__ for c in contracts])
 
 
-ROOT     = Path(__file__).resolve().parent.parent
-JSON_OUT = ROOT / "prototypes" / "stir.json"
+ROOT           = Path(__file__).resolve().parent.parent
+JSON_OUT       = ROOT / "prototypes" / "stir.json"
+BARCHART_CACHE = Path(__file__).resolve().parent / "barchart_zq_cache.json"
 
 
 # A2 - Loaders (real implementations, replacing the playbook's make_mock_*)
@@ -141,22 +143,63 @@ def _fetch_history(symbol: str) -> dict | None:
         return None
 
 
+def _load_barchart_zq() -> list[dict]:
+    """Load ZQ contracts from barchart_fetch.py cache. Returns [] if missing."""
+    if not BARCHART_CACHE.exists():
+        return []
+    try:
+        data = json.loads(BARCHART_CACHE.read_text(encoding="utf-8"))
+        rows = []
+        for c in data.get("contracts", []):
+            sym_bc = c.get("symbol_bc", "")
+            if len(sym_bc) < 5:
+                continue
+            mc   = sym_bc[2]
+            yr2  = sym_bc[3:]
+            if mc not in _CME_MONTH_TO_NUM or not yr2.isdigit():
+                continue
+            month_num = _CME_MONTH_TO_NUM[mc]
+            year      = 2000 + int(yr2)
+            exp       = _expiry_for_month(year, month_num)
+            rows.append({
+                "symbol":  _cme_symbol("ZQ", exp),
+                "root":    "ZQ",
+                "expiry":  exp,
+                "settle":  c["settle"],
+                "px_1d":   None,
+                "px_5d":   None,
+                "px_1m":   None,
+                "volume":  c.get("volume"),
+                "oi":      c.get("oi"),
+                "oi_chg":  None,
+            })
+        return rows
+    except Exception as e:
+        print(f"[stir] Barchart cache load failed: {e}", flush=True)
+        return []
+
+
 def load_strip(today: date,
-               zq_months: int = 18,
-               sr3_quarters: int = 8) -> pd.DataFrame:
-    """Settlement strip: ZQ (Fed Funds, monthly) and SR3 (3M SOFR, quarterly)."""
+               zq_months: int = 36,
+               sr3_quarters: int = 12) -> pd.DataFrame:
+    """Settlement strip: ZQ (Fed Funds, monthly via Barchart cache) and SR3 (3M SOFR, quarterly via yfinance)."""
     rows: list[dict] = []
 
-    # ZQ - one per calendar month, ~18 months out
-    for i in range(zq_months):
-        m = ((today.month - 1 + i) % 12) + 1
-        y = today.year + (today.month + i - 1) // 12
-        exp = _expiry_for_month(y, m)
-        sym = f"ZQ{_CME_MONTH_CODES[m]}{y % 100:02d}.CBT"
-        d = _fetch_history(sym)
-        if d is not None:
-            rows.append({"symbol": _cme_symbol("ZQ", exp), "root": "ZQ",
-                         "expiry": exp, **d})
+    # ZQ - prefer Barchart cache (60+ contracts to 2031); fall back to yfinance
+    bc_rows = _load_barchart_zq()
+    if bc_rows:
+        rows.extend(bc_rows)
+    else:
+        print("    [ZQ] Barchart cache missing, falling back to yfinance...", flush=True)
+        for i in range(zq_months):
+            m = ((today.month - 1 + i) % 12) + 1
+            y = today.year + (today.month + i - 1) // 12
+            exp = _expiry_for_month(y, m)
+            sym = f"ZQ{_CME_MONTH_CODES[m]}{y % 100:02d}.CBT"
+            d = _fetch_history(sym)
+            if d is not None:
+                rows.append({"symbol": _cme_symbol("ZQ", exp), "root": "ZQ",
+                             "expiry": exp, **d})
 
     # SR3 - quarterly listings (Mar/Jun/Sep/Dec), ~2 years out
     cur_q = ((today.month - 1) // 3) * 3 + 3
@@ -352,28 +395,36 @@ def plot_cb_lvl(path: pd.DataFrame, effr: float) -> go.Figure:
 
 
 # Dashboard JSON export (consumed by prototypes/index.html, "Yields" tab)
-def _kpis(s: pd.DataFrame, today: date, ocr: float) -> dict:
-    """Terminal M+2 KPI block: terminal rate (3rd contract on the strip),
-    plus its spread vs EFFR and vs the +6M / +12M contracts.
+def _kpis(s: pd.DataFrame, today: date, ocr: float, steps_6m: int, steps_12m: int) -> dict:
+    """Terminal KPI block: highest implied rate in 18-month window,
+    plus its spread vs EFFR and vs the +6M / +12M contracts (by contract count from terminal).
     """
-    if s.empty or len(s) < 3:
-        return {"terminal": None, "vs_effr_bp": None,
-                "vs_6m_bp": None, "vs_12m_bp": None,
-                "terminal_symbol": None, "h6_symbol": None, "h12_symbol": None}
+    empty = {"terminal": None, "vs_effr_bp": None, "vs_6m_bp": None, "vs_12m_bp": None,
+             "terminal_symbol": None, "h6_symbol": None, "h12_symbol": None,
+             "h6_rate": None, "h12_rate": None}
+    if s.empty:
+        return empty
 
-    term = s.iloc[2]
+    # Limit search to 18-month window
+    cutoff_key = today.year * 12 + today.month + 18
+    s18 = s[s["expiry"].apply(lambda d: d.year * 12 + d.month) <= cutoff_key]
+    if s18.empty:
+        s18 = s
+
+    # Terminal = highest implied rate in the 18M window
+    term_pos = int(s18["implied_rate"].idxmax())  # label == iloc position (reset_index strip)
+    term = s.loc[term_pos]
     term_rate = float(term["implied_rate"])
 
-    def _at_horizon(months: int) -> tuple[str | None, float | None]:
-        target_key = today.year * 12 + today.month + months
-        cand = s[s["expiry"].apply(lambda d: d.year * 12 + d.month) >= target_key]
-        if cand.empty:
+    def _at_steps(steps: int):
+        pos = term_pos + steps
+        if pos >= len(s):
             return None, None
-        r = cand.iloc[0]
+        r = s.iloc[pos]
         return r["symbol"], float(r["implied_rate"])
 
-    h6_sym,  h6_rate  = _at_horizon(6)
-    h12_sym, h12_rate = _at_horizon(12)
+    h6_sym,  h6_rate  = _at_steps(steps_6m)
+    h12_sym, h12_rate = _at_steps(steps_12m)
 
     return {
         "terminal":        round(term_rate, 4),
@@ -383,6 +434,8 @@ def _kpis(s: pd.DataFrame, today: date, ocr: float) -> dict:
         "vs_12m_bp":       round((term_rate - h12_rate) * 100, 1) if h12_rate is not None else None,
         "h6_symbol":       h6_sym,
         "h12_symbol":      h12_sym,
+        "h6_rate":         round(h6_rate,  4) if h6_rate  is not None else None,
+        "h12_rate":        round(h12_rate, 4) if h12_rate is not None else None,
     }
 
 
@@ -392,8 +445,8 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
     sofr_strip = strip[strip["root"] == "SR3"].reset_index(drop=True)
     ff_strip   = strip[strip["root"] == "ZQ"].reset_index(drop=True)
 
-    sofr_term = find_terminal(sofr_strip, effr) if not sofr_strip.empty else None
-    ff_term   = find_terminal(ff_strip,   effr) if not ff_strip.empty   else None
+    ff_kpis   = _kpis(ff_strip,   today, effr, steps_6m=6,  steps_12m=12)
+    sofr_kpis = _kpis(sofr_strip, today, effr, steps_6m=2,  steps_12m=4)
 
     def _rows(s: pd.DataFrame, term_sym: str | None) -> list[dict]:
         return [
@@ -445,12 +498,9 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
         "effr":         round(effr, 4),
         "sofr":         round(sofr, 4),
         "basis_bp":     round((sofr - effr) * 100, 1),
-        "kpis": {
-            "ff":   _kpis(ff_strip,   today, effr),
-            "sofr": _kpis(sofr_strip, today, effr),
-        },
-        "sofr_strip":    _rows(sofr_strip, sofr_term["symbol"] if sofr_term is not None else None),
-        "ff_strip":      _rows(ff_strip,   ff_term["symbol"]   if ff_term   is not None else None),
+        "kpis": {"ff": ff_kpis, "sofr": sofr_kpis},
+        "sofr_strip":    _rows(sofr_strip, sofr_kpis.get("terminal_symbol")),
+        "ff_strip":      _rows(ff_strip,   ff_kpis.get("terminal_symbol")),
         "fomc_dates":    [d.isoformat() for d in fomc_dates],
         "meeting_path":  path_rows,
         "spreads_ff":    _spread_rows(ff_strip),
@@ -471,7 +521,7 @@ def main(show_plots: bool = False) -> None:
     print(f"    EFFR {OCR:.4f}%   SOFR {SOFR:.4f}%   "
           f"basis {(SOFR - OCR) * 100:+.1f} bp", flush=True)
 
-    print("[2] Loading futures strip (yfinance: ZQ + SR3)...", flush=True)
+    print("[2] Loading futures strip (ZQ: Barchart cache, SR3: yfinance)...", flush=True)
     strip = load_strip(today)
     if strip.empty:
         raise RuntimeError("No futures contracts loaded - check yfinance access")
