@@ -917,12 +917,9 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <!-- Market Regime -->
   <div class="section-heading">Market Regime</div>
 
-  <div style="margin-top:0;margin-bottom:20px;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
-    <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin:0">NCFD takes a look at the underlying short-term momentum of the market. We set the upper threshold at 75 and the lower threshold at 25. Using this, NCFD is "Hot" when it hits the upper threshold, "Warm" when it lives below the upper threshold, "Lukewarm" when it lives above the lower threshold, and "Cold" when it hits the lower threshold.<br><br>NHNL provides valuable information regarding stocks making new highs and stocks making new lows that can be used in determining the quality of the move of the market, whether up or down. While it can show whether we are in a stretch conducive of buying or selling, not all periods are equal in the timeliness of buying or selling. Therefore, we use the NHNL in a contrarian manner wherein if NHNL moves too fast by either velocity or level, or if NHNL shifts direction during the market's upturn or downturn, or both. The NCFD and NHNL are used in tandem to determine the execution timing.<br><br>MMTH takes a longer-term approach by looking at the quantity of market participation. We use it to find out whether there is any divergence to the direction of price. However, it lacks in providing the context as to whether the situation is improving or worsening. This pushes us to put out a certain thesis to the market and use the color provided by the NCFD and NHNL to point out market opportunities.<br><br>EMAs are simply used as a broad window, but the conjunction of all these other indicators gives us the signals to be precise.</p>
-  </div>
+  <div style="display:flex;gap:16px;align-items:flex-start">
 
-  <div class="card">
+    <div class="card" style="flex:1;min-width:0">
     <div class="regime-top">
       <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
         <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
@@ -967,7 +964,14 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <span id="regime-signal-val" style="font-size:14px;font-weight:700">—</span>
     </div>
     <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
-  </div>
+    </div><!-- /regime card -->
+
+    <div style="width:320px;flex-shrink:0;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin:0">NCFD takes a look at the underlying short-term momentum of the market. We set the upper threshold at 75 and the lower threshold at 25. Using this, NCFD is "Hot" when it hits the upper threshold, "Warm" when it lives below the upper threshold, "Lukewarm" when it lives above the lower threshold, and "Cold" when it hits the lower threshold.<br><br>NHNL provides valuable information regarding stocks making new highs and stocks making new lows that can be used in determining the quality of the move of the market, whether up or down. While it can show whether we are in a stretch conducive of buying or selling, not all periods are equal in the timeliness of buying or selling. Therefore, we use the NHNL in a contrarian manner wherein if NHNL moves too fast by either velocity or level, or if NHNL shifts direction during the market's upturn or downturn, or both. The NCFD and NHNL are used in tandem to determine the execution timing.<br><br>MMTH takes a longer-term approach by looking at the quantity of market participation. We use it to find out whether there is any divergence to the direction of price. However, it lacks in providing the context as to whether the situation is improving or worsening. This pushes us to put out a certain thesis to the market and use the color provided by the NCFD and NHNL to point out market opportunities.<br><br>EMAs are simply used as a broad window, but the conjunction of all these other indicators gives us the signals to be precise.</p>
+    </div>
+
+  </div><!-- /regime side-by-side -->
 
 </div><!-- /execution panel -->
 
