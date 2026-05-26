@@ -921,6 +921,19 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
     <div class="card" style="flex:1;min-width:0">
 
+      <!-- Header: badge + condition -->
+      <div class="regime-top">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
+          <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
+          <div id="regime-label" style="font-size:10px;text-align:center;color:var(--text-muted);line-height:1.4">Bearish Divergence<br>Since 2026-04-15</div>
+        </div>
+        <div class="cond-box" style="flex:1;margin-top:0">
+          <div class="cond-l">Active Condition</div>
+          <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
+          <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
+        </div>
+      </div>
+
       <!-- Row 1: Market Signal + SPX/EMAs -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
         <div style="flex:1;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:10px;padding:10px 14px">
@@ -2505,6 +2518,9 @@ function applyRegimeData(d){
     }
     if(nhnlSubEl) nhnlSubEl.textContent='';
   }
+  document.getElementById('regime-cond').textContent=d.regime_cond;
+  const db=document.getElementById('div-badge');
+  if(db){db.style.display=d.regime_div!=='none'?'':'none';db.textContent=d.regime_div==='bearish'?'⚠ DIVERGENCE ACTIVE':d.regime_div==='bullish'?'↑ BULLISH DIVERGENCE':'';}
   const mktSigEl=document.getElementById('mkt-signal-val');
   if(mktSigEl){
     let mktSig,mktColor;
