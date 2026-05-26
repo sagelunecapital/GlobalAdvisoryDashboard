@@ -920,50 +920,58 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div style="display:flex;gap:16px;align-items:flex-start">
 
     <div class="card" style="flex:1;min-width:0">
-    <div class="regime-top">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0">
-        <div class="rbadge yellow" id="regime-badge"><span class="rdot"></span>YELLOW</div>
-        <div id="regime-label" style="font-size:10px;text-align:center;color:var(--text-muted);line-height:1.4">Bearish Divergence<br>Since 2026-04-15</div>
+
+      <!-- Row 1: Market Signal + SPX/EMAs -->
+      <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:10px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Market Signal</div>
+          <div id="mkt-signal-val" style="font-size:18px;font-weight:700">—</div>
+        </div>
+        <div class="rcrit">
+          <div class="rcrit-label">SPX Price</div>
+          <div class="rcrit-value" id="ind-spx-price">—</div>
+        </div>
+        <div class="rcrit">
+          <div class="rcrit-label">12-Day EMA</div>
+          <div class="rcrit-value" id="ind-12ema">—</div>
+        </div>
+        <div class="rcrit">
+          <div class="rcrit-label">25-Day EMA</div>
+          <div class="rcrit-value" id="ind-25ema">—</div>
+        </div>
       </div>
-      <div class="cond-box" style="flex:1;margin-top:0">
-        <div class="cond-l">Active Condition</div>
-        <div class="cond-t" id="regime-cond">SPX above 12d EMA but MMTH diverged below 60%. Bearish divergence confirmed.</div>
-        <div class="div-badge" id="div-badge">&#9888; DIVERGENCE ACTIVE</div>
+
+      <!-- Row 2: Breadth Signal + MMTH -->
+      <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:10px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Breadth Signal</div>
+          <div id="breadth-signal-val" style="font-size:18px;font-weight:700">—</div>
+        </div>
+        <div class="rcrit">
+          <div class="rcrit-label">MMTH</div>
+          <div class="rcrit-value" id="ind-mmth">—</div>
+        </div>
       </div>
-    </div>
-    <div class="regime-indicators">
-      <div class="rcrit">
-        <div class="rcrit-label">SPX Price</div>
-        <div class="rcrit-value" id="ind-spx-price">7,165</div>
+
+      <!-- Row 3: Buying Signal + NCFD/NHNL -->
+      <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:10px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Buying Signal</div>
+          <div id="regime-signal-val" style="font-size:18px;font-weight:700;color:var(--text-muted)">—</div>
+        </div>
+        <div class="rcrit">
+          <div class="rcrit-label">NCFD</div>
+          <div class="rcrit-value" id="ind-ncfd">—</div>
+          <div class="rcrit-sub" id="ind-ncfd-sub"></div>
+        </div>
+        <div class="rcrit">
+          <div class="rcrit-label">NHNL</div>
+          <div class="rcrit-value" id="ind-nhnl-val">—</div>
+          <div class="rcrit-sub" id="ind-nhnl-sub"></div>
+        </div>
       </div>
-      <div class="rcrit">
-        <div class="rcrit-label">12-Day EMA</div>
-        <div class="rcrit-value" id="ind-12ema">7,034</div>
-      </div>
-      <div class="rcrit">
-        <div class="rcrit-label">25-Day EMA</div>
-        <div class="rcrit-value" id="ind-25ema">6,920</div>
-      </div>
-      <div class="rcrit">
-        <div class="rcrit-label">MMTH</div>
-        <div class="rcrit-value" id="ind-mmth">55.9%</div>
-      </div>
-      <div class="rcrit">
-        <div class="rcrit-label">NCFD</div>
-        <div class="rcrit-value" id="ind-ncfd">—</div>
-        <div class="rcrit-sub" id="ind-ncfd-sub"></div>
-      </div>
-      <div class="rcrit">
-        <div class="rcrit-label">NHNL</div>
-        <div class="rcrit-value" id="ind-nhnl-val">—</div>
-        <div class="rcrit-sub" id="ind-nhnl-sub"></div>
-      </div>
-    </div>
-    <div id="regime-signal-wrap" style="display:none;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:12px;padding:8px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px">
-      <span style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;flex-shrink:0">Buying Signal</span>
-      <span id="regime-signal-val" style="font-size:14px;font-weight:700">—</span>
-    </div>
-    <div class="data-date" id="regime-date">Source: Bloomberg | updated 2026-04-24</div>
+
+      <div class="data-date" id="regime-date">Source: Bloomberg | updated —</div>
     </div><!-- /regime card -->
 
     <div style="flex:1;min-width:0;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
@@ -2497,20 +2505,27 @@ function applyRegimeData(d){
     }
     if(nhnlSubEl) nhnlSubEl.textContent='';
   }
-  document.getElementById('regime-cond').textContent=d.regime_cond;
-  const db=document.getElementById('div-badge');
-  if(db){db.style.display=d.regime_div!=='none'?'':'none';db.textContent=d.regime_div==='bearish'?'⚠ DIVERGENCE ACTIVE':d.regime_div==='bullish'?'↑ BULLISH DIVERGENCE':'';}
-  const sigWrap=document.getElementById('regime-signal-wrap');
+  const mktSigEl=document.getElementById('mkt-signal-val');
+  if(mktSigEl){
+    let mktSig,mktColor;
+    if(d.spx>d.ema12){mktSig='Uptrend';mktColor='var(--green)';}
+    else if(d.spx>d.ema25){mktSig='Neutral';mktColor='var(--amber)';}
+    else{mktSig='Downtrend';mktColor='var(--red)';}
+    mktSigEl.textContent=mktSig;
+    mktSigEl.style.color=mktColor;
+  }
+  const breadthEl=document.getElementById('breadth-signal-val');
+  if(breadthEl){
+    const breadthMap={none:'Convergence',bearish:'Bearish Divergence',bullish:'Bullish Divergence'};
+    const breadthColors={none:'var(--green)',bearish:'var(--red)',bullish:'var(--amber)'};
+    breadthEl.textContent=breadthMap[d.regime_div]||'—';
+    breadthEl.style.color=breadthColors[d.regime_div]||'var(--text)';
+  }
   const sigVal=document.getElementById('regime-signal-val');
-  if(sigWrap&&sigVal){
-    if(d.buying_signal){
-      const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)'};
-      sigVal.textContent=d.buying_signal;
-      sigVal.style.color=sigColors[d.buying_signal]||'var(--text)';
-      sigWrap.style.display='flex';
-    } else {
-      sigWrap.style.display='none';
-    }
+  if(sigVal){
+    const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)'};
+    sigVal.textContent=d.buying_signal||'—';
+    sigVal.style.color=d.buying_signal?sigColors[d.buying_signal]||'var(--text)':'var(--text-muted)';
   }
   document.getElementById('regime-date').textContent='Source: Bloomberg  |  updated '+regimeAsOf;
   if(d.market_narrative&&d.long_bias) updateHighEdge(d.market_narrative,d.long_bias);
