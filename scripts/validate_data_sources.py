@@ -400,7 +400,7 @@ def _validate_fred_series(entry: dict, api_key: str) -> list[Finding]:
     expected_units_substr = entry.get("units_substr")
     if expected_units_substr and expected_units_substr.lower() not in actual_units.lower():
         findings.append(Finding(
-            risk="HIGH",
+            risk="MEDIUM",
             series_id=sid,
             category="FRED series",
             title=f"{sid}: Units mismatch — code assumes '{expected_units_substr}', FRED reports '{actual_units}'",
@@ -455,11 +455,11 @@ def _validate_fred_series(entry: dict, api_key: str) -> list[Finding]:
             lag = (today - obs_end_date).days
             if lag > max_lag * 2:
                 findings.append(Finding(
-                    risk="HIGH",
+                    risk="MEDIUM",
                     series_id=sid,
                     category="FRED series",
-                    title=f"{sid}: Possible discontinuation — last observation {obs_end_str} is {lag} days ago",
-                    detail=f"For {actual_freq} frequency, expected within {max_lag} days. Lag of {lag} days suggests the series may have ended.",
+                    title=f"{sid}: Possibly stale — last observation {obs_end_str} is {lag} days ago",
+                    detail=f"For {actual_freq} frequency, expected within {max_lag} days. Lag of {lag} days may indicate the series has ended or is delayed.",
                     file_refs=file_refs,
                     fix=f"Check FRED for {sid} status and any series ID replacement.",
                 ))
