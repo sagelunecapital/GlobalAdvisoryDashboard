@@ -144,32 +144,9 @@ FRED_MANIFEST = [
 def _static_findings() -> list[Finding]:
     findings = []
 
-    # HIGH: SPX High vs Close EMA discrepancy
+    # MEDIUM: t5yie_wow in basis points, us2y/10y_wow in percentage points
     findings.append(Finding(
-        risk="HIGH",
-        series_id="^GSPC",
-        category="Transformation",
-        title="^GSPC: EMA computed from High price in update_dashboard.py vs Close price in fetch_regime.py",
-        detail=(
-            "update_dashboard.py:252 fetches raw['High'] for EMA12/EMA25 computation. "
-            "scripts/fetch_regime.py:52 uses hist['Close'] for the same EMAs. "
-            "EMA-of-Highs is structurally ~18 pts above EMA-of-Closes (quantified 2026-05-11). "
-            "At EMA crossover points the two scripts can produce different GREEN/YELLOW/RED "
-            "classifications for the same market state. Both scripts write regime data that "
-            "the dashboard reads — whichever runs last wins, with no warning of the conflict."
-        ),
-        file_refs=["update_dashboard.py:248-256", "scripts/fetch_regime.py:46-56"],
-        fix=(
-            "Standardize both scripts to the same price type. "
-            "Per project spec comment ('daily HIGH per project spec'), "
-            "update fetch_regime.py:52 to use hist['High'] and extend period from '90d' to '2y' "
-            "for consistent EMA warm-up."
-        ),
-    ))
-
-    # HIGH: t5yie_wow in basis points, us2y/10y_wow in percentage points
-    findings.append(Finding(
-        risk="HIGH",
+        risk="MEDIUM",
         series_id="T5YIE/DGS2/^TNX",
         category="Transformation",
         title="macroRegime WoW unit mismatch: t5yie_wow is basis points; us2y_wow/us10y_wow are percentage points",
@@ -376,15 +353,14 @@ def _validate_fred_series(entry: dict, api_key: str) -> list[Finding]:
         )
         if r.status_code == 400:
             findings.append(Finding(
-                risk="HIGH",
+                risk="MEDIUM" if known_dead else "HIGH",
                 series_id=sid,
                 category="FRED series",
-                title=f"{sid}: Series does not exist on FRED (HTTP 400) — fetch will fail at runtime",
+                title=f"{sid}: Series does not exist on FRED (HTTP 400){' — known discontinued' if known_dead else ' — fetch will fail at runtime'}",
                 detail=(
                     f"FRED returns HTTP 400 Bad Request for series_id={sid!r}. "
-                    f"Any code path that fetches this series will raise RuntimeError "
-                    f"and abort the containing fetch routine."
-                    + (f" Series was expected to exist but has been discontinued." if not known_dead else "")
+                    + (f"Series is marked known_dead; fetch code has an error guard." if known_dead else
+                       f"Any code path that fetches this series will raise RuntimeError and abort.")
                 ),
                 file_refs=file_refs,
                 fix=entry.get("fix_suggestion", f"Replace '{sid}' with a valid active FRED series ID."),
@@ -558,7 +534,7 @@ def _check_stir_staleness() -> list[Finding]:
                 lag = (date.today() - updated_dt).days
                 if lag > STIR_MAX_STALENESS_DAYS:
                     findings.append(Finding(
-                        risk="HIGH",
+                        risk="MEDIUM",
                         series_id="stir.json",
                         category="Static data file",
                         title=f"stir.json is {lag} days stale (updated {updated_str}) — no automated fetch script found",
