@@ -662,11 +662,9 @@ def _render_report(findings: list[Finding]) -> str:
 def main() -> int:
     api_key = os.environ.get("FRED_API_KEY")
     if not api_key:
-        print("ERROR: FRED_API_KEY environment variable is not set.", file=sys.stderr)
-        print("Run: export FRED_API_KEY=<your_key>  (or set in GitHub Actions secrets)", file=sys.stderr)
-        sys.exit(2)
+        print("WARNING: FRED_API_KEY not set — skipping FRED series validation (static + staleness checks only)")
 
-    print(f"Validating {len(FRED_MANIFEST)} FRED series + static checks...")
+    print(f"Running static checks + staleness checks{f' + {len(FRED_MANIFEST)} FRED series' if api_key else ''}...")
 
     all_findings: list[Finding] = []
 
@@ -677,23 +675,24 @@ def main() -> int:
     all_findings.extend(_check_stir_staleness())
     all_findings.extend(_check_cot_staleness())
 
-    # Parallel FRED validation
-    with ThreadPoolExecutor(max_workers=10) as pool:
-        futures = {
-            pool.submit(_validate_fred_series, entry, api_key): entry["id"]
-            for entry in FRED_MANIFEST
-        }
-        for future in as_completed(futures):
-            sid = futures[future]
-            try:
-                results = future.result()
-                all_findings.extend(results)
-                high_count = sum(1 for f in results if f.risk == "HIGH")
-                med_count = sum(1 for f in results if f.risk == "MEDIUM")
-                status = "HIGH " * high_count + "MEDIUM " * med_count or "ok"
-                print(f"  {sid}: {status.strip()}")
-            except Exception as exc:
-                print(f"  {sid}: validator raised {exc}", file=sys.stderr)
+    # Parallel FRED validation — only when API key is available
+    if api_key:
+        with ThreadPoolExecutor(max_workers=10) as pool:
+            futures = {
+                pool.submit(_validate_fred_series, entry, api_key): entry["id"]
+                for entry in FRED_MANIFEST
+            }
+            for future in as_completed(futures):
+                sid = futures[future]
+                try:
+                    results = future.result()
+                    all_findings.extend(results)
+                    high_count = sum(1 for f in results if f.risk == "HIGH")
+                    med_count = sum(1 for f in results if f.risk == "MEDIUM")
+                    status = "HIGH " * high_count + "MEDIUM " * med_count or "ok"
+                    print(f"  {sid}: {status.strip()}")
+                except Exception as exc:
+                    print(f"  {sid}: validator raised {exc}", file=sys.stderr)
 
     all_findings.sort(key=lambda f: f.sort_key())
 
