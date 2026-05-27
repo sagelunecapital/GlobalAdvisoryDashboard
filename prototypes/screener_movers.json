@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-27T02:17:18.693575+00:00",
+  "updated_at": "2026-05-27T23:07:12.598616+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -884,6 +884,152 @@
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false
+      }
+    ],
+    "2026-05-27": [
+      {
+        "ticker": "ADTN",
+        "company": "ADTRAN Holdings, Inc.",
+        "mkt_cap": 1570000000,
+        "change_pct": 17.65,
+        "catalyst": "ADTN surged after euNetworks announced its Quantum Shield service on May 27, powered by ADTN's FSP 3000 optical transport platform with S-Flex encryption technology. The partnership positions ADTN as a key vendor for post-quantum cryptography aligned with NIST standards across pan-European enterprise networks. B. Riley previously raised its price target to $21 from $16 with a Buy rating, adding analyst tailwind ahead of the announcement.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "AMWD",
+        "company": "American Woodmark Corporation",
+        "mkt_cap": 700650000,
+        "change_pct": 12.97,
+        "catalyst": "AMWD rallied as the FTC closed its antitrust review of the pending MasterBrand merger and the HSR waiting period expired, clearing the deal's largest regulatory hurdle with closing targeted for May 28. This de-risked a transaction that would create a scaled US cabinet manufacturer - a meaningful strategic premium driver. The move came one day before scheduled Q4 FY2026 earnings, adding event-driven momentum.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ASTS",
+        "company": "AST SpaceMobile, Inc.",
+        "mkt_cap": 50300000000,
+        "change_pct": 8.27,
+        "catalyst": "ASTS continued its multi-day rally as SpaceX's S-1 IPO filing drove a broad space sector re-rating, with investors treating ASTS as the leading public proxy for satellite broadband. The prior day's FCC commercial authorization for BlueBird in the US alongside $1.2B in contracted revenue commitments remained the underlying stock-specific driver. ASTS added roughly $10B in market cap across the two-day move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "spacex-ipo-space-rally",
+        "group_summary": "SpaceX's S-1 IPO filing on May 27 triggered a broad re-rating of public space infrastructure stocks, with ASTS, LUNR, and RDW treated as liquid proxies for the sector. Each carried distinct stock-specific catalysts but shared the SpaceX IPO filing as an accelerant."
+      },
+      {
+        "ticker": "BBWI",
+        "company": "Bath & Body Works, Inc.",
+        "mkt_cap": 3920000000,
+        "change_pct": 9.7,
+        "catalyst": "BBWI reported Q1 FY2026 results that beat on both lines - adjusted EPS of $0.32 vs $0.29 consensus and net sales of $1.38B vs $1.36B expected. The company reaffirmed full-year adjusted EPS guidance of $2.40-$2.65, reducing downside risk. CFO Eva Boratto's announced departure on June 12 was a minor negative but did not offset the earnings beat.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CLFD",
+        "company": "Clearfield, Inc.",
+        "mkt_cap": 696600000,
+        "change_pct": 8.97,
+        "catalyst": "CLFD hit a 52-week high driven by DY's blowout broadband infrastructure earnings lifting the fiber equipment sector, combined with CLFD's own improving demand signals - management had flagged stabilizing bookings, community broadband momentum, and early traction for its NOVA data center fiber product. Multiple analyst Buy ratings from Lake Street, Roth MKM, and Needham issued earlier in May provided a constructive backdrop.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "fiber-network-may27",
+        "group_summary": "DY's blowout Q1 FY2027 earnings on May 27 - revenue 17% above consensus with full-year guidance raised to ~$7.5B - lifted sentiment across fiber and broadband infrastructure names. CLFD moved on sector halo from DY's results as investors rotated into adjacent fiber equipment plays on the same broadband build-out thesis."
+      },
+      {
+        "ticker": "COHU",
+        "company": "Cohu, Inc.",
+        "mkt_cap": 2590000000,
+        "change_pct": 10.03,
+        "catalyst": "COHU extended its multi-day run on Q1 results where revenue of $125.1M beat estimates and Q2 guidance of $144M implied 15% sequential growth. A Motley Fool feature on May 27 highlighted COHU's $750M HPC/AI sales pipeline as an under-the-radar AI semiconductor play, amplifying retail attention. TD Cowen and Needham had recently raised price targets to $60 and $54 respectively.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "DY",
+        "company": "Dycom Industries, Inc.",
+        "mkt_cap": 15880000000,
+        "change_pct": 25.84,
+        "catalyst": "DY reported record Q1 FY2027 results with adjusted EPS of $4.42 vs $2.72 consensus and revenue of $1.96B vs $1.67B expected - a 17% revenue beat. Q2 guidance of $4.40-$4.82 EPS and $1.94B-$2.01B revenue topped consensus, and full-year FY2027 revenue outlook was raised to ~$7.5B vs the $7.1B Street estimate. Backlog reached $11.9B, reflecting sustained broadband infrastructure contract wins.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "fiber-network-may27",
+        "group_summary": null
+      },
+      {
+        "ticker": "IREN",
+        "company": "IREN Limited",
+        "mkt_cap": 24210000000,
+        "change_pct": 13.48,
+        "catalyst": "IREN surged after announcing a Dell purchase agreement for air-cooled NVIDIA Blackwell systems to service its five-year $3.4B AI cloud managed services contract. Commissioning is targeted for early 2027, with ARR expected to increase from $3.7B to $4.4B upon deployment. The announcement confirmed execution of IREN's transition from Bitcoin mining to AI cloud infrastructure.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "LUNR",
+        "company": "Intuitive Machines, Inc.",
+        "mkt_cap": 8750000000,
+        "change_pct": 15.72,
+        "catalyst": "LUNR recovered strongly after Cantor Fitzgerald issued a bullish analyst note raising its price target to $43, citing a strong earnings report earlier in May and a robust upcoming contract pipeline. This reversed the prior session's 5.75% drop after NASA excluded LUNR from Lunar Terrain Vehicle awards. The SpaceX IPO filing added a sector-wide space re-rating tailwind alongside the stock-specific analyst catalyst.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "spacex-ipo-space-rally",
+        "group_summary": null
+      },
+      {
+        "ticker": "MGM",
+        "company": "MGM Resorts International",
+        "mkt_cap": 10730000000,
+        "change_pct": 9.1,
+        "catalyst": "MGM received dual analyst upgrades - JPMorgan raised to Overweight with a $46 target (from Neutral/$41) and Truist also lifted its target to $46, both citing Las Vegas Strip EBITDAR having bottomed with improving event calendar visibility and easier summer comparisons. JPMorgan cited growing conviction that estimates have troughed and leisure travel remains resilient. The stock set a new 52-week high on the combined re-rating.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "RDW",
+        "company": "Redwire Corporation",
+        "mkt_cap": 4770000000,
+        "change_pct": 8.89,
+        "catalyst": "RDW continued its multi-week run anchored by a NATO ally contract for its Penguin Mk3 tactical UAS and a $15M follow-on US Army Stalker order, with contracted backlog at a record $498.1M. The SpaceX S-1 IPO filing on May 27 amplified the space/defense sector re-rating that had been accelerating RDW since May 20. The original NATO UAS deal drove the initial move from ~$8.60 to $17+ over the preceding week.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "spacex-ipo-space-rally",
+        "group_summary": null
+      },
+      {
+        "ticker": "UMC",
+        "company": "United Microelectronics Corporation (NEW)",
+        "mkt_cap": 52120000000,
+        "change_pct": 5.41,
+        "catalyst": "UMC hit a 52-week high driven by a new 14nm display chip platform launch validated at Fab 12A, cutting power consumption 40% vs its 22nm process, alongside the ongoing Intel 12nm joint program. Q1 EPS of NT$1.29 more than doubled year-over-year vs NT$0.85 consensus, and management guided for selective price increases in H2 2026 due to tightening capacity. Morgan Stanley's May 18 upgrade to Overweight on node capacity shortage continued to support sentiment.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }

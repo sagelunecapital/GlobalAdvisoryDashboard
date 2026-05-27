@@ -1,31 +1,31 @@
 {
-  "fetched_at": "2026-05-27T02:17:18.693575+00:00",
+  "fetched_at": "2026-05-27T23:07:12.598616+00:00",
   "us": [
     {
-      "ticker": "FRVO",
-      "company": "Fervo Energy Company",
+      "ticker": "MWC",
+      "company": "Micware Co., Ltd.",
       "exchange": "NASDAQ",
-      "date": "2026-05-13",
-      "price_usd": 27.0,
-      "price_range": "25.00 - 26.00",
+      "date": "2026-05-14",
+      "price_usd": 8.0,
+      "price_range": "7.00 - 9.00",
       "status": "Closed",
-      "shares": 70000000,
-      "deal_amount_usd": 1890000000.0,
-      "mkt_cap_usd": 7656182991.0,
-      "ipo_close": 36.54
+      "shares": 2850000,
+      "deal_amount_usd": 22800000.0,
+      "mkt_cap_usd": 471935312.0,
+      "ipo_close": 8.2
     },
     {
-      "ticker": "GMRS",
-      "company": "GMR Solutions Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-13",
-      "price_usd": 15.0,
-      "price_range": null,
+      "ticker": "CBRS",
+      "company": "Cerebras Systems Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-14",
+      "price_usd": 185.0,
+      "price_range": "150.00 - 160.00",
       "status": "Closed",
-      "shares": 31914893,
-      "deal_amount_usd": 478723395.0,
-      "mkt_cap_usd": 3347175510.0,
-      "ipo_close": 13.98
+      "shares": 34500000,
+      "deal_amount_usd": 5550000000.0,
+      "mkt_cap_usd": 39795413825.0,
+      "ipo_close": 311.07
     },
     {
       "ticker": "EROK",
@@ -54,32 +54,6 @@
       "ipo_close": 19.81
     },
     {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
-      "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
-    },
-    {
-      "ticker": "MWC",
-      "company": "Micware Co., Ltd.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 8.0,
-      "price_range": "7.00 - 9.00",
-      "status": "Closed",
-      "shares": 2850000,
-      "deal_amount_usd": 22800000.0,
-      "mkt_cap_usd": 471935312.0,
-      "ipo_close": 8.2
-    },
-    {
       "ticker": "LCLN",
       "company": "Lincoln International, Inc.",
       "exchange": "NYSE",
@@ -104,33 +78,57 @@
       "deal_amount_usd": 89002953.0,
       "mkt_cap_usd": 510150307.5,
       "ipo_close": 28.34
+    },
+    {
+      "ticker": "SSMR",
+      "company": "Sunshine Silver Mining & Refining Co.",
+      "exchange": "NYSE",
+      "date": "2026-05-27",
+      "price_usd": null,
+      "price_range": "13.50 - 16.50",
+      "status": "Pending",
+      "shares": 20000000,
+      "deal_amount_usd": 330000000.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "AADX",
+      "company": "Applied Aerospace & Defense Inc.",
+      "exchange": "NYSE",
+      "date": "2026-06-03",
+      "price_usd": null,
+      "price_range": "18.00 - 21.00",
+      "status": "Pending",
+      "shares": 32500000,
+      "deal_amount_usd": 682500000.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "QNT",
+      "company": "Quantinuum Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": null,
+      "price_range": "45.00 - 50.00",
+      "status": "Pending",
+      "shares": 21052632,
+      "deal_amount_usd": 1052631600.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "INIO",
+      "company": "INNIO Holding GmbH",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": null,
+      "price_range": "24.00 - 27.00",
+      "status": "Pending",
+      "shares": 75000000,
+      "deal_amount_usd": 2025000000.0,
+      "mkt_cap_usd": null
     }
   ],
   "hk": [
-    {
-      "ticker": "7630",
-      "company": "IMPACT Therapeutics, Inc. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-13",
-      "price_usd": 2.56755807276,
-      "price_range": "2.52 - 2.78",
-      "status": "Closed",
-      "shares": 41977000,
-      "deal_amount_usd": 97000289.9424146,
-      "mkt_cap_usd": 708866271.3417
-    },
-    {
-      "ticker": "7666",
-      "company": "Metis TechBio Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-13",
-      "price_usd": 1.3412616798,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 201229000,
-      "deal_amount_usd": 256405642.1731665,
-      "mkt_cap_usd": 1545378500.0869
-    },
     {
       "ticker": "6871",
       "company": "Robotphoenix Intelligent Technology Co Ltd Class H",
@@ -180,16 +178,16 @@
       "mkt_cap_usd": 500014439.1768
     },
     {
-      "ticker": "3310",
-      "company": "Viewtrix Technology Co., Ltd. Class H",
+      "ticker": "901",
+      "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-05-27",
-      "price_usd": 2.656318810027,
+      "price_usd": 4.18842818992,
       "price_range": null,
       "status": "Closed",
-      "shares": 52859200,
-      "deal_amount_usd": 126369586.01317649,
-      "mkt_cap_usd": 1136317271.4186
+      "shares": 19207300,
+      "deal_amount_usd": 72403263.90505208,
+      "mkt_cap_usd": 877033171.1441
     },
     {
       "ticker": "2723",
@@ -201,19 +199,19 @@
       "status": "Closed",
       "shares": 9068000,
       "deal_amount_usd": 57808825.52020758,
-      "mkt_cap_usd": 642404627.6683
+      "mkt_cap_usd": 642207886.5666
     },
     {
-      "ticker": "901",
-      "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
+      "ticker": "3310",
+      "company": "Viewtrix Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-05-27",
-      "price_usd": 4.18842818992,
+      "price_usd": 2.655505293021,
       "price_range": null,
-      "status": "Pending",
-      "shares": 19207300,
-      "deal_amount_usd": 72403263.90505208,
-      "mkt_cap_usd": 87730185.1233
+      "status": "Closed",
+      "shares": 52859200,
+      "deal_amount_usd": 126330884.40594664,
+      "mkt_cap_usd": 1135969265.968
     },
     {
       "ticker": "3388",
@@ -225,7 +223,7 @@
       "status": "Pending",
       "shares": 73427550,
       "deal_amount_usd": 158608124.48865277,
-      "mkt_cap_usd": 1120299445.5238
+      "mkt_cap_usd": 1119956345.6492
     },
     {
       "ticker": "2553",
