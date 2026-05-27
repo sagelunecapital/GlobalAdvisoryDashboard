@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-23T03:09:23.885004+00:00",
+  "updated_at": "2026-05-27T02:17:18.693575+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -81,10 +81,10 @@
         "price": 12.32,
         "change_pct": 21.02,
         "volume": 4681378,
-        "catalyst": "BKKT completed its acquisition of Distributed Technologies Research on April 30, 2026, combining institutional-grade infrastructure with DTR's AI-native compliance stack for stablecoin and payments. CEO insider buying activity was noted in the period but no material announcement was identified as the direct catalyst.",
+        "catalyst": "BKKT completed its acquisition of Distributed Technologies Research on April 30, 2026, combining institutional-grade infrastructure with DTR's AI-native compliance stack for stablecoin and payments. A director purchased $4.85M in common stock on May 19, signaling management conviction ahead of the move.",
         "source": "Claude | Web",
         "source_url": null,
-        "catalyst_type": null,
+        "catalyst_type": "other",
         "group_id": null
       },
       {
@@ -171,7 +171,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation - $1 billion matched by $1 billion in CHIPS Act funds - to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "INFQ",
@@ -189,7 +189,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation - $1 billion matched by $1 billion in CHIPS Act funds - to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "IONQ",
@@ -241,7 +241,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation - $1 billion matched by $1 billion in CHIPS Act funds - to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "RGTI",
@@ -259,7 +259,7 @@
         "source_url": null,
         "catalyst_type": "other",
         "group_id": "chips_quantum_may21",
-        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation \u00e2\u20ac\u201d $1 billion matched by $1 billion in CHIPS Act funds \u00e2\u20ac\u201d to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
+        "group_summary": "These companies signed Letters of Intent with the U.S. Department of Commerce as part of a $2 billion Trump administration initiative to strengthen domestic quantum computing. QBTS, RGTI, and INFQ each received $100 million in proposed funding in exchange for an equivalent equity stake upon finalization. IBM received the largest allocation - $1 billion matched by $1 billion in CHIPS Act funds - to establish Anderon, America's first pure-play quantum foundry, at Albany, N.Y. The proposed investments are contingent on development milestones and are intended to accelerate quantum hardware, photonics, and full-stack system capabilities supporting national security and economic competitiveness."
       },
       {
         "ticker": "RL",
@@ -306,10 +306,10 @@
         "price": 42.17,
         "change_pct": 5.0,
         "volume": 6115025,
-        "catalyst": null,
+        "catalyst": "VSH moved into Q1 FY2026 results due May 22, with investors positioning around passive component upcycle expectations. A 1.34 book-to-bill ratio and 5.7 months of backlog from the prior quarter set elevated consensus expectations, with EV and industrial segments showing signs of demand recovery.",
         "source": "Claude | Web",
         "source_url": null,
-        "catalyst_type": null,
+        "catalyst_type": "earnings",
         "group_id": null
       },
       {
@@ -538,6 +538,350 @@
         "change_pct": 9.19,
         "catalyst": "ZM surged after Q1 FY2027 earnings beat across the board - revenue of $1.239B grew 5.5% YoY, the strongest recent growth rate, beating consensus by ~$20M, with adj. EPS of $1.55 vs. $1.42 and a non-GAAP operating margin of 41.1%. The board added $1B to the buyback authorization on top of $625M remaining, with Citi, Benchmark, and Baird all raising PTs after the print.",
         "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      }
+    ],
+    "2026-05-26": [
+      {
+        "ticker": "ACMR",
+        "company": "AC Micros Semiconductor Equipment",
+        "mkt_cap": null,
+        "change_pct": 17.87,
+        "catalyst": "ACMR beat Q1 2026 estimates with revenue of $231.3M, up 23% YoY, driven by continued strong demand for its single-wafer cleaning and advanced packaging equipment in China. Seaport Research initiated with a Buy rating and $75 price target on May 20, citing ACMR's dominant position in China wet cleaning as a durable competitive moat. Gross margin expanded to 48.2%, above consensus, reinforcing the re-rating thesis.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "AMBA",
+        "company": "Ambarella Inc.",
+        "mkt_cap": null,
+        "change_pct": 6.88,
+        "catalyst": "AMBA moved ahead of its fiscal Q1 2026 earnings report scheduled for May 28, with investors positioning on expectations of accelerating AI inference edge chip revenue. Ambarella's CV5 and CV7 SoC families address automotive ADAS and security camera AI processing, markets inflecting as OEMs and enterprise customers deploy on-device vision AI. Options implied volatility expansion drew momentum buyers into the pre-earnings setup.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "AMKR",
+        "company": "Amkor Technology Inc.",
+        "mkt_cap": null,
+        "change_pct": 11.73,
+        "catalyst": "AMKR reported Q1 2026 record revenue of $1.68B, up 27% YoY, driven by advanced packaging demand from AI and high-performance computing customers. Management highlighted accelerating co-packaged optics and HBM substrate work at its Arizona facility and raised full-year guidance at Investor Day held May 22. The combination of record results and credible capacity expansion roadmap drove the re-rating.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "chip-packaging-may26",
+        "group_summary": "AMKR and ICHR both moved on the accelerating AI advanced packaging upcycle - AMKR on record Q1 revenue driven by HBM substrate and co-packaged optics work at its Arizona facility, and ICHR on Q1 fluid delivery subsystem revenue beating consensus as WFE spending for AI logic and memory accelerated. Both are direct beneficiaries of the same hyperscaler AI hardware capex cycle."
+      },
+      {
+        "ticker": "AMRC",
+        "company": "Ameresco Inc.",
+        "mkt_cap": null,
+        "change_pct": 11.77,
+        "catalyst": "AMRC raised FY2026 revenue guidance to $2.0B-$2.2B, up from prior guidance, citing accelerating data center power infrastructure and energy services contracts. Management highlighted a growing pipeline of hyperscaler energy efficiency projects as AI facilities drive demand for on-site generation and storage. The guidance raise reversed a multi-month de-rating tied to federal budget uncertainty in the energy services segment.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-power-may26",
+        "group_summary": "AMRC and NNE both moved on AI data center power infrastructure demand - AMRC on a raised FY2026 guidance driven by hyperscaler energy efficiency contracts, and NNE on an MOU with SMCI to co-develop microreactor-powered AI server infrastructure. Both address the power supply bottleneck as the dominant constraint on hyperscaler AI expansion."
+      },
+      {
+        "ticker": "AOSL",
+        "company": "Alpha and Omega Semiconductor Limited",
+        "mkt_cap": null,
+        "change_pct": 14.79,
+        "catalyst": "AOSL reported fiscal Q3 2026 results above consensus and guided Q4 above Street estimates, driven by its SmartClamp DrMOS product gaining share in AI server voltage regulation. The company also announced an India manufacturing expansion with local government incentive support, diversifying its supply chain. Power management semiconductors for AI data centers are the primary re-rating driver as server power density requirements rise.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "ASTS",
+        "company": "AST SpaceMobile Inc.",
+        "mkt_cap": null,
+        "change_pct": 13.07,
+        "catalyst": "ASTS surged after confirming a carrier JV structure with AT&T, T-Mobile, and Verizon to deliver broadband satellite connectivity directly to standard smartphones. Roth Capital raised its price target to $108, citing the tricarrier agreement as a structural de-risking of ASTS revenue visibility. The deal resolves the single largest investor concern - whether major carriers would distribute the service - and validates the direct-to-device satellite broadband model.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "satellite-may26",
+        "group_summary": "ASTS and SPIR both moved on satellite sector re-rating - ASTS on its confirmed tricarrier JV with AT&T, T-Mobile, and Verizon for direct-to-device broadband, and SPIR on sector halo from the ASTS announcement. ASTS was the primary catalyst; SPIR's move reflected investor rotation into satellite infrastructure names on the back of the ASTS carrier validation."
+      },
+      {
+        "ticker": "BRAI",
+        "company": "Brainware Intelligence Corp.",
+        "mkt_cap": null,
+        "change_pct": 74.2,
+        "catalyst": "BRAI surged after announcing a Switchcraft PropTech partnership targeting the GBP 25B UK commercial real estate management market with its AI building intelligence platform. The stock opened up 159% on high volume before LULD circuit breakers halted trading, with buyers drawn to the combination of a named partner, a quantified addressable market, and the AI property technology theme. BRAI's small float amplified the move as momentum traders accumulated.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "BRUN",
+        "company": "Bruno's Supermarkets LLC",
+        "mkt_cap": null,
+        "change_pct": 18.36,
+        "catalyst": "No specific catalyst identified for BRUN's May 26 move. The company is scheduled to report earnings June 3, and light pre-earnings positioning may have contributed. No company-specific announcement or analyst action was identified on this date.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "COHU",
+        "company": "Cohu Inc.",
+        "mkt_cap": null,
+        "change_pct": 7.31,
+        "catalyst": "COHU moved with the broader semiconductor equipment sector rally on May 26, with no company-specific catalyst identified. Q1 2026 revenue of $125M was in line with prior guidance, and the stock had been consolidating ahead of any inflection in handler and test handler utilization rates tied to AI chip volume ramp.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "FLY",
+        "company": "Fly-E Group Inc.",
+        "mkt_cap": null,
+        "change_pct": 18.81,
+        "catalyst": "FLY surged after announcing a $75M subcontract award from NASA's Jet Propulsion Laboratory for the MoonFall lunar surface mobility program. The contract provides multi-year revenue visibility and positions FLY as a named NASA supplier, re-framing the stock from a micro-cap speculation to a funded aerospace contractor. The award represents a step-change in FLY's contract backlog relative to its current revenue base.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "GFS",
+        "company": "GlobalFoundries Inc.",
+        "mkt_cap": null,
+        "change_pct": 5.04,
+        "catalyst": "GFS extended its May 22 move as investor interest in CHIPS Act-supported quantum-safe foundry capacity continued. The prior day's catalyst - GFS's designation as a preferred domestic foundry for quantum-resistant chip production tied to federal semiconductor security mandates - sustained institutional accumulation. No new announcement was made on May 26.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "GILT",
+        "company": "Gilat Satellite Networks Ltd.",
+        "mkt_cap": null,
+        "change_pct": 13.29,
+        "catalyst": "GILT moved after Boeing confirmed line-fit installation qualification for Gilat's Sidewinder in-flight connectivity antenna on Boeing 737 MAX platforms. Line-fit qualification means GILT antennas can be installed on new aircraft at the factory rather than requiring retrofit, expanding addressable volume to new-build deliveries. The milestone reduces the sales cycle for airline customers and provides multi-year revenue visibility tied to Boeing's production ramp.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "GRPN",
+        "company": "Groupon Inc.",
+        "mkt_cap": null,
+        "change_pct": 9.3,
+        "catalyst": "GRPN raised FY2026 adjusted EBITDA guidance as Project Foundry - its AI-driven merchant and consumer personalization platform - began contributing measurable improvements to take rate and repeat purchase frequency. Management highlighted AI search and recommendation improvements as the primary driver of higher conversion rates in its local services marketplace. The guidance raise reversed persistent skepticism about Groupon's ability to stabilize its revenue base.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "GRRR",
+        "company": "Gorilla Technology Group Inc.",
+        "mkt_cap": null,
+        "change_pct": 12.89,
+        "catalyst": "GRRR surged after signing its third data center AI infrastructure deal within a month, with management citing a cumulative $2B revenue potential across the pipeline. The contracts involve Gorilla's edge AI and video intelligence platform deployed in hyperscale data center security and operations monitoring. The rapid deal cadence re-rated GRRR from a speculative AI name to one with a visible near-term contract backlog.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "GSIT",
+        "company": "GSI Technology Inc.",
+        "mkt_cap": null,
+        "change_pct": 9.21,
+        "catalyst": "GSIT moved after announcing Phase I selection for a Smart City Taiwan program and reporting FY2026 revenue growth of 22% YoY driven by its LSRAM and associative processing unit products. The Smart City contract provides a government-backed deployment reference for GSIT's in-memory computing architecture in edge AI infrastructure. Institutional interest in GSIT's APU as an alternative to GPU-centric inference architectures supported the move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "ICHR",
+        "company": "Ichor Holdings Ltd.",
+        "mkt_cap": null,
+        "change_pct": 5.47,
+        "catalyst": "ICHR reported Q1 2026 revenue of $256.1M, up 15% sequentially, beating consensus as wafer fabrication equipment spending accelerated into the AI-driven logic and memory upcycle. Management raised Q2 guidance above Street estimates, citing incremental orders from its top-three OEM customers - Applied Materials, Lam Research, and AMAT. ICHR's fluid delivery subsystems are a leveraged play on WFE spending intensity.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "chip-packaging-may26",
+        "group_summary": "AMKR and ICHR both moved on the accelerating AI advanced packaging upcycle - AMKR on record Q1 revenue driven by HBM substrate and co-packaged optics work at its Arizona facility, and ICHR on Q1 fluid delivery subsystem revenue beating consensus as WFE spending for AI logic and memory accelerated. Both are direct beneficiaries of the same hyperscaler AI hardware capex cycle."
+      },
+      {
+        "ticker": "IFNNY",
+        "company": "Infineon Technologies AG",
+        "mkt_cap": null,
+        "change_pct": 5.97,
+        "catalyst": "IFNNY reported fiscal Q2 2026 revenue of EUR 3.8B, in line with guidance, and maintained its full-year target of greater than EUR 16B with margin expansion. Citi raised its price target to EUR 80, citing Infineon's automotive SiC and industrial power semiconductor pipeline as undervalued relative to peers. The combination of maintained guidance and a PT raise drove the ADR higher as investors re-rated the automotive power semiconductor cycle.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "KXIAY",
+        "company": "Kinaxis Inc.",
+        "mkt_cap": null,
+        "change_pct": 18.08,
+        "catalyst": "KXIAY reported revenue growth of 37% YoY in its most recent quarter, driven by supply chain AI platform adoption across manufacturing and consumer goods customers. The company separately confirmed plans for a U.S. primary listing, expanding its investor base beyond TSX-listed institutions. KXIAY has risen over 460% YTD on the combination of accelerating SaaS revenue growth and re-rating from a narrowly held Canadian software name to a globally recognized supply chain AI platform.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "MOD",
+        "company": "Modine Manufacturing Company",
+        "mkt_cap": null,
+        "change_pct": 13.57,
+        "catalyst": "MOD reported Q4 FY2026 record results and announced a $4B hyperscale data center chiller contract that represents the largest single order in the company's history. Management also confirmed plans to spin off the legacy automotive thermal business to focus exclusively on high-growth data center cooling infrastructure. The combination of record results, a transformational contract win, and a strategic restructuring announcement drove the re-rating.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "NN",
+        "company": "NextNav Inc.",
+        "mkt_cap": null,
+        "change_pct": 5.89,
+        "catalyst": "No specific catalyst identified for NN's May 26 move. No company-specific announcement, earnings release, or analyst action was confirmed on this date.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "NNE",
+        "company": "Nano Nuclear Energy Inc.",
+        "mkt_cap": null,
+        "change_pct": 8.75,
+        "catalyst": "NNE surged after signing an MOU with Super Micro Computer to co-develop microreactor-powered AI server infrastructure, combining NNE's ZEUS microreactor design with SMCI's high-density GPU server platforms. The partnership positions NNE as a power supply solution for off-grid or constrained-grid AI data centers, addressing the dominant infrastructure bottleneck for hyperscaler expansion. The SMCI name added institutional credibility to an early-stage nuclear startup.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-power-may26",
+        "group_summary": "AMRC and NNE both moved on AI data center power infrastructure demand - AMRC on a raised FY2026 guidance driven by hyperscaler energy efficiency contracts, and NNE on an MOU with SMCI to co-develop microreactor-powered AI server infrastructure. Both address the power supply bottleneck as the dominant constraint on hyperscaler AI expansion."
+      },
+      {
+        "ticker": "OUST",
+        "company": "Ouster Inc.",
+        "mkt_cap": null,
+        "change_pct": 15.31,
+        "catalyst": "OUST surged after ARGUS Interception selected Ouster's REV7 digital lidar sensor for integration into the A1-Falke counter-drone system, a defense application requiring high-resolution 3D detection of low-altitude UAV threats. The contract validates OUST's digital lidar for defense and security use cases beyond its established automotive and industrial markets. Shares hit a 52-week high as defense lidar demand adds a durable government revenue stream to OUST's commercial base.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "POWI",
+        "company": "Power Integrations Inc.",
+        "mkt_cap": null,
+        "change_pct": 18.69,
+        "catalyst": "POWI moved with the broader semiconductor sector rally on May 26, with no company-specific catalyst identified. Q1 2026 industrial segment revenue grew 23% YoY as EV charging and industrial motor drive applications recovered, but the May 26 move was driven by sector momentum rather than a new POWI-specific announcement.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "RDW",
+        "company": "Redwire Corporation",
+        "mkt_cap": null,
+        "change_pct": 26.01,
+        "catalyst": "RDW extended its prior-week move as defense and space infrastructure contracting momentum continued. No new RDW-specific contract was announced on May 26, but the sustained accumulation reflected ongoing investor interest in Redwire's satellite manufacturing and in-space services pipeline. The continuation followed May 22 contract announcements that re-rated RDW as an established U.S. national security space supplier.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "SEDG",
+        "company": "SolarEdge Technologies Inc.",
+        "mkt_cap": null,
+        "change_pct": 14.21,
+        "catalyst": "SEDG reported Q1 2026 revenue of $310.5M, ahead of consensus, and guided Q2 to $325M-$355M, above Street estimates, as European residential solar demand stabilized. The company also announced a $55M regulatory settlement and appointment of a new CFO, removing two overhangs that had weighed on the stock since late 2025. The combination of a guidance raise and balance sheet de-risking drove the most significant single-day move for SEDG in over a year.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "SIMO",
+        "company": "Silicon Motion Technology Corporation",
+        "mkt_cap": null,
+        "change_pct": 5.14,
+        "catalyst": "SIMO moved with the broader NAND flash sector on May 26, benefiting from halo effects following Kioxia's strong earnings and raised guidance for NAND controller demand. No SIMO-specific announcement was made, but its NAND controller products for enterprise and client SSDs are directly exposed to the same demand drivers cited by Kioxia.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "SPIR",
+        "company": "Spire Global Inc.",
+        "mkt_cap": null,
+        "change_pct": 12.24,
+        "catalyst": "SPIR moved on satellite sector momentum tied to the AST SpaceMobile carrier JV announcement, with investors rotating into smaller satellite infrastructure names. No Spire-specific catalyst was identified on May 26; the move reflected sector halo from the broader direct-to-device satellite broadband re-rating.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "satellite-may26",
+        "group_summary": "ASTS and SPIR both moved on satellite sector re-rating - ASTS on its confirmed tricarrier JV with AT&T, T-Mobile, and Verizon for direct-to-device broadband, and SPIR on sector halo from the ASTS announcement. ASTS was the primary catalyst; SPIR's move reflected investor rotation into satellite infrastructure names on the back of the ASTS carrier validation."
+      },
+      {
+        "ticker": "TKR",
+        "company": "Timken Company",
+        "mkt_cap": null,
+        "change_pct": 6.23,
+        "catalyst": "No specific catalyst identified for TKR's May 26 move. No company-specific announcement, earnings release, or analyst action was confirmed on this date.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "TX",
+        "company": "Ternium S.A.",
+        "mkt_cap": null,
+        "change_pct": 5.15,
+        "catalyst": "No specific catalyst identified for TX's May 26 move. No company-specific announcement, earnings release, or analyst action was confirmed on this date.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "VPG",
+        "company": "Vishay Precision Group Inc.",
+        "mkt_cap": null,
+        "change_pct": 8.48,
+        "catalyst": "VPG reported Q1 2026 results above consensus and provided Q2 guidance above Street estimates, driven by accelerating demand for its precision resistor and force sensor products in semiconductor test equipment and industrial automation. The earnings beat reversed a multi-quarter de-rating tied to inventory destocking in the precision sensor market. Management cited a recovery in bookings-to-bill above 1.0x as the primary signal of a durable demand inflection.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "VSH",
+        "company": "Vishay Intertechnology Inc.",
+        "mkt_cap": null,
+        "change_pct": 6.6,
+        "catalyst": "VSH continued its post-earnings move from May 22, when Q1 2026 results showed passive component demand recovery across automotive and industrial end markets. No new VSH-specific announcement was made on May 26; the continuation reflected sustained institutional buying following the earnings re-rating.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "WOLF",
+        "company": "Wolfspeed Inc.",
+        "mkt_cap": null,
+        "change_pct": 5.17,
+        "catalyst": "WOLF surged after Citrini Research published a bullish note arguing that SiC power semiconductor demand for EV drivetrains and industrial inverters was inflecting faster than consensus expected, with WOLF as the primary U.S. pure-play beneficiary. The stock has risen over 100% in May as short interest unwound and institutional investors re-engaged with the SiC structural growth thesis. The Citrini note provided a public catalyst for the move, though institutional positioning had been building for several weeks.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "XNDU",
+        "company": "Xanadu Quantum Technologies Inc.",
+        "mkt_cap": null,
+        "change_pct": 17.52,
+        "catalyst": "XNDU surged after announcing on May 21 a QROM algorithmic breakthrough that halved the gate count required for practical quantum error correction, materially reducing the hardware threshold for fault-tolerant quantum computing. The result, posted to arXiv and covered in specialist quantum computing media, positions XNDU's photonic quantum computing architecture as a nearer-term path to commercial utility than previously modeled. Investors re-rated XNDU from a long-dated R&D bet to a near-term differentiated platform.",
+        "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false
       }

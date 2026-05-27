@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-23T03:09:23.885004+00:00",
+  "updated_at": "2026-05-27T02:17:18.693575+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -88,6 +88,83 @@
         "group_id": "china-ai-automation",
         "group_summary": "9880 and 6651 are both pure-play Chinese AI automation names re-rating on structural growth. 9880 reported 53% revenue growth in 2025 as full-size humanoid robots became its largest segment, while 6651 commands 53.5% of China's L3+ simulation market on the back of its NVIDIA Global L4 partnership. Accelerating robotaxi city approvals and industrial robot subsidies in China drove institutional accumulation in both."
       }
-    ]
+    ],
+    "2026-05-26": [
+      {
+        "ticker": "522",
+        "company": "ASMPT Limited",
+        "mkt_cap": null,
+        "change_pct": null,
+        "catalyst": "522 extended its post-earnings re-rating after Q1 2026 results showed record bookings of USD 727M, up 72% YoY, with revenue of USD 508M beating consensus and net income up 290% YoY. Q2 2026 revenue guidance of USD 540-600M exceeded Street estimates, driven by AI demand across advanced packaging, TCB, photonics, and CPO. The stock hit a 52-week high on May 22 as the earnings call highlighted accelerating order momentum from hyperscaler and AI hardware customers.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "981",
+        "company": "Semiconductor Manufacturing International Corp.",
+        "mkt_cap": 566000000000,
+        "change_pct": null,
+        "catalyst": "981 continued its move on SMIC Q2 2026 guidance of 14-16% sequential revenue growth, the strongest step-up since the domestic capacity expansion began. Q1 2026 profit of USD 197.4M grew 5% YoY with co-CEO Zhao Haijun citing surging AI chip and automotive chip orders. Overseas clients redirecting from constrained foreign foundries are adding incremental volume above SMIC domestic capacity utilisation gains.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "china-foundry-may26",
+        "group_summary": "981 and 1347 both moved on domestic Chinese foundry momentum - 981 on SMIC Q2 2026 guidance of 14-16% sequential revenue growth driven by AI chip orders, and 1347 on Hua Hong Semiconductor Q1 2026 12-inch capacity ramp and a new Buy rating following its earnings beat. Both are primary beneficiaries of China semiconductor self-sufficiency as overseas clients redirect from constrained foreign foundries."
+      },
+      {
+        "ticker": "992",
+        "company": "Lenovo Group Limited",
+        "mkt_cap": null,
+        "change_pct": 19.77,
+        "catalyst": "992 surged after Q4 FY2026 results showed record quarterly revenue of USD 21.6B, up 27% YoY, with adjusted net income doubling to USD 559M. AI-related revenue grew 84% YoY in Q4 to reach 38% of total group revenue, and grew 105% for the full year to help deliver record annual revenue of USD 83.1B. The board declared the highest-ever dividend of HKD 0.422/share, and management guided for USD 100B in annual revenue within two years.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "1347",
+        "company": "Hua Hong Semiconductor Limited",
+        "mkt_cap": null,
+        "change_pct": null,
+        "catalyst": "1347 moved on the combination of Q1 2026 results showing a strong 12-inch capacity ramp and advancement of the Huali Micro acquisition, which would add substantial domestic wafer capacity. A new Buy rating initiated on May 20 highlighted 1347 as the second-largest domestic foundry beneficiary after SMIC, with re-rating potential on deal close. The analyst action built on Q1 momentum where 12-inch wafer demand from AI chip clients drove above-consensus revenue growth.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-foundry-may26",
+        "group_summary": "981 and 1347 both moved on domestic Chinese foundry momentum - 981 on SMIC Q2 2026 guidance of 14-16% sequential revenue growth driven by AI chip orders, and 1347 on Hua Hong Semiconductor Q1 2026 12-inch capacity ramp and a new Buy rating following its earnings beat. Both are primary beneficiaries of China semiconductor self-sufficiency as overseas clients redirect from constrained foreign foundries."
+      },
+      {
+        "ticker": "2218",
+        "company": "Yantai North Andre Juice Co., Ltd.",
+        "mkt_cap": null,
+        "change_pct": null,
+        "catalyst": "No specific catalyst identified for the May 26 move. 2218 moved without a confirmed company-specific announcement on this date.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "2577",
+        "company": "InnoScience (Suzhou) Technology Holding Co., Ltd.",
+        "mkt_cap": null,
+        "change_pct": null,
+        "catalyst": "2577 moved on continued reaction to FY2025 results approved at the May 22 AGM, where revenue of CN¥1.21B grew 46% YoY on GaN power device demand across consumer electronics, EVs, and data centres. Net loss narrowed 20% YoY, signaling improving unit economics as production volumes scale. 2577 GaN power semiconductor platform addresses the power efficiency requirements of AI data centres and EV drivetrains.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false
+      },
+      {
+        "ticker": "6651",
+        "company": "Beijing 51WORLD Digital Twin Technology Co., Ltd. Class",
+        "mkt_cap": 21700000000,
+        "change_pct": null,
+        "catalyst": "6651 extended its multi-day run on Physical AI and digital twin positioning, with no new specific announcement on May 26. The ongoing NVIDIA Global L4 Autonomous Driving Simulation partnership and expanding city-level robotaxi deployments continue to drive institutional accumulation. 6651 commands 53.5% of China L3+ simulation market.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true
+      }
+    ],
+    "2026-05-27": []
   }
 }

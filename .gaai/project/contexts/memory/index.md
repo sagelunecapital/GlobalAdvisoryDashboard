@@ -1,7 +1,7 @@
 ---
 type: memory_index
 id: MEMORY-INDEX
-updated_at: 2026-04-27
+updated_at: 2026-05-22
 ---
 
 # Memory Map
@@ -15,10 +15,10 @@ updated_at: 2026-04-27
 
 | File | Category | ID | Last updated |
 |---|---|---|---|
-| `project/context.md` | project | PROJECT-001 | 2026-04-27 |
-| `project/data-sources.md` | project | PROJECT-002 | 2026-04-18 |
-| `decisions/_log.md` | decisions | DECISIONS-LOG | 2026-04-27 |
-| `patterns/conventions.md` | patterns | PATTERNS-001 | 2026-04-27 |
+| `project/context.md` | project | PROJECT-001 | 2026-05-22 |
+| `project/data-sources.md` | project | PROJECT-002 | 2026-05-22 |
+| `decisions/_log.md` | decisions | DECISIONS-LOG | 2026-05-12 |
+| `patterns/conventions.md` | patterns | PATTERNS-001 | 2026-05-22 |
 
 ---
 
@@ -36,6 +36,8 @@ updated_at: 2026-04-27
 | DEC-2026-04-27-02 | infrastructure | GH Actions + Vercel static hosting pattern |
 | DEC-2026-04-27-03 | infrastructure | E06: Vercel Python serverless functions, stateless, no SQLite |
 | DEC-2026-04-27-04 | architecture | src/ library and update_dashboard.py are parallel implementations (accepted) |
+| DEC-2026-05-12-01 | infrastructure | GAAI daemon job state: SQLite at data/gaai-jobs.db (WAL, not gitignored) |
+| DEC-2026-05-12-02 | governance | Authorized in_progress→refined recovery for confirmed-dead GAAI agent PIDs |
 
 ---
 

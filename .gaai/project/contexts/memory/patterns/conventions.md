@@ -10,8 +10,10 @@ tags:
   - sqlite
   - testing
   - dashboard
+  - screener
+  - windows
 created_at: 2026-04-27
-updated_at: 2026-04-27
+updated_at: 2026-05-22
 ---
 
 # Patterns & Conventions
@@ -81,9 +83,29 @@ Standard helpers used throughout the injection pipeline:
 - `align(keys, d, default=None)` — align a dict to a list of keys with default
 - `resample_monthly(day_dict)` — daily → last value per month
 
-### net liquidity formula
+### Net Liquidity Formula
 
-`Net Liquidity = WALCL − WDTGAL − WLRRAL` (Federal Reserve balance sheet minus Treasury General Account minus Reverse Repo)
+`Net Liquidity = WALCL - WDTGAL - WLRRAL` (Federal Reserve balance sheet minus Treasury General Account minus Reverse Repo)
+
+### Path Construction (Windows-safe)
+
+Use `pathlib.Path` for ALL path operations — no string concatenation, no `os.path.join`, no `os.getcwd()`:
+
+```python
+_PROJECT_ROOT = Path(__file__).absolute().parent
+_DATA_DIR = _PROJECT_ROOT / "data"
+_BACKLOG = _PROJECT_ROOT / ".gaai" / "project" / "contexts" / "backlog" / "active.backlog.yaml"
+```
+
+This avoids PowerShell bracket-path issues and works cross-platform. See `gaai_deliver.py` as reference.
+
+### ASCII-Only Output (Windows Console)
+
+All `print()` and `sys.stderr.write()` in Python scripts must be ASCII-only. Windows console (cp1252) crashes on Unicode characters. No emoji, no non-ASCII symbols in any output statement.
+
+### Screener JSON Patching (Enrichment)
+
+Claude enriches screener data by patching JSON files directly — never via API calls in scripts. Fields to patch: `catalyst`, `source`, `source_url`, `catalyst_type`, `group_id`, `group_summary`. Enrichment preserves all existing fields; never overwrites committed enriched data (use git history as the safety net).
 
 ---
 
@@ -95,6 +117,17 @@ All tests for code that calls external APIs (yfinance, FRED, EODData, GDPNow) mu
 
 See `tests/conftest.py` and individual test files for fixture patterns.
 
+### Path Object Mocking
+
+Do NOT use `patch.object(Path, 'exists', ...)` — `WindowsPath.exists` is read-only on Windows. Instead, replace the module-level path constant:
+
+```python
+fake_path = MagicMock(spec=Path)
+fake_path.exists.return_value = True
+with patch.object(module, "_SOME_PATH", fake_path):
+    ...
+```
+
 ### pytest configuration
 
 `pytest.ini` disables the pylint plugin: `addopts = -p no:pylint`. Test coverage via `pytest-cov`.
@@ -105,15 +138,24 @@ See `tests/conftest.py` and individual test files for fixture patterns.
 
 ### Module Isolation Rule
 
-`src/macro/` is self-contained and does NOT import from `src/db/`. Each module's DB layer is independent. Do not add cross-module imports between `src/db/` and `src/macro/db/`.
+`src/macro/` and `src/liquidity/` are self-contained — do NOT import from `src/db/`. Each module's DB layer is independent. Do not add cross-module imports.
 
 ### DB Path Convention
 
-DB files are stored in `data/` directory relative to the project root. The `get_connection()` / `get_macro_connection()` functions create `data/` if it doesn't exist via `path.parent.mkdir(parents=True, exist_ok=True)`.
+DB files are stored in `data/` directory relative to the project root. The `get_connection()` functions create `data/` if it doesn't exist via `path.parent.mkdir(parents=True, exist_ok=True)`.
 
 ### Enum Return for Ambiguous Results
 
-When a function can return multiple structurally distinct states (e.g., divergence detection), use an enum rather than strings or booleans. `DivergenceResult` (BEARISH, BULLISH, NO_DIVERGENCE, DATA_GAP) is the reference pattern — DATA_GAP is structurally distinct from NO_DIVERGENCE and must not be conflated.
+When a function can return multiple structurally distinct states, use an enum. `DivergenceResult` (BEARISH, BULLISH, NO_DIVERGENCE, DATA_GAP) and `RegimeLabel` (GREEN, YELLOW, RED) are the reference patterns. DATA_GAP is structurally distinct from NO_DIVERGENCE and must not be conflated.
+
+### Screener Data Structure
+
+US movers: `{updated_at: str, by_date: {YYYY-MM-DD: [row, ...]}}`
+Row fields: `ticker, company, sector, industry, country, mkt_cap (USD float), pe, price, change_pct, volume, catalyst, source, source_url, catalyst_type, group_id, group_summary`
+
+IPOs: `{fetched_at: str, us: [...], hk: [...]}` — both keyed arrays of IPO objects
+IPO fields: `ticker, company, date, price_usd, mkt_cap_usd, ipo_close, description`
+HK display: multiply `price_usd` and `mkt_cap_usd` by 7.78 (HKD/USD)
 
 ---
 
@@ -121,12 +163,20 @@ When a function can return multiple structurally distinct states (e.g., divergen
 
 ### FRED API Key in Source Code
 
-`update_dashboard.py` currently hardcodes `FRED_KEY = "..."` in source. This is a known security concern — must be moved to an environment variable before any E06 deployment or public repo exposure. Use `os.environ.get("FRED_KEY")` instead.
+`update_dashboard.py` currently hardcodes `FRED_KEY = "..."` in source. This is a known security concern — must be moved to an environment variable before E06 deployment or public repo exposure.
 
 ### Calling Live External APIs in Tests
 
-Tests must never call FRED, yfinance, EODData, or GDPNow directly. Tests that do this are flaky (network-dependent) and slow. Always mock at the HTTP or library level.
+Tests must never call FRED, yfinance, EODData, or GDPNow directly. Tests that do this are flaky and slow. Always mock at the HTTP or library level.
 
 ### Sharing DB Schema Between Modules
 
-Do not make `src/macro/db/` import from `src/db/` or vice versa. Each module's schema is intentionally isolated. Cross-module queries belong in a dedicated integration layer (not yet built).
+Do not make `src/macro/db/` import from `src/db/` or vice versa. Each module's schema is intentionally isolated.
+
+### Destructive git checkout
+
+Never use `git checkout <branch> --` against files with uncommitted changes — it silently overwrites local edits. Always stash or commit first.
+
+### Duplicating existing module logic for new markets
+
+When extending to a new market/region (e.g., China screener), parameterize existing code rather than copy-pasting. Search for existing implementations first.

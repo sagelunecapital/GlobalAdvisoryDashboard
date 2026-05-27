@@ -979,7 +979,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
     <div style="flex:1;min-width:0;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
       <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin:0">NCFD takes a look at the underlying short-term momentum of the market. We set the upper threshold at 75 and the lower threshold at 25. Using this, NCFD is "Hot" when it hits the upper threshold, "Warm" when it lives below the upper threshold, "Lukewarm" when it lives above the lower threshold, and "Cold" when it hits the lower threshold.<br><br>NHNL provides valuable information regarding stocks making new highs and stocks making new lows that can be used in determining the quality of the move of the market, whether up or down. While it can show whether we are in a stretch conducive of buying or selling, not all periods are equal in the timeliness of buying or selling. Therefore, we use the NHNL in a contrarian manner wherein if NHNL moves too fast by either velocity or level, or if NHNL shifts direction during the market's upturn or downturn, or both. The NCFD and NHNL are used in tandem to determine the execution timing.<br><br>MMTH takes a longer-term approach by looking at the quantity of market participation. We use it to find out whether there is any divergence to the direction of price. However, it lacks in providing the context as to whether the situation is improving or worsening. This pushes us to put out a certain thesis to the market and use the color provided by the NCFD and NHNL to point out market opportunities.<br><br>EMAs are simply used as a broad window, but the conjunction of all these other indicators gives us the signals to be precise.</p>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin:0">The market signal is used as a broad window. Signal uses EMAs as the main indicator. EMAs determine the trend of the market.<br><br>The breadth signal is used in identifying whether the stock universe is broad or narrow. Signal uses MMTH as the main indicator. MMTH is a long-term indicator of the quantity of market participation.<br><br>The buying signal is used to determine the execution timing. Signal uses both NCFD and NHNL as the main indicators. NCFD takes a look at the underlying short-term momentum of the market. We set the upper threshold at 75 and the lower threshold at 25. Using this, NCFD is "Hot" when it hits the upper threshold, "Warm" when it lives below the upper threshold, "Lukewarm" when it lives above the lower threshold, and "Cold" when it hits the lower threshold. NHNL provides valuable information regarding stocks making new highs and stocks making new lows that can be used in determining the quality of the move of the market, whether up or down. While it can show whether we are in a stretch conducive of buying or selling, not all periods are equal in the timeliness of buying or selling. Therefore, NHNL is used in a contrarian manner depending on if it moves too fast by either velocity or level, or if it shifts direction during the market's upturn or downturn, or both.<br><br>Using all three in conjunction allows us to put out a certain thesis to the market and have a higher precision on pointing out market opportunities.</p>
     </div>
 
   </div><!-- /regime side-by-side -->
@@ -2522,27 +2522,30 @@ function applyRegimeData(d){
   if(sigVal){sigVal.textContent=buySig;sigVal.style.color=d.buying_signal?sigColors[d.buying_signal]:'var(--text-muted)';}
 
   const SUMMARIES={
-    'Uptrend|Convergence|Late Buying':       'Rally is broad and strong — trend intact but entry is extended. Prioritise quality over size.',
-    'Uptrend|Convergence|50/50 Buying':      'Broad uptrend with mixed execution signals. Hold existing positions and wait for a cleaner setup before adding.',
-    'Uptrend|Convergence|Early Buying':      'Strong breadth with oversold short-term flow. Healthy pullback — high-quality entry within an intact trend.',
-    'Uptrend|Bearish Divergence|Late Buying':'Price is leading breadth higher — late-cycle conditions. Reduce exposure on new adds and tighten stops.',
-    'Uptrend|Bearish Divergence|50/50 Buying':'Trend intact but breadth is thinning. No clear execution edge — stay patient and selective.',
-    'Uptrend|Bearish Divergence|Early Buying':'Breadth is weak but short-term flow is turning. Contrarian setup — small size, defined risk.',
-    'Neutral|Bullish Divergence|Late Buying': 'Price stalled but breadth is holding up. Potential base forming — watch for price to confirm before adding.',
-    'Neutral|Bullish Divergence|50/50 Buying':'Mixed signals: breadth resilient but price below short-term trend. No conviction either way — stay flat.',
-    'Neutral|Bullish Divergence|Early Buying':'Breadth firm despite price weakness — likely a shakeout. Accumulate into weakness with defined risk.',
-    'Neutral|Bearish Divergence|Late Buying': 'Price and breadth both fading with extended positioning. Reduce risk and avoid chasing.',
-    'Neutral|Bearish Divergence|50/50 Buying':'Market losing momentum with weakening breadth. Defensive posture — reduce new adds.',
-    'Neutral|Bearish Divergence|Early Buying':'Weak breadth and flow turning negative. Risk is to the downside — stay flat or hedge.',
-    'Neutral|Convergence|Late Buying':        'Market broken down with weak breadth across the board. Any rallies are selling opportunities.',
-    'Neutral|Convergence|50/50 Buying':       'Broken trend and weak breadth — no compelling entry. Wait for stabilisation before committing.',
-    'Neutral|Convergence|Early Buying':       'First signs of a potential base forming. Too early to confirm — small size only with tight risk management.',
-    'Downtrend|Convergence|Late Buying':      'Deep downtrend with confirmed weak breadth. Rallies are selling opportunities — stay defensive.',
-    'Downtrend|Convergence|50/50 Buying':     'Sustained downtrend with weak internals. No edge for buyers — capital preservation is the priority.',
-    'Downtrend|Convergence|Early Buying':     'Persistent downtrend but short-term flow is turning. Wait for breadth to confirm before any exposure.',
-    'Downtrend|Bullish Divergence|Late Buying':'Price breaking down but breadth staying firm — possible false breakdown. Watch closely before acting.',
-    'Downtrend|Bullish Divergence|50/50 Buying':'Price under pressure but breadth is resilient. Mixed signals in a downtrend — stay cautious, size small.',
-    'Downtrend|Bullish Divergence|Early Buying':'Breadth holding despite price weakness — strong washout setup. Potential for a sharp reversal.',
+    'Uptrend|Convergence|Late Buying':              'Rally is broad and strong — trend intact but entry is extended. Prioritise quality over size.',
+    'Uptrend|Convergence|50/50 Buying':             'Broad uptrend with mixed execution signals. Hold existing positions and wait for a cleaner setup before adding.',
+    'Uptrend|Convergence|Early Buying':             'Strong breadth with oversold short-term flow. Healthy pullback — high-quality entry within an intact trend.',
+    'Uptrend|Bearish Divergence|Late Buying':       'Price is leading breadth higher — late-cycle conditions. Reduce exposure on new adds and tighten stops.',
+    'Uptrend|Bearish Divergence|50/50 Buying':      'Trend intact but breadth is thinning. No clear execution edge — stay patient and selective.',
+    'Uptrend|Bearish Divergence|Early Buying':      'Trend intact but internals are weakening. Short-term momentum turn may support a tactical bounce.',
+    'Neutral|Bullish Divergence|Late Buying':       'Price stalled but breadth is holding up. Potential base forming — watch for price to confirm before adding.',
+    'Neutral|Bullish Divergence|50/50 Buying':      'Breadth is stabilising beneath weak price action. Early accumulation possible, but confirmation is still lacking.',
+    'Neutral|Bullish Divergence|Early Buying':      'Breadth firm despite price weakness — likely a shakeout. Accumulate into weakness with defined risk.',
+    'Neutral|Bearish Divergence|Late Buying':       'Price and breadth both fading with extended positioning. Reduce risk and avoid chasing.',
+    'Neutral|Bearish Divergence|50/50 Buying':      'Market losing momentum with weakening breadth. Defensive posture — reduce new adds.',
+    'Neutral|Bearish Divergence|Early Buying':      'Internals remain poor, but short-term conditions are becoming washed out. Countertrend entries require tight risk.',
+    'Neutral|Convergence|Late Buying':              'Market consolidating with balanced participation, but short-term momentum is extended. Avoid chasing the top of the range.',
+    'Neutral|Convergence|50/50 Buying':             'Market in a neutral consolidation phase with mixed signals. No clear directional edge — stay patient.',
+    'Neutral|Convergence|Early Buying':             'First signs of a potential base forming. Too early to confirm — small size only with tight risk management.',
+    'Downtrend|Convergence|Late Buying':            'Deep downtrend with confirmed weak breadth. Rallies are selling opportunities — stay defensive.',
+    'Downtrend|Convergence|50/50 Buying':           'Sustained downtrend with weak internals. No edge for buyers — capital preservation is the priority.',
+    'Downtrend|Convergence|Early Buying':           'Persistent downtrend but short-term flow is turning. Wait for breadth to confirm before any exposure.',
+    'Downtrend|Bearish Divergence|Late Buying':     'Price and breadth in confirmed decline with momentum extended. Deeply oversold but no floor in sight — avoid catching falling knives.',
+    'Downtrend|Bearish Divergence|50/50 Buying':    'Full market breakdown with deteriorating internals across the board. No buyers in control — stay defensive.',
+    'Downtrend|Bearish Divergence|Early Buying':    'Market in freefall with weak breadth, but short-term flow is turning. Extreme caution — any entry requires very tight stops.',
+    'Downtrend|Bullish Divergence|Late Buying':     'Price is breaking down while breadth stabilises beneath the surface. Potential false breakdown, but confirmation is still needed.',
+    'Downtrend|Bullish Divergence|50/50 Buying':    'Price remains under pressure, but breadth is improving beneath the surface. Countertrend conditions are developing — stay small and selective.',
+    'Downtrend|Bullish Divergence|Early Buying':    'Breadth holding despite price weakness — strong washout setup. Potential for a sharp reversal.',
   };
   const summaryEl=document.getElementById('regime-summary');
   if(summaryEl){

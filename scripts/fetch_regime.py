@@ -163,19 +163,20 @@ def classify_buying_signal(nhnl_momentum, ncfd_label):
     NHNL momentum × NCFD label → buying opportunity signal.
     Returns: 'Late Buying' | '50/50 Buying' | 'Early Buying' | None
     """
-    if nhnl_momentum is None or ncfd_label is None:
+    if ncfd_label is None:
         return None
-    table = {
-        ('Hot',  'Hot'):      'Late Buying',
-        ('Hot',  'Warm'):     'Late Buying',
-        ('Hot',  'Lukewarm'): '50/50 Buying',
-        ('Hot',  'Cold'):     'Early Buying',
-        ('Cold', 'Hot'):      'Late Buying',
-        ('Cold', 'Warm'):     '50/50 Buying',
-        ('Cold', 'Lukewarm'): 'Early Buying',
-        ('Cold', 'Cold'):     'Early Buying',
-    }
-    return table.get((nhnl_momentum, ncfd_label))
+    if nhnl_momentum == 'Hot':
+        return {'Hot': 'Late Buying', 'Warm': 'Late Buying',
+                'Lukewarm': '50/50 Buying', 'Cold': 'Early Buying'}.get(ncfd_label)
+    if nhnl_momentum == 'Cold':
+        return {'Hot': 'Late Buying', 'Warm': '50/50 Buying',
+                'Lukewarm': 'Early Buying', 'Cold': 'Early Buying'}.get(ncfd_label)
+    # NHNL neutral — NCFD drives the signal
+    if ncfd_label in ('Hot', 'Warm'):
+        return 'Late Buying'
+    if ncfd_label in ('Lukewarm', 'Cold'):
+        return 'Early Buying'
+    return None
 
 
 def classify_nhnl(nhnl_history, higq, lowq):

@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-05-23T03:09:23.885004+00:00",
+  "fetched_at": "2026-05-27T02:17:18.693575+00:00",
   "us": [
-    {
-      "ticker": "GMRS",
-      "company": "GMR Solutions Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-13",
-      "price_usd": 15.0,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 31914893,
-      "deal_amount_usd": 478723395.0,
-      "mkt_cap_usd": 3347175510.0,
-      "ipo_close": 13.98
-    },
     {
       "ticker": "FRVO",
       "company": "Fervo Energy Company",
@@ -26,6 +13,19 @@
       "deal_amount_usd": 1890000000.0,
       "mkt_cap_usd": 7656182991.0,
       "ipo_close": 36.54
+    },
+    {
+      "ticker": "GMRS",
+      "company": "GMR Solutions Inc.",
+      "exchange": "NYSE",
+      "date": "2026-05-13",
+      "price_usd": 15.0,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 31914893,
+      "deal_amount_usd": 478723395.0,
+      "mkt_cap_usd": 3347175510.0,
+      "ipo_close": 13.98
     },
     {
       "ticker": "EROK",
@@ -91,20 +91,33 @@
       "deal_amount_usd": 420999760.0,
       "mkt_cap_usd": 2039658240.0,
       "ipo_close": 22.52
+    },
+    {
+      "ticker": "ASMB",
+      "company": "Assembly Biosciences, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-05-22",
+      "price_usd": 26.5,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 3773602,
+      "deal_amount_usd": 89002953.0,
+      "mkt_cap_usd": 510150307.5,
+      "ipo_close": 28.34
     }
   ],
   "hk": [
     {
-      "ticker": "1236",
-      "company": "Shenzhen LDRobot Co., Ltd. Class H",
+      "ticker": "7630",
+      "company": "IMPACT Therapeutics, Inc. Class H",
       "exchange": "HKEX",
-      "date": "2026-05-11",
-      "price_usd": 3.367054975648,
-      "price_range": "3.07 - 3.83",
+      "date": "2026-05-13",
+      "price_usd": 2.56755807276,
+      "price_range": "2.52 - 2.78",
       "status": "Closed",
-      "shares": 33333400,
-      "deal_amount_usd": 101011649.26944,
-      "mkt_cap_usd": 1122373388.3906
+      "shares": 41977000,
+      "deal_amount_usd": 97000289.9424146,
+      "mkt_cap_usd": 708866271.3417
     },
     {
       "ticker": "7666",
@@ -117,18 +130,6 @@
       "shares": 201229000,
       "deal_amount_usd": 256405642.1731665,
       "mkt_cap_usd": 1545378500.0869
-    },
-    {
-      "ticker": "7630",
-      "company": "IMPACT Therapeutics, Inc. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-13",
-      "price_usd": 2.56755807276,
-      "price_range": "2.52 - 2.78",
-      "status": "Closed",
-      "shares": 41977000,
-      "deal_amount_usd": 97000289.9424146,
-      "mkt_cap_usd": 708866271.3417
     },
     {
       "ticker": "6871",
@@ -176,31 +177,31 @@
       "status": "Closed",
       "shares": 8280550,
       "deal_amount_usd": 72027790.34199587,
-      "mkt_cap_usd": 500151681.0695
+      "mkt_cap_usd": 500014439.1768
     },
     {
       "ticker": "3310",
       "company": "Viewtrix Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-05-27",
-      "price_usd": 2.657709721293,
+      "price_usd": 2.656318810027,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 52859200,
-      "deal_amount_usd": 126435756.11301614,
-      "mkt_cap_usd": 1136469590.4576
+      "deal_amount_usd": 126369586.01317649,
+      "mkt_cap_usd": 1136317271.4186
     },
     {
       "ticker": "2723",
-      "company": "Beijing DeepZero Technology Co., Ltd. Class H",
+      "company": "Beijing DeepZero Technology Co Ltd Class H",
       "exchange": "HKEX",
       "date": "2026-05-27",
-      "price_usd": null,
-      "price_range": "5.55 - 7.09",
-      "status": "Pending",
+      "price_usd": 7.08337321965,
+      "price_range": "5.55 - 7.08",
+      "status": "Closed",
       "shares": 9068000,
-      "deal_amount_usd": 57824692.64725752,
-      "mkt_cap_usd": null
+      "deal_amount_usd": 57808825.52020758,
+      "mkt_cap_usd": 642404627.6683
     },
     {
       "ticker": "901",
@@ -212,7 +213,7 @@
       "status": "Pending",
       "shares": 19207300,
       "deal_amount_usd": 72403263.90505208,
-      "mkt_cap_usd": 87741945.0234
+      "mkt_cap_usd": 87730185.1233
     },
     {
       "ticker": "3388",
@@ -224,7 +225,19 @@
       "status": "Pending",
       "shares": 73427550,
       "deal_amount_usd": 158608124.48865277,
-      "mkt_cap_usd": 1120449617.4337
+      "mkt_cap_usd": 1120299445.5238
+    },
+    {
+      "ticker": "2553",
+      "company": "Beijing Shougang LanzaTech Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-03",
+      "price_usd": null,
+      "price_range": "1.86 - 2.18",
+      "status": "Pending",
+      "shares": 40000000,
+      "deal_amount_usd": 78579041.78052,
+      "mkt_cap_usd": null
     }
   ]
 }
