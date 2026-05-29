@@ -1,58 +1,6 @@
 {
-  "fetched_at": "2026-05-27T23:07:12.598616+00:00",
+  "fetched_at": "2026-05-29T00:15:28.159066+00:00",
   "us": [
-    {
-      "ticker": "MWC",
-      "company": "Micware Co., Ltd.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 8.0,
-      "price_range": "7.00 - 9.00",
-      "status": "Closed",
-      "shares": 2850000,
-      "deal_amount_usd": 22800000.0,
-      "mkt_cap_usd": 471935312.0,
-      "ipo_close": 8.2
-    },
-    {
-      "ticker": "CBRS",
-      "company": "Cerebras Systems Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-14",
-      "price_usd": 185.0,
-      "price_range": "150.00 - 160.00",
-      "status": "Closed",
-      "shares": 34500000,
-      "deal_amount_usd": 5550000000.0,
-      "mkt_cap_usd": 39795413825.0,
-      "ipo_close": 311.07
-    },
-    {
-      "ticker": "EROK",
-      "company": "EagleRock Land, LLC",
-      "exchange": "NYSE",
-      "date": "2026-05-14",
-      "price_usd": 18.5,
-      "price_range": "17.00 - 20.00",
-      "status": "Closed",
-      "shares": 17300000,
-      "deal_amount_usd": 320050000.0,
-      "mkt_cap_usd": 2407312500.0,
-      "ipo_close": 23.0
-    },
-    {
-      "ticker": "BXDC",
-      "company": "Blackstone Digital Infrastructure Trust Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-14",
-      "price_usd": 20.0,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 100490000,
-      "deal_amount_usd": 1734833900.0,
-      "mkt_cap_usd": 1750000100.0,
-      "ipo_close": 19.81
-    },
     {
       "ticker": "LCLN",
       "company": "Lincoln International, Inc.",
@@ -70,11 +18,11 @@
       "ticker": "ASMB",
       "company": "Assembly Biosciences, Inc.",
       "exchange": "NASDAQ",
-      "date": "2026-05-22",
+      "date": "2026-05-26",
       "price_usd": 26.5,
       "price_range": null,
       "status": "Closed",
-      "shares": 3773602,
+      "shares": 4339642,
       "deal_amount_usd": 89002953.0,
       "mkt_cap_usd": 510150307.5,
       "ipo_close": 28.34
@@ -104,18 +52,6 @@
       "mkt_cap_usd": null
     },
     {
-      "ticker": "QNT",
-      "company": "Quantinuum Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": null,
-      "price_range": "45.00 - 50.00",
-      "status": "Pending",
-      "shares": 21052632,
-      "deal_amount_usd": 1052631600.0,
-      "mkt_cap_usd": null
-    },
-    {
       "ticker": "INIO",
       "company": "INNIO Holding GmbH",
       "exchange": "NASDAQ",
@@ -125,6 +61,18 @@
       "status": "Pending",
       "shares": 75000000,
       "deal_amount_usd": 2025000000.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "QNT",
+      "company": "Quantinuum Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": null,
+      "price_range": "45.00 - 50.00",
+      "status": "Pending",
+      "shares": 21052632,
+      "deal_amount_usd": 1052631600.0,
       "mkt_cap_usd": null
     }
   ],
@@ -142,18 +90,6 @@
       "mkt_cap_usd": 954028938.9183
     },
     {
-      "ticker": "7688",
-      "company": "Shanghai Top Numerical Control Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-20",
-      "price_usd": 3.369015019097,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 65330000,
-      "deal_amount_usd": 198087976.07784632,
-      "mkt_cap_usd": 1378885299.2442
-    },
-    {
       "ticker": "1511",
       "company": "UISEE Technologies (Beijing) Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -164,6 +100,18 @@
       "shares": 14461200,
       "deal_amount_usd": 89058384.54727128,
       "mkt_cap_usd": 1250826199.7759
+    },
+    {
+      "ticker": "7688",
+      "company": "Shanghai Top Numerical Control Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-20",
+      "price_usd": 3.369015019097,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 65330000,
+      "deal_amount_usd": 198087976.07784632,
+      "mkt_cap_usd": 1378885299.2442
     },
     {
       "ticker": "6872",
@@ -178,30 +126,6 @@
       "mkt_cap_usd": 500014439.1768
     },
     {
-      "ticker": "901",
-      "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-27",
-      "price_usd": 4.18842818992,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 19207300,
-      "deal_amount_usd": 72403263.90505208,
-      "mkt_cap_usd": 877033171.1441
-    },
-    {
-      "ticker": "2723",
-      "company": "Beijing DeepZero Technology Co Ltd Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-27",
-      "price_usd": 7.08337321965,
-      "price_range": "5.55 - 7.08",
-      "status": "Closed",
-      "shares": 9068000,
-      "deal_amount_usd": 57808825.52020758,
-      "mkt_cap_usd": 642207886.5666
-    },
-    {
       "ticker": "3310",
       "company": "Viewtrix Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -211,7 +135,31 @@
       "status": "Closed",
       "shares": 52859200,
       "deal_amount_usd": 126330884.40594664,
-      "mkt_cap_usd": 1135969265.968
+      "mkt_cap_usd": 1136368039.9806
+    },
+    {
+      "ticker": "901",
+      "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-27",
+      "price_usd": 4.18842818992,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 19207300,
+      "deal_amount_usd": 72403263.90505208,
+      "mkt_cap_usd": 877341047.4637
+    },
+    {
+      "ticker": "2723",
+      "company": "Beijing DeepZero Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-27",
+      "price_usd": 7.08337321965,
+      "price_range": "5.55 - 7.08",
+      "status": "Closed",
+      "shares": 9068000,
+      "deal_amount_usd": 57808825.52020758,
+      "mkt_cap_usd": 642433329.1234
     },
     {
       "ticker": "3388",
@@ -220,14 +168,14 @@
       "date": "2026-05-29",
       "price_usd": 2.40007149136,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 73427550,
       "deal_amount_usd": 158608124.48865277,
-      "mkt_cap_usd": 1119956345.6492
+      "mkt_cap_usd": 1120349498.4388
     },
     {
       "ticker": "2553",
-      "company": "Beijing Shougang LanzaTech Technology Co. Ltd.",
+      "company": "Beijing Shougang LanzaTech Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-03",
       "price_usd": null,
