@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-05-29T00:15:28.159066+00:00",
+  "fetched_at": "2026-05-31T12:25:06.160054+00:00",
   "us": [
     {
       "ticker": "LCLN",
@@ -52,18 +52,6 @@
       "mkt_cap_usd": null
     },
     {
-      "ticker": "INIO",
-      "company": "INNIO Holding GmbH",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": null,
-      "price_range": "24.00 - 27.00",
-      "status": "Pending",
-      "shares": 75000000,
-      "deal_amount_usd": 2025000000.0,
-      "mkt_cap_usd": null
-    },
-    {
       "ticker": "QNT",
       "company": "Quantinuum Inc.",
       "exchange": "NASDAQ",
@@ -73,6 +61,18 @@
       "status": "Pending",
       "shares": 21052632,
       "deal_amount_usd": 1052631600.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "INIO",
+      "company": "INNIO Holding GmbH",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": null,
+      "price_range": "24.00 - 27.00",
+      "status": "Pending",
+      "shares": 75000000,
+      "deal_amount_usd": 2025000000.0,
       "mkt_cap_usd": null
     }
   ],
@@ -90,18 +90,6 @@
       "mkt_cap_usd": 954028938.9183
     },
     {
-      "ticker": "1511",
-      "company": "UISEE Technologies (Beijing) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-20",
-      "price_usd": 7.69805250669,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14461200,
-      "deal_amount_usd": 89058384.54727128,
-      "mkt_cap_usd": 1250826199.7759
-    },
-    {
       "ticker": "7688",
       "company": "Shanghai Top Numerical Control Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -112,6 +100,18 @@
       "shares": 65330000,
       "deal_amount_usd": 198087976.07784632,
       "mkt_cap_usd": 1378885299.2442
+    },
+    {
+      "ticker": "1511",
+      "company": "UISEE Technologies (Beijing) Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-20",
+      "price_usd": 7.69805250669,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 14461200,
+      "deal_amount_usd": 89058384.54727128,
+      "mkt_cap_usd": 1250826199.7759
     },
     {
       "ticker": "6872",
@@ -126,18 +126,6 @@
       "mkt_cap_usd": 500014439.1768
     },
     {
-      "ticker": "3310",
-      "company": "Viewtrix Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-27",
-      "price_usd": 2.655505293021,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 52859200,
-      "deal_amount_usd": 126330884.40594664,
-      "mkt_cap_usd": 1136368039.9806
-    },
-    {
       "ticker": "901",
       "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -148,6 +136,18 @@
       "shares": 19207300,
       "deal_amount_usd": 72403263.90505208,
       "mkt_cap_usd": 877341047.4637
+    },
+    {
+      "ticker": "3310",
+      "company": "Viewtrix Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-05-27",
+      "price_usd": 2.655505293021,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 52859200,
+      "deal_amount_usd": 126330884.40594664,
+      "mkt_cap_usd": 1136368039.9806
     },
     {
       "ticker": "2723",
@@ -171,7 +171,7 @@
       "status": "Closed",
       "shares": 73427550,
       "deal_amount_usd": 158608124.48865277,
-      "mkt_cap_usd": 1120349498.4388
+      "mkt_cap_usd": 1120156461.6443
     },
     {
       "ticker": "2553",
@@ -183,6 +183,30 @@
       "status": "Pending",
       "shares": 40000000,
       "deal_amount_usd": 78579041.78052,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "1779",
+      "company": "LongBio Pharma (Suzhou) Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 12.260135417712,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 14193150,
+      "deal_amount_usd": 156608517.79876956,
+      "mkt_cap_usd": 909618066.0666
+    },
+    {
+      "ticker": "2290",
+      "company": "Lung Fung Group Holdings Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": null,
+      "price_range": "0.66 - 0.81",
+      "status": "Pending",
+      "shares": 125000000,
+      "deal_amount_usd": 91606414.6998,
       "mkt_cap_usd": null
     }
   ]
