@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-31T12:25:06.160054+00:00",
+  "updated_at": "2026-06-01T21:34:33.510049+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -271,6 +271,116 @@
         "mkt_cap": 229970000000,
         "change_pct": 7.37,
         "catalyst": "9992 gained on continued Labubu-led momentum, including a viral McDonald's China collaboration launched May 20 with resale prices running above retail, plus strong Q1 revenue growth of 75-80% YoY. No single confirmed same-day catalyst was identified for May 29 - J.P. Morgan in fact issued a Hold that day - so the move reflects broad sentiment and IP-momentum buying rather than a discrete event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-02": [
+      {
+        "ticker": "189",
+        "company": "Dongyue Group Limited",
+        "mkt_cap": 27060000000,
+        "change_pct": 5.39,
+        "catalyst": "189 rose with the China fluorochemical complex as June marks peak season for refrigerant demand and tightening 2026 HFC production quotas continue to lift prices and producer margins. No company-specific same-day announcement was found; the move tracked sector pricing dynamics ahead of the stock going ex-dividend on June 9.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2556",
+        "company": "Marketingforce Management Ltd",
+        "mkt_cap": 9630000000,
+        "change_pct": 12.56,
+        "catalyst": "2556 jumped amid a broad rally in China-listed marketing and AI software names, with agentic-AI SaaS demand a key sector theme into mid-2026. No company-specific same-day catalyst - earnings, guidance, contract, or analyst action - was confirmed for the move.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 15710000000,
+        "change_pct": 15.38,
+        "catalyst": "2643 surged as it accelerates robotaxi commercialization, including driverless testing, a Shanghai deployment, and a global expansion plan built around its purpose-built Eva Cab and a targeted rollout of thousands of robotaxis in 2027. The move extends strong investor appetite for Hong Kong autonomous-driving and AI-mobility names rather than reflecting a single same-day announcement.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6613",
+        "company": "Lens Technology Co. Ltd. Class",
+        "mkt_cap": 240070000000,
+        "change_pct": 13.37,
+        "catalyst": "6613 rose with a broad Hong Kong robotics and AI-hardware rally. As a confirmed supplier of ultra-thin glass and hinge parts for Apple's foldable iPhone and of a head module for Tesla's humanoid robot, it is a favored supply-chain proxy for the theme. No company-specific same-day announcement was confirmed; the move tracked sector sentiment.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6687",
+        "company": "JST Group Corporation Limited",
+        "mkt_cap": 7190000000,
+        "change_pct": 14.01,
+        "catalyst": "6687 rose with the rebound in Hong Kong-listed China e-commerce SaaS and software names. No company-specific same-day catalyst was confirmed, and the stock remains well below its late-2025 highs, so the move appears sector-driven.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "80992",
+        "company": "Lenovo Group Limited",
+        "mkt_cap": 297710000000,
+        "change_pct": 5.13,
+        "catalyst": "80992 (the RMB-traded counter) extended gains on momentum from record fiscal Q4 results reported May 23 - revenue up 27% to $21.6B and AI-related revenue up 84% - alongside a $1.2B AI investment. The June 2 move tracked continued strength in Hong Kong AI and tech sentiment rather than a fresh same-day announcement.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "lenovo",
+        "group_summary": "992 and 80992 are the HKD and RMB counters of the same company and moved together on momentum from record fiscal Q4 results reported May 23 - revenue up 27% to $21.6B with AI-related revenue up 84%. Both extended gains on broad Hong Kong AI and tech strength rather than a fresh same-day catalyst."
+      },
+      {
+        "ticker": "9611",
+        "company": "Shanghai Longcheer Technology Co., Ltd. Class",
+        "mkt_cap": 16300000000,
+        "change_pct": 13.39,
+        "catalyst": "9611 advanced with the Hong Kong AI-terminal and smart-eyewear theme, where it ranks as the world's number-two smart-glasses maker (about 21.7% share, a Ray-Ban Meta customer) with SiP mass production targeted for end-2026. No company-specific same-day catalyst was confirmed; its order-driven spikes from ByteDance AI glasses dated to January, so the June 2 move reads as sector-driven.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "992",
+        "company": "Lenovo Group Limited",
+        "mkt_cap": 297710000000,
+        "change_pct": 5.17,
+        "catalyst": "992 (the HKD-traded counter) extended gains on momentum from record fiscal Q4 results reported May 23 - revenue up 27% to $21.6B and AI-related revenue up 84% - alongside a $1.2B AI investment. The June 2 move tracked continued strength in Hong Kong AI and tech sentiment rather than a fresh same-day announcement.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "lenovo",
+        "group_summary": "992 and 80992 are the HKD and RMB counters of the same company and moved together on momentum from record fiscal Q4 results reported May 23 - revenue up 27% to $21.6B with AI-related revenue up 84%. Both extended gains on broad Hong Kong AI and tech strength rather than a fresh same-day catalyst."
+      },
+      {
+        "ticker": "9936",
+        "company": "Ximei Resources Holding Ltd.",
+        "mkt_cap": 7570000000,
+        "change_pct": 8.03,
+        "catalyst": "9936 rose on continued strength in tantalum and niobium demand after FY2025 results showed revenue up 23% and profit up 38%, with rising high-purity tantalum demand from advanced-node semiconductors. The move came despite the stock going ex-dividend June 1, reflecting critical-minerals tailwinds rather than a confirmed same-day company announcement.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,
