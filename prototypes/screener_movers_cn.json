@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-01T21:34:33.510049+00:00",
+  "updated_at": "2026-06-02T13:47:51.708778+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -386,6 +386,152 @@
         "continuation": false,
         "group_id": null,
         "group_summary": null
+      }
+    ],
+    "2026-06-02": [
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 18130000000,
+        "change_pct": 9.14,
+        "catalyst": "2643 extended its robotaxi-driven advance amid renewed autonomy enthusiasm after 9868 confirmed L4 robotaxi mass production and NVIDIA's GTC Taipei spotlighted physical AI. No new company announcement was confirmed; momentum continues from its Eva Cab global rollout plan targeting thousands of robotaxis in 2027.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "3396",
+        "company": "Legend Holdings Corporation Class",
+        "mkt_cap": 38920000000,
+        "change_pct": 10.35,
+        "catalyst": "3396 surged in tandem with 992 after NVIDIA's Computex keynote unveiled its AI PC chips, as the holding company's value is dominated by its controlling stake in 992. No company-specific same-day announcement was found.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "nvidia-ai-pc",
+        "group_summary": "3396 and 992 rose in tandem after NVIDIA's June 1 Computex keynote unveiled the N1X PC processor and RTX Spark superchip, reigniting the AI PC theme. 3396 is the controlling shareholder of 992, so the pair trades as one complex."
+      },
+      {
+        "ticker": "3690",
+        "company": "Meituan Class",
+        "mkt_cap": 483160000000,
+        "change_pct": 9.27,
+        "catalyst": "3690 jumped after Monday's Q1 results showed revenue in line with estimates and signs that the year-long subsidy war in one-hour delivery is easing. The print was a third consecutive quarterly loss, but investors focused on moderating competition and an improving margin path.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6613",
+        "company": "Lens Technology Co. Ltd. Class",
+        "mkt_cap": 248800000000,
+        "change_pct": 5.13,
+        "catalyst": "6613 extended gains with the HK tech-hardware rally. It remains a favored supply chain proxy via ultra-thin glass and hinge parts for Apple's foldable iPhone and a head module for Tesla's humanoid robot. No company-specific same-day announcement was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6651",
+        "company": "Beijing 51WORLD Digital Twin Technology Co., Ltd. Class",
+        "mkt_cap": 40800000000,
+        "change_pct": 22.48,
+        "catalyst": "6651 jumped with no confirmed same-day announcement. The move tracked physical-AI enthusiasm around NVIDIA's GTC Taipei event, where simulation is a core theme; 6651's SimOne platform was named NVIDIA's global L4 simulation partner back in March. Sentiment-driven extension of that positioning rather than fresh news.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6687",
+        "company": "JST Group Corporation Limited",
+        "mkt_cap": 8200000000,
+        "change_pct": 6.01,
+        "catalyst": "6687 extended its rebound alongside China e-commerce software names as 3690's results signaled the delivery subsidy war is easing, supporting merchant-facing platform sentiment. No company-specific catalyst was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "679",
+        "company": "Asia Tele-Net and Technology Corp Ltd",
+        "mkt_cap": 4810000000,
+        "change_pct": 27.72,
+        "catalyst": "679 jumped 27.7%, extending an extreme momentum run of over 600% in the past month with no confirmed catalyst. The electroplating equipment maker has exposure to the PCB capex cycle tied to AI hardware demand, but no company announcement was found - treat as speculative momentum.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "700",
+        "company": "Tencent Holdings Ltd",
+        "mkt_cap": 3940000000000,
+        "change_pct": 10.46,
+        "catalyst": "700 posted its biggest one-day gain in over three years after the FT reported it is testing a prototype AI agent for WeChat and plans to begin compliance procedures this month for a public launch. Investors priced in agentic AI deployed across WeChat's 1.4 billion users as a major new revenue stream. The move powered a 2.5% Hang Seng rally to above 26,000.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "763",
+        "company": "ZTE Corporation Class",
+        "mkt_cap": 183380000000,
+        "change_pct": 6.13,
+        "catalyst": "763 rose with the AI infrastructure complex in the broad HK tech rally. The move extends momentum from its first-ever A-share buyback announced May 27 (CNY 670M, 0.4% of share capital) and analyst optimism on AI server order wins. No same-day announcement was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "9868",
+        "company": "XPeng, Inc. Class",
+        "mkt_cap": 129550000000,
+        "change_pct": 6.19,
+        "catalyst": "9868 rose to a six-week high after reporting May deliveries of 32,158 vehicles, up 4% from April, with the new GX SUV taking 24,863 firm orders within 12 hours of launch. The company also started mass production of China's first factory-installed L4 robotaxi in May, reinforcing the autonomy narrative.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "9880",
+        "company": "UBTECH ROBOTICS CORP LTD Class",
+        "mkt_cap": 53810000000,
+        "change_pct": 6.92,
+        "catalyst": "9880 rose with the humanoid robotics complex as NVIDIA's GTC Taipei keynote put physical AI center stage, unveiling an Isaac GR00T reference humanoid built on Jetson Thor. No 9880-specific announcement was confirmed; the move is sector sentiment around accelerating humanoid commercialization.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "992",
+        "company": "Lenovo Group Limited",
+        "mkt_cap": 313090000000,
+        "change_pct": 5.31,
+        "catalyst": "992 rose in tandem with parent 3396 after NVIDIA's Computex keynote introduced the N1X PC processor and RTX Spark superchip, lifting AI PC supply chain names. As the world's largest PC maker, 992 is seen as a key beneficiary of the AI PC cycle. No company-specific same-day announcement; the move extends momentum from record May 22 results.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "nvidia-ai-pc",
+        "group_summary": "3396 and 992 rose in tandem after NVIDIA's June 1 Computex keynote unveiled the N1X PC processor and RTX Spark superchip, reigniting the AI PC theme. 3396 is the controlling shareholder of 992, so the pair trades as one complex."
       }
     ]
   }
