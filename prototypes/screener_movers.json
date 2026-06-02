@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-01T21:34:33.496035+00:00",
+  "updated_at": "2026-06-02T21:31:22.687939+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2272,6 +2272,236 @@
         "continuation": false,
         "group_id": null,
         "group_summary": null
+      }
+    ],
+    "2026-06-02": [
+      {
+        "ticker": "BHPLF",
+        "company": "BHP Group Limited",
+        "mkt_cap": 238870000000,
+        "change_pct": 7.13,
+        "catalyst": "No discrete June 2 stock-specific catalyst was confirmed. BHPLF is the thinly traded US OTC line for ASX-listed BHP, and the +7.13% single-day print most plausibly reflects sporadic OTC repricing catching up to BHP's ongoing copper-led rally to record highs (copper itself rose only ~0.57% on June 2). The move reads as momentum and sector-driven rather than a specific same-day event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CAMT",
+        "company": "Camtek Ltd.",
+        "mkt_cap": 8590000000,
+        "change_pct": 14.98,
+        "catalyst": "CAMT announced more than $105M in AI-focused inspection system orders for 2027 delivery, including a $55M order from a tier-1 OSAT provider and over $50M in Hawk systems from a leading HBM maker. The orders extend revenue visibility into 2027 and underscore demand tied to 2.5D/3D AI packaging and HBM manufacturing. Shares jumped roughly 15% to a record high near $188.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "CEVA",
+        "company": "CEVA, Inc.",
+        "mkt_cap": 1380000000,
+        "change_pct": 10.96,
+        "catalyst": "June 2 reads as continuation of the post-earnings rally rather than a new catalyst; CEVA reported Q1 2026 EPS of $0.04 (vs $0.02 consensus) and revenue of $27.0M (vs ~$26.1M), with licensing revenue up 18% YoY to the highest in three years. Several analysts raised price targets afterward, supporting follow-through buying into the Computex-day AI-semi rally.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "COHU",
+        "company": "Cohu, Inc.",
+        "mkt_cap": 2720000000,
+        "change_pct": 5.67,
+        "catalyst": "COHU extended gains on its raised 2026 AI-compute outlook, lifting its AI-driven addressable market estimate to about $750M and targeting FY26 high-performance computing revenue of roughly $80-100M, supported by follow-on Eclipse platform orders totaling about $30M. Q1 FY2026 revenue was $125.1M with Q2 guided up to about $144M, and multiple firms (TD Cowen, Needham, Jefferies, Evercore ISI, B. Riley) raised price targets into the $53-60 range.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "HPE",
+        "company": "Hewlett Packard Enterprise Company",
+        "mkt_cap": 74500000000,
+        "change_pct": 19.47,
+        "catalyst": "HPE surged after reporting Q2 FY2026 EPS of $0.79 vs $0.54 consensus and revenue of $10.678B vs ~$9.889B, up about 40% YoY, led by 148% Networking growth and 23% Cloud & AI growth. HPE raised FY2026 guidance to $3.35-$3.45 non-GAAP EPS and at least $3.5B free cash flow, and entered Q3 with a record $5.9B AI Systems backlog as AI server orders more than doubled. Management said it is tracking two years ahead of its long-term plan.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ICHR",
+        "company": "Ichor Holdings",
+        "mkt_cap": 2600000000,
+        "change_pct": 7.06,
+        "catalyst": "No company-specific catalyst was confirmed for June 2. The +7% move tracked the broad semiconductor equipment rally driven by AI capex and a wafer fab equipment spending rebound, the same sector momentum that lifted chip names after NVDA's bullish Computex commentary. ICHR's last discrete events (Q1 surprise profit and upbeat Q2 guidance) predate June 2, so the day reads as sector and momentum driven.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "INFQ",
+        "company": "Infleqtion, Inc.",
+        "mkt_cap": 4340000000,
+        "change_pct": 12.32,
+        "catalyst": "INFQ extended its quantum rally on news of a US government quantum funding wave, including a proposed $2B federal quantum-computing grant program with minority equity stakes in which INFQ is expected to be one of roughly nine selected players, plus a $100M CHIPS and Science Act letter of intent. CEO Matt Kinsella was also slated to present at the Evercore TMT Conference on June 2. The move was a continuation of the prior session's quantum momentum.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "LEGN",
+        "company": "Legend Biotech Corporation",
+        "mkt_cap": 4740000000,
+        "change_pct": 42.22,
+        "catalyst": "LEGN surged about 42% after announcing Phase 1 data for LB2501, its in vivo CD19/CD20 dual-targeting CAR-T therapy in relapsed/refractory B-cell non-Hodgkin lymphoma, to be presented at EHA 2026 (June 11-14). The data showed a 100% objective response rate (6 of 6 patients) and an 83.3% complete response rate at dose level 2, with no dose-limiting toxicities, serious adverse events, or neurotoxicity reported. The clean in vivo CAR-T result also revived standing takeover speculation around the name.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MRVL",
+        "company": "Marvell Technology, Inc.",
+        "mkt_cap": 254380000000,
+        "change_pct": 32.52,
+        "catalyst": "MRVL jumped about 32% after NVDA CEO Jensen Huang, speaking alongside MRVL's CEO at Computex 2026 on June 2, called MRVL the likely next trillion-dollar company and highlighted its networking and custom-silicon role in AI data centers. The endorsement reinforced NVDA's $2B investment in MRVL and a deepening NVLink Fusion alliance positioning it as a preferred custom-silicon partner. This event, not the May 27 fiscal Q1 2027 results, drove the June 2 move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "MTSI",
+        "company": "MACOM Technology Solutions Holdings, Inc.",
+        "mkt_cap": 29170000000,
+        "change_pct": 8.07,
+        "catalyst": "No discrete June 2 company catalyst was confirmed; the +8% move tracked the broad AI semiconductor rally that session, aided by strong demand for MTSI's high-speed optical and photonic data-center products. Its IQE long-term supply agreement and Q2 results came earlier (April 27 and May), so neither drove June 2. The day reads as sector and momentum driven alongside the wider AI chip complex.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "ONTO",
+        "company": "Onto Innovation Inc.",
+        "mkt_cap": 13830000000,
+        "change_pct": 8.72,
+        "catalyst": "ONTO extended its rally on continued bullish analyst action tied to AI advanced-packaging and HBM demand, with Stifel upgrading to Buy and lifting its target to $350 from $220 and Cantor Fitzgerald at Overweight, alongside target hikes from B. Riley, Evercore ISI and Oppenheimer (to $370). The story centers on ONTO's positioning in 2.5D/HBM inspection (Dragonfly G5 qualification, first shipments due June) and a raised 2026 revenue outlook above $1.3B. No single hard news event landed on June 2; the move reads as analyst and momentum continuation.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "PENG",
+        "company": "Penguin Solutions, Inc.",
+        "mkt_cap": 3590000000,
+        "change_pct": 18.32,
+        "catalyst": "PENG jumped after reaffirming its full-year fiscal 2026 outlook with both net sales and diluted EPS now expected at the high end of prior ranges, citing strong agentic AI-driven customer demand. The raise prompted aggressive analyst moves, with Stifel lifting its target to $66 from $24 and Rosenblatt to $65 from $54, both maintaining Buy. The company separately disclosed a CFO transition, with Nate Olmstead departing July 8.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "RLAY",
+        "company": "Relay Therapeutics, Inc.",
+        "mkt_cap": 3010000000,
+        "change_pct": 10.1,
+        "catalyst": "RLAY rallied to a 52-week high on continued enthusiasm for lead asset zovegalisib, after early Phase 2 ReInspire data in vascular anomalies showed a 60% volumetric response rate at 12 weeks with broad symptom relief and supportive safety. Investors also weighed a 44% objective response rate for zovegalisib combined with Pfizer's atirmociclib (CDK4) plus endocrine therapy in pretreated HR+/HER2- breast cancer. Barclays raised its target to $27 from $21, framing zovegalisib as potential best-in-class in a roughly $6B vascular anomalies market with a possible accelerated-approval path.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SIMO",
+        "company": "Silicon Motion Technology Corporation",
+        "mkt_cap": 9000000000,
+        "change_pct": 12.39,
+        "catalyst": "SIMO continued its advance on AI-storage enthusiasm following its Computex 2026 unveiling of next-gen AI storage solutions and the AI-optimized SM2524XT PCIe Gen5 SSD controller, building on a record Q1 2026 ($342.1M revenue, +105% YoY, EPS $1.58). BofA had raised its target to $450 from $320 with a Buy rating. No discrete June 2 catalyst was confirmed; the move reads as momentum continuation on the AI/NAND storage theme.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "SMR",
+        "company": "NuScale Power Corporation",
+        "mkt_cap": 4830000000,
+        "change_pct": 8.22,
+        "catalyst": "SMR gained alongside broad small modular reactor enthusiasm, with no single confirmed June 2 company release; drivers cited include management's appearance at an RBC investor conference on June 2 and ongoing project momentum (TVA/ENTRA1 6GW program and Romania RoPower nearing a mid-2026 go/no-go decision). Northland trimmed its target to $19 from $21 on ATM dilution but kept Outperform on the TVA opportunity. The move reads largely as sector momentum on the nuclear-for-AI-power theme.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "TOYO",
+        "company": "TOYO Co., Ltd",
+        "mkt_cap": 614190000,
+        "change_pct": 15.62,
+        "catalyst": "No TOYO-specific catalyst was confirmed for June 2; the +15.62% move reads as a continuation of the US solar-sector rally on policy momentum, including an expected mid-to-late-June Section 232 tariff decision that favors domestic manufacturers and easing FEOC/polysilicon trade uncertainty. TOYO remains supported by its May 18 record Q1 print (revenue $142.8M, up 177% YoY, net income $28.4M) and reaffirmed 2026 guidance, but those are not new June 2 events.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "UCTT",
+        "company": "Ultra Clean Holdings, Inc.",
+        "mkt_cap": 4040000000,
+        "change_pct": 6.51,
+        "catalyst": "No discrete June 2 catalyst was confirmed; UCTT extended its run to a fresh 52-week high on the same AI-driven semiconductor wafer-fab-equipment thesis that has powered the stock all year (up roughly 189% YTD). Management's UCT 3.0 outlook and 2026 WFE spend guidance of $140-145B (18-20% YoY growth) plus a string of raised analyst targets (Craig-Hallum to $100 from $35) underpin sentiment. The +6.51% move looks like continuation of sector momentum amid the Computex-day AI-semi rally.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      },
+      {
+        "ticker": "UMAC",
+        "company": "Unusual Machines, Inc.",
+        "mkt_cap": 1600000000,
+        "change_pct": 15.72,
+        "catalyst": "UMAC's +15.72% gain is a continuation of the drone-sector rally sparked by late-May WSJ reports that the Trump administration and Pentagon are in talks to fund US drone makers (including UMAC, alongside Performance Drone Works and Neros) via debt and equity, potentially taking government ownership stakes. UMAC also began participating in the Stifel investor conference in Boston on June 2-3, adding visibility. The move reflects ongoing Pentagon-funding momentum rather than a single new June 2 headline.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VSH",
+        "company": "Vishay Intertechnology, Inc.",
+        "mkt_cap": 7750000000,
+        "change_pct": 11.61,
+        "catalyst": "VSH's +11.61% gain extends a multi-day run built on its Q1 2026 beat and upbeat Q2 guidance reported in May (revenue $839.2M up 17% YoY, GAAP EPS $0.05 vs $0.03 expected, book-to-bill 1.34, backlog up 21% to $1.6B). The rally has been reinforced by a Zacks Rank #1 (Strong Buy) addition and Bank of America lifting its price target to $28 from $18, plus the analog/industrial semiconductor cyclical recovery and AI data-center demand. No distinct June 2 headline was confirmed, so the move reads as continued guidance-and-analyst-driven momentum.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "ai-semis-computex",
+        "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
       }
     ]
   }
