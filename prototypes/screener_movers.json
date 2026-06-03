@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-02T21:31:22.687939+00:00",
+  "updated_at": "2026-06-03T21:30:08.099785+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2502,6 +2502,56 @@
         "continuation": true,
         "group_id": "ai-semis-computex",
         "group_summary": "NVDA CEO Jensen Huang headlined Computex on June 2, calling MRVL the likely next trillion-dollar company on top of NVDA's $2B investment and NVLink Fusion alliance, igniting a broad AI-semiconductor rally. CAMT, COHU, PENG, and ONTO added their own order, guidance, and analyst catalysts, while CEVA, SIMO, UCTT, VSH, ICHR, and MTSI rode the sector wave. The group reflects one coordinated Computex-day AI-chip move."
+      }
+    ],
+    "2026-06-03": [
+      {
+        "ticker": "ALOY",
+        "company": "REalloys Inc.",
+        "mkt_cap": 844750000,
+        "change_pct": 18.56,
+        "catalyst": "No confirmed June 3 stock-specific catalyst. ALOY extended momentum from its June 1 Russell 3000 inclusion announcement (effective June 29) and rode a broad rare-earth rally the same day, with MP also up sharply on DoD price-floor support and multi-year-high NdPr prices. A recent Needham Buy initiation ($19 target) and the May 28 Ramaco offtake MOU keep the bid underpinned.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MX",
+        "company": "Magnachip Semiconductor Corporation",
+        "mkt_cap": 325420000,
+        "change_pct": 7.07,
+        "catalyst": "No discrete June 3 catalyst confirmed. MX rode the broad semiconductor rally into AVGO's June 3 earnings, extending its late-May surge driven by the medium-voltage MOSFET showcase for AI server power supplies set for PCIM Europe (June 9-11). Q2 revenue guidance of $44.5M-$48.5M was in line with consensus.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NVTS",
+        "company": "Navitas Semiconductor Corporation",
+        "mkt_cap": 7210000000,
+        "change_pct": 19.26,
+        "catalyst": "NVTS announced a same-day collaboration with the NVIDIA MGX ecosystem to accelerate 800 VDC AI data-center power, showcasing an 800V-to-6V GaN power delivery board at Computex (97.5% peak efficiency, 2100 W/cubic inch). A GaN licensing deal with Cyient and short covering after a strong Q1 beat added fuel. Shares closed at $30.84 but faded about 7% after hours in a sell-the-news move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "UTI",
+        "company": "Universal Technical Institute Inc",
+        "mkt_cap": 2450000000,
+        "change_pct": 6.89,
+        "catalyst": "No stock-specific June 3 catalyst confirmed; the only same-day item was an immaterial Concorde scholarship PR. The move extends post-inclusion momentum from joining the S&P SmallCap 600 on May 27, which has driven persistent index-fund demand in a richly valued small cap. FY26 guidance ($905M-$915M revenue, EPS $0.71-0.80) was reaffirmed in early May.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }

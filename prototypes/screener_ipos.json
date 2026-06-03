@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-06-02T21:31:22.687939+00:00",
+  "fetched_at": "2026-06-03T21:30:08.099785+00:00",
   "us": [
-    {
-      "ticker": "LCLN",
-      "company": "Lincoln International, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-05-20",
-      "price_usd": 20.0,
-      "price_range": "18.00 - 20.00",
-      "status": "Closed",
-      "shares": 21049988,
-      "deal_amount_usd": 420999760.0,
-      "mkt_cap_usd": 2039658240.0,
-      "ipo_close": 22.52
-    },
     {
       "ticker": "ASMB",
       "company": "Assembly Biosciences, Inc.",
@@ -28,39 +15,28 @@
       "ipo_close": 28.34
     },
     {
-      "ticker": "SSMR",
-      "company": "Sunshine Silver Mining & Refining Co.",
-      "exchange": "NYSE",
-      "date": "2026-05-27",
-      "price_usd": null,
-      "price_range": "13.50 - 16.50",
-      "status": "Pending",
-      "shares": 20000000,
-      "deal_amount_usd": 330000000.0,
-      "mkt_cap_usd": null
-    },
-    {
       "ticker": "AADX",
-      "company": "Applied Aerospace & Defense Inc.",
+      "company": "Applied Aerospace & Defense, Inc",
       "exchange": "NYSE",
       "date": "2026-06-03",
-      "price_usd": null,
+      "price_usd": 20.0,
       "price_range": "18.00 - 21.00",
-      "status": "Pending",
+      "status": "Closed",
       "shares": 32500000,
-      "deal_amount_usd": 682500000.0,
-      "mkt_cap_usd": null
+      "deal_amount_usd": 650000000.0,
+      "mkt_cap_usd": 3414870360.0,
+      "ipo_close": 19.01
     },
     {
-      "ticker": "QNT",
-      "company": "Quantinuum Inc.",
+      "ticker": "LFTO",
+      "company": "Liftoff Mobile Inc.",
       "exchange": "NASDAQ",
       "date": "2026-06-04",
       "price_usd": null,
-      "price_range": "53.00 - 55.00",
+      "price_range": "20.00 - 22.00",
       "status": "Pending",
-      "shares": 26500000,
-      "deal_amount_usd": 1457500000.0,
+      "shares": 19000000,
+      "deal_amount_usd": 418000000.0,
       "mkt_cap_usd": null
     },
     {
@@ -76,15 +52,27 @@
       "mkt_cap_usd": null
     },
     {
-      "ticker": "LFTO",
-      "company": "Liftoff Mobile Inc.",
+      "ticker": "QNT",
+      "company": "Quantinuum Inc.",
       "exchange": "NASDAQ",
       "date": "2026-06-04",
       "price_usd": null,
-      "price_range": "20.00 - 22.00",
+      "price_range": "53.00 - 55.00",
       "status": "Pending",
-      "shares": 19000000,
-      "deal_amount_usd": 418000000.0,
+      "shares": 26500000,
+      "deal_amount_usd": 1457500000.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "SSMR",
+      "company": "Sunshine Silver Mining & Refining Co.",
+      "exchange": "NYSE",
+      "date": "2026-06-04",
+      "price_usd": null,
+      "price_range": "13.50 - 16.50",
+      "status": "Pending",
+      "shares": 20000000,
+      "deal_amount_usd": 330000000.0,
       "mkt_cap_usd": null
     },
     {
@@ -101,30 +89,6 @@
     }
   ],
   "hk": [
-    {
-      "ticker": "1511",
-      "company": "UISEE Technologies (Beijing) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-20",
-      "price_usd": 7.69805250669,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14461200,
-      "deal_amount_usd": 89058384.54727128,
-      "mkt_cap_usd": 1250826199.7759
-    },
-    {
-      "ticker": "7688",
-      "company": "Shanghai Top Numerical Control Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-20",
-      "price_usd": 3.369015019097,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 65330000,
-      "deal_amount_usd": 198087976.07784632,
-      "mkt_cap_usd": 1378885299.2442
-    },
     {
       "ticker": "6872",
       "company": "TenNor Therapeutics Suzhou Ltd. Class H",
@@ -190,24 +154,12 @@
       "company": "Beijing Shougang LanzaTech Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-03",
-      "price_usd": null,
+      "price_usd": 1.86294587888,
       "price_range": "1.86 - 2.18",
-      "status": "Pending",
+      "status": "Closed",
       "shares": 40000000,
-      "deal_amount_usd": 78554976.37596,
-      "mkt_cap_usd": null
-    },
-    {
-      "ticker": "2290",
-      "company": "Lung Fung Group Holdings Limited",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": null,
-      "price_range": "0.66 - 0.81",
-      "status": "Pending",
-      "shares": 125000000,
-      "deal_amount_usd": 91578947.340375,
-      "mkt_cap_usd": null
+      "deal_amount_usd": 63340159.88192,
+      "mkt_cap_usd": 745178351.552
     },
     {
       "ticker": "1779",
@@ -219,7 +171,19 @@
       "status": "Pending",
       "shares": 14193150,
       "deal_amount_usd": 156608517.79876956,
-      "mkt_cap_usd": 909345325.2718
+      "mkt_cap_usd": 909397539.7678
+    },
+    {
+      "ticker": "2290",
+      "company": "Lung Fung Group Holdings Limited",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": null,
+      "price_range": "0.66 - 0.81",
+      "status": "Pending",
+      "shares": 125000000,
+      "deal_amount_usd": 91584205.7922,
+      "mkt_cap_usd": null
     }
   ]
 }
