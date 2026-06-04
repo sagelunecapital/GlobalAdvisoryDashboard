@@ -519,37 +519,37 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       </div>
     </div>
     <div id="ic-cpi-head" class="infl-combo active">
-      <div class="chart-sub-label">YoY %</div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#fff;font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
     </div>
     <div id="ic-cpi-core" class="infl-combo">
-      <div class="chart-sub-label">YoY %</div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#fff;font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
     </div>
     <div id="ic-pce-head" class="infl-combo">
-      <div class="chart-sub-label">YoY %</div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#fff;font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
     </div>
     <div id="ic-pce-core" class="infl-combo">
-      <div class="chart-sub-label">YoY %</div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#fff;font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
     </div>
     <div id="ic-ppi-head" class="infl-combo">
-      <div class="chart-sub-label">YoY %</div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#fff;font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
     </div>
     <div id="ic-ppi-core" class="infl-combo">
-      <div class="chart-sub-label">YoY %</div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#fff;font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
@@ -603,7 +603,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <!-- Yield Curve -->
   <div class="section-heading">Yield Curve</div>
   <div class="card">
-    <div class="card-header">Nominal Yield Spread (10Y &minus; 2Y)</div>
+    <div class="card-header">10Y - 2Y Spread</div>
     <div class="cw" style="height:300px" id="w-spr-nom"><div class="chart-tt" id="tt-spr-nom"></div></div>
     <div class="yield-period-row">
       <span class="yield-period-label">Period:</span>
@@ -612,8 +612,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <button class="itab" onclick="setYieldPeriod(1260,this)">5Y</button>
       <button class="itab active" onclick="setYieldPeriod(0,this)">All</button>
     </div>
-    <div class="card-header" style="margin-top:14px">Spread by Yield-Curve Regime</div>
-    <div class="legend" id="curve-bars-legend" style="margin-bottom:8px"></div>
+    <div class="legend" id="curve-bars-legend" style="margin-top:14px;margin-bottom:8px"></div>
     <div class="cw" style="height:300px" id="w-curve-bars"><div class="chart-tt" id="tt-curve-bars"></div></div>
     <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24 &nbsp;|&nbsp; regime classified from weekly 2Y / 10Y change</div>
   </div>
@@ -1280,8 +1279,9 @@ function addLine(ns, svg, pts, xOf, yOf, color, dash) {
   svg.appendChild(p); return p;
 }
 
-function drawChart(wrapId, ttId, dates, values, color, fmt, vH) {
+function drawChart(wrapId, ttId, dates, values, color, fmt, vH, dFmt) {
   vH = vH || 170;
+  const _df = dFmt || fmtD;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
   wrap.querySelector('svg')?.remove();
   const VW=wrap.clientWidth||FALLBACK_VW;
@@ -1332,7 +1332,7 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH) {
     tt.style.display='block';
     tt.style.left=Math.min(xOf(idx)*sx+10,r.width-160)+'px';
     tt.style.top=Math.max(yOf(p.v)*sy-28,2)+'px';
-    tt.innerHTML='<strong>'+fmtD(p.d)+'</strong><br><span style="color:'+color+'">&#9632;</span> '+fmt(p.v);
+    tt.innerHTML='<strong>'+_df(p.d)+'</strong><br><span style="color:'+color+'">&#9632;</span> '+fmt(p.v);
   });
   ov.addEventListener('mouseleave',()=>{dot.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
@@ -1584,7 +1584,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId,refVal){
   wrap.querySelector('svg')?.remove();
   const VW=wrap.clientWidth||FALLBACK_VW;
   const rf=(refVal!=null&&isFinite(refVal))?refVal:null;
-  const pad={t:8,r:64,b:52,l:44};
+  const pad={t:8,r:(rf!=null?150:48),b:52,l:44};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
   const n=quarters.length;
   let allMax=0,allMin=0;
@@ -1637,18 +1637,18 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId,refVal){
     const ry=yOf(rf);
     const rl=document.createElementNS(ns,'line');
     rl.setAttribute('x1',pad.l);rl.setAttribute('x2',pad.l+iW);rl.setAttribute('y1',ry);rl.setAttribute('y2',ry);
-    rl.setAttribute('stroke','#ffffff');rl.setAttribute('stroke-width','1.5');rl.setAttribute('stroke-dasharray','5,3');rl.setAttribute('opacity','0.85');svg.appendChild(rl);
+    rl.setAttribute('stroke','#ff3b30');rl.setAttribute('stroke-width','1.5');rl.setAttribute('stroke-dasharray','5,3');svg.appendChild(rl);
     const rlb=document.createElementNS(ns,'text');
-    rlb.setAttribute('x',pad.l+iW-2);rlb.setAttribute('y',ry-5);rlb.setAttribute('text-anchor','end');
-    rlb.setAttribute('fill','#ffffff');rlb.setAttribute('font-size','10');rlb.setAttribute('opacity','0.9');
+    rlb.setAttribute('x',pad.l+iW+6);rlb.setAttribute('y',ry+3);rlb.setAttribute('text-anchor','start');
+    rlb.setAttribute('fill','#ff3b30');rlb.setAttribute('font-size','10');
     rlb.textContent='previous quarter growth '+rf.toFixed(1)+'%';svg.appendChild(rlb);
   }
   const linePath=document.createElementNS(ns,'path');
   linePath.setAttribute('d',gdpLine.map((v,i)=>`${i===0?'M':'L'}${xOf(i)},${yOf(v)}`).join(' '));
-  linePath.setAttribute('fill','none');linePath.setAttribute('stroke','#0070cc');linePath.setAttribute('stroke-width','2');
+  linePath.setAttribute('fill','none');linePath.setAttribute('stroke','#ffffff');linePath.setAttribute('stroke-width','2');
   svg.appendChild(linePath);
   const dot=document.createElementNS(ns,'circle');
-  dot.setAttribute('r','3.5');dot.setAttribute('fill','#0070cc');dot.setAttribute('display','none');svg.appendChild(dot);
+  dot.setAttribute('r','3.5');dot.setAttribute('fill','#ffffff');dot.setAttribute('display','none');svg.appendChild(dot);
   quarters.forEach((q,i)=>{
     if(i%4===0||i===n-1){
       const x=xOf(i),y=vH-pad.b+4;
@@ -1681,8 +1681,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId,refVal){
   if(legId){
     const leg=document.getElementById(legId);
     if(leg){
-      let extra='<div class="li"><div class="ld" style="background:#0070cc"></div>GDPNow</div>';
-      if(rf!=null) extra+='<div class="li"><div class="ld" style="background:#ffffff"></div>previous quarter growth</div>';
+      let extra='<div class="li"><div class="ld" style="background:#ffffff"></div>GDPNow</div>';
       leg.innerHTML=extra+seriesDefs.map(s=>`<div class="li"><div class="lsq" style="background:${s.color};opacity:0.82"></div>${s.label}</div>`).join('');
     }
   }
@@ -1717,7 +1716,7 @@ function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
   const pad={t:8,r:14,b:40,l:48};
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
   const n=dates.length;if(!n)return;
-  const step=Math.max(1,Math.ceil(n/90));   // ~weekly downsample
+  const step=1;   // daily — line up with the spread chart above
   const bars=[];
   for(let i=0;i<n;i+=step){
     const v=spread[i];if(v==null||!isFinite(v))continue;
@@ -1758,7 +1757,7 @@ function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
         tt.style.display='block';
         tt.style.left=Math.min((x/VW)*r.width+12,r.width-200)+'px';
         tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
-        tt.innerHTML='<strong>'+fmtD(b.d)+'</strong><br><span style="color:'+CURVE_REGIME[b.reg].c+'">&#9632;</span> '+CURVE_REGIME[b.reg].l+
+        tt.innerHTML='<strong>'+fmtDLong(b.d)+'</strong><br><span style="color:'+CURVE_REGIME[b.reg].c+'">&#9632;</span> '+CURVE_REGIME[b.reg].l+
           '<br>10Y-2Y: <strong>'+b.v.toFixed(2)+'</strong><br>2Y WoW '+(b.u2>=0?'+':'')+b.u2.toFixed(3)+' &middot; 10Y WoW '+(b.u10>=0?'+':'')+b.u10.toFixed(3);
       });
       rect.addEventListener('mouseleave',()=>{tt.style.display='none';});
@@ -1798,7 +1797,7 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
   const yL=v=>pad.t+(1-(v-lMin)/lR)*iH;
   const yR=v=>pad.t+(1-(v-rMin)/rRg)*iH;
   const ns='http://www.w3.org/2000/svg';const svg=mkSvg(ns,VW,vH);
-  const BLUE='#58a6ff',BE='#e3b341';
+  const BLUE='#58a6ff',BE='#ffffff';
   [0,.25,.5,.75,1].forEach(f=>{
     const y=pad.t+f*iH;
     const g=document.createElementNS(ns,'line');
@@ -1833,9 +1832,6 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
   const lp=document.createElementNS(ns,'path');
   lp.setAttribute('d',L.map((p,i)=>`${i===0?'M':'L'}${xOf(p.t).toFixed(1)},${yL(p.v).toFixed(1)}`).join(' '));
   lp.setAttribute('fill','none');lp.setAttribute('stroke',BLUE);lp.setAttribute('stroke-width','1.6');svg.appendChild(lp);
-  const rttl=document.createElementNS(ns,'text');
-  rttl.setAttribute('x',pad.l+iW+4);rttl.setAttribute('y',pad.t+2);rttl.setAttribute('text-anchor','start');
-  rttl.setAttribute('fill',BE);rttl.setAttribute('font-size','9');rttl.textContent='5Y BE';svg.appendChild(rttl);
   const dotL=document.createElementNS(ns,'circle');dotL.setAttribute('r','3');dotL.setAttribute('fill',BLUE);dotL.setAttribute('display','none');svg.appendChild(dotL);
   const cur=document.createElementNS(ns,'line');cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);cur.setAttribute('stroke','#2a2a2a');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
@@ -1850,7 +1846,7 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
     cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
     dotL.setAttribute('cx',cx);dotL.setAttribute('cy',yL(p.v));dotL.setAttribute('display','');
     let beTxt='';
-    if(R.length){let bi=0,bb=Infinity;R.forEach((q,i)=>{const dd=Math.abs(q.t-p.t);if(dd<bb){bb=dd;bi=i;}});beTxt='<br><span style="color:'+BE+'">&#9632;</span> 5Y BE (RHS): '+R[bi].v.toFixed(2)+'%';}
+    if(R.length){let bi=0,bb=Infinity;R.forEach((q,i)=>{const dd=Math.abs(q.t-p.t);if(dd<bb){bb=dd;bi=i;}});beTxt='<br><span style="color:'+BE+'">&#9632;</span> Breakeven Inflation (RHS): '+R[bi].v.toFixed(2)+'%';}
     tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-200)+'px';tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
     tt.innerHTML='<strong>'+fmtD(p.raw)+'</strong><br><span style="color:'+BLUE+'">&#9632;</span> YoY: '+p.v.toFixed(2)+'%'+beTxt;
   });
@@ -1980,6 +1976,13 @@ function dDates(yr,mo,targetN){
   return d;
 }
 function fmtD(d){return d.toLocaleDateString('en-US',{month:'short',year:'2-digit'});}
+function fmtDLong(d){
+  let y,m,day;
+  if(d instanceof Date){y=d.getFullYear();m=d.getMonth();day=d.getDate();}
+  else{const p=String(d).slice(0,10).split('-');y=+p[0];m=(+p[1])-1;day=+p[2];}
+  const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return M[m]+' '+String(day).padStart(2,'0')+', '+y;
+}
 function mAvg(arr,w){return arr.map((_,i)=>{if(i<w-1)return null;let s=0;for(let j=i-w+1;j<=i;j++)s+=arr[j];return s/w;});}
 function yoyPct(arr){return arr.map((v,i)=>i<12?null:((v-arr[i-12])/Math.abs(arr[i-12]))*100);}
 function momPct(arr){return arr.map((v,i)=>i<1?null:((v-arr[i-1])/Math.abs(arr[i-1]))*100);}
@@ -2067,7 +2070,7 @@ function renderYieldCharts(){
   const sl=arr=>arr?arr.slice(-n):null;
 
   // Nominal yield spread (10Y - 2Y) line
-  drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#58a6ff',fPct,300);
+  drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#58a6ff',fPct,300,fmtDLong);
 
   // Same spread as bars, colored by yield-curve regime (2Y/10Y weekly change)
   drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(nomDaily['2Y']),sl(nomDaily['10Y']),300,'curve-bars-legend');
