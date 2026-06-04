@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-03T21:30:08.099785+00:00",
+  "updated_at": "2026-06-04T22:02:08.101916+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2548,6 +2548,104 @@
         "change_pct": 6.89,
         "catalyst": "No stock-specific June 3 catalyst confirmed; the only same-day item was an immaterial Concorde scholarship PR. The move extends post-inclusion momentum from joining the S&P SmallCap 600 on May 27, which has driven persistent index-fund demand in a richly valued small cap. FY26 guidance ($905M-$915M revenue, EPS $0.71-0.80) was reaffirmed in early May.",
         "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-04": [
+      {
+        "ticker": "BLLN",
+        "company": "BillionToOne, Inc.",
+        "mkt_cap": 4810000000,
+        "change_pct": 6.33,
+        "catalyst": "BLLN reported Q1 2026 revenue up 84% to $108.4M with EPS of $0.34, swinging to $17.8M in operating income from a prior-year loss. Prenatal testing revenue rose 72% to $96.5M and oncology clinical testing quadrupled to $10.7M, prompting a raised full-year revenue guidance of $450-465M. BLLN also launched Unity Confirm, a non-invasive prenatal confirmation assay.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "DSGX",
+        "company": "The Descartes Systems Group Inc.",
+        "mkt_cap": 6700000000,
+        "change_pct": 5.13,
+        "catalyst": "DSGX reported record Q1 FY2027 results on June 3, with revenue up 15% to $193.6M, net income of $48.5M, and a record adjusted EBITDA of $89.8M. Services revenue made up 93% of the total as global trade intelligence, e-commerce customs entries, and transportation visibility offset a soft freight market. DSGX ended the quarter with $377M in cash.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "FJET",
+        "company": "Starfighters Space, Inc.",
+        "mkt_cap": 422740000,
+        "change_pct": 9.5,
+        "catalyst": "FJET extended gains on its addition to the Russell 3000 Index effective June 29 - an unusually fast index entry for a December 2025 IPO - and an expanded partnership with Mu-g Technologies on parabolic flight testing tied to a joint response to NASA's Request for Information for Parabolic Flight Services. FJET operates the only commercial fleet of flight-ready F-104 supersonic aircraft. A small post-IPO float amplified the momentum move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "LQDA",
+        "company": "Liquidia Corporation",
+        "mkt_cap": 5560000000,
+        "change_pct": 12.3,
+        "catalyst": "LQDA extended its post-earnings advance as multiple analysts raised price targets, building on Q1 2026 results showing revenue of $132.9M (up from $3.1M a year earlier), net income of $52.9M, and EPS of $0.52 beating the $0.41 consensus - a third straight profitable quarter on YUTREPIA treprostinil economics. Pipeline progress on the Phase 3 Re-Spire trial for L606 and upcoming BofA and H.C. Wainwright healthcare conferences kept the bid underpinned.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MANU",
+        "company": "Manchester",
+        "mkt_cap": 3900000000,
+        "change_pct": 7.15,
+        "catalyst": "MANU surged on reports that members of the Glazer family are exploring a sale of their shares, with potential interest from wealthy Middle East and U.S. buyers at a premium valuation. The ownership-change speculation combined with the club's improving financial trajectory drove the move, though some investors flagged strategic uncertainty around a potential control shift.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MDT",
+        "company": "Medtronic plc.",
+        "mkt_cap": 105190000000,
+        "change_pct": 5.11,
+        "catalyst": "MDT reported Q4 FY2026 revenue of $9.8B (up 9.9%, 6.6% organic) and non-GAAP EPS of $1.55 ahead of guidance, capping its strongest annual revenue growth in a decade at $36.4B. The board raised the dividend to $0.72/share, its 49th consecutive annual increase, and guided FY27 organic growth of 6.75-7.25%. BTIG upgraded MDT to Buy with a $90 target, citing consistent mid-single-digit organic growth and undervaluation versus peers.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NN",
+        "company": "NextNav Inc.",
+        "mkt_cap": 3220000000,
+        "change_pct": 9.36,
+        "catalyst": "NN jumped after Oppenheimer raised its price target to $50, citing roughly $8B in value for the company's 900MHz spectrum at a $1.50 per MHz-PoP assumption that could climb further in a bidding war. The upgrade refocused attention on NN's spectrum assets and its recent FCC notice of proposed rulemaking for 5G-based 3D positioning in the lower 900MHz band.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "TEM",
+        "company": "Tempus AI, Inc.",
+        "mkt_cap": 9380000000,
+        "change_pct": 10,
+        "catalyst": "TEM rallied after FDA approval of a tumor-only indication for its xT CDx sequencing platform, making it the first lab with companion diagnostic approval for both tumor-only and tumor-normal genomic profiling and flagging an estimated $200 ASP benefit from 2027. TEM also launched the IMS Open-Source digital pathology consortium with Yale New Haven and Memorial Sloan Kettering, and expanded its Bristol Myers Squibb collaboration across five oncology and neuroscience programs. A priced $400M 0% convertible notes deal due 2032 added to the news flow.",
+        "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
         "group_id": null,
