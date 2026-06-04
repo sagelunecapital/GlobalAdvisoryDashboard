@@ -363,6 +363,8 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
   <aside class="sidebar">
     <button class="nav-tab active" onclick="showMain('macro',this)">Macro</button>
+    <button class="nav-tab nav-sub" onclick="showMain('growth',this)">Growth</button>
+    <button class="nav-tab nav-sub" onclick="showMain('inflation',this)">Inflation</button>
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)">Yields</button>
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)">Liquidity</button>
     <button class="nav-tab" onclick="showMain('execution',this)">Technicals</button>
@@ -486,10 +488,75 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
   <div style="margin-top:28px;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
     <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
-    <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin:0">80% of returns in most asset classes come from macro. Every individual stock and the broad market decompose into market returns, sector returns, and fundamental returns. Market and sector returns are macro-driven; fundamentals stack on top. If you can map the macro regime correctly, you are already capturing 80% of the available return before you even pick a name — that is why the entire framework starts at the macro level and works down.<br><br>It is important to understand, however, that markets are not driven by sentiment or euphoria, but by liquidity and credit. Sentiment can move a single low-float stock; it cannot move an entire market. This section is therefore broken into two parts: 1) the price of money — interest rates, especially real rates — and 2) the quantity of money — bills, reserves, private-sector liquidity, and government spending. Macro liquidity is the product of the two, and most liquidity indexes mix them together poorly while missing the destination of the flow. The yield curve regime is the cleanest synthesis of both: the curve is itself an input into liquidity and the destination of capital across the risk curve.</p>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin:0">80% of returns in most asset classes come from macro. Every individual stock and the broad market decompose into market returns, sector returns, and fundamental returns. Market and sector returns are macro-driven; fundamentals stack on top. If you can map the macro regime correctly, you are already capturing 80% of the available return before you even pick a name — that is why the entire framework starts at the macro level and works down.<br><br>It begins with growth, the upstream driver. Growth feeds inflation — together they define the regime (reflation, goldilocks, stagflation, deflation) and form what the central bank is reacting to. That reaction shows up in yields, the operating system of every other market: there is no single interest rate, and the curve is the cleanest synthesis of both the price of money (real rates) and its quantity. Yields drive the currency through rate differentials, and yields and currency together shape liquidity — the cost and availability of money that ultimately feeds back into growth, closing the loop. Markets are not moved by sentiment or euphoria; sentiment moves a single low-float name, but only liquidity and credit move the whole market. The chain is not symmetric. Growth, demand, and breadth panels are mostly confirmation — they tell you the cycle is intact. The catalyst for a regime change almost always sits downstream, in the yields and liquidity panels.</p>
   </div>
 
 </div><!-- /macro panel -->
+
+<!-- ═══════════════════════════ GROWTH TAB ═══════════════════════════ -->
+<div id="main-growth" class="main-panel">
+  <div class="section-heading">Growth</div>
+  <div class="card">
+    <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
+    <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
+    <div class="data-date" id="gdp-data-date">Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated —</div>
+  </div>
+</div><!-- /growth panel -->
+
+<!-- ═══════════════════════════ INFLATION TAB ═══════════════════════════ -->
+<div id="main-inflation" class="main-panel">
+  <div class="section-heading">Inflation</div>
+  <div class="card">
+    <div class="infl-tab-row">
+      <div class="itabs" id="infl-outer-tabs">
+        <button class="itab active" onclick="setInflOuter('cpi',this)">CPI</button>
+        <button class="itab" onclick="setInflOuter('pce',this)">PCE</button>
+        <button class="itab" onclick="setInflOuter('ppi',this)">PPI</button>
+      </div>
+      <div class="itabs" id="infl-sub-tabs">
+        <button class="itab active" onclick="setInflSub('head',this)">Headline</button>
+        <button class="itab" onclick="setInflSub('core',this)">Core</button>
+      </div>
+    </div>
+    <div id="ic-cpi-head" class="infl-combo active">
+      <div class="chart-sub-label">YoY %</div>
+      <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
+      <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+      <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
+    </div>
+    <div id="ic-cpi-core" class="infl-combo">
+      <div class="chart-sub-label">YoY %</div>
+      <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
+      <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+      <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
+    </div>
+    <div id="ic-pce-head" class="infl-combo">
+      <div class="chart-sub-label">YoY %</div>
+      <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
+      <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+      <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
+    </div>
+    <div id="ic-pce-core" class="infl-combo">
+      <div class="chart-sub-label">YoY %</div>
+      <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
+      <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+      <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
+    </div>
+    <div id="ic-ppi-head" class="infl-combo">
+      <div class="chart-sub-label">YoY %</div>
+      <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
+      <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+      <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
+    </div>
+    <div id="ic-ppi-core" class="infl-combo">
+      <div class="chart-sub-label">YoY %</div>
+      <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
+      <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
+      <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
+    </div>
+    <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; updated 2026-04-24</div>
+  </div>
+</div><!-- /inflation panel -->
 
 <!-- ══════════════════════════ LIQUIDITY TAB ══════════════════════════ -->
 <div id="main-liquidity" class="main-panel">
@@ -676,75 +743,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
     <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
-
-  <div class="macro-split" style="margin-top:8px">
-
-    <!-- LEFT: Growth -->
-    <div>
-      <div class="section-heading">Growth</div>
-      <div class="card">
-        <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
-        <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
-        <div class="data-date" id="gdp-data-date">Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated —</div>
-      </div>
-    </div>
-
-    <!-- RIGHT: Inflation -->
-    <div>
-      <div class="section-heading">Inflation</div>
-      <div class="card">
-        <div class="infl-tab-row">
-          <div class="itabs" id="infl-outer-tabs">
-            <button class="itab active" onclick="setInflOuter('cpi',this)">CPI</button>
-            <button class="itab" onclick="setInflOuter('pce',this)">PCE</button>
-            <button class="itab" onclick="setInflOuter('ppi',this)">PPI</button>
-          </div>
-          <div class="itabs" id="infl-sub-tabs">
-            <button class="itab active" onclick="setInflSub('head',this)">Headline</button>
-            <button class="itab" onclick="setInflSub('core',this)">Core</button>
-          </div>
-        </div>
-        <div id="ic-cpi-head" class="infl-combo active">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
-        </div>
-        <div id="ic-cpi-core" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
-        </div>
-        <div id="ic-pce-head" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
-        </div>
-        <div id="ic-pce-core" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
-        </div>
-        <div id="ic-ppi-head" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
-        </div>
-        <div id="ic-ppi-core" class="infl-combo">
-          <div class="chart-sub-label">YoY %</div>
-          <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
-          <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
-          <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
-        </div>
-        <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; updated 2026-04-24</div>
-      </div>
-    </div>
-
-  </div><!-- /macro-split -->
 
   <div style="margin-top:28px;padding:18px 22px;background:var(--surface-low);border:1px solid var(--outline-dim);border-left:3px solid var(--ps-blue);border-radius:12px">
     <div style="font-size:11px;font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
