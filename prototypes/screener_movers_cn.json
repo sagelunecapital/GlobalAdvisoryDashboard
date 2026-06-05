@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-04T22:02:08.101916+00:00",
+  "updated_at": "2026-06-05T23:27:51.857812+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -534,49 +534,13 @@
         "group_summary": "3396 and 992 rose in tandem after NVIDIA's June 1 Computex keynote unveiled the N1X PC processor and RTX Spark superchip, reigniting the AI PC theme. 3396 is the controlling shareholder of 992, so the pair trades as one complex."
       }
     ],
-    "2026-06-05": [
+    "2026-06-04": [
       {
-        "ticker": "189",
-        "company": "Dongyue Group Limited",
-        "mkt_cap": 27790000000,
-        "change_pct": 5.6,
-        "catalyst": "189 rose over 5% as third-generation refrigerant prices continued climbing under a tight supply-demand balance, lifting margins in the R22 and R32 segments where 189 is China's leading quota holder (about 29% of R22 and 20% of R32 quota). No company-specific announcement drove the move, which tracked sector pricing ahead of the stock going ex-dividend June 9.",
-        "catalyst_type": "macro",
-        "source": "Claude | Web",
-        "continuation": false,
-        "group_id": null,
-        "group_summary": null
-      },
-      {
-        "ticker": "2685",
-        "company": "Quantgroup Technology Limited",
-        "mkt_cap": 5760000000,
-        "change_pct": 111.26,
-        "catalyst": "2685 more than doubled after subsidiary Silic Intelligence signed a cooperation framework agreement with Beijing Ruihong to commercialize full-scene embodied-intelligence robots, alongside disclosure that 2685 completed AI technology verification in dining and consumption scenarios. The controlling shareholder voluntarily extended its lock-up, signaling conviction. The embodied-AI pivot re-rated 2685 from its AI-powered Yangxiaomie e-commerce base, with a small float amplifying the move.",
-        "catalyst_type": "other",
-        "source": "Claude | Web",
-        "continuation": false,
-        "group_id": null,
-        "group_summary": null
-      },
-      {
-        "ticker": "763",
-        "company": "ZTE Corporation Class",
-        "mkt_cap": 190090000000,
-        "change_pct": 5.27,
-        "catalyst": "763 extended its advance with the AI infrastructure complex as analysts continued to flag larger-than-expected AI server order wins and lifted 2025-26 sales forecasts. The move builds on its first-ever A-share buyback announced May 27 and the sharp AI-revenue mix shift in Q1 results. No fresh same-day announcement was confirmed.",
-        "catalyst_type": "macro",
-        "source": "Claude | Web",
-        "continuation": true,
-        "group_id": null,
-        "group_summary": null
-      },
-      {
-        "ticker": "9609",
-        "company": "Hebei Haiwei Electronic New Material Technology Co., Ltd. Class",
-        "mkt_cap": 1610000000,
-        "change_pct": 8.11,
-        "catalyst": "9609 rose with the capacitor sector as forecasts for a multi-year upcycle in capacitor demand from AI data center power systems drew investor interest in upstream film suppliers. 9609 manufactures capacitor base films and metallized films, positioning it as a materials-layer beneficiary of the AI power buildout. No company-specific same-day announcement was confirmed; the move tracked sector sentiment.",
+        "ticker": "2715",
+        "company": "Estun Automation Co. Ltd.",
+        "mkt_cap": 16000000000,
+        "change_pct": 9.86,
+        "catalyst": "2715 rose with the broad Hong Kong robotics complex on continued humanoid and industrial-automation enthusiasm, with no confirmed same-day company announcement. As China's top-ranked industrial robot maker by shipments, 2715 is a favored proxy for the theme and is developing humanoid components through its Codroid platform. The move reads as sector-driven momentum extending the late-May and early-June run in HK robotics names rather than a fresh catalyst.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,

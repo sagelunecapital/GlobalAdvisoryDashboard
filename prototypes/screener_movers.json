@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-04T22:02:08.101916+00:00",
+  "updated_at": "2026-06-05T23:27:51.857812+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2646,6 +2646,44 @@
         "change_pct": 10,
         "catalyst": "TEM rallied after FDA approval of a tumor-only indication for its xT CDx sequencing platform, making it the first lab with companion diagnostic approval for both tumor-only and tumor-normal genomic profiling and flagging an estimated $200 ASP benefit from 2027. TEM also launched the IMS Open-Source digital pathology consortium with Yale New Haven and Memorial Sloan Kettering, and expanded its Bristol Myers Squibb collaboration across five oncology and neuroscience programs. A priced $400M 0% convertible notes deal due 2032 added to the news flow.",
         "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-05": [
+      {
+        "ticker": "ABM",
+        "company": "ABM Industries Incorporated",
+        "mkt_cap": 2490000000,
+        "change_pct": 6.67,
+        "catalyst": "ABM reported Q2 FY2026 adjusted EPS of $0.90, beating the $0.88 consensus, on record revenue of $2.29B (up 8.4% YoY, 6.1% organic) versus the $2.24B estimate. Growth was led by technical solutions demand tied to the AI data center buildout, the company's fastest growth in nearly four years. ABM reaffirmed FY2026 adjusted EPS guidance of $3.85-$4.15, with the midpoint above the $3.96 Street consensus, and guided to a stronger second half.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "COO",
+        "company": "The Cooper Companies, Inc.",
+        "mkt_cap": 13140000000,
+        "change_pct": 8.58,
+        "catalyst": "COO reported Q2 FY2026 revenue of $1.082B (up 8%, 5% organic) and non-GAAP EPS of $1.21, up 26% YoY and ahead of consensus, on CooperVision contact lens and CooperSurgical strength. GAAP EPS came in at -$0.40 on a litigation charge to resolve claims tied to a December 2023 CooperSurgical product recall, but the market focused on the non-GAAP beat and organic growth. Results were released after the June 4 close, lifting shares on June 5.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "GIII",
+        "company": "G-III Apparel Group, LTD.",
+        "mkt_cap": 1420000000,
+        "change_pct": 5.21,
+        "catalyst": "GIII reported Q1 FY2027 net sales of $536M, ahead of guidance, with GAAP diluted EPS of $1.50 versus $0.17 a year earlier - lifted by a $77.9M net benefit ($1.75/share) from the expected recovery of previously paid IEEPA tariffs. Excluding that item, the non-GAAP net loss of $0.21 still came in ahead of guidance on healthy full-price selling and gross margin expansion across the go-forward owned brands and the Marc Jacobs acquisition. GIII raised full-year FY2027 guidance to EPS of $2.15-$2.25 on revenue of about $2.71B.",
+        "catalyst_type": "guidance",
         "source": "Claude | Web",
         "continuation": false,
         "group_id": null,
