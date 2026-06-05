@@ -1188,6 +1188,7 @@ function saveSectors() {
 }
 let _saveTimer=null;
 function persistNotes(){
+  const tactics=localStorage.getItem('gaai-tactics')||'';
   const breadth=document.getElementById('breadth-notes')?.value||'';
   const sectors=[];
   document.querySelectorAll('.sector-item').forEach(el=>{
@@ -2109,6 +2110,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       const serverAt=serverNotes.saved_at||'';
       const hasLocalNotes=!!localStorage.getItem('gaai-sectors');
       if(localAt>serverAt||(hasLocalNotes&&!serverAt)){
+        const t=localStorage.getItem('gaai-tactics')||'';
         const b=localStorage.getItem('gaai-breadth')||'';
         const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
         const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
@@ -2119,6 +2121,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       }
     })
     .catch(()=>{
+      const t=localStorage.getItem('gaai-tactics')||'';
       const b=localStorage.getItem('gaai-breadth')||'';
       const s=JSON.parse(localStorage.getItem('gaai-sectors')||'null');
       const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
@@ -2992,7 +2995,13 @@ function persistRS(){
   localStorage.setItem('gaai-research',JSON.stringify(researchSectors));
   persistNotes();
 }
-function loadRS(){
+function _pushResearch(sectors){
+  clearTimeout(_rsSaveTimer);
+  _rsSaveTimer=setTimeout(()=>{
+    fetch('/api/save-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sectors)}).catch(()=>{});
+  },1500);
+}
+function _rsFromLocal(){
   const savedSort=localStorage.getItem('gaai-rs-sort');
   if(savedSort){
     rsSort=savedSort;
@@ -3766,6 +3775,53 @@ function rpSort(col,th){
 // ══ Journal Tab ════════════════════════════════════════════
 let jrnlDate=new Date(), jrnlView='daily';
 
+// ── Journal cross-device sync (dedicated /api/save-journal endpoint) ──
+let _jrnlSaveTimer=null;
+function _jrnlCollect(){
+  const o={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k&&k.indexOf('gaai-journal-')===0){
+      const v=localStorage.getItem(k);
+      if(v) o[k.slice('gaai-journal-'.length)]=v;
+    }
+  }
+  return o;
+}
+function _jrnlApply(obj){
+  if(!obj||typeof obj!=='object'||Array.isArray(obj)) return;
+  Object.entries(obj).forEach(([iso,text])=>{
+    if(typeof text==='string') localStorage.setItem('gaai-journal-'+iso,text);
+  });
+}
+function _pushJournal(){
+  clearTimeout(_jrnlSaveTimer);
+  _jrnlSaveTimer=setTimeout(()=>{
+    _jrnlSaveTimer=null;
+    const el=document.getElementById('jrnl-status');
+    if(el){el.textContent='Saving…';el.className='notes-status saving';}
+    fetch('/api/save-journal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(_jrnlCollect())})
+      .then(r=>r.json())
+      .then(()=>{if(el){el.textContent='Synced';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}})
+      .catch(()=>{if(el){el.textContent='Sync failed — saved locally';el.className='notes-status err';}});
+  },1200);
+}
+function _jrnlPull(){
+  // Don't overwrite a local edit that hasn't been pushed yet
+  if(_jrnlSaveTimer) return;
+  fetch('/api/save-journal?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(server=>{
+      if(_jrnlSaveTimer||!server||typeof server!=='object'||Array.isArray(server)) return;
+      const before=JSON.stringify(_jrnlCollect());
+      _jrnlApply(server);                       // server is the shared source of truth
+      const merged=_jrnlCollect();
+      if(JSON.stringify(merged)!==JSON.stringify(server)) _pushJournal(); // propagate local-only dates
+      if(JSON.stringify(merged)!==before) jrnlRender();                   // refresh only if something changed
+    })
+    .catch(()=>{});                             // offline → keep local
+}
+
 function jrnlIsWeekend(d){ return d.getDay()===0||d.getDay()===6; }
 function jrnlSnapWeekday(d){
   const r=new Date(d);
@@ -3817,6 +3873,7 @@ function jrnlSave(){
   if(jrnlView==='weekly') return;
   const text=document.getElementById('tact-display')?.textContent||'';
   localStorage.setItem(jrnlKey(jrnlDate),text);
+  _pushJournal();
   const el=document.getElementById('jrnl-status');
   if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}
 }
@@ -3849,6 +3906,7 @@ function jrnlWeekEdit(btn){
   if(edit.classList.contains('shown')){
     disp.textContent=edit.value; disp.classList.remove('hidden'); edit.classList.remove('shown'); btn.textContent='Edit';
     localStorage.setItem('gaai-journal-'+iso,disp.textContent);
+    _pushJournal();
     const el=document.getElementById('jrnl-status');
     if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}
   } else {
@@ -3901,6 +3959,7 @@ function jrnlInit(){
   if(wb) wb.classList.remove('active');
   jrnlUpdateLabel();
   jrnlRender();
+  _jrnlPull();   // fetch any entries written on other devices, then refresh
 }
 
 // ══ Screener Tab ════════════════════════════════════════════
