@@ -607,14 +607,14 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="cw" style="height:300px" id="w-spr-nom"><div class="chart-tt" id="tt-spr-nom"></div></div>
     <div class="yield-period-row">
       <span class="yield-period-label">Period:</span>
-      <button class="itab" onclick="setYieldPeriod(252,this)">1Y</button>
+      <button class="itab active" onclick="setYieldPeriod(252,this)">1Y</button>
       <button class="itab" onclick="setYieldPeriod(756,this)">3Y</button>
       <button class="itab" onclick="setYieldPeriod(1260,this)">5Y</button>
-      <button class="itab active" onclick="setYieldPeriod(0,this)">All</button>
+      <button class="itab" onclick="setYieldPeriod(0,this)">All</button>
     </div>
     <div class="legend" id="curve-bars-legend" style="margin-top:14px;margin-bottom:8px"></div>
     <div class="cw" style="height:300px" id="w-curve-bars"><div class="chart-tt" id="tt-curve-bars"></div></div>
-    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24 &nbsp;|&nbsp; regime classified from weekly 2Y / 10Y change</div>
+    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24 &nbsp;|&nbsp; regime classified from day-to-day 2Y / 10Y change</div>
   </div>
 
   <div class="section-heading" style="margin-top:28px">US STIR</div>
@@ -1720,7 +1720,7 @@ function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
   const bars=[];
   for(let i=0;i<n;i+=step){
     const v=spread[i];if(v==null||!isFinite(v))continue;
-    const j=Math.max(0,i-5);                 // WoW (~5 trading days)
+    const j=Math.max(0,i-1);                 // Day-to-Day (prior trading day)
     const u2=(y2[i]!=null&&y2[j]!=null)?y2[i]-y2[j]:0;
     const u10=(y10[i]!=null&&y10[j]!=null)?y10[i]-y10[j]:0;
     bars.push({d:dates[i],v,reg:curveRegime(u2,u10),u2,u10});
@@ -1758,7 +1758,7 @@ function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
         tt.style.left=Math.min((x/VW)*r.width+12,r.width-200)+'px';
         tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
         tt.innerHTML='<strong>'+fmtDLong(b.d)+'</strong><br><span style="color:'+CURVE_REGIME[b.reg].c+'">&#9632;</span> '+CURVE_REGIME[b.reg].l+
-          '<br>10Y-2Y: <strong>'+b.v.toFixed(2)+'</strong><br>2Y WoW '+(b.u2>=0?'+':'')+b.u2.toFixed(3)+' &middot; 10Y WoW '+(b.u10>=0?'+':'')+b.u10.toFixed(3);
+          '<br>10Y-2Y: <strong>'+b.v.toFixed(2)+'</strong><br>2Y DoD '+(b.u2>=0?'+':'')+b.u2.toFixed(3)+' &middot; 10Y DoD '+(b.u10>=0?'+':'')+b.u10.toFixed(3);
       });
       rect.addEventListener('mouseleave',()=>{tt.style.display='none';});
     }
@@ -2050,7 +2050,7 @@ const macroRegime={gdpnow:3.0164,gdp_yoy:1.6000,t5yie_wow:-4.0000,us2y_wow:0.029
 // ─── DATA BLOCK END ───
 
 // Yield slicer state
-let yieldDur='1Y', yieldPeriod=0;
+let yieldDur='1Y', yieldPeriod=252;
 
 function setYieldDur(dur,btn){
   yieldDur=dur;
@@ -2072,7 +2072,7 @@ function renderYieldCharts(){
   // Nominal yield spread (10Y - 2Y) line
   drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#58a6ff',fPct,300,fmtDLong);
 
-  // Same spread as bars, colored by yield-curve regime (2Y/10Y weekly change)
+  // Same spread as bars, colored by yield-curve regime (2Y/10Y day-to-day change)
   drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(nomDaily['2Y']),sl(nomDaily['10Y']),300,'curve-bars-legend');
 }
 
