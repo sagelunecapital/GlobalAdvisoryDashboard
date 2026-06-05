@@ -63,6 +63,9 @@ Invoke-Step "scripts\cot_report_pull.py"   "cot_report_pull.py failed - COT DB m
 Invoke-Step "scripts\export_cot_json.py"   "export_cot_json.py failed - cot_data.json may be stale."
 Invoke-Step "scripts\export_price_json.py" "export_price_json.py failed - price_data.json may be stale."
 
+# 5. FX carry index (G10 carry replication w/ recovered FXCTG10 alpha; reads data/carry_calibration.json)
+Invoke-Step "scripts\carry_export.py"      "carry_export.py failed - carry.json may be stale."
+
 # --- Commit ONLY the generated pipeline data files (explicit list; screener excluded) ---
 $dataFiles = @(
     "prototypes/index.html",
@@ -73,7 +76,8 @@ $dataFiles = @(
     "prototypes/ticker_perf.json",
     "prototypes/mfra_group.json",
     "prototypes/cot_data.json",
-    "prototypes/price_data.json"
+    "prototypes/price_data.json",
+    "prototypes/carry.json"
 )
 $changes = git diff --name-only -- $dataFiles
 if ($changes) {

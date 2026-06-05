@@ -569,6 +569,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <button class="itab" onclick="showItab('liq-fedliq',this,'liq-inner')">Fed Liquidity</button>
         <button class="itab" onclick="showItab('liq-trade',this,'liq-inner')">Trade Balance</button>
         <button class="itab" onclick="showItab('liq-btc',this,'liq-inner')">Bitcoin</button>
+        <button class="itab" onclick="showItab('liq-carry',this,'liq-inner')">FX Carry</button>
       </div>
       <div id="liq-resbal" class="ipanel liq-inner active">
         <div class="cw" style="height:320px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
@@ -582,6 +583,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div id="liq-btc" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-btc"><div class="chart-tt" id="tt-liq-btc"></div></div>
       </div>
+      <div id="liq-carry" class="ipanel liq-inner">
+        <div class="cw" style="height:320px" id="w-liq-carry"><div class="chart-tt" id="tt-liq-carry"></div></div>
+        <div class="data-date">G10 FX carry replication (3v3, β·carry + α) tracking Bloomberg FXCTG10 &nbsp;|&nbsp; index, base 100</div>
+      </div>
     </div>
     <div class="card">
       <div class="legend">
@@ -589,6 +594,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
         <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
         <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
+        <div class="li"><div class="ld" style="background:#bc8cff"></div>FX Carry <span style="font-size:9px;color:#bc8cff;margin-left:3px">(LHS1, YoY)</span></div>
       </div>
       <div class="cw" style="height:320px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
       <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
@@ -1986,6 +1992,18 @@ function fmtDLong(d){
 }
 function mAvg(arr,w){return arr.map((_,i)=>{if(i<w-1)return null;let s=0;for(let j=i-w+1;j<=i;j++)s+=arr[j];return s/w;});}
 function yoyPct(arr){return arr.map((v,i)=>i<12?null:((v-arr[i-12])/Math.abs(arr[i-12]))*100);}
+// Resample a daily carry series {dates:[ISO],carry:[lvl]} onto a monthly Date axis
+// (value = last carry level on/before each month-end). Used for the YoY overlay.
+function carryMonthlyAligned(cd,monthDates){
+  const cdates=cd.dates,clv=cd.carry,out=[];let j=0;
+  for(const md of monthDates){
+    const y=md.getFullYear(),m=md.getMonth(),last=new Date(y,m+1,0).getDate();
+    const tgt=`${y}-${String(m+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
+    while(j+1<cdates.length&&cdates[j+1]<=tgt)j++;
+    out.push(cdates[j]<=tgt?clv[j]:null);
+  }
+  return out;
+}
 function momPct(arr){return arr.map((v,i)=>i<1?null:((v-arr[i-1])/Math.abs(arr[i-1]))*100);}
 const fPct=v=>v.toFixed(2)+'%';
 
@@ -2202,14 +2220,28 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#e3b341',_fTrade,320);
     drawChart('w-liq-btc',   'tt-liq-btc',   dates,liqBtc,   '#f78166',_fBtc,320);
     // Liquidity YoY combined (Bitcoin cap raised to 200%)
-    drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,[
+    const _combo=[
       {values:yoyRB,color:'#58a6ff',label:'Reserve Balance',axis:'lhs1'},
       {values:yoyFL,color:'#3fb950',label:'Fed Liquidity',  axis:'lhs1'},
       {values:yoyTR,color:'#e3b341',label:'Trade Balance',  axis:'lhs2'},
       {values:yoyBT,color:'#f78166',label:'Bitcoin',        axis:'rhs',cap:[-200,200]},
-    ],350);
+    ];
+    if(window.carryData&&window.carryData.dates&&window.carryData.dates.length){
+      const cd=window.carryData;
+      if(!cd._dObj) cd._dObj=cd.dates.map(s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);});
+      // left card: carry index level (base 100)
+      drawChart('w-liq-carry','tt-liq-carry',cd._dObj,cd.carry,'#bc8cff',v=>v.toFixed(1),320,fmtDLong);
+      // combined chart: carry YoY % on the same % axis as the other liquidity lines
+      _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#bc8cff',label:'FX Carry',axis:'lhs1'});
+    }
+    drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,350);
   };
   window._redraw.liquidity();
+  // FX carry index (G10 carry replication w/ recovered FXCTG10 alpha) — async
+  fetch('carry.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{ window.carryData=d; if(window._redraw.liquidity) window._redraw.liquidity(); })
+    .catch(()=>{});
 
   // Macro Regime — apply live data injected by update_dashboard.py
   if(typeof macroRegime!=='undefined') applyMacroRegime(macroRegime);
