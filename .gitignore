@@ -34,3 +34,8 @@ node_modules/
 playwright-report/
 test-results/
 tests/ui/screenshots/
+
+# Pipeline runtime caches / regenerated data — rebuilt each run, not committed
+# (Sector Rotation/ is ignored above; these are the same kind of artifact)
+scripts/barchart_zq_cache.json
+data/cftc_cot.db
