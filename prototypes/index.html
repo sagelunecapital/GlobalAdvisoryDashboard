@@ -568,8 +568,8 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <button class="itab active" onclick="showItab('liq-resbal',this,'liq-inner')">Reserve Balance</button>
         <button class="itab" onclick="showItab('liq-fedliq',this,'liq-inner')">Fed Liquidity</button>
         <button class="itab" onclick="showItab('liq-trade',this,'liq-inner')">Trade Balance</button>
-        <button class="itab" onclick="showItab('liq-btc',this,'liq-inner')">Bitcoin</button>
-        <button class="itab" onclick="showItab('liq-carry',this,'liq-inner')">FX Carry</button>
+        <button class="itab" onclick="showItab('liq-carry',this,'liq-inner')">Carry Trade</button>
+        <button class="itab" onclick="showItab('liq-real',this,'liq-inner')">Real Yields</button>
       </div>
       <div id="liq-resbal" class="ipanel liq-inner active">
         <div class="cw" style="height:320px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
@@ -580,12 +580,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div id="liq-trade" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
       </div>
-      <div id="liq-btc" class="ipanel liq-inner">
-        <div class="cw" style="height:320px" id="w-liq-btc"><div class="chart-tt" id="tt-liq-btc"></div></div>
-      </div>
       <div id="liq-carry" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-carry"><div class="chart-tt" id="tt-liq-carry"></div></div>
-        <div class="data-date">G10 FX carry replication (3v3, β·carry + α) tracking Bloomberg FXCTG10 &nbsp;|&nbsp; index, base 100</div>
+        <div class="data-date">G10 carry trade replication (3v3, β·carry + α) tracking Bloomberg FXCTG10 &nbsp;|&nbsp; index, base 100</div>
+      </div>
+      <div id="liq-real" class="ipanel liq-inner">
+        <div class="cw" style="height:320px" id="w-liq-real"><div class="chart-tt" id="tt-liq-real"></div></div>
+        <div class="data-date">10Y real yield = US10Y (DGS10) &minus; 10Y breakeven (T10YIE) &nbsp;|&nbsp; Source: FRED</div>
       </div>
     </div>
     <div class="card">
@@ -593,8 +594,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
         <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
         <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
-        <div class="li"><div class="ld" style="background:#f78166"></div>Bitcoin <span style="font-size:9px;color:#636b77;margin-left:2px">RHS (max 200%)</span></div>
-        <div class="li"><div class="ld" style="background:#bc8cff"></div>FX Carry <span style="font-size:9px;color:#bc8cff;margin-left:3px">(LHS1, YoY)</span></div>
+        <div class="li"><div class="ld" style="background:#bc8cff"></div>Carry Trade <span style="font-size:9px;color:#bc8cff;margin-left:3px">(LHS1, YoY)</span></div>
       </div>
       <div class="cw" style="height:320px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
       <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
@@ -1903,9 +1903,11 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
     const lb1=document.createElementNS(ns,'text');
     lb1.setAttribute('x',88);lb1.setAttribute('y',y+4);lb1.setAttribute('text-anchor','end');
     lb1.setAttribute('fill',AXIS_COLOR);lb1.setAttribute('font-size','9');lb1.textContent=v1.toFixed(0)+'%';svg.appendChild(lb1);
-    const lbR=document.createElementNS(ns,'text');
-    lbR.setAttribute('x',pad.l+iW+4);lbR.setAttribute('y',y+4);lbR.setAttribute('text-anchor','start');
-    lbR.setAttribute('fill','#f78166');lbR.setAttribute('font-size','9');lbR.textContent=vR.toFixed(0)+'%';svg.appendChild(lbR);
+    if(rhsIdx.length){
+      const lbR=document.createElementNS(ns,'text');
+      lbR.setAttribute('x',pad.l+iW+4);lbR.setAttribute('y',y+4);lbR.setAttribute('text-anchor','start');
+      lbR.setAttribute('fill','#f78166');lbR.setAttribute('font-size','9');lbR.textContent=vR.toFixed(0)+'%';svg.appendChild(lbR);
+    }
   });
   aligned.forEach((_,i)=>{
     if(i%(Math.ceil(aligned.length/6))!==0&&i!==aligned.length-1)return;
@@ -2218,26 +2220,28 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#58a6ff',_fBn,320);
     drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',_fBn,320);
     drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#e3b341',_fTrade,320);
-    drawChart('w-liq-btc',   'tt-liq-btc',   dates,liqBtc,   '#f78166',_fBtc,320);
-    // Liquidity YoY combined (Bitcoin cap raised to 200%)
+    // 10Y real yield = US10Y (DGS10) - 10Y breakeven (T10YIE); daily, same window as the other charts
+    const _realY=nomDaily['10Y'].map((v,i)=>(v==null||beDaily['10Y'][i]==null)?null:v-beDaily['10Y'][i]);
+    drawChart('w-liq-real','tt-liq-real',dDatesArr,_realY,'#f0883e',fPct,320,fmtDLong);
+    // Liquidity YoY combined
     const _combo=[
       {values:yoyRB,color:'#58a6ff',label:'Reserve Balance',axis:'lhs1'},
       {values:yoyFL,color:'#3fb950',label:'Fed Liquidity',  axis:'lhs1'},
-      {values:yoyTR,color:'#e3b341',label:'Trade Balance',  axis:'lhs2'},
-      {values:yoyBT,color:'#f78166',label:'Bitcoin',        axis:'rhs',cap:[-200,200]},
+      {values:yoyTR.map(v=>v==null?null:-v),color:'#e3b341',label:'Trade Balance',axis:'lhs2'},
     ];
     if(window.carryData&&window.carryData.dates&&window.carryData.dates.length){
       const cd=window.carryData;
       if(!cd._dObj) cd._dObj=cd.dates.map(s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);});
-      // left card: carry index level (base 100)
-      drawChart('w-liq-carry','tt-liq-carry',cd._dObj,cd.carry,'#bc8cff',v=>v.toFixed(1),320,fmtDLong);
+      // left card: carry index level (base 100) — slice to the same start as the other liquidity charts
+      let _ci=cd._dObj.findIndex(dt=>dt>=dates[0]); if(_ci<0)_ci=0;
+      drawChart('w-liq-carry','tt-liq-carry',cd._dObj.slice(_ci),cd.carry.slice(_ci),'#bc8cff',v=>v.toFixed(1),320,fmtDLong);
       // combined chart: carry YoY % on the same % axis as the other liquidity lines
-      _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#bc8cff',label:'FX Carry',axis:'lhs1'});
+      _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#bc8cff',label:'Carry Trade',axis:'lhs1'});
     }
     drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,350);
   };
   window._redraw.liquidity();
-  // FX carry index (G10 carry replication w/ recovered FXCTG10 alpha) — async
+  // Carry trade index (G10 carry replication w/ recovered FXCTG10 alpha) — async
   fetch('carry.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject(r.status))
     .then(d=>{ window.carryData=d; if(window._redraw.liquidity) window._redraw.liquidity(); })
