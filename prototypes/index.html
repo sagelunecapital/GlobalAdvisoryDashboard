@@ -405,12 +405,12 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div style="font-size:11px;color:var(--text-muted);margin-top:3px" id="rc-mps-sub">0 &lt; 2Y &lt; 10Y</div>
         <div class="drop-table" id="mps-drop">
           <div class="drop-row"><span class="drop-cond">0 &lt; 2Y &lt; 10Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Steepener</span></div>
-          <div class="drop-row"><span class="drop-cond">0 &lt; 5Y &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Flattener</span></div>
-          <div class="drop-row"><span class="drop-cond">2Y &lt; 5Y &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bull Steepener</span></div>
-          <div class="drop-row"><span class="drop-cond">5Y &lt; 2Y &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bull Flattener</span></div>
-          <div class="drop-row"><span class="drop-cond">2Y &lt; 0 &lt; 5Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Steepener Twist</span></div>
-          <div class="drop-row"><span class="drop-cond">5Y &lt; 0 &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Flattener Twist</span></div>
-          <div class="drop-row"><span class="drop-cond">2Y ≈ 5Y ≈ 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Neutral</span></div>
+          <div class="drop-row"><span class="drop-cond">0 &lt; 10Y &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bear Flattener</span></div>
+          <div class="drop-row"><span class="drop-cond">2Y &lt; 10Y &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bull Steepener</span></div>
+          <div class="drop-row"><span class="drop-cond">10Y &lt; 2Y &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Bull Flattener</span></div>
+          <div class="drop-row"><span class="drop-cond">2Y &lt; 0 &lt; 10Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Steepener Twist</span></div>
+          <div class="drop-row"><span class="drop-cond">10Y &lt; 0 &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Flattener Twist</span></div>
+          <div class="drop-row"><span class="drop-cond">2Y ≈ 10Y ≈ 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Neutral</span></div>
           <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--outline-dim);font-size:10px;color:var(--text-muted)">
             Source: <a href="https://ph.investing.com/rates-bonds/u.s.-2-year-bond-yield-historical-data" target="_blank" style="color:var(--ps-blue);text-decoration:none">US 2Y</a>
             &nbsp;&middot;&nbsp;
@@ -1704,6 +1704,9 @@ const CURVE_REGIME={
   flattwist:{c:'#a371f7',l:'Flattener Twist'},
   neutral:{c:'#8b949e',l:'Neutral'}
 };
+// Lookback for the curve-regime computation (n trading days), per the
+// "Yield Curve Regimes" indicator. Compares current yields to n bars ago.
+const CURVE_LOOKBACK=20;
 function curveRegime(u2,u10){
   if(u2<u10&&u10<0)return 'bullsteep';
   if(u10<u2&&u2<0)return 'bullflat';
@@ -1713,9 +1716,26 @@ function curveRegime(u2,u10){
   if(u10<0&&u2>0)return 'flattwist';
   return 'neutral';
 }
+// Per-day regime over FULL daily yield arrays: u2/u10 are the n-day changes
+// (short = 2Y, long = 10Y), spread = long - short. Computed on the full series so
+// the lookback reaches back before any visible/sliced window. Bars with no n-day
+// predecessor are 'neutral' (the indicator's hasPrev guard).
+function curveRegimeSeries(y2,y10,lb){
+  lb=lb||CURVE_LOOKBACK;
+  const out=[];
+  for(let i=0;i<y2.length;i++){
+    const j=i-lb;
+    if(j<0||y2[i]==null||y10[i]==null||y2[j]==null||y10[j]==null){
+      out.push({reg:'neutral',u2:0,u10:0});continue;
+    }
+    const u2=y2[i]-y2[j], u10=y10[i]-y10[j];
+    out.push({reg:curveRegime(u2,u10),u2,u10});
+  }
+  return out;
+}
 
 // ── Yield-curve bars: 10Y-2Y spread over time, colored by curve regime ──
-function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
+function drawCurveBars(wrapId,ttId,dates,spread,regs,vH,legId){
   vH=vH||300;
   const wrap=document.getElementById(wrapId);if(!wrap)return;
   wrap.querySelector('svg')?.remove();
@@ -1727,10 +1747,8 @@ function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
   const bars=[];
   for(let i=0;i<n;i+=step){
     const v=spread[i];if(v==null||!isFinite(v))continue;
-    const j=Math.max(0,i-1);                 // Day-to-Day (prior trading day)
-    const u2=(y2[i]!=null&&y2[j]!=null)?y2[i]-y2[j]:0;
-    const u10=(y10[i]!=null&&y10[j]!=null)?y10[i]-y10[j]:0;
-    bars.push({d:dates[i],v,reg:curveRegime(u2,u10),u2,u10});
+    const r=(regs&&regs[i])?regs[i]:{reg:'neutral',u2:0,u10:0};
+    bars.push({d:dates[i],v,reg:r.reg,u2:r.u2,u10:r.u10});
   }
   if(!bars.length)return;
   const vMin=Math.min(0,...bars.map(b=>b.v)),vMax=Math.max(0,...bars.map(b=>b.v)),vR=(vMax-vMin)||1;
@@ -1765,7 +1783,7 @@ function drawCurveBars(wrapId,ttId,dates,spread,y2,y10,vH,legId){
         tt.style.left=Math.min((x/VW)*r.width+12,r.width-200)+'px';
         tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
         tt.innerHTML='<strong>'+fmtDLong(b.d)+'</strong><br><span style="color:'+CURVE_REGIME[b.reg].c+'">&#9632;</span> '+CURVE_REGIME[b.reg].l+
-          '<br>10Y-2Y: <strong>'+b.v.toFixed(2)+'</strong><br>2Y DoD '+(b.u2>=0?'+':'')+b.u2.toFixed(3)+' &middot; 10Y DoD '+(b.u10>=0?'+':'')+b.u10.toFixed(3);
+          '<br>10Y-2Y: <strong>'+b.v.toFixed(2)+'</strong><br>2Y 20d '+(b.u2>=0?'+':'')+b.u2.toFixed(3)+' &middot; 10Y 20d '+(b.u10>=0?'+':'')+b.u10.toFixed(3);
       });
       rect.addEventListener('mouseleave',()=>{tt.style.display='none';});
     }
@@ -2111,8 +2129,11 @@ function renderYieldCharts(){
   // Nominal yield spread (10Y - 2Y) line
   drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#58a6ff',fPct,300,fmtDLong);
 
-  // Same spread as bars, colored by yield-curve regime (2Y/10Y day-to-day change)
-  drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(nomDaily['2Y']),sl(nomDaily['10Y']),300,'curve-bars-legend');
+  // Same spread as bars, colored by yield-curve regime (2Y/10Y change over CURVE_LOOKBACK
+  // trading days). Regimes computed on the FULL daily series, then sliced to the window so
+  // the lookback reaches back before the visible range.
+  const regFull=curveRegimeSeries(nomDaily['2Y'],nomDaily['10Y'],CURVE_LOOKBACK);
+  drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(regFull),300,'curve-bars-legend');
 }
 
 // ══ Render all charts ═══════════════════════════════════════════
@@ -2584,8 +2605,16 @@ function applyMacroRegime(d){
     iAcc ? 'neg' : 'pos',
     iAcc ? 'Inflation Expectations Rising' : 'Inflation Expectations Falling');
 
-  // MPS
-  const u2=d.us2y_wow, u10=d.us10y_wow, EPS=0.01;
+  // MPS — yield-curve regime over CURVE_LOOKBACK trading days (2Y/10Y), computed from the
+  // daily yield series so it matches the Yields-tab bars. Falls back to WoW if unavailable.
+  const _my2=(typeof nomDaily!=='undefined')?nomDaily['2Y']:null;
+  const _my10=(typeof nomDaily!=='undefined')?nomDaily['10Y']:null;
+  const _mli=_my2?_my2.length-1:-1, _mlj=_mli-CURVE_LOOKBACK;
+  let u2,u10;
+  if(_my2&&_my10&&_mlj>=0&&_my2[_mli]!=null&&_my2[_mlj]!=null&&_my10[_mli]!=null&&_my10[_mlj]!=null){
+    u2=_my2[_mli]-_my2[_mlj]; u10=_my10[_mli]-_my10[_mlj];
+  } else { u2=d.us2y_wow; u10=d.us10y_wow; }
+  const EPS=0.01;
   let mpsLbl, mpsCls;
   if(Math.abs(u2)<EPS&&Math.abs(u10)<EPS){mpsLbl='Neutral';mpsCls='amb';}
   else if(u2<u10&&u10<0){mpsLbl='Bull Steepener';mpsCls='pos';}
@@ -2596,7 +2625,7 @@ function applyMacroRegime(d){
   else if(u10<0&&u2>0){mpsLbl='Flattener Twist';mpsCls='amb';}
   else{mpsLbl='Neutral';mpsCls='amb';}
   const fpct=v=>(v>=0?'+':'')+v.toFixed(3)+'%';
-  _setRcrit('rc-mps-val','rc-mps-sub',mpsLbl,mpsCls,'2Y '+fpct(u2)+' · 10Y '+fpct(u10));
+  _setRcrit('rc-mps-val','rc-mps-sub',mpsLbl,mpsCls,'2Y '+fpct(u2)+' · 10Y '+fpct(u10)+' · 20d');
 
   // GCC — 6 items (true = negative impulse)
   const items=[d.sofr>d.iorb, d.net_liq_wow<0, d.usdjpy_5d<0, d.usdcnh_5d>0, d.eurchf_5d<0, d.dxy_5d>0];
