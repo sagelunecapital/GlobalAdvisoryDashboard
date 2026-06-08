@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-05T23:27:51.857812+00:00",
+  "updated_at": "2026-06-08T12:19:01.029653+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -596,6 +596,56 @@
         "continuation": false,
         "group_id": null,
         "group_summary": null
+      }
+    ],
+    "2026-06-08": [
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 69100000000,
+        "change_pct": 15.08,
+        "catalyst": "148 surged as the AI driven copper clad laminate up-cycle accelerated, with CCL makers including Kingboard issuing Q3 2026 price hike notices of 10 to 15 percent, and after Citi on June 4 2026 raised its target to HK$90 (buy) and lifted 2026 to 2028 profit forecasts 34 to 53 percent on stronger electronic fiberglass cloth pricing.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-ccl-pcb-jun08",
+        "group_summary": "148 and 1888 rallied on a Citi note that raised 148 Kingboard’s target to HK$90 and named 1888 its preferred play, citing a June acceleration in electronic fiberglass cloth prices feeding Q3 2026 copper-clad-laminate price hikes on AI and PCB demand."
+      },
+      {
+        "ticker": "1888",
+        "company": "Kingboard Laminates Holdings Limited",
+        "mkt_cap": 175420000000,
+        "change_pct": 12.08,
+        "catalyst": "1888 surged on the same early-June 2026 Citi note that raised parent 148 Kingboard’s target to HK$90 and named 1888 its preferred play for stronger earnings upside, citing June acceleration in electronic fiberglass cloth prices feeding 2026 copper-clad-laminate price hikes on AI and PCB demand.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-ccl-pcb-jun08",
+        "group_summary": "148 and 1888 rallied on a Citi note that raised 148 Kingboard’s target to HK$90 and named 1888 its preferred play, citing a June acceleration in electronic fiberglass cloth prices feeding Q3 2026 copper-clad-laminate price hikes on AI and PCB demand."
+      },
+      {
+        "ticker": "2715",
+        "company": "Estun Automation Co., Ltd.",
+        "mkt_cap": 17580000000,
+        "change_pct": 12.33,
+        "catalyst": "2715 hit limit-up as the Hong Kong robotics and humanoid complex strengthened broadly, a continuation of the sector rally driven by Unitree’s Shanghai STAR IPO progress and UBTech humanoid pre-sales, with no company-specific news dated to June 8.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "china-humanoid-robotics-jun08",
+        "group_summary": "2715 and 9880 advanced with the Hong Kong humanoid and industrial-robotics complex, led by 9880 UBTECH’s strong UWORLD consumer-robot pre-sales (2,110-plus orders in six days) and broad enthusiasm around Unitree’s Shanghai STAR IPO progress; 2715 Estun rode the rally as a continuation."
+      },
+      {
+        "ticker": "9880",
+        "company": "UBTECH Robotics Corp Ltd",
+        "mkt_cap": 55530000000,
+        "change_pct": 6.71,
+        "catalyst": "9880 rose after flagging strong pre-sales for its UWORLD consumer humanoid robot, with over 2,110 pre-orders in six days since unveiling the ultra-bionic model (3,000 yuan deposit, June 30 launch), outpacing a roughly 2 percent Hang Seng drop.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-humanoid-robotics-jun08",
+        "group_summary": "2715 and 9880 advanced with the Hong Kong humanoid and industrial-robotics complex, led by 9880 UBTECH’s strong UWORLD consumer-robot pre-sales (2,110-plus orders in six days) and broad enthusiasm around Unitree’s Shanghai STAR IPO progress; 2715 Estun rode the rally as a continuation."
       }
     ]
   }
