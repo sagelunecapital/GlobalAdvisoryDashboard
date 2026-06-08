@@ -594,7 +594,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div class="li"><div class="ld" style="background:#58a6ff"></div>Reserve Balance <span style="font-size:9px;color:#58a6ff;margin-left:3px">(LHS1)</span></div>
         <div class="li"><div class="ld" style="background:#3fb950"></div>Fed Liquidity <span style="font-size:9px;color:#3fb950;margin-left:3px">(LHS1)</span></div>
         <div class="li"><div class="ld" style="background:#e3b341"></div>Trade Balance <span style="font-size:9px;color:#e3b341;margin-left:3px">(LHS2)</span></div>
-        <div class="li"><div class="ld" style="background:#bc8cff"></div>Carry Trade <span style="font-size:9px;color:#bc8cff;margin-left:3px">(LHS1, YoY)</span></div>
+        <div class="li"><div class="ld" style="background:#bc8cff"></div>Carry Trade <span style="font-size:9px;color:#bc8cff;margin-left:3px">(RHS, YoY)</span></div>
       </div>
       <div class="cw" style="height:320px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
       <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
@@ -1882,18 +1882,36 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
   const lhs1Vals=aligned.flatMap(r=>lhs1Idx.map(i=>r.vs[i]));
   const lhs2Vals=aligned.flatMap(r=>lhs2Idx.map(i=>r.vs[i]));
   const rhsTrans=aligned.flatMap(r=>rhsIdx.map(i=>capVal(r.vs[i],seriesDefs[i])));
-  const lhs1Min=Math.min(...lhs1Vals),lhs1Max=Math.max(...lhs1Vals),lhs1R=lhs1Max-lhs1Min||1;
-  const lhs2Min=Math.min(...lhs2Vals),lhs2Max=Math.max(...lhs2Vals),lhs2R=lhs2Max-lhs2Min||1;
-  const rhsTMin=Math.min(...rhsTrans),rhsTMax=Math.max(...rhsTrans),rhsTR=rhsTMax-rhsTMin||1;
+  const lhs1Min=Math.min(...lhs1Vals),lhs1Max=Math.max(...lhs1Vals);
+  const lhs2Min=Math.min(...lhs2Vals),lhs2Max=Math.max(...lhs2Vals);
+  const rhsTMin=Math.min(...rhsTrans),rhsTMax=Math.max(...rhsTrans);
+  // Zero-aligned axes: every axis shares one zero line (anchored to the primary LHS1 axis).
+  // For shared zero fraction f (height above zero), an axis spans [-(1-f)*S , f*S] where
+  // S = max(posExtent/f, negExtent/(1-f)) is the tightest range that fits its data.
+  const _aRange=(mn,mx,f)=>{
+    if(!isFinite(mn)||!isFinite(mx))return{top:1,bot:0,R:1};
+    const pos=Math.max(mx,0),neg=Math.max(-mn,0);
+    let S=Math.max(f>0?pos/f:pos,(1-f)>0?neg/(1-f):neg);
+    if(!(S>0))S=Math.abs(mx)||Math.abs(mn)||1;
+    return{top:f*S,bot:-(1-f)*S,R:S};
+  };
+  // Shared zero fraction = mean of each zero-straddling axis's natural fraction.
+  // Balances wasted space across axes rather than distorting all to fit one.
+  const _fr=[[lhs1Min,lhs1Max],[lhs2Min,lhs2Max],[rhsTMin,rhsTMax]]
+    .filter(([mn,mx])=>isFinite(mn)&&isFinite(mx)&&mn<0&&mx>0)
+    .map(([mn,mx])=>mx/(mx-mn));
+  let _f0=_fr.length?_fr.reduce((a,b)=>a+b,0)/_fr.length:0.5;
+  _f0=Math.max(0.08,Math.min(0.92,_f0));
+  const A1=_aRange(lhs1Min,lhs1Max,_f0),A2=_aRange(lhs2Min,lhs2Max,_f0),AR=_aRange(rhsTMin,rhsTMax,_f0);
   const xOf=i=>pad.l+(i/(aligned.length-1))*iW;
-  const yOfL1=v=>pad.t+(1-(v-lhs1Min)/lhs1R)*iH;
-  const yOfL2=v=>pad.t+(1-(v-lhs2Min)/lhs2R)*iH;
-  const yOfR =v=>pad.t+(1-(v-rhsTMin)/rhsTR)*iH;
+  const yOfL1=v=>pad.t+(1-(v-A1.bot)/A1.R)*iH;
+  const yOfL2=v=>pad.t+(1-(v-A2.bot)/A2.R)*iH;
+  const yOfR =v=>pad.t+(1-(v-AR.bot)/AR.R)*iH;
   const ns='http://www.w3.org/2000/svg';
   const svg=mkSvg(ns,VW,vH);
   [0,.25,.5,.75,1].forEach(t=>{
     const y=pad.t+t*iH;
-    const v1=lhs1Max-t*lhs1R,v2=lhs2Max-t*lhs2R,vR=rhsTMax-t*rhsTR;
+    const v1=A1.top-t*A1.R,v2=A2.top-t*A2.R,vR=AR.top-t*AR.R;
     const g=document.createElementNS(ns,'line');
     g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
     g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
@@ -1906,7 +1924,7 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
     if(rhsIdx.length){
       const lbR=document.createElementNS(ns,'text');
       lbR.setAttribute('x',pad.l+iW+4);lbR.setAttribute('y',y+4);lbR.setAttribute('text-anchor','start');
-      lbR.setAttribute('fill','#f78166');lbR.setAttribute('font-size','9');lbR.textContent=vR.toFixed(0)+'%';svg.appendChild(lbR);
+      lbR.setAttribute('fill','#bc8cff');lbR.setAttribute('font-size','9');lbR.textContent=vR.toFixed(0)+'%';svg.appendChild(lbR);
     }
   });
   aligned.forEach((_,i)=>{
@@ -1915,7 +1933,7 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','middle');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtD(aligned[i].d);svg.appendChild(lb);
   });
-  if(lhs1Min<0&&lhs1Max>0){
+  if(A1.bot<0&&A1.top>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOfL1(0));z.setAttribute('y2',yOfL1(0));
     z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
@@ -2236,7 +2254,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       let _ci=cd._dObj.findIndex(dt=>dt>=dates[0]); if(_ci<0)_ci=0;
       drawChart('w-liq-carry','tt-liq-carry',cd._dObj.slice(_ci),cd.carry.slice(_ci),'#bc8cff',v=>v.toFixed(1),320,fmtDLong);
       // combined chart: carry YoY % on the same % axis as the other liquidity lines
-      _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#bc8cff',label:'Carry Trade',axis:'lhs1'});
+      _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#bc8cff',label:'Carry Trade',axis:'rhs'});
     }
     drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,350);
   };
