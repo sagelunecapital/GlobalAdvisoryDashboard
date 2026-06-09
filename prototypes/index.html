@@ -3666,7 +3666,7 @@ function cotUpdateChart(code){
     {label:'Large Specs', values:lspec, color:'#3b82f6'},
     {label:'Small Specs', values:sspec, color:'#a855f7'},
   ],oi,300,'cot-pos-legend');
-  drawCotCandle(code, nWeeks);
+  drawCotCandle(code, dates);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
   const fromEl=document.getElementById('cot-slider-from');
@@ -3682,23 +3682,22 @@ function cotSlide(){
   if(code) cotUpdateChart(code);
 }
 
-function drawCotCandle(code, nWeeks){
+function drawCotCandle(code, cotDates){
   const section = document.getElementById('cot-candle-section');
   const divider = document.getElementById('cot-candle-divider');
-  const ticker  = COT_TICKER_MAP[code];
   const pw      = PRICE_DATA_WEEKLY[code];
 
-  const hide = !pw || !pw.dates || pw.dates.length < 5;
+  const hide = !pw || !pw.dates || pw.dates.length < 5 || !cotDates || !cotDates.length;
   if(section) section.style.display = hide ? 'none' : '';
   if(divider) divider.style.display = hide ? 'none' : '';
   if(hide) return;
 
-  const s = Math.max(0, pw.dates.length - nWeeks);
-  const dates = pw.dates.slice(s);
-  const open  = pw.open.slice(s);
-  const high  = pw.high.slice(s);
-  const low   = pw.low.slice(s);
-  const close = pw.close.slice(s);
+  // Clamp price to the COT date window so this chart and the COT-positions chart
+  // below it share the exact same x-axis (same start/end, same margins).
+  const d0=cotDates[0], d1=cotDates[cotDates.length-1];
+  const dates=[],open=[],high=[],low=[],close=[];
+  pw.dates.forEach((dt,i)=>{ if(dt>=d0&&dt<=d1){dates.push(dt);open.push(pw.open[i]);high.push(pw.high[i]);low.push(pw.low[i]);close.push(pw.close[i]);} });
+  if(dates.length<2){ if(section) section.style.display='none'; if(divider) divider.style.display='none'; return; }
 
   const HL = {bgcolor:'#141414',bordercolor:'#27272a',font:{family:'JetBrains Mono,monospace',size:12,color:'#e0e2ea'}};
 
@@ -3706,16 +3705,17 @@ function drawCotCandle(code, nWeeks){
     type:'candlestick', x:dates, open, high, low, close,
     increasing:{line:{color:'#3fb950',width:1},fillcolor:'#3fb950'},
     decreasing:{line:{color:'#f85149',width:1},fillcolor:'#f85149'},
-    hovertemplate:'<b>%{x|%b %d, %Y}</b><br>O: %{open}  H: %{high}<br>L: %{low}  C: %{close}<extra></extra>',
+    hovertemplate:'<b>%{x|%b %d %Y}</b><br>O: %{open:.2f}  H: %{high:.2f}<br>L: %{low:.2f}  C: %{close:.2f}<extra></extra>',
     hoverlabel:HL,
     whiskerwidth:0.5,
   }],{
     paper_bgcolor:'transparent', plot_bgcolor:'transparent',
     font:{family:'JetBrains Mono,monospace',color:'#8b919e',size:10},
-    margin:{t:8,b:64,l:64,r:50},
+    margin:{t:8,b:64,l:64,r:64},
     height:300,
     xaxis:{
-      type:'date', tickangle:-38, tickformat:'%b %Y', color:'#6b7280',
+      type:'date', range:[d0,d1], autorange:false,
+      tickangle:-38, tickformat:'%b %Y', color:'#6b7280',
       gridcolor:'#27272a',griddash:'dot', showgrid:true,
       rangeslider:{visible:false},
       tickfont:{size:10,color:'#8b919e'},
