@@ -482,12 +482,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           <div class="drop-row"><span class="drop-cond">2Y &lt; 0 &lt; 10Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Steepener Twist</span></div>
           <div class="drop-row"><span class="drop-cond">10Y &lt; 0 &lt; 2Y</span><span class="drop-eq">=</span><span class="drop-result-lbl">Flattener Twist</span></div>
           <div class="drop-row"><span class="drop-cond">2Y ≈ 10Y ≈ 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Neutral</span></div>
-          <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--outline-dim);font-size:10px;color:var(--text-muted)">
-            Source: <a href="https://ph.investing.com/rates-bonds/u.s.-2-year-bond-yield-historical-data" target="_blank" style="color:var(--ps-blue);text-decoration:none">US 2Y</a>
-            &nbsp;&middot;&nbsp;
-            <a href="https://ph.investing.com/rates-bonds/u.s.-10-year-bond-yield-historical-data" target="_blank" style="color:var(--ps-blue);text-decoration:none">US 10Y</a>
-            &nbsp;&mdash; Investing.com
-          </div>
         </div>
       </div>
       <div class="rcrit rcrit-clickable" onclick="toggleDrop('gcc-drop')">
@@ -640,23 +634,23 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       </div>
       <div id="liq-resbal" class="ipanel liq-inner active">
         <div class="cw" style="height:320px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
-        <div class="data-date">Source: FRED (WRESBAL, reserve balances) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (WRESBAL) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-fedliq" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
-        <div class="data-date">Source: FRED (Fed balance sheet, WALCL less liabilities) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (WALCL-WDTGAL-WLRRAL) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-trade" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
-        <div class="data-date">Source: U.S. Census / BEA (goods &amp; services trade balance) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (BOPGSTB) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-carry" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-carry"><div class="chart-tt" id="tt-liq-carry"></div></div>
-        <div class="data-date">G10 carry trade replication (3v3, β·carry + α) tracking Bloomberg FXCTG10 &nbsp;|&nbsp; index, base 100</div>
+        <div class="data-date">Source: G10 FX, FXCTG10 Methodology &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-real" class="ipanel liq-inner">
         <div class="cw" style="height:320px" id="w-liq-real"><div class="chart-tt" id="tt-liq-real"></div></div>
-        <div class="data-date">10Y real yield = US10Y (DGS10) &minus; 10Y breakeven (T10YIE) &nbsp;|&nbsp; Source: FRED</div>
+        <div class="data-date">Source: FRED (DFII10) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
     </div>
     <div class="card">
@@ -667,7 +661,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div class="li"><div class="ld" style="background:#a855f7"></div>Carry Trade <span style="font-size:9px;color:#a855f7;margin-left:3px">(RHS, YoY)</span></div>
       </div>
       <div class="cw" style="height:320px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
-      <div class="data-date">Source: FRED &nbsp;|&nbsp; updated 2026-04-24</div>
     </div>
   </div>
 
@@ -690,7 +683,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
     <div class="legend" id="curve-bars-legend" style="margin-top:14px;margin-bottom:8px"></div>
     <div class="cw" style="height:300px" id="w-curve-bars"><div class="chart-tt" id="tt-curve-bars"></div></div>
-    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24 &nbsp;|&nbsp; regime classified from day-to-day 2Y / 10Y change</div>
+    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
 
   <div class="section-heading" style="margin-top:28px">US STIR</div>
