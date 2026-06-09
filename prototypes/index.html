@@ -712,17 +712,17 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
   </div>
 
-  <!-- Main tabs: Meetings / Strip / Spreads -->
-  <div class="itabs" id="stir-main-tabs">
-    <button class="itab" onclick="setStirMain('meetings',this)">Meetings</button>
-    <button class="itab active" onclick="setStirMain('strip',this)">Strip</button>
-    <button class="itab" onclick="setStirMain('spreads',this)">Spreads</button>
-  </div>
-
-  <!-- Sub tabs: SOFR Futures / Fed Funds Futures -->
-  <div class="itabs" id="stir-sub-tabs" style="margin-bottom:14px">
-    <button class="itab" onclick="setStirProduct('sofr',this)">SOFR Futures</button>
-    <button class="itab active" onclick="setStirProduct('ff',this)">Fed Funds Futures</button>
+  <!-- Product (SOFR/FF, left) + view (Meetings/Strip/Spreads, right) on one row -->
+  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <div class="itabs" id="stir-sub-tabs" style="margin-bottom:0">
+      <button class="itab" onclick="setStirProduct('sofr',this)">SOFR Futures</button>
+      <button class="itab active" onclick="setStirProduct('ff',this)">Fed Funds Futures</button>
+    </div>
+    <div class="itabs" id="stir-main-tabs" style="margin-bottom:0;margin-left:auto">
+      <button class="itab" onclick="setStirMain('meetings',this)">Meetings</button>
+      <button class="itab active" onclick="setStirMain('strip',this)">Strip</button>
+      <button class="itab" onclick="setStirMain('spreads',this)">Spreads</button>
+    </div>
   </div>
 
   <!-- ── MEETINGS panel ── -->
@@ -2336,7 +2336,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',_fBn,320);
     drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#22d3ee',_fTrade,320);
     // 10Y real yield = US10Y (DGS10) - 10Y breakeven (T10YIE); daily, same window as the other charts
-    const _realY=nomDaily['10Y'].map((v,i)=>(v==null||beDaily['10Y'][i]==null)?null:v-beDaily['10Y'][i]);
+    const _realY=(typeof realDaily!=='undefined'&&realDaily['10Y'])?realDaily['10Y']:nomDaily['10Y'].map((v,i)=>(v==null||beDaily['10Y'][i]==null)?null:v-beDaily['10Y'][i]);
     drawChart('w-liq-real','tt-liq-real',dDatesArr,_realY,'#ec4899',fPct,320,fmtDLong);
     // Liquidity YoY combined
     const _combo=[
@@ -2672,6 +2672,8 @@ function renderSrQuadrant(){
 
 function applyMacroRegime(d){
   window._lastMacroD=d;
+  // Sync stale static source captions to the real data-update date
+  if(d.updated){try{document.querySelectorAll('.data-date').forEach(e=>{e.innerHTML=e.innerHTML.replace('updated 2026-04-24','updated '+d.updated);});}catch(_){}}
   // Growth
   const gAcc = d.gdpnow > d.gdp_yoy;
   _setRcrit('rc-growth-val','rc-growth-sub',
@@ -3085,7 +3087,10 @@ function renderStirSpreadsTable(){
     if(v==null) return '<td>—</td>';
     const cls = v>0?'stir-spread-pos':v<0?'stir-spread-neg':'';
     const sign= v>0?'+':'';
-    return `<td class="${cls}">${sign}${v} bp</td>`;
+    const a=Math.abs(v), base=v>0?'63,185,80':v<0?'248,81,73':null;
+    let st='';
+    if(base){ if(a>=50) st=`background:rgba(${base},0.75);color:#fff`; else if(a>=25) st=`background:rgba(${base},0.25)`; }
+    return `<td class="${cls}"${st?` style="${st}"`:''}>${sign}${v} bp</td>`;
   };
   document.getElementById('stir-spread-body').innerHTML = (rows||[]).map(r=>`
     <tr><td>${r.contract}</td>${cell(r['+3M'])}${cell(r['+6M'])}${cell(r['+9M'])}${cell(r['+12M'])}</tr>
@@ -3683,7 +3688,7 @@ function drawCotCandle(code, nWeeks){
   const ticker  = COT_TICKER_MAP[code];
   const pw      = PRICE_DATA_WEEKLY[code];
 
-  const hide = !ticker || !pw || !pw.dates || pw.dates.length < 5;
+  const hide = !pw || !pw.dates || pw.dates.length < 5;
   if(section) section.style.display = hide ? 'none' : '';
   if(divider) divider.style.display = hide ? 'none' : '';
   if(hide) return;
@@ -3707,7 +3712,7 @@ function drawCotCandle(code, nWeeks){
   }],{
     paper_bgcolor:'transparent', plot_bgcolor:'transparent',
     font:{family:'JetBrains Mono,monospace',color:'#8b919e',size:10},
-    margin:{t:8,b:36,l:64,r:50},
+    margin:{t:8,b:64,l:64,r:50},
     height:300,
     xaxis:{
       type:'date', tickangle:-38, tickformat:'%b %Y', color:'#6b7280',
@@ -4262,7 +4267,17 @@ function scrRenderMovers(){
     return;
   }
   const byDate=_mData.by_date||{};
-  const rows=byDate[scrIso(scrDate)]||[];
+  let rows;
+  if(scrView==='weekly'){
+    // Aggregate the Mon–Fri week (dedup by ticker, keeping first occurrence)
+    const day=scrDate.getDay();
+    const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
+    rows=[]; const seen=new Set();
+    for(let i=0;i<5;i++){const dt=new Date(mon);dt.setDate(mon.getDate()+i);
+      (byDate[scrIso(dt)]||[]).forEach(r=>{const k=r.ticker+'|'+(r.group_id||'');if(!seen.has(k)){seen.add(k);rows.push(r);}});}
+  } else {
+    rows=byDate[scrIso(scrDate)]||[];
+  }
   if(!rows.length){
     const keys=Object.keys(byDate).sort();
     const msg=keys.length
