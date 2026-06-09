@@ -3715,13 +3715,13 @@ function drawCotCandle(code, cotDates){
     height:300,
     xaxis:{
       type:'date', range:[d0,d1], autorange:false,
-      tickangle:-38, tickformat:'%b %Y', color:'#6b7280',
+      tickangle:-38, tickformat:'%b %Y', hoverformat:'%b %d %Y', color:'#6b7280',
       gridcolor:'#27272a',griddash:'dot', showgrid:true,
       rangeslider:{visible:false},
       tickfont:{size:10,color:'#8b919e'},
     },
     yaxis:{
-      color:'#6b7280', tickformat:',',
+      color:'#6b7280', tickformat:',.2~f', hoverformat:',.2f',
       gridcolor:'#27272a',griddash:'dot', showgrid:true,
       tickfont:{size:10,color:'#8b919e'},
       side:'left',
