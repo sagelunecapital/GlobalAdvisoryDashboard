@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-06-09T00:16:02.396864+00:00",
+  "fetched_at": "2026-06-09T22:31:32.622087+00:00",
   "us": [
-    {
-      "ticker": "ASMB",
-      "company": "Assembly Biosciences, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-05-26",
-      "price_usd": 26.5,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 4339642,
-      "deal_amount_usd": 89002953.0,
-      "mkt_cap_usd": 510150307.5,
-      "ipo_close": 28.34
-    },
     {
       "ticker": "AADX",
       "company": "Applied Aerospace & Defense, Inc.",
@@ -26,32 +13,6 @@
       "deal_amount_usd": 650000000.0,
       "mkt_cap_usd": 3414870360.0,
       "ipo_close": 19.01
-    },
-    {
-      "ticker": "LFTO",
-      "company": "Liftoff Mobile, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 23.0,
-      "price_range": "20.00 - 22.00",
-      "status": "Closed",
-      "shares": 21850000,
-      "deal_amount_usd": 437000000.0,
-      "mkt_cap_usd": 6013514358.0,
-      "ipo_close": 28.45
-    },
-    {
-      "ticker": "QNT",
-      "company": "Quantinuum Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 60.0,
-      "price_range": "53.00 - 55.00",
-      "status": "Closed",
-      "shares": 28000000,
-      "deal_amount_usd": 1680000000.0,
-      "mkt_cap_usd": 15236234820.0,
-      "ipo_close": 60.38
     },
     {
       "ticker": "INIO",
@@ -78,6 +39,32 @@
       "deal_amount_usd": 270000000.0,
       "mkt_cap_usd": 1940309140.5,
       "ipo_close": 17.15
+    },
+    {
+      "ticker": "QNT",
+      "company": "Quantinuum Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": 60.0,
+      "price_range": "53.00 - 55.00",
+      "status": "Closed",
+      "shares": 28000000,
+      "deal_amount_usd": 1680000000.0,
+      "mkt_cap_usd": 15236234820.0,
+      "ipo_close": 60.38
+    },
+    {
+      "ticker": "LFTO",
+      "company": "Liftoff Mobile, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": 23.0,
+      "price_range": "20.00 - 22.00",
+      "status": "Closed",
+      "shares": 21850000,
+      "deal_amount_usd": 437000000.0,
+      "mkt_cap_usd": 6013514358.0,
+      "ipo_close": 28.45
     },
     {
       "ticker": "EROC",

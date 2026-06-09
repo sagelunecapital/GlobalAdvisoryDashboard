@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T00:16:02.396864+00:00",
+  "updated_at": "2026-06-09T22:31:32.622087+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -646,6 +646,56 @@
         "continuation": false,
         "group_id": "china-humanoid-robotics-jun08",
         "group_summary": "2715 and 9880 advanced with the Hong Kong humanoid and industrial-robotics complex, led by 9880 UBTECH’s strong UWORLD consumer-robot pre-sales (2,110-plus orders in six days) and broad enthusiasm around Unitree’s Shanghai STAR IPO progress; 2715 Estun rode the rally as a continuation."
+      }
+    ],
+    "2026-06-10": [
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 79520000000,
+        "change_pct": 25.23,
+        "catalyst": "148 extended its rally as the AI-driven copper clad laminate up-cycle accelerated, with high-end CCL in short supply and makers pushing through repeated price hikes of 10 to 20 percent on AI server and 800G switch demand. Shares pushed up toward Citi's HK$90 target, trading near HK$90 intraday. The move continued the multi-day CCL theme rather than a fresh stock-specific trigger.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 17540000000,
+        "change_pct": 5.79,
+        "catalyst": "2643 advanced on momentum behind its robotaxi rollout, with Geely-backed CaoCao planning to deploy thousands of robotaxis from 2027, starting with its Eva Cab in Abu Dhabi, Hong Kong and five mainland cities, and targeting a scale-up to 100 cities. The autonomous-mobility expansion narrative is driving the ride-hailing operator's shares. No single same-day filing was confirmed for the session.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "3888",
+        "company": "Kingsoft Corporation Ltd",
+        "mkt_cap": 30970000000,
+        "change_pct": 9.56,
+        "catalyst": "3888 surged after Xiaomi disclosed it raised its open-market stake in the company to 5.39 percent, deepening the strategic ties between the two. The larger Xiaomi ownership stoked expectations for tighter collaboration across software and AI. The stake disclosure was the clear catalyst.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "894",
+        "company": "Man Yue Technology Holdings Ltd",
+        "mkt_cap": 2960000000,
+        "change_pct": 32.69,
+        "catalyst": "894 spiked alongside an AI-driven up-cycle in capacitors, where surging data center and AI server demand has tightened supply of MLCC and supercapacitors and lifted electronic-component makers. No confirmed company-specific announcement was found for the session, so the move reads as a sector and momentum driven re-rating of the capacitor maker. Treat the spike with caution pending a specific trigger.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }

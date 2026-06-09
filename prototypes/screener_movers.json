@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T00:16:02.396864+00:00",
+  "updated_at": "2026-06-09T22:31:32.622087+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2769,6 +2769,164 @@
         "mkt_cap": 4470000000,
         "change_pct": 52.97,
         "catalyst": "TNGX surged to an all-time high after its experimental cancer drug vopimetostat, combined with Revolution Medicine daraxonrasib, achieved a 92% objective response rate in advanced pancreatic cancer, with tumor shrinkage in 11 of 12 patients. TNGX plans to advance the combination into Phase 3. Leerink raised its target to $55, Wolfe upgraded to Outperform, and Wedbush and Mizuho also lifted targets. TNGX separately launched a proposed $500M stock offering.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-09": [
+      {
+        "ticker": "ADUR",
+        "company": "Aduro Clean Technologies Inc.",
+        "mkt_cap": 571120000,
+        "change_pct": 17.22,
+        "catalyst": "ADUR jumped after reporting results from its Next Generation Process (NGP) pilot plant, where a 47-hour run achieved 86 percent liquid hydrocarbon recovery with about 85 percent of the liquids in the C20-and-below range tied to naphtha cracker feedstocks. The data strengthens the commercial case for ADUR's chemical recycling technology with petrochemical offtakers. Peers were mixed on the day, pointing to a stock-specific reaction.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ALHC",
+        "company": "Alignment Healthcare, Inc.",
+        "mkt_cap": 3970000000,
+        "change_pct": 25.08,
+        "catalyst": "ALHC surged after presenting at the Goldman Sachs 47th Annual Global Healthcare Conference, where it highlighted accelerating Medicare Advantage growth and 2025 revenue of $3.95 billion, up 46 percent year over year. The company was also newly named to the Fortune 1000 at No. 791, with founder-CEO John Kao adding the chairman role. Most healthcare peers traded lower, underscoring a stock-specific move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ASH",
+        "company": "Ashland Inc.",
+        "mkt_cap": 2860000000,
+        "change_pct": 8.77,
+        "catalyst": "ASH rallied as activist Standard Investments disclosed a larger position, lifting its economic exposure to nearly 10 percent and intensifying pressure for portfolio streamlining at the specialty chemicals maker. The move follows a recent board refresh that added former Entegris CEO Bertrand Loy. Investors are repricing the odds of value-unlocking restructuring.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "BAP",
+        "company": "Credicorp Ltd.",
+        "mkt_cap": 27810000000,
+        "change_pct": 9.29,
+        "catalyst": "BAP rebounded as Peru's presidential runoff gap narrowed to under 20,000 votes with uncounted overseas ballots expected to favor market-friendly Keiko Fujimori, easing the political-risk selloff from the prior session. Fitch's June 8 upgrade of BAP to BBB+ on the strength of Banco de Credito del Peru added support. The move was driven by country political-risk repricing rather than a company event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CBRL",
+        "company": "Cracker Barrel Old Country Store, Inc.",
+        "mkt_cap": 811340000,
+        "change_pct": 6.11,
+        "catalyst": "CBRL jumped after fiscal Q3 2026 results crushed expectations, with adjusted EPS of $0.29 versus a consensus loss near $0.48 and adjusted EBITDA of $40.3 million. Management raised full-year revenue guidance to $3.27 to $3.30 billion and adjusted EBITDA to $120 to $125 million, and declared a $0.25 dividend. Comparable sales still fell, but the earnings beat and raised outlook drove the move.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CECO",
+        "company": "CECO Environmental Corp.",
+        "mkt_cap": 5570000000,
+        "change_pct": 18.52,
+        "catalyst": "CECO surged after issuing a sharply upgraded full-year 2026 outlook that folds in its recently closed Thermon acquisition, guiding revenue to $1.275 to $1.375 billion, about 20 percent growth at the midpoint, and adjusted EBITDA to $195 to $225 million. The company also flagged record bookings in early June. Shares hit an all-time high on the raise.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CRDO",
+        "company": "Credo Technology Group Holding Ltd",
+        "mkt_cap": 43220000000,
+        "change_pct": 5.42,
+        "catalyst": "CRDO rose after a blowout fiscal Q4 in which revenue of about $437 million grew roughly 157 percent year over year, capping a FY26 where revenue more than tripled to about $1.34 billion and non-GAAP net income jumped more than fivefold. Analysts piled on with price-target hikes, including Jefferies to $270, Mizuho to $290 and Roth to $300. The AI-driven connectivity demand story keeps fueling the run.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "GLXY",
+        "company": "Galaxy Digital Inc.",
+        "mkt_cap": 12740000000,
+        "change_pct": 7.11,
+        "catalyst": "GLXY extended its multi-day rally, continuing to ride its push into institutional crypto and AI infrastructure. The firm launched an institutional-scale OTC desk for event-contract prediction markets tied to economic, political and geopolitical outcomes, building on its Morgan Stanley crypto-lending tie-up and its 1.6-gigawatt West Texas data center buildout. Momentum from those catalysts carried into a second session.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "HAE",
+        "company": "Haemonetics Corporation",
+        "mkt_cap": 3580000000,
+        "change_pct": 5.11,
+        "catalyst": "HAE gained after BofA Securities upgraded the stock to Buy from Neutral and raised its price target to $80 from $72, citing strength in the vascular closure business and steady plasma demand. The call extends a strong run for the blood-management specialist following its Q4 beat last month. The analyst action was the day's primary driver.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NUVL",
+        "company": "Nuvalent, Inc.",
+        "mkt_cap": 9740000000,
+        "change_pct": 39.28,
+        "catalyst": "NUVL soared after GSK agreed to acquire the company for $10.6 billion, a large premium that values NUVL's late-stage lung cancer pipeline. The deal centers on two potential best-in-class inhibitors, zidesamtinib for ROS1 and neladalkib for ALK, both under FDA review for 2026, with a PDUFA date of November 27, 2026 for the ALK program. The buyout validates NUVL's targeted oncology platform.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SJM",
+        "company": "The J.M. Smucker Company",
+        "mkt_cap": 11990000000,
+        "change_pct": 10.44,
+        "catalyst": "SJM jumped after fiscal Q4 results beat, with adjusted EPS of $2.77, up 20 percent, topping the $2.66 consensus on net sales of $2.3 billion, up 6 percent. The company set fiscal 2027 guidance for adjusted EPS of $9.75 to $10.25 and about $1.0 billion of free cash flow. The earnings beat drove the move despite a softer top-line outlook.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VECO",
+        "company": "Veeco Instruments Inc.",
+        "mkt_cap": 4099999999.9999995,
+        "change_pct": 10.08,
+        "catalyst": "VECO climbed after a leading logic chipmaker placed a follow-on order for its NSA500 nanosecond annealing system following a successful evaluation, and the company shipped an NSA500 to a third advanced logic customer for evaluation. Barclays raised its price target to $55. The order momentum points to broadening adoption of VECO's annealing tools at advanced nodes.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VELO",
+        "company": "Velo3D, Inc.",
+        "mkt_cap": 579030000,
+        "change_pct": 19.72,
+        "catalyst": "VELO rose after announcing a strategic partnership with Aurelia Technologies to embed its metal additive manufacturing into advanced energy and gas-turbine platforms. The deal extends a string of collaborations spanning U.S. Army and Navy defense work and broader aerospace. The partnership reinforces VELO's positioning in mission-critical additive manufacturing.",
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
