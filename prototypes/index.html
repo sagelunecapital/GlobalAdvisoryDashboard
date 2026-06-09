@@ -469,7 +469,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       </div>
       <div class="rcrit rcrit-clickable" onclick="toggleDrop('mps-drop')">
         <div class="rcrit-hdr">
-          <div class="rcrit-label">Monetary Policy Stance</div>
+          <div class="rcrit-label">Yield Curve Regime</div>
           <span class="rcrit-toggle">▾</span>
         </div>
         <div class="rcrit-value amb" id="rc-mps-val">Bear Steepener</div>
@@ -500,13 +500,9 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <div class="drop-table" id="gcc-drop">
           <div class="drop-row"><span class="drop-cond">SOFR &gt; IORB</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-0" style="color:var(--red)">Negative</span></div>
           <div class="drop-row"><span class="drop-cond">Net Liq WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-1" style="color:var(--red)">Negative</span></div>
-          <div class="drop-row"><span class="drop-cond">USDJPY WoW &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-2" style="color:var(--red)">Negative</span></div>
-          <div class="drop-row"><span class="drop-cond">USDCNH WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-3" style="color:var(--red)">Negative</span></div>
-          <div class="drop-row"><span class="drop-cond">EURCHF 5D &lt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-4" style="color:var(--red)">Negative</span></div>
-          <div class="drop-row"><span class="drop-cond">DXY WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-5" style="color:var(--red)">Negative</span></div>
-          <div class="drop-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--outline-dim)"><span class="drop-cond">Majority Negative</span><span class="drop-eq">=</span><span class="drop-result-lbl">Negative Impulse</span></div>
-          <div class="drop-row"><span class="drop-cond">Majority Positive</span><span class="drop-eq">=</span><span class="drop-result-lbl">Positive Impulse</span></div>
-          <div class="drop-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--outline-dim)"><span class="drop-cond">3/6 Tie → SOFR&gt;IORB, Net Liq WoW, DXY WoW</span><span class="drop-eq">=</span><span class="drop-result-lbl">Tiebreaker</span></div>
+          <div class="drop-row"><span class="drop-cond">DXY WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-2" style="color:var(--red)">Negative</span></div>
+          <div class="drop-row"><span class="drop-cond">Carry Trade WoW &gt; 0</span><span class="drop-eq">=</span><span class="drop-result-lbl" id="gcc-row-3" style="color:var(--green)">Positive</span></div>
+          <div class="drop-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--outline-dim);font-size:10px;color:var(--text-muted)">Tiebreaker: Net Liq WoW, DXY WoW, Carry Trade WoW</div>
         </div>
       </div>
     </div>
@@ -2370,7 +2366,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   // Carry trade index (G10 carry replication w/ recovered FXCTG10 alpha) — async
   fetch('carry.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject(r.status))
-    .then(d=>{ window.carryData=d; if(window._redraw.liquidity) window._redraw.liquidity(); })
+    .then(d=>{ window.carryData=d; if(window._redraw.liquidity) window._redraw.liquidity(); if(typeof applyMacroRegime==='function'&&window._lastMacroD) applyMacroRegime(window._lastMacroD); })
     .catch(()=>{});
 
   // Macro Regime — apply live data injected by update_dashboard.py
@@ -2428,7 +2424,10 @@ window.addEventListener('DOMContentLoaded',()=>{
     .then(d=>{
       if(!d) return;
       PRICE_DATA=d;
-      Object.keys(d).forEach(code=>{ PRICE_DATA_WEEKLY[code]=buildWeeklyPrice(d[code]); });
+      // Synthetic indices: avg OHLC of constituents (currencies / equity index futures)
+      PRICE_DATA['CURRENCY_INDEX']=buildIndexPrice(['099741','096742','097741','090741','232741','092741']);
+      PRICE_DATA['EQUITIES_INDEX']=buildIndexPrice(['13874A','209742','239742','12460+']);
+      Object.keys(PRICE_DATA).forEach(code=>{ if(PRICE_DATA[code]) PRICE_DATA_WEEKLY[code]=buildWeeklyPrice(PRICE_DATA[code]); });
       if(typeof cotBuildGrid==='function') cotBuildGrid();
     })
     .catch(()=>{});
@@ -2679,6 +2678,7 @@ function renderSrQuadrant(){
 }
 
 function applyMacroRegime(d){
+  window._lastMacroD=d;
   // Growth
   const gAcc = d.gdpnow > d.gdp_yoy;
   _setRcrit('rc-growth-val','rc-growth-sub',
@@ -2715,21 +2715,26 @@ function applyMacroRegime(d){
   const fpct=v=>(v>=0?'+':'')+v.toFixed(3)+'%';
   _setRcrit('rc-mps-val','rc-mps-sub',mpsLbl,mpsCls,'2Y '+fpct(u2)+' · 10Y '+fpct(u10)+' · 20d');
 
-  // GCC — 6 items (true = negative impulse)
-  const items=[d.sofr>d.iorb, d.net_liq_wow<0, d.usdjpy_5d<0, d.usdcnh_5d>0, d.eurchf_5d<0, d.dxy_5d>0];
+  // GCC — 4 items (true = negative impulse). Carry Trade WoW>0 = Positive (carry index, Liquidity tab).
+  let carryWoW=null;
+  if(window.carryData&&window.carryData.carry&&window.carryData.carry.length>6){
+    const _c=window.carryData.carry,_n=_c.length; carryWoW=_c[_n-1]-_c[_n-6];
+  }
+  const carryNeg=(carryWoW!=null&&carryWoW<0);
+  const items=[d.sofr>d.iorb, d.net_liq_wow<0, d.dxy_5d>0, carryNeg];
   items.forEach((isNeg,i)=>{
     const el=document.getElementById('gcc-row-'+i);
     if(el){el.textContent=isNeg?'Negative':'Positive';el.style.color=isNeg?'var(--red)':'var(--green)';}
   });
   const negN=items.filter(Boolean).length, posN=items.length-negN;
-  let gccLbl, gccCls, gccSub=negN+'/6 Negative';
+  let gccLbl, gccCls, gccSub=negN+'/4 Negative';
   if(negN>posN){gccLbl='Negative Impulse';gccCls='neg';}
   else if(posN>negN){gccLbl='Positive Impulse';gccCls='pos';}
   else{
-    const tieNeg=[d.sofr>d.iorb,d.net_liq_wow<0,d.dxy_5d>0].filter(Boolean).length;
+    const tieNeg=[d.net_liq_wow<0,d.dxy_5d>0,carryNeg].filter(Boolean).length;
     if(tieNeg>=2){gccLbl='Negative Impulse';gccCls='neg';}
     else{gccLbl='Positive Impulse';gccCls='pos';}
-    gccSub='3/6 · Tiebreaker';
+    gccSub='2/4 · Tiebreaker';
   }
   _setRcrit('rc-gcc-val','rc-gcc-sub',gccLbl,gccCls,gccSub);
 
@@ -2840,7 +2845,7 @@ function applyRegimeData(d){
   if(sinceEl) sinceEl.textContent=d.regime_since?'Since '+d.regime_since:'';
 
   const buySig=d.buying_signal||'—';
-  const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)'};
+  const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)','Choppy':'#fb923c'};
   const sigVal=document.getElementById('regime-signal-val');
   if(sigVal){sigVal.textContent=buySig;sigVal.style.color=d.buying_signal?sigColors[d.buying_signal]:'var(--text-muted)';}
 
@@ -3488,6 +3493,16 @@ var COT_DATA = {};
 var PRICE_DATA = {};
 var PRICE_DATA_WEEKLY = {};
 
+// Synthetic index price = equal-weighted average OHLC of constituent contracts, date-aligned.
+function buildIndexPrice(codes){
+  const maps=codes.map(c=>{const d=PRICE_DATA[c];if(!d||!d.dates)return null;const m={};d.dates.forEach((dt,i)=>{m[dt]=[d.open[i],d.high[i],d.low[i],d.close[i]];});return m;}).filter(Boolean);
+  if(!maps.length) return null;
+  const ds={}; maps.forEach(m=>Object.keys(m).forEach(dt=>ds[dt]=1));
+  const dates=Object.keys(ds).sort();
+  const out={ticker:'INDEX',dates:[],open:[],high:[],low:[],close:[]};
+  dates.forEach(dt=>{let o=0,h=0,l=0,c=0,n=0;maps.forEach(m=>{if(m[dt]){o+=m[dt][0];h+=m[dt][1];l+=m[dt][2];c+=m[dt][3];n++;}});if(n){out.dates.push(dt);out.open.push(o/n);out.high.push(h/n);out.low.push(l/n);out.close.push(c/n);}});
+  return out.dates.length?out:null;
+}
 function buildWeeklyPrice(pd){
   if(!pd||!pd.dates||pd.dates.length<2) return null;
   const wks={}, order=[];

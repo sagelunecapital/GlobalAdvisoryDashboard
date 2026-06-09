@@ -244,6 +244,9 @@ def main():
     print(f"  NHNL: {' · '.join(parts) if parts else 'Neutral'}", flush=True)
 
     buying_signal = classify_buying_signal(nhnl_momentum, ncfd_label)
+    # Choppy: net breadth positive (NHNL > 0) but new lows building underneath (LOWQ elevated).
+    if nhnl_today > 0 and nhnl_lows:
+        buying_signal = 'Choppy'
     print(f"  Buying signal: {buying_signal}", flush=True)
 
     output = {

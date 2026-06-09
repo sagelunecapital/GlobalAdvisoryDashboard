@@ -358,12 +358,14 @@ def _regime_macro_block(gdpnow, gdp_yoy, t5yie_wow, us2y_wow, us10y_wow,
 def main():
     # ── Fetch ─────────────────────────────────────────────────────
     print("Fetching inflation data from FRED...")
-    cpi_h  = fetch_fred("CPIAUCSL")   # CPI Headline index
-    cpi_c  = fetch_fred("CPILFESL")   # CPI Core index
-    pce_h  = fetch_fred("PCEPI")      # PCE Headline index
-    pce_c  = fetch_fred("PCEPILFE")   # PCE Core index
-    ppi_h  = fetch_fred("PPIACO")     # PPI All Commodities index
-    ppi_c  = fetch_fred("PPICOR")     # PPI Final Demand Less Food & Energy
+    # Fetch with a 12-month lead-in (2019) so YoY/MoM are populated from DATA_ORIGIN (Jan 2020).
+    _infl_start = date(DATA_ORIGIN.year - 1, DATA_ORIGIN.month, DATA_ORIGIN.day)
+    cpi_h  = fetch_fred("CPIAUCSL", start=_infl_start)   # CPI Headline index
+    cpi_c  = fetch_fred("CPILFESL", start=_infl_start)   # CPI Core index
+    pce_h  = fetch_fred("PCEPI",    start=_infl_start)   # PCE Headline index
+    pce_c  = fetch_fred("PCEPILFE", start=_infl_start)   # PCE Core index
+    ppi_h  = fetch_fred("PPIACO",   start=_infl_start)   # PPI All Commodities index
+    ppi_c  = fetch_fred("PPICOR",   start=_infl_start)   # PPI Final Demand Less Food & Energy
 
     print("Fetching treasury yields (1Y/2Y/5Y: FRED, 10Y/30Y: yfinance)...")
     dgs1   = fetch_fred("DGS1")       # 1Y nominal
@@ -489,17 +491,23 @@ def main():
     last_mo = date(last_mo_end.year, last_mo_end.month, 1)
     mkeys = month_keys(DATA_ORIGIN, last_mo)
     N = len(mkeys)
+    # Extended monthly axis (12-month lead-in) for inflation YoY/MoM, sliced back to mkeys later.
+    _infl_origin = date(DATA_ORIGIN.year - 1, DATA_ORIGIN.month, DATA_ORIGIN.day)
+    ext_mkeys = month_keys(_infl_origin, last_mo)
+    INFL_LEAD = len(ext_mkeys) - N
 
     # ── Inflation ─────────────────────────────────────────────────
     def monthly_aligned(fred_dict):
         return align(mkeys, to_month_key(fred_dict))
+    def monthly_aligned_ext(fred_dict):
+        return align(ext_mkeys, to_month_key(fred_dict))
 
-    cpi_h_a  = monthly_aligned(cpi_h)
-    cpi_c_a  = monthly_aligned(cpi_c)
-    pce_h_a  = monthly_aligned(pce_h)
-    pce_c_a  = monthly_aligned(pce_c)
-    ppi_h_a  = monthly_aligned(ppi_h)
-    ppi_c_a  = monthly_aligned(ppi_c)
+    cpi_h_a  = monthly_aligned_ext(cpi_h)
+    cpi_c_a  = monthly_aligned_ext(cpi_c)
+    pce_h_a  = monthly_aligned_ext(pce_h)
+    pce_c_a  = monthly_aligned_ext(pce_c)
+    ppi_h_a  = monthly_aligned_ext(ppi_h)
+    ppi_c_a  = monthly_aligned_ext(ppi_c)
 
     infl_pairs = [
         ("cpi-head", cpi_h_a), ("cpi-core", cpi_c_a),
@@ -559,8 +567,9 @@ def main():
 
     infl_js_parts = []
     for key, arr in infl_pairs:
+        # arr spans the extended (lead-in) axis; compute YoY/MoM then slice back to the 2020+ axis
         infl_js_parts.append(
-            f"  '{key}':{{yoy:{js_arr(yoy_pct(arr),2)},mom:{js_arr(mom_pct(arr),2)}}}"
+            f"  '{key}':{{yoy:{js_arr(yoy_pct(arr)[INFL_LEAD:],2)},mom:{js_arr(mom_pct(arr)[INFL_LEAD:],2)}}}"
         )
     infl_sets_js = "{\n" + ",\n".join(infl_js_parts) + "\n}"
 
