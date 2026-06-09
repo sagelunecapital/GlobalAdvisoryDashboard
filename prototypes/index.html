@@ -2277,7 +2277,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       // combined chart: carry YoY % on the same % axis as the other liquidity lines
       _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#bc8cff',label:'Carry Trade',axis:'rhs'});
     }
-    drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,350);
+    drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,320);
   };
   window._redraw.liquidity();
   // Carry trade index (G10 carry replication w/ recovered FXCTG10 alpha) — async
