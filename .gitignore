@@ -4,6 +4,7 @@ Sector Rotation/
 GAAI-framework-main/
 *.html
 !prototypes/index.html
+!prototypes/mosaic-sample.html
 *.docx
 *.xlsx
 *.twbx
