@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-05T23:27:51.857812+00:00",
+  "updated_at": "2026-06-09T00:16:02.396864+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2684,6 +2684,92 @@
         "change_pct": 5.21,
         "catalyst": "GIII reported Q1 FY2027 net sales of $536M, ahead of guidance, with GAAP diluted EPS of $1.50 versus $0.17 a year earlier - lifted by a $77.9M net benefit ($1.75/share) from the expected recovery of previously paid IEEPA tariffs. Excluding that item, the non-GAAP net loss of $0.21 still came in ahead of guidance on healthy full-price selling and gross margin expansion across the go-forward owned brands and the Marc Jacobs acquisition. GIII raised full-year FY2027 guidance to EPS of $2.15-$2.25 on revenue of about $2.71B.",
         "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-08": [
+      {
+        "ticker": "GLXY",
+        "company": "Galaxy Digital Inc.",
+        "mkt_cap": 11900000000,
+        "change_pct": 21.36,
+        "catalyst": "GLXY surged on two catalysts: Morgan Stanley Wealth Management launched a referral capability letting eligible clients lend crypto directly to GLXY, and chairman Mike Novogratz said GLXY is building the largest single-campus US data center, a 1.6-gigawatt West Texas site already half-leased. GLXY also opened an institutional OTC trading desk focused on prediction markets. The moves point to more Wall Street flow through GLXY platforms and a deeper push into institutional crypto and AI data center infrastructure.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "IDYA",
+        "company": "IDEAYA Biosciences, Inc.",
+        "mkt_cap": 2770000000,
+        "change_pct": 11.28,
+        "catalyst": "IDYA jumped after reporting positive Phase 2/3 OptimUM-02 data showing its darovasertib plus crizotinib combination improved progression-free survival and response rates versus standard therapy in first-line HLA-A*02:01-negative metastatic uveal melanoma, supporting an expedited NDA filing. The data were presented at ASCO. IDYA also entered a clinical collaboration with Roche pairing its PRMT5 inhibitor IDE892 with Roche pan-RAS inhibitor in MTAP-deleted, RAS-mutant pancreatic cancer, and announced a proposed $300M stock-and-warrant offering.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "IFNNY",
+        "company": "Infineon Technologies",
+        "mkt_cap": 115860000000,
+        "change_pct": 5.45,
+        "catalyst": "IFNNY rose with the broad AI-semiconductor demand rally on June 8, with no IFNNY-specific same-day announcement confirmed. AI server infrastructure is expected to make its Power and Sensor Systems division one of its fastest-growing segments. Recent context: IFNNY integrated its OPTIGA Trusted Platform Module with NVIDIA Jetson Thor and guided fiscal 2026 revenue above EUR 16 billion.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "KXIAY",
+        "company": "KIOXIA",
+        "mkt_cap": 266180000000,
+        "change_pct": 7.58,
+        "catalyst": "KXIAY extended its NAND super-cycle rally as memory undersupply and rising NAND prices boost its pricing power and profitability. Its most recent quarter (Jan-Mar 2026) showed revenue up 189% YoY to JPY 1,002.9B and operating profit up roughly 15x to a record JPY 596.8B, and KXIAY market cap recently surpassed Toyota to rank among Japan most valuable companies. No company-specific same-day catalyst was confirmed; the move tracked the memory-demand wave.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MRVL",
+        "company": "Marvell Technology, Inc.",
+        "mkt_cap": 252690000000,
+        "change_pct": 9.63,
+        "catalyst": "MRVL climbed on accelerating AI data center demand following record Q1 FY27 revenue of $2.418B (up 28% YoY) and non-GAAP EPS of $0.80, with Q2 guided to about $2.7B (35% growth) and a raised FY27-28 outlook. A wave of Wall Street upgrades lifted price targets as high as $300, and NVIDIA CEO Jensen Huang publicly praised the company. Its new Teralynx T100 102.4 Tbps switch positions MRVL deeper inside hyperscale AI clusters.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "OSCR",
+        "company": "Oscar Health, Inc.",
+        "mkt_cap": 7280000000,
+        "change_pct": 11.75,
+        "catalyst": "OSCR rose after presenting at the Goldman Sachs Healthcare Conference on June 8, where management reaffirmed full-year 2026 guidance and said the year is progressing strongly, citing favorable trends and lighter-than-expected market morbidity. The update reassured investors that the insurer growth and profitability targets remain on track.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "TNGX",
+        "company": "Tango Therapeutics, Inc.",
+        "mkt_cap": 4470000000,
+        "change_pct": 52.97,
+        "catalyst": "TNGX surged to an all-time high after its experimental cancer drug vopimetostat, combined with Revolution Medicine daraxonrasib, achieved a 92% objective response rate in advanced pancreatic cancer, with tumor shrinkage in 11 of 12 patients. TNGX plans to advance the combination into Phase 3. Leerink raised its target to $55, Wolfe upgraded to Outperform, and Wedbush and Mizuho also lifted targets. TNGX separately launched a proposed $500M stock offering.",
+        "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
         "group_id": null,
