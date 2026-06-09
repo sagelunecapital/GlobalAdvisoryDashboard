@@ -11,7 +11,7 @@ silently persisted.
 
 Constraints:
   - Only INSERT statements — no UPDATE or DELETE anywhere in this module.
-  - spx_daily_high column name enforced per DEC-2026-04-18-01.
+  - spx_daily_close column name enforced per DEC-2026-04-18-01.
 """
 
 import pandas as pd
@@ -22,7 +22,7 @@ from src.fetch.mmth import fetch_mmth
 
 
 INSERT_SQL = (
-    "INSERT INTO indicators (date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth) "
+    "INSERT INTO indicators (date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth) "
     "VALUES (?, ?, ?, ?, ?)"
 )
 
@@ -32,12 +32,12 @@ def _build_combined_df(spx_df: pd.DataFrame, mmth_series: pd.Series) -> pd.DataF
     Inner-join SPX and MMTH on date, returning a clean combined DataFrame.
 
     Args:
-        spx_df: DataFrame with columns date (str YYYY-MM-DD), spx_daily_high,
+        spx_df: DataFrame with columns date (str YYYY-MM-DD), spx_daily_close,
                 spx_12d_ema, spx_25d_ema — already trimmed to ~252 rows.
         mmth_series: pd.Series with DatetimeIndex and float MMTH values.
 
     Returns:
-        pd.DataFrame with columns: date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth
+        pd.DataFrame with columns: date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth
         At least 252 rows (inner join on trading dates).
 
     Raises:
@@ -57,7 +57,7 @@ def _build_combined_df(spx_df: pd.DataFrame, mmth_series: pd.Series) -> pd.DataF
 
     # Inner join
     combined = spx_df.join(mmth_trimmed.rename("mmth"), how="inner")
-    combined = combined.dropna(subset=["spx_daily_high", "spx_12d_ema", "spx_25d_ema", "mmth"])
+    combined = combined.dropna(subset=["spx_daily_close", "spx_12d_ema", "spx_25d_ema", "mmth"])
 
     if len(combined) < 252:
         raise RuntimeError(
@@ -69,7 +69,7 @@ def _build_combined_df(spx_df: pd.DataFrame, mmth_series: pd.Series) -> pd.DataF
 
     combined = combined.reset_index()
     combined["date"] = combined["date"].dt.strftime("%Y-%m-%d")
-    return combined[["date", "spx_daily_high", "spx_12d_ema", "spx_25d_ema", "mmth"]]
+    return combined[["date", "spx_daily_close", "spx_12d_ema", "spx_25d_ema", "mmth"]]
 
 
 def load_historical(
@@ -111,7 +111,7 @@ def load_historical(
         rows = [
             (
                 str(row["date"]),
-                float(row["spx_daily_high"]),
+                float(row["spx_daily_close"]),
                 float(row["spx_12d_ema"]),
                 float(row["spx_25d_ema"]),
                 float(row["mmth"]),

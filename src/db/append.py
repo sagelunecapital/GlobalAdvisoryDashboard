@@ -14,7 +14,7 @@ from src.db.schema import get_connection, create_schema
 
 INSERT_SQL = (
     "INSERT OR IGNORE INTO indicators "
-    "(date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth) "
+    "(date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth) "
     "VALUES (?, ?, ?, ?, ?)"
 )
 
@@ -22,7 +22,7 @@ INSERT_SQL = (
 def append_day(
     db_path: str,
     date: str,
-    spx_daily_high: float,
+    spx_daily_close: float,
     spx_12d_ema: float,
     spx_25d_ema: float,
     mmth: float,
@@ -37,9 +37,9 @@ def append_day(
     Args:
         db_path:       Path to the SQLite database file.
         date:          ISO-8601 date string (YYYY-MM-DD).
-        spx_daily_high: SPX daily HIGH price (DEC-2026-04-18-01).
-        spx_12d_ema:   12-day EMA of spx_daily_high.
-        spx_25d_ema:   25-day EMA of spx_daily_high.
+        spx_daily_close: SPX daily CLOSE price (DEC-2026-06-10-01).
+        spx_12d_ema:   12-day EMA of spx_daily_close.
+        spx_25d_ema:   25-day EMA of spx_daily_close.
         mmth:          % NYSE stocks above 200-day moving average.
 
     Raises:
@@ -52,7 +52,7 @@ def append_day(
     try:
         conn.execute(
             INSERT_SQL,
-            (date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth),
+            (date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth),
         )
         conn.commit()
     finally:

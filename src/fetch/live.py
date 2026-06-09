@@ -25,7 +25,7 @@ def fetch_live(db_path: str, _spx_df=None, _mmth_series=None) -> dict:
         _mmth_series: (testing only) inject MMTH Series; bypasses fetch_mmth() call.
 
     Returns:
-        dict with keys: date (str), spx_daily_high (float), spx_12d_ema (float),
+        dict with keys: date (str), spx_daily_close (float), spx_12d_ema (float),
                         spx_25d_ema (float), mmth (float)
 
     Raises:
@@ -58,21 +58,21 @@ def fetch_live(db_path: str, _spx_df=None, _mmth_series=None) -> dict:
     if errors:
         failed = []
         if any("SPX" in e for e in errors):
-            failed.append("SPX (daily high, 12d EMA, 25d EMA)")
+            failed.append("SPX (daily close, 12d EMA, 25d EMA)")
         if any("MMTH" in e for e in errors):
             failed.append("MMTH")
         raise FetchError("; ".join(errors), failed_indicators=failed)
 
     # AC6: validate — check for None and NaN/non-finite values
     date_val = spx_row["date"]
-    spx_high = spx_row["spx_daily_high"]
+    spx_close = spx_row["spx_daily_close"]
     spx_12 = spx_row["spx_12d_ema"]
     spx_25 = spx_row["spx_25d_ema"]
     mmth_v = mmth_value
 
     null_indicators = []
     for name, val in [
-        ("spx_daily_high", spx_high),
+        ("spx_daily_close", spx_close),
         ("spx_12d_ema", spx_12),
         ("spx_25d_ema", spx_25),
         ("mmth", mmth_v),
@@ -86,13 +86,13 @@ def fetch_live(db_path: str, _spx_df=None, _mmth_series=None) -> dict:
             failed_indicators=null_indicators,
         )
 
-    spx_high_f = float(spx_high)
+    spx_close_f = float(spx_close)
     spx_12_f = float(spx_12)
     spx_25_f = float(spx_25)
     mmth_f = float(mmth_v)
 
     for name, val in [
-        ("spx_daily_high", spx_high_f),
+        ("spx_daily_close", spx_close_f),
         ("spx_12d_ema", spx_12_f),
         ("spx_25d_ema", spx_25_f),
         ("mmth", mmth_f),
@@ -107,7 +107,7 @@ def fetch_live(db_path: str, _spx_df=None, _mmth_series=None) -> dict:
     append_day(
         db_path=db_path,
         date=str(date_val),
-        spx_daily_high=spx_high_f,
+        spx_daily_close=spx_close_f,
         spx_12d_ema=spx_12_f,
         spx_25d_ema=spx_25_f,
         mmth=mmth_f,
@@ -115,7 +115,7 @@ def fetch_live(db_path: str, _spx_df=None, _mmth_series=None) -> dict:
 
     return {
         "date": str(date_val),
-        "spx_daily_high": spx_high_f,
+        "spx_daily_close": spx_close_f,
         "spx_12d_ema": spx_12_f,
         "spx_25d_ema": spx_25_f,
         "mmth": mmth_f,

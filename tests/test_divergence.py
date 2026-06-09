@@ -38,7 +38,7 @@ def _make_rows(
 ) -> list[tuple[str, float, float]]:
     """
     Build the _db_rows list: prior rows + the as_of_date current row.
-    prior_tuples: list of (date_str, spx_daily_high, mmth) with date < as_of_date.
+    prior_tuples: list of (date_str, spx_daily_close, mmth) with date < as_of_date.
     """
     rows = list(prior_tuples)
     rows.append((as_of_date, current_spx, current_mmth))
@@ -64,14 +64,14 @@ def _build_linear_prior_rows(
 
 
 def _insert_rows(db_path: str, rows: list[tuple]) -> None:
-    """Insert (date, spx_daily_high, mmth) rows into tmp_db (fills EMA cols with dummy values)."""
+    """Insert (date, spx_daily_close, mmth) rows into tmp_db (fills EMA cols with dummy values)."""
     from src.db.schema import get_connection
 
     conn = get_connection(db_path)
     try:
         conn.executemany(
             "INSERT OR REPLACE INTO indicators "
-            "(date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth) "
+            "(date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth) "
             "VALUES (?, ?, ?, ?, ?)",
             [(d, h, h * 0.998, h * 0.995, m) for d, h, m in rows],
         )

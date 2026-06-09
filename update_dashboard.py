@@ -243,17 +243,18 @@ def fetch_bitcoin():
 
 # ── SPX + MMTH ────────────────────────────────────────────────────
 def fetch_spx():
-    """Return latest (date, spx_high, ema12, ema25) using daily HIGH per project spec."""
+    """Return latest (date, spx_close, ema12, ema25) using daily CLOSE
+    (DEC-2026-06-10-01, supersedes DEC-2026-04-18-01 which used daily high)."""
     raw = yf.download("^GSPC", period="2y", interval="1d", auto_adjust=True, progress=False)
     if raw is None or len(raw) == 0:
         raise RuntimeError("yfinance returned no data for ^GSPC")
     if isinstance(raw.columns, pd.MultiIndex):
         raw.columns = raw.columns.get_level_values(0)
-    highs = raw["High"].astype(float)
-    ema12 = highs.ewm(span=12, adjust=False).mean()
-    ema25 = highs.ewm(span=25, adjust=False).mean()
-    last_date = highs.index[-1].strftime("%Y-%m-%d")
-    return last_date, float(highs.iloc[-1]), float(ema12.iloc[-1]), float(ema25.iloc[-1])
+    closes = raw["Close"].astype(float)
+    ema12 = closes.ewm(span=12, adjust=False).mean()
+    ema25 = closes.ewm(span=25, adjust=False).mean()
+    last_date = closes.index[-1].strftime("%Y-%m-%d")
+    return last_date, float(closes.iloc[-1]), float(ema12.iloc[-1]), float(ema25.iloc[-1])
 
 
 def fetch_mmth_latest():
@@ -281,10 +282,10 @@ def fetch_mmth_latest():
         return None
 
 
-def classify_regime(spx_high, ema12, ema25, mmth):
+def classify_regime(spx_close, ema12, ema25, mmth):
     """8-condition regime classification per project memory."""
-    above_12 = spx_high > ema12
-    above_25 = spx_high > ema25
+    above_12 = spx_close > ema12
+    above_25 = spx_close > ema25
     below_25  = not above_25
     between   = above_25 and not above_12
 
@@ -310,8 +311,8 @@ def classify_regime(spx_high, ema12, ema25, mmth):
         return "red",    "none",     "SPX below 25d EMA. Bear market conditions — reduce equity risk."
 
 
-def _regime_block(spx_date, spx_high, ema12, ema25, mmth):
-    rc, rd, cond = classify_regime(spx_high, ema12, ema25, mmth)
+def _regime_block(spx_date, spx_close, ema12, ema25, mmth):
+    rc, rd, cond = classify_regime(spx_close, ema12, ema25, mmth)
     mmth_js = "null" if mmth is None else f"{mmth:.2f}"
     # Format date as "Tue 22 Apr 2026"
     try:
@@ -321,7 +322,7 @@ def _regime_block(spx_date, spx_high, ema12, ema25, mmth):
         as_of = spx_date
     cond_escaped = cond.replace("'", "\\'")
     return (
-        f"const regimeSpx={spx_high:.2f};\n"
+        f"const regimeSpx={spx_close:.2f};\n"
         f"const regimeEma12={ema12:.2f};\n"
         f"const regimeEma25={ema25:.2f};\n"
         f"const regimeMmth={mmth_js};\n"
@@ -388,8 +389,8 @@ def main():
     btc = fetch_bitcoin()
 
     print("Fetching SPX data...")
-    spx_date, spx_high, spx_ema12, spx_ema25 = fetch_spx()
-    print(f"  SPX {spx_high:.2f}  12d EMA {spx_ema12:.2f}  25d EMA {spx_ema25:.2f}")
+    spx_date, spx_close, spx_ema12, spx_ema25 = fetch_spx()
+    print(f"  SPX {spx_close:.2f}  12d EMA {spx_ema12:.2f}  25d EMA {spx_ema25:.2f}")
 
     print("Fetching MMTH (requires EODDATA_API_KEY)...")
     mmth_val = fetch_mmth_latest()
@@ -623,7 +624,7 @@ def main():
         f"const yoyBT={js_arr(yoy_bt,4)};\n"
         "\n"
         "// --- Market Regime ---\n"
-        + _regime_block(spx_date, spx_high, spx_ema12, spx_ema25, mmth_val)
+        + _regime_block(spx_date, spx_close, spx_ema12, spx_ema25, mmth_val)
         + "\n"
         "\n// --- Macro Regime ---\n"
         + _regime_macro_block(

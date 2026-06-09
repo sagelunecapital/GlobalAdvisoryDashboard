@@ -40,7 +40,7 @@ def sample_spx_df():
     """
     Mock SPX DataFrame with 400 trading-day rows.
     Covers the 2-year fetch window (with warm-up) needed by historical_load.
-    Columns: date (str YYYY-MM-DD), spx_daily_high, spx_12d_ema, spx_25d_ema.
+    Columns: date (str YYYY-MM-DD), spx_daily_close, spx_12d_ema, spx_25d_ema.
     """
     n = 400
     trading_dates = _generate_trading_dates(n)
@@ -52,7 +52,7 @@ def sample_spx_df():
 
     df = pd.DataFrame({
         "date": [d.strftime("%Y-%m-%d") for d in trading_dates],
-        "spx_daily_high": prices,
+        "spx_daily_close": prices,
         "spx_12d_ema": prices * 0.998,
         "spx_25d_ema": prices * 0.995,
     })

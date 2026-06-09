@@ -18,6 +18,16 @@ updated_at: 2026-04-25
 
 ---
 
+### DEC-2026-06-10-01 — SPX Price = Daily Close (Supersedes DEC-2026-04-18-01)
+
+**Context:** DEC-2026-04-18-01 set SPX price to the daily high across indicator storage, EMA comparison, divergence detection, and the live regime dashboard. The fund manager requested switching to the daily closing price as the canonical SPX price for all regime/divergence logic and display.
+**Decision:** All SPX price values — indicator storage (`spx_daily_close` column, renamed from `spx_daily_high`), 12d/25d EMA computation, divergence swing anchors, regime EMA-zone classification, and dashboard display — now use the **daily close** (`^GSPC` `Close`), not the daily high. This supersedes DEC-2026-04-18-01.
+**Rationale:** The closing price is the settled, widely-referenced session value and is less sensitive to intraday spikes than the high; it is the convention the fund manager wants for the regime signal.
+**Impact:** `src/fetch/spx.py`, `scripts/fetch_regime.py`, and `update_dashboard.py` fetch `Close`; the DB column and all consumers (`schema.py`, `append.py`, `historical_load.py`, `live.py`, `divergence.py`, `regime.py`) renamed `spx_daily_high → spx_daily_close`; ~6 test files updated. No data migration was required — the E01 SQLite pipeline is dormant (no `indicators.db` exists, no live caller). The divergence swing-high/swing-low anchor semantics (DEC-2026-04-18-02) are unchanged; they now operate on the close series. Earlier QA reports / plans referencing `spx_daily_high` reflect the prior decision and are historical.
+**Date:** 2026-06-10
+
+---
+
 ### DEC-2026-05-12-02 — Authorized Recovery Transition: in_progress → refined for Daemon Orphan Detection
 
 **Context:** base.rules.md defines `in_progress → done | failed` as the only authorized exits from `in_progress`, requiring human review before any reset to `refined`. E07 requires `gaai_deliver.py` to automatically reset stale `in_progress` backlog entries to `refined` when the executing `claude -p` process is confirmed dead. The existing bash daemon already performs an equivalent reset via `GAAI_STALENESS_THRESHOLD`, but this behavior was never formally governed. E07S02 (orphan detection on startup) and E07S03 (`--doctor` staleness check) both require this transition.
@@ -142,7 +152,7 @@ updated_at: 2026-04-25
 
 ---
 
-### DEC-2026-04-18-01 — SPX Price = Daily High (Not Close)
+### DEC-2026-04-18-01 — SPX Price = Daily High (Not Close)  [SUPERSEDED by DEC-2026-06-10-01 on 2026-06-10]
 
 **Context:** The regime classification compares SPX price against its EMAs to determine market position. The question was whether to use the daily closing price or the daily high.
 **Decision:** All SPX price values used in indicator storage, divergence detection, EMA comparison, and display are the **daily high**, not the closing price.

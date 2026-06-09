@@ -69,7 +69,7 @@ def classify_regime(
     Parameters
     ----------
     spx_price : float | None
-        Current SPX price (spx_daily_high from the indicators table).
+        Current SPX price (spx_daily_close from the indicators table).
     ema_12 : float | None
         12-day EMA of SPX.
     ema_25 : float | None
@@ -163,7 +163,7 @@ def classify_regime_from_db(db_path: str, as_of_date: str) -> RegimeResult:
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT spx_daily_high, spx_12d_ema, spx_25d_ema
+            SELECT spx_daily_close, spx_12d_ema, spx_25d_ema
             FROM indicators
             WHERE date = :date
             """,

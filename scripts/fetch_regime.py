@@ -78,10 +78,10 @@ def fetch_spx():
     hist   = ticker.history(period="2y")
     if hist.empty:
         raise ValueError("No SPX history returned by yfinance")
-    high  = hist["High"]
-    spx   = float(high.iloc[-1])
-    ema12 = float(high.ewm(span=12, adjust=False).mean().iloc[-1])
-    ema25 = float(high.ewm(span=25, adjust=False).mean().iloc[-1])
+    close = hist["Close"]
+    spx   = float(close.iloc[-1])
+    ema12 = float(close.ewm(span=12, adjust=False).mean().iloc[-1])
+    ema25 = float(close.ewm(span=25, adjust=False).mean().iloc[-1])
     print(f"  SPX: {spx:.2f}", flush=True)
     print(f"  12d EMA: {ema12:.2f}  25d EMA: {ema25:.2f}", flush=True)
     return spx, round(ema12, 2), round(ema25, 2)

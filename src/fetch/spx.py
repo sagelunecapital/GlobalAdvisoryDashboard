@@ -1,12 +1,13 @@
 """
-SPX daily high fetch and EMA computation via yfinance.
+SPX daily close fetch and EMA computation via yfinance.
 
 Strategy:
   - Download 2 years of ^GSPC data for EMA warm-up
-  - Extract the 'High' column as spx_daily_high (DEC-2026-04-18-01)
-  - Compute 12-day and 25-day EMA of spx_daily_high
+  - Extract the 'Close' column as spx_daily_close (DEC-2026-06-10-01,
+    supersedes DEC-2026-04-18-01 which used the daily high)
+  - Compute 12-day and 25-day EMA of spx_daily_close
   - Trim to the most recent 1-year window AFTER EMA computation
-  - Return DataFrame with columns: date, spx_daily_high, spx_12d_ema, spx_25d_ema
+  - Return DataFrame with columns: date, spx_daily_close, spx_12d_ema, spx_25d_ema
 """
 
 import pandas as pd
@@ -16,7 +17,7 @@ from datetime import date, timedelta
 
 def fetch_spx(period: str = "2y") -> pd.DataFrame:
     """
-    Fetch SPX daily high prices and compute 12d/25d EMAs.
+    Fetch SPX daily close prices and compute 12d/25d EMAs.
 
     Downloads `period` of ^GSPC data (default 2y for EMA warm-up),
     computes EMAs on the full series, then trims to the most recent
@@ -25,7 +26,7 @@ def fetch_spx(period: str = "2y") -> pd.DataFrame:
     Returns:
         pd.DataFrame with columns:
             date           (str, YYYY-MM-DD)
-            spx_daily_high (float)
+            spx_daily_close (float)
             spx_12d_ema    (float)
             spx_25d_ema    (float)
 
@@ -42,16 +43,16 @@ def fetch_spx(period: str = "2y") -> pd.DataFrame:
     if isinstance(raw.columns, pd.MultiIndex):
         raw.columns = raw.columns.get_level_values(0)
 
-    if "High" not in raw.columns:
-        raise RuntimeError(f"Expected 'High' column not found in ^GSPC data. Columns: {list(raw.columns)}")
+    if "Close" not in raw.columns:
+        raise RuntimeError(f"Expected 'Close' column not found in ^GSPC data. Columns: {list(raw.columns)}")
 
     df = pd.DataFrame()
-    df["spx_daily_high"] = raw["High"].astype(float)
+    df["spx_daily_close"] = raw["Close"].astype(float)
     df.index = pd.to_datetime(raw.index)
 
     # Compute EMAs on the full 2-year series for proper warm-up
-    df["spx_12d_ema"] = df["spx_daily_high"].ewm(span=12, adjust=False).mean()
-    df["spx_25d_ema"] = df["spx_daily_high"].ewm(span=25, adjust=False).mean()
+    df["spx_12d_ema"] = df["spx_daily_close"].ewm(span=12, adjust=False).mean()
+    df["spx_25d_ema"] = df["spx_daily_close"].ewm(span=25, adjust=False).mean()
 
     # Trim to most recent 252 trading days after EMA computation
     df = df.tail(252).copy()
@@ -62,6 +63,6 @@ def fetch_spx(period: str = "2y") -> pd.DataFrame:
     df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
 
     # Drop any rows with NaN (shouldn't occur after warm-up trim, but be safe)
-    df = df.dropna(subset=["spx_daily_high", "spx_12d_ema", "spx_25d_ema"])
+    df = df.dropna(subset=["spx_daily_close", "spx_12d_ema", "spx_25d_ema"])
 
-    return df[["date", "spx_daily_high", "spx_12d_ema", "spx_25d_ema"]].reset_index(drop=True)
+    return df[["date", "spx_daily_close", "spx_12d_ema", "spx_25d_ema"]].reset_index(drop=True)

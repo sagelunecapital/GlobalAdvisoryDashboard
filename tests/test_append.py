@@ -17,7 +17,7 @@ from src.db.append import append_day
 # Sample indicator values for testing
 SAMPLE_ROW = {
     "date": "2099-01-01",  # Far-future date ensures no collision with real data
-    "spx_daily_high": 5500.25,
+    "spx_daily_close": 5500.25,
     "spx_12d_ema": 5490.10,
     "spx_25d_ema": 5480.05,
     "mmth": 62.5,
@@ -25,7 +25,7 @@ SAMPLE_ROW = {
 
 SAMPLE_ROW_2 = {
     "date": "2099-01-02",
-    "spx_daily_high": 5510.00,
+    "spx_daily_close": 5510.00,
     "spx_12d_ema": 5495.00,
     "spx_25d_ema": 5482.00,
     "mmth": 63.0,
@@ -45,7 +45,7 @@ def _get_row(db_path: str, date: str):
     conn = sqlite3.connect(db_path)
     try:
         cursor = conn.execute(
-            "SELECT date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth "
+            "SELECT date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth "
             "FROM indicators WHERE date = ?",
             (date,),
         )
@@ -120,7 +120,7 @@ class TestAppend:
         fresh_conn = sqlite3.connect(tmp_db)
         try:
             cursor = fresh_conn.execute(
-                "SELECT date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth "
+                "SELECT date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth "
                 "FROM indicators WHERE date = ?",
                 (SAMPLE_ROW["date"],),
             )
@@ -132,7 +132,7 @@ class TestAppend:
             f"Row for date {SAMPLE_ROW['date']} not found after connection close + reopen"
         )
         assert row[0] == SAMPLE_ROW["date"]
-        assert abs(row[1] - SAMPLE_ROW["spx_daily_high"]) < 0.001
+        assert abs(row[1] - SAMPLE_ROW["spx_daily_close"]) < 0.001
         assert abs(row[2] - SAMPLE_ROW["spx_12d_ema"]) < 0.001
         assert abs(row[3] - SAMPLE_ROW["spx_25d_ema"]) < 0.001
         assert abs(row[4] - SAMPLE_ROW["mmth"]) < 0.001

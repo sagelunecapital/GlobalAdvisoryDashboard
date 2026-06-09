@@ -14,9 +14,9 @@ class TestFetchLive:
         self, tmp_db, sample_spx_df, sample_mmth_series
     ):
         result = fetch_live(tmp_db, _spx_df=sample_spx_df, _mmth_series=sample_mmth_series)
-        assert set(result.keys()) == {"date", "spx_daily_high", "spx_12d_ema", "spx_25d_ema", "mmth"}
+        assert set(result.keys()) == {"date", "spx_daily_close", "spx_12d_ema", "spx_25d_ema", "mmth"}
         assert isinstance(result["date"], str)
-        for key in ("spx_daily_high", "spx_12d_ema", "spx_25d_ema", "mmth"):
+        for key in ("spx_daily_close", "spx_12d_ema", "spx_25d_ema", "mmth"):
             assert result[key] is not None
             assert math.isfinite(result[key])
 
@@ -26,14 +26,14 @@ class TestFetchLive:
         result = fetch_live(tmp_db, _spx_df=sample_spx_df, _mmth_series=sample_mmth_series)
         conn = sqlite3.connect(tmp_db)
         row = conn.execute(
-            "SELECT date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth "
+            "SELECT date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth "
             "FROM indicators WHERE date = ?",
             (result["date"],),
         ).fetchone()
         conn.close()
         assert row is not None
         assert row[0] == result["date"]
-        assert abs(row[1] - result["spx_daily_high"]) < 0.001
+        assert abs(row[1] - result["spx_daily_close"]) < 0.001
         assert abs(row[2] - result["spx_12d_ema"]) < 0.001
         assert abs(row[3] - result["spx_25d_ema"]) < 0.001
         assert abs(row[4] - result["mmth"]) < 0.001
@@ -92,11 +92,11 @@ class TestFetchLive:
         assert "SPX" in msg
         assert "MMTH" in msg
 
-    def test_T7_null_spx_daily_high_raises_fetch_error_db_count_zero(
+    def test_T7_null_spx_daily_close_raises_fetch_error_db_count_zero(
         self, tmp_db, sample_spx_df, sample_mmth_series
     ):
         spx_df = sample_spx_df.copy()
-        spx_df.loc[spx_df.index[-1], "spx_daily_high"] = float("nan")
+        spx_df.loc[spx_df.index[-1], "spx_daily_close"] = float("nan")
         with pytest.raises(FetchError):
             fetch_live(tmp_db, _spx_df=spx_df, _mmth_series=sample_mmth_series)
         conn = sqlite3.connect(tmp_db)

@@ -3,7 +3,7 @@ Tests for src/db/historical_load.py.
 
 Covers:
   - T6: load_historical with mocked fetch → 252+ rows stored, all columns non-null,
-         spx_daily_high > 0
+         spx_daily_close > 0
   - T7: Rollback test — inject Exception at row 50 → count = 0 after failure;
          re-run load succeeds
   - Verify no UPDATE or DELETE SQL in historical_load.py source (grep test)
@@ -23,7 +23,7 @@ class TestHistoricalLoad:
     def test_T6_load_historical_stores_252_plus_rows(self, tmp_db, sample_spx_df, sample_mmth_series):
         """
         T6: With mocked SPX and MMTH data, load_historical() must store
-        at least 252 rows, all columns non-null, spx_daily_high > 0.
+        at least 252 rows, all columns non-null, spx_daily_close > 0.
         """
         load_historical(tmp_db, _spx_df=sample_spx_df, _mmth_series=sample_mmth_series)
 
@@ -32,7 +32,7 @@ class TestHistoricalLoad:
         count = cursor.fetchone()[0]
 
         cursor2 = conn.execute(
-            "SELECT date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth FROM indicators"
+            "SELECT date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth FROM indicators"
         )
         rows = cursor2.fetchall()
         conn.close()
@@ -42,16 +42,16 @@ class TestHistoricalLoad:
         for row in rows:
             date_val, high, ema12, ema25, mmth = row
             assert date_val is not None, "date column must not be NULL"
-            assert high is not None, "spx_daily_high must not be NULL"
+            assert high is not None, "spx_daily_close must not be NULL"
             assert ema12 is not None, "spx_12d_ema must not be NULL"
             assert ema25 is not None, "spx_25d_ema must not be NULL"
             assert mmth is not None, "mmth must not be NULL"
-            assert high > 0, f"spx_daily_high must be > 0, got {high} on {date_val}"
+            assert high > 0, f"spx_daily_close must be > 0, got {high} on {date_val}"
 
     def test_T6_column_names_match_schema(self, tmp_db, sample_spx_df, sample_mmth_series):
         """
         T6 (supplementary): Column names in the stored data must match the schema
-        exactly, including spx_daily_high per DEC-2026-04-18-01.
+        exactly, including spx_daily_close per DEC-2026-04-18-01.
         """
         load_historical(tmp_db, _spx_df=sample_spx_df, _mmth_series=sample_mmth_series)
 
@@ -60,7 +60,7 @@ class TestHistoricalLoad:
         columns = [row[1] for row in cursor.fetchall()]
         conn.close()
 
-        assert "spx_daily_high" in columns
+        assert "spx_daily_close" in columns
         assert "spx_price" not in columns
         assert "spx_close" not in columns
 

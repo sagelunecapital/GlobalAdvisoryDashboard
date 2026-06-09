@@ -3,9 +3,9 @@ DB schema, table creation, and connection factory for the indicator database.
 
 Table: indicators
   date           TEXT PRIMARY KEY  -- ISO-8601 YYYY-MM-DD
-  spx_daily_high REAL NOT NULL     -- SPX daily HIGH (DEC-2026-04-18-01)
-  spx_12d_ema    REAL NOT NULL     -- 12-day EMA of spx_daily_high
-  spx_25d_ema    REAL NOT NULL     -- 25-day EMA of spx_daily_high
+  spx_daily_close REAL NOT NULL     -- SPX daily CLOSE (DEC-2026-06-10-01)
+  spx_12d_ema    REAL NOT NULL     -- 12-day EMA of spx_daily_close
+  spx_25d_ema    REAL NOT NULL     -- 25-day EMA of spx_daily_close
   mmth           REAL NOT NULL     -- % stocks above 200-day MA
 
 WAL mode is enabled for ACID guarantees with concurrent readers.
@@ -18,7 +18,7 @@ from pathlib import Path
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS indicators (
     date           TEXT PRIMARY KEY,
-    spx_daily_high REAL NOT NULL,
+    spx_daily_close REAL NOT NULL,
     spx_12d_ema    REAL NOT NULL,
     spx_25d_ema    REAL NOT NULL,
     mmth           REAL NOT NULL

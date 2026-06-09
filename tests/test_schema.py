@@ -3,7 +3,7 @@ Tests for src/db/schema.py.
 
 Covers:
   - Table 'indicators' exists after create_schema()
-  - All 5 required columns present: date, spx_daily_high, spx_12d_ema, spx_25d_ema, mmth
+  - All 5 required columns present: date, spx_daily_close, spx_12d_ema, spx_25d_ema, mmth
   - 'date' is the primary key
   - WAL journal mode is enabled
 """
@@ -35,7 +35,7 @@ class TestSchemaCreation:
         columns = {row[1] for row in cursor.fetchall()}
         conn.close()
 
-        required = {"date", "spx_daily_high", "spx_12d_ema", "spx_25d_ema", "mmth"}
+        required = {"date", "spx_daily_close", "spx_12d_ema", "spx_25d_ema", "mmth"}
         assert required == columns, (
             f"Column mismatch. Expected: {required}, Found: {columns}"
         )
@@ -75,13 +75,13 @@ class TestSchemaCreation:
         conn.close()
         assert result is not None
 
-    def test_spx_daily_high_column_not_named_spx_price(self, tmp_db):
-        """Enforce DEC-2026-04-18-01: column must be 'spx_daily_high', not 'spx_price'."""
+    def test_spx_daily_close_column_not_named_spx_price(self, tmp_db):
+        """Enforce DEC-2026-04-18-01: column must be 'spx_daily_close', not 'spx_price'."""
         create_schema(tmp_db)
         conn = get_connection(tmp_db)
         cursor = conn.execute("PRAGMA table_info(indicators)")
         columns = {row[1] for row in cursor.fetchall()}
         conn.close()
-        assert "spx_daily_high" in columns, "Column 'spx_daily_high' missing"
-        assert "spx_price" not in columns, "Column 'spx_price' must not exist (use spx_daily_high)"
-        assert "spx_close" not in columns, "Column 'spx_close' must not exist (use spx_daily_high)"
+        assert "spx_daily_close" in columns, "Column 'spx_daily_close' missing"
+        assert "spx_price" not in columns, "Column 'spx_price' must not exist (use spx_daily_close)"
+        assert "spx_close" not in columns, "Column 'spx_close' must not exist (use spx_daily_close)"
