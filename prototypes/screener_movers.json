@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T22:31:32.622087+00:00",
+  "updated_at": "2026-06-10T22:07:56.536177+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2930,6 +2930,68 @@
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-10": [
+      {
+        "ticker": "ALHC",
+        "company": "Alignment Healthcare, Inc.",
+        "mkt_cap": 4250000000,
+        "change_pct": 7.08,
+        "catalyst": "ALHC extended its prior-session jump after management presented at the Goldman Sachs Global Healthcare Conference and offered fresh operating updates, drawing investor interest in the Medicare Advantage insurer. The stock had closed roughly 25 percent higher the day before, and that momentum carried into June 10. Next earnings are due July 30.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CASY",
+        "company": "Caseys General Stores, Inc.",
+        "mkt_cap": 33840000000.000004,
+        "change_pct": 20.29,
+        "catalyst": "CASY posted blowout fiscal Q4 results, with adjusted EPS of 4.37 dollars topping the 3.32 dollar consensus by about 32 percent and revenue of 4.57B dollars beating the 4.31B estimate. Inside same-store sales rose 5.5 percent at a 42.4 percent margin, capping record annual results. Management raised the quarterly dividend about 13 percent, extended buybacks to 1B dollars, and set FY2027 guidance for 8 to 10 percent EBITDA growth.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CBRL",
+        "company": "Cracker Barrel Old Country Store, Inc.",
+        "mkt_cap": 994400000,
+        "change_pct": 22.56,
+        "catalyst": "CBRL soared after fiscal Q3 results crushed expectations, posting adjusted EPS of 0.29 dollars versus a forecast loss of 0.48 dollars and revenue of 797.4M dollars ahead of the 776.7M estimate. Management lifted FY2026 guidance to 3.27B to 3.30B dollars in revenue and 120M to 125M in adjusted EBITDA, helping spark a short squeeze. Underlying traffic stayed soft, with comparable restaurant sales down 2.6 percent, and GAAP EPS was aided by a one-time 47.4M dollar litigation settlement.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "TGTX",
+        "company": "TG Therapeutics, Inc.",
+        "mkt_cap": 7140000000,
+        "change_pct": 7.49,
+        "catalyst": "TGTX climbed as Phase 3 ENHANCE data showed a single 600 mg Day 1 Briumvi infusion is bioequivalent to the current two-step regimen, with no new safety signals. The company also pointed to subcutaneous MS data and early myasthenia gravis results supporting a new Phase 2 maintenance trial. An at-home, self-administered Briumvi could meaningfully expand the addressable market, with topline Phase 3 data expected in late 2026 or early 2027.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VELO",
+        "company": "Velo3D, Inc.",
+        "mkt_cap": 675890000,
+        "change_pct": 16.73,
+        "catalyst": "VELO jumped after announcing a gas-turbine manufacturing partnership with Aurelia Technologies built on its Sapphire XC platform, spanning feasibility studies, materials, and process development toward low-rate initial production. The deal pushes the 3D-printing firm beyond its core aerospace and defense base into energy and propulsion markets. Volume ran near 7.9 million shares on the move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
         "group_id": null,
         "group_summary": null
       }

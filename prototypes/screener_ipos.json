@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-06-09T22:31:32.622087+00:00",
+  "fetched_at": "2026-06-10T22:07:56.536177+00:00",
   "us": [
     {
       "ticker": "AADX",
@@ -28,17 +28,17 @@
       "ipo_close": 33.3
     },
     {
-      "ticker": "SSMR",
-      "company": "Sunshine Silver Mining & Refining Company",
-      "exchange": "NYSE",
+      "ticker": "LFTO",
+      "company": "Liftoff Mobile, Inc.",
+      "exchange": "NASDAQ",
       "date": "2026-06-04",
-      "price_usd": 13.5,
-      "price_range": "13.50 - 16.50",
+      "price_usd": 23.0,
+      "price_range": "20.00 - 22.00",
       "status": "Closed",
-      "shares": 23000000,
-      "deal_amount_usd": 270000000.0,
-      "mkt_cap_usd": 1940309140.5,
-      "ipo_close": 17.15
+      "shares": 21850000,
+      "deal_amount_usd": 437000000.0,
+      "mkt_cap_usd": 6013514358.0,
+      "ipo_close": 28.45
     },
     {
       "ticker": "QNT",
@@ -54,29 +54,43 @@
       "ipo_close": 60.38
     },
     {
-      "ticker": "LFTO",
-      "company": "Liftoff Mobile, Inc.",
-      "exchange": "NASDAQ",
+      "ticker": "SSMR",
+      "company": "Sunshine Silver Mining & Refining Company",
+      "exchange": "NYSE",
       "date": "2026-06-04",
-      "price_usd": 23.0,
-      "price_range": "20.00 - 22.00",
+      "price_usd": 13.5,
+      "price_range": "13.50 - 16.50",
       "status": "Closed",
-      "shares": 21850000,
-      "deal_amount_usd": 437000000.0,
-      "mkt_cap_usd": 6013514358.0,
-      "ipo_close": 28.45
+      "shares": 23000000,
+      "deal_amount_usd": 270000000.0,
+      "mkt_cap_usd": 1940309140.5,
+      "ipo_close": 17.15
+    },
+    {
+      "ticker": "PBLS",
+      "company": "PARABILIS MEDICINES INC",
+      "exchange": "NASDAQ",
+      "date": "2026-06-10",
+      "price_usd": 20.0,
+      "price_range": "17.00 - 19.00",
+      "status": "Closed",
+      "shares": 33500000,
+      "deal_amount_usd": 670000000.0,
+      "mkt_cap_usd": 2343390180.0,
+      "ipo_close": 31.6
     },
     {
       "ticker": "EROC",
-      "company": "ERock Inc.",
+      "company": "EROCK INC",
       "exchange": "NYSE",
       "date": "2026-06-10",
-      "price_usd": null,
+      "price_usd": 21.5,
       "price_range": "20.00 - 23.00",
-      "status": "Pending",
+      "status": "Closed",
       "shares": 27906977,
-      "deal_amount_usd": 641860471.0,
-      "mkt_cap_usd": null
+      "deal_amount_usd": 600000005.5,
+      "mkt_cap_usd": 4711342751.5,
+      "ipo_close": 18.75
     },
     {
       "ticker": "SPCX",
@@ -92,42 +106,6 @@
     }
   ],
   "hk": [
-    {
-      "ticker": "3310",
-      "company": "Viewtrix Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-27",
-      "price_usd": 2.655505293021,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 52859200,
-      "deal_amount_usd": 126330884.40594664,
-      "mkt_cap_usd": 1136368039.9806
-    },
-    {
-      "ticker": "901",
-      "company": "Shenzhen SDMC Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-27",
-      "price_usd": 4.18842818992,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 19207300,
-      "deal_amount_usd": 72403263.90505208,
-      "mkt_cap_usd": 877341047.4637
-    },
-    {
-      "ticker": "2723",
-      "company": "Beijing DeepZero Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-27",
-      "price_usd": 7.08337321965,
-      "price_range": "5.55 - 7.08",
-      "status": "Closed",
-      "shares": 9068000,
-      "deal_amount_usd": 57808825.52020758,
-      "mkt_cap_usd": 642433329.1234
-    },
     {
       "ticker": "3388",
       "company": "Shenzhen Creality 3D Technology Co., Ltd. Class H",
@@ -153,18 +131,6 @@
       "mkt_cap_usd": 745154581.584
     },
     {
-      "ticker": "1779",
-      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 12.260135417712,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14193150,
-      "deal_amount_usd": 156608517.79876956,
-      "mkt_cap_usd": 909652895.6862
-    },
-    {
       "ticker": "2290",
       "company": "Lung Fung Group Holdings Limited",
       "exchange": "HKEX",
@@ -177,6 +143,18 @@
       "mkt_cap_usd": 330574293.098
     },
     {
+      "ticker": "1779",
+      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 12.260135417712,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 14193150,
+      "deal_amount_usd": 156608517.79876956,
+      "mkt_cap_usd": 909652895.6862
+    },
+    {
       "ticker": "6658",
       "company": "Liuliumei Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -186,7 +164,19 @@
       "status": "Pending",
       "shares": 11464100,
       "deal_amount_usd": 57389135.58538296,
-      "mkt_cap_usd": null
+      "mkt_cap_usd": 438245082.1383
+    },
+    {
+      "ticker": "6675",
+      "company": "SENASIC Electronics Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-17",
+      "price_usd": 2.342852767764,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 53407000,
+      "deal_amount_usd": 112612029.70589799,
+      "mkt_cap_usd": 887976855.9875
     }
   ]
 }
