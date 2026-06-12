@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-10T22:07:56.536177+00:00",
+  "updated_at": "2026-06-12T00:00:17.308660+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -2992,6 +2992,200 @@
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-11": [
+      {
+        "ticker": "ADPT",
+        "company": "Adaptive Biotechnologies Corporation",
+        "mkt_cap": 3000000000,
+        "change_pct": 9.72,
+        "catalyst": "ADPT extended gains following its Q1 2026 report showing revenue of $70.9M, up 35% year over year and roughly 16% above consensus, with the MRD segment up 53% and now about 95% of revenue. Management reiterated a path to profitability by end-2026 and several analysts restated bullish targets. The move reads as continued follow-through on the earnings beat.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ATEX",
+        "company": "Anterix Inc.",
+        "mkt_cap": 1530000000,
+        "change_pct": 25.72,
+        "catalyst": "ATEX surged after reporting fiscal 2026 results, with revenue up 41% year over year on accelerating 900 MHz spectrum monetization. The period included new spectrum-sale agreements totaling $23.9M plus sizable gains on license exchanges, and the loss came in narrower than expected. The FCC decision expanding the 900 MHz band remains a structural tailwind.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ATRO",
+        "company": "Astronics Corporation",
+        "mkt_cap": 3400000000,
+        "change_pct": 15.13,
+        "catalyst": "ATRO continued higher despite a broadly lower tape, with no single fresh same-day catalyst confirmed. Recent drivers include a Q1 revenue beat at $230.6M with record backlog, contract wins including a 737 MAX fuel-tank access door and a $44.7M U.S. Army radio-test order, and a raised 2026 revenue guide. A 20% Class B stock distribution with a June 15 record date is also pulling in positioning.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "BBAR",
+        "company": "Banco BBVA Argentina S.A.",
+        "mkt_cap": 3820000000,
+        "change_pct": 14.33,
+        "catalyst": "BBAR rallied with Argentine financials on country-level risk-on flows, decoupling from a sharply lower U.S. tape. The move tracks anticipation of an MSCI reclassification decision later in June that could draw passive flows, alongside Milei reform momentum and an energy-led Merval rally. No BBAR-specific announcement drove the day.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "argentina-financials",
+        "group_summary": "BBAR and GGAL rose together on a country-level risk-on move in Argentine financials, decoupling from a sharply lower U.S. tape. The driver was anticipation of an MSCI reclassification decision later in June, Milei reform momentum and an energy-led Merval rally rather than any company-specific news."
+      },
+      {
+        "ticker": "CHEF",
+        "company": "The Chefs' Warehouse, Inc.",
+        "mkt_cap": 3660000000,
+        "change_pct": 5.27,
+        "catalyst": "CHEF hit a fresh all-time high after BTIG raised its price target to $100 from $82, reinforcing a recent move to a top Zacks rank as consensus estimates rose. The upgrade cycle reflects confidence in specialty food distribution margins and volume growth.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ELVN",
+        "company": "Enliven Therapeutics, Inc.",
+        "mkt_cap": 2460000000,
+        "change_pct": 9.08,
+        "catalyst": "ELVN jumped on updated Phase 1 ENABLE data for lead CML candidate ELVN-001, showing strong major molecular response rates and a favorable safety profile in heavily pretreated patients, including asciminib-exposed cases. The readout triggered a wave of bullish analyst actions, including new Buy initiations and price-target hikes ahead of an EHA 2026 presentation.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "GGAL",
+        "company": "Grupo Financiero Galicia S.A.",
+        "mkt_cap": 8380000000.000001,
+        "change_pct": 11.67,
+        "catalyst": "GGAL rose with Argentine financials on the same country-level risk-on move as BBAR, driven by MSCI reclassification anticipation, Milei reform momentum and an energy-led Merval rally. Company fundamentals were soft, with Q1 net income down sharply year over year, confirming a top-down flows move rather than a GGAL-specific event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "argentina-financials",
+        "group_summary": "BBAR and GGAL rose together on a country-level risk-on move in Argentine financials, decoupling from a sharply lower U.S. tape. The driver was anticipation of an MSCI reclassification decision later in June, Milei reform momentum and an energy-led Merval rally rather than any company-specific news."
+      },
+      {
+        "ticker": "KTB",
+        "company": "Kontoor Brands, Inc.",
+        "mkt_cap": 4440000000,
+        "change_pct": 5.89,
+        "catalyst": "KTB drifted to a fresh 52-week high with no confirmed same-day catalyst; the most recent identifiable drivers were Q1 results and a raised FY2026 EPS guide earlier in the spring plus a string of analyst price-target increases. The move reads as momentum and possible defensive apparel rotation on a risk-off session.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "LQDA",
+        "company": "Liquidia Corporation",
+        "mkt_cap": 6370000000,
+        "change_pct": 9.77,
+        "catalyst": "LQDA climbed on positioning into its addition to the S&P SmallCap 600, announced June 8 and effective before the June 22 open, which typically draws passive-fund buying in the sessions ahead of the add. No fresh clinical or regulatory headline was identified for the day.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MBX",
+        "company": "MBX Biosciences, Inc.",
+        "mkt_cap": 1770000000,
+        "change_pct": 20.2,
+        "catalyst": "MBX spiked ahead of a catalyst-rich ENDO 2026 weekend, with one-year extension data and full Phase 2 results for once-weekly canvuparatide due plus an investor webcast scheduled. Recent analyst price-target hikes from Stifel and Barclays amplified the anticipatory move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MDA",
+        "company": "MDA Space Ltd.",
+        "mkt_cap": 5670000000,
+        "change_pct": 8.19,
+        "catalyst": "MDA gained with the broader satellite-communications complex as SpaceX IPO buzz re-rated the value chain; MDA is a key satellite manufacturer across programs such as Telesat Lightspeed. No MDA-specific same-day announcement was confirmed, with the most recent discrete event a national-security antenna selection earlier in the month.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "spacex-satellite",
+        "group_summary": "SATS and MDA both rose as intensifying SpaceX IPO speculation re-rated the satellite and spectrum complex. SATS holds SpaceX equity from prior spectrum sales while MDA is a satellite manufacturer in the value chain, so both traded as proxies for SpaceX-linked value on the day."
+      },
+      {
+        "ticker": "NAVN",
+        "company": "Navan, Inc.",
+        "mkt_cap": 5720000000,
+        "change_pct": 8.43,
+        "catalyst": "NAVN beat on its fiscal Q1 2027 report, with revenue up 40% year over year to $220M, record gross booking volume up 50% to $3.1B, and EPS of $0.08 against an expected loss. The company raised its full-year revenue-growth and operating-profit outlook, prompting bullish analyst notes.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NRIX",
+        "company": "Nurix Therapeutics, Inc.",
+        "mkt_cap": 1760000000,
+        "change_pct": 10.98,
+        "catalyst": "NRIX extended gains tied to its global license and collaboration with Roche on bexobrutideg, carrying $700M upfront and up to $2.3B in total value with a U.S. profit split. The move was reinforced by anticipation of updated Phase 1 CLL data at the EHA 2026 congress.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SATS",
+        "company": "EchoStar Corporation",
+        "mkt_cap": 37130000000,
+        "change_pct": 11.19,
+        "catalyst": "SATS re-rated as a public-market proxy for SpaceX-linked value amid intensifying SpaceX IPO speculation, including reports of a large institutional bid for SpaceX shares. EchoStar holds SpaceX equity from its multibillion-dollar spectrum sales to SpaceX, and the gain reflects that repricing rather than an operational release.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "spacex-satellite",
+        "group_summary": "SATS and MDA both rose as intensifying SpaceX IPO speculation re-rated the satellite and spectrum complex. SATS holds SpaceX equity from prior spectrum sales while MDA is a satellite manufacturer in the value chain, so both traded as proxies for SpaceX-linked value on the day."
+      },
+      {
+        "ticker": "VELO",
+        "company": "Velo3D, Inc.",
+        "mkt_cap": 912210000,
+        "change_pct": 34.96,
+        "catalyst": "VELO continued a multi-session run, with the latest leg driven by a strategic partnership with Aurelia Technologies for additive gas-turbine components on its Sapphire XC platform. The move builds on a Q1 revenue beat with sharply improved gross margin, full-year guidance above the Street, a $9.8M Defense Logistics Agency contract and roughly 70% debt reduction after a recent raise. Analyst price targets were lifted.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VOYG",
+        "company": "Voyager Technologies, Inc.",
+        "mkt_cap": 2840000000,
+        "change_pct": 15.96,
+        "catalyst": "VOYG rallied on a cluster of space and defense wins, including a $16.5M DARPA Phase 2 award and a Redwire subcontract supplying its acceleration measurement system for a DARPA VLEO mission. The wins reinforce a record backlog and strong Starlab payload demand.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
         "group_id": null,
         "group_summary": null
       }

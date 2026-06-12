@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-10T22:07:56.536177+00:00",
+  "updated_at": "2026-06-12T00:00:17.308660+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -691,6 +691,44 @@
         "mkt_cap": 2960000000,
         "change_pct": 32.69,
         "catalyst": "894 spiked alongside an AI-driven up-cycle in capacitors, where surging data center and AI server demand has tightened supply of MLCC and supercapacitors and lifted electronic-component makers. No confirmed company-specific announcement was found for the session, so the move reads as a sector and momentum driven re-rating of the capacitor maker. Treat the spike with caution pending a specific trigger.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-11": [
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 17420000000,
+        "change_pct": 16.69,
+        "catalyst": "2643 extended a multi-day advance on continued Robotaxi and autonomous-driving sentiment, with no specific same-day company announcement confirmed. The Geely-backed name has been an active theme mover on its Robotaxi rollout strategy rather than a discrete dated catalyst on the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2768",
+        "company": "Qingdao Gon Technology Co., Ltd. Class",
+        "mkt_cap": 12330000000,
+        "change_pct": 13.9,
+        "catalyst": "2768 rose with the polystyrene and broader plastics complex, where firmer crude oil has supported product pricing and earnings elasticity for China's largest polystyrene producer. No specific same-day company announcement was confirmed, so the move is best read as a continuation of the oil and polystyrene price theme.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "921",
+        "company": "Hisense Home Appliances Group Co. Ltd. Class",
+        "mkt_cap": 39960000000,
+        "change_pct": 8.15,
+        "catalyst": "921 led HK home-appliance names higher after AVC weekly online retail data (W22) showed strong sales of TVs, refrigerators and air conditioners, 921's core product lines. The move was a read-through on sector demand rather than a 921-specific announcement, with the stock the clear sector standout on the day.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,
