@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12T00:00:17.308660+00:00",
+  "updated_at": "2026-06-13T08:31:27.120459+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -729,6 +729,44 @@
         "mkt_cap": 39960000000,
         "change_pct": 8.15,
         "catalyst": "921 led HK home-appliance names higher after AVC weekly online retail data (W22) showed strong sales of TVs, refrigerators and air conditioners, 921's core product lines. The move was a read-through on sector demand rather than a 921-specific announcement, with the stock the clear sector standout on the day.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-12": [
+      {
+        "ticker": "2218",
+        "company": "Yantai North Andre Juice Co., Ltd. Class",
+        "mkt_cap": 21620000000,
+        "change_pct": 5.74,
+        "catalyst": "2218 continued a strong run with no specific same-day company announcement confirmed for the session. The concentrated apple and fruit juice exporter has been a momentum name, up roughly 100% year to date, trading on firm soft-commodity pricing rather than a discrete dated catalyst.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2245",
+        "company": "Lygend Resources & Technology Co., Ltd. Class",
+        "mkt_cap": 22720000000,
+        "change_pct": 8.55,
+        "catalyst": "2245 advanced on the ongoing cobalt price upcycle, with DRC export curbs and quota expectations pushing the cobalt price center higher, benefiting its Indonesia HPAL nickel and cobalt output. The full-chain nickel producer has run roughly 80% over the past month on the theme, with no discrete same-day announcement confirmed for the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2718",
+        "company": "Mininglamp Technology Class",
+        "mkt_cap": 35640000000,
+        "change_pct": 21.17,
+        "catalyst": "2718 jumped as the market kept re-pricing its Agentic AI positioning, taking the two-day gain above 40% with no discrete same-day company announcement confirmed. As the self-styled first listed Agentic AI pure-play and a recent Stock Connect addition, it drew momentum from the June 10 MIIT 'AI plus information and communications' 2026-2028 plan and an edge-AI narrative.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,

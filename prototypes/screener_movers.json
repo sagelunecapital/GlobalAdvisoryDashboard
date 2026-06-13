@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12T00:00:17.308660+00:00",
+  "updated_at": "2026-06-13T08:31:27.120459+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -3184,6 +3184,68 @@
         "change_pct": 15.96,
         "catalyst": "VOYG rallied on a cluster of space and defense wins, including a $16.5M DARPA Phase 2 award and a Redwire subcontract supplying its acceleration measurement system for a DARPA VLEO mission. The wins reinforce a record backlog and strong Starlab payload demand.",
         "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-12": [
+      {
+        "ticker": "ALOY",
+        "company": "REalloys Inc.",
+        "mkt_cap": 931670000,
+        "change_pct": 8.25,
+        "catalyst": "ALOY rallied as it was confirmed for inclusion in the Russell 3000 effective at the June 29 reconstitution open, raising passive-flow expectations, and Needham initiated coverage with a Buy and a $19 target. The move extends momentum behind its mine-to-magnet rare earth reshoring story and recent offtake agreements aimed at building a NdFeB magnet supply chain outside China.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "russell-index-reconstitution",
+        "group_summary": "ALOY and ASYS both advanced on confirmed addition to the Russell 3000 in the 2026 Russell index reconstitution, effective at the June 29 market open. Index inclusion lifts expected passive and ETF demand, and both names paired the news with fresh bullish analyst coverage."
+      },
+      {
+        "ticker": "ASYS",
+        "company": "Amtech Systems, Inc.",
+        "mkt_cap": 419440000,
+        "change_pct": 6.15,
+        "catalyst": "ASYS jumped after the FTSE Russell preliminary reconstitution added it to the Russell 2000 and Russell 3000, effective at the June 29 open, raising expected ETF and index demand. Analysts also lifted the price target to $22 from $16, citing its position as an asset-light supplier into AI-driven advanced semiconductor packaging after a roughly 430% run over the past year.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "russell-index-reconstitution",
+        "group_summary": "ALOY and ASYS both advanced on confirmed addition to the Russell 3000 in the 2026 Russell index reconstitution, effective at the June 29 market open. Index inclusion lifts expected passive and ETF demand, and both names paired the news with fresh bullish analyst coverage."
+      },
+      {
+        "ticker": "ELVN",
+        "company": "Enliven Therapeutics, Inc.",
+        "mkt_cap": 2810000000,
+        "change_pct": 14.3,
+        "catalyst": "ELVN extended its advance after FDA alignment cleared the path to the Phase 3 ENABLE-2 trial of ELVN-001 in CML, building on updated Phase 1 data showing a 61% major molecular response rate at the 80 mg once-daily dose with clean tolerability. Guggenheim launched at Buy with an $80 target, Stifel started at Buy at $60, and Mizuho raised its target to $62, calling the asset a potential best-in-class CML therapy. This was a multi-day continuation move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ROKU",
+        "company": "Roku, Inc.",
+        "mkt_cap": 21200000000,
+        "change_pct": 20.08,
+        "catalyst": "ROKU surged on reports it is in talks to sell itself to at least one U.S. media company, putting a takeover premium into the stock. The move was amplified by analyst target hikes, with Morgan Stanley to $170 and Guggenheim to $145 on its revamped home screen and ad monetization, plus an upcoming addition to the S&P MidCap 400 on June 22.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "WBI",
+        "company": "WaterBridge Infrastructure",
+        "mkt_cap": 4000000000,
+        "change_pct": 6.36,
+        "catalyst": "WBI rose after Goldman Sachs upgraded the stock to Buy from Neutral and raised its target to $36 from $32, citing commercial momentum on the Speedway Phase 2 produced-water pipeline now seen reaching 300,000 barrels per day by 2030. Goldman lifted estimates by about 6% through 2030 and modeled a 16% EBITDA CAGR off stronger first-quarter produced-water margins.",
+        "catalyst_type": "analyst",
         "source": "Claude | Web",
         "continuation": false,
         "group_id": null,

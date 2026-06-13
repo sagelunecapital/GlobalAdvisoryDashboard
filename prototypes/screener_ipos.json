@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-06-12T00:00:17.308660+00:00",
+  "fetched_at": "2026-06-13T08:31:27.120459+00:00",
   "us": [
     {
       "ticker": "AADX",
@@ -28,6 +28,19 @@
       "ipo_close": 28.45
     },
     {
+      "ticker": "INIO",
+      "company": "INNIO N.V.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": 27.0,
+      "price_range": "24.00 - 27.00",
+      "status": "Closed",
+      "shares": 90000000,
+      "deal_amount_usd": 2430000000.0,
+      "mkt_cap_usd": 20250000000.0,
+      "ipo_close": 33.3
+    },
+    {
       "ticker": "QNT",
       "company": "Quantinuum Inc.",
       "exchange": "NASDAQ",
@@ -54,17 +67,17 @@
       "ipo_close": 17.15
     },
     {
-      "ticker": "INIO",
-      "company": "INNIO N.V.",
+      "ticker": "PBLS",
+      "company": "Parabilis Medicines, Inc.",
       "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 27.0,
-      "price_range": "24.00 - 27.00",
+      "date": "2026-06-10",
+      "price_usd": 20.0,
+      "price_range": "17.00 - 19.00",
       "status": "Closed",
-      "shares": 90000000,
-      "deal_amount_usd": 2430000000.0,
-      "mkt_cap_usd": 20250000000.0,
-      "ipo_close": 33.3
+      "shares": 38525000,
+      "deal_amount_usd": 670000000.0,
+      "mkt_cap_usd": 2362915600.0,
+      "ipo_close": 31.6
     },
     {
       "ticker": "EROC",
@@ -80,44 +93,33 @@
       "ipo_close": 18.75
     },
     {
-      "ticker": "PBLS",
-      "company": "Parabilis Medicines, Inc.",
+      "ticker": "FRBT",
+      "company": "Forbright, Inc.",
       "exchange": "NASDAQ",
-      "date": "2026-06-10",
-      "price_usd": 20.0,
-      "price_range": "17.00 - 19.00",
+      "date": "2026-06-11",
+      "price_usd": 18.0,
+      "price_range": "18.00 - 20.00",
       "status": "Closed",
-      "shares": 33500000,
-      "deal_amount_usd": 670000000.0,
-      "mkt_cap_usd": 2362915600.0,
-      "ipo_close": 31.6
+      "shares": 7900000,
+      "deal_amount_usd": 142200000.0,
+      "mkt_cap_usd": 894376224.0,
+      "ipo_close": 18.1
     },
     {
       "ticker": "SPCX",
-      "company": "SPACE EXPLORATION TECHNOLOGIES CORP",
+      "company": "Space Exploration Technologies Corp",
       "exchange": "NASDAQ",
       "date": "2026-06-12",
       "price_usd": 135.0,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 555555555,
       "deal_amount_usd": 74999999925.0,
-      "mkt_cap_usd": 1765241798625.0
+      "mkt_cap_usd": 1765241798625.0,
+      "ipo_close": 160.95
     }
   ],
   "hk": [
-    {
-      "ticker": "3388",
-      "company": "Shenzhen Creality 3D Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-05-29",
-      "price_usd": 2.40007149136,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 73427550,
-      "deal_amount_usd": 158608124.48865277,
-      "mkt_cap_usd": 1119834881.1002
-    },
     {
       "ticker": "2553",
       "company": "Beijing Shougang LanzaTech Technology Co., Ltd. Class H",
@@ -143,18 +145,6 @@
       "mkt_cap_usd": 909652895.6862
     },
     {
-      "ticker": "2290",
-      "company": "Lung Fung Group Holdings Limited",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 0.661140147458,
-      "price_range": "0.66 - 0.81",
-      "status": "Closed",
-      "shares": 125000000,
-      "deal_amount_usd": 74378266.589025,
-      "mkt_cap_usd": 330574293.098
-    },
-    {
       "ticker": "1081",
       "company": "Dajin Heavy Industry Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -167,16 +157,28 @@
       "mkt_cap_usd": 6141928166.944
     },
     {
+      "ticker": "2290",
+      "company": "Lung Fung Group Holdings Limited",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 0.661140147458,
+      "price_range": "0.66 - 0.81",
+      "status": "Closed",
+      "shares": 125000000,
+      "deal_amount_usd": 74378266.589025,
+      "mkt_cap_usd": 330574293.098
+    },
+    {
       "ticker": "6658",
       "company": "Liuliumei Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-15",
-      "price_usd": 5.562256298498,
+      "price_usd": 5.56083680638,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 11464100,
-      "deal_amount_usd": 57389135.58538296,
-      "mkt_cap_usd": 438247877.8965
+      "deal_amount_usd": 57374489.83350629,
+      "mkt_cap_usd": 438256266.2017
     },
     {
       "ticker": "6675",
@@ -188,7 +190,7 @@
       "status": "Pending",
       "shares": 53407000,
       "deal_amount_usd": 112612029.70589799,
-      "mkt_cap_usd": 887982520.7826
+      "mkt_cap_usd": 887999517.2559
     }
   ]
 }
