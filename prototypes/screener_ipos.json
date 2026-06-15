@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-06-13T08:31:27.120459+00:00",
+  "fetched_at": "2026-06-15T22:18:31.309131+00:00",
   "us": [
     {
       "ticker": "AADX",
@@ -15,6 +15,19 @@
       "ipo_close": 19.01
     },
     {
+      "ticker": "QNT",
+      "company": "Quantinuum Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": 60.0,
+      "price_range": "53.00 - 55.00",
+      "status": "Closed",
+      "shares": 28000000,
+      "deal_amount_usd": 1680000000.0,
+      "mkt_cap_usd": 15236234820.0,
+      "ipo_close": 60.38
+    },
+    {
       "ticker": "LFTO",
       "company": "Liftoff Mobile, Inc.",
       "exchange": "NASDAQ",
@@ -26,6 +39,19 @@
       "deal_amount_usd": 437000000.0,
       "mkt_cap_usd": 6013514358.0,
       "ipo_close": 28.45
+    },
+    {
+      "ticker": "SSMR",
+      "company": "Sunshine Silver Mining & Refining Company",
+      "exchange": "NYSE",
+      "date": "2026-06-04",
+      "price_usd": 13.5,
+      "price_range": "13.50 - 16.50",
+      "status": "Closed",
+      "shares": 23000000,
+      "deal_amount_usd": 270000000.0,
+      "mkt_cap_usd": 1940309140.5,
+      "ipo_close": 17.15
     },
     {
       "ticker": "INIO",
@@ -41,30 +67,17 @@
       "ipo_close": 33.3
     },
     {
-      "ticker": "QNT",
-      "company": "Quantinuum Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 60.0,
-      "price_range": "53.00 - 55.00",
-      "status": "Closed",
-      "shares": 28000000,
-      "deal_amount_usd": 1680000000.0,
-      "mkt_cap_usd": 15236234820.0,
-      "ipo_close": 60.38
-    },
-    {
-      "ticker": "SSMR",
-      "company": "Sunshine Silver Mining & Refining Company",
+      "ticker": "WHK",
+      "company": "WhiteHawk Minerals Corp",
       "exchange": "NYSE",
-      "date": "2026-06-04",
-      "price_usd": 13.5,
-      "price_range": "13.50 - 16.50",
+      "date": "2026-06-09",
+      "price_usd": 26.0,
+      "price_range": "25.00 - 27.00",
       "status": "Closed",
-      "shares": 23000000,
-      "deal_amount_usd": 270000000.0,
-      "mkt_cap_usd": 1940309140.5,
-      "ipo_close": 17.15
+      "shares": 7700000,
+      "deal_amount_usd": 200200000.0,
+      "mkt_cap_usd": 675261054.0,
+      "ipo_close": 26.0
     },
     {
       "ticker": "PBLS",
@@ -113,7 +126,7 @@
       "price_usd": 135.0,
       "price_range": null,
       "status": "Closed",
-      "shares": 555555555,
+      "shares": 638888888,
       "deal_amount_usd": 74999999925.0,
       "mkt_cap_usd": 1765241798625.0,
       "ipo_close": 160.95
@@ -131,18 +144,6 @@
       "shares": 40000000,
       "deal_amount_usd": 63338139.43464,
       "mkt_cap_usd": 745154581.584
-    },
-    {
-      "ticker": "1779",
-      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 12.260135417712,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14193150,
-      "deal_amount_usd": 156608517.79876956,
-      "mkt_cap_usd": 909652895.6862
     },
     {
       "ticker": "1081",
@@ -169,16 +170,28 @@
       "mkt_cap_usd": 330574293.098
     },
     {
+      "ticker": "1779",
+      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 12.260135417712,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 14193150,
+      "deal_amount_usd": 156608517.79876956,
+      "mkt_cap_usd": 909652895.6862
+    },
+    {
       "ticker": "6658",
       "company": "Liuliumei Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-15",
-      "price_usd": 5.56083680638,
+      "price_usd": 5.5615464631,
       "price_range": null,
       "status": "Closed",
       "shares": 11464100,
-      "deal_amount_usd": 57374489.83350629,
-      "mkt_cap_usd": 438256266.2017
+      "deal_amount_usd": 57381811.78768056,
+      "mkt_cap_usd": 438312195.105
     },
     {
       "ticker": "6675",
@@ -190,7 +203,55 @@
       "status": "Pending",
       "shares": 53407000,
       "deal_amount_usd": 112612029.70589799,
-      "mkt_cap_usd": 887999517.2559
+      "mkt_cap_usd": 888112840.9959
+    },
+    {
+      "ticker": "1392",
+      "company": "Shenzhen HQVT Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-22",
+      "price_usd": 0.91870717464,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 85162500,
+      "deal_amount_usd": 70415230.10745744,
+      "mkt_cap_usd": 711375216.1465
+    },
+    {
+      "ticker": "6132",
+      "company": "HJ Science Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-23",
+      "price_usd": 10.4377340698,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 13600000,
+      "deal_amount_usd": 127757865.014352,
+      "mkt_cap_usd": 768311141.6025
+    },
+    {
+      "ticker": "2335",
+      "company": "Shaanxi Mycotech Pharmaceutical Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-24",
+      "price_usd": null,
+      "price_range": "2.32 - 2.68",
+      "status": "Pending",
+      "shares": 58054400,
+      "deal_amount_usd": 140024476.954236,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "6106",
+      "company": "Shanghai Seer Intelligent Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-24",
+      "price_usd": 12.965881612,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10497300,
+      "deal_amount_usd": 129300957.7875088,
+      "mkt_cap_usd": 1432694910.2456
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-13T08:31:27.120459+00:00",
+  "updated_at": "2026-06-15T22:18:31.309131+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -767,6 +767,116 @@
         "mkt_cap": 35640000000,
         "change_pct": 21.17,
         "catalyst": "2718 jumped as the market kept re-pricing its Agentic AI positioning, taking the two-day gain above 40% with no discrete same-day company announcement confirmed. As the self-styled first listed Agentic AI pure-play and a recent Stock Connect addition, it drew momentum from the June 10 MIIT 'AI plus information and communications' 2026-2028 plan and an edge-AI narrative.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-15": [
+      {
+        "ticker": "1138",
+        "company": "COSCO SHIPPING Energy Transportation Co., Ltd. Class",
+        "mkt_cap": 100900000000,
+        "change_pct": 19.11,
+        "catalyst": "1138 jumped on a sharp spike in VLCC crude-tanker freight rates after navigation disruption near the Strait of Hormuz from June 13 sent Gulf-to-China spot rates up roughly 24% in a day. 1138 runs a predominantly spot tanker fleet, so it is highly geared to the rate move. No company-specific filing drove the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 98970000000,
+        "change_pct": 12.65,
+        "catalyst": "148 rose with a rally in PCB-materials and AI-hardware suppliers tied to the China-AI news cycle on June 15. As a leading copper-clad laminate maker, 148 benefits from tight CCL supply and repeated price increases on AI-server PCB demand. No company-specific announcement was filed for the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-hardware-supply-chain",
+        "group_summary": "148 and 1729 both advanced on the June 15 rally in AI data-center hardware and PCB-materials suppliers, driven by the China-AI news cycle and reports of NVIDIA and others locking up copper-foil and laminate capacity. Neither move was tied to a company-specific filing."
+      },
+      {
+        "ticker": "1729",
+        "company": "Time Interconnect Technology Limited",
+        "mkt_cap": 35550000000,
+        "change_pct": 21.91,
+        "catalyst": "1729 advanced with the same AI data-center hardware rally as an interconnect and cable-assembly supplier to server and data-center customers. Reports of NVIDIA and others securing copper-foil and high-grade laminate capacity reinforced the supply-chain theme. No company-specific filing drove the session, and the name trades as a high-beta AI-infrastructure play.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-hardware-supply-chain",
+        "group_summary": "148 and 1729 both advanced on the June 15 rally in AI data-center hardware and PCB-materials suppliers, driven by the China-AI news cycle and reports of NVIDIA and others locking up copper-foil and laminate capacity. Neither move was tied to a company-specific filing."
+      },
+      {
+        "ticker": "2218",
+        "company": "Yantai North Andre Juice Co., Ltd. Class",
+        "mkt_cap": 21620000000,
+        "change_pct": 11.44,
+        "catalyst": "2218 extended its prior-session gain with no identifiable specific catalyst, consistent with thin trading in a lightly covered apple-concentrate name. Possible context is tighter processing-grade apple supply, but no announcement or filing was found for the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2513",
+        "company": "Knowledge Atlas Technology Joint Stock Company Limited Class",
+        "mkt_cap": 489090000000,
+        "change_pct": 32.82,
+        "catalyst": "2513 rocketed after releasing its flagship open-source model GLM-5.2 (1M-token context) on June 13, undercutting Western API pricing, just as a June 12 U.S. export-control order forced Anthropic to suspend its top models globally. JPMorgan named the firm an AI winner and raised its target. Shares closed up 32.8% at HK$1,457 after spiking as much as 48% intraday.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2643",
+        "company": "CaoCao Inc.",
+        "mkt_cap": 19840000000,
+        "change_pct": 7.71,
+        "catalyst": "2643 continued momentum from a June 9-11 All-in-AI restructuring, in which it formed a standalone AI unit and accelerated robotaxi commercialization (Hangzhou driverless testing approval, planned Shanghai deployment). No new June 15 filing drove the session; the move extends the earlier AI/robotaxi catalyst.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2768",
+        "company": "Qingdao Gon Technology Co., Ltd. Class",
+        "mkt_cap": 14560000000,
+        "change_pct": 14.12,
+        "catalyst": "2768 jumped with no identifiable specific catalyst, characteristic of a recently H-share-listed (February 2026), low-float new-materials name prone to momentum swings. The move is not dividend-related, as the H-share final dividend goes ex on June 17. No announcement was found for the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "3993",
+        "company": "CMOC Group Limited Class",
+        "mkt_cap": 460660000000,
+        "change_pct": 6.28,
+        "catalyst": "3993 rose with copper trading near record highs (about $6.47/lb) on Middle-East de-escalation and structural supply tightness. As a major copper and the world's largest cobalt producer, 3993 is highly geared to both metals, with cobalt also firm on DRC export quotas. No company-specific filing drove the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "894",
+        "company": "Man Yue Technology Holdings Ltd",
+        "mkt_cap": 2410000000,
+        "change_pct": 12.13,
+        "catalyst": "894 bounced within a highly speculative supercapacitor and AI-server-power theme, having run roughly six-fold over the prior month before pulling back from its June 4 peak. No company-specific announcement was found for the session, and the move reflects retail-driven momentum rather than a new disclosure.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,

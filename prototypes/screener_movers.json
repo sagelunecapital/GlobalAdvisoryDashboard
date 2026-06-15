@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-13T08:31:27.120459+00:00",
+  "updated_at": "2026-06-15T22:18:31.309131+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -3246,6 +3246,128 @@
         "change_pct": 6.36,
         "catalyst": "WBI rose after Goldman Sachs upgraded the stock to Buy from Neutral and raised its target to $36 from $32, citing commercial momentum on the Speedway Phase 2 produced-water pipeline now seen reaching 300,000 barrels per day by 2030. Goldman lifted estimates by about 6% through 2030 and modeled a 16% EBITDA CAGR off stronger first-quarter produced-water margins.",
         "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-15": [
+      {
+        "ticker": "AYA",
+        "company": "Aya Gold & Silver Inc.",
+        "mkt_cap": 2960000000,
+        "change_pct": 10.37,
+        "catalyst": "AYA jumped with the broader silver complex as spot silver rallied toward $70/oz on June 15. As a leveraged primary silver producer, AYA amplifies spot moves, with no company-specific announcement behind the session. The advance extends a strong 2026 for silver miners.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "precious-metals-rally",
+        "group_summary": "AYA and SKE both advanced with the June 15 rally in gold and silver. Both are precious-metals miners/developers with high leverage to spot prices, and neither move was driven by a company-specific announcement."
+      },
+      {
+        "ticker": "CHDN",
+        "company": "Churchill Downs, Incorporated",
+        "mkt_cap": 6430000000,
+        "change_pct": 6.17,
+        "catalyst": "CHDN climbed with no fresh same-day headline, extending a rebound off a weak YTD after Truist reiterated a Buy and $145 target on June 12 following investor meetings with management. The April Q1 beat (adj. EPS $1.21) remains the underlying fundamental support. The move reads as an oversold bounce rather than a new catalyst.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "DAVE",
+        "company": "Dave Inc.",
+        "mkt_cap": 3930000000,
+        "change_pct": 7.66,
+        "catalyst": "DAVE extended its post-earnings run with no fresh June 15 catalyst, riding momentum from a strong Q1 (adj. EPS $3.64, +64% YoY) and a wave of price-target hikes, including Freedom Broker to $370 on June 3. Recent S&P SmallCap 600 inclusion (effective June 1) added passive support, and high-beta fintech momentum amplified the gain.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ESAB",
+        "company": "ESAB Corporation",
+        "mkt_cap": 5890000000,
+        "change_pct": 5.62,
+        "catalyst": "ESAB advanced on continued repricing after closing its $1.45B acquisition of Eddyfi Technologies on June 1, funded partly by a roughly $318M equity and mandatory-convertible raise. A spread of bullish analyst targets followed (Stifel $158, BofA $150, Oppenheimer $148 Outperform). No fresh June 15 headline drove the session.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "FQVLF",
+        "company": "First Quantum Minerals Ltd.",
+        "mkt_cap": 27380000000,
+        "change_pct": 5.8,
+        "catalyst": "FQVLF tracked the copper rally as the metal pushed above $6.50/lb toward record highs on June 15. As a leveraged copper producer with Cobre Panama restart optionality, FQVLF amplifies copper moves, with no company-specific announcement behind the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "HQ",
+        "company": "Horizon Quantum Holdings Ltd.",
+        "mkt_cap": 567270000,
+        "change_pct": 63.34,
+        "catalyst": "HQ spiked on no identifiable company-specific catalyst, a move consistent with low-float, high-volatility trading in a recently SPAC-listed quantum-software name. Recent context includes a Needham Buy initiation ($20 target) on June 3 and an IonQ 256-qubit Dublin testbed announcement on June 11, but neither was dated to the session. The broader quantum sector has seen repeated 20%+ single-day swings in 2026.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "KXIAY",
+        "company": "KIOXIA",
+        "mkt_cap": 276780000000,
+        "change_pct": 13.45,
+        "catalyst": "KXIAY extended an extraordinary AI-NAND demand run with no specific June 15 catalyst identified. The ADR is up roughly 460% YTD, and the company overtook Toyota as Japan's most valuable listed firm on June 12 on a forecast 48-fold jump in fiscal-Q1 profit. A potential U.S. listing has added to momentum.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NTLA",
+        "company": "Intellia Therapeutics, Inc.",
+        "mkt_cap": 2080000000,
+        "change_pct": 23.2,
+        "catalyst": "NTLA surged in the first full session after presenting positive Phase 3 HAELO data for lonvo-z in hereditary angioedema at EAACI on June 13, simultaneously published in NEJM. The therapy cut monthly HAE attacks 87% (p<0.0001), with 62% of patients attack-free and therapy-free. A rolling BLA is underway with a U.S. launch targeted for 1H 2027.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SKE",
+        "company": "Skeena Resources Limited",
+        "mkt_cap": 3730000000,
+        "change_pct": 6.83,
+        "catalyst": "SKE rose with the precious-metals rally as gold pushed to roughly $4,339/oz and silver climbed on June 15. SKE is a pre-production gold-silver developer (Eskay Creek), so its equity is highly geared to spot prices rather than any same-day company news.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "precious-metals-rally",
+        "group_summary": "AYA and SKE both advanced with the June 15 rally in gold and silver. Both are precious-metals miners/developers with high leverage to spot prices, and neither move was driven by a company-specific announcement."
+      },
+      {
+        "ticker": "VECO",
+        "company": "Veeco Instruments Inc.",
+        "mkt_cap": 5070000000,
+        "change_pct": 7.18,
+        "catalyst": "VECO rose with a broad semiconductor capital-equipment rally on renewed chip-capex optimism, with peers ACMR, ACLS and ONTO up similarly on June 15. VECO is also locked into an all-stock merger with ACLS (votes passed February 6, close expected 2H 2026), so it mechanically tracks ACLS. No fresh VECO-specific news drove the session.",
+        "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,
         "group_id": null,
