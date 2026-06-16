@@ -2907,8 +2907,7 @@ function leadLogout(){
 }
 function leadRenderDateSel(){
   const btn=document.getElementById('lead-snap-btn');if(!btn)return;
-  const d=leadDate||_leadToday();
-  btn.textContent=d+(d===_leadToday()?' (today)':'');
+  btn.textContent=leadDate||_leadToday();
 }
 function leadSetDate(d){leadDate=d;_leadOpenDd=null;leadRenderDateSel();renderLeadCols();leadCharts();}
 let _leadCalYM=null,_leadCalMode=null;
