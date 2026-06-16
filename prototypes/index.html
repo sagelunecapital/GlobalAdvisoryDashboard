@@ -343,7 +343,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .lead-dd{position:relative;margin-top:10px}
 .lead-dd-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:5px;padding:6px;border:1px dashed var(--outline-dim);background:transparent;color:var(--text-muted);font-family:inherit;font-size:var(--fs-xs);cursor:pointer;transition:color 150ms,border-color 150ms}
 .lead-dd-btn:hover{color:var(--text);border-color:var(--outline)}
-.lead-dd-menu{display:none;position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--surface-low);border:1px solid var(--outline-dim);z-index:50;flex-direction:column}
+.lead-dd-menu{display:none;position:absolute;left:0;right:0;bottom:calc(100% + 4px);background:var(--surface-low);border:1px solid var(--outline-dim);z-index:50;flex-direction:column}
 .lead-dd.open .lead-dd-menu{display:flex}
 .lead-dd-search{margin:6px;padding:6px 8px;background:var(--surface-high);border:1px solid var(--outline-dim);color:var(--text);font-family:inherit;font-size:var(--fs-sm);outline:none}
 .lead-dd-list{overflow-y:auto;max-height:220px}
@@ -367,6 +367,9 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .lead-cal-day:hover{background:var(--surface-high);color:var(--text)}
 .lead-cal-day.empty{cursor:default}
 .lead-cal-day.empty:hover{background:transparent}
+.lead-cal-day.disabled{opacity:.3;cursor:default}
+.lead-cal-day.disabled:hover{background:transparent;color:var(--text-dim)}
+.lead-snap-btn{text-align:left;min-width:148px}
 .lead-cal-day.today{border-color:var(--outline-dim);color:var(--text)}
 .lead-cal-day.sel{background:var(--ps-blue);color:#000;font-weight:600}
 .lead-cal-day.has::after{content:"";position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--ps-blue)}
@@ -967,10 +970,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="section-heading" style="margin:0">Industry Leadership</div>
     <div class="lead-date-wrap">
       <span style="font-size:var(--fs-xs);color:var(--text-muted)">Snapshot</span>
-      <select class="cot-sel" id="lead-date-sel" onchange="leadSetDate(this.value)"></select>
-      <div class="lead-cal-wrap" id="lead-cal-wrap">
-        <button class="btn" id="lead-newday-btn" onclick="leadNewDayPick()"><span class="msi" style="font-size:15px">add</span>Day</button>
-        <div class="lead-cal" id="lead-cal"></div>
+      <div class="lead-cal-wrap" id="lead-snap-wrap">
+        <button class="cot-sel lead-snap-btn" id="lead-snap-btn" onclick="leadCalToggle('snap')"></button>
+        <div class="lead-cal" id="lead-cal-snap"></div>
+      </div>
+      <div class="lead-cal-wrap" id="lead-day-wrap">
+        <button class="btn" id="lead-newday-btn" onclick="leadCalToggle('day')"><span class="msi" style="font-size:15px">add</span>Day</button>
+        <div class="lead-cal" id="lead-cal-day"></div>
       </div>
       <span class="notes-status" id="lead-status"></span>
     </div>
@@ -2900,29 +2906,33 @@ function leadLogout(){
   leadRenderAuth();renderLeadCols();leadCharts();
 }
 function leadRenderDateSel(){
-  const sel=document.getElementById('lead-date-sel');if(!sel)return;
-  const ds=leadDates();
-  if(!ds.includes(leadDate))ds.push(leadDate);
-  ds.sort();
-  sel.innerHTML=ds.map(d=>`<option value="${d}"${d===leadDate?' selected':''}>${d}${d===_leadToday()?' (today)':''}</option>`).join('');
+  const btn=document.getElementById('lead-snap-btn');if(!btn)return;
+  const d=leadDate||_leadToday();
+  btn.textContent=d+(d===_leadToday()?' (today)':'');
 }
-function leadSetDate(d){leadDate=d;_leadOpenDd=null;renderLeadCols();leadCharts();}
-let _leadCalYM=null;
+function leadSetDate(d){leadDate=d;_leadOpenDd=null;leadRenderDateSel();renderLeadCols();leadCharts();}
+let _leadCalYM=null,_leadCalMode=null;
 const _LEAD_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 function _leadYmd(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function leadNewDayPick(){
-  if(!leadCanEdit)return;
-  const cal=document.getElementById('lead-cal');if(!cal)return;
-  if(cal.classList.contains('open')){leadCalClose();return;}
+function _leadCalEl(){return document.getElementById(_leadCalMode==='snap'?'lead-cal-snap':'lead-cal-day');}
+// mode 'snap' = jump to an existing snapshot (view); mode 'day' = add/open any date (edit only)
+function leadCalToggle(mode){
+  if(mode==='day'&&!leadCanEdit)return;
+  const cal=document.getElementById(mode==='snap'?'lead-cal-snap':'lead-cal-day');if(!cal)return;
+  const wasOpen=cal.classList.contains('open');
+  leadCalClose();
+  if(wasOpen)return;
+  _leadCalMode=mode;
   const [y,m]=(leadDate||_leadToday()).split('-').map(Number);
   _leadCalYM={y,m:m-1};
   leadCalRender();cal.classList.add('open');
 }
-function leadCalClose(){const cal=document.getElementById('lead-cal');if(cal)cal.classList.remove('open');}
+function leadCalClose(){document.querySelectorAll('.lead-cal.open').forEach(c=>c.classList.remove('open'));_leadCalMode=null;}
 function leadCalNav(delta){let {y,m}=_leadCalYM;m+=delta;if(m<0){m=11;y--;}else if(m>11){m=0;y++;}_leadCalYM={y,m};leadCalRender();}
-function leadCalPick(ds){leadCalClose();leadNewDay(ds);}
+function leadCalPick(ds){const mode=_leadCalMode;leadCalClose();if(mode==='snap')leadSetDate(ds);else leadNewDay(ds);}
 function leadCalRender(){
-  const cal=document.getElementById('lead-cal');if(!cal||!_leadCalYM)return;
+  const cal=_leadCalEl();if(!cal||!_leadCalYM)return;
+  const view=_leadCalMode==='snap';
   const {y,m}=_leadCalYM;
   const first=new Date(y,m,1).getDay();
   const days=new Date(y,m+1,0).getDate();
@@ -2930,11 +2940,13 @@ function leadCalRender(){
   let cells=['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="lead-cal-dow">${d}</div>`).join('');
   for(let i=0;i<first;i++)cells+=`<div class="lead-cal-day empty"></div>`;
   for(let d=1;d<=days;d++){
-    const ds=_leadYmd(y,m,d),cls=['lead-cal-day'];
-    if(leadData.snapshots[ds])cls.push('has');
+    const ds=_leadYmd(y,m,d),exists=!!leadData.snapshots[ds],cls=['lead-cal-day'];
+    if(exists)cls.push('has');
     if(ds===today)cls.push('today');
     if(ds===leadDate)cls.push('sel');
-    cells+=`<div class="${cls.join(' ')}" onclick="leadCalPick('${ds}')">${d}</div>`;
+    const dis=view&&!exists;          // in snapshot mode only existing days are selectable
+    if(dis)cls.push('disabled');
+    cells+=`<div class="${cls.join(' ')}"${dis?'':` onclick="leadCalPick('${ds}')"`}>${d}</div>`;
   }
   cal.innerHTML=`<div class="lead-cal-head">
     <button class="lead-cal-nav" onclick="leadCalNav(-1)" title="Previous month">&#9664;</button>
