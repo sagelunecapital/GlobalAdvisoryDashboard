@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-15T22:18:31.309131+00:00",
+  "updated_at": "2026-06-16T22:15:04.016127+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -3368,6 +3368,56 @@
         "change_pct": 7.18,
         "catalyst": "VECO rose with a broad semiconductor capital-equipment rally on renewed chip-capex optimism, with peers ACMR, ACLS and ONTO up similarly on June 15. VECO is also locked into an all-stock merger with ACLS (votes passed February 6, close expected 2H 2026), so it mechanically tracks ACLS. No fresh VECO-specific news drove the session.",
         "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-16": [
+      {
+        "ticker": "ARQQ",
+        "company": "Arqit Quantum Inc.",
+        "mkt_cap": 312100000,
+        "change_pct": 11.27,
+        "catalyst": "ARQQ rose with a broad rotation back into quantum computing names, as IONQ, RGTI, QBTS and QUBT all gained 4-8% on risk-on positioning ahead of expected 2026 quantum-advantage milestones. No company-specific announcement drove the session. As a small-cap quantum-encryption play, ARQQ amplified the sector move.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MRNA",
+        "company": "Moderna, Inc.",
+        "mkt_cap": 21980000000,
+        "change_pct": 6.27,
+        "catalyst": "MRNA gained as investors positioned ahead of the June 18 FDA advisory committee review of its mRNA seasonal flu vaccine, which precedes an August 5 approval decision. The rally was anticipatory, with no new clinical data released in the session. MRNA is up roughly 80% year-to-date and trading near its 52-week high.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "TLN",
+        "company": "Talen Energy Corporation",
+        "mkt_cap": 18450000000,
+        "change_pct": 5.26,
+        "catalyst": "TLN advanced after announcing on June 15 the completed acquisition of the Lawrenceburg, Waterford and Darby generation plants from Energy Capital Partners. The deal is immediately accretive, adding over 15% to cash flow per share and reinforcing a path to more than $40 per share of annual free cash flow by 2028. The purchase expands TLN's western PJM footprint amid rising data-center power demand.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "WYFI",
+        "company": "WhiteFiber, Inc.",
+        "mkt_cap": 1380000000,
+        "change_pct": 18.91,
+        "catalyst": "WYFI surged after Bit Digital originated a $100 million delayed-draw term loan facility, expandable to $150 million, to fund WYFI's AI data-center buildout. The financing backs its previously announced $160M+ five-year Paris-region AI compute deal set to begin service in July. The facility removes a near-term funding overhang for the AI-infrastructure operator.",
+        "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
         "group_id": null,

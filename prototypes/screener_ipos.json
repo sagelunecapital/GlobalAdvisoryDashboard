@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-06-15T22:18:31.309131+00:00",
+  "fetched_at": "2026-06-16T22:08:07.957305+00:00",
   "us": [
     {
       "ticker": "AADX",
@@ -28,19 +28,6 @@
       "ipo_close": 60.38
     },
     {
-      "ticker": "LFTO",
-      "company": "Liftoff Mobile, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 23.0,
-      "price_range": "20.00 - 22.00",
-      "status": "Closed",
-      "shares": 21850000,
-      "deal_amount_usd": 437000000.0,
-      "mkt_cap_usd": 6013514358.0,
-      "ipo_close": 28.45
-    },
-    {
       "ticker": "SSMR",
       "company": "Sunshine Silver Mining & Refining Company",
       "exchange": "NYSE",
@@ -52,6 +39,19 @@
       "deal_amount_usd": 270000000.0,
       "mkt_cap_usd": 1940309140.5,
       "ipo_close": 17.15
+    },
+    {
+      "ticker": "LFTO",
+      "company": "Liftoff Mobile, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": 23.0,
+      "price_range": "20.00 - 22.00",
+      "status": "Closed",
+      "shares": 21850000,
+      "deal_amount_usd": 437000000.0,
+      "mkt_cap_usd": 6013514358.0,
+      "ipo_close": 28.45
     },
     {
       "ticker": "INIO",
@@ -80,19 +80,6 @@
       "ipo_close": 26.0
     },
     {
-      "ticker": "PBLS",
-      "company": "Parabilis Medicines, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-10",
-      "price_usd": 20.0,
-      "price_range": "17.00 - 19.00",
-      "status": "Closed",
-      "shares": 38525000,
-      "deal_amount_usd": 670000000.0,
-      "mkt_cap_usd": 2362915600.0,
-      "ipo_close": 31.6
-    },
-    {
       "ticker": "EROC",
       "company": "ERock, Inc.",
       "exchange": "NYSE",
@@ -104,6 +91,19 @@
       "deal_amount_usd": 600000005.5,
       "mkt_cap_usd": 4717101720.0,
       "ipo_close": 18.75
+    },
+    {
+      "ticker": "PBLS",
+      "company": "Parabilis Medicines, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-10",
+      "price_usd": 20.0,
+      "price_range": "17.00 - 19.00",
+      "status": "Closed",
+      "shares": 38525000,
+      "deal_amount_usd": 670000000.0,
+      "mkt_cap_usd": 2362915600.0,
+      "ipo_close": 31.6
     },
     {
       "ticker": "FRBT",
@@ -130,6 +130,18 @@
       "deal_amount_usd": 74999999925.0,
       "mkt_cap_usd": 1765241798625.0,
       "ipo_close": 160.95
+    },
+    {
+      "ticker": "DPC",
+      "company": "D.P.C. (Holdings) Ltd.",
+      "exchange": "NYSE",
+      "date": "2026-06-25",
+      "price_usd": null,
+      "price_range": "28.00 - 32.00",
+      "status": "Pending",
+      "shares": 23333333,
+      "deal_amount_usd": 746666656.0,
+      "mkt_cap_usd": null
     }
   ],
   "hk": [
@@ -146,18 +158,6 @@
       "mkt_cap_usd": 745154581.584
     },
     {
-      "ticker": "1081",
-      "company": "Dajin Heavy Industry Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 8.47484667784,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 100010600,
-      "deal_amount_usd": 773872149.5402818,
-      "mkt_cap_usd": 6141928166.944
-    },
-    {
       "ticker": "2290",
       "company": "Lung Fung Group Holdings Limited",
       "exchange": "HKEX",
@@ -168,6 +168,18 @@
       "shares": 125000000,
       "deal_amount_usd": 74378266.589025,
       "mkt_cap_usd": 330574293.098
+    },
+    {
+      "ticker": "1081",
+      "company": "Dajin Heavy Industry Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 8.47484667784,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 100010600,
+      "deal_amount_usd": 773872149.5402818,
+      "mkt_cap_usd": 6141928166.944
     },
     {
       "ticker": "1779",
@@ -191,7 +203,7 @@
       "status": "Closed",
       "shares": 11464100,
       "deal_amount_usd": 57381811.78768056,
-      "mkt_cap_usd": 438312195.105
+      "mkt_cap_usd": 438370935.9092
     },
     {
       "ticker": "6675",
@@ -203,11 +215,11 @@
       "status": "Pending",
       "shares": 53407000,
       "deal_amount_usd": 112612029.70589799,
-      "mkt_cap_usd": 888112840.9959
+      "mkt_cap_usd": 888231862.2395
     },
     {
       "ticker": "1392",
-      "company": "Shenzhen HQVT Technology Co. Ltd.",
+      "company": "Shenzhen HQVT Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-22",
       "price_usd": 0.91870717464,
@@ -215,11 +227,11 @@
       "status": "Pending",
       "shares": 85162500,
       "deal_amount_usd": 70415230.10745744,
-      "mkt_cap_usd": 711375216.1465
+      "mkt_cap_usd": 711470551.7378
     },
     {
       "ticker": "6132",
-      "company": "HJ Science Co. Ltd.",
+      "company": "HJ Science Co., Ltd.",
       "exchange": "HKEX",
       "date": "2026-06-23",
       "price_usd": 10.4377340698,
@@ -227,7 +239,19 @@
       "status": "Pending",
       "shares": 13600000,
       "deal_amount_usd": 127757865.014352,
-      "mkt_cap_usd": 768311141.6025
+      "mkt_cap_usd": 768414107.5132
+    },
+    {
+      "ticker": "6106",
+      "company": "Shanghai Seer Intelligent Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-24",
+      "price_usd": 12.965881612,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10497300,
+      "deal_amount_usd": 129300957.7875088,
+      "mkt_cap_usd": 1432886914.1464
     },
     {
       "ticker": "2335",
@@ -240,18 +264,6 @@
       "shares": 58054400,
       "deal_amount_usd": 140024476.954236,
       "mkt_cap_usd": null
-    },
-    {
-      "ticker": "6106",
-      "company": "Shanghai Seer Intelligent Technology Co. Ltd.",
-      "exchange": "HKEX",
-      "date": "2026-06-24",
-      "price_usd": 12.965881612,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 10497300,
-      "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1432694910.2456
     }
   ]
 }

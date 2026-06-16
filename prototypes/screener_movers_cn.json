@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-15T22:18:31.309131+00:00",
+  "updated_at": "2026-06-16T22:15:04.016127+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -877,6 +877,44 @@
         "mkt_cap": 2410000000,
         "change_pct": 12.13,
         "catalyst": "894 bounced within a highly speculative supercapacitor and AI-server-power theme, having run roughly six-fold over the prior month before pulling back from its June 4 peak. No company-specific announcement was found for the session, and the move reflects retail-driven momentum rather than a new disclosure.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-16": [
+      {
+        "ticker": "189",
+        "company": "Dongyue Group Limited",
+        "mkt_cap": 30700000000,
+        "change_pct": 13.59,
+        "catalyst": "189 rose on continued strength in refrigerant prices, with tight HFC supply after the US and UK delayed third-generation refrigerant phase-outs lifting demand for Chinese exporters. As the world's largest R22 producer, 189 is a primary beneficiary of the firm fluorochemical pricing cycle, and China's 2026 HFC quota framework reinforced the supportive supply backdrop. No company-specific announcement drove the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2218",
+        "company": "Yantai North Andre Juice Co., Ltd. Class",
+        "mkt_cap": 23810000000,
+        "change_pct": 25.79,
+        "catalyst": "2218 extended a powerful 2026 run, up roughly 100% year-to-date, on firm concentrated-juice pricing and strong interim results. No specific same-day announcement was identified behind the June 16 move, which appears to be momentum continuation in a thinly-covered name. 2218 processes concentrated apple and fruit juices under the Andre brand.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6613",
+        "company": "Lens Technology Co. Ltd. Class",
+        "mkt_cap": 272610000000,
+        "change_pct": 5.62,
+        "catalyst": "6613 gained amid ongoing optimism over its role in Apple's foldable iPhone, where it is the exclusive supplier of ultra-thin glass and hinge components ahead of a September 2026 launch. Additional upside narrative comes from its exclusive Tesla humanoid-robot head-module supply, with mass production slated for July. No confirmed company-specific announcement was tied to the June 16 session.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,
