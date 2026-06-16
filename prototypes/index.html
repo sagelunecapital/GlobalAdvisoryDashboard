@@ -951,7 +951,8 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="lead-date-wrap">
       <span style="font-size:var(--fs-xs);color:var(--text-muted)">Snapshot</span>
       <select class="cot-sel" id="lead-date-sel" onchange="leadSetDate(this.value)"></select>
-      <button class="btn" id="lead-newday-btn" onclick="leadNewDay()"><span class="msi" style="font-size:15px">add</span>New day</button>
+      <button class="btn" id="lead-newday-btn" onclick="leadNewDayPick()"><span class="msi" style="font-size:15px">add</span>Day</button>
+      <input type="date" id="lead-newday-date" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" onchange="leadNewDay(this.value)">
       <span class="notes-status" id="lead-status"></span>
     </div>
   </div>
@@ -2886,11 +2887,19 @@ function leadRenderDateSel(){
   sel.innerHTML=ds.map(d=>`<option value="${d}"${d===leadDate?' selected':''}>${d}${d===_leadToday()?' (today)':''}</option>`).join('');
 }
 function leadSetDate(d){leadDate=d;_leadOpenDd=null;renderLeadCols();leadCharts();}
-function leadNewDay(){
+function leadNewDayPick(){
   if(!leadCanEdit)return;
-  const t=_leadToday();
+  const inp=document.getElementById('lead-newday-date');
+  if(!inp){leadNewDay(_leadToday());return;}
+  inp.value=_leadToday();
+  if(inp.showPicker){try{inp.showPicker();return;}catch(_){}}
+  inp.focus();inp.click();
+}
+function leadNewDay(d){
+  if(!leadCanEdit)return;
+  const t=(d&&/^\d{4}-\d{2}-\d{2}$/.test(d))?d:_leadToday();
   if(!leadData.snapshots[t]){
-    const ds=leadDates().filter(d=>d<t);
+    const ds=leadDates().filter(x=>x<t);
     const base=ds.length?leadData.snapshots[ds[ds.length-1]]:_emptySnap();
     leadData.snapshots[t]={lostGround:[...base.lostGround],foundGround:[...base.foundGround],bouncedOff:[...base.bouncedOff],leading:[...base.leading]};
     leadSave();
