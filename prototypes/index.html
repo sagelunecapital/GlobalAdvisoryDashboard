@@ -58,6 +58,7 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 .hdr-kbd{margin-left:8px;font-size:var(--fs-xs);border:1px solid var(--outline-dim);padding:1px 5px}
 .hdr-ic{font-size:var(--fs-lg);color:var(--text-muted);cursor:pointer}
 .hdr-ic:hover{color:var(--text)}
+.hdr-ic.on{color:var(--green)}
 @media(max-width:900px){.hdr-search,.hdr-ic{display:none}}
 .sidebar{border-right:1px solid #27272a;padding:16px 10px 12px;display:flex;flex-direction:column;overflow-y:auto;min-height:0}
 .sidebar-label{font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
@@ -314,6 +315,54 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .sr-scroll{max-height:380px;overflow-y:auto;border-radius:0}
 .sr-quadrant-wrap{position:relative}
 
+/* ── Leadership Tab ── */
+.lead-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.lead-date-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lead-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+@media(max-width:1100px){.lead-cols{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.lead-cols{grid-template-columns:1fr}}
+.lead-col{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:3px solid var(--cat-color,var(--outline));border-radius:0;padding:14px;display:flex;flex-direction:column;min-height:170px;transition:border-color 150ms,background 150ms}
+.lead-col.drag-over{background:rgba(255,184,0,0.06);box-shadow:inset 0 0 0 1px var(--ps-blue)}
+.lead-col-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.lead-col-title{font-size:var(--fs-base);font-weight:700;letter-spacing:.2px;color:var(--cat-color,var(--text))}
+.lead-col-count{font-size:var(--fs-xs);color:var(--text-muted);font-variant-numeric:tabular-nums}
+.lead-chips{display:flex;flex-direction:column;gap:6px;flex:1}
+.lead-chip{display:flex;align-items:flex-start;gap:4px;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:0;padding:6px 5px 6px 8px;font-size:var(--fs-sm);cursor:grab}
+.lead-chip.ro{cursor:default}
+.lead-chip:active{cursor:grabbing}
+.lead-chip.ro:active{cursor:default}
+.lead-chip.dragging{opacity:.4}
+.lead-chip-main{flex:1;min-width:0}
+.lead-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.lead-chip-tk{font-size:var(--fs-xs);color:var(--text-muted);margin-top:2px;line-height:1.45;white-space:normal;word-break:break-word}
+.lead-chip-btn{border:none;background:transparent;color:var(--text-muted);cursor:pointer;font-family:inherit;font-size:var(--fs-base);padding:0 3px;line-height:1;margin-top:1px;transition:color 150ms}
+.lead-chip-btn:hover{color:var(--text)}
+.lead-chip-btn.x:hover{color:var(--red)}
+.lead-chip-btn:disabled{opacity:.2;cursor:default}
+.lead-empty{font-size:var(--fs-xs);color:var(--text-muted);text-align:center;padding:16px 0;border:1px dashed var(--outline-dim)}
+.lead-dd{position:relative;margin-top:10px}
+.lead-dd-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:5px;padding:6px;border:1px dashed var(--outline-dim);background:transparent;color:var(--text-muted);font-family:inherit;font-size:var(--fs-xs);cursor:pointer;transition:color 150ms,border-color 150ms}
+.lead-dd-btn:hover{color:var(--text);border-color:var(--outline)}
+.lead-dd-menu{display:none;position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--surface-low);border:1px solid var(--outline-dim);z-index:50;flex-direction:column}
+.lead-dd.open .lead-dd-menu{display:flex}
+.lead-dd-search{margin:6px;padding:6px 8px;background:var(--surface-high);border:1px solid var(--outline-dim);color:var(--text);font-family:inherit;font-size:var(--fs-sm);outline:none}
+.lead-dd-list{overflow-y:auto;max-height:220px}
+.lead-dd-item{display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:var(--fs-sm);cursor:pointer;color:var(--text-dim)}
+.lead-dd-item:hover{background:var(--surface-high);color:var(--text)}
+.lead-dd-item.checked{color:var(--text)}
+.lead-dd-item .ck{width:13px;height:13px;border:1px solid var(--outline);display:inline-flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.lead-dd-item.checked .ck{background:var(--ps-blue);border-color:var(--ps-blue);color:#000}
+.lead-dd-item .home{margin-left:auto;font-size:var(--fs-xs);color:var(--text-muted);white-space:nowrap}
+.lead-dd-empty{padding:10px;font-size:var(--fs-xs);color:var(--text-muted);text-align:center}
+.lead-charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:900px){.lead-charts-row{grid-template-columns:1fr}}
+.lead-auth{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs)}
+.lead-auth .msi{font-size:14px}
+.lead-auth .lock{color:var(--text-muted)}
+.lead-auth .unlock{color:var(--green)}
+.lead-auth-link{border:none;background:transparent;color:var(--ps-blue);cursor:pointer;font-family:inherit;font-size:var(--fs-xs);padding:0;text-decoration:underline}
+.lead-auth-link:hover{color:#fff}
+
 /* ── Research Tab ── */
 .rs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-bottom:24px}
 @media(max-width:1200px){.rs-grid{grid-template-columns:repeat(3,1fr)}}
@@ -432,6 +481,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div class="layout-header">
     <h1>Global Advisory Dashboard</h1>
     <div class="hdr-right">
+      <span class="hdr-ic msi" id="auth-ic" title="Log in to edit" onclick="leadAuthToggle()">person</span>
       <span class="hdr-ic msi" title="Toggle fullscreen" onclick="gaFullscreen()">fullscreen</span>
       <div class="header-meta" id="session-date">Session: —</div>
     </div>
@@ -445,6 +495,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)"><span class="nav-ico">water_drop</span>Liquidity</button>
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
+    <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)"><span class="nav-ico">swap_horiz</span>Positioning</button>
     <button class="nav-tab" onclick="showMain('research',this)"><span class="nav-ico">science</span>Research</button>
     <button class="nav-tab nav-sub" onclick="showMain('screener',this)"><span class="nav-ico">filter_alt</span>Screener</button>
@@ -892,6 +943,40 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
 </div><!-- /breadth panel -->
 
+<!-- ═══════════════════════════ LEADERSHIP TAB ═══════════════════════════ -->
+<div id="main-leadership" class="main-panel">
+
+  <div class="lead-bar">
+    <div class="section-heading" style="margin:0">Industry Leadership</div>
+    <div class="lead-date-wrap">
+      <span style="font-size:var(--fs-xs);color:var(--text-muted)">Snapshot</span>
+      <select class="cot-sel" id="lead-date-sel" onchange="leadSetDate(this.value)"></select>
+      <button class="btn" id="lead-newday-btn" onclick="leadNewDay()"><span class="msi" style="font-size:15px">add</span>New day</button>
+      <span class="notes-status" id="lead-status"></span>
+    </div>
+  </div>
+
+  <!-- Charts (click a Leadership Breadth bar to load that day's categories) -->
+  <div class="lead-charts-row">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header">Leadership Breadth</div>
+      <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">% of placed industries in Bounced Off + Leading, per snapshot &middot; click a bar to view that day</div>
+      <div id="lead-chart-pct" style="position:relative"></div>
+      <div class="chart-tt" id="lead-tt-pct"></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header">Net Rotation</div>
+      <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">Industries that moved up vs down a category vs the prior snapshot</div>
+      <div id="lead-chart-move" style="position:relative"></div>
+      <div class="chart-tt" id="lead-tt-move"></div>
+    </div>
+  </div>
+
+  <!-- 4 category columns -->
+  <div class="lead-cols" id="lead-cols"></div>
+
+</div><!-- /leadership panel -->
+
 <!-- ═══════════════════════════ POSITIONING TAB ═══════════════════════════ -->
 <div id="main-positioning" class="main-panel">
 
@@ -1204,6 +1289,7 @@ function showMain(id, btn) {
   window._activeMain=id;
   if (id === 'screener') scrInit();
   if (id === 'journal')  jrnlInit();
+  if (id === 'leadership') leadInit();
   // Re-render this tab's charts at the now-visible container width (fixes letterboxing)
   if (window._redraw[id]) { try{ window._redraw[id](); }catch(e){} }
 }
@@ -2245,6 +2331,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   const _sd=document.getElementById('session-date');
   if(_sd){const _n=new Date();_sd.textContent='Session: '+_n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
 
+  // Editor login state in header
+  leadCanEdit=!!localStorage.getItem('gaai-edit-pw');
+  leadRenderAuth();
+
   // Load notes — KV store first, localStorage fallback
   fetch('/api/save-notes?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject())
@@ -2270,6 +2360,22 @@ window.addEventListener('DOMContentLoaded',()=>{
       const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
       _applyNotes({tactics:t,breadth:b,sectors:s||[],research:r||[]});
     });
+  // Load leadership snapshots — KV store first, localStorage fallback (latest wins)
+  fetch('/api/save-leadership?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(srv=>{
+      const loc=JSON.parse(localStorage.getItem('gaai-leadership')||'null');
+      if(loc&&loc.snapshots&&(!srv||!srv.snapshots||(loc.saved_at||'')>(srv.saved_at||''))){leadData=loc;}
+      else if(srv&&srv.snapshots){leadData=srv;}
+      if(!leadData.snapshots)leadData.snapshots={};
+      if(window._activeMain==='leadership'||_leadInit)leadInit();
+    })
+    .catch(()=>{
+      const loc=JSON.parse(localStorage.getItem('gaai-leadership')||'null');
+      if(loc&&loc.snapshots)leadData=loc;
+      if(window._activeMain==='leadership'||_leadInit)leadInit();
+    });
+
   // Auto-resize tactics textarea on open
   const tactEdit=document.getElementById('tact-edit');
   tactEdit.addEventListener('input',()=>autoResize(tactEdit));
@@ -2392,6 +2498,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       if(el&&d.updated)el.textContent='Data as of '+d.updated;
       renderSrAll();
       window._redraw.breadth=()=>{try{renderSrAll();}catch(e){}};
+      if(window._activeMain==='leadership'||_leadInit)leadInit();
     })
     .catch(()=>{
       ['sr-gap-body','sr-rank-body'].forEach(id=>{
@@ -2676,6 +2783,344 @@ function renderSrQuadrant(){
     });
     c.addEventListener('mouseleave',()=>{tt.style.display='none';});
   });
+}
+
+// ══════════════════════ Industry Leadership ══════════════════════
+const LEAD_CATS=[
+  {key:'lostGround', label:'Lost Ground', color:'#f85149'},
+  {key:'foundGround',label:'Found Ground',color:'#ffb800'},
+  {key:'bouncedOff', label:'Bounced Off', color:'#3b82f6'},
+  {key:'leading',    label:'Leading',     color:'#3fb950'}
+];
+const LEAD_RANK={lostGround:0,foundGround:1,bouncedOff:2,leading:3};
+let leadData={snapshots:{},saved_at:''};
+let leadDate=null,leadCanEdit=false,_leadSaveTimer=null,_leadInit=false,_leadOpenDd=null,_leadDdQuery='',_leadDragName=null,_leadDocBound=false,_leadTkMap=null;
+
+function _leadToday(){return new Date().toISOString().slice(0,10);}
+function leadUniverse(){
+  if(!srData||!srData.groups)return[];
+  return srData.groups.filter(g=>g.country==='United States').map(g=>_srName(g.group_id)).sort((a,b)=>a.localeCompare(b));
+}
+function leadTickers(name){
+  if(!_leadTkMap){
+    _leadTkMap={};
+    if(srData&&srData.groups)srData.groups.filter(g=>g.country==='United States').forEach(g=>{_leadTkMap[_srName(g.group_id)]=(g.tickers||[]).join(', ');});
+  }
+  return _leadTkMap[name]||'';
+}
+function leadDates(){return Object.keys(leadData.snapshots).sort();}
+function _emptySnap(){return{lostGround:[],foundGround:[],bouncedOff:[],leading:[]};}
+function leadSnap(date){
+  date=date||leadDate;
+  if(!leadData.snapshots[date])leadData.snapshots[date]=_emptySnap();
+  const s=leadData.snapshots[date];
+  LEAD_CATS.forEach(c=>{if(!Array.isArray(s[c.key]))s[c.key]=[];});
+  return s;
+}
+function leadCatOf(name,snap){for(const c of LEAD_CATS){if(snap[c.key].includes(name))return c.key;}return null;}
+
+function leadInit(){
+  if(!leadData.snapshots)leadData.snapshots={};
+  if(!leadDate){const ds=leadDates();leadDate=ds.length?ds[ds.length-1]:_leadToday();}
+  leadCanEdit=!!localStorage.getItem('gaai-edit-pw');
+  window._redraw.leadership=()=>{try{leadCharts();}catch(e){}};
+  if(!_leadDocBound){
+    document.addEventListener('click',e=>{
+      if(_leadOpenDd&&!e.target.closest('.lead-dd')){_leadOpenDd=null;document.querySelectorAll('.lead-dd.open').forEach(d=>d.classList.remove('open'));}
+    });
+    _leadDocBound=true;
+  }
+  leadRenderAuth();
+  leadRenderDateSel();
+  renderLeadCols();
+  leadCharts();
+  _leadInit=true;
+}
+
+// ── Editor login (shared password, enforced server-side on save) ──
+function leadRenderAuth(){
+  const ic=document.getElementById('auth-ic');
+  if(ic){
+    ic.textContent=leadCanEdit?'how_to_reg':'person';
+    ic.title=leadCanEdit?'Editing enabled — click to log out':'Log in to edit Leadership';
+    ic.classList.toggle('on',leadCanEdit);
+  }
+  const nd=document.getElementById('lead-newday-btn');
+  if(nd){nd.disabled=!leadCanEdit;nd.style.display=leadCanEdit?'':'none';}
+}
+function leadAuthToggle(){
+  if(leadCanEdit){if(confirm('Log out of editing?'))leadLogout();}
+  else leadLogin();
+}
+function leadLogin(){
+  const pw=prompt('Enter editor password:');
+  if(pw==null||pw==='')return;
+  fetch('/api/edit-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})
+    .then(r=>{
+      if(r.ok){_leadUnlock(pw);}
+      else if(r.status===401){alert('Incorrect password.');}
+      else if(r.status===503){alert('Editing is not configured yet (EDIT_PASSWORD not set on the server).');}
+      else throw new Error('auth '+r.status);
+    })
+    .catch(()=>{
+      // Endpoint unreachable (e.g. local dev with no serverless functions).
+      // Unlock optimistically — server still enforces the password on save.
+      _leadUnlock(pw);
+    });
+}
+function _leadUnlock(pw){
+  try{localStorage.setItem('gaai-edit-pw',pw);}catch(_){}
+  leadCanEdit=true;
+  leadRenderAuth();renderLeadCols();leadCharts();
+}
+function leadLogout(){
+  try{localStorage.removeItem('gaai-edit-pw');}catch(_){}
+  leadCanEdit=false;_leadOpenDd=null;
+  leadRenderAuth();renderLeadCols();leadCharts();
+}
+function leadRenderDateSel(){
+  const sel=document.getElementById('lead-date-sel');if(!sel)return;
+  const ds=leadDates();
+  if(!ds.includes(leadDate))ds.push(leadDate);
+  ds.sort();
+  sel.innerHTML=ds.map(d=>`<option value="${d}"${d===leadDate?' selected':''}>${d}${d===_leadToday()?' (today)':''}</option>`).join('');
+}
+function leadSetDate(d){leadDate=d;_leadOpenDd=null;renderLeadCols();leadCharts();}
+function leadNewDay(){
+  if(!leadCanEdit)return;
+  const t=_leadToday();
+  if(!leadData.snapshots[t]){
+    const ds=leadDates().filter(d=>d<t);
+    const base=ds.length?leadData.snapshots[ds[ds.length-1]]:_emptySnap();
+    leadData.snapshots[t]={lostGround:[...base.lostGround],foundGround:[...base.foundGround],bouncedOff:[...base.bouncedOff],leading:[...base.leading]};
+    leadSave();
+  }
+  leadDate=t;_leadOpenDd=null;
+  leadRenderDateSel();renderLeadCols();leadCharts();
+}
+
+function renderLeadCols(){
+  const wrap=document.getElementById('lead-cols');if(!wrap)return;
+  if(!srData){wrap.innerHTML='<div class="lead-empty" style="grid-column:1/-1">Loading industries…</div>';return;}
+  const snap=leadSnap();
+  const ed=leadCanEdit;
+  wrap.innerHTML=LEAD_CATS.map(c=>{
+    const items=snap[c.key];
+    const empty=ed?'Drag here or use + below':'Empty';
+    const chips=items.length?items.map(nm=>leadChipHtml(nm,c)).join(''):`<div class="lead-empty">${empty}</div>`;
+    const dnd=ed?`ondragover="leadDragOver(event)" ondragleave="leadDragLeave(event)" ondrop="leadDrop(event,'${c.key}')"`:'';
+    return `<div class="lead-col" style="--cat-color:${c.color}" data-cat="${c.key}" ${dnd}>
+      <div class="lead-col-head"><span class="lead-col-title">${c.label}</span><span class="lead-col-count">${items.length}</span></div>
+      <div class="lead-chips">${chips}</div>
+      ${ed?leadDropdownHtml(c):''}
+    </div>`;
+  }).join('');
+  if(_leadOpenDd){
+    const dd=wrap.querySelector(`.lead-dd[data-cat="${_leadOpenDd}"]`);
+    if(dd){dd.classList.add('open');const inp=dd.querySelector('.lead-dd-search');if(inp)inp.value=_leadDdQuery;leadRenderDdList(_leadOpenDd,_leadDdQuery);if(inp)inp.focus();}
+  }
+}
+function _esc(nm){return nm.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function _att(nm){return nm.replace(/&/g,'&amp;').replace(/"/g,'&quot;');}
+function leadChipHtml(nm,cat){
+  const rank=LEAD_RANK[cat.key],e=_esc(nm);
+  const tk=leadTickers(nm);
+  const tkHtml=tk?`<div class="lead-chip-tk">${tk}</div>`:'';
+  const main=`<div class="lead-chip-main"><div class="lead-chip-name">${nm}</div>${tkHtml}</div>`;
+  if(!leadCanEdit){
+    return `<div class="lead-chip ro" title="${_att(nm)}">${main}</div>`;
+  }
+  return `<div class="lead-chip" draggable="true" ondragstart="leadDragStart(event,'${e}')" ondragend="leadDragEnd(event)" title="${_att(nm)}">
+    <button class="lead-chip-btn" ${rank===0?'disabled':''} onclick="leadMove('${e}',-1)" title="Move down a category">&#9664;</button>
+    ${main}
+    <button class="lead-chip-btn" ${rank===3?'disabled':''} onclick="leadMove('${e}',1)" title="Move up a category">&#9654;</button>
+    <button class="lead-chip-btn x" onclick="leadRemove('${e}')" title="Remove">&#10005;</button>
+  </div>`;
+}
+function leadDropdownHtml(cat){
+  return `<div class="lead-dd" data-cat="${cat.key}">
+    <button class="lead-dd-btn" onclick="leadToggleDd('${cat.key}')"><span class="msi" style="font-size:14px">add</span>Add industries</button>
+    <div class="lead-dd-menu" onclick="event.stopPropagation()">
+      <input class="lead-dd-search" type="text" placeholder="Search industries…" oninput="leadFilterDd('${cat.key}',this.value)">
+      <div class="lead-dd-list" id="lead-dd-list-${cat.key}"></div>
+    </div>
+  </div>`;
+}
+function leadToggleDd(catKey){_leadOpenDd=(_leadOpenDd===catKey)?null:catKey;_leadDdQuery='';renderLeadCols();}
+function leadFilterDd(catKey,q){_leadDdQuery=q;leadRenderDdList(catKey,q);}
+function leadRenderDdList(catKey,q){
+  const list=document.getElementById('lead-dd-list-'+catKey);if(!list)return;
+  const snap=leadSnap();q=(q||'').toLowerCase();
+  const uni=leadUniverse().filter(nm=>nm.toLowerCase().includes(q));
+  if(!uni.length){list.innerHTML='<div class="lead-dd-empty">No matches</div>';return;}
+  list.innerHTML=uni.map(nm=>{
+    const home=leadCatOf(nm,snap),here=home===catKey;
+    const homeLbl=(home&&!here)?LEAD_CATS[LEAD_RANK[home]].label:'';
+    return `<div class="lead-dd-item${here?' checked':''}" onclick="leadDdPick('${_esc(nm)}','${catKey}')">
+      <span class="ck">${here?'&#10003;':''}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${nm}</span>
+      ${homeLbl?`<span class="home">${homeLbl}</span>`:''}
+    </div>`;
+  }).join('');
+}
+function leadDdPick(name,catKey){
+  const snap=leadSnap();
+  if(leadCatOf(name,snap)===catKey)leadRemove(name);else leadPlace(name,catKey);
+}
+function leadPlace(name,catKey){
+  if(!leadCanEdit)return;
+  const snap=leadSnap();
+  LEAD_CATS.forEach(c=>{const i=snap[c.key].indexOf(name);if(i>=0)snap[c.key].splice(i,1);});
+  if(!snap[catKey].includes(name))snap[catKey].push(name);
+  snap[catKey].sort((a,b)=>a.localeCompare(b));
+  leadSave();renderLeadCols();leadCharts();
+}
+function leadRemove(name){
+  if(!leadCanEdit)return;
+  const snap=leadSnap();
+  LEAD_CATS.forEach(c=>{const i=snap[c.key].indexOf(name);if(i>=0)snap[c.key].splice(i,1);});
+  leadSave();renderLeadCols();leadCharts();
+}
+function leadMove(name,dir){
+  if(!leadCanEdit)return;
+  const snap=leadSnap(),cur=leadCatOf(name,snap);if(!cur)return;
+  const nr=LEAD_RANK[cur]+dir;if(nr<0||nr>3)return;
+  leadPlace(name,LEAD_CATS[nr].key);
+}
+function leadDragStart(e,name){_leadDragName=name;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',name);}catch(_){}}
+function leadDragEnd(e){e.currentTarget.classList.remove('dragging');document.querySelectorAll('.lead-col.drag-over').forEach(c=>c.classList.remove('drag-over'));}
+function leadDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';e.currentTarget.classList.add('drag-over');}
+function leadDragLeave(e){if(!e.currentTarget.contains(e.relatedTarget))e.currentTarget.classList.remove('drag-over');}
+function leadDrop(e,catKey){e.preventDefault();e.currentTarget.classList.remove('drag-over');const nm=_leadDragName||(e.dataTransfer?e.dataTransfer.getData('text/plain'):'');_leadDragName=null;if(nm)leadPlace(nm,catKey);}
+
+function leadSave(){
+  leadData.saved_at=new Date().toISOString();
+  try{localStorage.setItem('gaai-leadership',JSON.stringify(leadData));}catch(_){}
+  const el=document.getElementById('lead-status');
+  if(el){el.textContent='Saving…';el.className='notes-status saving';}
+  clearTimeout(_leadSaveTimer);
+  _leadSaveTimer=setTimeout(()=>{
+    const pw=localStorage.getItem('gaai-edit-pw')||'';
+    fetch('/api/save-leadership',{method:'POST',headers:{'Content-Type':'application/json','X-Edit-Password':pw},body:JSON.stringify(leadData)})
+      .then(r=>{
+        if(r.status===401){
+          if(el){el.textContent='Login expired — saved locally';el.className='notes-status err';}
+          leadLogout();return null;
+        }
+        return r.ok?r.json():Promise.reject();
+      })
+      .then(j=>{if(j&&el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2500);}})
+      .catch(()=>{if(el){el.textContent='Saved locally';el.className='notes-status err';setTimeout(()=>{el.textContent='';},2500);}});
+  },1200);
+}
+
+// ── Leadership charts ──
+function leadCharts(){try{leadChartPct();}catch(e){}try{leadChartMove();}catch(e){}}
+function leadChartPct(){
+  const ds=leadDates();
+  const items=ds.map(d=>{
+    const s=leadData.snapshots[d];
+    const total=LEAD_CATS.reduce((a,c)=>a+s[c.key].length,0);
+    const lead=s.bouncedOff.length+s.leading.length;
+    return {label:d.slice(5),d,total,lead,up:total?lead/total*100:0};
+  });
+  leadDrawBars('lead-chart-pct','lead-tt-pct',items,{
+    max:100,vH:300,colorOf:()=>'#3fb950',fmtAxis:v=>Math.round(v)+'%',
+    selKey:leadDate,onBar:it=>leadSetDate(it.d),
+    tip:it=>`<strong>${it.d}</strong>${it.d===leadDate?' <span style="color:var(--ps-blue)">(viewing)</span>':''}<br>${it.up.toFixed(1)}% in Bounced Off + Leading<br><span style="color:var(--text-muted)">${it.lead} of ${it.total} placed &middot; click to view</span>`
+  });
+}
+function leadChartMove(){
+  const ds=leadDates(),items=[];
+  for(let i=1;i<ds.length;i++){
+    const prev=leadData.snapshots[ds[i-1]],cur=leadData.snapshots[ds[i]];
+    const prevCat={};LEAD_CATS.forEach(c=>prev[c.key].forEach(n=>{prevCat[n]=LEAD_RANK[c.key];}));
+    let up=0,down=0;
+    LEAD_CATS.forEach(c=>cur[c.key].forEach(n=>{
+      if(n in prevCat){const dd=LEAD_RANK[c.key]-prevCat[n];if(dd>0)up++;else if(dd<0)down++;}
+    }));
+    items.push({label:ds[i].slice(5),d:ds[i],up,down});
+  }
+  leadDrawBars('lead-chart-move','lead-tt-move',items,{
+    mirror:true,vH:300,upColor:'#3fb950',downColor:'#f85149',fmtAxis:v=>Math.abs(Math.round(v)),
+    tip:it=>`<strong>${it.d}</strong><br><span style="color:#3fb950">&#9650; ${it.up} moved up</span><br><span style="color:#f85149">&#9660; ${it.down} moved down</span>`
+  });
+}
+function leadDrawBars(wrapId,ttId,items,opts){
+  const wrap=document.getElementById(wrapId);if(!wrap)return;
+  const vH=opts.vH||300,VW=wrap.clientWidth||FALLBACK_VW;
+  wrap.innerHTML='';
+  const pad={t:10,r:14,b:46,l:40},iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
+  if(!items.length){wrap.innerHTML='<div class="lead-empty" style="height:'+(vH-40)+'px;display:flex;align-items:center;justify-content:center;border:none">No snapshots yet</div>';return;}
+  const mirror=!!opts.mirror;
+  let vMax=(opts.max!=null)?opts.max:Math.max(1,...items.map(it=>Math.max(it.up||0,it.down||0)));
+  const vMin=mirror?-vMax:0,vR=(vMax-vMin)||1;
+  const yOf=v=>pad.t+(1-(v-vMin)/vR)*iH,y0=yOf(0);
+  const ns='http://www.w3.org/2000/svg',svg=mkSvg(ns,VW,vH);
+  const ticks=mirror?[vMax,vMax/2,0,-vMax/2,-vMax]:[vMax,vMax*0.75,vMax*0.5,vMax*0.25,0];
+  ticks.forEach(v=>{
+    const y=yOf(v);
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',pad.l-5);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');
+    lb.textContent=opts.fmtAxis?opts.fmtAxis(v):(mirror?Math.abs(Math.round(v)):Math.round(v));svg.appendChild(lb);
+  });
+  const z=document.createElementNS(ns,'line');
+  z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
+  z.setAttribute('stroke','#444');z.setAttribute('stroke-width','1');svg.appendChild(z);
+  const slot=iW/items.length,bw=Math.max(2,Math.min(34,slot*0.6)),xOf=i=>pad.l+(i+0.5)*slot;
+  const tt=ttId?document.getElementById(ttId):null;
+  const showTip=it=>{if(!tt||!opts.tip)return;const r=svg.getBoundingClientRect();tt.style.display='block';tt.innerHTML=opts.tip(it);};
+  const moveTip=(e,x)=>{if(!tt)return;const r=svg.getBoundingClientRect();tt.style.left=Math.min((x/VW)*r.width+12,r.width-180)+'px';tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';};
+  items.forEach((it,i)=>{
+    const x=xOf(i),isSel=opts.selKey&&it.d===opts.selKey;
+    // selected-day highlight band
+    if(isSel){
+      const hl=document.createElementNS(ns,'rect');
+      hl.setAttribute('x',x-slot/2);hl.setAttribute('width',slot);hl.setAttribute('y',pad.t);hl.setAttribute('height',iH);
+      hl.setAttribute('fill','rgba(255,184,0,0.10)');hl.setAttribute('pointer-events','none');svg.appendChild(hl);
+    }
+    const segs=mirror?[{v:it.up||0,col:opts.upColor||'#3fb950',up:true},{v:it.down||0,col:opts.downColor||'#f85149',up:false}]
+                     :[{v:it.up||0,col:(opts.colorOf?opts.colorOf(it):'#3fb950'),up:true}];
+    segs.forEach(sg=>{
+      if(sg.v<=0)return;
+      const top=sg.up?yOf(sg.v):y0,h=Math.abs(yOf(sg.v)-y0);
+      const rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('x',x-bw/2);rect.setAttribute('width',bw);
+      rect.setAttribute('y',top);rect.setAttribute('height',Math.max(0.5,h));
+      rect.setAttribute('fill',sg.col);rect.setAttribute('opacity',isSel?'1':'0.82');
+      if(isSel){rect.setAttribute('stroke','#fff');rect.setAttribute('stroke-width','1');}
+      if(!opts.onBar&&tt&&opts.tip){
+        rect.addEventListener('mouseenter',()=>showTip(it));
+        rect.addEventListener('mousemove',e=>moveTip(e,x));
+        rect.addEventListener('mouseleave',()=>{tt.style.display='none';});
+      }
+      svg.appendChild(rect);
+    });
+    // full-height clickable hit area (so 0-value days are still selectable)
+    if(opts.onBar){
+      const hit=document.createElementNS(ns,'rect');
+      hit.setAttribute('x',x-slot/2);hit.setAttribute('width',slot);hit.setAttribute('y',pad.t);hit.setAttribute('height',iH);
+      hit.setAttribute('fill','transparent');hit.style.cursor='pointer';
+      hit.addEventListener('click',()=>opts.onBar(it));
+      if(tt&&opts.tip){
+        hit.addEventListener('mouseenter',()=>showTip(it));
+        hit.addEventListener('mousemove',e=>moveTip(e,x));
+        hit.addEventListener('mouseleave',()=>{tt.style.display='none';});
+      }
+      svg.appendChild(hit);
+    }
+    if(items.length<=14||i%Math.ceil(items.length/10)===0||i===items.length-1){
+      const lb=document.createElementNS(ns,'text');
+      lb.setAttribute('x',x);lb.setAttribute('y',vH-pad.b+14);lb.setAttribute('text-anchor','end');
+      lb.setAttribute('transform','rotate(-40 '+x+' '+(vH-pad.b+14)+')');
+      lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=it.label;svg.appendChild(lb);
+    }
+  });
+  wrap.appendChild(svg);
 }
 
 function applyMacroRegime(d){
@@ -4515,7 +4960,7 @@ const GA_TABS=[
  {id:'macro',label:'Macro',ico:'insights'},{id:'growth',label:'Growth',ico:'trending_up'},
  {id:'inflation',label:'Inflation',ico:'thermostat'},{id:'stir',label:'Yields',ico:'show_chart'},
  {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
- {id:'breadth',label:'Breadth',ico:'bar_chart'},{id:'positioning',label:'Positioning',ico:'swap_horiz'},
+ {id:'breadth',label:'Breadth',ico:'bar_chart'},{id:'leadership',label:'Leadership',ico:'leaderboard'},{id:'positioning',label:'Positioning',ico:'swap_horiz'},
  {id:'research',label:'Research',ico:'science'},{id:'screener',label:'Screener',ico:'filter_alt'},
  {id:'journal',label:'Journal',ico:'edit_note'}];
 let _gaSel=0,_gaFiltered=GA_TABS;
