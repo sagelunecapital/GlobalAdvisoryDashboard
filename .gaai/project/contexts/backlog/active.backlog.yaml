@@ -367,3 +367,13 @@ items:
       - E07S03
       - E07S04
     notes: "Discovery 2026-05-12 — S-4(a-e) failure mode tests; pytest; no live claude -p invocations"
+
+  - id: E08S01
+    epic: E08
+    module: dashboard
+    title: "Preview and open an industry's charts from a Leadership-tab chip"
+    priority: medium
+    status: refined
+    artefact: contexts/artefacts/stories/E08S01.story.md
+    dependencies: []
+    notes: "Discovery 2026-06-17 — Leadership tab Finviz hybrid chart integration; gates: validate-artefacts PASS, review[tier-2] PASS; related_decs DEC-2026-04-27-01 (non-interference)"
