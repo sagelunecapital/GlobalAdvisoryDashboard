@@ -382,6 +382,16 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .lead-auth .unlock{color:var(--green)}
 .lead-auth-link{border:none;background:transparent;color:var(--ps-blue);cursor:pointer;font-family:inherit;font-size:var(--fs-xs);padding:0;text-decoration:underline}
 .lead-auth-link:hover{color:#fff}
+/* E08S01 — Finviz chart preview popover + open affordance on Leadership chips */
+.lead-chip-main{cursor:pointer}
+.lead-fv-pop{position:fixed;z-index:200;display:none;grid-template-columns:repeat(4,minmax(118px,1fr));gap:6px;width:520px;max-width:92vw;max-height:72vh;overflow:auto;padding:10px;background:var(--surface-low);border:1px solid var(--outline);box-shadow:0 8px 28px rgba(0,0,0,0.6)}
+.lead-fv-pop.open{display:grid}
+.lead-fv-head{grid-column:1/-1;font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;padding-bottom:2px}
+.lead-fv-cell{position:relative;background:var(--surface-high);min-height:72px;border:1px solid var(--outline-dim)}
+.lead-fv-img{display:block;width:100%;height:auto}
+.lead-fv-cell.err .lead-fv-img{display:none}
+.lead-fv-cell.err::after{content:attr(data-tk) " \2715";display:flex;align-items:center;justify-content:center;height:72px;font-size:var(--fs-xs);color:var(--text-muted)}
+.lead-fv-more{display:flex;align-items:center;justify-content:center;background:var(--surface-high);border:1px solid var(--outline-dim);color:var(--text-muted);font-size:var(--fs-sm);min-height:72px}
 
 /* ── Research Tab ── */
 .rs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-bottom:24px}
@@ -2993,7 +3003,7 @@ function leadChipHtml(nm,cat){
   const rank=LEAD_RANK[cat.key],e=_esc(nm);
   const tk=leadTickers(nm);
   const tkHtml=tk?`<div class="lead-chip-tk">${tk}</div>`:'';
-  const main=`<div class="lead-chip-main"><div class="lead-chip-name">${nm}</div>${tkHtml}</div>`;
+  const main=`<div class="lead-chip-main" onmouseenter="leadFvShow(event,'${e}')" onmouseleave="leadFvHide(event)" onclick="leadFvOpen(event,'${e}')"><div class="lead-chip-name">${nm}</div>${tkHtml}</div>`;
   if(!leadCanEdit){
     return `<div class="lead-chip ro" title="${_att(nm)}">${main}</div>`;
   }
@@ -3059,6 +3069,63 @@ function leadDragEnd(e){e.currentTarget.classList.remove('dragging');document.qu
 function leadDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';e.currentTarget.classList.add('drag-over');}
 function leadDragLeave(e){if(!e.currentTarget.contains(e.relatedTarget))e.currentTarget.classList.remove('drag-over');}
 function leadDrop(e,catKey){e.preventDefault();e.currentTarget.classList.remove('drag-over');const nm=_leadDragName||(e.dataTransfer?e.dataTransfer.getData('text/plain'):'');_leadDragName=null;if(nm)leadPlace(nm,catKey);}
+
+/* ── E08S01: Finviz chart preview (hover) + open full screener (click) ──────────
+   Finviz pages cannot be iframed (X-Frame-Options: SAMEORIGIN), so the preview is
+   built from individual per-ticker chart images served by charts2.finviz.com.
+   The preview grid is capped (LEAD_FV_CAP); the click-through opens the FULL list
+   (never capped — see leadFvOpen). */
+const LEAD_FV_CAP=12;
+const LEAD_FV_CHART='https://charts2.finviz.com/chart.ashx';
+const LEAD_FV_SCREENER='https://finviz.com/screener.ashx';
+let _leadFvPop=null,_leadFvHideTimer=null;
+function leadFvTickers(name){
+  if(!_leadTkMap){leadTickers(name);}            // force-populate shared cache
+  const s=(_leadTkMap&&_leadTkMap[name])||'';
+  return s?s.split(', ').map(t=>t.trim()).filter(Boolean):[];
+}
+function _leadFvNode(){
+  if(_leadFvPop)return _leadFvPop;
+  const p=document.createElement('div');
+  p.className='lead-fv-pop';
+  p.addEventListener('mouseenter',()=>{if(_leadFvHideTimer){clearTimeout(_leadFvHideTimer);_leadFvHideTimer=null;}});
+  p.addEventListener('mouseleave',()=>leadFvHide());
+  document.body.appendChild(p);
+  _leadFvPop=p;return p;
+}
+function leadFvShow(event,name){
+  if(_leadDragName)return;                        // don't preview mid-drag
+  const tks=leadFvTickers(name);
+  if(!tks.length)return;                          // AC7 — empty list: no popover
+  if(_leadFvHideTimer){clearTimeout(_leadFvHideTimer);_leadFvHideTimer=null;}
+  const pop=_leadFvNode();
+  const shown=tks.slice(0,LEAD_FV_CAP),extra=tks.length-shown.length;
+  let html='<div class="lead-fv-head">'+_att(name)+' &middot; '+tks.length+' tickers</div>';
+  shown.forEach(t=>{
+    const u=LEAD_FV_CHART+'?t='+encodeURIComponent(t)+'&ty=c&ta=1&p=d';
+    html+='<div class="lead-fv-cell" data-tk="'+t+'"><img class="lead-fv-img" loading="lazy" alt="'+t+'" src="'+u+'" onerror="this.closest(\'.lead-fv-cell\').classList.add(\'err\')"></div>';
+  });
+  if(extra>0)html+='<div class="lead-fv-more">+'+extra+' more</div>';
+  pop.innerHTML=html;
+  pop.classList.add('open');
+  const r=event.currentTarget.getBoundingClientRect();
+  const pw=pop.offsetWidth,ph=pop.offsetHeight,m=8;
+  let left=Math.min(r.left,window.innerWidth-pw-m);left=Math.max(m,left);
+  let top=r.bottom+6;if(top+ph>window.innerHeight-m)top=Math.max(m,r.top-ph-6);
+  pop.style.left=left+'px';pop.style.top=top+'px';
+}
+function leadFvHide(){
+  if(_leadFvHideTimer)clearTimeout(_leadFvHideTimer);
+  _leadFvHideTimer=setTimeout(()=>{if(_leadFvPop)_leadFvPop.classList.remove('open');_leadFvHideTimer=null;},120);
+}
+function leadFvOpen(event,name){
+  if(event)event.stopPropagation();             // don't bubble to doc-level closers
+  const tks=leadFvTickers(name);
+  if(!tks.length)return;                          // AC7 — empty list: no navigation
+  // Full list — NEVER capped here (LEAD_FV_CAP is preview-only).
+  const url=LEAD_FV_SCREENER+'?v=211&t='+encodeURIComponent(tks.join(','));
+  window.open(url,'_blank','noopener');
+}
 
 function leadSave(){
   leadData.saved_at=new Date().toISOString();
