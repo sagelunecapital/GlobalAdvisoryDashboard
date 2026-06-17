@@ -373,7 +373,13 @@ items:
     module: dashboard
     title: "Preview and open an industry's charts from a Leadership-tab chip"
     priority: medium
-    status: refined
+    status: done
+    started_at: "2026-06-17T00:00:00Z"
+    completed_at: "2026-06-17T00:00:00Z"
+    pr_url: "https://github.com/sagelunecapital/GlobalAdvisoryDashboard/pull/8"
+    pr_number: 8
+    pr_status: "merged"
+    tier: 2
     artefact: contexts/artefacts/stories/E08S01.story.md
     dependencies: []
-    notes: "Discovery 2026-06-17 — Leadership tab Finviz hybrid chart integration; gates: validate-artefacts PASS, review[tier-2] PASS; related_decs DEC-2026-04-27-01 (non-interference)"
+    notes: "Discovery 2026-06-17 — Leadership tab Finviz hybrid chart integration; gates: validate-artefacts PASS, review[tier-2] PASS; related_decs DEC-2026-04-27-01 (non-interference). Delivery 2026-06-17 (Windows orchestrator, in-session): QA PASS (10/10 ACs); code merged to main (PR #8, a986c9c) — lives on main not staging due to branch drift; preview verified by human."
