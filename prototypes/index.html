@@ -2626,6 +2626,21 @@ function _fmtPerf(v){
   const s=(v>=0?'+':'')+v.toFixed(2)+'%';
   return`<span style="color:${v>=0?'var(--green)':'var(--red)'}">${s}</span>`;
 }
+// Finviz chart hover for industry rows — US only (charts2.finviz.com has no HK/CN/KR symbols).
+function _srFvAttr(g){
+  return (srCountry==='United States'&&(g.tickers||[]).length)
+    ?' onmouseenter="srFvShow(event,this)" onmouseleave="leadFvHide()"':'';
+}
+function srFvShow(event,cell){
+  const div=cell.querySelector('.sr-name-tickers');
+  if(!div)return;
+  const raw=div.textContent.trim();
+  if(!raw||raw==='—')return;
+  const tks=raw.split(',').map(t=>t.trim()).filter(Boolean);
+  if(!tks.length)return;
+  const title=(cell.childNodes[0]&&cell.childNodes[0].textContent.trim())||'Industry';
+  leadFvShowList(event,title,tks);
+}
 
 function renderSrGap(){
   const groups=srData.groups
@@ -2641,7 +2656,7 @@ function renderSrGap(){
     const tkTip=(g.tickers||[]).join(', ');
     html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name" onclick="this.classList.toggle('open')">${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
+      <td class="sr-name" onclick="this.classList.toggle('open')"${_srFvAttr(g)}>${nm}${sig?' <span class="sr-sig">&#x25B2;</span>':''}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
       <td style="text-align:right">${g.rs.toFixed(4)}</td>
       <td style="text-align:right">${g.ema_21_rs.toFixed(4)}</td>
       <td style="text-align:right;color:${gc};font-weight:600">${gs}</td>
@@ -2693,7 +2708,7 @@ function _renderSrRankStd(){
     const tkTip2=(g.tickers||[]).join(', ');
     html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name" onclick="this.classList.toggle('open')">${_srName(g.group_id)}<div class="sr-name-tickers">${tkTip2||'—'}</div></td>
+      <td class="sr-name" onclick="this.classList.toggle('open')"${_srFvAttr(g)}>${_srName(g.group_id)}<div class="sr-name-tickers">${tkTip2||'—'}</div></td>
       ${rankCell(dr,srRankMode==='daily')}
       ${rankCell(wr,srRankMode==='weekly')}
       ${rankCell(mr,srRankMode==='monthly')}
@@ -2731,7 +2746,7 @@ function _renderSrRankAttr(){
     const idioHtml=`<span style="color:${d==='resid'?C:W};${d==='resid'?'font-weight:700;':''}">${(a.resid>=0?'+':'')+a.resid.toFixed(2)}${idioSuffix}</span>`;
     html+=`<tr>
       <td style="color:var(--text-muted)">${i+1}</td>
-      <td class="sr-name" onclick="this.classList.toggle('open')">${nm}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
+      <td class="sr-name" onclick="this.classList.toggle('open')"${_srFvAttr(g)}>${nm}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
       <td style="text-align:right">${fV(a.total,false)}</td>
       <td style="text-align:right">${fV(a.mkt,d==='mkt')}</td>
       <td style="text-align:right">${fV(a.sec,d==='sec')}</td>
@@ -3097,10 +3112,15 @@ function leadFvShow(event,name){
   if(_leadDragName)return;                        // don't preview mid-drag
   const tks=leadFvTickers(name);
   if(!tks.length)return;                          // AC7 — empty list: no popover
+  leadFvShowList(event,name,tks);
+}
+// Shared popover renderer — used by Leadership chips and Breadth/Sector-Rotation rows.
+function leadFvShowList(event,title,tks){
+  if(!tks||!tks.length)return;
   if(_leadFvHideTimer){clearTimeout(_leadFvHideTimer);_leadFvHideTimer=null;}
   const pop=_leadFvNode();
   const shown=tks.slice(0,LEAD_FV_CAP),extra=tks.length-shown.length;
-  let html='<div class="lead-fv-head">'+_att(name)+' &middot; '+tks.length+' tickers</div>';
+  let html='<div class="lead-fv-head">'+_att(title)+' &middot; '+tks.length+' tickers</div>';
   shown.forEach(t=>{
     const u=LEAD_FV_CHART+'?t='+encodeURIComponent(t)+'&ty=c&ta=1&p=d';
     html+='<div class="lead-fv-cell" data-tk="'+t+'"><img class="lead-fv-img" loading="lazy" alt="'+t+'" src="'+u+'" onerror="this.closest(\'.lead-fv-cell\').classList.add(\'err\')"></div>';
