@@ -29,9 +29,19 @@ def _prev_trading_day(d: date) -> date:
     return d
 
 
-def _safe_trading_day(d: date) -> date:
-    """Return d if weekday, else the most recent Friday (weekend-safety for CN/HK)."""
-    while d.weekday() >= 5:
+def _hk_session_date() -> date:
+    """Most recent COMPLETED HK trading session.
+
+    HK = UTC+8 (no DST). Before the 16:00 HKT close the latest finished session
+    is the prior trading day; at/after the close it is today. Weekend-safe.
+    Mirrors the US path (_prev_trading_day) so a next-morning run keys movers to
+    the session they actually represent, not the day the script happens to run.
+    """
+    now_hkt = datetime.now(timezone.utc) + timedelta(hours=8)
+    d = now_hkt.date()
+    if now_hkt.hour < 16:            # before 16:00 HKT close -> prior session
+        d = d - timedelta(days=1)
+    while d.weekday() >= 5:          # weekend safety
         d = d - timedelta(days=1)
     return d
 
@@ -306,7 +316,7 @@ def _enrich_ipo_closes(ipos: list[dict], existing_by_ticker: dict) -> list[dict]
 async def _main_async():
     now_iso    = datetime.now(timezone.utc).isoformat()
     us_date    = _prev_trading_day(date.today()).isoformat()
-    cn_date    = _safe_trading_day(date.today()).isoformat()
+    cn_date    = _hk_session_date().isoformat()
 
     # ── US Movers ──────────────────────────────────────────────────────────
     print("[screener] Fetching US movers...", flush=True)
