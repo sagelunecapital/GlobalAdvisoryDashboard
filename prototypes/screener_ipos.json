@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-06-16T22:08:07.957305+00:00",
+  "fetched_at": "2026-06-17T22:22:41.948134+00:00",
   "us": [
-    {
-      "ticker": "AADX",
-      "company": "Applied Aerospace & Defense, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-06-03",
-      "price_usd": 20.0,
-      "price_range": "18.00 - 21.00",
-      "status": "Closed",
-      "shares": 32500000,
-      "deal_amount_usd": 650000000.0,
-      "mkt_cap_usd": 3414870360.0,
-      "ipo_close": 19.01
-    },
     {
       "ticker": "QNT",
       "company": "Quantinuum Inc.",
@@ -41,19 +28,6 @@
       "ipo_close": 17.15
     },
     {
-      "ticker": "LFTO",
-      "company": "Liftoff Mobile, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 23.0,
-      "price_range": "20.00 - 22.00",
-      "status": "Closed",
-      "shares": 21850000,
-      "deal_amount_usd": 437000000.0,
-      "mkt_cap_usd": 6013514358.0,
-      "ipo_close": 28.45
-    },
-    {
       "ticker": "INIO",
       "company": "INNIO N.V.",
       "exchange": "NASDAQ",
@@ -65,6 +39,19 @@
       "deal_amount_usd": 2430000000.0,
       "mkt_cap_usd": 20250000000.0,
       "ipo_close": 33.3
+    },
+    {
+      "ticker": "LFTO",
+      "company": "Liftoff Mobile, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-04",
+      "price_usd": 23.0,
+      "price_range": "20.00 - 22.00",
+      "status": "Closed",
+      "shares": 21850000,
+      "deal_amount_usd": 437000000.0,
+      "mkt_cap_usd": 6013514358.0,
+      "ipo_close": 28.45
     },
     {
       "ticker": "WHK",
@@ -80,19 +67,6 @@
       "ipo_close": 26.0
     },
     {
-      "ticker": "EROC",
-      "company": "ERock, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-06-10",
-      "price_usd": 21.5,
-      "price_range": "20.00 - 23.00",
-      "status": "Closed",
-      "shares": 27906977,
-      "deal_amount_usd": 600000005.5,
-      "mkt_cap_usd": 4717101720.0,
-      "ipo_close": 18.75
-    },
-    {
       "ticker": "PBLS",
       "company": "Parabilis Medicines, Inc.",
       "exchange": "NASDAQ",
@@ -104,6 +78,19 @@
       "deal_amount_usd": 670000000.0,
       "mkt_cap_usd": 2362915600.0,
       "ipo_close": 31.6
+    },
+    {
+      "ticker": "EROC",
+      "company": "ERock, Inc.",
+      "exchange": "NYSE",
+      "date": "2026-06-10",
+      "price_usd": 21.5,
+      "price_range": "20.00 - 23.00",
+      "status": "Closed",
+      "shares": 27906977,
+      "deal_amount_usd": 600000005.5,
+      "mkt_cap_usd": 4717101720.0,
+      "ipo_close": 18.75
     },
     {
       "ticker": "FRBT",
@@ -146,18 +133,6 @@
   ],
   "hk": [
     {
-      "ticker": "2553",
-      "company": "Beijing Shougang LanzaTech Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-03",
-      "price_usd": 1.86288645396,
-      "price_range": "1.86 - 2.18",
-      "status": "Closed",
-      "shares": 40000000,
-      "deal_amount_usd": 63338139.43464,
-      "mkt_cap_usd": 745154581.584
-    },
-    {
       "ticker": "2290",
       "company": "Lung Fung Group Holdings Limited",
       "exchange": "HKEX",
@@ -168,18 +143,6 @@
       "shares": 125000000,
       "deal_amount_usd": 74378266.589025,
       "mkt_cap_usd": 330574293.098
-    },
-    {
-      "ticker": "1081",
-      "company": "Dajin Heavy Industry Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 8.47484667784,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 100010600,
-      "deal_amount_usd": 773872149.5402818,
-      "mkt_cap_usd": 6141928166.944
     },
     {
       "ticker": "1779",
@@ -194,6 +157,18 @@
       "mkt_cap_usd": 909652895.6862
     },
     {
+      "ticker": "1081",
+      "company": "Dajin Heavy Industry Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 8.47484667784,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 100010600,
+      "deal_amount_usd": 773872149.5402818,
+      "mkt_cap_usd": 6141928166.944
+    },
+    {
       "ticker": "6658",
       "company": "Liuliumei Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -206,18 +181,6 @@
       "mkt_cap_usd": 438370935.9092
     },
     {
-      "ticker": "6675",
-      "company": "SENASIC Electronics Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-17",
-      "price_usd": 2.342852767764,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 53407000,
-      "deal_amount_usd": 112612029.70589799,
-      "mkt_cap_usd": 888231862.2395
-    },
-    {
       "ticker": "1392",
       "company": "Shenzhen HQVT Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -227,7 +190,7 @@
       "status": "Pending",
       "shares": 85162500,
       "deal_amount_usd": 70415230.10745744,
-      "mkt_cap_usd": 711470551.7378
+      "mkt_cap_usd": 711565912.4134
     },
     {
       "ticker": "6132",
@@ -239,7 +202,19 @@
       "status": "Pending",
       "shares": 13600000,
       "deal_amount_usd": 127757865.014352,
-      "mkt_cap_usd": 768414107.5132
+      "mkt_cap_usd": 768517100.5159
+    },
+    {
+      "ticker": "2335",
+      "company": "Shaanxi Micot Pharmaceutical Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-24",
+      "price_usd": null,
+      "price_range": "2.32 - 2.68",
+      "status": "Pending",
+      "shares": 58054400,
+      "deal_amount_usd": 140024476.954236,
+      "mkt_cap_usd": null
     },
     {
       "ticker": "6106",
@@ -251,19 +226,7 @@
       "status": "Pending",
       "shares": 10497300,
       "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1432886914.1464
-    },
-    {
-      "ticker": "2335",
-      "company": "Shaanxi Mycotech Pharmaceutical Technology Co. Ltd.",
-      "exchange": "HKEX",
-      "date": "2026-06-24",
-      "price_usd": null,
-      "price_range": "2.32 - 2.68",
-      "status": "Pending",
-      "shares": 58054400,
-      "deal_amount_usd": 140024476.954236,
-      "mkt_cap_usd": null
+      "mkt_cap_usd": 1433078968.5665
     }
   ]
 }

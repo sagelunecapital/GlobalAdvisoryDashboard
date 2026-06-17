@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-16T22:15:04.016127+00:00",
+  "updated_at": "2026-06-17T22:22:41.948134+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -3417,6 +3417,176 @@
         "mkt_cap": 1380000000,
         "change_pct": 18.91,
         "catalyst": "WYFI surged after Bit Digital originated a $100 million delayed-draw term loan facility, expandable to $150 million, to fund WYFI's AI data-center buildout. The financing backs its previously announced $160M+ five-year Paris-region AI compute deal set to begin service in July. The facility removes a near-term funding overhang for the AI-infrastructure operator.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-17": [
+      {
+        "ticker": "ARQQ",
+        "company": "Arqit Quantum Inc.",
+        "mkt_cap": 393290000,
+        "change_pct": 13.34,
+        "catalyst": "ARQQ rose with a sector-wide quantum-computing rally sparked by the SCSP US-China Quantum Race Report, which said the US still leads but China is narrowing the gap through state-backed funding. No ARQQ-specific announcement drove the session - the prior securities class-action settlement dated to June 1. As a small-cap post-quantum encryption play, ARQQ amplified the group move alongside QBTS, RGTI and QUBT, extending its gain from the prior session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "quantum-race-jun17",
+        "group_summary": "ARQQ and HQ both rallied on a sector-wide quantum-computing move triggered by the SCSP US-China Quantum Race Report, which said the US still leads but China is closing the gap through state-backed funding. Neither had a company-specific announcement that session - the move was thematic, with QBTS, RGTI and QUBT also gaining."
+      },
+      {
+        "ticker": "BRAI",
+        "company": "Braiin Limited",
+        "mkt_cap": 1930000000,
+        "change_pct": 24.97,
+        "catalyst": "BRAI jumped after announcing a landmark enterprise contract with Australian firm BillCentral to deploy its full-stack agentic-AI customer-experience platform (CXaaS), consolidating voice, chat, workflow automation and analytics into one system. Management framed the win as validation of its agentic-AI strategy and a path to recurring SaaS revenue. The deal followed Maxim Group initiating coverage two days earlier at Buy with a $10 target.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CLPT",
+        "company": "ClearPoint Neuro Inc.",
+        "mkt_cap": 504120000,
+        "change_pct": 26.01,
+        "catalyst": "CLPT surged after partner QURE said the FDA agreed that three-year Phase 1/2 data for AMT-130 in Huntington's disease can serve as the primary basis for an accelerated-approval BLA, targeted for Q3 2026. AMT-130 is delivered into the brain using CLPT's neuro-navigation system and SmartFlow cannula, so progress toward commercialization directly benefits CLPT's platform. The decision also removed the prior FDA requirement for a randomized sham-controlled trial before filing.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "amt130-fda-jun17",
+        "group_summary": "QURE and CLPT both surged after the FDA agreed that three-year Phase 1/2 data for AMT-130 in Huntington's disease can serve as the primary basis for an accelerated-approval BLA, targeted for Q3 2026. QURE develops AMT-130 while CLPT supplies the neuro-navigation system and SmartFlow cannula used to deliver it into the brain. The decision reversed the FDA's prior stance requiring a randomized sham-controlled trial."
+      },
+      {
+        "ticker": "DYN",
+        "company": "Dyne Therapeutics, Inc.",
+        "mkt_cap": 3170000000,
+        "change_pct": 6.25,
+        "catalyst": "DYN rose after amending its non-dilutive senior secured term loan with Hercules Capital, expanding total capacity to $400M, with $50M funded immediately and up to $200M still available. The financing extends runway to advance z-rostudirsen for exon 51 DMD and z-basivarsen for DM1 through upcoming clinical and regulatory milestones. Analysts stayed constructive, with H.C. Wainwright at Buy/$50 and Raymond James at Strong Buy/$40.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "HOOD",
+        "company": "Robinhood Markets, Inc.",
+        "mkt_cap": 94820000000,
+        "change_pct": 8.78,
+        "catalyst": "HOOD rallied after announcing a roughly 10% workforce reduction (about 290 roles), framed as a move from a position of strength to flatten layers and accelerate product velocity. HOOD also disclosed record June month-to-date average daily volumes across equities, options and prediction markets, partly driven by the SpaceX IPO, and trimmed its 2026 adjusted expense outlook toward the low end of the prior $2.70B-$2.825B range. Multiple analysts raised estimates and targets on the news.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "HQ",
+        "company": "Horizon Quantum Holdings Ltd.",
+        "mkt_cap": 751590000,
+        "change_pct": 26.26,
+        "catalyst": "HQ surged as the quantum-computing group rallied on the SCSP US-China Quantum Race Report, with QBTS, RGTI and QUBT also higher. There was no HQ-specific announcement that session - an earlier IonQ partnership to deploy a 256-qubit trapped-ion system in Dublin was a prior-session driver. HQ is a very recent listing trading with extreme volatility, ranging roughly $9.75 to $19.71 in June.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "quantum-race-jun17",
+        "group_summary": "ARQQ and HQ both rallied on a sector-wide quantum-computing move triggered by the SCSP US-China Quantum Race Report, which said the US still leads but China is closing the gap through state-backed funding. Neither had a company-specific announcement that session - the move was thematic, with QBTS, RGTI and QUBT also gaining."
+      },
+      {
+        "ticker": "LZB",
+        "company": "La-Z-Boy Incorporated",
+        "mkt_cap": 1650000000,
+        "change_pct": 14.77,
+        "catalyst": "LZB jumped after reporting fiscal Q4 results on June 17, with adjusted EPS of about $1.26 crushing the roughly $0.82 consensus on revenue near $570M. Retail written sales rose 11% and delivered sales 9%, with company-owned stores now 61% of the network. Management guided Q1 revenue to $490M-$510M and announced a fresh $300M buyback alongside continued dividend growth on a net-cash balance sheet.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MRAAY",
+        "company": "Murata Manufacturing Inc.",
+        "mkt_cap": 121030000000,
+        "change_pct": 9.6,
+        "catalyst": "MRAAY extended a run tied to surging high-end MLCC demand for AI servers, where it holds over 40% global MLCC share and roughly 70% of the AI-server segment, with high-end lead times stretching from 8 to 24 weeks. There was no confirmed MRAAY-specific announcement that session - the move reflects continuation of the AI-MLCC theme plus bullish analyst commentary and prior guidance for FY operating profit up about 35%. The session looks like thematic momentum rather than a discrete same-day event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NAVN",
+        "company": "Navan, Inc.",
+        "mkt_cap": 5340000000,
+        "change_pct": 10.3,
+        "catalyst": "NAVN extended its rally following its June 10 fiscal Q1 beat-and-raise, where non-GAAP EPS of $0.08 beat the $0.01 consensus on revenue of about $220M (roughly 40% growth) and record gross bookings of $3.1B. The print triggered a wave of analyst target hikes - Citizens to $38, Citi to $28, TD Cowen to $28 and BMO to $30 - all keeping bullish ratings and driving the stock back toward its $25 IPO price. NAVN listed on Nasdaq in October 2025; the June 17 move was post-earnings analyst-upgrade momentum.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "PTCT",
+        "company": "PTC Therapeutics, Inc.",
+        "mkt_cap": 6510000000,
+        "change_pct": 7.18,
+        "catalyst": "PTCT moved higher following its June 15 pricing of a $500M 0% convertible senior notes offering due 2031, convertible at $107.48 (a 40% premium), with proceeds partly used to repurchase $222M of its 2026 notes. The improved capital structure, paired with ongoing Sephience launch momentum, carried into the June 17 session, which was also a strong biotech day led by QURE's FDA news. The convertible financing is the most specific dated catalyst.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "PZZA",
+        "company": "Papa John's International, Inc.",
+        "mkt_cap": 1200000000,
+        "change_pct": 11.41,
+        "catalyst": "PZZA surged on reports that financing is lining up behind a potential take-private deal led by Irth Capital, involving roughly $725M of preferred equity and $1B of bridge financing with backing from Brookfield, plus about $1B of debt financing reportedly from Morgan Stanley. This builds on prior takeover interest, including from PZZA's largest franchisee. The catalyst is take-private M&A speculation, not operating results.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "QURE",
+        "company": "uniQure N.V.",
+        "mkt_cap": 3010000000,
+        "change_pct": 78.44,
+        "catalyst": "QURE soared after disclosing that the FDA agreed a three-year analysis from the Phase 1/2 study of AMT-130 would be acceptable as the primary basis for an accelerated-approval filing in Huntington's disease, reversing its prior stance that the data were insufficient. High-dose AMT-130 had shown a 75% reduction in disease progression at three years on a standard clinical scale, and QURE plans a US BLA submission in Q3 2026. Cantor Fitzgerald upgraded QURE to Overweight and raised its target to $61 from $18.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "amt130-fda-jun17",
+        "group_summary": "QURE and CLPT both surged after the FDA agreed that three-year Phase 1/2 data for AMT-130 in Huntington's disease can serve as the primary basis for an accelerated-approval BLA, targeted for Q3 2026. QURE develops AMT-130 while CLPT supplies the neuro-navigation system and SmartFlow cannula used to deliver it into the brain. The decision reversed the FDA's prior stance requiring a randomized sham-controlled trial."
+      },
+      {
+        "ticker": "RYTM",
+        "company": "Rhythm Pharmaceuticals, Inc.",
+        "mkt_cap": 6570000000,
+        "change_pct": 6.81,
+        "catalyst": "RYTM gained as investors kept reacting to positive data shown at ENDO 2026 (June 13-16), where oral bivamelagon delivered mean BMI reductions of -6.7% to -16.6% at 52 weeks in acquired hypothalamic obesity, alongside positive setmelanotide data in Prader-Willi syndrome. The conference data landed June 15, so the June 17 move was carry-through plus the broad biotech tailwind from QURE's FDA news. No discrete same-day RYTM release was confirmed.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SHAZ",
+        "company": "SharonAI Holdings, Inc.",
+        "mkt_cap": 1410000000,
+        "change_pct": 10.92,
+        "catalyst": "SHAZ jumped after announcing an oversubscribed $1.6B private placement anchored by Situational Awareness and Oaktree - roughly $900M of common stock and pre-funded warrants plus $700M of 4.75% convertible notes due 2032 - to fund NVIDIA-powered AI factories. The financing backs its recent six-year NVIDIA compute agreement (up to about 40,000 GB300 GPUs, 72MW of new capacity) and an expanded VAST Data partnership. Compass Point reiterated Buy with a $90 target.",
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-16T22:15:04.016127+00:00",
+  "updated_at": "2026-06-17T22:22:41.948134+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -915,6 +915,44 @@
         "mkt_cap": 272610000000,
         "change_pct": 5.62,
         "catalyst": "6613 gained amid ongoing optimism over its role in Apple's foldable iPhone, where it is the exclusive supplier of ultra-thin glass and hinge components ahead of a September 2026 launch. Additional upside narrative comes from its exclusive Tesla humanoid-robot head-module supply, with mass production slated for July. No confirmed company-specific announcement was tied to the June 16 session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-17": [
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 109720000000,
+        "change_pct": 17.68,
+        "catalyst": "148 surged after subsidiary Kingboard Laminates (1888) entered a block trade to sell about 155 million shares at HK$76.00 each, an 11.5% discount, raising net proceeds of roughly HK$11.8 billion (US$1.5 billion). 148 said the cash will fund expansion of its printed-circuit-board business, added capacity and R&D, deepening its position in the AI hardware supply chain. The placement was handled by Citigroup and Merrill Lynch (Asia Pacific) and is set to close June 22. 148 is up nearly 300% year-to-date on AI-component demand.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "3881",
+        "company": "CiDi Inc. Class",
+        "mkt_cap": 7300000000,
+        "change_pct": 35.54,
+        "catalyst": "3881 was the single best-performing HK Stock Connect constituent on June 17, but no company-specific same-day announcement could be confirmed. The move reads as continuation of an autonomous-driving re-rating after FY results showing revenue up 116%, autonomous-driving revenue up 231% and 630 mining-truck deliveries (up 317%), with roughly seven brokers at Buy and an average target near HK$330. Confirmable dated catalysts, including Stock Connect inclusion, date to April 2026, so the spike looks like momentum absent a verified stock-specific trigger.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "3986",
+        "company": "GigaDevice Semiconductor Inc. Class",
+        "mkt_cap": 436580000000,
+        "change_pct": 14.54,
+        "catalyst": "3986 rallied as part of a broad China memory and semiconductor up-cycle, with no stock-specific announcement. TrendForce data cited that day showed H1 2026 NOR Flash contract prices up over 100% and SLC NAND up 130-150%, driving a volume-and-price thesis on AI-led demand and supply tightness. Peers moved with it, including Hua Hong up about 14% and SMIC up about 9%. 3986's prior Q1 net profit rose roughly fivefold, reinforcing memory sentiment.",
         "catalyst_type": "macro",
         "source": "Claude | Web",
         "continuation": false,
