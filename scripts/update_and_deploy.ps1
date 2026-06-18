@@ -51,6 +51,9 @@ Invoke-Step "scripts\fetch_regime.py"  "fetch_regime.py failed - regime.json may
 Invoke-Step "scripts\barchart_fetch.py" "barchart_fetch.py failed - ZQ cache stale (stir falls back to yfinance)."
 Invoke-Step "scripts\stir_pipeline.py"  "stir_pipeline.py failed - stir.json may be stale."
 
+# 2b. Warsh Playbook tab data (reads stir.json above; FRED + yfinance for the rest)
+Invoke-Step "scripts\fetch_warsh.py"    "fetch_warsh.py failed - warsh.json may be stale (tab falls back to illustrative curves)."
+
 # 3. Sector rotation: the collector refreshes sector_rotation.db AND auto-exports
 #    sector_rotation.json + ticker_perf.json internally (no separate export step needed).
 #    MFRA then computes/exports from the same DB.
@@ -73,6 +76,7 @@ $dataFiles = @(
     "prototypes/gdpnow.json",
     "prototypes/sector_rotation.json",
     "prototypes/stir.json",
+    "prototypes/warsh.json",
     "prototypes/ticker_perf.json",
     "prototypes/mfra_group.json",
     "prototypes/cot_data.json",

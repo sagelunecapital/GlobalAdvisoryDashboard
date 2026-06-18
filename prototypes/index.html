@@ -829,21 +829,21 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   </div>
   <div class="warsh-charts c2">
     <div class="warsh-cc">
-      <div class="warsh-cc-title">SOFR Dec-2026 Implied Rate (%)</div>
-      <div class="warsh-cc-cap">Implied year-end rate, trailing 6 months</div>
+      <div class="warsh-cc-title">SOFR-Implied Policy Path</div>
+      <div class="warsh-cc-cap">Implied rate by FOMC meeting (live strip)</div>
       <div class="cw" style="height:200px" id="w-warsh-sofr"><div class="chart-tt" id="tt-warsh-sofr"></div></div>
     </div>
     <div class="warsh-cc" style="display:flex;flex-direction:column;justify-content:center">
       <div class="warsh-cc-title">Where The Tightening Lives</div>
       <div class="warsh-cc-cap" style="margin-bottom:12px">The strip, not the funds rate</div>
       <div style="display:flex;gap:18px;flex-wrap:wrap">
-        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Implied year-end</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--amber)">~4.04%</div></div>
+        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Dec-26 implied</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--amber)" id="warsh-z6">~4.04%</div></div>
         <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Winter low</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)">3.04%</div></div>
-        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Hikes priced</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)">40&ndash;50bp</div></div>
+        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Hikes priced</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)" id="warsh-hikes">40&ndash;50bp</div></div>
       </div>
     </div>
   </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;Implied year-end rate from the December-2026 SOFR contract. Effective funds ~3.63%.</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;SOFR-implied overnight rate by FOMC meeting, from the live futures strip. Dec-26 implied = December-2026 SOFR contract; effective funds <span id="warsh-effr">~3.63%</span>.</div>
 
   <!-- ── 4 · Transmission Is Uneven ── -->
   <div class="section-heading">Transmission Is Uneven</div>
@@ -877,16 +877,16 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div class="cw" style="height:200px" id="w-warsh-mspread"><div class="chart-tt" id="tt-warsh-mspread"></div></div>
     </div>
     <div class="warsh-cc">
-      <div class="warsh-cc-title">EURUSD vs US-DE 2Y Diff</div>
-      <div class="warsh-cc-cap">FX is the price of the differential</div>
+      <div class="warsh-cc-title">EURUSD vs US 2Y</div>
+      <div class="warsh-cc-cap">FX is the price of the rate differential</div>
       <div class="wlegend">
         <span class="wleg"><i style="border-top-color:var(--amber)"></i>EURUSD</span>
-        <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>US-DE 2Y</span>
+        <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>US 2Y (%)</span>
       </div>
       <div class="cw" style="height:178px" id="w-warsh-eur"><div class="chart-tt" id="tt-warsh-eur"></div></div>
     </div>
   </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;30-year mortgage rate vs the 10-year Treasury yield. Spread in basis points. &nbsp;&nbsp;<b>2</b> &nbsp;EURUSD vs the US&ndash;Germany 2-year yield differential, basis points.</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;30-year mortgage rate (FRED MORTGAGE30US) vs the 10-year Treasury yield (DGS10). Spread in basis points. &nbsp;&nbsp;<b>2</b> &nbsp;EURUSD (FRED DEXUSEU) vs the US 2-year yield (DGS2). The US&ndash;Germany differential cited in the text has no free daily series; the US 2Y is shown as the dominant driver.</div>
 
   <!-- ── 5 · The Dislocated Node ── -->
   <div class="section-heading">The Dislocated Node: Real Rates &amp; the Dollar</div>
@@ -5578,64 +5578,79 @@ function gaSettings(e){
   const bp=v=>v.toFixed(0)+'bp', pct=v=>v.toFixed(2)+'%', pct1=v=>v.toFixed(1)+'%';
 
   window._redraw=window._redraw||{};
+  // labels in warsh.json are 'YYYY-MM-DD' strings → Date objects for fmtD
+  function dts(labels){return labels.map(s=>{const p=String(s).split('-');return new Date(+p[0],(+p[1]||1)-1,(+p[2]||1));});}
+  const chgFmt=v=>(v>=0?'+':'')+v.toFixed(0)+'bp';
+
   window._redraw.warsh=function(){
+    const D=(window._warshData&&window._warshData.charts)||{};   // real data; empty → illustrative fallback
     const r=rng(73);
     const d12=dates(52,12), d6=dates(40,6), d1=dates(22,1);
 
-    // 1 · 2Y yield — release-day impulses: chops down then re-rates to a fresh high
-    const y2=build(52,t=>3.60+1.62*Math.pow(t-0.42,2)*(t<0.42?1:1.18),r,0.05);
-    wChart('w-warsh-2y','tt-warsh-2y',d12,[{label:'2Y',vals:y2,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)});
+    // 1 · 2Y yield, trailing 12m
+    if(D.y2){ wChart('w-warsh-2y','tt-warsh-2y',dts(D.y2.labels),[{label:'2Y',vals:D.y2.vals,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
+    else { const y2=build(52,t=>3.60+1.62*Math.pow(t-0.42,2)*(t<0.42?1:1.18),r,0.05);
+      wChart('w-warsh-2y','tt-warsh-2y',d12,[{label:'2Y',vals:y2,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
 
-    // 2 · MOVE — spike then compress toward 71
-    const move=build(52,t=>100-30*t+34*Math.exp(-Math.pow((t-0.55)/0.05,2)),r,3.2);
-    move[51]=71;
-    wChart('w-warsh-move','tt-warsh-move',d12,[{label:'MOVE',vals:move,color:AMBER,fmt:v=>v.toFixed(0)}],{h:200,lfmt:v=>v.toFixed(0)});
+    // 2 · MOVE, trailing 12m
+    if(D.move){ wChart('w-warsh-move','tt-warsh-move',dts(D.move.labels),[{label:'MOVE',vals:D.move.vals,color:AMBER,fmt:v=>v.toFixed(0)}],{h:200,lfmt:v=>v.toFixed(0)}); }
+    else { const move=build(52,t=>100-30*t+34*Math.exp(-Math.pow((t-0.55)/0.05,2)),r,3.2); move[51]=71;
+      wChart('w-warsh-move','tt-warsh-move',d12,[{label:'MOVE',vals:move,color:AMBER,fmt:v=>v.toFixed(0)}],{h:200,lfmt:v=>v.toFixed(0)}); }
 
-    // 3 · 2s10s spread — peak ~73 → fresh cycle low 30 (39 yesterday)
-    const s210=build(52,t=> t<0.32 ? 50+23*(t/0.32) : 73-39*Math.pow((t-0.32)/0.68,1.15), r,2.0);
-    s210[50]=39; s210[51]=30;
-    wChart('w-warsh-2s10s','tt-warsh-2s10s',d12,[{label:'2s10s',vals:s210,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)});
+    // 3 · 2s10s spread (bp)
+    if(D.s210){ wChart('w-warsh-2s10s','tt-warsh-2s10s',dts(D.s210.labels),[{label:'2s10s',vals:D.s210.vals,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
+    else { const s210=build(52,t=> t<0.32 ? 50+23*(t/0.32) : 73-39*Math.pow((t-0.32)/0.68,1.15), r,2.0); s210[50]=39; s210[51]=30;
+      wChart('w-warsh-2s10s','tt-warsh-2s10s',d12,[{label:'2s10s',vals:s210,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
 
-    // 4 · 1-month change — twos up +12, tens down -11
-    const c2y=build(22,t=>1+11*t,r,1.6); c2y[21]=12;
-    const c10y=build(22,t=>1-12*t,r,1.4); c10y[21]=-11;
-    wChart('w-warsh-1mc','tt-warsh-1mc',d1,[
-      {label:'2Y',vals:c2y,color:AMBER,fmt:v=>(v>=0?'+':'')+v.toFixed(0)+'bp'},
-      {label:'10Y',vals:c10y,color:MUTED,dash:'5 4',fmt:v=>(v>=0?'+':'')+v.toFixed(0)+'bp'}
-    ],{h:178,lfmt:v=>v.toFixed(0)});
+    // 4 · 1-month change (bp): twos up, tens down
+    if(D.chg){ wChart('w-warsh-1mc','tt-warsh-1mc',dts(D.chg.labels),[
+        {label:'2Y',vals:D.chg.c2y,color:AMBER,fmt:chgFmt},
+        {label:'10Y',vals:D.chg.c10y,color:MUTED,dash:'5 4',fmt:chgFmt}],{h:178,lfmt:v=>v.toFixed(0)}); }
+    else { const c2y=build(22,t=>1+11*t,r,1.6); c2y[21]=12; const c10y=build(22,t=>1-12*t,r,1.4); c10y[21]=-11;
+      wChart('w-warsh-1mc','tt-warsh-1mc',d1,[{label:'2Y',vals:c2y,color:AMBER,fmt:chgFmt},{label:'10Y',vals:c10y,color:MUTED,dash:'5 4',fmt:chgFmt}],{h:178,lfmt:v=>v.toFixed(0)}); }
 
-    // 5 · SOFR Dec-2026 implied rate — 3.04% low → ~4.04%
-    const sofr=build(40,t=>3.04+1.00/(1+Math.exp(-(t-0.5)*9)),r,0.022); sofr[39]=4.04;
-    wChart('w-warsh-sofr','tt-warsh-sofr',d6,[{label:'Z6',vals:sofr,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)});
+    // 5 · SOFR-implied policy path (live strip) — fallback: synthetic Z6 history
+    if(D.sofr){ wChart('w-warsh-sofr','tt-warsh-sofr',dts(D.sofr.labels),[{label:'Implied',vals:D.sofr.vals,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
+    else { const sofr=build(40,t=>3.04+1.00/(1+Math.exp(-(t-0.5)*9)),r,0.022); sofr[39]=4.04;
+      wChart('w-warsh-sofr','tt-warsh-sofr',d6,[{label:'Implied',vals:sofr,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
+    if(D.sofr_kpi){ const k=D.sofr_kpi, ze=document.getElementById('warsh-z6'), zh=document.getElementById('warsh-hikes'), ef=document.getElementById('warsh-effr');
+      if(ze&&k.z6!=null) ze.textContent='~'+k.z6.toFixed(2)+'%';
+      if(zh&&k.hikes_bp!=null) zh.textContent='~'+k.hikes_bp+'bp';
+      if(ef&&k.effr!=null) ef.textContent='~'+k.effr.toFixed(2)+'%'; }
 
-    // 6 · 30Y mortgage vs 10Y (both %)
-    const mort=build(52,t=>6.55+0.26*Math.sin(t*6.0)-0.18*t,r,0.05); mort[51]=6.35;
-    const ten =build(52,t=>4.18+0.17*Math.sin(t*5.0+1)+0.05*t,r,0.045); ten[51]=4.22;
-    wChart('w-warsh-mort','tt-warsh-mort',d12,[
-      {label:'Mortgage',vals:mort,color:AMBER,fmt:pct1},
-      {label:'10Y',vals:ten,color:MUTED,dash:'5 4',fmt:pct1}
-    ],{h:178,lfmt:pct1});
+    // 6 · 30Y mortgage vs 10Y (%)
+    if(D.mort){ wChart('w-warsh-mort','tt-warsh-mort',dts(D.mort.labels),[
+        {label:'Mortgage',vals:D.mort.mortgage,color:AMBER,fmt:pct1},
+        {label:'10Y',vals:D.mort.ten,color:MUTED,dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1}); }
+    else { const mort=build(52,t=>6.55+0.26*Math.sin(t*6.0)-0.18*t,r,0.05); mort[51]=6.35; const ten=build(52,t=>4.18+0.17*Math.sin(t*5.0+1)+0.05*t,r,0.045); ten[51]=4.22;
+      wChart('w-warsh-mort','tt-warsh-mort',d12,[{label:'Mortgage',vals:mort,color:AMBER,fmt:pct1},{label:'10Y',vals:ten,color:MUTED,dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1}); }
 
-    // 7 · Mortgage − 10Y spread — wide, sticky, easing toward ~213bp
-    const mspr=build(52,t=>228-15*t,r,4); mspr[51]=213;
-    wChart('w-warsh-mspread','tt-warsh-mspread',d12,[{label:'Spread',vals:mspr,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)});
+    // 7 · Mortgage − 10Y spread (bp)
+    if(D.mspread){ wChart('w-warsh-mspread','tt-warsh-mspread',dts(D.mspread.labels),[{label:'Spread',vals:D.mspread.vals,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
+    else { const mspr=build(52,t=>228-15*t,r,4); mspr[51]=213;
+      wChart('w-warsh-mspread','tt-warsh-mspread',d12,[{label:'Spread',vals:mspr,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
 
-    // 8 · EURUSD vs US-DE 2Y diff (dual axis) — diff compressing to ~160bp
-    const eur =build(52,t=>1.105-0.04*Math.sin(t*5+0.5),r,0.006);
-    const usde=build(52,t=>210-50*t,r,6); usde[51]=160;
-    wChart('w-warsh-eur','tt-warsh-eur',d12,[
-      {label:'EURUSD',vals:eur,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},
-      {label:'US-DE 2Y',vals:usde,color:CYAN,axis:'R',dash:'5 4',fmt:bp}
-    ],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)});
+    // 8 · EURUSD vs US 2Y (dual axis)
+    if(D.eur){ wChart('w-warsh-eur','tt-warsh-eur',dts(D.eur.labels),[
+        {label:'EURUSD',vals:D.eur.eurusd,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},
+        {label:'US 2Y',vals:D.eur.us2y,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(1)}); }
+    else { const eur=build(52,t=>1.105-0.04*Math.sin(t*5+0.5),r,0.006); const us2=build(52,t=>3.7+0.5*t,r,0.05); us2[51]=4.2;
+      wChart('w-warsh-eur','tt-warsh-eur',d12,[{label:'EURUSD',vals:eur,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},{label:'US 2Y',vals:us2,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(1)}); }
 
-    // 9 · 10Y real yield vs DXY (dual axis) — confluence top
-    const real=build(40,t=>1.90+0.34*t,r,0.035); real[39]=2.22;
-    const dxy =build(40,t=>98+2.0*Math.sin(t*4+0.5)+1.0*t,r,0.45); dxy[39]=100;
-    wChart('w-warsh-real','tt-warsh-real',d6,[
-      {label:'Real 10Y',vals:real,color:AMBER,axis:'L',fmt:pct},
-      {label:'DXY',vals:dxy,color:CYAN,axis:'R',dash:'5 4',fmt:v=>v.toFixed(1)}
-    ],{h:200,lfmt:v=>v.toFixed(2),rfmt:v=>v.toFixed(0)});
+    // 9 · 10Y real yield vs DXY (dual axis)
+    if(D.real&&D.real.dxy){ wChart('w-warsh-real','tt-warsh-real',dts(D.real.labels),[
+        {label:'Real 10Y',vals:D.real.real,color:AMBER,axis:'L',fmt:pct},
+        {label:'DXY',vals:D.real.dxy,color:CYAN,axis:'R',dash:'5 4',fmt:v=>v.toFixed(1)}],{h:200,lfmt:v=>v.toFixed(2),rfmt:v=>v.toFixed(0)}); }
+    else if(D.real){ wChart('w-warsh-real','tt-warsh-real',dts(D.real.labels),[{label:'Real 10Y',vals:D.real.real,color:AMBER,axis:'L',fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
+    else { const real=build(40,t=>1.90+0.34*t,r,0.035); real[39]=2.22; const dxy=build(40,t=>98+2.0*Math.sin(t*4+0.5)+1.0*t,r,0.45); dxy[39]=100;
+      wChart('w-warsh-real','tt-warsh-real',d6,[{label:'Real 10Y',vals:real,color:AMBER,axis:'L',fmt:pct},{label:'DXY',vals:dxy,color:CYAN,axis:'R',dash:'5 4',fmt:v=>v.toFixed(1)}],{h:200,lfmt:v=>v.toFixed(2),rfmt:v=>v.toFixed(0)}); }
   };
+
+  // Pull live data, then redraw if the tab is already open
+  fetch('warsh.json?_='+Date.now())
+    .then(res=>res.ok?res.json():null)
+    .then(d=>{ if(d&&d.charts){ window._warshData=d; if(window._activeMain==='warsh'&&window._redraw.warsh) window._redraw.warsh(); } })
+    .catch(()=>{});
 })();
 </script>
 </body>
