@@ -4842,8 +4842,10 @@ function jrnlUpdateLabel(){
 }
 function jrnlLoad(){
   const key=jrnlKey(jrnlDate);
-  let text=localStorage.getItem(key);
-  if(text===null&&jrnlIso(new Date())===jrnlIso(jrnlDate)) text=localStorage.getItem('gaai-tactics')||'';
+  const text=localStorage.getItem(key);
+  // (Removed legacy fallback that pre-filled today's empty entry with the old
+  //  "gaai-tactics" note — that content already lives as the 2026-05-01 and
+  //  2026-05-20 journal entries, so today now opens blank when it has no entry.)
   const disp=document.getElementById('tact-display');
   const edit=document.getElementById('tact-edit');
   if(disp) disp.textContent=text||'';
