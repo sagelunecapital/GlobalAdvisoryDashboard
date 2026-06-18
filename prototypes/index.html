@@ -153,11 +153,12 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-warsh .warsh-foot{margin-bottom:4px}
 #main-warsh .warsh-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:6px}
 @media(max-width:1050px){#main-warsh .warsh-cols{grid-template-columns:1fr;gap:18px}}
+#main-warsh .warsh-col{display:flex;flex-direction:column}
 #main-warsh .warsh-collabel{font-size:var(--fs-xs);font-weight:700;color:var(--amber);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)}
 #main-warsh .warsh-col p{font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:12px}
-#main-warsh .warsh-col p:last-child{margin-bottom:0}
-/* charts now live inside their relevant prose column, below the text */
-#main-warsh .warsh-col .warsh-cc{margin-top:16px}
+#main-warsh .warsh-col p:last-of-type{margin-bottom:14px}
+/* charts pinned to a common baseline so they align horizontally across columns */
+#main-warsh .warsh-col .warsh-cc{margin-top:auto}
 #main-warsh .warsh-charts{display:grid;gap:14px;margin:8px 0 4px}
 #main-warsh .warsh-charts.c2{grid-template-columns:1fr 1fr}
 #main-warsh .warsh-charts.c3{grid-template-columns:repeat(3,1fr)}
@@ -168,8 +169,8 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-warsh .wlegend{display:flex;gap:16px;flex-wrap:wrap;margin:2px 0 4px}
 #main-warsh .wleg{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--text-muted)}
 #main-warsh .wleg i{width:16px;height:0;border-top-width:2px;border-top-style:solid;display:inline-block}
-#main-warsh .warsh-seq{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:6px 0 4px}
-#main-warsh .warsh-seq-box{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:2px solid var(--amber);padding:12px 14px}
+#main-warsh .warsh-seq{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:6px 0 4px}
+#main-warsh .warsh-seq-box{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:2px solid var(--amber);padding:10px 9px}
 #main-warsh .warsh-seq-box b{display:block;font-size:var(--fs-base);font-weight:700;color:var(--text);letter-spacing:0.08em}
 #main-warsh .warsh-seq-box span{font-size:var(--fs-xs);color:var(--text-muted)}
 #main-warsh .warsh-foot{font-size:var(--fs-xs);color:var(--text-muted);line-height:1.6;border-top:1px solid var(--outline-dim);padding-top:10px;margin-top:6px}
@@ -798,7 +799,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           <span class="wleg"><i style="border-top-color:var(--amber)"></i>2Y</span>
           <span class="wleg"><i style="border-top-color:var(--text-muted);border-top-style:dashed"></i>10Y</span>
         </div>
-        <div class="cw" style="height:178px" id="w-warsh-1mc"><div class="chart-tt" id="tt-warsh-1mc"></div></div>
+        <div class="cw" style="height:200px" id="w-warsh-1mc"><div class="chart-tt" id="tt-warsh-1mc"></div></div>
       </div>
     </div>
     <div class="warsh-col">
@@ -830,15 +831,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div class="warsh-collabel">The Ceiling</div>
       <p>Base case: not more than ~50bp of hikes this year, and the pauses come first. Oil is elevated but has not transmitted into core CPI, so the inflation impulse driving the front end is narrow, not broad.</p>
       <p>Trade the contract, not the headline. Watch the z6 level for signs it is done repricing &mdash; that is where the next leg in rates and risk turns.</p>
-      <div class="warsh-cc">
-        <div class="warsh-cc-title">Where The Tightening Lives</div>
-        <div class="warsh-cc-cap" style="margin-bottom:12px">The strip, not the funds rate</div>
-        <div style="display:flex;gap:18px;flex-wrap:wrap">
-          <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Dec-26 implied</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--amber)" id="warsh-z6">~4.04%</div></div>
-          <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Winter low</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)">3.04%</div></div>
-          <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Hikes priced</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)" id="warsh-hikes">40&ndash;50bp</div></div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="warsh-foot"><b>1</b> &nbsp;Implied year-end rate from the December-2026 contract, trailing 6 months (implied rate = 100 &minus; price). Sourced from the Dec-2026 Fed Funds future (ZQZ26); the SOFR&ndash;FFR basis is ~0bp. Effective funds <span id="warsh-effr">~3.63%</span>.</div>
@@ -856,7 +848,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           <span class="wleg"><i style="border-top-color:var(--amber)"></i>Mortgage (LHS)</span>
           <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>10Y (RHS)</span>
         </div>
-        <div class="cw" style="height:178px" id="w-warsh-mort"><div class="chart-tt" id="tt-warsh-mort"></div></div>
+        <div class="cw" style="height:200px" id="w-warsh-mort"><div class="chart-tt" id="tt-warsh-mort"></div></div>
       </div>
     </div>
     <div class="warsh-col">
@@ -878,7 +870,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           <span class="wleg"><i style="border-top-color:var(--amber)"></i>EURUSD</span>
           <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>US-DE 2Y (bp)</span>
         </div>
-        <div class="cw" style="height:178px" id="w-warsh-eur"><div class="chart-tt" id="tt-warsh-eur"></div></div>
+        <div class="cw" style="height:200px" id="w-warsh-eur"><div class="chart-tt" id="tt-warsh-eur"></div></div>
       </div>
     </div>
   </div>
@@ -5602,25 +5594,23 @@ function gaSettings(e){
     // 4 · 1-month change (bp): twos up, tens down
     if(D.chg){ wChart('w-warsh-1mc','tt-warsh-1mc',dts(D.chg.labels),[
         {label:'2Y',vals:D.chg.c2y,color:AMBER,fmt:chgFmt},
-        {label:'10Y',vals:D.chg.c10y,color:MUTED,dash:'5 4',fmt:chgFmt}],{h:178,lfmt:v=>v.toFixed(0)}); }
+        {label:'10Y',vals:D.chg.c10y,color:MUTED,dash:'5 4',fmt:chgFmt}],{h:200,lfmt:v=>v.toFixed(0)}); }
     else { const c2y=build(22,t=>1+11*t,r,1.6); c2y[21]=12; const c10y=build(22,t=>1-12*t,r,1.4); c10y[21]=-11;
-      wChart('w-warsh-1mc','tt-warsh-1mc',d1,[{label:'2Y',vals:c2y,color:AMBER,fmt:chgFmt},{label:'10Y',vals:c10y,color:MUTED,dash:'5 4',fmt:chgFmt}],{h:178,lfmt:v=>v.toFixed(0)}); }
+      wChart('w-warsh-1mc','tt-warsh-1mc',d1,[{label:'2Y',vals:c2y,color:AMBER,fmt:chgFmt},{label:'10Y',vals:c10y,color:MUTED,dash:'5 4',fmt:chgFmt}],{h:200,lfmt:v=>v.toFixed(0)}); }
 
     // 5 · SOFR-implied policy path (live strip) — fallback: synthetic Z6 history
     if(D.sofr){ wChart('w-warsh-sofr','tt-warsh-sofr',dts(D.sofr.labels),[{label:'Implied',vals:D.sofr.vals,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
     else { const sofr=build(40,t=>3.04+1.00/(1+Math.exp(-(t-0.5)*9)),r,0.022); sofr[39]=4.04;
       wChart('w-warsh-sofr','tt-warsh-sofr',d6,[{label:'Implied',vals:sofr,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(2)}); }
-    if(D.sofr_kpi){ const k=D.sofr_kpi, ze=document.getElementById('warsh-z6'), zh=document.getElementById('warsh-hikes'), ef=document.getElementById('warsh-effr');
-      if(ze&&k.z6!=null) ze.textContent='~'+k.z6.toFixed(2)+'%';
-      if(zh&&k.hikes_bp!=null) zh.textContent='~'+k.hikes_bp+'bp';
-      if(ef&&k.effr!=null) ef.textContent='~'+k.effr.toFixed(2)+'%'; }
+    if(D.sofr_kpi){ const ef=document.getElementById('warsh-effr');
+      if(ef&&D.sofr_kpi.effr!=null) ef.textContent='~'+D.sofr_kpi.effr.toFixed(2)+'%'; }
 
     // 6 · 30Y mortgage vs 10Y (%) — separate axes so the two overlay/track
     if(D.mort){ wChart('w-warsh-mort','tt-warsh-mort',dts(D.mort.labels),[
         {label:'Mortgage',vals:D.mort.mortgage,color:AMBER,axis:'L',fmt:pct1},
-        {label:'10Y',vals:D.mort.ten,color:CYAN,axis:'R',dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1,rfmt:pct1}); }
+        {label:'10Y',vals:D.mort.ten,color:CYAN,axis:'R',dash:'5 4',fmt:pct1}],{h:200,lfmt:pct1,rfmt:pct1}); }
     else { const mort=build(52,t=>6.55+0.26*Math.sin(t*6.0)-0.18*t,r,0.05); mort[51]=6.35; const ten=build(52,t=>4.18+0.17*Math.sin(t*5.0+1)+0.05*t,r,0.045); ten[51]=4.22;
-      wChart('w-warsh-mort','tt-warsh-mort',d12,[{label:'Mortgage',vals:mort,color:AMBER,axis:'L',fmt:pct1},{label:'10Y',vals:ten,color:CYAN,axis:'R',dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1,rfmt:pct1}); }
+      wChart('w-warsh-mort','tt-warsh-mort',d12,[{label:'Mortgage',vals:mort,color:AMBER,axis:'L',fmt:pct1},{label:'10Y',vals:ten,color:CYAN,axis:'R',dash:'5 4',fmt:pct1}],{h:200,lfmt:pct1,rfmt:pct1}); }
 
     // 7 · Mortgage − 10Y spread (bp)
     if(D.mspread){ wChart('w-warsh-mspread','tt-warsh-mspread',dts(D.mspread.labels),[{label:'Spread',vals:D.mspread.vals,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
@@ -5630,12 +5620,12 @@ function gaSettings(e){
     // 8 · EURUSD vs US-DE 2Y differential (dual axis); fallback to US 2Y level
     if(D.eur&&D.eur.diff){ wChart('w-warsh-eur','tt-warsh-eur',dts(D.eur.labels),[
         {label:'EURUSD',vals:D.eur.eurusd,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},
-        {label:'US-DE 2Y',vals:D.eur.diff,color:CYAN,axis:'R',dash:'5 4',fmt:bp}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)}); }
+        {label:'US-DE 2Y',vals:D.eur.diff,color:CYAN,axis:'R',dash:'5 4',fmt:bp}],{h:200,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)}); }
     else if(D.eur){ wChart('w-warsh-eur','tt-warsh-eur',dts(D.eur.labels),[
         {label:'EURUSD',vals:D.eur.eurusd,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},
-        {label:'US 2Y',vals:D.eur.us2y,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(1)}); }
+        {label:'US 2Y',vals:D.eur.us2y,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(1)}); }
     else { const eur=build(52,t=>1.105-0.04*Math.sin(t*5+0.5),r,0.006); const diff=build(52,t=>210-50*t,r,6); diff[51]=167;
-      wChart('w-warsh-eur','tt-warsh-eur',d12,[{label:'EURUSD',vals:eur,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},{label:'US-DE 2Y',vals:diff,color:CYAN,axis:'R',dash:'5 4',fmt:bp}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)}); }
+      wChart('w-warsh-eur','tt-warsh-eur',d12,[{label:'EURUSD',vals:eur,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},{label:'US-DE 2Y',vals:diff,color:CYAN,axis:'R',dash:'5 4',fmt:bp}],{h:200,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)}); }
 
     // 9 · 10Y real yield vs DXY (dual axis)
     if(D.real&&D.real.dxy){ wChart('w-warsh-real','tt-warsh-real',dts(D.real.labels),[
