@@ -156,6 +156,8 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-warsh .warsh-collabel{font-size:var(--fs-xs);font-weight:700;color:var(--amber);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)}
 #main-warsh .warsh-col p{font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:12px}
 #main-warsh .warsh-col p:last-child{margin-bottom:0}
+/* charts now live inside their relevant prose column, below the text */
+#main-warsh .warsh-col .warsh-cc{margin-top:16px}
 #main-warsh .warsh-charts{display:grid;gap:14px;margin:8px 0 4px}
 #main-warsh .warsh-charts.c2{grid-template-columns:1fr 1fr}
 #main-warsh .warsh-charts.c3{grid-template-columns:repeat(3,1fr)}
@@ -166,8 +168,7 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-warsh .wlegend{display:flex;gap:16px;flex-wrap:wrap;margin:2px 0 4px}
 #main-warsh .wleg{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--text-muted)}
 #main-warsh .wleg i{width:16px;height:0;border-top-width:2px;border-top-style:solid;display:inline-block}
-#main-warsh .warsh-seq{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 4px}
-@media(max-width:760px){#main-warsh .warsh-seq{grid-template-columns:1fr 1fr}}
+#main-warsh .warsh-seq{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:6px 0 4px}
 #main-warsh .warsh-seq-box{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:2px solid var(--amber);padding:12px 14px}
 #main-warsh .warsh-seq-box b{display:block;font-size:var(--fs-base);font-weight:700;color:var(--text);letter-spacing:0.08em}
 #main-warsh .warsh-seq-box span{font-size:var(--fs-xs);color:var(--text-muted)}
@@ -757,22 +758,20 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="warsh-col">
       <div class="warsh-collabel">The Market Already Ranks Data</div>
       <p>His &ldquo;better data&rdquo; remark is not a plan to redefine CPI. It is an epistemic claim: the market already grades data quality. The 2-year jumps on CPI and barely twitches on University of Michigan. That asymmetry is the signal Warsh wants to lean on &mdash; the price is the verdict on which series carries information.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">2Y Yield &mdash; Release-Day Impulses</div>
+        <div class="warsh-cc-cap">Daily closes, trailing 12 months</div>
+        <div class="cw" style="height:200px" id="w-warsh-2y"><div class="chart-tt" id="tt-warsh-2y"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">A Volatility Regime, Not a Narrative</div>
       <p>Remove the Fed as a filter and you change the volatility regime, not just the talking points. MOVE sits near 71, compressed off its 115 high. The paradox: pulling forward guidance hands the clearing role back to data, so vol becomes data-driven rather than guidance-driven &mdash; quiet now, more reactive later.</p>
-    </div>
-  </div>
-  <div class="warsh-charts c2">
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">2Y Yield &mdash; Release-Day Impulses</div>
-      <div class="warsh-cc-cap">Daily closes, trailing 12 months</div>
-      <div class="cw" style="height:200px" id="w-warsh-2y"><div class="chart-tt" id="tt-warsh-2y"></div></div>
-    </div>
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">MOVE &mdash; Rate Volatility</div>
-      <div class="warsh-cc-cap">Compressing into the meeting</div>
-      <div class="cw" style="height:200px" id="w-warsh-move"><div class="chart-tt" id="tt-warsh-move"></div></div>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">MOVE &mdash; Rate Volatility</div>
+        <div class="warsh-cc-cap">Compressing into the meeting</div>
+        <div class="cw" style="height:200px" id="w-warsh-move"><div class="chart-tt" id="tt-warsh-move"></div></div>
+      </div>
     </div>
   </div>
   <div class="warsh-foot"><b>1</b> &nbsp;2-year Treasury yield and the MOVE index of rate volatility. Daily closes, trailing 12 months.</div>
@@ -783,31 +782,29 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="warsh-col">
       <div class="warsh-collabel">2s10s, New Low</div>
       <p>The market&rsquo;s answer to the new regime is a curve that flattened hard. 2s10s printed roughly 30bp today &mdash; a fresh low for the cycle, down from 39bp yesterday and a 73bp peak. The new low is unmistakable: the curve is delivering the verdict the Fed refused to give.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">2s10s Spread (bp)</div>
+        <div class="warsh-cc-cap">10Y minus 2Y, new cycle low</div>
+        <div class="cw" style="height:200px" id="w-warsh-2s10s"><div class="chart-tt" id="tt-warsh-2s10s"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">Tens Down, Twos Up</div>
       <p>Decompose the move and the story isolates. Over the trailing month the 2-year is up about 12bp while the 10-year is down about 11bp. They moved in opposite directions on the same axis &mdash; the cleanest expression of where the repricing actually sits.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">1-Month Change (bp)</div>
+        <div class="warsh-cc-cap">Opposite directions on the same axis</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>2Y</span>
+          <span class="wleg"><i style="border-top-color:var(--text-muted);border-top-style:dashed"></i>10Y</span>
+        </div>
+        <div class="cw" style="height:178px" id="w-warsh-1mc"><div class="chart-tt" id="tt-warsh-1mc"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">What It Means</div>
       <p>Twos repricing while tens fall is a short-end inflation-risk event, not a term-premium event. The long end is telling you two things: energy has not transmitted into core, and the productivity build-out (AI capex) caps the back end. If the Fed were behind the curve, this would be flipped &mdash; tens higher, twos lagging. It is the opposite.</p>
       <p>So the flattening is not a recession signal here. It is the market pricing near-term inflation risk into the front while expressing confidence the back end stays anchored.</p>
-    </div>
-  </div>
-  <div class="warsh-charts c2">
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">2s10s Spread (bp)</div>
-      <div class="warsh-cc-cap">10Y minus 2Y, new cycle low</div>
-      <div class="cw" style="height:200px" id="w-warsh-2s10s"><div class="chart-tt" id="tt-warsh-2s10s"></div></div>
-    </div>
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">1-Month Change (bp)</div>
-      <div class="warsh-cc-cap">Opposite directions on the same axis</div>
-      <div class="wlegend">
-        <span class="wleg"><i style="border-top-color:var(--amber)"></i>2Y</span>
-        <span class="wleg"><i style="border-top-color:var(--text-muted);border-top-style:dashed"></i>10Y</span>
-      </div>
-      <div class="cw" style="height:178px" id="w-warsh-1mc"><div class="chart-tt" id="tt-warsh-1mc"></div></div>
     </div>
   </div>
   <div class="warsh-foot"><b>1</b> &nbsp;2s10s = 10-year minus 2-year yield, basis points. Monthly change = change from ~22 trading days prior.</div>
@@ -818,6 +815,11 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="warsh-col">
       <div class="warsh-collabel">The Z6 Contract</div>
       <p>The press conference repriced the forward curve hawkish. The Dec-2026 SOFR contract&rsquo;s implied rate jumped ~15bp on the day to ~4.04%, up from a 3.04% low this winter. The contract has walked from pricing a pause toward roughly 40&ndash;50bp of hikes by year-end.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">SOFR Dec-2026 Implied Rate (%)</div>
+        <div class="warsh-cc-cap">Implied year-end rate, trailing 6 months</div>
+        <div class="cw" style="height:200px" id="w-warsh-sofr"><div class="chart-tt" id="tt-warsh-sofr"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">Path Dependency</div>
@@ -828,25 +830,18 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div class="warsh-collabel">The Ceiling</div>
       <p>Base case: not more than ~50bp of hikes this year, and the pauses come first. Oil is elevated but has not transmitted into core CPI, so the inflation impulse driving the front end is narrow, not broad.</p>
       <p>Trade the contract, not the headline. Watch the z6 level for signs it is done repricing &mdash; that is where the next leg in rates and risk turns.</p>
-    </div>
-  </div>
-  <div class="warsh-charts c2">
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">SOFR-Implied Policy Path</div>
-      <div class="warsh-cc-cap">Implied rate by FOMC meeting (live strip)</div>
-      <div class="cw" style="height:200px" id="w-warsh-sofr"><div class="chart-tt" id="tt-warsh-sofr"></div></div>
-    </div>
-    <div class="warsh-cc" style="display:flex;flex-direction:column;justify-content:center">
-      <div class="warsh-cc-title">Where The Tightening Lives</div>
-      <div class="warsh-cc-cap" style="margin-bottom:12px">The strip, not the funds rate</div>
-      <div style="display:flex;gap:18px;flex-wrap:wrap">
-        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Dec-26 implied</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--amber)" id="warsh-z6">~4.04%</div></div>
-        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Winter low</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)">3.04%</div></div>
-        <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Hikes priced</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)" id="warsh-hikes">40&ndash;50bp</div></div>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">Where The Tightening Lives</div>
+        <div class="warsh-cc-cap" style="margin-bottom:12px">The strip, not the funds rate</div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Dec-26 implied</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--amber)" id="warsh-z6">~4.04%</div></div>
+          <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Winter low</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)">3.04%</div></div>
+          <div><div style="font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Hikes priced</div><div style="font-size:var(--fs-xl);font-weight:700;color:var(--text)" id="warsh-hikes">40&ndash;50bp</div></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;SOFR-implied overnight rate by FOMC meeting, from the live futures strip. Dec-26 implied = December-2026 SOFR contract; effective funds <span id="warsh-effr">~3.63%</span>.</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;Implied year-end rate from the December-2026 contract, trailing 6 months (implied rate = 100 &minus; price). Sourced from the Dec-2026 Fed Funds future (ZQZ26); the SOFR&ndash;FFR basis is ~0bp. Effective funds <span id="warsh-effr">~3.63%</span>.</div>
 
   <!-- ── 4 · Transmission Is Uneven ── -->
   <div class="section-heading">Transmission Is Uneven</div>
@@ -854,42 +849,40 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="warsh-col">
       <div class="warsh-collabel">Where Policy Bites: Housing</div>
       <p>Warsh conceded policy is restrictive in exactly one place &mdash; housing &mdash; and called the rest &ldquo;uneven.&rdquo; That is a statement about transmission. Housing demand is credit-linked (90%+ of the market carries debt), so the rate tool bites there and almost nowhere else.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">30Y Mortgage vs 10Y (%)</div>
+        <div class="warsh-cc-cap">Separate axes &mdash; they move together</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>Mortgage (LHS)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>10Y (RHS)</span>
+        </div>
+        <div class="cw" style="height:178px" id="w-warsh-mort"><div class="chart-tt" id="tt-warsh-mort"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">The Credit Channel</div>
       <p>Transmission runs through credit, not the policy rate alone. The 30-year mortgage sits ~213bp over the 10-year &mdash; a wide, sticky spread that keeps the housing channel restrictive even as the back end of the curve eases.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">Mortgage &mdash; 10Y Spread (bp)</div>
+        <div class="warsh-cc-cap">The credit-linked demand channel</div>
+        <div class="cw" style="height:200px" id="w-warsh-mspread"><div class="chart-tt" id="tt-warsh-mspread"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">Across Economies: FX</div>
       <p>The other axis of unevenness is across countries, and there FX is the whole game: rate differentials drive the cross. EURUSD tracks the US&ndash;Germany 2-year spread, now ~160bp and compressing through the year. The dollar is the price of that differential &mdash; which ties FX positioning straight back to the same short-end repricing driving the curve.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">EURUSD vs US-DE 2Y Diff</div>
+        <div class="warsh-cc-cap">FX is the price of the differential</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>EURUSD</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>US-DE 2Y (bp)</span>
+        </div>
+        <div class="cw" style="height:178px" id="w-warsh-eur"><div class="chart-tt" id="tt-warsh-eur"></div></div>
+      </div>
     </div>
   </div>
-  <div class="warsh-charts c3">
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">30Y Mortgage vs 10Y (%)</div>
-      <div class="warsh-cc-cap">The rate tool, where it bites</div>
-      <div class="wlegend">
-        <span class="wleg"><i style="border-top-color:var(--amber)"></i>Mortgage</span>
-        <span class="wleg"><i style="border-top-color:var(--text-muted);border-top-style:dashed"></i>10Y</span>
-      </div>
-      <div class="cw" style="height:178px" id="w-warsh-mort"><div class="chart-tt" id="tt-warsh-mort"></div></div>
-    </div>
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">Mortgage &mdash; 10Y Spread (bp)</div>
-      <div class="warsh-cc-cap">The credit-linked demand channel</div>
-      <div class="cw" style="height:200px" id="w-warsh-mspread"><div class="chart-tt" id="tt-warsh-mspread"></div></div>
-    </div>
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">EURUSD vs US 2Y</div>
-      <div class="warsh-cc-cap">FX is the price of the rate differential</div>
-      <div class="wlegend">
-        <span class="wleg"><i style="border-top-color:var(--amber)"></i>EURUSD</span>
-        <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>US 2Y (%)</span>
-      </div>
-      <div class="cw" style="height:178px" id="w-warsh-eur"><div class="chart-tt" id="tt-warsh-eur"></div></div>
-    </div>
-  </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;30-year mortgage rate (FRED MORTGAGE30US) vs the 10-year Treasury yield (DGS10). Spread in basis points. &nbsp;&nbsp;<b>2</b> &nbsp;EURUSD (FRED DEXUSEU) vs the US 2-year yield (DGS2). The US&ndash;Germany differential cited in the text has no free daily series; the US 2Y is shown as the dominant driver.</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;30-year mortgage rate (FRED MORTGAGE30US, LHS) vs the 10-year Treasury yield (DGS10, RHS), separate axes. &nbsp;&nbsp;<b>2</b> &nbsp;EURUSD (FRED DEXUSEU) vs the US&ndash;Germany 2-year differential = US 2Y (DGS2) &minus; euro-area AAA 2Y (ECB, the Bund benchmark), basis points.</div>
 
   <!-- ── 5 · The Dislocated Node ── -->
   <div class="section-heading">The Dislocated Node: Real Rates &amp; the Dollar</div>
@@ -897,10 +890,29 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="warsh-col">
       <div class="warsh-collabel">Express The View Where It Is Most Dislocated</div>
       <p>The dislocation node is real rates and the dollar. The 10-year real yield has run ~33bp in six months to ~2.22% &mdash; genuinely restrictive &mdash; while DXY holds near 100. Both have run fast; both are candidates for a top that releases liquidity back into risk.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">10Y Real Yield vs DXY</div>
+        <div class="warsh-cc-cap">Watch the confluence top</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>Real 10Y (%)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>DXY</span>
+        </div>
+        <div class="cw" style="height:200px" id="w-warsh-real"><div class="chart-tt" id="tt-warsh-real"></div></div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">The Daisy Chain</div>
       <p>The chain is a sequencing logic. The SOFR strip leads; the 10-year future (ZN) is where you watch for a bond bottom; equities (ES) bottom after bonds; crude capitulation is the confirming tell. Bonds bottom, then equities bottom. Each leg of the chain confirms the next.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">Sequencing</div>
+        <div class="warsh-cc-cap">Bonds bottom, then equities bottom</div>
+        <div class="warsh-seq">
+          <div class="warsh-seq-box"><b>SOFR Z6</b><span>the reference</span></div>
+          <div class="warsh-seq-box"><b>10Y / ZN</b><span>bond bottom</span></div>
+          <div class="warsh-seq-box"><b>ES</b><span>equity bottom</span></div>
+          <div class="warsh-seq-box"><b>CRUDE</b><span>capitulation tell</span></div>
+        </div>
+      </div>
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">The Tell</div>
@@ -908,28 +920,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <p>A caveat: the relationship broke during the tariff tantrum, when bonds and equities sold off together. Treat a confluence top in real rates and the dollar as the trigger; treat a correlated risk-off as the exception that voids it.</p>
     </div>
   </div>
-  <div class="warsh-charts c2">
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">10Y Real Yield vs DXY</div>
-      <div class="warsh-cc-cap">Watch the confluence top</div>
-      <div class="wlegend">
-        <span class="wleg"><i style="border-top-color:var(--amber)"></i>Real 10Y (%)</span>
-        <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>DXY</span>
-      </div>
-      <div class="cw" style="height:200px" id="w-warsh-real"><div class="chart-tt" id="tt-warsh-real"></div></div>
-    </div>
-    <div class="warsh-cc">
-      <div class="warsh-cc-title">Sequencing</div>
-      <div class="warsh-cc-cap">Bonds bottom, then equities bottom</div>
-      <div class="warsh-seq">
-        <div class="warsh-seq-box"><b>SOFR Z6</b><span>the reference</span></div>
-        <div class="warsh-seq-box"><b>10Y / ZN</b><span>bond bottom</span></div>
-        <div class="warsh-seq-box"><b>ES</b><span>equity bottom</span></div>
-        <div class="warsh-seq-box"><b>CRUDE</b><span>capitulation tell</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;10-year TIPS real yield vs the dollar index. Trailing 6 months.</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;10-year TIPS real yield (FRED DFII10) vs the dollar index (DX-Y.NYB). Trailing 6 months.</div>
 
   <!-- ── 6 · The Playbook ── -->
   <div class="section-heading">The Playbook</div>
@@ -5624,24 +5615,27 @@ function gaSettings(e){
       if(zh&&k.hikes_bp!=null) zh.textContent='~'+k.hikes_bp+'bp';
       if(ef&&k.effr!=null) ef.textContent='~'+k.effr.toFixed(2)+'%'; }
 
-    // 6 · 30Y mortgage vs 10Y (%)
+    // 6 · 30Y mortgage vs 10Y (%) — separate axes so the two overlay/track
     if(D.mort){ wChart('w-warsh-mort','tt-warsh-mort',dts(D.mort.labels),[
-        {label:'Mortgage',vals:D.mort.mortgage,color:AMBER,fmt:pct1},
-        {label:'10Y',vals:D.mort.ten,color:MUTED,dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1}); }
+        {label:'Mortgage',vals:D.mort.mortgage,color:AMBER,axis:'L',fmt:pct1},
+        {label:'10Y',vals:D.mort.ten,color:CYAN,axis:'R',dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1,rfmt:pct1}); }
     else { const mort=build(52,t=>6.55+0.26*Math.sin(t*6.0)-0.18*t,r,0.05); mort[51]=6.35; const ten=build(52,t=>4.18+0.17*Math.sin(t*5.0+1)+0.05*t,r,0.045); ten[51]=4.22;
-      wChart('w-warsh-mort','tt-warsh-mort',d12,[{label:'Mortgage',vals:mort,color:AMBER,fmt:pct1},{label:'10Y',vals:ten,color:MUTED,dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1}); }
+      wChart('w-warsh-mort','tt-warsh-mort',d12,[{label:'Mortgage',vals:mort,color:AMBER,axis:'L',fmt:pct1},{label:'10Y',vals:ten,color:CYAN,axis:'R',dash:'5 4',fmt:pct1}],{h:178,lfmt:pct1,rfmt:pct1}); }
 
     // 7 · Mortgage − 10Y spread (bp)
     if(D.mspread){ wChart('w-warsh-mspread','tt-warsh-mspread',dts(D.mspread.labels),[{label:'Spread',vals:D.mspread.vals,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
     else { const mspr=build(52,t=>228-15*t,r,4); mspr[51]=213;
       wChart('w-warsh-mspread','tt-warsh-mspread',d12,[{label:'Spread',vals:mspr,color:AMBER,fmt:bp}],{h:200,lfmt:v=>v.toFixed(0)}); }
 
-    // 8 · EURUSD vs US 2Y (dual axis)
-    if(D.eur){ wChart('w-warsh-eur','tt-warsh-eur',dts(D.eur.labels),[
+    // 8 · EURUSD vs US-DE 2Y differential (dual axis); fallback to US 2Y level
+    if(D.eur&&D.eur.diff){ wChart('w-warsh-eur','tt-warsh-eur',dts(D.eur.labels),[
+        {label:'EURUSD',vals:D.eur.eurusd,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},
+        {label:'US-DE 2Y',vals:D.eur.diff,color:CYAN,axis:'R',dash:'5 4',fmt:bp}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)}); }
+    else if(D.eur){ wChart('w-warsh-eur','tt-warsh-eur',dts(D.eur.labels),[
         {label:'EURUSD',vals:D.eur.eurusd,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},
         {label:'US 2Y',vals:D.eur.us2y,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(1)}); }
-    else { const eur=build(52,t=>1.105-0.04*Math.sin(t*5+0.5),r,0.006); const us2=build(52,t=>3.7+0.5*t,r,0.05); us2[51]=4.2;
-      wChart('w-warsh-eur','tt-warsh-eur',d12,[{label:'EURUSD',vals:eur,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},{label:'US 2Y',vals:us2,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(1)}); }
+    else { const eur=build(52,t=>1.105-0.04*Math.sin(t*5+0.5),r,0.006); const diff=build(52,t=>210-50*t,r,6); diff[51]=167;
+      wChart('w-warsh-eur','tt-warsh-eur',d12,[{label:'EURUSD',vals:eur,color:AMBER,axis:'L',fmt:v=>v.toFixed(3)},{label:'US-DE 2Y',vals:diff,color:CYAN,axis:'R',dash:'5 4',fmt:bp}],{h:178,lfmt:v=>v.toFixed(3),rfmt:v=>v.toFixed(0)}); }
 
     // 9 · 10Y real yield vs DXY (dual axis)
     if(D.real&&D.real.dxy){ wChart('w-warsh-real','tt-warsh-real',dts(D.real.labels),[

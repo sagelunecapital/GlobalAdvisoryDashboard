@@ -49,23 +49,58 @@ def fred(series_id, days=400):
 
 
 def yf_close(ticker, days=400):
-    """Return {YYYY-MM-DD: float} of daily closes via yfinance."""
+    """Return {YYYY-MM-DD: float} of daily closes via yfinance.
+
+    Tries progressively shorter periods - futures contracts (e.g. ZQZ26) often
+    return empty for a 1y/2y window but populate for 6mo.
+    """
     import yfinance as yf
-    period = "2y" if days > 365 else "1y"
-    df = yf.download(ticker, period=period, interval="1d",
-                     progress=False, auto_adjust=True)
-    if df is None or len(df) == 0:
+    periods = ["2y", "1y", "6mo", "3mo"] if days > 365 else ["1y", "6mo", "3mo"]
+    c = None
+    for period in periods:
+        df = yf.download(ticker, period=period, interval="1d",
+                         progress=False, auto_adjust=True)
+        if df is not None and len(df) > 0:
+            c = df["Close"]
+            if hasattr(c, "columns"):
+                c = c.iloc[:, 0]
+            c = c.dropna()
+            if len(c) > 0:
+                break
+    if c is None or len(c) == 0:
         raise RuntimeError("empty yf " + ticker)
-    c = df["Close"]
-    if hasattr(c, "columns"):
-        c = c.iloc[:, 0]
-    c = c.dropna()
     out = {}
     cutoff = TODAY - datetime.timedelta(days=days)
     for idx, val in c.items():
         d = idx.date() if hasattr(idx, "date") else idx
         if d >= cutoff:
             out[d.isoformat()] = round(float(val), 4)
+    return out
+
+
+def ecb_2y(days=400):
+    """Euro-area AAA 2Y spot yield (ECB Data Portal) -> {YYYY-MM-DD: float}.
+
+    The AAA curve is the German/Bund benchmark, so this stands in for the German
+    2Y (no free daily DE 2Y series exists on FRED/yfinance).
+    """
+    url = ("https://data-api.ecb.europa.eu/service/data/YC/"
+           "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_2Y?format=jsondata&lastNObservations=340")
+    r = requests.get(url, timeout=30, headers={"Accept": "application/json"})
+    r.raise_for_status()
+    j = r.json()
+    series = j["dataSets"][0]["series"]
+    key = list(series.keys())[0]
+    obs = series[key]["observations"]
+    dim = j["structure"]["dimensions"]["observation"][0]["values"]
+    out = {}
+    cutoff = (TODAY - datetime.timedelta(days=days)).isoformat()
+    for k, v in obs.items():
+        d = dim[int(k)]["id"]
+        if v and v[0] is not None and d >= cutoff:
+            out[d] = float(v[0])
+    if not out:
+        raise RuntimeError("empty ECB 2Y")
     return out
 
 
@@ -162,27 +197,37 @@ def main():
             c10 = [round((v - base10) * 100, 1) if v is not None else None for v in f10]
             charts["chg"] = {"labels": ax1, "c2y": c2y, "c10y": c10}
 
-    # 5 - SOFR-implied policy path from the live strip (stir.json)
-    z6_implied = None
+    # 5 - SOFR Dec-2026 implied rate, trailing 6m, from the Dec-26 Fed Funds future
+    #     (ZQZ26; implied = 100 - price). SOFR-FFR basis ~0, so this tracks the SOFR Z6,
+    #     and ZQ has a usable daily history where the SOFR contract does not.
+    effr = None
     try:
         with open(STIR_PATH, "r", encoding="utf-8") as fh:
-            stir = json.load(fh)
-        mp = stir.get("meeting_path", [])
-        if mp:
-            labels = [m["meeting"] for m in mp]
-            vals = [round(m.get("post_rate", m.get("contract_rate")), 3) for m in mp]
-            charts["sofr"] = {"labels": labels, "vals": vals}
-        for c in stir.get("sofr_strip", []):
-            if "Z6" in c.get("symbol", "") or (c.get("year") == 2026 and str(c.get("symbol", "")).endswith("Z6")):
-                z6_implied = c.get("implied_rate")
-        effr = stir.get("effr")
-        charts["sofr_kpi"] = {
-            "z6": round(z6_implied, 2) if z6_implied is not None else None,
-            "effr": effr,
-            "hikes_bp": (round((z6_implied - effr) * 100) if (z6_implied is not None and effr is not None) else None),
-        }
+            effr = json.load(fh).get("effr")
     except Exception as e:
-        warnv.append("SOFR strip (stir.json) failed: %s" % e)
+        warnv.append("stir.json effr read failed: %s" % e)
+    try:
+        zq = yf_close("ZQZ26.CBT", 200)
+        if zq:
+            ax = [d for d in sorted(zq) if d >= (TODAY - datetime.timedelta(days=188)).isoformat()]
+            idx = sample_idx(len(ax), 40)
+            charts["sofr"] = {"labels": [ax[i] for i in idx],
+                              "vals": [round(100 - zq[ax[i]], 3) for i in idx]}
+            z6 = round(100 - zq[ax[-1]], 2)
+            charts["sofr_kpi"] = {"z6": z6, "effr": effr,
+                                  "hikes_bp": (round((z6 - effr) * 100) if effr is not None else None)}
+    except Exception as e:
+        warnv.append("ZQZ26 (yfinance) failed: %s" % e)
+    if "sofr_kpi" not in charts:   # fallback KPI from the live SOFR strip
+        try:
+            with open(STIR_PATH, "r", encoding="utf-8") as fh:
+                strip = json.load(fh).get("sofr_strip", [])
+            z6i = next((c.get("implied_rate") for c in strip if str(c.get("symbol", "")).endswith("Z6")), None)
+            if z6i is not None:
+                charts["sofr_kpi"] = {"z6": round(z6i, 2), "effr": effr,
+                                      "hikes_bp": (round((z6i - effr) * 100) if effr is not None else None)}
+        except Exception:
+            pass
 
     # 6 - 30Y mortgage vs 10Y (both %), trailing 12m
     if mort and dgs10 and axis12:
@@ -198,13 +243,20 @@ def main():
         vals = [round((fm[i] - f10[i]) * 100, 0) if (fm[i] is not None and f10[i] is not None) else None for i in idx12]
         charts["mspread"] = {"labels": lab12, "vals": vals}
 
-    # 8 - EURUSD vs US 2Y (dual axis), trailing 12m
-    if eur and dgs2 and axis12:
-        charts["eur"] = {
-            "labels": lab12,
-            "eurusd": col(eur, axis12, idx12, 1, 4),
-            "us2y": col(dgs2, axis12, idx12, 1, 2),
-        }
+    # 8 - EURUSD vs US-DE 2Y differential (dual axis), trailing 12m.
+    #     diff(bp) = US 2Y (DGS2) - euro-area AAA 2Y (ECB, ~German Bund 2Y).
+    de2y = None
+    try:
+        de2y = ecb_2y(400)
+    except Exception as e:
+        warnv.append("ECB euro-area 2Y failed: %s" % e)
+    if eur and dgs2 and de2y and axis12:
+        f2 = ffill(dgs2, axis12); fde = ffill(de2y, axis12)
+        diff = [round((f2[i] - fde[i]) * 100, 0) if (f2[i] is not None and fde[i] is not None) else None for i in idx12]
+        charts["eur"] = {"labels": lab12, "eurusd": col(eur, axis12, idx12, 1, 4), "diff": diff}
+    elif eur and dgs2 and axis12:   # DE 2Y unavailable -> fall back to US 2Y level
+        charts["eur"] = {"labels": lab12, "eurusd": col(eur, axis12, idx12, 1, 4),
+                         "us2y": col(dgs2, axis12, idx12, 1, 2)}
 
     # 9 - 10Y real yield vs DXY (dual axis), trailing 6m
     dxy = None
