@@ -7,6 +7,13 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="mask-icon" href="favicon.svg" color="#ffb800">
 <meta name="theme-color" content="#000000">
+<!-- PWA / installable home-screen app -->
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Advisory">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -172,6 +179,34 @@ svg.linechart line[stroke="#27272a"]{stroke-dasharray:3 3}
 .cmdk-list{max-height:340px;overflow:auto;padding:6px}
 .cmdk-item{display:flex;align-items:center;gap:12px;padding:11px 14px;cursor:pointer;color:var(--text-muted);font-size:var(--fs-base);letter-spacing:.04em}
 .cmdk-item .msi{font-size:var(--fs-lg)}
+/* ════════════════ Mobile (drawer nav, ≤760px) ════════════════ */
+.hdr-burger{display:none;align-items:center;justify-content:center;width:40px;height:40px;margin-right:6px;cursor:pointer;color:var(--text);font-size:var(--fs-xl);flex:none;background:transparent;border:none;font-family:'Material Symbols Outlined';line-height:1}
+.nav-scrim{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:95;display:none;backdrop-filter:blur(1px)}
+.app.nav-open .nav-scrim{display:block}
+@media(max-width:760px){
+  body{overflow:hidden}
+  .app{padding:0;height:100dvh;max-width:none;overflow:hidden}
+  /* collapse shell to a single column; sidebar lifts out of the grid into a drawer */
+  .layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .layout-corner{display:none}
+  .layout-header{grid-column:1;padding:11px 14px}
+  .layout-header h1{font-size:var(--fs-md);letter-spacing:0.02em}
+  .hdr-burger{display:flex}
+  /* drawer */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:252px;max-width:84vw;z-index:100;background:var(--surface-low);border-right:1px solid var(--outline-dim);box-shadow:0 0 44px rgba(0,0,0,0.65);transform:translateX(-100%);transition:transform .24s ease;padding:18px 10px 14px}
+  .app.nav-open .sidebar{transform:translateX(0)}
+  .app.collapsed .sidebar{--sidebar-w:252px}            /* ignore desktop icon-rail collapse on mobile */
+  .nav-tab{padding:13px 16px;font-size:var(--fs-base)}    /* larger tap targets */
+  .nav-tab.nav-sub{padding:11px 16px 11px 34px}
+  .nav-tab.nav-foot{display:none}                         /* desktop collapse control is irrelevant here */
+  .side-spacer{display:none}
+  /* content */
+  .main-content{grid-column:1;padding:14px 13px 30px}
+  .section-heading{font-size:var(--fs-lg);margin:16px 0 11px}
+  .card{padding:14px;overflow-x:auto}                     /* wide tables/charts scroll horizontally */
+  .stir-chart{height:280px}
+  .stir-kpi{min-width:calc(50% - 6px)}
+}
 .cmdk-item.sel,.cmdk-item:hover{background:linear-gradient(90deg,rgba(255,184,0,0.1),transparent);color:var(--amber)}
 .cmdk-empty{padding:18px;color:var(--text-muted);font-size:var(--fs-sm);text-align:center}
 /* Settings popover */
@@ -506,9 +541,11 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 </head>
 <body>
 <div class="app">
+<div class="nav-scrim" onclick="gaDrawer(false)"></div>
 <div class="layout">
   <div class="layout-corner"><div class="brand"><span class="brand-mark">GA</span><span class="brand-name">GLOBAL<br>ADVISORY</span></div></div>
   <div class="layout-header">
+    <button class="hdr-burger" aria-label="Open menu" onclick="gaDrawer(true)">menu</button>
     <h1>Global Advisory Dashboard</h1>
     <div class="hdr-right">
       <span class="hdr-ic msi" id="auth-ic" title="Log in to edit" onclick="leadAuthToggle()">person</span>
@@ -1323,6 +1360,7 @@ function showMain(id, btn) {
   document.getElementById('main-'+id).classList.add('active');
   btn.classList.add('active');
   window._activeMain=id;
+  document.querySelector('.app').classList.remove('nav-open');  // dismiss mobile drawer on selection
   if (id === 'screener') scrInit();
   if (id === 'journal')  jrnlInit();
   if (id === 'leadership') leadInit();
@@ -5098,6 +5136,10 @@ function gaScrSnap(){
 function gaCollapse(){
   document.querySelector('.app').classList.toggle('collapsed');
   setTimeout(()=>window.dispatchEvent(new Event('resize')),60);
+}
+function gaDrawer(open){
+  const app=document.querySelector('.app');
+  app.classList.toggle('nav-open', open===undefined ? undefined : !!open);
 }
 function gaFullscreen(){
   if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
