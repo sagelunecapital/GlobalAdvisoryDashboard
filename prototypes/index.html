@@ -2961,7 +2961,7 @@ function gaLogoutModal(open){
     ov.innerHTML=`<div class="ga-modal" role="dialog" aria-modal="true" aria-label="Log out">
       <div class="ga-modal-head"><span class="msi">logout</span><span class="ga-modal-title">Log Out</span></div>
       <div class="ga-modal-body">
-        <div class="ga-modal-sub">Log out of editing? You'll need the editor password to log back in.</div>
+        <div class="ga-modal-sub">Log out of editing? You'll need the password to log back in.</div>
       </div>
       <div class="ga-modal-foot">
         <button class="ga-btn" id="ga-logout-cancel">Cancel</button>
@@ -2982,10 +2982,10 @@ function gaAuthModal(open){
   let ov=document.getElementById('ga-auth');
   if(!ov){
     ov=document.createElement('div');ov.className='ga-modal-ov';ov.id='ga-auth';
-    ov.innerHTML=`<div class="ga-modal" role="dialog" aria-modal="true" aria-label="Editor login">
-      <div class="ga-modal-head"><span class="msi">lock</span><span class="ga-modal-title">Editor Login</span></div>
+    ov.innerHTML=`<div class="ga-modal" role="dialog" aria-modal="true" aria-label="Login">
+      <div class="ga-modal-head"><span class="msi">lock</span><span class="ga-modal-title">Login</span></div>
       <div class="ga-modal-body">
-        <div class="ga-modal-sub">Enter the editor password to enable editing.</div>
+        <div class="ga-modal-sub">Enter the password to enable editing.</div>
         <input class="ga-modal-input" id="ga-auth-input" type="password" placeholder="Password" autocomplete="current-password">
         <div class="ga-modal-err" id="ga-auth-err"></div>
       </div>
