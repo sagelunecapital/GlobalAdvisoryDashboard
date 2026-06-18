@@ -2951,8 +2951,31 @@ function leadRenderAuth(){
   }
 }
 function leadAuthToggle(){
-  if(leadCanEdit){if(confirm('Log out of editing?'))leadLogout();}
+  if(leadCanEdit) gaLogoutModal(true);
   else leadLogin();
+}
+function gaLogoutModal(open){
+  let ov=document.getElementById('ga-logout');
+  if(!ov){
+    ov=document.createElement('div');ov.className='ga-modal-ov';ov.id='ga-logout';
+    ov.innerHTML=`<div class="ga-modal" role="dialog" aria-modal="true" aria-label="Log out">
+      <div class="ga-modal-head"><span class="msi">logout</span><span class="ga-modal-title">Log Out</span></div>
+      <div class="ga-modal-body">
+        <div class="ga-modal-sub">Log out of editing? You'll need the editor password to log back in.</div>
+      </div>
+      <div class="ga-modal-foot">
+        <button class="ga-btn" id="ga-logout-cancel">Cancel</button>
+        <button class="ga-btn ga-btn-primary" id="ga-logout-confirm">Log out</button>
+      </div>
+    </div>`;
+    document.body.appendChild(ov);
+    ov.querySelector('#ga-logout-confirm').addEventListener('click',()=>{gaLogoutModal(false);leadLogout();});
+    ov.querySelector('#ga-logout-cancel').addEventListener('click',()=>gaLogoutModal(false));
+    ov.addEventListener('click',e=>{if(e.target===ov)gaLogoutModal(false);});
+    ov.addEventListener('keydown',e=>{if(e.key==='Escape')gaLogoutModal(false);});
+  }
+  if(open){ ov.classList.add('open'); setTimeout(()=>ov.querySelector('#ga-logout-confirm').focus(),30); }
+  else { ov.classList.remove('open'); }
 }
 function leadLogin(){ gaAuthModal(true); }
 function gaAuthModal(open){
