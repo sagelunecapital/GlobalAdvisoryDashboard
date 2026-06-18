@@ -1,58 +1,6 @@
 {
-  "fetched_at": "2026-06-17T22:22:41.948134+00:00",
+  "fetched_at": "2026-06-18T21:41:23.498058+00:00",
   "us": [
-    {
-      "ticker": "QNT",
-      "company": "Quantinuum Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 60.0,
-      "price_range": "53.00 - 55.00",
-      "status": "Closed",
-      "shares": 28000000,
-      "deal_amount_usd": 1680000000.0,
-      "mkt_cap_usd": 15236234820.0,
-      "ipo_close": 60.38
-    },
-    {
-      "ticker": "SSMR",
-      "company": "Sunshine Silver Mining & Refining Company",
-      "exchange": "NYSE",
-      "date": "2026-06-04",
-      "price_usd": 13.5,
-      "price_range": "13.50 - 16.50",
-      "status": "Closed",
-      "shares": 23000000,
-      "deal_amount_usd": 270000000.0,
-      "mkt_cap_usd": 1940309140.5,
-      "ipo_close": 17.15
-    },
-    {
-      "ticker": "INIO",
-      "company": "INNIO N.V.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 27.0,
-      "price_range": "24.00 - 27.00",
-      "status": "Closed",
-      "shares": 90000000,
-      "deal_amount_usd": 2430000000.0,
-      "mkt_cap_usd": 20250000000.0,
-      "ipo_close": 33.3
-    },
-    {
-      "ticker": "LFTO",
-      "company": "Liftoff Mobile, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-04",
-      "price_usd": 23.0,
-      "price_range": "20.00 - 22.00",
-      "status": "Closed",
-      "shares": 21850000,
-      "deal_amount_usd": 437000000.0,
-      "mkt_cap_usd": 6013514358.0,
-      "ipo_close": 28.45
-    },
     {
       "ticker": "WHK",
       "company": "WhiteHawk Minerals Corp",
@@ -119,6 +67,45 @@
       "ipo_close": 160.95
     },
     {
+      "ticker": "FCBM",
+      "company": "FIRST CAROLINA FINANCIAL SERVICES INC",
+      "exchange": "NYSE",
+      "date": "2026-06-18",
+      "price_usd": 12.5,
+      "price_range": "14.00 - 16.00",
+      "status": "Closed",
+      "shares": 5500000,
+      "deal_amount_usd": 68750000.0,
+      "mkt_cap_usd": 378071900.0,
+      "ipo_close": 12.6
+    },
+    {
+      "ticker": "KARD",
+      "company": "KARDIGAN INC",
+      "exchange": "NASDAQ",
+      "date": "2026-06-18",
+      "price_usd": 16.0,
+      "price_range": "14.00 - 16.00",
+      "status": "Closed",
+      "shares": 25000000,
+      "deal_amount_usd": 400000000.0,
+      "mkt_cap_usd": 1402759280.0,
+      "ipo_close": 22.0
+    },
+    {
+      "ticker": "FISN",
+      "company": "DEEP FISSION INC",
+      "exchange": "NASDAQ",
+      "date": "2026-06-18",
+      "price_usd": 16.0,
+      "price_range": "16.00 - 18.00",
+      "status": "Closed",
+      "shares": 2500000,
+      "deal_amount_usd": 40000000.0,
+      "mkt_cap_usd": 965625904.0,
+      "ipo_close": 14.56
+    },
+    {
       "ticker": "DPC",
       "company": "D.P.C. (Holdings) Ltd.",
       "exchange": "NYSE",
@@ -145,18 +132,6 @@
       "mkt_cap_usd": 330574293.098
     },
     {
-      "ticker": "1779",
-      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 12.260135417712,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14193150,
-      "deal_amount_usd": 156608517.79876956,
-      "mkt_cap_usd": 909652895.6862
-    },
-    {
       "ticker": "1081",
       "company": "Dajin Heavy Industry Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -167,6 +142,18 @@
       "shares": 100010600,
       "deal_amount_usd": 773872149.5402818,
       "mkt_cap_usd": 6141928166.944
+    },
+    {
+      "ticker": "1779",
+      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-05",
+      "price_usd": 12.260135417712,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 14193150,
+      "deal_amount_usd": 156608517.79876956,
+      "mkt_cap_usd": 909652895.6862
     },
     {
       "ticker": "6658",
@@ -190,11 +177,11 @@
       "status": "Pending",
       "shares": 85162500,
       "deal_amount_usd": 70415230.10745744,
-      "mkt_cap_usd": 711565912.4134
+      "mkt_cap_usd": 711434230.1523
     },
     {
       "ticker": "6132",
-      "company": "HJ Science Co., Ltd.",
+      "company": "HJ Science Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-23",
       "price_usd": 10.4377340698,
@@ -202,7 +189,7 @@
       "status": "Pending",
       "shares": 13600000,
       "deal_amount_usd": 127757865.014352,
-      "mkt_cap_usd": 768517100.5159
+      "mkt_cap_usd": 768374878.8781
     },
     {
       "ticker": "2335",
@@ -218,7 +205,7 @@
     },
     {
       "ticker": "6106",
-      "company": "Shanghai Seer Intelligent Technology Co. Ltd.",
+      "company": "Shanghai Seer Intelligent Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-24",
       "price_usd": 12.965881612,
@@ -226,7 +213,31 @@
       "status": "Pending",
       "shares": 10497300,
       "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1433078968.5665
+      "mkt_cap_usd": 1432813763.2277
+    },
+    {
+      "ticker": "2272",
+      "company": "Keytop Parking Inc.",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 5.04766888269,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10112280,
+      "deal_amount_usd": 45939036.408117,
+      "mkt_cap_usd": 510433446.7857
+    },
+    {
+      "ticker": "1956",
+      "company": "Beijing Zhongke WengAI Science & Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 7.74842510243,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 14834600,
+      "deal_amount_usd": 109197005.2835255,
+      "mkt_cap_usd": 1341013523.9214
     }
   ]
 }
