@@ -54,6 +54,9 @@ Invoke-Step "scripts\stir_pipeline.py"  "stir_pipeline.py failed - stir.json may
 # 2b. Warsh Playbook tab data (reads stir.json above; FRED + yfinance for the rest)
 Invoke-Step "scripts\fetch_warsh.py"    "fetch_warsh.py failed - warsh.json may be stale (tab falls back to illustrative curves)."
 
+# 2c. Yen & Carry tab data (FRED + yfinance: USDJPY/DXY, fair-value, correlation, Aug-2024 unwind)
+Invoke-Step "scripts\fetch_yen.py"      "fetch_yen.py failed - yen.json may be stale (tab falls back to illustrative curves)."
+
 # 3. Sector rotation: the collector refreshes sector_rotation.db AND auto-exports
 #    sector_rotation.json + ticker_perf.json internally (no separate export step needed).
 #    MFRA then computes/exports from the same DB.
