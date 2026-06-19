@@ -16,14 +16,11 @@ Derived, on-method:
            if the JP 2Y leg is unavailable.)
   - corr : 120-trading-day rolling correlation of USDJPY and the US-JP 10Y diff.
   - real : JP 1Y real rate = JP 1Y JGB yield (MOF) - core-core CPI YoY (e-Stat).
+  - jgb  : 10s30s JGB spread (MOF 30Y - 10Y, bp) vs core-core CPI (dual axis).
 
-Gaps handled honestly (key omitted -> dashboard uses its built-in illustrative
-curve for that one chart only, exactly like fetch_warsh.py):
-  - JGB 10s30s spread: MOF publishes JP 30Y but the 10s30s panel is not yet
-    wired -> 'jgb' omitted (illustrative).
-
-Robust by design: any source that fails is skipped with a warning; the rest still
-write. Run via scripts/update_and_deploy.ps1 alongside fetch_warsh.py.
+All nine panels are live. Robust by design: any source that fails is skipped
+with a warning and that one chart falls back to the dashboard's built-in
+illustrative curve. Run via scripts/update_and_deploy.ps1 alongside fetch_warsh.py.
 """
 import os, sys, json, bisect, datetime, warnings, io, csv
 import requests
@@ -121,9 +118,9 @@ def estat_cpi_yoy(cat="0178"):
 
 
 def mof_jgb():
-    """Daily JGB 1Y, 2Y & 10Y yields (%) from MOF -> (jp1, jp2, jp10) dicts.
+    """Daily JGB 1Y, 2Y, 10Y & 30Y yields (%) from MOF -> (jp1, jp2, jp10, jp30).
     Merges the full historical file with the current-month file."""
-    jp1, jp2, jp10 = {}, {}, {}
+    jp1, jp2, jp10, jp30 = {}, {}, {}, {}
     for fn in ("historical/jgbcme_all.csv", "jgbcme.csv"):
         r = requests.get(MOF_BASE + fn, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
         r.raise_for_status()
@@ -131,22 +128,23 @@ def mof_jgb():
         rows = list(csv.reader(io.StringIO(r.text)))
         hi = next(i for i, row in enumerate(rows) if row and row[0].strip() == "Date")
         cols = rows[hi]
-        i1, i2, i10 = cols.index("1Y"), cols.index("2Y"), cols.index("10Y")
+        i1, i2, i10, i30 = (cols.index("1Y"), cols.index("2Y"),
+                            cols.index("10Y"), cols.index("30Y"))
         for row in rows[hi + 1:]:
-            if len(row) <= i10 or not row[0].strip():
+            if len(row) <= i30 or not row[0].strip():
                 continue
             p = row[0].strip().split("/")
             if len(p) != 3:
                 continue
             d = "%04d-%02d-%02d" % (int(p[0]), int(p[1]), int(p[2]))
-            for store, idx in ((jp1, i1), (jp2, i2), (jp10, i10)):
+            for store, idx in ((jp1, i1), (jp2, i2), (jp10, i10), (jp30, i30)):
                 try:
                     store[d] = float(row[idx])
                 except (ValueError, IndexError):
                     pass
     if not jp10:
         raise RuntimeError("empty MOF JGB")
-    return jp1, jp2, jp10
+    return jp1, jp2, jp10, jp30
 
 
 def axis_for(ref, days):
@@ -248,10 +246,10 @@ def main():
     us2    = fred_series.get("DGS2")
     jp3m   = fred_series.get("IR3TIB01JPM156N")
 
-    # Daily JP 1Y/2Y/10Y from MOF (FRED has only a monthly OECD 10Y and no JP 2Y).
-    jp1 = jp2 = jp10 = None
+    # Daily JP 1Y/2Y/10Y/30Y from MOF (FRED has only a monthly OECD 10Y, no 2Y/30Y).
+    jp1 = jp2 = jp10 = jp30 = None
     try:
-        jp1, jp2, jp10 = mof_jgb()
+        jp1, jp2, jp10, jp30 = mof_jgb()
     except Exception as e:
         warnv.append("MOF JGB failed: %s" % e)
         jp10 = fred_series.get("IRLTLT01JPM156N")   # monthly 10Y fallback only
@@ -362,6 +360,16 @@ def main():
             "labels": lab24,
             "nominal": col(jp10, axis24, idx24, 1, 2),
             "real":    col(real_series, axis24, idx24, 1, 2),
+        }
+
+    # 5b - 10s30s JGB spread (bp) vs core-core CPI (dual axis; needs both legs)
+    if jp10 and jp30 and cpi and axis24:
+        keys = sorted(set(jp10) & set(jp30))
+        spread = {d: round((jp30[d] - jp10[d]) * 100, 0) for d in keys}
+        charts["jgb"] = {
+            "labels": lab24,
+            "spread": col(spread, axis24, idx24, 1, 0),
+            "cpi":    col(cpi, axis24, idx24, 1, 1),
         }
 
     # 6 - TOPIX Banks (NEXT FUNDS TOPIX Banks ETF 1615.T tracks the index ~1:1)
