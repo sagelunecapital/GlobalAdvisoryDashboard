@@ -664,8 +664,8 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('inflation',this)"><span class="nav-ico">thermostat</span>Inflation</button>
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)"><span class="nav-ico">show_chart</span>Yields</button>
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)"><span class="nav-ico">water_drop</span>Liquidity</button>
+    <button class="nav-tab nav-sub" id="nav-yen" onclick="showMain('yen',this)"><span class="nav-ico">currency_yen</span>Yen Carry Trade</button>
     <button class="nav-tab" id="nav-warsh" onclick="showMain('warsh',this)"><span class="nav-ico">menu_book</span>Warsh Playbook</button>
-    <button class="nav-tab" id="nav-yen" onclick="showMain('yen',this)"><span class="nav-ico">currency_yen</span>Yen &amp; Carry</button>
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
@@ -5817,7 +5817,7 @@ function gaRefresh(el){
 const GA_TABS=[
  {id:'macro',label:'Macro',ico:'insights'},{id:'growth',label:'Growth',ico:'trending_up'},
  {id:'inflation',label:'Inflation',ico:'thermostat'},{id:'stir',label:'Yields',ico:'show_chart'},
- {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'warsh',label:'Warsh Playbook',ico:'menu_book'},{id:'yen',label:'Yen & Carry',ico:'currency_yen'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
+ {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'warsh',label:'Warsh Playbook',ico:'menu_book'},{id:'yen',label:'Yen Carry Trade',ico:'currency_yen'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
  {id:'breadth',label:'Breadth',ico:'bar_chart'},{id:'leadership',label:'Leadership',ico:'leaderboard'},{id:'positioning',label:'Positioning',ico:'swap_horiz'},
  {id:'research',label:'Research',ico:'science'},{id:'screener',label:'Screener',ico:'filter_alt'},
  {id:'journal',label:'Journal',ico:'edit_note'}];
