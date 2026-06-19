@@ -2,31 +2,30 @@
 """fetch_yen.py - build prototypes/yen.json for the Yen & Carry tab.
 
 Sources every chart it can from live data so the tab does not go stale:
-  - FRED (daily):   DEXJPUS (USDJPY), DGS10, DGS2
-  - FRED (monthly): IRLTLT01JPM156N (JP 10Y JGB), IR3TIB01JPM156N (JP 3M),
-                    CPALTT01JPM659N (JP CPI YoY %)
-  - yfinance:       DX-Y.NYB (DXY), JPY=X + ^N225 (Aug-2024 unwind window)
+  - FRED (daily):   DEXJPUS (USDJPY), DGS10 / DGS2 (US 10Y / 2Y)
+  - MOF (daily):    JGB 1Y / 2Y / 10Y yields (jgbcme English CSV, full history)
+  - e-Stat:         Japan core-core CPI YoY (table 0003427113, ex food & energy)
+  - yfinance:       DX-Y.NYB (DXY), 1615.T (TOPIX Banks ETF),
+                    JPY=X + ^N225 (Aug-2024 unwind window)
 
 Derived, on-method:
-  - fv   : USDJPY spot vs a rate-differential fair value. OLS of USDJPY on the
-           US-JP 10Y differential, FIT ONLY on the pre-break sample (< 2025-04-01),
-           then predicted across the window. The spot-minus-fair residual is the
-           decoupling argument (mirrors the research note's 2y+10y model; JP 2Y has
-           no clean free daily series so we use the 10Y differential alone).
+  - fv   : USDJPY spot vs rate-differential fair value. OLS of USDJPY on the
+           note's 2y+10y model (US-JP 2Y diff + US-JP 10Y diff), FIT ONLY on the
+           pre-break sample (< 2025-04-01), then predicted forward. The spot-minus-
+           fair residual is the decoupling argument. (Falls back to a 10Y-only fit
+           if the JP 2Y leg is unavailable.)
   - corr : 120-trading-day rolling correlation of USDJPY and the US-JP 10Y diff.
-  - real : JP 1Y real-rate proxy = JP 3M nominal - JP CPI YoY (best free proxy;
-           the note uses 1Y nominal less expected CPI).
+  - real : JP 1Y real rate = JP 1Y JGB yield (MOF) - core-core CPI YoY (e-Stat).
 
 Gaps handled honestly (key omitted -> dashboard uses its built-in illustrative
 curve for that one chart only, exactly like fetch_warsh.py):
-  - TOPIX Banks index: no clean free index series at the right scale (ETFs trade
-    at a different level than the ~710 index) -> 'banks' / 'bankreal' omitted.
-  - JGB 10s30s spread: no free JP 30Y daily series -> 'jgb' omitted.
+  - JGB 10s30s spread: MOF publishes JP 30Y but the 10s30s panel is not yet
+    wired -> 'jgb' omitted (illustrative).
 
 Robust by design: any source that fails is skipped with a warning; the rest still
 write. Run via scripts/update_and_deploy.ps1 alongside fetch_warsh.py.
 """
-import os, sys, json, bisect, datetime, warnings
+import os, sys, json, bisect, datetime, warnings, io, csv
 import requests
 
 warnings.filterwarnings("ignore")
@@ -40,6 +39,10 @@ FRED_BASE = "https://api.stlouisfed.org/fred/series/observations"
 ESTAT_KEY  = "482df469db097045af83f60b6843c841168e3789"
 ESTAT_BASE = "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
 ESTAT_CPI  = "0003427113"
+
+# MOF (Japan Ministry of Finance) daily JGB yields, every tenor, English CSV.
+# Historical file = full daily history (1986->); current = the live month.
+MOF_BASE = "https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/"
 
 HERE     = os.path.dirname(os.path.abspath(__file__))
 PROTO    = os.path.normpath(os.path.join(HERE, "..", "prototypes"))
@@ -115,6 +118,35 @@ def estat_cpi_yoy(cat="0178"):
     if not out:
         raise RuntimeError("empty e-Stat CPI " + cat)
     return out
+
+
+def mof_jgb():
+    """Daily JGB 1Y, 2Y & 10Y yields (%) from MOF -> (jp1, jp2, jp10) dicts.
+    Merges the full historical file with the current-month file."""
+    jp1, jp2, jp10 = {}, {}, {}
+    for fn in ("historical/jgbcme_all.csv", "jgbcme.csv"):
+        r = requests.get(MOF_BASE + fn, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
+        r.raise_for_status()
+        r.encoding = "utf-8"
+        rows = list(csv.reader(io.StringIO(r.text)))
+        hi = next(i for i, row in enumerate(rows) if row and row[0].strip() == "Date")
+        cols = rows[hi]
+        i1, i2, i10 = cols.index("1Y"), cols.index("2Y"), cols.index("10Y")
+        for row in rows[hi + 1:]:
+            if len(row) <= i10 or not row[0].strip():
+                continue
+            p = row[0].strip().split("/")
+            if len(p) != 3:
+                continue
+            d = "%04d-%02d-%02d" % (int(p[0]), int(p[1]), int(p[2]))
+            for store, idx in ((jp1, i1), (jp2, i2), (jp10, i10)):
+                try:
+                    store[d] = float(row[idx])
+                except (ValueError, IndexError):
+                    pass
+    if not jp10:
+        raise RuntimeError("empty MOF JGB")
+    return jp1, jp2, jp10
 
 
 def axis_for(ref, days):
@@ -213,8 +245,16 @@ def main():
 
     usdjpy = fred_series.get("DEXJPUS")
     us10   = fred_series.get("DGS10")
-    jp10   = fred_series.get("IRLTLT01JPM156N")
+    us2    = fred_series.get("DGS2")
     jp3m   = fred_series.get("IR3TIB01JPM156N")
+
+    # Daily JP 1Y/2Y/10Y from MOF (FRED has only a monthly OECD 10Y and no JP 2Y).
+    jp1 = jp2 = jp10 = None
+    try:
+        jp1, jp2, jp10 = mof_jgb()
+    except Exception as e:
+        warnv.append("MOF JGB failed: %s" % e)
+        jp10 = fred_series.get("IRLTLT01JPM156N")   # monthly 10Y fallback only
 
     # Japan core-core CPI YoY from e-Stat (FRED's OECD CPI series ended in 2021)
     cpi = None
@@ -234,27 +274,53 @@ def main():
     lab24  = [axis24[i] for i in idx24] if axis24 else []
 
     if usdjpy and us10 and jp10 and master:
-        uj_m  = lead_backfill(ffill(usdjpy, master))
-        us_m  = ffill(us10, master)
-        jp_m  = ffill(jp10, master)
-        diff_m = [(u - j) if (u is not None and j is not None) else None
-                  for u, j in zip(us_m, jp_m)]
-        uj_map   = {master[k]: uj_m[k]   for k in range(len(master))}
-        diff_map = {master[k]: diff_m[k] for k in range(len(master))}
+        uj_m   = lead_backfill(ffill(usdjpy, master))
+        d10_m  = [(u - j) if (u is not None and j is not None) else None
+                  for u, j in zip(ffill(us10, master), ffill(jp10, master))]
+        d2_m   = None
+        if us2 and jp2:
+            d2_m = [(u - j) if (u is not None and j is not None) else None
+                    for u, j in zip(ffill(us2, master), ffill(jp2, master))]
+        uj_map  = {master[k]: uj_m[k]  for k in range(len(master))}
+        d10_map = {master[k]: d10_m[k] for k in range(len(master))}
 
-        # 1 - fair value: OLS fit on the FULL pre-break sample, predict on display
-        fit_x = [d if master[k] < BREAK_DATE else None for k, d in enumerate(diff_m)]
-        fit_y = [v if master[k] < BREAK_DATE else None for k, v in enumerate(uj_m)]
-        model = ols(fit_x, fit_y)
-        if model:
-            a, b = model
-            charts["fv"] = {
-                "labels": lab24,
-                "spot":  [round(uj_map[axis24[i]], 1) if uj_map[axis24[i]] is not None else None for i in idx24],
-                "fair":  [round(a + b * diff_map[axis24[i]], 1) if diff_map[axis24[i]] is not None else None for i in idx24],
-            }
+        # 1 - fair value. With both legs available, fit the note's 2y+10y model
+        #     (USDJPY ~ US-JP 2Y diff + US-JP 10Y diff); else fall back to 10Y only.
+        #     Fit on the FULL pre-break sample, predict across the display window.
+        spot = [round(uj_map[axis24[i]], 1) if uj_map[axis24[i]] is not None else None for i in idx24]
+        fair = None
+        if d2_m is not None:
+            try:
+                import numpy as np
+                X, Y = [], []
+                for k, dt in enumerate(master):
+                    if dt < BREAK_DATE and None not in (d2_m[k], d10_m[k], uj_m[k]):
+                        X.append([1.0, d2_m[k], d10_m[k]]); Y.append(uj_m[k])
+                if len(X) >= 20:
+                    a, b2, b10 = np.linalg.lstsq(np.array(X), np.array(Y), rcond=None)[0]
+                    d2_map = {master[k]: d2_m[k] for k in range(len(master))}
+                    fair = []
+                    for i in idx24:
+                        dt = axis24[i]
+                        if d2_map[dt] is not None and d10_map[dt] is not None:
+                            fair.append(round(float(a + b2 * d2_map[dt] + b10 * d10_map[dt]), 1))
+                        else:
+                            fair.append(None)
+            except Exception as e:
+                warnv.append("2y+10y OLS failed: %s" % e)
+        if fair is None:                       # 10Y-only fallback
+            model = ols([d if master[k] < BREAK_DATE else None for k, d in enumerate(d10_m)],
+                        [v if master[k] < BREAK_DATE else None for k, v in enumerate(uj_m)])
+            if model:
+                a, b = model
+                fair = [round(a + b * d10_map[axis24[i]], 1) if d10_map[axis24[i]] is not None else None for i in idx24]
+        if fair is not None:
+            charts["fv"] = {"labels": lab24, "spot": spot, "fair": fair}
         else:
-            warnv.append("fair-value OLS: insufficient pre-break sample")
+            warnv.append("fair-value: insufficient pre-break sample")
+
+        # keep names used by the correlation block below
+        diff_m = d10_m
 
         # 2 - 120d rolling correlation, computed on the master axis then displayed
         corr_m = rolling_corr(uj_m, diff_m, 120)
@@ -276,12 +342,14 @@ def main():
             "dxy":    col(dxy, axis24, idx24, 1, 1),
         }
 
-    # 4 - Front-end real-rate proxy = JP 3M nominal - JP core-core CPI YoY
+    # 4 - JP 1Y real rate = JP 1Y JGB yield (MOF, daily) - core-core CPI YoY.
+    #     Falls back to the JP 3M rate if MOF's 1Y is unavailable.
+    nominal_1y = jp1 if jp1 else jp3m
     real_series = None
-    if jp3m and cpi:
-        keys = sorted(set(jp3m) | set(cpi))
+    if nominal_1y and cpi:
+        keys = sorted(set(nominal_1y) | set(cpi))
         real_series = {}
-        fj = ffill(jp3m, keys); fc = ffill(cpi, keys)
+        fj = ffill(nominal_1y, keys); fc = ffill(cpi, keys)
         for k, d in enumerate(keys):
             if fj[k] is not None and fc[k] is not None:
                 real_series[d] = round(fj[k] - fc[k], 2)
