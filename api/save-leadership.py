@@ -4,9 +4,50 @@ import urllib.request
 
 SB_URL  = (os.environ.get("SUPABASE_URL") or os.environ.get("main_SUPABASE_URL", "")).rstrip("/")
 SB_KEY  = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("main_SUPABASE_SERVICE_ROLE_KEY", "")
-EDIT_PW = os.environ.get("EDIT_PASSWORD") or os.environ.get("main_EDIT_PASSWORD", "")
 TABLE   = "notes"
 ROW_ID  = "leadership"
+
+
+def _load_users():
+    # Mirror of api/edit-auth.py. EDIT_USERS values may be a bare password
+    # (role "editor") or {"pw":..., "role":...}; legacy EDIT_PASSWORD -> editor.
+    raw = os.environ.get("EDIT_USERS") or os.environ.get("main_EDIT_USERS", "")
+    if raw:
+        try:
+            d = json.loads(raw)
+            if isinstance(d, dict) and d:
+                out = {}
+                for k, v in d.items():
+                    if isinstance(v, dict):
+                        pw = str(v.get("pw") or v.get("password") or "")
+                        role = str(v.get("role") or "editor").lower()
+                    else:
+                        pw, role = str(v), "editor"
+                    if role not in ("editor", "viewer"):
+                        role = "editor"
+                    out[str(k)] = {"pw": pw, "role": role}
+                return out
+        except Exception:
+            pass
+    pw = os.environ.get("EDIT_PASSWORD") or os.environ.get("main_EDIT_PASSWORD", "")
+    if pw:
+        return {"__legacy__": {"pw": pw, "role": "editor"}}
+    return {}
+
+
+def authenticate(username, password):
+    """Return role string on success, "" on bad creds, None if unconfigured."""
+    users = _load_users()
+    if not users:
+        return None
+    if set(users.keys()) == {"__legacy__"}:
+        rec = users["__legacy__"]
+        return rec["role"] if hmac.compare_digest(str(password), rec["pw"]) else ""
+    rec = users.get(str(username))
+    if rec is None:
+        hmac.compare_digest(str(password), "x" * 32)
+        return ""
+    return rec["role"] if hmac.compare_digest(str(password), rec["pw"]) else ""
 
 HEADERS = {
     "apikey": SB_KEY,
@@ -62,10 +103,11 @@ class handler(BaseHTTPRequestHandler):
         if not SB_URL or not SB_KEY:
             _send(self, 503, {"error": "Supabase env vars not set"})
             return
-        # Writes require the shared editor password (fail-closed if unset).
+        # Writes require the "editor" role (viewers and guests are rejected).
+        user = self.headers.get("X-Edit-User", "")
         pw = self.headers.get("X-Edit-Password", "")
-        if not EDIT_PW or not hmac.compare_digest(pw, EDIT_PW):
-            _send(self, 401, {"error": "Editing locked — login required"})
+        if authenticate(user, pw) != "editor":
+            _send(self, 401, {"error": "Editing locked — editor login required"})
             return
         length = int(self.headers.get("Content-Length", 0))
         try:

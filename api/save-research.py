@@ -1,6 +1,50 @@
-import os, json
+import os, json, hmac
 from http.server import BaseHTTPRequestHandler
 import urllib.request
+
+
+def _load_users():
+    # Mirror of api/edit-auth.py. EDIT_USERS values may be a bare password
+    # (role "editor") or {"pw":..., "role":...}; legacy EDIT_PASSWORD -> editor.
+    raw = os.environ.get("EDIT_USERS") or os.environ.get("main_EDIT_USERS", "")
+    if raw:
+        try:
+            d = json.loads(raw)
+            if isinstance(d, dict) and d:
+                out = {}
+                for k, v in d.items():
+                    if isinstance(v, dict):
+                        pw = str(v.get("pw") or v.get("password") or "")
+                        role = str(v.get("role") or "editor").lower()
+                    else:
+                        pw, role = str(v), "editor"
+                    if role not in ("editor", "viewer"):
+                        role = "editor"
+                    out[str(k)] = {"pw": pw, "role": role}
+                return out
+        except Exception:
+            pass
+    pw = os.environ.get("EDIT_PASSWORD") or os.environ.get("main_EDIT_PASSWORD", "")
+    if pw:
+        return {"__legacy__": {"pw": pw, "role": "editor"}}
+    return {}
+
+
+def _require_editor(handler):
+    """True only if the request carries valid editor credentials."""
+    users = _load_users()
+    if not users:
+        return False
+    user = handler.headers.get("X-Edit-User", "")
+    pw = handler.headers.get("X-Edit-Password", "")
+    if set(users.keys()) == {"__legacy__"}:
+        rec = users["__legacy__"]
+        return rec["role"] == "editor" and hmac.compare_digest(str(pw), rec["pw"])
+    rec = users.get(str(user))
+    if rec is None:
+        hmac.compare_digest(str(pw), "x" * 32)
+        return False
+    return rec["role"] == "editor" and hmac.compare_digest(str(pw), rec["pw"])
 
 SB_URL  = (os.environ.get("SUPABASE_URL") or os.environ.get("main_SUPABASE_URL", "")).rstrip("/")
 SB_KEY  = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("main_SUPABASE_SERVICE_ROLE_KEY", "")
@@ -60,6 +104,9 @@ class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         if not SB_URL or not SB_KEY:
             _send(self, 503, {"error": "Supabase env vars not set"})
+            return
+        if not _require_editor(self):
+            _send(self, 401, {"error": "Editing locked — editor login required"})
             return
         length = int(self.headers.get("Content-Length", 0))
         try:

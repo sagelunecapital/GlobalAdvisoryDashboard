@@ -618,7 +618,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('inflation',this)"><span class="nav-ico">thermostat</span>Inflation</button>
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)"><span class="nav-ico">show_chart</span>Yields</button>
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)"><span class="nav-ico">water_drop</span>Liquidity</button>
-    <button class="nav-tab" onclick="showMain('warsh',this)"><span class="nav-ico">menu_book</span>Warsh Playbook</button>
+    <button class="nav-tab" id="nav-warsh" onclick="showMain('warsh',this)"><span class="nav-ico">menu_book</span>Warsh Playbook</button>
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
@@ -1604,7 +1604,7 @@ function syncTacticsHeight() {
 }
 
 function showMain(id, btn) {
-  if(id==='journal' && !leadCanEdit){ leadLogin(); return; }  // Journal is private
+  if((id==='journal'||id==='warsh') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
@@ -1700,7 +1700,7 @@ function persistNotes(){
 function _pushNotes(notes){
   const el=document.getElementById('notes-status');
   if(el){el.textContent='Saving…';el.className='notes-status saving';}
-  fetch('/api/save-notes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(notes)})
+  fetch('/api/save-notes',{method:'POST',headers:gaEditHeaders(),body:JSON.stringify(notes)})
     .then(r=>r.json())
     .then(()=>{if(el){el.textContent='Saved';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},3000);}})
     .catch(()=>{if(el){el.textContent='Save failed — kept locally';el.className='notes-status err';}});
@@ -2650,7 +2650,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(_sd){const _n=new Date();_sd.textContent='Session: '+_n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
 
   // Editor login state in header
-  leadCanEdit=!!localStorage.getItem('gaai-edit-pw');
+  gaInitRole();
   leadRenderAuth();
 
   // Load notes — KV store first, localStorage fallback
@@ -3122,7 +3122,22 @@ const LEAD_CATS=[
 ];
 const LEAD_RANK={lostGround:0,foundGround:1,bouncedOff:2,leading:3};
 let leadData={snapshots:{},saved_at:''};
-let leadDate=null,leadCanEdit=false,_leadSaveTimer=null,_leadInit=false,_leadOpenDd=null,_leadDdQuery='',_leadDragName=null,_leadDocBound=false,_leadTkMap=null;
+let leadDate=null,leadCanEdit=false,gaRole='guest',_leadSaveTimer=null,_leadInit=false,_leadOpenDd=null,_leadDdQuery='',_leadDragName=null,_leadDocBound=false,_leadTkMap=null;
+function gaLoggedIn(){return gaRole==='editor'||gaRole==='viewer';}
+// Headers for write endpoints — carries the editor credentials the server checks.
+function gaEditHeaders(){
+  return {'Content-Type':'application/json',
+          'X-Edit-User':localStorage.getItem('gaai-edit-user')||'',
+          'X-Edit-Password':localStorage.getItem('gaai-edit-pw')||''};
+}
+function gaInitRole(){
+  // Restore role from a prior login. Falls back to 'editor' for sessions that
+  // logged in before roles existed (had a stored password but no role).
+  let r=localStorage.getItem('gaai-edit-role');
+  if(!r) r=localStorage.getItem('gaai-edit-pw')?'editor':'guest';
+  gaRole=(r==='editor'||r==='viewer')?r:'guest';
+  leadCanEdit=(gaRole==='editor');
+}
 
 function _leadToday(){return new Date().toISOString().slice(0,10);}
 function leadUniverse(){
@@ -3150,7 +3165,7 @@ function leadCatOf(name,snap){for(const c of LEAD_CATS){if(snap[c.key].includes(
 function leadInit(){
   if(!leadData.snapshots)leadData.snapshots={};
   if(!leadDate){const ds=leadDates();leadDate=ds.length?ds[ds.length-1]:_leadToday();}
-  leadCanEdit=!!localStorage.getItem('gaai-edit-pw');
+  gaInitRole();
   window._redraw.leadership=()=>{try{leadCharts();}catch(e){}};
   if(!_leadDocBound){
     document.addEventListener('click',e=>{
@@ -3168,24 +3183,31 @@ function leadInit(){
 
 // ── Editor login (shared password, enforced server-side on save) ──
 function leadRenderAuth(){
+  const loggedIn=gaLoggedIn();
   const ic=document.getElementById('auth-ic');
   if(ic){
-    ic.textContent=leadCanEdit?'how_to_reg':'person';
-    ic.title=leadCanEdit?'Editing enabled — click to log out':'Log in to edit Leadership';
-    ic.classList.toggle('on',leadCanEdit);
+    ic.textContent=loggedIn?'how_to_reg':'person';
+    ic.title=loggedIn?(leadCanEdit?'Editing enabled — click to log out':'Logged in (view only) — click to log out'):'Log in';
+    ic.classList.toggle('on',loggedIn);
   }
   const nd=document.getElementById('lead-newday-btn');
   if(nd){nd.disabled=!leadCanEdit;nd.style.display=leadCanEdit?'':'none';}
-  // Journal is private — only visible/viewable when logged in
+  // Journal "Edit" button — editor only (viewers see the journal read-only)
+  const tb=document.getElementById('tact-btn');
+  if(tb) tb.style.display=leadCanEdit?'':'none';
+  // Journal + Warsh Playbook tabs — visible to logged-in users only (guests can't see them)
   const jt=document.getElementById('nav-journal');
-  if(jt) jt.style.display=leadCanEdit?'':'none';
-  if(!leadCanEdit && window._activeMain==='journal'){
+  if(jt) jt.style.display=loggedIn?'':'none';
+  const wt=document.getElementById('nav-warsh');
+  if(wt) wt.style.display=loggedIn?'':'none';
+  // If a guest is sitting on a now-hidden tab, bounce them to Macro
+  if(!loggedIn && (window._activeMain==='journal'||window._activeMain==='warsh')){
     const mb=document.querySelector('.nav-tab[onclick*="\'macro\'"]');
     if(mb) showMain('macro',mb);
   }
 }
 function leadAuthToggle(){
-  if(leadCanEdit) gaLogoutModal(true);
+  if(gaLoggedIn()) gaLogoutModal(true);
   else leadLogin();
 }
 function gaLogoutModal(open){
@@ -3219,6 +3241,7 @@ function gaAuthModal(open){
     ov.innerHTML=`<div class="ga-modal" role="dialog" aria-modal="true" aria-label="Login">
       <div class="ga-modal-head"><span class="msi">lock</span><span class="ga-modal-title">Login</span></div>
       <div class="ga-modal-body">
+        <input class="ga-modal-input" id="ga-auth-user" type="text" placeholder="Username" autocomplete="username" autocapitalize="none" spellcheck="false">
         <input class="ga-modal-input" id="ga-auth-input" type="password" placeholder="Password" autocomplete="current-password">
         <div class="ga-modal-err" id="ga-auth-err"></div>
       </div>
@@ -3228,20 +3251,24 @@ function gaAuthModal(open){
       </div>
     </div>`;
     document.body.appendChild(ov);
+    const usr=ov.querySelector('#ga-auth-user');
     const inp=ov.querySelector('#ga-auth-input');
     ov.querySelector('#ga-auth-submit').addEventListener('click',gaAuthSubmit);
     ov.querySelector('#ga-auth-cancel').addEventListener('click',()=>gaAuthModal(false));
     ov.addEventListener('click',e=>{if(e.target===ov)gaAuthModal(false);});
-    inp.addEventListener('keydown',e=>{
-      if(e.key==='Enter'){e.preventDefault();gaAuthSubmit();}
-      else if(e.key==='Escape'){gaAuthModal(false);}
+    [usr,inp].forEach(el=>{
+      el.addEventListener('keydown',e=>{
+        if(e.key==='Enter'){e.preventDefault();gaAuthSubmit();}
+        else if(e.key==='Escape'){gaAuthModal(false);}
+      });
+      el.addEventListener('input',()=>document.getElementById('ga-auth-err').classList.remove('show'));
     });
-    inp.addEventListener('input',()=>document.getElementById('ga-auth-err').classList.remove('show'));
   }
   if(open){
+    const usr=ov.querySelector('#ga-auth-user');
     const inp=ov.querySelector('#ga-auth-input');
-    inp.value='';document.getElementById('ga-auth-err').classList.remove('show');
-    ov.classList.add('open');setTimeout(()=>inp.focus(),30);
+    usr.value='';inp.value='';document.getElementById('ga-auth-err').classList.remove('show');
+    ov.classList.add('open');setTimeout(()=>usr.focus(),30);
   } else { ov.classList.remove('open'); }
 }
 function gaAuthErr(msg){
@@ -3249,32 +3276,37 @@ function gaAuthErr(msg){
   if(e){e.textContent=msg;e.classList.add('show');}
 }
 function gaAuthSubmit(){
+  const usr=document.getElementById('ga-auth-user');
   const inp=document.getElementById('ga-auth-input');
+  const user=usr?usr.value.trim():'';
   const pw=inp?inp.value:'';
+  if(user===''){gaAuthErr('Please enter your username.');return;}
   if(pw==null||pw===''){gaAuthErr('Please enter the password.');return;}
   const btn=document.getElementById('ga-auth-submit');
   if(btn){btn.disabled=true;btn.textContent='Checking…';}
-  fetch('/api/edit-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})
+  fetch('/api/edit-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:user,password:pw})})
     .then(r=>{
-      if(r.ok){gaAuthModal(false);_leadUnlock(pw);}
-      else if(r.status===401){gaAuthErr('Incorrect password.');}
+      if(r.ok){ r.json().then(j=>{gaAuthModal(false);_leadUnlock(user,pw,(j&&j.role)||'editor');}).catch(()=>{gaAuthModal(false);_leadUnlock(user,pw,'editor');}); }
+      else if(r.status===401){gaAuthErr('Incorrect username or password.');}
       else if(r.status===503){gaAuthErr('Editing is not configured on the server yet.');}
       else throw new Error('auth '+r.status);
     })
     .catch(()=>{
       // Endpoint unreachable (e.g. local dev with no serverless functions).
-      // Unlock optimistically — server still enforces the password on save.
-      gaAuthModal(false);_leadUnlock(pw);
+      // Unlock optimistically as editor — server still enforces role on save.
+      gaAuthModal(false);_leadUnlock(user,pw,'editor');
     })
     .finally(()=>{ if(btn){btn.disabled=false;btn.textContent='Log in';} });
 }
-function _leadUnlock(pw){
-  try{localStorage.setItem('gaai-edit-pw',pw);}catch(_){}
-  leadCanEdit=true;
+function _leadUnlock(user,pw,role){
+  gaRole=(role==='viewer'||role==='editor')?role:'editor';
+  leadCanEdit=(gaRole==='editor');
+  try{localStorage.setItem('gaai-edit-user',user||'');localStorage.setItem('gaai-edit-pw',pw);localStorage.setItem('gaai-edit-role',gaRole);}catch(_){}
   leadRenderAuth();renderLeadCols();leadCharts();
 }
 function leadLogout(){
-  try{localStorage.removeItem('gaai-edit-pw');}catch(_){}
+  gaRole='guest';
+  try{localStorage.removeItem('gaai-edit-pw');localStorage.removeItem('gaai-edit-user');localStorage.removeItem('gaai-edit-role');}catch(_){}
   leadCanEdit=false;_leadOpenDd=null;leadCalClose();
   leadRenderAuth();renderLeadCols();leadCharts();
 }
@@ -3503,7 +3535,8 @@ function leadSave(){
   clearTimeout(_leadSaveTimer);
   _leadSaveTimer=setTimeout(()=>{
     const pw=localStorage.getItem('gaai-edit-pw')||'';
-    fetch('/api/save-leadership',{method:'POST',headers:{'Content-Type':'application/json','X-Edit-Password':pw},body:JSON.stringify(leadData)})
+    const usr=localStorage.getItem('gaai-edit-user')||'';
+    fetch('/api/save-leadership',{method:'POST',headers:{'Content-Type':'application/json','X-Edit-User':usr,'X-Edit-Password':pw},body:JSON.stringify(leadData)})
       .then(r=>{
         if(r.status===401){
           if(el){el.textContent='Login expired — saved locally';el.className='notes-status err';}
@@ -4127,7 +4160,7 @@ function persistRS(){
 function _pushResearch(sectors){
   clearTimeout(_rsSaveTimer);
   _rsSaveTimer=setTimeout(()=>{
-    fetch('/api/save-research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sectors)}).catch(()=>{});
+    fetch('/api/save-research',{method:'POST',headers:gaEditHeaders(),body:JSON.stringify(sectors)}).catch(()=>{});
   },1500);
 }
 function _rsFromLocal(){
@@ -5024,7 +5057,7 @@ function _pushJournal(){
     _jrnlSaveTimer=null;
     const el=document.getElementById('jrnl-status');
     if(el){el.textContent='Saving…';el.className='notes-status saving';}
-    fetch('/api/save-journal',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(_jrnlCollect())})
+    fetch('/api/save-journal',{method:'POST',headers:gaEditHeaders(),body:JSON.stringify(_jrnlCollect())})
       .then(r=>r.json())
       .then(()=>{if(el){el.textContent='Synced';el.className='notes-status ok';setTimeout(()=>{el.textContent='';},2000);}})
       .catch(()=>{if(el){el.textContent='Sync failed — saved locally';el.className='notes-status err';}});
@@ -5153,8 +5186,8 @@ function jrnlRenderWeekly(){
     return `<div>
       <div style="font-size:var(--fs-sm);font-weight:600;color:var(--text-muted);margin-bottom:8px;text-align:center">${label}</div>
       <div class="card">
-        <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
-          <button class="btn pri" style="font-size:var(--fs-xs);padding:3px 10px" data-iso="${iso}" onclick="jrnlWeekEdit(this)">Edit</button>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:6px;min-height:24px">
+          ${leadCanEdit?`<button class="btn pri" style="font-size:var(--fs-xs);padding:3px 10px" data-iso="${iso}" onclick="jrnlWeekEdit(this)">Edit</button>`:''}
         </div>
         <div class="tact-display" id="jrnl-disp-${idx}" style="min-height:120px"></div>
         <textarea class="tact-edit" id="jrnl-edit-${idx}" style="min-height:120px"></textarea>
@@ -5478,7 +5511,7 @@ function gaPalette(open){
   else ov.classList.remove('open');
 }
 function gaPaletteFilter(q){
-  q=(q||'').toLowerCase();_gaFiltered=GA_TABS.filter(t=>(leadCanEdit||t.id!=='journal')&&t.label.toLowerCase().includes(q));_gaSel=0;
+  q=(q||'').toLowerCase();_gaFiltered=GA_TABS.filter(t=>(gaLoggedIn()||t.id!=='journal')&&t.label.toLowerCase().includes(q));_gaSel=0;
   const list=document.getElementById('ga-cmdk-list');
   list.innerHTML=_gaFiltered.length?_gaFiltered.map((t,i)=>`<div class="cmdk-item ${i===0?'sel':''}" data-id="${t.id}"><span class="msi">${t.ico}</span>${t.label}</div>`).join(''):'<div class="cmdk-empty">No matching tab</div>';
   [...list.querySelectorAll('.cmdk-item')].forEach(el=>el.onclick=()=>gaPaletteGo(el.dataset.id));
