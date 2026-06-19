@@ -34,6 +34,13 @@ warnings.filterwarnings("ignore")
 FRED_KEY  = "2e8783a45bc0ff35dda158225a6b2b02"
 FRED_BASE = "https://api.stlouisfed.org/fred/series/observations"
 
+# e-Stat (Japan official statistics). CPI table 0003427113 (2020 base):
+#   cdTab=3 -> 前年同月比 (YoY %), cdArea=00000 -> 全国 (national),
+#   cdCat01=0178 -> 生鮮食品及びエネルギーを除く総合 (core-core, ex food & energy).
+ESTAT_KEY  = "482df469db097045af83f60b6843c841168e3789"
+ESTAT_BASE = "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
+ESTAT_CPI  = "0003427113"
+
 HERE     = os.path.dirname(os.path.abspath(__file__))
 PROTO    = os.path.normpath(os.path.join(HERE, "..", "prototypes"))
 OUT_PATH = os.path.join(PROTO, "yen.json")
@@ -84,6 +91,29 @@ def yf_close(ticker, days=900, start=None, end=None):
             out[d.isoformat()] = round(float(val), 4)
     if not out:
         raise RuntimeError("empty yf window " + ticker)
+    return out
+
+
+def estat_cpi_yoy(cat="0178"):
+    """Japan core-core CPI YoY (%) -> {YYYY-MM-01: float}, monthly national."""
+    params = {"appId": ESTAT_KEY, "statsDataId": ESTAT_CPI,
+              "cdTab": "3", "cdCat01": cat, "cdArea": "00000", "limit": "400"}
+    r = requests.get(ESTAT_BASE, params=params, timeout=40)
+    r.raise_for_status()
+    vals = r.json()["GET_STATS_DATA"]["STATISTICAL_DATA"]["DATA_INF"]["VALUE"]
+    if isinstance(vals, dict):
+        vals = [vals]
+    out = {}
+    for v in vals:
+        t = str(v.get("@time", ""))           # e.g. 2026000505 -> 2026-05
+        if len(t) < 10 or t[6:8] == "00":      # skip annual / fiscal-year rows
+            continue
+        try:
+            out["%s-%s-01" % (t[:4], t[8:10])] = float(v["$"])
+        except (ValueError, KeyError):
+            continue
+    if not out:
+        raise RuntimeError("empty e-Stat CPI " + cat)
     return out
 
 
@@ -175,8 +205,7 @@ def main():
     warnv = []
 
     fred_series = {}
-    for sid in ("DEXJPUS", "DGS10", "DGS2", "IRLTLT01JPM156N",
-                "IR3TIB01JPM156N", "CPALTT01JPM659N"):
+    for sid in ("DEXJPUS", "DGS10", "DGS2", "IRLTLT01JPM156N", "IR3TIB01JPM156N"):
         try:
             fred_series[sid] = fred(sid, 980)
         except Exception as e:
@@ -186,7 +215,13 @@ def main():
     us10   = fred_series.get("DGS10")
     jp10   = fred_series.get("IRLTLT01JPM156N")
     jp3m   = fred_series.get("IR3TIB01JPM156N")
-    cpi    = fred_series.get("CPALTT01JPM659N")
+
+    # Japan core-core CPI YoY from e-Stat (FRED's OECD CPI series ended in 2021)
+    cpi = None
+    try:
+        cpi = estat_cpi_yoy("0178")
+    except Exception as e:
+        warnv.append("e-Stat CPI failed: %s" % e)
 
     # Master daily axis spanning the full fetched history (~5y). The OLS fit uses
     # the whole pre-break span (the note fits multi-year, not just the display
@@ -241,7 +276,7 @@ def main():
             "dxy":    col(dxy, axis24, idx24, 1, 1),
         }
 
-    # 4 - JP 1Y real-rate proxy = JP 3M nominal - JP CPI YoY
+    # 4 - Front-end real-rate proxy = JP 3M nominal - JP core-core CPI YoY
     real_series = None
     if jp3m and cpi:
         keys = sorted(set(jp3m) | set(cpi))
@@ -253,12 +288,29 @@ def main():
         if real_series and axis24:
             charts["real"] = {"labels": lab24, "vals": col(real_series, axis24, idx24, 1, 2)}
 
-    # 5 - 10Y JGB nominal vs 1Y real (dual axis)
+    # 5 - 10Y JGB nominal vs front-end real (dual axis)
     if jp10 and real_series and axis24:
         charts["nomreal"] = {
             "labels": lab24,
             "nominal": col(jp10, axis24, idx24, 1, 2),
             "real":    col(real_series, axis24, idx24, 1, 2),
+        }
+
+    # 6 - TOPIX Banks (NEXT FUNDS TOPIX Banks ETF 1615.T tracks the index ~1:1)
+    banks = None
+    try:
+        banks = yf_close("1615.T", 740)
+    except Exception as e:
+        warnv.append("TOPIX Banks 1615.T (yfinance) failed: %s" % e)
+    if banks and axis24:
+        charts["banks"] = {"labels": lab24, "vals": col(banks, axis24, idx24, 1, 1)}
+
+    # 8 - TOPIX Banks vs front-end real (dual axis)
+    if banks and real_series and axis24:
+        charts["bankreal"] = {
+            "labels": lab24,
+            "banks": col(banks, axis24, idx24, 1, 1),
+            "real":  col(real_series, axis24, idx24, 1, 2),
         }
 
     # 9 - August 2024 unwind (USDJPY vs Nikkei 225), real historical window

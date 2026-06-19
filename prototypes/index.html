@@ -177,8 +177,8 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-warsh .warsh-foot b{color:var(--amber);font-weight:700}
 
 /* ── Yen & Carry tab (shares the warsh-* layout language) ── */
-#main-yen .warsh-hero{background:var(--surface-card);border:1px solid var(--outline-dim);border-left:3px solid var(--red);padding:28px 30px;margin-bottom:22px}
-#main-yen .warsh-tag{font-size:var(--fs-xs);font-weight:700;color:var(--red);letter-spacing:0.22em;text-transform:uppercase}
+#main-yen .warsh-hero{background:var(--surface-card);border:1px solid var(--outline-dim);border-left:3px solid var(--amber);padding:28px 30px;margin-bottom:22px}
+#main-yen .warsh-tag{font-size:var(--fs-xs);font-weight:700;color:var(--amber);letter-spacing:0.22em;text-transform:uppercase}
 #main-yen .warsh-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-0.02em;line-height:1.02;margin:12px 0 8px}
 #main-yen .warsh-subt{font-size:var(--fs-md);color:var(--text-dim);letter-spacing:0.04em;text-transform:uppercase;font-weight:500}
 #main-yen .warsh-meta{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:14px}
@@ -189,7 +189,7 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-yen .warsh-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:6px}
 @media(max-width:1050px){#main-yen .warsh-cols{grid-template-columns:1fr;gap:18px}}
 #main-yen .warsh-col{display:flex;flex-direction:column}
-#main-yen .warsh-collabel{font-size:var(--fs-xs);font-weight:700;color:var(--red);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)}
+#main-yen .warsh-collabel{font-size:var(--fs-xs);font-weight:700;color:var(--amber);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)}
 #main-yen .warsh-col p{font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:12px}
 #main-yen .warsh-col p:last-of-type{margin-bottom:14px}
 #main-yen .warsh-col .warsh-cc{margin-top:auto}
@@ -200,20 +200,27 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-yen .wleg{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--text-muted)}
 #main-yen .wleg i{width:16px;height:0;border-top-width:2px;border-top-style:solid;display:inline-block}
 #main-yen .warsh-foot{font-size:var(--fs-xs);color:var(--text-muted);line-height:1.6;border-top:1px solid var(--outline-dim);padding-top:10px;margin-top:6px;margin-bottom:4px}
-#main-yen .warsh-foot b{color:var(--red);font-weight:700}
+#main-yen .warsh-foot b{color:var(--amber);font-weight:700}
 #main-yen .yen-stat{font-size:var(--fs-base);color:var(--text-dim);line-height:1.7;margin-bottom:12px}
 #main-yen .yen-stat b{color:#fff;font-weight:700}
 #main-yen .yen-cite{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.02em;margin-bottom:10px;font-style:italic}
 #main-yen .yen-chain{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin:6px 0 4px}
 @media(max-width:1050px){#main-yen .yen-chain{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:560px){#main-yen .yen-chain{grid-template-columns:repeat(2,1fr)}}
-#main-yen .yen-chain-box{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:2px solid var(--red);padding:10px 9px}
-#main-yen .yen-chain-box em{display:block;font-size:var(--fs-xs);color:var(--red);font-style:normal;font-weight:700;letter-spacing:0.1em}
+#main-yen .yen-chain-box{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:2px solid var(--amber);padding:10px 9px}
+#main-yen .yen-chain-box em{display:block;font-size:var(--fs-xs);color:var(--amber);font-style:normal;font-weight:700;letter-spacing:0.1em}
 #main-yen .yen-chain-box b{display:block;font-size:var(--fs-base);font-weight:700;color:var(--text);letter-spacing:0.04em;margin-top:3px}
 #main-yen .yen-id{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface-card);border:1px solid var(--outline-dim);padding:16px 18px;margin:4px 0}
 #main-yen .yen-id .yen-id-cell{font-size:var(--fs-base);color:var(--text-dim);line-height:1.6}
-#main-yen .yen-id .yen-id-op{font-size:24px;font-weight:800;color:var(--red);text-align:center}
+#main-yen .yen-id .yen-id-op{font-size:24px;font-weight:800;color:var(--amber);text-align:center}
 #main-yen .yen-id b{color:#fff}
+
+/* Chart cards: equal height + plot pinned to the bottom, so both the bordered
+   boxes AND the plot areas line up across a row regardless of title length or
+   whether a legend is present (Warsh + Yen tabs). */
+#main-warsh .warsh-cc,#main-yen .warsh-cc{display:flex;flex-direction:column;min-height:300px}
+#main-warsh .warsh-cc .cw,#main-yen .warsh-cc .cw{margin-top:auto}
+#main-warsh .warsh-cc-title,#main-yen .warsh-cc-title{min-height:2.1em}
 
 /* ── Charts ── */
 .cw{position:relative;width:100%}
@@ -1050,10 +1057,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div class="warsh-cols">
     <div class="warsh-col">
       <div class="warsh-collabel">You Are Paid to Borrow</div>
-      <p>The yen is priced off the real rate, and the 1-year real rate has sat between &minus;1% and &minus;3% for years &mdash; near <b>&minus;1.3%</b> today, even after the hike to 1%. When the front-end real rate is negative you are paid to borrow: positive carry before any asset moves. Until the real rate crosses toward zero the yen has no anchor and the carry keeps financing itself.</p>
+      <p>The yen is priced off the real rate, and the front-end real rate sat between &minus;1% and &minus;3% for years. It is still negative &mdash; but with core inflation cooling toward target and the BoJ at ~1%, it has lifted to roughly <b>&minus;0.5%</b>, its least-negative in years. While negative you are still paid to borrow, so the carry keeps financing itself &mdash; but the move toward zero is exactly the anchor the trade has lacked, and the first crack the framework watches for.</p>
       <div class="warsh-cc">
         <div class="warsh-cc-title">Japan 1Y Real Rate (%)</div>
-        <div class="warsh-cc-cap">Persistently negative &mdash; the fuel</div>
+        <div class="warsh-cc-cap">Negative, but lifting toward zero</div>
         <div class="cw" style="height:200px" id="y-real"><div class="chart-tt" id="tt-y-real"></div></div>
       </div>
     </div>
@@ -1076,7 +1083,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       </div>
     </div>
   </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;1-year real rate = 1y nominal minus expected CPI. &nbsp;&nbsp;<b>2</b> &nbsp;10s30s = 30y minus 10y JGB yield, basis points, vs the core-CPI contribution ratio. Illustrative pending a live feed.</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;<b>Live.</b> Front-end real rate = JP 3M rate (FRED IR3TIB01JPM156N) minus core-core CPI YoY (e-Stat, ex food &amp; energy). &nbsp;&nbsp;<b>2</b> &nbsp;10s30s = 30y minus 10y JGB; illustrative (no free daily JP 30Y series).</div>
 
   <!-- ── 4 · The Risk Curve ── -->
   <div class="section-heading">The Risk Curve &mdash; Banks Are the Liquidity Gauge</div>
@@ -1096,7 +1103,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     </div>
     <div class="warsh-col">
       <div class="warsh-collabel">The Distraction</div>
-      <p>The mechanism in one chart: the 10-year nominal yield keeps grinding higher &mdash; normalising toward <b>1.5&ndash;2.0%</b> &mdash; which looks like tightening, while the 1-year real yield stays below zero. The long end rising is a distraction &mdash; it does not bite, because the front-end real rate is negative and the MoF funds at the bills. As long as the real rate stays below zero, the yen falls and liquidity exports offshore.</p>
+      <p>The mechanism in one chart: the 10-year JGB yield keeps grinding higher &mdash; now near <b>2.6%</b> &mdash; which looks like tightening, while the front-end real rate stays below zero. The long end rising is a distraction &mdash; it does not bite, because the front-end real rate is negative and the MoF funds at the bills. As long as the real rate stays below zero, the yen falls and liquidity exports offshore &mdash; but watch it close on zero.</p>
       <div class="warsh-cc">
         <div class="warsh-cc-title">10Y Nominal vs 1Y Real (%)</div>
         <div class="warsh-cc-cap">Long end up, real rate negative</div>
@@ -1108,6 +1115,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       </div>
     </div>
   </div>
+  <div class="warsh-foot"><b>1</b> &nbsp;<b>Live.</b> TOPIX Banks via the 1615.T ETF. &nbsp;&nbsp;<b>2</b> &nbsp;<b>Live.</b> 10Y JGB nominal (FRED IRLTLT01JPM156N, LHS) vs the front-end real rate (RHS).</div>
 
   <!-- ── 5 · Same Force, Two Assets ── -->
   <div class="section-heading">The Same Force, Two Assets</div>
@@ -1141,11 +1149,11 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="warsh-col">
       <div class="warsh-collabel">The Tell &mdash; When to Be Long the Yen</div>
       <p>This is a compressed spring. The day the real rate lifts toward zero, or the MoF issues below expectations, the move releases and a far stronger yen unwinds the carry. Four things to watch:</p>
-      <p class="yen-stat"><b>1.</b> The 1-year real rate turning toward zero.<br><b>2.</b> The 10s30s JGB spread compressing back toward prior lows.<br><b>3.</b> The MoF issuing below expectations.<br><b>4.</b> TOPIX Banks rolling over &mdash; it shows here first.</p>
+      <p class="yen-stat"><b>1.</b> The front-end real rate turning toward zero &mdash; <b>already lifting</b> (~&minus;0.5%).<br><b>2.</b> The 10s30s JGB spread compressing back toward prior lows.<br><b>3.</b> The MoF issuing below expectations.<br><b>4.</b> TOPIX Banks rolling over &mdash; it shows here first.</p>
       <p>When the real rate finally turns and the banks roll over with it, the regime is changing &mdash; that is the moment to fade the weak-yen trade.</p>
     </div>
   </div>
-  <div class="warsh-foot"><b>1</b> &nbsp;<b>Live.</b> August 2024 panel plots the actual carry unwind (USDJPY &amp; Nikkei 225 daily closes, yfinance) triggered by the 31 Jul 2024 BoJ hike to 0.25% + JGB taper and a Sahm-Rule US payrolls miss; prior BoJ intervention had pushed the yen back only to ~152 (rate-checks) and ~155 (direct), neither holding. The TOPIX Banks vs 1Y-real overlay is illustrative (no free index-level TOPIX Banks / JP real-rate series).</div>
+  <div class="warsh-foot"><b>1</b> &nbsp;<b>Live.</b> August 2024 panel plots the actual carry unwind (USDJPY &amp; Nikkei 225 daily closes, yfinance) triggered by the 31 Jul 2024 BoJ hike to 0.25% + JGB taper and a Sahm-Rule US payrolls miss; prior BoJ intervention had pushed the yen back only to ~152 (rate-checks) and ~155 (direct), neither holding. &nbsp;&nbsp;<b>2</b> &nbsp;<b>Live.</b> TOPIX Banks = NEXT FUNDS TOPIX Banks ETF (1615.T, tracks the index ~1:1) vs the front-end real rate.</div>
 
   <!-- ── 6 · The Structural Chain ── -->
   <div class="section-heading">The Structural Chain &mdash; Why Japan Funds the World</div>
