@@ -176,6 +176,45 @@ body{background:#000;color:var(--text);font-family:'JetBrains Mono',ui-monospace
 #main-warsh .warsh-foot{font-size:var(--fs-xs);color:var(--text-muted);line-height:1.6;border-top:1px solid var(--outline-dim);padding-top:10px;margin-top:6px}
 #main-warsh .warsh-foot b{color:var(--amber);font-weight:700}
 
+/* ── Yen & Carry tab (shares the warsh-* layout language) ── */
+#main-yen .warsh-hero{background:var(--surface-card);border:1px solid var(--outline-dim);border-left:3px solid var(--red);padding:28px 30px;margin-bottom:22px}
+#main-yen .warsh-tag{font-size:var(--fs-xs);font-weight:700;color:var(--red);letter-spacing:0.22em;text-transform:uppercase}
+#main-yen .warsh-title{font-size:38px;font-weight:800;color:#fff;letter-spacing:-0.02em;line-height:1.02;margin:12px 0 8px}
+#main-yen .warsh-subt{font-size:var(--fs-md);color:var(--text-dim);letter-spacing:0.04em;text-transform:uppercase;font-weight:500}
+#main-yen .warsh-meta{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:14px}
+#main-yen .warsh-quote{margin-top:18px;padding:14px 18px;background:var(--surface);border-left:2px solid var(--outline-dim);font-size:var(--fs-md);color:var(--text-dim);line-height:1.7;font-style:italic}
+@media(max-width:760px){#main-yen .warsh-title{font-size:28px}}
+#main-yen .section-heading{margin-top:52px}
+#main-yen .warsh-hero+.section-heading{margin-top:10px}
+#main-yen .warsh-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:6px}
+@media(max-width:1050px){#main-yen .warsh-cols{grid-template-columns:1fr;gap:18px}}
+#main-yen .warsh-col{display:flex;flex-direction:column}
+#main-yen .warsh-collabel{font-size:var(--fs-xs);font-weight:700;color:var(--red);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--outline-dim)}
+#main-yen .warsh-col p{font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:12px}
+#main-yen .warsh-col p:last-of-type{margin-bottom:14px}
+#main-yen .warsh-col .warsh-cc{margin-top:auto}
+#main-yen .warsh-cc{background:var(--surface-card);border:1px solid var(--outline-dim);padding:16px 16px 10px}
+#main-yen .warsh-cc-title{font-size:var(--fs-sm);font-weight:700;color:var(--text);letter-spacing:0.1em;text-transform:uppercase}
+#main-yen .warsh-cc-cap{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.04em;margin-top:2px;margin-bottom:4px}
+#main-yen .wlegend{display:flex;gap:16px;flex-wrap:wrap;margin:2px 0 4px}
+#main-yen .wleg{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--text-muted)}
+#main-yen .wleg i{width:16px;height:0;border-top-width:2px;border-top-style:solid;display:inline-block}
+#main-yen .warsh-foot{font-size:var(--fs-xs);color:var(--text-muted);line-height:1.6;border-top:1px solid var(--outline-dim);padding-top:10px;margin-top:6px;margin-bottom:4px}
+#main-yen .warsh-foot b{color:var(--red);font-weight:700}
+#main-yen .yen-stat{font-size:var(--fs-base);color:var(--text-dim);line-height:1.7;margin-bottom:12px}
+#main-yen .yen-stat b{color:#fff;font-weight:700}
+#main-yen .yen-cite{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.02em;margin-bottom:10px;font-style:italic}
+#main-yen .yen-chain{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin:6px 0 4px}
+@media(max-width:1050px){#main-yen .yen-chain{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:560px){#main-yen .yen-chain{grid-template-columns:repeat(2,1fr)}}
+#main-yen .yen-chain-box{background:var(--surface-card);border:1px solid var(--outline-dim);border-top:2px solid var(--red);padding:10px 9px}
+#main-yen .yen-chain-box em{display:block;font-size:var(--fs-xs);color:var(--red);font-style:normal;font-weight:700;letter-spacing:0.1em}
+#main-yen .yen-chain-box b{display:block;font-size:var(--fs-base);font-weight:700;color:var(--text);letter-spacing:0.04em;margin-top:3px}
+#main-yen .yen-id{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface-card);border:1px solid var(--outline-dim);padding:16px 18px;margin:4px 0}
+#main-yen .yen-id .yen-id-cell{font-size:var(--fs-base);color:var(--text-dim);line-height:1.6}
+#main-yen .yen-id .yen-id-op{font-size:24px;font-weight:800;color:var(--red);text-align:center}
+#main-yen .yen-id b{color:#fff}
+
 /* ── Charts ── */
 .cw{position:relative;width:100%}
 .cw svg{width:100%;display:block}
@@ -619,6 +658,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)"><span class="nav-ico">show_chart</span>Yields</button>
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)"><span class="nav-ico">water_drop</span>Liquidity</button>
     <button class="nav-tab" id="nav-warsh" onclick="showMain('warsh',this)"><span class="nav-ico">menu_book</span>Warsh Playbook</button>
+    <button class="nav-tab" id="nav-yen" onclick="showMain('yen',this)"><span class="nav-ico">currency_yen</span>Yen &amp; Carry</button>
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
@@ -933,6 +973,272 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   </div>
 
 </div><!-- /warsh panel -->
+
+<!-- ═══════════════════════════ YEN & CARRY TAB ═══════════════════════════ -->
+<div id="main-yen" class="main-panel">
+
+  <div class="warsh-hero">
+    <div class="warsh-tag">Capital Flows Research &middot; Japan</div>
+    <div class="warsh-title">The Devaluation of the Yen &amp; Carry Trade</div>
+    <div class="warsh-subt">A reflexive liquidity framework for the yen, JGBs &amp; global risk</div>
+    <div class="warsh-quote">&ldquo;The classic driver of USDJPY &mdash; the nominal US&ndash;Japan rate differential &mdash; decoupled from the currency around April 2025. The yen is no longer priced off the nominal rate the BoJ sets. It is priced off the real rate, a structural balance-of-payments shift, and a stretched carry position that periodically snaps.&rdquo;</div>
+    <div class="warsh-meta">Capital Flows Research &middot; June 18th, 2026 &middot; Built from the daily livestream &amp; research note</div>
+  </div>
+
+  <!-- ── 1 · The Decoupling ── -->
+  <div class="section-heading">The Decoupling &mdash; Measured, Not Assumed</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Thesis</div>
+      <p>USDJPY used to be a rate-differential trade: where the BoJ set the nominal rate told you where the yen sat. Around April 2025 that relationship broke. The yen now prices off the <b>real</b> rate &mdash; held deeply negative because subsidy-driven fiscal policy suppresses measured CPI while the nominal rate creeps up &mdash; off a structural balance-of-payments shift, and off a stretched carry position.</p>
+      <p>The same fiscal impulse that holds CPI down funds the strategic-investment and defense build-out, circulates liquidity, and supports risk. Yen weakness, equity strength and offshore recycling reinforce each other until positioning gets extreme enough that a catalyst forces the rate-differential relationship to violently reassert.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Measured Claim</div>
+      <p>We do not assume the decoupling, we measure it. Fit a fair-value model of USDJPY on the 2-year and 10-year differentials using only the pre-break sample, and the residual <em>is</em> the argument. Rate differentials imply USDJPY near <b>119</b>. Spot prints <b>161</b>. That 42-figure gap is the fiscal-dominance, balance-of-payments and positioning story as a single number.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">USDJPY &mdash; Spot vs Rate-Diff Fair Value</div>
+        <div class="warsh-cc-cap">OLS on US-JP 2y+10y, fit pre-Apr-2025</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>Spot</span>
+          <span class="wleg"><i style="border-top-color:var(--text-muted);border-top-style:dashed"></i>Fair value</span>
+        </div>
+        <div class="cw" style="height:200px" id="y-fv"><div class="chart-tt" id="tt-y-fv"></div></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Correlation Broke</div>
+      <p>The cleanest proof is the rolling correlation. The 120-day correlation between USDJPY and the US&ndash;Japan 10-year differential ran near <b>+0.72</b> before April 2025 and has since collapsed through zero into negative territory. The rate that &ldquo;should&rdquo; drive the currency stopped driving it.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">120d Correlation</div>
+        <div class="warsh-cc-cap">USDJPY vs US-JP 10Y diff</div>
+        <div class="cw" style="height:200px" id="y-corr"><div class="chart-tt" id="tt-y-corr"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="warsh-foot"><b>1</b> &nbsp;Rolling correlation and OLS fair value on daily closes; pre-break sample ends 1 April 2025. Series shown are illustrative of the published relationships pending a live data feed.</div>
+
+  <!-- ── 2 · Split the Move ── -->
+  <div class="section-heading">Split the Move &mdash; The Loud Dollar</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">Decompose First</div>
+      <p>A USDJPY move is uninformative until it is split into a broad-dollar leg and a yen-specific leg. Through 2026 the dollar leg has been loud and hawkish: under Chair Warsh the Fed has held at 3.50&ndash;3.75% for a sixth straight meeting, stripped easing language, and flipped its dot plot from cuts toward a hike.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Yen Outran the Dollar</div>
+      <p>The tell is in the divergence. DXY sits near <b>100</b>, well off its highs, while USDJPY presses fresh cycle highs near <b>161</b>. The dollar is not making new strength against the world &mdash; the yen is making new weakness against the dollar.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">USDJPY vs DXY</div>
+        <div class="warsh-cc-cap">Shape comparison, trailing 2 years</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>USDJPY (LHS)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>DXY (RHS)</span>
+        </div>
+        <div class="cw" style="height:200px" id="y-dxy"><div class="chart-tt" id="tt-y-dxy"></div></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Hormuz Swing Factor</div>
+      <p>The Hormuz energy shock killed the early-2026 dollar-bear narrative and re-anchored the dollar leg, re-widening nominal spreads even as they fail to work on the yen the old way. Markets now price a meaningful chance of a Fed hike by October. The dollar is loud &mdash; but the yen is still the louder of the two.</p>
+    </div>
+  </div>
+
+  <!-- ── 3 · The Engine ── -->
+  <div class="section-heading">Negative Real Rates Are the Engine</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">You Are Paid to Borrow</div>
+      <p>The yen is priced off the real rate, and the 1-year real rate has sat between &minus;1% and &minus;3% for years &mdash; near <b>&minus;1.3%</b> today, even after the hike to 1%. When the front-end real rate is negative you are paid to borrow: positive carry before any asset moves. Until the real rate crosses toward zero the yen has no anchor and the carry keeps financing itself.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">Japan 1Y Real Rate (%)</div>
+        <div class="warsh-cc-cap">Persistently negative &mdash; the fuel</div>
+        <div class="cw" style="height:200px" id="y-real"><div class="chart-tt" id="tt-y-real"></div></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">Inflation: Not Far Enough</div>
+      <p>Demographics held Japan in deflation for decades, which justified zero rates and yield-curve control. That broke in 2022; wages have run above 5% for three straight years and the BoJ ended the regime in March 2024, hiking to 1%.</p>
+      <p>But the contributions show a narrow impulse, capped at the headline by energy and subsidy components. Inflation is elevated yet cooling &mdash; enough to justify hiking, never enough to make the real rate positive. So the engine keeps running.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Curve Tracks Inflation</div>
+      <p>Inflation drives the long end too. The 10s30s JGB spread has bear-flattened in lockstep with the CPI contribution ratio. That long-end move is fiscal stress, not real-rate stress &mdash; the Ministry of Finance funds itself at the front of the curve. If the spread compresses back toward its prior lows, that is the first real crack in the regime.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">10s30s JGB vs Core CPI</div>
+        <div class="warsh-cc-cap">Bear-flattening as inflation rose</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>10s30s (bp, LHS)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>Core CPI (%, RHS)</span>
+        </div>
+        <div class="cw" style="height:200px" id="y-jgb"><div class="chart-tt" id="tt-y-jgb"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="warsh-foot"><b>1</b> &nbsp;1-year real rate = 1y nominal minus expected CPI. &nbsp;&nbsp;<b>2</b> &nbsp;10s30s = 30y minus 10y JGB yield, basis points, vs the core-CPI contribution ratio. Illustrative pending a live feed.</div>
+
+  <!-- ── 4 · The Risk Curve ── -->
+  <div class="section-heading">The Risk Curve &mdash; Banks Are the Liquidity Gauge</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">Money in the System</div>
+      <p>When small-bank stocks rally to all-time highs, there is a lot of money in the system. TOPIX Banks has nearly doubled off its 2025 low to a record near <b>710</b> &mdash; the cleanest read on the liquidity Japan exports while the real rate stays negative and the MoF keeps issuing bills. The index is reflexive: real yields tick up, banks pull back, then melt up. The day this reverses, it shows up here first.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">TOPIX Banks</div>
+        <div class="warsh-cc-cap">Doubled off the 2025 low to a record</div>
+        <div class="cw" style="height:200px" id="y-banks"><div class="chart-tt" id="tt-y-banks"></div></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">New Lows &amp; Short Vol</div>
+      <p>Every BoJ attempt to set a top through intervention has been rallied straight back through &mdash; the currency keeps falling while the BoJ raises rates and the MoF floods the system. Being long this carry is functionally being short volatility: implied vol is suppressed while skew stays elevated, the signature of a one-sided, complacent position. Every new low is just more liquidity added, until the flow reverses and the crowded trade unwinds violently.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Distraction</div>
+      <p>The mechanism in one chart: the 10-year nominal yield keeps grinding higher, which looks like tightening, while the 1-year real yield stays below zero. The long end rising is a distraction &mdash; it does not bite, because the front-end real rate is negative and the MoF funds at the bills. As long as the real rate stays below zero, the yen falls and liquidity exports offshore.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">10Y Nominal vs 1Y Real (%)</div>
+        <div class="warsh-cc-cap">Long end up, real rate negative</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>10Y nominal (LHS)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>1Y real (RHS)</span>
+        </div>
+        <div class="cw" style="height:200px" id="y-nomreal"><div class="chart-tt" id="tt-y-nomreal"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5 · Same Force, Two Assets ── -->
+  <div class="section-heading">The Same Force, Two Assets</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Reflexive Loop</div>
+      <p>Put the real rate and the banks on one chart and the loop is obvious. The 1-year real yield stays pinned negative while TOPIX Banks climbs to records. The negative real rate is the cause; the bank rally is the receipt. The money the suppressed real rate keeps in the system pools straight into the banks.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">TOPIX Banks vs 1Y Real</div>
+        <div class="warsh-cc-cap">Cause and receipt &mdash; the overlay to watch</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>TOPIX Banks (LHS)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>1Y real (RHS)</span>
+        </div>
+        <div class="cw" style="height:200px" id="y-bankreal"><div class="chart-tt" id="tt-y-bankreal"></div></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">When It Reverses: August 2024</div>
+      <p>A BoJ hike plus a weak US jobs print forced a synchronized unwind that went global in days. The funding leg spiked, the carry pair collapsed, and equity risk dropped with it &mdash; then both retraced. Japanese monetary policy transmitted straight into world markets. This is the template for what the compressed spring releases.</p>
+      <div class="warsh-cc">
+        <div class="warsh-cc-title">August 2024 Unwind</div>
+        <div class="warsh-cc-cap">Carry pair and equities move as one</div>
+        <div class="wlegend">
+          <span class="wleg"><i style="border-top-color:var(--amber)"></i>USDJPY (LHS)</span>
+          <span class="wleg"><i style="border-top-color:#22d3ee;border-top-style:dashed"></i>Nikkei (RHS)</span>
+        </div>
+        <div class="cw" style="height:200px" id="y-unwind"><div class="chart-tt" id="tt-y-unwind"></div></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Tell &mdash; When to Be Long the Yen</div>
+      <p>This is a compressed spring. The day the real rate lifts toward zero, or the MoF issues below expectations, the move releases and a far stronger yen unwinds the carry. Four things to watch:</p>
+      <p class="yen-stat"><b>1.</b> The 1-year real rate turning toward zero.<br><b>2.</b> The 10s30s JGB spread compressing back toward prior lows.<br><b>3.</b> The MoF issuing below expectations.<br><b>4.</b> TOPIX Banks rolling over &mdash; it shows here first.</p>
+      <p>When the real rate finally turns and the banks roll over with it, the regime is changing &mdash; that is the moment to fade the weak-yen trade.</p>
+    </div>
+  </div>
+  <div class="warsh-foot"><b>1</b> &nbsp;August 2024 panel reconstructs the 5 Aug 2024 carry unwind (USDJPY vs Nikkei 225). Other panels illustrative pending a live feed.</div>
+
+  <!-- ── 6 · The Structural Chain ── -->
+  <div class="section-heading">The Structural Chain &mdash; Why Japan Funds the World</div>
+  <div style="font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:14px;max-width:900px">Japan is a structural carry machine: demographics force the cheapest money on earth, and the carry trade is the belt that wires it into global risk. Each step forces the next &mdash; Japan did not choose to fund the world&rsquo;s carry trade, its structure did. A demographic fact &rarr; the cheapest money on earth &rarr; a global carry trade &rarr; a volatility spike.</div>
+  <div class="yen-chain">
+    <div class="yen-chain-box"><em>01</em><b>Demographics</b></div>
+    <div class="yen-chain-box"><em>02</em><b>Deflation</b></div>
+    <div class="yen-chain-box"><em>03</em><b>Zero Rates</b></div>
+    <div class="yen-chain-box"><em>04</em><b>Savings Glut</b></div>
+    <div class="yen-chain-box"><em>05</em><b>Capital Export</b></div>
+    <div class="yen-chain-box"><em>06</em><b>Cheap Yen</b></div>
+    <div class="yen-chain-box"><em>07</em><b>Global Carry</b></div>
+    <div class="yen-chain-box"><em>08</em><b>Violent Unwind</b></div>
+  </div>
+
+  <!-- ── 7 · The Evidence ── -->
+  <div class="section-heading">The Evidence &mdash; Three Papers</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">1 &middot; Japan Structural</div>
+      <div class="yen-cite">&ldquo;What about Japan?&rdquo; &mdash; Chien, Cole &amp; Lustig, NBER WP 31850 (2023)</div>
+      <p>The consolidated state &mdash; Treasury + central bank + the GPIF pension fund &mdash; borrows cheaply and short, invests long and risky, and pockets the spread: a levered carry worth <b>&gt;6% of GDP</b>. That is why net debt is just <b>78% of GDP</b>, not the 270% headline. The state already runs a carry trade.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">2 &middot; Carry Mechanics</div>
+      <div class="yen-cite">&ldquo;Carry Trades and Currency Crashes&rdquo; &mdash; Brunnermeier, Nagel &amp; Pedersen, NBER Macro Annual 2008</div>
+      <p>Borrowing low-yield to buy high-yield beats the textbook &mdash; it violates uncovered interest parity &mdash; but the payoff is steady small gains then rare violent crashes. Carry returns are <b>negatively skewed</b>, subject to crash risk when funding liquidity and risk appetite decline. Picking up pennies in front of a steamroller.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">3 &middot; The Bridge</div>
+      <div class="yen-cite">&ldquo;Sizing up carry trades in BIS statistics&rdquo; &mdash; McGuire &amp; von Peter, BIS Quarterly Review (Sep 2024)</div>
+      <p>The yen carry is large, leveraged and largely off-balance-sheet, so it barely shows up in conventional debt statistics. Triangulating official data puts <b>$14.2tn</b> of yen on one side of FX derivatives, and roughly <b>~$250bn</b> of speculative carry going into the August-2024 unwind.</p>
+    </div>
+  </div>
+
+  <!-- ── 8 · Carry Mechanics ── -->
+  <div class="section-heading">Carry Mechanics &mdash; What the Trade Actually Is</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">Borrow, Convert, Invest</div>
+      <p class="yen-stat"><b>1 &middot; Borrow</b> yen at ~1% &mdash; the cheapest funding available.<br><b>2 &middot; Convert</b> &mdash; sell yen, buy dollars.<br><b>3 &middot; Invest</b> &mdash; hold USD at ~4.5%, pocket the difference.</p>
+      <p>That is roughly <b>+3.5% carry per year</b> &mdash; but only if USDJPY stays flat. A weaker yen adds to the gains, which is why capital piles in and the loop reinforces itself.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">Why Carry Pays at All</div>
+      <p>Theory (uncovered interest parity) says the high-yield currency should fall by exactly the rate gap, cancelling your pickup &mdash; predicted profit ≈ 0. Reality: the funding currency stays weak, so you keep most of the spread. That gap between theory and reality &mdash; the forward-premium puzzle &mdash; <b>is the whole trade</b>, and the payment is a risk premium.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">Why the Yen Specifically</div>
+      <p>A wide policy-rate gap meets a currency that strengthens precisely when risk turns. Cheap to borrow in calm markets, but a safe haven that snaps back in stress &mdash; the currency you are short rallies just as your assets fall. The perfect trap, and the reason carry returns carry a fat left tail.</p>
+    </div>
+  </div>
+
+  <!-- ── 9 · Global Plumbing ── -->
+  <div class="section-heading">Global Plumbing &mdash; The Identity That Makes It Inevitable</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">A Surplus Is a Capital Export</div>
+      <p>Balance of payments is an identity: a current-account surplus is, by definition, a capital export. Japan&rsquo;s surplus is now driven by income on past investments (primary income ~&yen;42tn), not goods. Excess national savings must flow abroad &mdash; that outflow is the yen that funds the world&rsquo;s carry trade.</p>
+      <div class="yen-id">
+        <div class="yen-id-cell">+&yen;34.5tn<br><b>Current-account surplus</b></div>
+        <div class="yen-id-op">=</div>
+        <div class="yen-id-cell">&minus;&yen;34.5tn<br><b>Net capital sent abroad</b></div>
+      </div>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">Sizing the Yen Carry</div>
+      <p>The trade physically moves capital across borders, levered and mostly hidden in derivatives: <b>$14.2tn</b> of yen-side FX-derivative notional, ~$880bn of yen claims abroad, and ~$250bn of estimated speculative carry &mdash; most of it invisible in conventional debt data.</p>
+      <p>The stock behind it is Japan&rsquo;s &yen;562tn net foreign-asset pile, run by lifers, banks and the GPIF &mdash; the yen&rsquo;s launch pad.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Impossible Trinity</div>
+      <p>Fixed exchange rate, free capital flows, independent monetary policy &mdash; pick two. Japan keeps open capital and its own interest rates, and lets the yen float. That floating yen, sitting next to a huge rate gap, is the carry fuel. Intervention only buys time; in real trade-weighted terms the yen is its weakest since the early 1970s.</p>
+    </div>
+  </div>
+
+  <!-- ── 10 · The Playbook ── -->
+  <div class="section-heading">The Playbook</div>
+  <div class="warsh-cols">
+    <div class="warsh-col">
+      <div class="warsh-collabel">What Is Happening</div>
+      <p>The yen has decoupled from nominal rate differentials and now prices off the negative real rate, a structural balance-of-payments outflow, and a stretched carry. Fiscal dominance suppresses CPI, keeps the real rate negative, exports liquidity, and lifts the Nikkei and TOPIX Banks. Spot at 161 versus a 119 fair value is that story in one number.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Read</div>
+      <p>While the real rate stays below zero, stay with the regime: weak yen, strong Japanese banks and equities, liquidity exported into global risk. The carry keeps paying &mdash; steady small gains &mdash; and being long it is being short volatility. Respect the asymmetry: the average is positive, the tail is violent.</p>
+    </div>
+    <div class="warsh-col">
+      <div class="warsh-collabel">The Trigger to Fade</div>
+      <p>The line in the sand is the real rate and the bank tape. When the 1-year real rate lifts toward zero, the 10s30s JGB spread compresses to prior lows, the MoF issues light, or TOPIX Banks rolls over &mdash; the spring releases and a far stronger yen unwinds the carry. That confluence is the moment to be long the yen.</p>
+    </div>
+  </div>
+
+</div><!-- /yen panel -->
 
 <!-- ═══════════════════════════ GROWTH TAB ═══════════════════════════ -->
 <div id="main-growth" class="main-panel">
@@ -1604,7 +1910,7 @@ function syncTacticsHeight() {
 }
 
 function showMain(id, btn) {
-  if((id==='journal'||id==='warsh') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
+  if((id==='journal'||id==='warsh'||id==='yen') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
@@ -3200,8 +3506,10 @@ function leadRenderAuth(){
   if(jt) jt.style.display=loggedIn?'':'none';
   const wt=document.getElementById('nav-warsh');
   if(wt) wt.style.display=loggedIn?'':'none';
+  const yt=document.getElementById('nav-yen');
+  if(yt) yt.style.display=loggedIn?'':'none';
   // If a guest is sitting on a now-hidden tab, bounce them to Macro
-  if(!loggedIn && (window._activeMain==='journal'||window._activeMain==='warsh')){
+  if(!loggedIn && (window._activeMain==='journal'||window._activeMain==='warsh'||window._activeMain==='yen')){
     const mb=document.querySelector('.nav-tab[onclick*="\'macro\'"]');
     if(mb) showMain('macro',mb);
   }
@@ -5500,7 +5808,7 @@ function gaRefresh(el){
 const GA_TABS=[
  {id:'macro',label:'Macro',ico:'insights'},{id:'growth',label:'Growth',ico:'trending_up'},
  {id:'inflation',label:'Inflation',ico:'thermostat'},{id:'stir',label:'Yields',ico:'show_chart'},
- {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
+ {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'warsh',label:'Warsh Playbook',ico:'menu_book'},{id:'yen',label:'Yen & Carry',ico:'currency_yen'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
  {id:'breadth',label:'Breadth',ico:'bar_chart'},{id:'leadership',label:'Leadership',ico:'leaderboard'},{id:'positioning',label:'Positioning',ico:'swap_horiz'},
  {id:'research',label:'Research',ico:'science'},{id:'screener',label:'Screener',ico:'filter_alt'},
  {id:'journal',label:'Journal',ico:'edit_note'}];
@@ -5511,7 +5819,7 @@ function gaPalette(open){
   else ov.classList.remove('open');
 }
 function gaPaletteFilter(q){
-  q=(q||'').toLowerCase();_gaFiltered=GA_TABS.filter(t=>(gaLoggedIn()||t.id!=='journal')&&t.label.toLowerCase().includes(q));_gaSel=0;
+  q=(q||'').toLowerCase();const priv={journal:1,warsh:1,yen:1};_gaFiltered=GA_TABS.filter(t=>(gaLoggedIn()||!priv[t.id])&&t.label.toLowerCase().includes(q));_gaSel=0;
   const list=document.getElementById('ga-cmdk-list');
   list.innerHTML=_gaFiltered.length?_gaFiltered.map((t,i)=>`<div class="cmdk-item ${i===0?'sel':''}" data-id="${t.id}"><span class="msi">${t.ico}</span>${t.label}</div>`).join(''):'<div class="cmdk-empty">No matching tab</div>';
   [...list.querySelectorAll('.cmdk-item')].forEach(el=>el.onclick=()=>gaPaletteGo(el.dataset.id));
@@ -5673,6 +5981,68 @@ function gaSettings(e){
   fetch('warsh.json?_='+Date.now())
     .then(res=>res.ok?res.json():null)
     .then(d=>{ if(d&&d.charts){ window._warshData=d; if(window._activeMain==='warsh'&&window._redraw.warsh) window._redraw.warsh(); } })
+    .catch(()=>{});
+
+  // ═══════════ YEN & CARRY charts ═══════════
+  window._redraw.yen=function(){
+    const D=(window._yenData&&window._yenData.charts)||{};   // real data; empty → illustrative fallback
+    const r=rng(101);
+    const d24=dates(60,24);
+    // shared illustrative 1Y real-rate series so the three real-rate panels agree
+    const realSeed=()=>{const a=build(60,t=>-2.1+0.85*Math.sin(t*5+0.6),rng(220),0.06);a[59]=-1.3;return a;};
+    const banksSeed=()=>{const a=build(60,t=>360+352*t+16*Math.sin(t*8),rng(330),5);a[59]=710;return a;};
+
+    // 1 · USDJPY spot vs rate-diff fair value
+    if(D.fv){ wChart('y-fv','tt-y-fv',dts(D.fv.labels),[{label:'Spot',vals:D.fv.spot,color:AMBER,fmt:v=>v.toFixed(1)},{label:'Fair value',vals:D.fv.fair,color:MUTED,dash:'5 4',fmt:v=>v.toFixed(1)}],{h:200,lfmt:v=>v.toFixed(0)}); }
+    else { const spot=build(60,t=>146+15*Math.pow(t,1.2),r,0.7); spot[59]=161; const fv=build(60,t=>126-6*t-3*Math.sin(t*4),r,0.6); fv[59]=119;
+      wChart('y-fv','tt-y-fv',d24,[{label:'Spot',vals:spot,color:AMBER,fmt:v=>v.toFixed(1)},{label:'Fair value',vals:fv,color:MUTED,dash:'5 4',fmt:v=>v.toFixed(1)}],{h:200,lfmt:v=>v.toFixed(0)}); }
+
+    // 2 · 120d rolling correlation (USDJPY vs US-JP 10Y diff)
+    if(D.corr){ wChart('y-corr','tt-y-corr',dts(D.corr.labels),[{label:'120d corr',vals:D.corr.vals,color:AMBER,fmt:v=>v.toFixed(2)}],{h:200,lfmt:v=>v.toFixed(2)}); }
+    else { const corr=build(60,t=>0.72-1.16*Math.max(0,(t-0.42)/0.58),r,0.04); corr[59]=-0.43;
+      wChart('y-corr','tt-y-corr',d24,[{label:'120d corr',vals:corr,color:AMBER,fmt:v=>v.toFixed(2)}],{h:200,lfmt:v=>v.toFixed(2)}); }
+
+    // 3 · USDJPY vs DXY (dual axis)
+    if(D.dxy){ wChart('y-dxy','tt-y-dxy',dts(D.dxy.labels),[{label:'USDJPY',vals:D.dxy.usdjpy,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'DXY',vals:D.dxy.dxy,color:CYAN,axis:'R',dash:'5 4',fmt:v=>v.toFixed(1)}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(0)}); }
+    else { const uj=build(60,t=>146+15*Math.pow(t,1.2),r,0.7); uj[59]=161; const dxy=build(60,t=>108-7.5*t+2*Math.sin(t*5),r,0.5); dxy[59]=100;
+      wChart('y-dxy','tt-y-dxy',d24,[{label:'USDJPY',vals:uj,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'DXY',vals:dxy,color:CYAN,axis:'R',dash:'5 4',fmt:v=>v.toFixed(1)}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(0)}); }
+
+    // 4 · Japan 1Y real rate
+    if(D.real){ wChart('y-real','tt-y-real',dts(D.real.labels),[{label:'1Y real',vals:D.real.vals,color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(1)}); }
+    else { wChart('y-real','tt-y-real',d24,[{label:'1Y real',vals:realSeed(),color:AMBER,fmt:pct}],{h:200,lfmt:v=>v.toFixed(1)}); }
+
+    // 5 · 10s30s JGB vs core CPI (dual axis)
+    if(D.jgb){ wChart('y-jgb','tt-y-jgb',dts(D.jgb.labels),[{label:'10s30s JGB',vals:D.jgb.spread,color:AMBER,axis:'L',fmt:bp},{label:'Core CPI',vals:D.jgb.cpi,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(1)}); }
+    else { const jgb=build(60,t=>92-34*t,r,2.2); jgb[59]=56; const cpi=build(60,t=>2.0+1.2*t-0.18*Math.sin(t*4),r,0.05); cpi[59]=3.0;
+      wChart('y-jgb','tt-y-jgb',d24,[{label:'10s30s JGB',vals:jgb,color:AMBER,axis:'L',fmt:bp},{label:'Core CPI',vals:cpi,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(1)}); }
+
+    // 6 · TOPIX Banks
+    if(D.banks){ wChart('y-banks','tt-y-banks',dts(D.banks.labels),[{label:'TOPIX Banks',vals:D.banks.vals,color:AMBER,fmt:v=>v.toFixed(0)}],{h:200,lfmt:v=>v.toFixed(0)}); }
+    else { wChart('y-banks','tt-y-banks',d24,[{label:'TOPIX Banks',vals:banksSeed(),color:AMBER,fmt:v=>v.toFixed(0)}],{h:200,lfmt:v=>v.toFixed(0)}); }
+
+    // 7 · 10Y nominal vs 1Y real (dual axis)
+    if(D.nomreal){ wChart('y-nomreal','tt-y-nomreal',dts(D.nomreal.labels),[{label:'10Y nominal',vals:D.nomreal.nominal,color:AMBER,axis:'L',fmt:pct},{label:'1Y real',vals:D.nomreal.real,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(1),rfmt:v=>v.toFixed(1)}); }
+    else { const nom=build(60,t=>0.85+1.0*t+0.05*Math.sin(t*6),r,0.03); nom[59]=1.85;
+      wChart('y-nomreal','tt-y-nomreal',d24,[{label:'10Y nominal',vals:nom,color:AMBER,axis:'L',fmt:pct},{label:'1Y real',vals:realSeed(),color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(1),rfmt:v=>v.toFixed(1)}); }
+
+    // 8 · TOPIX Banks vs 1Y real (dual axis)
+    if(D.bankreal){ wChart('y-bankreal','tt-y-bankreal',dts(D.bankreal.labels),[{label:'TOPIX Banks',vals:D.bankreal.banks,color:AMBER,axis:'L',fmt:v=>v.toFixed(0)},{label:'1Y real',vals:D.bankreal.real,color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(1)}); }
+    else { wChart('y-bankreal','tt-y-bankreal',d24,[{label:'TOPIX Banks',vals:banksSeed(),color:AMBER,axis:'L',fmt:v=>v.toFixed(0)},{label:'1Y real',vals:realSeed(),color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(1)}); }
+
+    // 9 · August 2024 unwind (USDJPY vs Nikkei) — fixed historical window
+    if(D.unwind){ wChart('y-unwind','tt-y-unwind',dts(D.unwind.labels),[{label:'USDJPY',vals:D.unwind.usdjpy,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'Nikkei',vals:D.unwind.nikkei,color:CYAN,axis:'R',dash:'5 4',fmt:v=>Math.round(v).toLocaleString()}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>(v/1000).toFixed(0)+'k'}); }
+    else {
+      const aug=[]; for(let i=0;i<48;i++){const d=new Date(2024,6,1);d.setDate(1+i);aug.push(d);}
+      const ujfn=(t,i)=> i<=30 ? 161.5-0.12*i : (i<=35 ? 157.9-3.2*(i-30) : 141.9+0.5*(i-35));
+      const nkfn=(t,i)=> i<=30 ? 41800-30*i : (i<=35 ? 40900-1900*(i-30) : 31400+320*(i-35));
+      const uju=build(48,ujfn,r,0.3); const nk=build(48,nkfn,r,90);
+      wChart('y-unwind','tt-y-unwind',aug,[{label:'USDJPY',vals:uju,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'Nikkei',vals:nk,color:CYAN,axis:'R',dash:'5 4',fmt:v=>Math.round(v).toLocaleString()}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>(v/1000).toFixed(0)+'k'}); }
+  };
+
+  // Pull live yen data if present (mirrors warsh.json); fallback series render otherwise
+  fetch('yen.json?_='+Date.now())
+    .then(res=>res.ok?res.json():null)
+    .then(d=>{ if(d&&d.charts){ window._yenData=d; if(window._activeMain==='yen'&&window._redraw.yen) window._redraw.yen(); } })
     .catch(()=>{});
 })();
 </script>
