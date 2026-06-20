@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T21:41:23.498058+00:00",
+  "updated_at": "2026-06-20T07:30:11.865003+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -1056,6 +1056,96 @@
         "continuation": false,
         "group_id": "china-ai-chips",
         "group_summary": "6082 and 9903 rose on June 18 on the China domestic AI-GPU self-sufficiency theme, with 9903 extending gains on a June 15 report that ByteDance is in talks to buy its inference chips. 6082 moved in sympathy as a peer domestic GPU maker."
+      }
+    ],
+    "2026-06-19": [
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 140310000000,
+        "change_pct": 8.67,
+        "catalyst": "148 extended its rally into June 19 after its laminates unit raised FR-4 copper-clad laminate and prepreg prices a uniform 15% on June 16 and placed about 4.9% of that unit's shares to fund PCB capacity. The AI-server CCL and copper-foil shortage drove the multi-day PCB rally.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "pcb-ccl-rally",
+        "group_summary": "148 and 3200 extended the Hong Kong PCB rally into June 19 on the AI-server copper-clad-laminate and copper-foil shortage, after 148's laminates unit raised CCL prices 15%. 148's pricing action led, with equipment maker 3200 moving in sympathy."
+      },
+      {
+        "ticker": "2513",
+        "company": "Knowledge Atlas Technology Joint Stock Company Limited Class",
+        "mkt_cap": 933600000000,
+        "change_pct": 26.14,
+        "catalyst": "2513 rose again on June 19 on continued momentum from the open-source release of its flagship large language model around mid-June, alongside reported plans for a Shanghai STAR Market second listing. The gain reflects ongoing China AI-model enthusiasm rather than a single same-day event.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "2715",
+        "company": "2Estun Automation Co. Ltd. Class",
+        "mkt_cap": 20320000000,
+        "change_pct": 12.78,
+        "catalyst": "2715 rose again on June 19 in the China robotics and humanoid-automation rally, supported by central-government measures promoting humanoid robots and embodied AI and by Lujiazui Forum signals on easier STAR Market listings. No 2715-specific same-day trigger was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "3200",
+        "company": "Shenzhen Han's CNC Technology Co., Ltd. Class",
+        "mkt_cap": 93030000000,
+        "change_pct": 5.71,
+        "catalyst": "3200 rose again on June 19 in sympathy with the PCB and AI-compute hardware rally, as a maker of PCB-production equipment moving alongside 148 on the laminate price-hike theme. No 3200-specific announcement was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "pcb-ccl-rally",
+        "group_summary": "148 and 3200 extended the Hong Kong PCB rally into June 19 on the AI-server copper-clad-laminate and copper-foil shortage, after 148's laminates unit raised CCL prices 15%. 148's pricing action led, with equipment maker 3200 moving in sympathy."
+      },
+      {
+        "ticker": "358",
+        "company": "Jiangxi Copper Company Limited Class",
+        "mkt_cap": 184550000000,
+        "change_pct": 9.26,
+        "catalyst": "358 rose again on June 19 on a copper and precious-metals rally, with prices firm on easing global-growth fears and metals-demand optimism. Hong Kong and mainland copper miners rallied broadly, and no 358-specific event drove the move.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "6082",
+        "company": "Shanghai Biren Technology Co., Ltd. Class",
+        "mkt_cap": 149870000000,
+        "change_pct": 8.95,
+        "catalyst": "6082 rose again on June 19 on China domestic AI-GPU momentum rather than its own news, moving with peer 9903's ByteDance-deal report and the self-sufficiency and export-control narrative, plus its recent Stock Connect addition. No 6082-specific same-day catalyst was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "china-ai-chips",
+        "group_summary": "6082 and 9903 extended a China domestic AI-GPU rally into June 19 on the self-sufficiency and export-control narrative, led by a June 15 report that ByteDance is in talks to buy 9903's inference chips. 6082 moved in sympathy on the same theme."
+      },
+      {
+        "ticker": "6613",
+        "company": "Lens Technology Co. Ltd. Class",
+        "mkt_cap": 329940000000,
+        "change_pct": 5.94,
+        "catalyst": "6613 rose again on June 19 on momentum from its role supplying ultra-thin glass for Apple's foldable iPhone and components for humanoid-robot programs ramping later in 2026. No same-day company event was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true
+      },
+      {
+        "ticker": "9903",
+        "company": "Shanghai Iluvatar CoreX Semiconductor Co., Ltd. Class",
+        "mkt_cap": 160220000000,
+        "change_pct": 21.15,
+        "catalyst": "9903 extended its rally into June 19 on continued reaction to a June 15 report that ByteDance is in talks to buy its AI chips for inference, which would make it ByteDance's third domestic GPU supplier after Huawei and Cambricon. The domestic AI-chip self-sufficiency theme sustained momentum, though the deal is not finalized.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "china-ai-chips",
+        "group_summary": "6082 and 9903 extended a China domestic AI-GPU rally into June 19 on the self-sufficiency and export-control narrative, led by a June 15 report that ByteDance is in talks to buy 9903's inference chips. 6082 moved in sympathy on the same theme."
       }
     ]
   }

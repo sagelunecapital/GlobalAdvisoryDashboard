@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-06-18T21:41:23.498058+00:00",
+  "fetched_at": "2026-06-20T07:30:11.865003+00:00",
   "us": [
     {
       "ticker": "WHK",
@@ -68,7 +68,7 @@
     },
     {
       "ticker": "FCBM",
-      "company": "FIRST CAROLINA FINANCIAL SERVICES INC",
+      "company": "First Carolina Financial Services, Inc.",
       "exchange": "NYSE",
       "date": "2026-06-18",
       "price_usd": 12.5,
@@ -81,7 +81,7 @@
     },
     {
       "ticker": "KARD",
-      "company": "KARDIGAN INC",
+      "company": "Kardigan, Inc.",
       "exchange": "NASDAQ",
       "date": "2026-06-18",
       "price_usd": 16.0,
@@ -89,12 +89,12 @@
       "status": "Closed",
       "shares": 25000000,
       "deal_amount_usd": 400000000.0,
-      "mkt_cap_usd": 1402759280.0,
+      "mkt_cap_usd": 1429425936.0,
       "ipo_close": 22.0
     },
     {
       "ticker": "FISN",
-      "company": "DEEP FISSION INC",
+      "company": "Deep Fission, Inc.",
       "exchange": "NASDAQ",
       "date": "2026-06-18",
       "price_usd": 16.0,
@@ -120,42 +120,6 @@
   ],
   "hk": [
     {
-      "ticker": "2290",
-      "company": "Lung Fung Group Holdings Limited",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 0.661140147458,
-      "price_range": "0.66 - 0.81",
-      "status": "Closed",
-      "shares": 125000000,
-      "deal_amount_usd": 74378266.589025,
-      "mkt_cap_usd": 330574293.098
-    },
-    {
-      "ticker": "1081",
-      "company": "Dajin Heavy Industry Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 8.47484667784,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 100010600,
-      "deal_amount_usd": 773872149.5402818,
-      "mkt_cap_usd": 6141928166.944
-    },
-    {
-      "ticker": "1779",
-      "company": "LongBio Pharma (Suzhou) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-05",
-      "price_usd": 12.260135417712,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14193150,
-      "deal_amount_usd": 156608517.79876956,
-      "mkt_cap_usd": 909652895.6862
-    },
-    {
       "ticker": "6658",
       "company": "Liuliumei Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -172,12 +136,12 @@
       "company": "Shenzhen HQVT Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-22",
-      "price_usd": 0.91870717464,
+      "price_usd": 0.91864270512,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 85162500,
-      "deal_amount_usd": 70415230.10745744,
-      "mkt_cap_usd": 711434230.1523
+      "deal_amount_usd": 70410288.77662753,
+      "mkt_cap_usd": 711220917.2755
     },
     {
       "ticker": "6132",
@@ -189,19 +153,19 @@
       "status": "Pending",
       "shares": 13600000,
       "deal_amount_usd": 127757865.014352,
-      "mkt_cap_usd": 768374878.8781
+      "mkt_cap_usd": 768144493.2023
     },
     {
-      "ticker": "2335",
-      "company": "Shaanxi Micot Pharmaceutical Technology Co., Ltd. Class H",
+      "ticker": "6067",
+      "company": "Shenzhen Senior Technology Material Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-24",
-      "price_usd": null,
-      "price_range": "2.32 - 2.68",
-      "status": "Pending",
-      "shares": 58054400,
-      "deal_amount_usd": 140024476.954236,
-      "mkt_cap_usd": null
+      "date": "2026-06-23",
+      "price_usd": 1.145751596108,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 149523500,
+      "deal_amount_usd": 154184938.03984967,
+      "mkt_cap_usd": 1713166901.3144
     },
     {
       "ticker": "6106",
@@ -213,23 +177,23 @@
       "status": "Pending",
       "shares": 10497300,
       "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1432813763.2277
+      "mkt_cap_usd": 1432384155.5242
     },
     {
-      "ticker": "2272",
-      "company": "Keytop Parking Inc.",
+      "ticker": "2335",
+      "company": "Shaanxi Micot Pharmaceutical Technology Co. Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 5.04766888269,
-      "price_range": null,
+      "date": "2026-06-24",
+      "price_usd": null,
+      "price_range": "2.32 - 2.68",
       "status": "Pending",
-      "shares": 10112280,
-      "deal_amount_usd": 45939036.408117,
-      "mkt_cap_usd": 510433446.7857
+      "shares": 58054400,
+      "deal_amount_usd": 140024476.954236,
+      "mkt_cap_usd": null
     },
     {
       "ticker": "1956",
-      "company": "Beijing Zhongke WengAI Science & Technology Co. Ltd.",
+      "company": "Beijing Zhongke WengAI Science & Technology Co. Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-26",
       "price_usd": 7.74842510243,
@@ -237,7 +201,55 @@
       "status": "Pending",
       "shares": 14834600,
       "deal_amount_usd": 109197005.2835255,
-      "mkt_cap_usd": 1341013523.9214
+      "mkt_cap_usd": 1340611441.1419
+    },
+    {
+      "ticker": "2272",
+      "company": "Keytop Parking Inc. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 5.04766888269,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10112280,
+      "deal_amount_usd": 45939036.408117,
+      "mkt_cap_usd": 510280400.9772
+    },
+    {
+      "ticker": "2672",
+      "company": "Baige Online Digital Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-29",
+      "price_usd": null,
+      "price_range": "1.99 - 2.59",
+      "status": "Pending",
+      "shares": 33344400,
+      "deal_amount_usd": 77650666.18344367,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "1191",
+      "company": "Crealights Technology Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-29",
+      "price_usd": 14.5495386252,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 13431500,
+      "deal_amount_usd": 175879915.2399364,
+      "mkt_cap_usd": 1302404818.6456
+    },
+    {
+      "ticker": "9637",
+      "company": "Alebund Pharmaceuticals (Jiangsu) Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-29",
+      "price_usd": 2.88438221868,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 56755400,
+      "deal_amount_usd": 147333666.85373065,
+      "mkt_cap_usd": 979969814.7067
     }
   ]
 }
