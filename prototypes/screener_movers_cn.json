@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T07:30:11.865003+00:00",
+  "updated_at": "2026-06-22T22:20:02.582479+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -1146,6 +1146,128 @@
         "continuation": true,
         "group_id": "china-ai-chips",
         "group_summary": "6082 and 9903 extended a China domestic AI-GPU rally into June 19 on the self-sufficiency and export-control narrative, led by a June 15 report that ByteDance is in talks to buy 9903's inference chips. 6082 moved in sympathy on the same theme."
+      }
+    ],
+    "2026-06-22": [
+      {
+        "ticker": "1336",
+        "company": "New China Life Insurance Co., Ltd. Class",
+        "mkt_cap": 190610000000,
+        "change_pct": 6.73,
+        "catalyst": "1336 rallied with Chinese financials after the Lujiazui Forum in Shanghai on June 22, where the CSRC outlined measures to channel pension and insurance capital into equities and to support M&A, refinancing and STAR and ChiNext reform. The move was policy-driven with no company-specific announcement.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-financials-policy",
+        "group_summary": "1336 and 6030 rallied on June 22 after the Lujiazui Forum in Shanghai, where the CSRC outlined measures to channel pension and insurance capital into equities and support M&A, refinancing and capital-market reform. The move lifted insurers and brokers sector-wide."
+      },
+      {
+        "ticker": "148",
+        "company": "Kingboard Holdings Limited",
+        "mkt_cap": 140310000000,
+        "change_pct": 11.45,
+        "catalyst": "148 hit a record after subsidiary Kingboard Laminates placed about 155M shares at HK$76.0, raising roughly HK$11.77bn to fund PCB and AI-supply-chain capacity and R&D. Citi also raised its target to HK$202 from HK$89.6 the same day. Shares ran as much as 19.9% intraday.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "189",
+        "company": "Dongyue Group Limited",
+        "mkt_cap": 34910000000,
+        "change_pct": 5.98,
+        "catalyst": "189 rose with the fluorochemicals complex on the third-generation refrigerant up-cycle, where tight quotas have lifted R32 and R410a contract prices. No same-day company-specific catalyst was confirmed for Monday.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2513",
+        "company": "Knowledge Atlas Technology Joint Stock Company Limited Class",
+        "mkt_cap": 933600000000,
+        "change_pct": 15.09,
+        "catalyst": "2513 extended gains after open-sourcing its flagship GLM-5.2 model, which ranked at or near the top among open models on third-party leaderboards, alongside a planned A-share raise of up to RMB 15bn. Sustained Southbound buying pushed intraday market cap above HK$1 trillion. The multi-day move began with the GLM-5.2 release the prior week.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2577",
+        "company": "InnoScience (Suzhou) Technology Holding Co Ltd Class",
+        "mkt_cap": 61220000000,
+        "change_pct": 10.39,
+        "catalyst": "2577 rose with China power-semiconductor names on the domestic gallium-nitride and chip self-sufficiency theme. No same-day company-specific catalyst was confirmed; the move reflected sector momentum.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2676",
+        "company": "Suzhou Novosense Microlectronics Co. Ltd. Class",
+        "mkt_cap": 43690000000,
+        "change_pct": 8.78,
+        "catalyst": "2676 gained alongside China analog-chip peers on the domestic semiconductor theme. No same-day company-specific catalyst was confirmed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6030",
+        "company": "CITIC Securities Co. Ltd. Class",
+        "mkt_cap": 445500000000,
+        "change_pct": 6.14,
+        "catalyst": "6030 surged with Chinese brokers on the same June 22 Lujiazui Forum CSRC policy signals favoring capital-market reform and equity inflows. Sharply higher year-to-date market turnover supports broker earnings, reinforcing the sector bid. The move was policy-driven rather than company-specific.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-financials-policy",
+        "group_summary": "1336 and 6030 rallied on June 22 after the Lujiazui Forum in Shanghai, where the CSRC outlined measures to channel pension and insurance capital into equities and support M&A, refinancing and capital-market reform. The move lifted insurers and brokers sector-wide."
+      },
+      {
+        "ticker": "648",
+        "company": "6SoftMedX Healthcare Limited",
+        "mkt_cap": 500240000,
+        "change_pct": 19.7,
+        "catalyst": "648 is a small-cap, around HK$500M, that spiked with no confirmed company announcement. Recent corporate actions, a 20-for-1 share consolidation approved in mid-May and a controlling-shareholder placing in early May, plus a thin float, likely amplified a speculative move.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6869",
+        "company": "Yangtze Optical Fibre and Cable Joint Stock Ltd Co Class",
+        "mkt_cap": 313470000000,
+        "change_pct": 31.31,
+        "catalyst": "6869 surged on the domestic optical-fibre and AI-datacenter interconnect demand theme, with no fresh same-day filing. The move built on record fundamentals, including 2025 revenue up 16.85% and first-quarter 2026 attributable profit up 226%, plus growth in hollow-core fibre and overseas business. Telecom-equipment names were broadly bid that session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "9903",
+        "company": "Shanghai Iluvatar CoreX Semiconductor Co., Ltd. Class",
+        "mkt_cap": 160220000000,
+        "change_pct": 15.32,
+        "catalyst": "9903 extended its rally on the China domestic GPU and AI-compute self-sufficiency theme, with no company-specific announcement confirmed Monday. The move continued a multi-day run alongside other domestic AI-chip names.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }

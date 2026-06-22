@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T07:30:11.865003+00:00",
+  "updated_at": "2026-06-22T22:20:02.582479+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -4556,6 +4556,212 @@
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": true
+      }
+    ],
+    "2026-06-22": [
+      {
+        "ticker": "ACA",
+        "company": "Arcosa, Inc.",
+        "mkt_cap": 7110000000,
+        "change_pct": 6.67,
+        "catalyst": "ACA agreed to be acquired by CRH for $150 per share in cash, about $8.5B and roughly 11.5x 2026 estimated EBITDA, a near 25% premium to its 60-day average. The deal was announced Monday with closing expected in the first quarter of 2027, capping the stock near the offer price.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "APGE",
+        "company": "Apogee Therapeutics, Inc.",
+        "mkt_cap": 9990000000,
+        "change_pct": 46.66,
+        "catalyst": "APGE agreed to be acquired by AbbVie for about $10.9B, or $135.11 per share in cash, a roughly 49% premium announced before Monday's open. The deal values APGE's next-generation, long-acting immunology antibodies led by APG777 (anti-IL-13) for atopic dermatitis and asthma. Shares re-rated toward the cash offer price.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "BHVN",
+        "company": "Biohaven Ltd.",
+        "mkt_cap": 2330000000,
+        "change_pct": 14.22,
+        "catalyst": "BHVN rose after outlining plans to advance several autoimmune and oncology candidates into late-stage studies, including BHV-1300 in Graves' disease and rheumatoid arthritis and BHV-1400 in IgA nephropathy. The pipeline update was amplified by Monday's sector-wide immunology bid following the AbbVie-APGE deal.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "BWIN",
+        "company": "The Baldwin Insurance Group, Inc.",
+        "mkt_cap": 3350000000,
+        "change_pct": 16.21,
+        "catalyst": "BWIN jumped on reports it retained an adviser to explore strategic options including a private-equity-backed take-private. JPMorgan upgraded the stock to Overweight from Neutral and raised its target to $28 from $25, calling a take-private a credible outcome.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "DFTX",
+        "company": "Definium Therapeutics, Inc.",
+        "mkt_cap": 4000000000,
+        "change_pct": 49.8,
+        "catalyst": "DFTX surged after its Phase 3 EMERGE trial of DT120, an orally disintegrating LSD-based tablet for major depressive disorder, met its primary endpoint with p below 0.0001 and an 8.1-point placebo-adjusted MADRS improvement at week 6. Response rate was 35% versus 7% on placebo, with a clean safety profile. The readout was disclosed in an 8-K filed Monday and is unrelated to the day's immunology M&A theme.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "GENB",
+        "company": "Generate Biomedicines, Inc.",
+        "mkt_cap": 2040000000,
+        "change_pct": 9.66,
+        "catalyst": "GENB rose with the next-generation immunology complex after the AbbVie-APGE deal, as its AI-driven protein-design platform screens as immunology-adjacent and a potential M&A beneficiary. No GENB-specific catalyst landed Monday; the move tracked the sector read-through.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "HQ",
+        "company": "Horizon Quantum Holdings Ltd.",
+        "mkt_cap": 1220000000,
+        "change_pct": 19.97,
+        "catalyst": "HQ extended a speculative quantum-computing rally that ran the stock from about $11 to over $41 in under two weeks, with no fresh company-specific catalyst Monday. The move tracked broad quantum-sector sentiment alongside peers; its only hard catalyst, an IonQ trapped-ion system agreement, dates to April and is not new.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "JBIO",
+        "company": "Jade Biosciences, Inc.",
+        "mkt_cap": 1180000000,
+        "change_pct": 15.64,
+        "catalyst": "JBIO climbed in sympathy with the AbbVie-APGE deal as a Paragon Therapeutics spinout and next-generation immunology M&A candidate, with lead asset JADE101 (anti-APRIL) targeting IgA nephropathy. No JBIO-specific catalyst landed Monday; the move tracked the sector M&A read-through.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "KXIAY",
+        "company": "KIOXIA",
+        "mkt_cap": 368290000000,
+        "change_pct": 11.21,
+        "catalyst": "KXIAY tracked its Tokyo line to a record high on the AI-driven NAND memory upcycle, with tight supply and strong demand lifting the AI-memory complex. The ADR move reflected continued passive and index flows rather than a company-specific announcement, with no fresh earnings or guidance dated to Monday.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-infrastructure",
+        "group_summary": "SMCI, KXIAY and WYFI rode the AI-buildout bid on June 22, aided by falling Treasury yields. SMCI was lifted by a GF Securities upgrade and its NVIDIA Vera Rubin server blueprint at ISC 2026, KXIAY by the AI-driven NAND memory upcycle, and WYFI by Bit Digital financing for its data-center expansion."
+      },
+      {
+        "ticker": "KYMR",
+        "company": "Kymera Therapeutics, Inc.",
+        "mkt_cap": 8180000000,
+        "change_pct": 9.97,
+        "catalyst": "KYMR gained on direct read-through from the AbbVie-APGE deal, as its lead asset KT-621, an oral STAT6 degrader in Phase 2b, targets the same atopic dermatitis and asthma indications AbbVie paid up for. Truist reiterated Buy with a $116 target, flagging KYMR as a potential M&A target in next-gen immunology.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "MLTX",
+        "company": "MoonLake Immunotherapeutics",
+        "mkt_cap": 1630000000,
+        "change_pct": 15.36,
+        "catalyst": "MLTX advanced on strong Phase 3 VELA-1 and VELA-2 week-52 data for sonelokimab in hidradenitis suppurativa, reported June 21, with about two-thirds of patients reaching HiSCR75 and a BLA filing planned by September. The gain held despite a $150M offering announced Monday, helped by the broader immunology M&A bid from the AbbVie-APGE deal.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "ORKA",
+        "company": "Oruka Therapeutics, Inc.",
+        "mkt_cap": 5150000000,
+        "change_pct": 18.03,
+        "catalyst": "ORKA rallied as the AbbVie-APGE acquisition re-rated the Paragon Therapeutics spinout family, of which ORKA is a direct sibling. The move was reinforced by ORKA's own positive Phase 2 data for ORKA-001, a long-acting IL-23 antibody, showing 40 of 63 patients reaching total skin clearance at 16 weeks versus 1 of 21 on placebo.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "RCUS",
+        "company": "Arcus Biosciences, Inc.",
+        "mkt_cap": 3420000000,
+        "change_pct": 12.01,
+        "catalyst": "RCUS gained alongside the immunology complex on read-through from the AbbVie-APGE deal, given its expansion into immunology beside its oncology pipeline. No RCUS-specific announcement was confirmed for Monday; the move reflects the sector M&A re-rating.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "SMCI",
+        "company": "Super Micro Computer, Inc.",
+        "mkt_cap": 22940000000,
+        "change_pct": 15.66,
+        "catalyst": "SMCI jumped after GF Securities upgraded the stock to Buy from Hold with a $48 target before the open. At ISC 2026 it also unveiled its Data Center Building Block Solutions blueprint built on NVIDIA's next-generation Vera Rubin platform, scaling to over 1,000 Rubin GPUs per system. Falling Treasury yields added a tailwind to AI-capex names.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-infrastructure",
+        "group_summary": "SMCI, KXIAY and WYFI rode the AI-buildout bid on June 22, aided by falling Treasury yields. SMCI was lifted by a GF Securities upgrade and its NVIDIA Vera Rubin server blueprint at ISC 2026, KXIAY by the AI-driven NAND memory upcycle, and WYFI by Bit Digital financing for its data-center expansion."
+      },
+      {
+        "ticker": "SYRE",
+        "company": "Spyre Therapeutics, Inc.",
+        "mkt_cap": 8710000000,
+        "change_pct": 13.56,
+        "catalyst": "SYRE rose on read-through from the AbbVie-APGE deal as a fellow Paragon Therapeutics spinout developing long-acting antibodies for inflammatory bowel disease. No SYRE-specific announcement landed Monday; its own positive Phase 2 SKYLINE data in ulcerative colitis was reported the prior week, and the sector M&A re-rating drove the gain.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "immunology-ma-jun22",
+        "group_summary": "AbbVie agreed to acquire APGE for about $10.9B on June 22, re-rating next-generation immunology and inflammation biotech. The Paragon Therapeutics spinout family (APGE, ORKA, SYRE, JBIO) and competing or adjacent M&A candidates (KYMR, MLTX, BHVN, GENB, RCUS) all rose on read-through, with ORKA, MLTX and BHVN also citing their own pipeline data."
+      },
+      {
+        "ticker": "VC",
+        "company": "Visteon Corporation",
+        "mkt_cap": 3200000000,
+        "change_pct": 5.44,
+        "catalyst": "VC rose on a same-day double upgrade. Barclays moved to Overweight with a $145 target from $115, and JPMorgan upgraded to Overweight with a $165 target from $108, citing automotive outgrowth and a path to roughly $5B revenue and $700M EBITDA by 2029.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "WYFI",
+        "company": "WhiteFiber, Inc.",
+        "mkt_cap": 1730000000,
+        "change_pct": 16.32,
+        "catalyst": "WYFI extended its multi-day rally tied to a $100M delayed-draw term loan from majority owner Bit Digital, expandable to $150M, to fund its AI and HPC data-center buildout including the North Carolina NC-1 site. Heavy speculative call-option activity amplified Monday's continuation move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "ai-infrastructure",
+        "group_summary": "SMCI, KXIAY and WYFI rode the AI-buildout bid on June 22, aided by falling Treasury yields. SMCI was lifted by a GF Securities upgrade and its NVIDIA Vera Rubin server blueprint at ISC 2026, KXIAY by the AI-driven NAND memory upcycle, and WYFI by Bit Digital financing for its data-center expansion."
       }
     ]
   }

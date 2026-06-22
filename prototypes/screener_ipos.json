@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-06-20T07:30:11.865003+00:00",
+  "fetched_at": "2026-06-22T22:20:02.582479+00:00",
   "us": [
     {
       "ticker": "WHK",
@@ -15,19 +15,6 @@
       "ipo_close": 26.0
     },
     {
-      "ticker": "PBLS",
-      "company": "Parabilis Medicines, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-10",
-      "price_usd": 20.0,
-      "price_range": "17.00 - 19.00",
-      "status": "Closed",
-      "shares": 38525000,
-      "deal_amount_usd": 670000000.0,
-      "mkt_cap_usd": 2362915600.0,
-      "ipo_close": 31.6
-    },
-    {
       "ticker": "EROC",
       "company": "ERock, Inc.",
       "exchange": "NYSE",
@@ -39,6 +26,19 @@
       "deal_amount_usd": 600000005.5,
       "mkt_cap_usd": 4717101720.0,
       "ipo_close": 18.75
+    },
+    {
+      "ticker": "PBLS",
+      "company": "Parabilis Medicines, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-10",
+      "price_usd": 20.0,
+      "price_range": "17.00 - 19.00",
+      "status": "Closed",
+      "shares": 38525000,
+      "deal_amount_usd": 670000000.0,
+      "mkt_cap_usd": 2362915600.0,
+      "ipo_close": 31.6
     },
     {
       "ticker": "FRBT",
@@ -67,17 +67,17 @@
       "ipo_close": 160.95
     },
     {
-      "ticker": "FCBM",
-      "company": "First Carolina Financial Services, Inc.",
-      "exchange": "NYSE",
+      "ticker": "FISN",
+      "company": "Deep Fission, Inc.",
+      "exchange": "NASDAQ",
       "date": "2026-06-18",
-      "price_usd": 12.5,
-      "price_range": "14.00 - 16.00",
+      "price_usd": 16.0,
+      "price_range": "16.00 - 18.00",
       "status": "Closed",
-      "shares": 5500000,
-      "deal_amount_usd": 68750000.0,
-      "mkt_cap_usd": 378071900.0,
-      "ipo_close": 12.6
+      "shares": 2500000,
+      "deal_amount_usd": 40000000.0,
+      "mkt_cap_usd": 965625904.0,
+      "ipo_close": 14.56
     },
     {
       "ticker": "KARD",
@@ -93,17 +93,17 @@
       "ipo_close": 22.0
     },
     {
-      "ticker": "FISN",
-      "company": "Deep Fission, Inc.",
-      "exchange": "NASDAQ",
+      "ticker": "FCBM",
+      "company": "First Carolina Financial Services, Inc.",
+      "exchange": "NYSE",
       "date": "2026-06-18",
-      "price_usd": 16.0,
-      "price_range": "16.00 - 18.00",
+      "price_usd": 12.5,
+      "price_range": "14.00 - 16.00",
       "status": "Closed",
-      "shares": 2500000,
-      "deal_amount_usd": 40000000.0,
-      "mkt_cap_usd": 965625904.0,
-      "ipo_close": 14.56
+      "shares": 5500000,
+      "deal_amount_usd": 68750000.0,
+      "mkt_cap_usd": 378071900.0,
+      "ipo_close": 12.6
     },
     {
       "ticker": "DPC",
@@ -132,6 +132,18 @@
       "mkt_cap_usd": 438370935.9092
     },
     {
+      "ticker": "6675",
+      "company": "SENASIC Electronics Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-17",
+      "price_usd": 2.342852767764,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 53407000,
+      "deal_amount_usd": 112612029.70589799,
+      "mkt_cap_usd": 888186516.7372
+    },
+    {
       "ticker": "1392",
       "company": "Shenzhen HQVT Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -142,18 +154,6 @@
       "shares": 85162500,
       "deal_amount_usd": 70410288.77662753,
       "mkt_cap_usd": 711220917.2755
-    },
-    {
-      "ticker": "6132",
-      "company": "HJ Science Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-23",
-      "price_usd": 10.4377340698,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 13600000,
-      "deal_amount_usd": 127757865.014352,
-      "mkt_cap_usd": 768144493.2023
     },
     {
       "ticker": "6067",
@@ -168,16 +168,16 @@
       "mkt_cap_usd": 1713166901.3144
     },
     {
-      "ticker": "6106",
-      "company": "Shanghai Seer Intelligent Technology Co., Ltd. Class H",
+      "ticker": "6132",
+      "company": "HJ Science Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-24",
-      "price_usd": 12.965881612,
+      "date": "2026-06-23",
+      "price_usd": 10.4377340698,
       "price_range": null,
       "status": "Pending",
-      "shares": 10497300,
-      "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1432384155.5242
+      "shares": 13600000,
+      "deal_amount_usd": 127757865.014352,
+      "mkt_cap_usd": 768144493.2023
     },
     {
       "ticker": "2335",
@@ -192,6 +192,18 @@
       "mkt_cap_usd": null
     },
     {
+      "ticker": "6106",
+      "company": "Shanghai Seer Intelligent Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-24",
+      "price_usd": 12.965881612,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10497300,
+      "deal_amount_usd": 129300957.7875088,
+      "mkt_cap_usd": 1432384155.5242
+    },
+    {
       "ticker": "1956",
       "company": "Beijing Zhongke WengAI Science & Technology Co. Ltd. Class H",
       "exchange": "HKEX",
@@ -202,6 +214,18 @@
       "shares": 14834600,
       "deal_amount_usd": 109197005.2835255,
       "mkt_cap_usd": 1340611441.1419
+    },
+    {
+      "ticker": "9630",
+      "company": "Circuit Fabology Microelectronics Equipment Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": null,
+      "price_range": "30.65 - 32.26",
+      "status": "Pending",
+      "shares": 12838650,
+      "deal_amount_usd": 372770983.2272743,
+      "mkt_cap_usd": null
     },
     {
       "ticker": "2272",
@@ -224,12 +248,12 @@
       "price_range": "1.99 - 2.59",
       "status": "Pending",
       "shares": 33344400,
-      "deal_amount_usd": 77650666.18344367,
+      "deal_amount_usd": 77663547.9670388,
       "mkt_cap_usd": null
     },
     {
       "ticker": "1191",
-      "company": "Crealights Technology Co. Ltd.",
+      "company": "Crealights Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-29",
       "price_usd": 14.5495386252,
@@ -241,7 +265,7 @@
     },
     {
       "ticker": "9637",
-      "company": "Alebund Pharmaceuticals (Jiangsu) Ltd.",
+      "company": "Alebund Pharmaceuticals (Jiangsu) Limited Class H",
       "exchange": "HKEX",
       "date": "2026-06-29",
       "price_usd": 2.88438221868,
