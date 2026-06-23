@@ -4953,6 +4953,7 @@ function cotBackToGrid(){
 }
 function cotUpdateChart(code){
   const d=COT_DATA[code]; if(!d) return;
+  const ct=document.getElementById('cot-title'); if(ct) ct.textContent=d.name;
   const slider=document.getElementById('cot-period-slider');
   const maxN=d.weeks.length;
   if(slider) slider.max=maxN;
