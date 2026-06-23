@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T22:20:02.582479+00:00",
+  "updated_at": "2026-06-23T22:29:30.316804+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -4762,6 +4762,92 @@
         "continuation": true,
         "group_id": "ai-infrastructure",
         "group_summary": "SMCI, KXIAY and WYFI rode the AI-buildout bid on June 22, aided by falling Treasury yields. SMCI was lifted by a GF Securities upgrade and its NVIDIA Vera Rubin server blueprint at ISC 2026, KXIAY by the AI-driven NAND memory upcycle, and WYFI by Bit Digital financing for its data-center expansion."
+      }
+    ],
+    "2026-06-23": [
+      {
+        "ticker": "ARQQ",
+        "company": "Arqit Quantum Inc.",
+        "mkt_cap": 505370000,
+        "change_pct": 35.57,
+        "catalyst": "ARQQ surged after President Trump signed two executive orders on June 23 accelerating quantum technology and mandating a federal migration to post-quantum cryptography, with conversion deadlines of 2030 for key systems and 2031 for digital signatures. As the leading pure-play quantum-safe encryption vendor, ARQQ is a direct beneficiary of the harvest-now-decrypt-later mandate. A recent $7M lawsuit settlement had already cleared a multi-year overhang heading into the move.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "quantum-policy-jun23",
+        "group_summary": "President Trump signed two executive orders on June 23 - Securing the Nation Against Advanced Cryptographic Attacks and Ushering In the Next Frontier of Quantum Innovation - mandating federal migration to NIST post-quantum cryptography by 2030-2031 and accelerating national quantum R&D. ARQQ rallied as the leading quantum-safe encryption pure-play, while INFQ gained on the quantum-computing push alongside the launch of its own America's Quantum Space Initiative coalition."
+      },
+      {
+        "ticker": "CLPT",
+        "company": "ClearPoint Neuro Inc.",
+        "mkt_cap": 555710000,
+        "change_pct": 8.62,
+        "catalyst": "CLPT rose after partner uniQure said an FDA Type B meeting confirmed its three-year Phase I/II results for Huntington's therapy AMT-130 are adequate to support a Biologics License Application, with a filing targeted for Q3 2026. AMT-130 is delivered using CLPT's navigation system and SmartFlow cannula, so the expedited approval path validates CLPT's drug-delivery platform and recurring-revenue potential.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "EPC",
+        "company": "Edgewell Personal Care Company",
+        "mkt_cap": 1210000000,
+        "change_pct": 15.4,
+        "catalyst": "EPC jumped after Bloomberg reported the board rejected an unsolicited takeover offer from private equity firm Yellow Wood Partners at $30 per share, deeming it too low. The rejection signaled the board sees the Schick razor maker as worth more than the bid, and traders priced in the prospect of a higher offer.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "INFQ",
+        "company": "Infleqtion, Inc.",
+        "mkt_cap": 3480000000,
+        "change_pct": 12.32,
+        "catalyst": "INFQ rose on the same June 23 Trump executive orders accelerating quantum computing, sensing and networking across the federal government. INFQ also named Voyager Technologies, Armada, Monarch Quantum and the University of Colorado Boulder as founding members of its America's Quantum Space Initiative, building on a May letter of intent with the Commerce Department's CHIPS office for up to $100M in milestone-based funding for neutral-atom quantum computers.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "quantum-policy-jun23",
+        "group_summary": "President Trump signed two executive orders on June 23 - Securing the Nation Against Advanced Cryptographic Attacks and Ushering In the Next Frontier of Quantum Innovation - mandating federal migration to NIST post-quantum cryptography by 2030-2031 and accelerating national quantum R&D. ARQQ rallied as the leading quantum-safe encryption pure-play, while INFQ gained on the quantum-computing push alongside the launch of its own America's Quantum Space Initiative coalition."
+      },
+      {
+        "ticker": "LGND",
+        "company": "Ligand Pharmaceuticals Incorporated",
+        "mkt_cap": 5600000000,
+        "change_pct": 6.59,
+        "catalyst": "LGND rose after announcing a proposed $550M senior notes offering alongside a Citibank credit-agreement amendment that raises its minimum consolidated EBITDA covenant. Investors read the raise as dry powder for further accretive royalty and milestone-driven deals rather than dilutive financing.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VKTX",
+        "company": "Viking Therapeutics, Inc.",
+        "mkt_cap": 4040000000,
+        "change_pct": 7.54,
+        "catalyst": "VKTX extended gains on continued analyst enthusiasm for obesity candidate VK2735 after strong Phase 2 VENTURE-Oral data showing up to 12.2% weight loss over 13 weeks. Lake Street initiated at Buy with an $89 target and Truist raised its target to $83, while the recent appointment of CMO Hubert Chen reinforced the late-stage obesity push. No single VKTX-specific announcement landed on June 23; the move reflected sustained bullish positioning into Phase 3.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VRNS",
+        "company": "Varonis Systems, Inc.",
+        "mkt_cap": 4019999999.9999995,
+        "change_pct": 7.09,
+        "catalyst": "VRNS climbed after a Bloomberg report that the data-security firm is exploring a sale and fielding preliminary interest from private equity firms including Blackstone, Thoma Bravo and Vista Equity Partners. KeyBanc separately initiated coverage at Sector Weight, citing strong secular demand for data security amid AI and Copilot adoption.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }

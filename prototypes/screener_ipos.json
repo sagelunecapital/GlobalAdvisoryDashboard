@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-06-22T22:20:02.582479+00:00",
+  "fetched_at": "2026-06-23T22:29:30.316804+00:00",
   "us": [
-    {
-      "ticker": "WHK",
-      "company": "WhiteHawk Minerals Corp",
-      "exchange": "NYSE",
-      "date": "2026-06-09",
-      "price_usd": 26.0,
-      "price_range": "25.00 - 27.00",
-      "status": "Closed",
-      "shares": 7700000,
-      "deal_amount_usd": 200200000.0,
-      "mkt_cap_usd": 675261054.0,
-      "ipo_close": 26.0
-    },
     {
       "ticker": "EROC",
       "company": "ERock, Inc.",
@@ -76,21 +63,8 @@
       "status": "Closed",
       "shares": 2500000,
       "deal_amount_usd": 40000000.0,
-      "mkt_cap_usd": 965625904.0,
+      "mkt_cap_usd": 965332976.0,
       "ipo_close": 14.56
-    },
-    {
-      "ticker": "KARD",
-      "company": "Kardigan, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-18",
-      "price_usd": 16.0,
-      "price_range": "14.00 - 16.00",
-      "status": "Closed",
-      "shares": 25000000,
-      "deal_amount_usd": 400000000.0,
-      "mkt_cap_usd": 1429425936.0,
-      "ipo_close": 22.0
     },
     {
       "ticker": "FCBM",
@@ -115,6 +89,30 @@
       "status": "Pending",
       "shares": 23333333,
       "deal_amount_usd": 746666656.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "BSP",
+      "company": "Bending Spoons SpA",
+      "exchange": "NASDAQ",
+      "date": "2026-06-29",
+      "price_usd": null,
+      "price_range": "26.00 - 28.00",
+      "status": "Pending",
+      "shares": 57971015,
+      "deal_amount_usd": 1623188420.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "ITG",
+      "company": "ITG Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-07-01",
+      "price_usd": null,
+      "price_range": "19.00 - 22.00",
+      "status": "Pending",
+      "shares": 19512196,
+      "deal_amount_usd": 429268312.0,
       "mkt_cap_usd": null
     }
   ],
@@ -153,43 +151,31 @@
       "status": "Closed",
       "shares": 85162500,
       "deal_amount_usd": 70410288.77662753,
-      "mkt_cap_usd": 711220917.2755
-    },
-    {
-      "ticker": "6067",
-      "company": "Shenzhen Senior Technology Material Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-23",
-      "price_usd": 1.145751596108,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 149523500,
-      "deal_amount_usd": 154184938.03984967,
-      "mkt_cap_usd": 1713166901.3144
+      "mkt_cap_usd": 710971458.4037
     },
     {
       "ticker": "6132",
       "company": "HJ Science Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-23",
-      "price_usd": 10.4377340698,
+      "price_usd": 10.4331411634,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 13600000,
-      "deal_amount_usd": 127757865.014352,
-      "mkt_cap_usd": 768144493.2023
+      "deal_amount_usd": 127701647.840016,
+      "mkt_cap_usd": 767875068.5355
     },
     {
-      "ticker": "2335",
-      "company": "Shaanxi Micot Pharmaceutical Technology Co. Ltd. Class H",
+      "ticker": "6067",
+      "company": "Shenzhen Senior Technology Material Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-24",
-      "price_usd": null,
-      "price_range": "2.32 - 2.68",
-      "status": "Pending",
-      "shares": 58054400,
-      "deal_amount_usd": 140024476.954236,
-      "mkt_cap_usd": null
+      "date": "2026-06-23",
+      "price_usd": 1.14534972674,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 149523500,
+      "deal_amount_usd": 154130858.07712853,
+      "mkt_cap_usd": 1712566012.516
     },
     {
       "ticker": "6106",
@@ -201,31 +187,19 @@
       "status": "Pending",
       "shares": 10497300,
       "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1432384155.5242
+      "mkt_cap_usd": 1431881750.5376
     },
     {
-      "ticker": "1956",
-      "company": "Beijing Zhongke WengAI Science & Technology Co. Ltd. Class H",
+      "ticker": "2335",
+      "company": "Shaanxi Micot Pharmaceutical Technology Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 7.74842510243,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 14834600,
-      "deal_amount_usd": 109197005.2835255,
-      "mkt_cap_usd": 1340611441.1419
-    },
-    {
-      "ticker": "9630",
-      "company": "Circuit Fabology Microelectronics Equipment Co. Ltd.",
-      "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": null,
-      "price_range": "30.65 - 32.26",
-      "status": "Pending",
-      "shares": 12838650,
-      "deal_amount_usd": 372770983.2272743,
-      "mkt_cap_usd": null
+      "date": "2026-06-24",
+      "price_usd": 2.3213101366,
+      "price_range": "2.32 - 2.68",
+      "status": "Closed",
+      "shares": 58054400,
+      "deal_amount_usd": 121285669.06518608,
+      "mkt_cap_usd": 770072237.1742
     },
     {
       "ticker": "2272",
@@ -237,7 +211,31 @@
       "status": "Pending",
       "shares": 10112280,
       "deal_amount_usd": 45939036.408117,
-      "mkt_cap_usd": 510280400.9772
+      "mkt_cap_usd": 510101421.4646
+    },
+    {
+      "ticker": "9630",
+      "company": "Circuit Fabology Microelectronics Equipment Co.,Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": null,
+      "price_range": "30.65 - 32.26",
+      "status": "Pending",
+      "shares": 12838650,
+      "deal_amount_usd": 372770983.2272743,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "1956",
+      "company": "Beijing Zhongke WengAI Science & Technology Co. Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 7.74842510243,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 14834600,
+      "deal_amount_usd": 109197005.2835255,
+      "mkt_cap_usd": 1340141225.1942
     },
     {
       "ticker": "2672",
@@ -248,20 +246,8 @@
       "price_range": "1.99 - 2.59",
       "status": "Pending",
       "shares": 33344400,
-      "deal_amount_usd": 77663547.9670388,
+      "deal_amount_usd": 77623430.41589168,
       "mkt_cap_usd": null
-    },
-    {
-      "ticker": "1191",
-      "company": "Crealights Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-29",
-      "price_usd": 14.5495386252,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 13431500,
-      "deal_amount_usd": 175879915.2399364,
-      "mkt_cap_usd": 1302404818.6456
     },
     {
       "ticker": "9637",
@@ -273,7 +259,67 @@
       "status": "Pending",
       "shares": 56755400,
       "deal_amount_usd": 147333666.85373065,
-      "mkt_cap_usd": 979969814.7067
+      "mkt_cap_usd": 979626092.8638
+    },
+    {
+      "ticker": "1191",
+      "company": "Crealights Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-29",
+      "price_usd": 14.5495386252,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 13431500,
+      "deal_amount_usd": 175879915.2399364,
+      "mkt_cap_usd": 1301948003.5706
+    },
+    {
+      "ticker": "3952",
+      "company": "Zhejiang Laifual Drive Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": null,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 13441900,
+      "deal_amount_usd": 139255382.3401827,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "2697",
+      "company": "Guangdong True Health Medical Technology Development Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": null,
+      "price_range": "15.22 - 17.28",
+      "status": "Pending",
+      "shares": 3564700,
+      "deal_amount_usd": 55433076.37861853,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "6915",
+      "company": "Jiangxi Institute of Biological Products Inc.",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": null,
+      "price_range": "1.19 - 1.67",
+      "status": "Pending",
+      "shares": 36234500,
+      "deal_amount_usd": 54321164.72156558,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "6715",
+      "company": "Hangzhou Qiandaohu Xunlong Sci-tech Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": 9.63458753295,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 16332900,
+      "deal_amount_usd": 141624582.8993518,
+      "mkt_cap_usd": 1048525942.2658
     }
   ]
 }
