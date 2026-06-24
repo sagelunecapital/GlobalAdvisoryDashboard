@@ -664,14 +664,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('inflation',this)"><span class="nav-ico">thermostat</span>Inflation</button>
     <button class="nav-tab nav-sub" onclick="showMain('stir',this)"><span class="nav-ico">show_chart</span>Yields</button>
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)"><span class="nav-ico">water_drop</span>Liquidity</button>
-    <button class="nav-tab nav-sub" id="nav-yen" onclick="showMain('yen',this)"><span class="nav-ico">currency_yen</span>Yen Carry Trade</button>
-    <button class="nav-tab" id="nav-warsh" onclick="showMain('warsh',this)"><span class="nav-ico">menu_book</span>Warsh Playbook</button>
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)"><span class="nav-ico">swap_horiz</span>Positioning</button>
     <button class="nav-tab" onclick="showMain('research',this)"><span class="nav-ico">science</span>Research</button>
     <button class="nav-tab nav-sub" onclick="showMain('screener',this)"><span class="nav-ico">filter_alt</span>Screener</button>
+    <button class="nav-tab" id="nav-resources" onclick="showMain('resources',this)"><span class="nav-ico">folder_open</span>Resources</button>
     <button class="nav-tab" id="nav-journal" onclick="showMain('journal',this)"><span class="nav-ico">edit_note</span>Journal</button>
     <div class="side-spacer"></div>
     <button class="nav-tab nav-foot" onclick="gaCollapse()"><span class="nav-ico">left_panel_close</span>Collapse</button>
@@ -785,9 +784,40 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 
 </div><!-- /macro panel -->
 
+<!-- ═══════════════════════════ RESOURCES TAB ═══════════════════════════ -->
+<div id="main-resources" class="main-panel">
+  <div class="section-heading" style="margin-bottom:20px">Resources</div>
+  <div class="rs-grid">
+
+    <div class="rs-card" onclick="openResource('warsh')">
+      <div class="rs-card-top">
+        <div class="rs-card-title">The Warsh Playbook</div>
+        <span class="rs-card-arrow">&#8599;</span>
+      </div>
+      <div class="rs-card-date" style="text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--amber)">FOMC Special &middot; Rates</div>
+      <hr class="rs-card-divider">
+      <div class="rs-card-tickers">Why the curve flattened into the new Fed &mdash; Warsh&rsquo;s information-architecture shift and how it reprices the front end.</div>
+      <div class="rs-card-date">Capital Flows Research &middot; Jun 17, 2026</div>
+    </div>
+
+    <div class="rs-card" onclick="openResource('yen')">
+      <div class="rs-card-top">
+        <div class="rs-card-title">The Devaluation of the Yen &amp; Carry Trade</div>
+        <span class="rs-card-arrow">&#8599;</span>
+      </div>
+      <div class="rs-card-date" style="text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--amber)">Capital Flows &middot; Japan</div>
+      <hr class="rs-card-divider">
+      <div class="rs-card-tickers">A reflexive liquidity framework for the yen, JGBs &amp; global risk &mdash; why USDJPY decoupled from the nominal rate differential.</div>
+      <div class="rs-card-date">Capital Flows Research &middot; Jun 18, 2026</div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ═══════════════════════════ WARSH PLAYBOOK TAB ═══════════════════════════ -->
 <div id="main-warsh" class="main-panel">
 
+  <button class="btn" style="margin-bottom:14px" onclick="showMain('resources',document.getElementById('nav-resources'))">&#8592; Resources</button>
   <div class="warsh-hero">
     <div class="warsh-tag">FOMC Special &middot; Rates</div>
     <div class="warsh-title">The Warsh Playbook</div>
@@ -984,6 +1014,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 <!-- ═══════════════════════════ YEN & CARRY TAB ═══════════════════════════ -->
 <div id="main-yen" class="main-panel">
 
+  <button class="btn" style="margin-bottom:14px" onclick="showMain('resources',document.getElementById('nav-resources'))">&#8592; Resources</button>
   <div class="warsh-hero">
     <div class="warsh-tag">Capital Flows Research &middot; Japan</div>
     <div class="warsh-title">The Devaluation of the Yen &amp; Carry Trade</div>
@@ -1918,8 +1949,9 @@ function syncTacticsHeight() {
   }
 }
 
+function openResource(id){ showMain(id, document.getElementById('nav-resources')); }
 function showMain(id, btn) {
-  if((id==='journal'||id==='warsh'||id==='yen') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
+  if((id==='journal'||id==='warsh'||id==='yen'||id==='resources') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
@@ -3510,15 +3542,13 @@ function leadRenderAuth(){
   // Journal "Edit" button — editor only (viewers see the journal read-only)
   const tb=document.getElementById('tact-btn');
   if(tb) tb.style.display=leadCanEdit?'':'none';
-  // Journal + Warsh Playbook tabs — visible to logged-in users only (guests can't see them)
+  // Journal + Resources (Warsh / Yen) tabs — visible to logged-in users only (guests can't see them)
   const jt=document.getElementById('nav-journal');
   if(jt) jt.style.display=loggedIn?'':'none';
-  const wt=document.getElementById('nav-warsh');
-  if(wt) wt.style.display=loggedIn?'':'none';
-  const yt=document.getElementById('nav-yen');
-  if(yt) yt.style.display=loggedIn?'':'none';
+  const rt=document.getElementById('nav-resources');
+  if(rt) rt.style.display=loggedIn?'':'none';
   // If a guest is sitting on a now-hidden tab, bounce them to Macro
-  if(!loggedIn && (window._activeMain==='journal'||window._activeMain==='warsh'||window._activeMain==='yen')){
+  if(!loggedIn && (window._activeMain==='journal'||window._activeMain==='warsh'||window._activeMain==='yen'||window._activeMain==='resources')){
     const mb=document.querySelector('.nav-tab[onclick*="\'macro\'"]');
     if(mb) showMain('macro',mb);
   }
