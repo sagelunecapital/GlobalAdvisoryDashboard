@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T22:29:30.316804+00:00",
+  "updated_at": "2026-06-24T22:03:50.180136+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -1270,6 +1270,32 @@
         "group_summary": null
       }
     ],
-    "2026-06-23": []
+    "2026-06-23": [],
+    "2026-06-24": [
+      {
+        "ticker": "2359",
+        "company": "WuXi AppTec Co., Ltd. Class",
+        "mkt_cap": 362340000000,
+        "change_pct": 8.33,
+        "catalyst": "2359 climbed as Hong Kong pharma and CRO names rallied on surging GLP-1 peptide manufacturing demand, with GenScript up 11.5% and WuXi XDC up 8.88% on the same session. As a tier-1 peptide CDMO, 2359 is a direct beneficiary of ton-scale capacity buildout for obesity and diabetes drugs. The move was a sector-wide theme rather than a 2359-specific announcement, with 2026 revenue guidance of 51.3-53 billion yuan underpinning sentiment.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-cdmo",
+        "group_summary": "2359 and 6821 rose with a broad Hong Kong CDMO and CRO rally driven by surging GLP-1 peptide manufacturing demand. Both are tier-1 peptide CDMOs scaling ton-level capacity for obesity and diabetes drugs, and peers GenScript and WuXi XDC gained on the same session. The move reflects a sector-wide peptide theme rather than company-specific news."
+      },
+      {
+        "ticker": "6821",
+        "company": "Asymchem Laboratories (Tianjin) Co., Ltd. Class",
+        "mkt_cap": 52030000000,
+        "change_pct": 13.12,
+        "catalyst": "6821 jumped alongside the broader Hong Kong CDMO rally tied to GLP-1 peptide manufacturing demand. As one of the largest peptide CDMOs, 6821 has expanded solid-phase synthesis capacity past 30,000 liters to serve commercial obesity and diabetes drug volumes. There was no 6821-specific catalyst, and the gain reflects the sector-wide peptide capacity theme that also lifted 2359 and other CRO names.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-cdmo",
+        "group_summary": "2359 and 6821 rose with a broad Hong Kong CDMO and CRO rally driven by surging GLP-1 peptide manufacturing demand. Both are tier-1 peptide CDMOs scaling ton-level capacity for obesity and diabetes drugs, and peers GenScript and WuXi XDC gained on the same session. The move reflects a sector-wide peptide theme rather than company-specific news."
+      }
+    ]
   }
 }

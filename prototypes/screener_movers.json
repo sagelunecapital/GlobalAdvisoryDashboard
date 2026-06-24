@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T22:29:30.316804+00:00",
+  "updated_at": "2026-06-24T22:03:50.180136+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -4846,6 +4846,128 @@
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-24": [
+      {
+        "ticker": "ADPT",
+        "company": "Adaptive Biotechnologies Corporation",
+        "mkt_cap": 3100000000,
+        "change_pct": 12.25,
+        "catalyst": "ADPT extended its June rally after laying out plans to separate its Minimal Residual Disease and Immune Medicine units into two focused businesses, and closing a $345M zero-coupon convertible notes offering on June 22 to fund the split. The MRD franchise is carrying growth, with Q1 revenue up 35% year over year and clonoSEQ featured across 33 presentations at the ASCO and EHA conferences. Investors are repricing the stock on a cleaner, MRD-led structure and a strengthened balance sheet.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "DFTX",
+        "company": "Definium Therapeutics, Inc.",
+        "mkt_cap": 4590000000,
+        "change_pct": 16.45,
+        "catalyst": "DFTX soared after its Phase 3 Emerge trial of DT120 ODT, an orally disintegrating tablet, met its primary endpoint with high significance (p<0.0001) in major depressive disorder, showing an 8.1-point placebo-adjusted MADRS improvement and a clean safety profile. RBC Capital raised its price target to $57 and reiterated Outperform on the readout. The company priced a 20.6M-share offering at $34.00 on June 23 to fund the program toward a regulatory filing.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ICLR",
+        "company": "ICON plc",
+        "mkt_cap": 12110000000,
+        "change_pct": 10.86,
+        "catalyst": "ICLR jumped after Q1 2026 results showed revenue of $2.03B and adjusted EPS of $2.50 ahead of consensus, with net business wins near $2.9B, a 1.42 book-to-bill, and a record $22.7B backlog. Management reaffirmed full-year guidance of $7.85B-$8.15B revenue and $10-$11 adjusted EPS. The company also named Microsoft its preferred technology partner to scale its Orbis agentic AI platform for clinical trials, reframing ICLR as an AI-enabled CRO.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "KBH",
+        "company": "KB Home",
+        "mkt_cap": 3850000000,
+        "change_pct": 16.65,
+        "catalyst": "KBH rallied after Q2 results for the quarter ended May 31 delivered revenue of $1.11B, topping the $1.09B consensus, with EPS of $0.43 just shy of the $0.45 estimate. Backlog grew 26% sequentially to 4,526 homes and the company returned over $90M to shareholders via buybacks and dividends. The move was amplified by a housing bill clearing the House 358-32, which lifted the entire homebuilder group.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "homebuilders",
+        "group_summary": "KBH and PHM led a homebuilder rally, the sector's best day in a year, after a housing bill passed the House 358-32 to speed development and cut regulatory costs. KBH added its own Q2 beat on revenue with backlog up 26% sequentially, while PHM moved purely on the policy tailwind. The rally was policy-driven, not rate-driven, with mortgage rates still near 6.58%."
+      },
+      {
+        "ticker": "MMYT",
+        "company": "MakeMyTrip Limited",
+        "mkt_cap": 4900000000,
+        "change_pct": 10.97,
+        "catalyst": "MMYT climbed after Macquarie upgraded the stock to Outperform from Neutral on improved risk-reward following the recent pullback. The upgrade came on the heels of a $3.1B capital raise, zero-coupon convertibles plus a primary share issuance, used to buy back most of Trip.com's stake and cut its ownership from 45.3% to roughly 17% and its board seats from five to two. The deal removes a long-standing overhang and trims geopolitical risk tied to the China-linked shareholder.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NVCT",
+        "company": "Nuvectis Pharma, Inc.",
+        "mkt_cap": 649350000,
+        "change_pct": 39.49,
+        "catalyst": "NVCT surged after signing a June 22 license agreement with Haisco Pharmaceutical for ex-China rights to two clinical-stage candidates: NXP100, an oral Complement Factor B inhibitor, and NXP200, a brain-penetrant BRAF inhibitor for BRAF-mutated cancers. H.C. Wainwright raised its price target to $39 from $13 while keeping a Buy, citing the expanded pipeline. The deal roughly triples the clinical portfolio and pushed the stock to a 52-week high.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "PHM",
+        "company": "PulteGroup, Inc.",
+        "mkt_cap": 25850000000,
+        "change_pct": 7.24,
+        "catalyst": "PHM rose with the broader homebuilder group on the best sector day in a year, driven by a housing bill that passed the House 358-32 after clearing the Senate. The measures aim to shorten development timelines, cut regulatory costs, and lift construction nationwide. There was no PHM-specific announcement, and the move was policy-driven rather than rate-driven, with mortgage rates still near 6.58% after a hawkish Fed.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "homebuilders",
+        "group_summary": "KBH and PHM led a homebuilder rally, the sector's best day in a year, after a housing bill passed the House 358-32 to speed development and cut regulatory costs. KBH added its own Q2 beat on revenue with backlog up 26% sequentially, while PHM moved purely on the policy tailwind. The rally was policy-driven, not rate-driven, with mortgage rates still near 6.58%."
+      },
+      {
+        "ticker": "RUN",
+        "company": "Sunrun Inc.",
+        "mkt_cap": 3440000000,
+        "change_pct": 12.57,
+        "catalyst": "RUN jumped after announcing a partnership with Tesla and Renew Home to supply more than 16 gigawatts of flexible energy capacity to utilities and hyperscaler data centers. The collaboration aims to build the nation's largest virtual power plant, aggregating home batteries from RUN and Tesla with over 8 million smart thermostats from Renew Home. The deal reinforces RUN's pivot toward grid services and high-margin storage, where its attachment rate now exceeds 70%.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SNDA",
+        "company": "Sonida Senior Living, Inc.",
+        "mkt_cap": 1830000000,
+        "change_pct": 5.29,
+        "catalyst": "SNDA edged higher with no single same-day catalyst identified. The move extends momentum from its completed $1.8B merger with CNL Healthcare Properties, which created a roughly $3B pure-play senior housing owner-operator, alongside strong same-store results with occupancy up 220bps and community NOI up 14% year over year. A recent $613M shelf registration and the first COO appointment round out the recent news flow.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VKTX",
+        "company": "Viking Therapeutics, Inc.",
+        "mkt_cap": 4400000000,
+        "change_pct": 8.79,
+        "catalyst": "VKTX extended a multi-day advance as obesity-pipeline momentum built around lead candidate VK2735, now in Phase 3 with maintenance-dosing data expected in Q3 2026. The company also began a Phase 1 trial of VK3019, a dual amylin and calcitonin receptor agonist for weight loss. Fresh Street coverage added fuel, with Truist starting at Buy and an $83 target and Lake Street at Buy with $89, alongside optimism over upcoming Medicare coverage of anti-obesity drugs.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
         "group_id": null,
         "group_summary": null
       }

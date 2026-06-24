@@ -1,32 +1,6 @@
 {
-  "fetched_at": "2026-06-23T22:29:30.316804+00:00",
+  "fetched_at": "2026-06-24T22:03:50.180136+00:00",
   "us": [
-    {
-      "ticker": "EROC",
-      "company": "ERock, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-06-10",
-      "price_usd": 21.5,
-      "price_range": "20.00 - 23.00",
-      "status": "Closed",
-      "shares": 27906977,
-      "deal_amount_usd": 600000005.5,
-      "mkt_cap_usd": 4717101720.0,
-      "ipo_close": 18.75
-    },
-    {
-      "ticker": "PBLS",
-      "company": "Parabilis Medicines, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-10",
-      "price_usd": 20.0,
-      "price_range": "17.00 - 19.00",
-      "status": "Closed",
-      "shares": 38525000,
-      "deal_amount_usd": 670000000.0,
-      "mkt_cap_usd": 2362915600.0,
-      "ipo_close": 31.6
-    },
     {
       "ticker": "FRBT",
       "company": "Forbright, Inc.",
@@ -54,19 +28,6 @@
       "ipo_close": 160.95
     },
     {
-      "ticker": "FISN",
-      "company": "Deep Fission, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-18",
-      "price_usd": 16.0,
-      "price_range": "16.00 - 18.00",
-      "status": "Closed",
-      "shares": 2500000,
-      "deal_amount_usd": 40000000.0,
-      "mkt_cap_usd": 965332976.0,
-      "ipo_close": 14.56
-    },
-    {
       "ticker": "FCBM",
       "company": "First Carolina Financial Services, Inc.",
       "exchange": "NYSE",
@@ -78,6 +39,32 @@
       "deal_amount_usd": 68750000.0,
       "mkt_cap_usd": 378071900.0,
       "ipo_close": 12.6
+    },
+    {
+      "ticker": "KARD",
+      "company": "Kardigan, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-18",
+      "price_usd": 16.0,
+      "price_range": "14.00 - 16.00",
+      "status": "Closed",
+      "shares": 28750000,
+      "deal_amount_usd": 400000000.0,
+      "mkt_cap_usd": 1429425936.0,
+      "ipo_close": 22.0
+    },
+    {
+      "ticker": "FISN",
+      "company": "Deep Fission, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-18",
+      "price_usd": 16.0,
+      "price_range": "16.00 - 18.00",
+      "status": "Closed",
+      "shares": 2500000,
+      "deal_amount_usd": 40000000.0,
+      "mkt_cap_usd": 965332976.0,
+      "ipo_close": 14.56
     },
     {
       "ticker": "DPC",
@@ -113,6 +100,18 @@
       "status": "Pending",
       "shares": 19512196,
       "deal_amount_usd": 429268312.0,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "CUX",
+      "company": "CopperTech Metals Inc.",
+      "exchange": "NYSE",
+      "date": "2026-07-01",
+      "price_usd": null,
+      "price_range": "16.00 - 18.00",
+      "status": "Pending",
+      "shares": 23529412,
+      "deal_amount_usd": 423529416.0,
       "mkt_cap_usd": null
     }
   ],
@@ -163,7 +162,7 @@
       "status": "Closed",
       "shares": 13600000,
       "deal_amount_usd": 127701647.840016,
-      "mkt_cap_usd": 767875068.5355
+      "mkt_cap_usd": 767826103.0303
     },
     {
       "ticker": "6067",
@@ -175,43 +174,31 @@
       "status": "Closed",
       "shares": 149523500,
       "deal_amount_usd": 154130858.07712853,
-      "mkt_cap_usd": 1712566012.516
+      "mkt_cap_usd": 1712456806.392
     },
     {
       "ticker": "6106",
       "company": "Shanghai Seer Intelligent Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-24",
-      "price_usd": 12.965881612,
+      "price_usd": 12.95769618768,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 10497300,
-      "deal_amount_usd": 129300957.7875088,
-      "mkt_cap_usd": 1431881750.5376
+      "deal_amount_usd": 129219329.46202002,
+      "mkt_cap_usd": 1431790442.9589
     },
     {
       "ticker": "2335",
       "company": "Shaanxi Micot Pharmaceutical Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-24",
-      "price_usd": 2.3213101366,
+      "price_usd": 2.32116211236,
       "price_range": "2.32 - 2.68",
       "status": "Closed",
       "shares": 58054400,
-      "deal_amount_usd": 121285669.06518608,
-      "mkt_cap_usd": 770072237.1742
-    },
-    {
-      "ticker": "2272",
-      "company": "Keytop Parking Inc. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 5.04766888269,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 10112280,
-      "deal_amount_usd": 45939036.408117,
-      "mkt_cap_usd": 510101421.4646
+      "deal_amount_usd": 121277934.97627518,
+      "mkt_cap_usd": 770023131.561
     },
     {
       "ticker": "9630",
@@ -235,7 +222,31 @@
       "status": "Pending",
       "shares": 14834600,
       "deal_amount_usd": 109197005.2835255,
-      "mkt_cap_usd": 1340141225.1942
+      "mkt_cap_usd": 1340055767.6833
+    },
+    {
+      "ticker": "2272",
+      "company": "Keytop Parking Inc. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 5.04766888269,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10112280,
+      "deal_amount_usd": 45939036.408117,
+      "mkt_cap_usd": 510068893.5511
+    },
+    {
+      "ticker": "1191",
+      "company": "Crealights Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-29",
+      "price_usd": 14.5495386252,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 13431500,
+      "deal_amount_usd": 175879915.2399364,
+      "mkt_cap_usd": 1301864981.5475
     },
     {
       "ticker": "2672",
@@ -246,7 +257,7 @@
       "price_range": "1.99 - 2.59",
       "status": "Pending",
       "shares": 33344400,
-      "deal_amount_usd": 77623430.41589168,
+      "deal_amount_usd": 77618480.56058697,
       "mkt_cap_usd": null
     },
     {
@@ -259,31 +270,7 @@
       "status": "Pending",
       "shares": 56755400,
       "deal_amount_usd": 147333666.85373065,
-      "mkt_cap_usd": 979626092.8638
-    },
-    {
-      "ticker": "1191",
-      "company": "Crealights Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-29",
-      "price_usd": 14.5495386252,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 13431500,
-      "deal_amount_usd": 175879915.2399364,
-      "mkt_cap_usd": 1301948003.5706
-    },
-    {
-      "ticker": "3952",
-      "company": "Zhejiang Laifual Drive Co. Ltd.",
-      "exchange": "HKEX",
-      "date": "2026-06-30",
-      "price_usd": null,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 13441900,
-      "deal_amount_usd": 139255382.3401827,
-      "mkt_cap_usd": null
+      "mkt_cap_usd": 979563624.5165
     },
     {
       "ticker": "2697",
@@ -306,7 +293,19 @@
       "price_range": "1.19 - 1.67",
       "status": "Pending",
       "shares": 36234500,
-      "deal_amount_usd": 54321164.72156558,
+      "deal_amount_usd": 54317700.79445087,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "3952",
+      "company": "Zhejiang Laifual Drive Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": null,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 13441900,
+      "deal_amount_usd": 139246502.36683843,
       "mkt_cap_usd": null
     },
     {
@@ -319,7 +318,7 @@
       "status": "Pending",
       "shares": 16332900,
       "deal_amount_usd": 141624582.8993518,
-      "mkt_cap_usd": 1048525942.2658
+      "mkt_cap_usd": 1048459080.3445
     }
   ]
 }
