@@ -1616,7 +1616,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <button class="cot-sel lead-snap-btn" id="lead-snap-btn" onclick="leadCalToggle('snap')"></button>
         <div class="lead-cal" id="lead-cal-snap"></div>
       </div>
-      <span style="font-size:var(--fs-xs);color:var(--text-muted)">Auto-categorized: index vs 25d EMA &plusmn;1 ATR &middot; new 2-month high = Leading</span>
       <span class="notes-status" id="lead-status"></span>
     </div>
   </div>
@@ -1626,19 +1625,21 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <div class="card" style="margin-bottom:0">
       <div class="card-header">Leadership Breadth</div>
       <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">% of placed industries in Bounced Off + Leading, per snapshot &middot; click a bar to view that day</div>
-      <div id="lead-chart-pct" style="position:relative"></div>
-      <div class="chart-tt" id="lead-tt-pct"></div>
+      <div class="cw">
+        <div id="lead-chart-pct"></div>
+        <div class="chart-tt" id="lead-tt-pct"></div>
+      </div>
     </div>
     <div class="card" style="margin-bottom:0">
       <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
         <span>Rotations</span>
-        <label style="display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--text-muted);font-weight:400;cursor:pointer;text-transform:none;letter-spacing:0">
-          <input type="checkbox" id="lead-net-chk" onchange="leadToggleNet(this.checked)" style="cursor:pointer">Net
-        </label>
+        <button class="itab" id="lead-net-btn" onclick="leadToggleNet(this)" title="Aggregate moved-up minus moved-down into one net bar">Net</button>
       </div>
-      <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">Industries that moved up vs down a category vs the prior snapshot &middot; toggle <strong>Net</strong> to show up &minus; down</div>
-      <div id="lead-chart-move" style="position:relative"></div>
-      <div class="chart-tt" id="lead-tt-move"></div>
+      <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">Industries that moved up vs down a category vs the prior snapshot</div>
+      <div class="cw">
+        <div id="lead-chart-move"></div>
+        <div class="chart-tt" id="lead-tt-move"></div>
+      </div>
     </div>
   </div>
 
@@ -3969,7 +3970,12 @@ function leadChartMove(){
       : it=>`<strong>${it.d}</strong><br><span style="color:#3fb950">&#9650; ${it.up} moved up</span><br><span style="color:#f85149">&#9660; ${it.down} moved down</span>`
   });
 }
-function leadToggleNet(on){_leadNetMode=!!on;leadChartMove();}
+function leadToggleNet(btn){
+  _leadNetMode=!_leadNetMode;
+  const b=(btn&&btn.classList)?btn:document.getElementById('lead-net-btn');
+  if(b)b.classList.toggle('active',_leadNetMode);
+  leadChartMove();
+}
 function leadDrawBars(wrapId,ttId,items,opts){
   const wrap=document.getElementById(wrapId);if(!wrap)return;
   const vH=opts.vH||300,VW=wrap.clientWidth||FALLBACK_VW;
