@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T22:03:50.180136+00:00",
+  "updated_at": "2026-06-25T22:08:18.344702+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -4970,6 +4970,212 @@
         "continuation": true,
         "group_id": null,
         "group_summary": null
+      }
+    ],
+    "2026-06-25": [
+      {
+        "ticker": "AMAT",
+        "company": "Applied Materials, Inc.",
+        "mkt_cap": 530360000000,
+        "change_pct": 13.42,
+        "catalyst": "AMAT unveiled six new chipmaking systems on June 25 aimed at accelerating DRAM and advanced-packaging production for AI chips, directly targeting the memory bottleneck in AI compute. The lineup spans an enhanced Centura Prime Epi tool, Opta Quad CMP, Nokota VMax 2 ECD and new eBeam metrology, expanding AMAT's reach into HBM and DRAM. The launch landed a day after Micron's blowout results, and recent analyst upgrades (BofA to $720, Wells Fargo to Buy at $715) amplified the AI-memory capex narrative.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-memory-semis",
+        "group_summary": "AMAT, MKSI and KXIAY were lifted on June 25 by Micron's record fiscal-Q3 report, which signaled a powerful AI-driven memory upcycle. AMAT also launched new AI chipmaking systems for DRAM and advanced packaging, while MKSI and KXIAY rode the equipment and NAND read-through."
+      },
+      {
+        "ticker": "ASND",
+        "company": "Ascendis Pharma A/S",
+        "mkt_cap": 16320000000,
+        "change_pct": 9.9,
+        "catalyst": "ASND rose on June 25 amid renewed takeover speculation as the day's broad pharma and biotech M&A momentum, led by Merck KGaA's buyout of TECH, put recurring acquisition targets back in focus. ASND has repeatedly been cited as a potential target, with Novo Nordisk and Roche named as possible acquirers, on top of standing strength in SKYTROFA and YORVIPATH. No ASND-specific deal, approval or analyst action was confirmed for the session.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-ma",
+        "group_summary": "Merck KGaA's $11.3B all-cash buyout of TECH at $73.00 per share, announced June 25, put life-sciences and biotech M&A in focus and sparked takeout speculation across the complex. BLFS rallied as a tools peer, while ASND, NRIX and ZBIO rose on who's-next speculation rather than company-specific news."
+      },
+      {
+        "ticker": "AYI",
+        "company": "Acuity Inc.",
+        "mkt_cap": 10890000000,
+        "change_pct": 17.64,
+        "catalyst": "AYI reported fiscal Q3 2026 results on June 25, posting adjusted EPS of $5.31 against roughly $5.12 expected on revenue of about $1.2B. The beat was led by the Acuity Intelligent Spaces segment, where revenue rose 14.9% year over year to $303.5M. Management framed data centers as an emerging predictable growth engine, reinforcing the upside.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "BLFS",
+        "company": "BioLife Solutions, Inc.",
+        "mkt_cap": 1340000000,
+        "change_pct": 7.55,
+        "catalyst": "BLFS rallied on June 25 as a life-sciences-tools peer to TECH, whose $11.3B buyout by Merck KGaA put the bioproduction and cell-and-gene-therapy tools complex in takeout focus. There was no BLFS-specific catalyst that day. Supportive context includes its reaffirmed 2026 guidance of 17-20% revenue growth and a refocus on high-margin biopreservation media.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-ma",
+        "group_summary": "Merck KGaA's $11.3B all-cash buyout of TECH at $73.00 per share, announced June 25, put life-sciences and biotech M&A in focus and sparked takeout speculation across the complex. BLFS rallied as a tools peer, while ASND, NRIX and ZBIO rose on who's-next speculation rather than company-specific news."
+      },
+      {
+        "ticker": "BLZE",
+        "company": "Backblaze, Inc.",
+        "mkt_cap": 805200000,
+        "change_pct": 12.11,
+        "catalyst": "BLZE disclosed a roughly $335M, five-year multi-exabyte data-storage agreement with CoreWeave to support AI storage demand, spanning B2 cloud object storage plus a managed solution deployed in CoreWeave data centers. The deal triggered analyst upgrades - Craig Hallum raised BLZE to Buy with a $16 target from $6.50, and William Blair called the agreement game-changing.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "CDNL",
+        "company": "Cardinal Infrastructure Group Inc.",
+        "mkt_cap": 3940000000,
+        "change_pct": 12.24,
+        "catalyst": "CDNL priced an upsized public offering of 4.0M Class A shares at $73.00, raising about $292M gross, with the deal enlarged from 3.75M shares - read by the market as strong institutional demand rather than dilution. After an initial premarket dip, shares reversed to a 52-week high near $89, aided by record Q1 results and an Oppenheimer price-target raise to $80.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "DFTX",
+        "company": "Definium Therapeutics, Inc.",
+        "mkt_cap": 4890000000,
+        "change_pct": 6.31,
+        "catalyst": "DFTX extended its post-data rally on June 25 as its $700M follow-on offering (20.6M shares at $34.00) closed, removing the financing overhang from the prior week's Phase 3 Emerge win for DT120 ODT in major depressive disorder. Analyst price-target raises (RBC to $57, Oppenheimer to $60) continued to support sentiment. No new company catalyst was dated June 25 - the move reflects the offering close plus continued repricing on the Phase 3 readout.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "KXIAY",
+        "company": "Kioxia Holdings Corporation",
+        "mkt_cap": 312830000000,
+        "change_pct": 16.73,
+        "catalyst": "KXIAY surged on the read-through from Micron's record fiscal-Q3 report (revenue up roughly 346% year over year with guidance well above consensus), pointing to a powerful AI-driven NAND and memory upcycle that benefits Kioxia. Tokyo-listed shares rose alongside a broad Japan and Korea memory rally. There was no Kioxia-specific announcement on June 25 - the move was a peer-earnings and sector reaction.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-memory-semis",
+        "group_summary": "AMAT, MKSI and KXIAY were lifted on June 25 by Micron's record fiscal-Q3 report, which signaled a powerful AI-driven memory upcycle. AMAT also launched new AI chipmaking systems for DRAM and advanced packaging, while MKSI and KXIAY rode the equipment and NAND read-through."
+      },
+      {
+        "ticker": "KYMR",
+        "company": "Kymera Therapeutics, Inc.",
+        "mkt_cap": 9580000000,
+        "change_pct": 16.61,
+        "catalyst": "KYMR extended a multi-week rally on a cluster of pipeline catalysts: an expedited timeline for topline KT-621 (oral STAT6 degrader) atopic dermatitis Phase 1b data plus clean Phase 1 results, a $20M Sanofi milestone on first dosing of KT-485, and strong KT-579 preclinical lupus data. The June 25 advance also coincided with a degrader and biotech M&A sector rally. No single same-day catalyst drove the move - it reflects accumulating pipeline momentum.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "LIND",
+        "company": "Lindblad Expeditions Holdings, Inc.",
+        "mkt_cap": 1880000000,
+        "change_pct": 6,
+        "catalyst": "LIND rose on June 25 in a travel and cruise sector rally rather than on a company-specific catalyst. WTI crude broke below $70 and the 10-year Treasury yield fell under 4.5%, cutting fuel costs for cruise operators and supporting discretionary demand, with RCL rising alongside. A recent Stifel target raise to $27 provided a supportive backdrop but was not a June 25 event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MEI",
+        "company": "Methode Electronics, Inc.",
+        "mkt_cap": 637750000,
+        "change_pct": 37.51,
+        "catalyst": "MEI jumped after reporting fiscal Q4 and full-year results after the June 24 close, with quarterly net sales of $298.1M, up 15.9% year over year and well above estimates. The bigger driver was FY2027 guidance of $1.025-$1.075B in net sales, far above the roughly $941M consensus. An adjusted loss of $0.30 per share missed, but investors focused on the revenue beat and strong top-line outlook.",
+        "catalyst_type": "guidance",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MKSI",
+        "company": "MKS Inc.",
+        "mkt_cap": 27710000000,
+        "change_pct": 7.52,
+        "catalyst": "MKSI rode the semiconductor-equipment rally on June 25 sparked by Micron's record fiscal-Q3 results, which signaled a strong AI-driven memory upcycle, with no MKSI-specific announcement that day. The most concrete recent stock-level catalyst was BofA raising its MKSI price target to $500 from $380 on June 23. The stock had already set an all-time high the prior week on AI semiconductor capex momentum.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "ai-memory-semis",
+        "group_summary": "AMAT, MKSI and KXIAY were lifted on June 25 by Micron's record fiscal-Q3 report, which signaled a powerful AI-driven memory upcycle. AMAT also launched new AI chipmaking systems for DRAM and advanced packaging, while MKSI and KXIAY rode the equipment and NAND read-through."
+      },
+      {
+        "ticker": "NESR",
+        "company": "National Energy Services Reunited Corp.",
+        "mkt_cap": 2720000000,
+        "change_pct": 7.19,
+        "catalyst": "NESR gained on June 25 on continued momentum from its June 21 signing of three technology licensing agreements with Saudi Aramco, granting rights to commercialize Aramco-developed chemicals, water-management and production-enhancement technologies across its footprint. Notably the move came against a falling oil tape (crude below $70, SLB down about 3%), marking it as idiosyncratic strength rather than a sector move. Bullish UBS analyst support added a backdrop.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "NRIX",
+        "company": "Nurix Therapeutics, Inc.",
+        "mkt_cap": 2320000000,
+        "change_pct": 16.37,
+        "catalyst": "NRIX rose on June 25 tracking the protein-degrader and biotech-M&A sector rally led by Merck KGaA's buyout of TECH, rather than a company-specific event. Its transformational catalyst was earlier - the June 8 global Roche collaboration on bexobrutideg (oral BTK degrader) worth up to $2.3B, which had already lifted shares roughly 40%. Bullish analyst targets continued to support sentiment.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-ma",
+        "group_summary": "Merck KGaA's $11.3B all-cash buyout of TECH at $73.00 per share, announced June 25, put life-sciences and biotech M&A in focus and sparked takeout speculation across the complex. BLFS rallied as a tools peer, while ASND, NRIX and ZBIO rose on who's-next speculation rather than company-specific news."
+      },
+      {
+        "ticker": "TECH",
+        "company": "Bio-Techne Corporation",
+        "mkt_cap": 11070000000,
+        "change_pct": 20.08,
+        "catalyst": "TECH agreed to be acquired by Germany's Merck KGaA for $73.00 per share in cash, an enterprise value of roughly $11.3B and about a 36% premium, in a deal announced premarket June 25. The board unanimously approved the transaction, Merck KGaA's largest life-science deal since Sigma-Aldrich in 2014, targeting TECH's reagents, analytical instruments and spatial-biology platforms. It is expected to close in late 2026 or early 2027 pending regulatory and shareholder approval.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-ma",
+        "group_summary": "Merck KGaA's $11.3B all-cash buyout of TECH at $73.00 per share, announced June 25, put life-sciences and biotech M&A in focus and sparked takeout speculation across the complex. BLFS rallied as a tools peer, while ASND, NRIX and ZBIO rose on who's-next speculation rather than company-specific news."
+      },
+      {
+        "ticker": "WGO",
+        "company": "Winnebago Industries, Inc.",
+        "mkt_cap": 872850000,
+        "change_pct": 13.24,
+        "catalyst": "WGO reported fiscal Q3 2026 results before the open on June 25, with adjusted EPS of $0.66 missing the $0.76 consensus on revenue of $698.7M, a double miss, and cut FY2026 guidance to $1.65-$2.00 adjusted EPS and $2.65-$2.75B revenue. Despite the miss and guidance cut, shares rallied about 13%, a sell-the-rumor, buy-the-news reaction after a depressed pre-print setup. The earnings event itself was the driver.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ZBIO",
+        "company": "Zenas BioPharma, Inc.",
+        "mkt_cap": 1560000000,
+        "change_pct": 13.17,
+        "catalyst": "ZBIO rose on June 25 on the M&A-driven immunology biotech rally sparked by Merck KGaA's buyout of TECH, with no ZBIO-specific announcement that day. Its recent fundamental catalysts were earlier - positive Phase 3 INDIGO obexelimab data presented June 4 and an FDA BLA submission on May 28. The move reflects sector takeout speculation across mid-cap immunology names.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-ma",
+        "group_summary": "Merck KGaA's $11.3B all-cash buyout of TECH at $73.00 per share, announced June 25, put life-sciences and biotech M&A in focus and sparked takeout speculation across the complex. BLFS rallied as a tools peer, while ASND, NRIX and ZBIO rose on who's-next speculation rather than company-specific news."
       }
     ]
   }

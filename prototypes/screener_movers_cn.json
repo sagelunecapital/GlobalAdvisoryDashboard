@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T22:03:50.180136+00:00",
+  "updated_at": "2026-06-25T22:08:18.344702+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -1295,6 +1295,68 @@
         "continuation": false,
         "group_id": "china-cdmo",
         "group_summary": "2359 and 6821 rose with a broad Hong Kong CDMO and CRO rally driven by surging GLP-1 peptide manufacturing demand. Both are tier-1 peptide CDMOs scaling ton-level capacity for obesity and diabetes drugs, and peers GenScript and WuXi XDC gained on the same session. The move reflects a sector-wide peptide theme rather than company-specific news."
+      }
+    ],
+    "2026-06-25": [
+      {
+        "ticker": "2268",
+        "company": "WuXi XDC Cayman Inc.",
+        "mkt_cap": 67060000000,
+        "change_pct": 6.86,
+        "catalyst": "No stock-specific announcement dated June 25 was found for 2268. The stock trades in the China innovative-drug and CDMO complex and moved on sector and momentum flow rather than a confirmed company event. Recent filings - a June 16 manufacturing services agreement at a unit and a routine AGM convened for June 26 - are not June 25 catalysts.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2701",
+        "company": "Nsing Technologies Inc.",
+        "mkt_cap": 7850000000,
+        "change_pct": 11.32,
+        "catalyst": "No June 25 company filing was found for 2701. The move reads as domestic-compute and AI-chip thematic momentum rather than a same-day catalyst. Recent stock-moving items predate the session, including an April 23 launch of an 800G/1.6T optical-module control chip and May reports of its MCUs entering humanoid and industrial-robot supply chains.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "3200",
+        "company": "Shenzhen Han's CNC Technology Co., Ltd.",
+        "mkt_cap": 185010000000,
+        "change_pct": 6.08,
+        "catalyst": "No June 25 filing was found for 3200. The stock has risen repeatedly through 2026 on the AI-PCB capex theme - high-layer and HDI boards and IC substrates for AI servers - with management guiding AI-related revenue toward roughly 60% in 2026. The June 25 move fits this ongoing equipment narrative rather than a specific same-day event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "6082",
+        "company": "Shanghai Biren Technology Co., Ltd.",
+        "mkt_cap": 146330000000,
+        "change_pct": 13.33,
+        "catalyst": "6082 surged near the close on June 25, up roughly 17% intraday to a post-IPO high around HK$70.75 on heavy turnover, with no placement, contract or filing dated that day to explain it. Coverage attributes the strength to the domestic AI-compute self-sufficiency theme and continued momentum in the homegrown-GPU trade. Treat as thematic and momentum-driven rather than a confirmed company event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "9611",
+        "company": "Shanghai Longcheer Technology Co., Ltd.",
+        "mkt_cap": 18310000000,
+        "change_pct": 9.34,
+        "catalyst": "No June 25 filing was found for 9611. The stock sits in the AI and smart-glasses supply-chain theme on strong 2026 shipment forecasts, and the move appears thematic rather than a same-day catalyst. The most recent dated stock-mover was an April 27 gain on two acquisitions to expand North-American client resources.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }
