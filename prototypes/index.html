@@ -1616,11 +1616,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <button class="cot-sel lead-snap-btn" id="lead-snap-btn" onclick="leadCalToggle('snap')"></button>
         <div class="lead-cal" id="lead-cal-snap"></div>
       </div>
-      <div class="lead-cal-wrap" id="lead-day-wrap">
-        <button class="btn" id="lead-newday-btn" onclick="leadCalToggle('day')"><span class="msi" style="font-size:15px">add</span>Day</button>
-        <div class="lead-cal" id="lead-cal-day"></div>
-      </div>
-      <button class="btn" id="lead-auto-btn" onclick="leadAutoFill()" title="Auto-categorize this day from the model (index vs 25d EMA &plusmn;1 ATR, new 2-month high) — overwrites current placements"><span class="msi" style="font-size:15px">auto_fix_high</span>Auto-categorize</button>
+      <span style="font-size:var(--fs-xs);color:var(--text-muted)">Auto-categorized: index vs 25d EMA &plusmn;1 ATR &middot; new 2-month high = Leading</span>
       <span class="notes-status" id="lead-status"></span>
     </div>
   </div>
@@ -1634,8 +1630,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
       <div class="chart-tt" id="lead-tt-pct"></div>
     </div>
     <div class="card" style="margin-bottom:0">
-      <div class="card-header">Net Rotation</div>
-      <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">Industries that moved up vs down a category vs the prior snapshot</div>
+      <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span>Rotations</span>
+        <label style="display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--text-muted);font-weight:400;cursor:pointer;text-transform:none;letter-spacing:0">
+          <input type="checkbox" id="lead-net-chk" onchange="leadToggleNet(this.checked)" style="cursor:pointer">Net
+        </label>
+      </div>
+      <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">Industries that moved up vs down a category vs the prior snapshot &middot; toggle <strong>Net</strong> to show up &minus; down</div>
       <div id="lead-chart-move" style="position:relative"></div>
       <div class="chart-tt" id="lead-tt-move"></div>
     </div>
@@ -3024,22 +3025,16 @@ window.addEventListener('DOMContentLoaded',()=>{
       const r=JSON.parse(localStorage.getItem('gaai-research')||'null');
       _applyNotes({tactics:t,sectors:s||[],research:r||[]});
     });
-  // Load leadership snapshots — KV store first, localStorage fallback (latest wins)
+  // Leadership snapshots are fully algorithmic — load only the precomputed
+  // leadership.json. Manual editing/persistence is retired; purge any stale
+  // manual data cached locally from the previous editable version.
+  try{localStorage.removeItem('gaai-leadership');}catch(_){}
   const _leadMaybeInit=()=>{if(window._activeMain==='leadership'||_leadInit)leadInit();};
-  fetch('/api/save-leadership?_='+Date.now())
-    .then(r=>r.ok?r.json():Promise.reject())
-    .then(srv=>{
-      const loc=JSON.parse(localStorage.getItem('gaai-leadership')||'null');
-      if(loc&&loc.snapshots&&(!srv||!srv.snapshots||(loc.saved_at||'')>(srv.saved_at||''))){leadData=loc;}
-      else if(srv&&srv.snapshots){leadData=srv;}
-      if(!leadData.snapshots)leadData.snapshots={};
-      _mergeLeadHistory().then(_leadMaybeInit);
-    })
-    .catch(()=>{
-      const loc=JSON.parse(localStorage.getItem('gaai-leadership')||'null');
-      if(loc&&loc.snapshots)leadData=loc;
-      if(!leadData.snapshots)leadData.snapshots={};
-      _mergeLeadHistory().then(_leadMaybeInit);
+  fetch('leadership.json?_='+Date.now())
+    .then(r=>r.ok?r.json():null).catch(()=>null)
+    .then(h=>{
+      leadData={snapshots:(h&&h.snapshots)||{},saved_at:(h&&h.generated)||''};
+      _leadMaybeInit();
     });
 
   // Auto-resize tactics textarea on open
@@ -3471,8 +3466,11 @@ const LEAD_CATS=[
   {key:'leading',    label:'Leading',     color:'#3fb950'}
 ];
 const LEAD_RANK={lostGround:0,foundGround:1,bouncedOff:2,leading:3};
+// Leadership is fully algorithmic (auto-categorized from sector_rotation data).
+// Manual editing is disabled — the board reads only the precomputed snapshots.
+const LEAD_EDIT=false;
 let leadData={snapshots:{},saved_at:''};
-let leadDate=null,leadCanEdit=false,gaRole='guest',_leadSaveTimer=null,_leadInit=false,_leadOpenDd=null,_leadDdQuery='',_leadDragName=null,_leadDocBound=false,_leadTkMap=null;
+let leadDate=null,leadCanEdit=false,gaRole='guest',_leadSaveTimer=null,_leadInit=false,_leadOpenDd=null,_leadDdQuery='',_leadDragName=null,_leadDocBound=false,_leadTkMap=null,_leadNetMode=false;
 function gaLoggedIn(){return gaRole==='editor'||gaRole==='viewer';}
 // Headers for write endpoints — carries the editor credentials the server checks.
 function gaEditHeaders(){
@@ -3535,27 +3533,6 @@ function leadMetricStr(nm){
     return (d>=0?'+':'')+d.toFixed(2)+' ATR vs 25d EMA';
   }
   return'';
-}
-// Editor action: (re)generate the current day's placements from the model.
-function leadAutoFill(){
-  if(!leadCanEdit||!srData)return;
-  leadData.snapshots[leadDate]=leadAutoCats();
-  leadSave();renderLeadCols();leadCharts();
-}
-// Merge the precomputed daily algorithmic history (leadership.json) as a BASELINE:
-// a date is filled from the model only if no manual snapshot already exists for it,
-// so saved manual edits always win. Provides the breadth/net-rotation chart history.
-function _mergeLeadHistory(){
-  return fetch('leadership.json?_='+Date.now())
-    .then(r=>r.ok?r.json():null).catch(()=>null)
-    .then(h=>{
-      if(h&&h.snapshots){
-        if(!leadData.snapshots)leadData.snapshots={};
-        Object.keys(h.snapshots).forEach(d=>{
-          if(!leadData.snapshots[d])leadData.snapshots[d]=h.snapshots[d];
-        });
-      }
-    });
 }
 
 function leadInit(){
@@ -3781,7 +3758,7 @@ function renderLeadCols(){
   const wrap=document.getElementById('lead-cols');if(!wrap)return;
   if(!srData){wrap.innerHTML='<div class="lead-empty" style="grid-column:1/-1">Loading industries…</div>';return;}
   const snap=leadSnap();
-  const ed=leadCanEdit;
+  const ed=leadCanEdit&&LEAD_EDIT;
   wrap.innerHTML=LEAD_CATS.map(c=>{
     const items=snap[c.key];
     const empty=ed?'Drag here or use + below':'Empty';
@@ -3807,7 +3784,7 @@ function leadChipHtml(nm,cat){
   const met=leadMetricStr(nm);
   const ttl=_att(met?nm+' — '+met:nm);
   const main=`<div class="lead-chip-main" onmouseenter="leadFvShow(event,'${e}')" onmouseleave="leadFvHide(event)" onclick="leadFvOpen(event,'${e}')"><div class="lead-chip-name">${nm}</div>${tkHtml}</div>`;
-  if(!leadCanEdit){
+  if(!(leadCanEdit&&LEAD_EDIT)){
     return `<div class="lead-chip ro" title="${ttl}">${main}</div>`;
   }
   return `<div class="lead-chip" draggable="true" ondragstart="leadDragStart(event,'${e}')" ondragend="leadDragEnd(event)" title="${ttl}">
@@ -3982,13 +3959,17 @@ function leadChartMove(){
     LEAD_CATS.forEach(c=>cur[c.key].forEach(n=>{
       if(n in prevCat){const dd=LEAD_RANK[c.key]-prevCat[n];if(dd>0)up++;else if(dd<0)down++;}
     }));
-    items.push({label:ds[i].slice(5),d:ds[i],up,down});
+    items.push({label:ds[i].slice(5),d:ds[i],up,down,net:up-down});
   }
+  const net=_leadNetMode;
   leadDrawBars('lead-chart-move','lead-tt-move',items,{
-    mirror:true,vH:300,upColor:'#3fb950',downColor:'#f85149',fmtAxis:v=>Math.abs(Math.round(v)),
-    tip:it=>`<strong>${it.d}</strong><br><span style="color:#3fb950">&#9650; ${it.up} moved up</span><br><span style="color:#f85149">&#9660; ${it.down} moved down</span>`
+    mirror:true,net,vH:300,upColor:'#3fb950',downColor:'#f85149',fmtAxis:v=>Math.abs(Math.round(v)),
+    tip: net
+      ? it=>`<strong>${it.d}</strong><br>net ${it.net>=0?'+':''}${it.net}<br><span style="color:var(--text-muted)">${it.up} up &middot; ${it.down} down</span>`
+      : it=>`<strong>${it.d}</strong><br><span style="color:#3fb950">&#9650; ${it.up} moved up</span><br><span style="color:#f85149">&#9660; ${it.down} moved down</span>`
   });
 }
+function leadToggleNet(on){_leadNetMode=!!on;leadChartMove();}
 function leadDrawBars(wrapId,ttId,items,opts){
   const wrap=document.getElementById(wrapId);if(!wrap)return;
   const vH=opts.vH||300,VW=wrap.clientWidth||FALLBACK_VW;
@@ -3996,7 +3977,9 @@ function leadDrawBars(wrapId,ttId,items,opts){
   const pad={t:10,r:14,b:46,l:40},iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
   if(!items.length){wrap.innerHTML='<div class="lead-empty" style="height:'+(vH-40)+'px;display:flex;align-items:center;justify-content:center;border:none">No snapshots yet</div>';return;}
   const mirror=!!opts.mirror;
-  let vMax=(opts.max!=null)?opts.max:Math.max(1,...items.map(it=>Math.max(it.up||0,it.down||0)));
+  let vMax=(opts.max!=null)?opts.max
+    :opts.net?Math.max(1,...items.map(it=>Math.abs(it.net||0)))
+    :Math.max(1,...items.map(it=>Math.max(it.up||0,it.down||0)));
   const vMin=mirror?-vMax:0,vR=(vMax-vMin)||1;
   const yOf=v=>pad.t+(1-(v-vMin)/vR)*iH,y0=yOf(0);
   const ns='http://www.w3.org/2000/svg',svg=mkSvg(ns,VW,vH);
@@ -4026,7 +4009,8 @@ function leadDrawBars(wrapId,ttId,items,opts){
       hl.setAttribute('x',x-slot/2);hl.setAttribute('width',slot);hl.setAttribute('y',pad.t);hl.setAttribute('height',iH);
       hl.setAttribute('fill','rgba(255,184,0,0.10)');hl.setAttribute('pointer-events','none');svg.appendChild(hl);
     }
-    const segs=mirror?[{v:it.up||0,col:opts.upColor||'#3fb950',up:true},{v:it.down||0,col:opts.downColor||'#f85149',up:false}]
+    const segs=opts.net?[{v:Math.abs(it.net||0),col:(it.net||0)>=0?(opts.upColor||'#3fb950'):(opts.downColor||'#f85149'),up:(it.net||0)>=0}]
+                     :mirror?[{v:it.up||0,col:opts.upColor||'#3fb950',up:true},{v:it.down||0,col:opts.downColor||'#f85149',up:false}]
                      :[{v:it.up||0,col:(opts.colorOf?opts.colorOf(it):'#3fb950'),up:true}];
     segs.forEach(sg=>{
       if(sg.v<=0)return;
