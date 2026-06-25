@@ -1620,6 +1620,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
         <button class="btn" id="lead-newday-btn" onclick="leadCalToggle('day')"><span class="msi" style="font-size:15px">add</span>Day</button>
         <div class="lead-cal" id="lead-cal-day"></div>
       </div>
+      <button class="btn" id="lead-auto-btn" onclick="leadAutoFill()" title="Auto-categorize this day from the model (index vs 25d EMA &plusmn;1 ATR, new 2-month high) — overwrites current placements"><span class="msi" style="font-size:15px">auto_fix_high</span>Auto-categorize</button>
       <span class="notes-status" id="lead-status"></span>
     </div>
   </div>
@@ -3024,6 +3025,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       _applyNotes({tactics:t,sectors:s||[],research:r||[]});
     });
   // Load leadership snapshots — KV store first, localStorage fallback (latest wins)
+  const _leadMaybeInit=()=>{if(window._activeMain==='leadership'||_leadInit)leadInit();};
   fetch('/api/save-leadership?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject())
     .then(srv=>{
@@ -3031,12 +3033,13 @@ window.addEventListener('DOMContentLoaded',()=>{
       if(loc&&loc.snapshots&&(!srv||!srv.snapshots||(loc.saved_at||'')>(srv.saved_at||''))){leadData=loc;}
       else if(srv&&srv.snapshots){leadData=srv;}
       if(!leadData.snapshots)leadData.snapshots={};
-      if(window._activeMain==='leadership'||_leadInit)leadInit();
+      _mergeLeadHistory().then(_leadMaybeInit);
     })
     .catch(()=>{
       const loc=JSON.parse(localStorage.getItem('gaai-leadership')||'null');
       if(loc&&loc.snapshots)leadData=loc;
-      if(window._activeMain==='leadership'||_leadInit)leadInit();
+      if(!leadData.snapshots)leadData.snapshots={};
+      _mergeLeadHistory().then(_leadMaybeInit);
     });
 
   // Auto-resize tactics textarea on open
@@ -3508,10 +3511,64 @@ function leadSnap(date){
   return s;
 }
 function leadCatOf(name,snap){for(const c of LEAD_CATS){if(snap[c.key].includes(name))return c.key;}return null;}
+// Build a snapshot from the model's lead_cat (US groups) in sector_rotation.json.
+// lead_cat values (lostGround/foundGround/bouncedOff/leading) map 1:1 to columns.
+function leadAutoCats(){
+  const snap=_emptySnap();
+  if(srData&&srData.groups){
+    srData.groups.forEach(g=>{
+      if(g.country!=='United States'||!g.lead_cat||!snap[g.lead_cat])return;
+      snap[g.lead_cat].push(_srName(g.group_id));
+    });
+    LEAD_CATS.forEach(c=>snap[c.key].sort((a,b)=>a.localeCompare(b)));
+  }
+  return snap;
+}
+// Short rationale string for a group, shown in the chip tooltip.
+function leadMetricStr(nm){
+  if(!srData||!srData.groups)return'';
+  const g=srData.groups.find(x=>x.country==='United States'&&_srName(x.group_id)===nm);
+  if(!g)return'';
+  if(g.lead_cat==='leading')return'new 2-month high';
+  if(g.ema_25_idx&&g.atr_14){
+    const d=(g.index_level-g.ema_25_idx)/g.atr_14;
+    return (d>=0?'+':'')+d.toFixed(2)+' ATR vs 25d EMA';
+  }
+  return'';
+}
+// Editor action: (re)generate the current day's placements from the model.
+function leadAutoFill(){
+  if(!leadCanEdit||!srData)return;
+  leadData.snapshots[leadDate]=leadAutoCats();
+  leadSave();renderLeadCols();leadCharts();
+}
+// Merge the precomputed daily algorithmic history (leadership.json) as a BASELINE:
+// a date is filled from the model only if no manual snapshot already exists for it,
+// so saved manual edits always win. Provides the breadth/net-rotation chart history.
+function _mergeLeadHistory(){
+  return fetch('leadership.json?_='+Date.now())
+    .then(r=>r.ok?r.json():null).catch(()=>null)
+    .then(h=>{
+      if(h&&h.snapshots){
+        if(!leadData.snapshots)leadData.snapshots={};
+        Object.keys(h.snapshots).forEach(d=>{
+          if(!leadData.snapshots[d])leadData.snapshots[d]=h.snapshots[d];
+        });
+      }
+    });
+}
 
 function leadInit(){
   if(!leadData.snapshots)leadData.snapshots={};
-  if(!leadDate){const ds=leadDates();leadDate=ds.length?ds[ds.length-1]:_leadToday();}
+  // Auto-categorize the current data date from the model when it has no snapshot
+  // yet. A manually-saved snapshot for that date is preserved and takes precedence.
+  if(srData&&srData.updated&&!leadData.snapshots[srData.updated]){
+    leadData.snapshots[srData.updated]=leadAutoCats();
+  }
+  if(!leadDate){
+    const ds=leadDates();
+    leadDate=(srData&&srData.updated)?srData.updated:(ds.length?ds[ds.length-1]:_leadToday());
+  }
   gaInitRole();
   window._redraw.leadership=()=>{try{leadCharts();}catch(e){}};
   if(!_leadDocBound){
@@ -3539,6 +3596,8 @@ function leadRenderAuth(){
   }
   const nd=document.getElementById('lead-newday-btn');
   if(nd){nd.disabled=!leadCanEdit;nd.style.display=leadCanEdit?'':'none';}
+  const ab=document.getElementById('lead-auto-btn');
+  if(ab){ab.disabled=!leadCanEdit;ab.style.display=leadCanEdit?'':'none';}
   // Journal "Edit" button — editor only (viewers see the journal read-only)
   const tb=document.getElementById('tact-btn');
   if(tb) tb.style.display=leadCanEdit?'':'none';
@@ -3745,11 +3804,13 @@ function leadChipHtml(nm,cat){
   const rank=LEAD_RANK[cat.key],e=_esc(nm);
   const tk=leadTickers(nm);
   const tkHtml=tk?`<div class="lead-chip-tk">${tk}</div>`:'';
+  const met=leadMetricStr(nm);
+  const ttl=_att(met?nm+' — '+met:nm);
   const main=`<div class="lead-chip-main" onmouseenter="leadFvShow(event,'${e}')" onmouseleave="leadFvHide(event)" onclick="leadFvOpen(event,'${e}')"><div class="lead-chip-name">${nm}</div>${tkHtml}</div>`;
   if(!leadCanEdit){
-    return `<div class="lead-chip ro" title="${_att(nm)}">${main}</div>`;
+    return `<div class="lead-chip ro" title="${ttl}">${main}</div>`;
   }
-  return `<div class="lead-chip" draggable="true" ondragstart="leadDragStart(event,'${e}')" ondragend="leadDragEnd(event)" title="${_att(nm)}">
+  return `<div class="lead-chip" draggable="true" ondragstart="leadDragStart(event,'${e}')" ondragend="leadDragEnd(event)" title="${ttl}">
     <button class="lead-chip-btn" ${rank===0?'disabled':''} onclick="leadMove('${e}',-1)" title="Move down a category">&#9664;</button>
     ${main}
     <button class="lead-chip-btn" ${rank===3?'disabled':''} onclick="leadMove('${e}',1)" title="Move up a category">&#9654;</button>

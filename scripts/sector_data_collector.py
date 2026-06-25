@@ -87,6 +87,8 @@ def init_db(conn: sqlite3.Connection) -> None:
             ticker    TEXT,
             date      TEXT,
             close     REAL,
+            high      REAL,
+            low       REAL,
             volume    INTEGER,
             ema_20    REAL,
             ema_200   REAL,
@@ -109,7 +111,10 @@ def init_db(conn: sqlite3.Connection) -> None:
             index_level  REAL,
             rs           REAL,
             ema_21_rs    REAL,
+            ema_25_idx   REAL,
             rs_minus_ema REAL,
+            atr_14       REAL,
+            atr_14_pct   REAL,
             PRIMARY KEY (group_id, date)
         );
 
@@ -167,6 +172,20 @@ def migrate_schema_to_ema(conn: sqlite3.Connection) -> None:
     )
     conn.commit()
     print(f"  [migration] Done — {len(df):,} rows updated.")
+
+
+def migrate_add_columns(conn: sqlite3.Connection) -> None:
+    """Idempotent: add high/low to `daily` and atr_14/atr_14_pct to `group_rs`
+    on databases created before these columns existed."""
+    daily_cols = {r[1] for r in conn.execute("PRAGMA table_info(daily)")}
+    for col in ("high", "low"):
+        if col not in daily_cols:
+            conn.execute(f"ALTER TABLE daily ADD COLUMN {col} REAL")
+    grp_cols = {r[1] for r in conn.execute("PRAGMA table_info(group_rs)")}
+    for col in ("atr_14", "atr_14_pct", "ema_25_idx"):
+        if col not in grp_cols:
+            conn.execute(f"ALTER TABLE group_rs ADD COLUMN {col} REAL")
+    conn.commit()
 
 
 def upsert_industry(conn: sqlite3.Connection, df: pd.DataFrame) -> None:
@@ -263,8 +282,9 @@ def fetch(yf_tickers: list, start: str, end: str) -> pd.DataFrame:
             t = batch[0]
             if "Close" not in raw.columns:
                 continue
-            tmp = raw[["Close", "Volume"]].copy()
-            tmp.columns = pd.MultiIndex.from_tuples([(t, "Close"), (t, "Volume")])
+            keep = [c for c in ("Close", "High", "Low", "Volume") if c in raw.columns]
+            tmp = raw[keep].copy()
+            tmp.columns = pd.MultiIndex.from_tuples([(t, c) for c in keep])
             raw = tmp
         # Multi-ticker downloads (and newer yfinance single-ticker) already
         # return (ticker, metric) MultiIndex — no conversion needed
@@ -275,19 +295,27 @@ def fetch(yf_tickers: list, start: str, end: str) -> pd.DataFrame:
                 volume = raw[t]["Volume"].reindex(close.index).fillna(0)
             except (KeyError, TypeError):
                 continue
+            try:
+                high = raw[t]["High"].reindex(close.index)
+                low  = raw[t]["Low"].reindex(close.index)
+            except (KeyError, TypeError):
+                high = low = pd.Series(index=close.index, dtype=float)
             for dt, c in close.items():
                 vol = int(volume.get(dt, 0))
                 if vol == 0:
                     continue  # holiday echo — yfinance repeats prior close with 0 volume
+                h = high.get(dt); l = low.get(dt)
                 rows.append({
                     "YF_Ticker": t,
                     "Date":      pd.Timestamp(dt).date(),
                     "Close":     round(float(c), 4),
+                    "High":      round(float(h), 4) if pd.notna(h) else None,
+                    "Low":       round(float(l), 4) if pd.notna(l) else None,
                     "Volume":    vol,
                 })
 
     df = pd.DataFrame(rows) if rows else pd.DataFrame(
-        columns=["YF_Ticker", "Date", "Close", "Volume"]
+        columns=["YF_Ticker", "Date", "Close", "High", "Low", "Volume"]
     )
 
     # KQ fallback: retry .KS tickers with no data using the KOSDAQ exchange suffix.
@@ -314,8 +342,9 @@ def fetch(yf_tickers: list, start: str, end: str) -> pd.DataFrame:
                 t = kq_batch[0]
                 if "Close" not in raw.columns:
                     continue
-                tmp = raw[["Close", "Volume"]].copy()
-                tmp.columns = pd.MultiIndex.from_tuples([(t, "Close"), (t, "Volume")])
+                keep = [c for c in ("Close", "High", "Low", "Volume") if c in raw.columns]
+                tmp = raw[keep].copy()
+                tmp.columns = pd.MultiIndex.from_tuples([(t, c) for c in keep])
                 raw = tmp
             for kq_t in kq_batch:
                 try:
@@ -323,15 +352,23 @@ def fetch(yf_tickers: list, start: str, end: str) -> pd.DataFrame:
                     volume = raw[kq_t]["Volume"].reindex(close.index).fillna(0)
                 except (KeyError, TypeError):
                     continue
+                try:
+                    high = raw[kq_t]["High"].reindex(close.index)
+                    low  = raw[kq_t]["Low"].reindex(close.index)
+                except (KeyError, TypeError):
+                    high = low = pd.Series(index=close.index, dtype=float)
                 ks_t = kq_map[kq_t]
                 for dt, c in close.items():
                     vol = int(volume.get(dt, 0))
                     if vol == 0:
                         continue
+                    h = high.get(dt); l = low.get(dt)
                     kq_rows.append({
                         "YF_Ticker": ks_t,
                         "Date":      pd.Timestamp(dt).date(),
                         "Close":     round(float(c), 4),
+                        "High":      round(float(h), 4) if pd.notna(h) else None,
+                        "Low":       round(float(l), 4) if pd.notna(l) else None,
                         "Volume":    vol,
                     })
         if kq_rows:
@@ -377,13 +414,17 @@ def compute_and_insert(conn: sqlite3.Connection,
             c    = float(row["Close"])
             e20  = c if e20  is None else round(c * K20  + e20  * (1 - K20),  4)
             e200 = c if e200 is None else round(c * K200 + e200 * (1 - K200), 4)
+            h    = row.get("High"); l = row.get("Low")
             rows.append((
                 yf_ticker, row.get("Ticker", ""), str(row["Date"]),
-                round(c, 4), int(row["Volume"]), e20, e200,
+                round(c, 4),
+                round(float(h), 4) if pd.notna(h) else None,
+                round(float(l), 4) if pd.notna(l) else None,
+                int(row["Volume"]), e20, e200,
             ))
 
     conn.executemany(
-        "INSERT OR IGNORE INTO daily (yf_ticker,ticker,date,close,volume,ema_20,ema_200) VALUES (?,?,?,?,?,?,?)",
+        "INSERT OR IGNORE INTO daily (yf_ticker,ticker,date,close,high,low,volume,ema_20,ema_200) VALUES (?,?,?,?,?,?,?,?,?)",
         rows,
     )
     conn.commit()
@@ -440,16 +481,21 @@ def group_display_name(country: str, industry: str, sub_industry: str) -> str:
 def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> None:
     """
     Compute market-cap weighted group performance indices, RS vs SPX,
-    21D EMA of RS, and the RS - EMA signal (populated only when RS > EMA).
+    21D / 25D EMA of RS, the RS - EMA signal (populated only when RS > EMA),
+    and a 14D ATR per group.
 
     Both the group index and SPX are normalised to 100 at the earliest
     common date so RS ~ 1.0 = equal performance, > 1.0 = outperforming.
     Weights rebalance on the first trading day of each calendar month.
     Full recompute on every call (EMA of RS requires full history).
+
+    Group ATR: per-ticker Wilder 14D ATR% (true range from real H/L/C),
+    cap-weighted within the group (same monthly weights as the index) to give
+    atr_14_pct; atr_14 (points) = atr_14_pct/100 * group index_level.
     """
     print("  Loading price history for RS computation...")
 
-    raw = pd.read_sql("SELECT yf_ticker, date, close FROM daily ORDER BY date", conn)
+    raw = pd.read_sql("SELECT yf_ticker, date, close, high, low FROM daily ORDER BY date", conn)
     raw["date"] = pd.to_datetime(raw["date"]).dt.date
 
     # SPX series
@@ -459,10 +505,24 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
         return
 
     # Wide price table (all tickers except SPX)
-    price_wide = (
-        raw[raw["yf_ticker"] != SPX_TICKER]
-        .pivot(index="date", columns="yf_ticker", values="close")
-    )
+    non_spx = raw[raw["yf_ticker"] != SPX_TICKER]
+    price_wide = non_spx.pivot(index="date", columns="yf_ticker", values="close")
+
+    # ── Per-ticker 14D ATR% (Wilder), wide table aligned to price_wide ───────
+    # True range from real H/L/C; ATR% = ATR / close * 100 so it is comparable
+    # across tickers and can be cap-weighted into a single group figure.
+    ATR_N      = 14
+    high_wide  = non_spx.pivot(index="date", columns="yf_ticker", values="high").reindex_like(price_wide)
+    low_wide   = non_spx.pivot(index="date", columns="yf_ticker", values="low").reindex_like(price_wide)
+    prev_close = price_wide.shift(1)
+    true_range = pd.concat([
+        (high_wide - low_wide),
+        (high_wide - prev_close).abs(),
+        (low_wide - prev_close).abs(),
+    ]).groupby(level=0).max().reindex(price_wide.index)
+    # Wilder smoothing == EMA with alpha = 1/N (adjust=False)
+    atr_wide     = true_range.ewm(alpha=1 / ATR_N, adjust=False).mean()
+    atr_pct_wide = (atr_wide / price_wide * 100)
 
     # Align SPX to trading dates
     spx_aligned = spx_raw.reindex(price_wide.index).ffill()
@@ -545,11 +605,23 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
         if rs.empty:
             continue
 
-        # ── 21D EMA of RS ────────────────────────────────────────────────
+        # ── 21D EMA of RS (rotation signal) ──────────────────────────────
         ema21 = rs.ewm(span=21, adjust=False).mean()
+
+        # ── 25D EMA of the INDEX level (Leadership band reference) ───────
+        ema25_idx = idx_level.ewm(span=25, adjust=False).mean()
 
         # ── Signal: RS - EMA only when RS > EMA ──────────────────────────
         signal = (rs - ema21).where(rs > ema21)
+
+        # ── Group ATR: cap-weighted mean of constituent ATR% ─────────────
+        # Re-normalise weights over tickers with a valid ATR% each day so
+        # early/missing constituents don't drag the group figure to NaN.
+        atr_pct_g  = atr_pct_wide[tickers]
+        valid_w    = weight_df.where(atr_pct_g.notna())
+        denom      = valid_w.sum(axis=1)
+        atr_pct_grp = (atr_pct_g * valid_w).sum(axis=1, min_count=1) / denom.where(denom > 0)
+        atr_pts_grp = atr_pct_grp / 100 * idx_level   # express in group index points
 
         # Only emit rows for dates where this group's tickers actually traded.
         # Holiday echoes are already excluded from `daily` (volume=0 purge),
@@ -559,21 +631,27 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
         for dt in rs.index:
             if dt not in real_dates:
                 continue
-            sig = signal.get(dt)
+            sig   = signal.get(dt)
+            a_pct = atr_pct_grp.get(dt)
+            a_pts = atr_pts_grp.get(dt)
             all_rows.append((
                 gid,
                 str(dt),
                 round(float(idx_level[dt]), 4),
                 round(float(rs[dt]),        6),
                 round(float(ema21[dt]),     6),
+                round(float(ema25_idx[dt]), 4),
                 round(float(sig), 6) if pd.notna(sig) else None,
+                round(float(a_pts), 4) if pd.notna(a_pts) else None,
+                round(float(a_pct), 4) if pd.notna(a_pct) else None,
             ))
 
     conn.execute("DELETE FROM group_rs")
     conn.executemany(
         """INSERT INTO group_rs
-           (group_id, date, index_level, rs, ema_21_rs, rs_minus_ema)
-           VALUES (?,?,?,?,?,?)""",
+           (group_id, date, index_level, rs, ema_21_rs, ema_25_idx, rs_minus_ema,
+            atr_14, atr_14_pct)
+           VALUES (?,?,?,?,?,?,?,?,?)""",
         all_rows,
     )
     conn.commit()
@@ -738,6 +816,7 @@ def main() -> None:
     conn = get_conn()
     init_db(conn)
     migrate_schema_to_ema(conn)
+    migrate_add_columns(conn)
     upsert_industry(conn, industry)
 
     # Remove holiday echoes already in the DB (volume=0 means no real trading)
