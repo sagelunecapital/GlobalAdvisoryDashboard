@@ -4226,9 +4226,14 @@ function applyRegimeData(d){
   if(sinceEl) sinceEl.textContent=d.regime_since?'Since '+d.regime_since:'';
 
   const buySig=d.buying_signal||'—';
-  const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)','Choppy':'#fb923c'};
+  const sigColors={'Early Buying':'var(--green)','50/50 Buying':'var(--amber)','Late Buying':'var(--red)'};
   const sigVal=document.getElementById('regime-signal-val');
-  if(sigVal){sigVal.textContent=buySig;sigVal.style.color=d.buying_signal?sigColors[d.buying_signal]:'var(--text-muted)';}
+  if(sigVal){
+    const baseColor=d.buying_signal?sigColors[d.buying_signal]:'var(--text-muted)';
+    let html=d.buying_signal?`<span style="color:${baseColor}">${d.buying_signal}</span>`:'';
+    if(d.choppy) html+=(d.buying_signal?', ':'')+'<span style="color:#fb923c">Choppy</span>';
+    sigVal.innerHTML=html||'<span style="color:var(--text-muted)">—</span>';
+  }
 
   const SUMMARIES={
     'Uptrend|Convergence|Late Buying':              'Trend is intact and participation is broad — strong alignment across all signals. Execution timing is extended; prioritise quality over adding size.',
@@ -4253,8 +4258,10 @@ function applyRegimeData(d){
   const summaryEl=document.getElementById('regime-summary');
   if(summaryEl){
     const key=mktSig+'|'+breadthSig+'|'+buySig;
-    summaryEl.textContent=SUMMARIES[key]||'';
-    summaryEl.style.display=SUMMARIES[key]?'':'none';
+    let txt=SUMMARIES[key]||'';
+    if(d.choppy&&txt) txt+=' Breadth is choppy — new 52-week lows are building beneath net-positive breadth, so keep size conservative.';
+    summaryEl.textContent=txt;
+    summaryEl.style.display=txt?'':'none';
   }
   document.getElementById('regime-date').textContent='Source: Bloomberg  |  updated '+regimeAsOf;
   if(d.market_narrative&&d.long_bias) updateHighEdge(d.market_narrative,d.long_bias);

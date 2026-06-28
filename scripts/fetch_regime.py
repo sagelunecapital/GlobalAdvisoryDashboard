@@ -245,9 +245,9 @@ def main():
 
     buying_signal = classify_buying_signal(nhnl_momentum, ncfd_label)
     # Choppy: net breadth positive (NHNL > 0) but new lows building underneath (LOWQ elevated).
-    if nhnl_today > 0 and nhnl_lows:
-        buying_signal = 'Choppy'
-    print(f"  Buying signal: {buying_signal}", flush=True)
+    # Additive flag — kept separate so the base Early/50-50/Late signal is preserved.
+    choppy = nhnl_today > 0 and nhnl_lows
+    print(f"  Buying signal: {buying_signal}{' + Choppy' if choppy else ''}", flush=True)
 
     output = {
         "updated":        datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -267,6 +267,7 @@ def main():
         "nhnl_highs":     nhnl_highs,
         "nhnl_lows":      nhnl_lows,
         "buying_signal":  buying_signal,
+        "choppy":         choppy,
         "regime_class":   regime_class,
         "regime_div":     regime_div,
         "regime_since":   regime_since,
