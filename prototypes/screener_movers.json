@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T12:01:25.451643+00:00",
+  "updated_at": "2026-06-29T22:25:41.084216+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -6222,6 +6222,164 @@
         "continuation": false,
         "group_id": "biotech-rally",
         "group_summary": "A broad biotech and healthcare rally on June 26 lifted the group as investors rotated out of mega-cap tech and chips into the sector, with lower oil and easing rate-hike fears adding support. Most of these names (DMRA, CBIO, VOR, RARE, XENE, INCY and peers) moved with the XBI complex rather than on company-specific news, while VCEL, BBNX and CSTL rode the same healthcare rotation."
+      }
+    ],
+    "2026-06-29": [
+      {
+        "ticker": "ALGM",
+        "company": "Allegro MicroSystems, Inc.",
+        "mkt_cap": 12370000000,
+        "change_pct": 14.65,
+        "catalyst": "ALGM extended a multi-week AI and data-center semis momentum run to fresh 52-week highs, with no discrete same-day company catalyst on June 29. The move tracks broad strength in analog and power-semi names levered to data-center demand. The nearest stock-specific item was a TD Cowen price-target raise to $70 on June 22, not a Monday trigger.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "BCAX",
+        "company": "Bicara Therapeutics Inc.",
+        "mkt_cap": 1930000000,
+        "change_pct": 9.19,
+        "catalyst": "BCAX rose on continued clinical-stage oncology momentum with no discrete June 29 catalyst. The most recent company news was 3-year survival data for ficerafusp alfa presented at ASCO in mid-May. Analyst reiterations from Citizens and Cantor are backdrop rather than a same-day driver.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "FBIN",
+        "company": "Fortune Brands Innovations, Inc.",
+        "mkt_cap": 6080000000,
+        "change_pct": 10.9,
+        "catalyst": "FBIN jumped after Reuters reported on June 29 the appointment of former AZEK chief Jesse Singh as CEO, effective that Monday. The hire follows activist Ed Garden's board involvement, and Wolfe called it a clear positive. A leadership upgrade at the building-products name drove the re-rating.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "FCEL",
+        "company": "FuelCell Energy, Inc.",
+        "mkt_cap": 2009999999.9999998,
+        "change_pct": 24.17,
+        "catalyst": "FCEL surged on a stack of same-day June 29 catalysts led by its first US data-center power order, a 380MW supply deal with Fit Energy USA worth roughly $90M in near-term revenue. The US Export-Import Bank also approved $49M in export financing for fuel-cell blocks bound for South Korea. B. Riley upgraded the stock to Buy with a Street-high $32 target. Bloom Energy fell the same session, marking the move as idiosyncratic.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "IRDM",
+        "company": "Iridium Communications Inc",
+        "mkt_cap": 5770000000,
+        "change_pct": 25.44,
+        "catalyst": "IRDM soared after Rocket Lab announced on June 29 an agreement to acquire the company for roughly $8B, with holders receiving $54 per share ($27 in cash plus Rocket Lab stock). The premium takeout repriced the stock toward the deal value. Oppenheimer separately lifted its target to $60.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "JACK",
+        "company": "Jack In The Box Inc.",
+        "mkt_cap": 316620000,
+        "change_pct": 20.2,
+        "catalyst": "JACK extended a meme and short-squeeze rally with no discrete company news on June 29, trading 3.6M shares versus a 792K average. The move is sympathy to the WEN meme rally and reflects JACK's heavily shorted, low-float profile. The post-Del Taco turnaround narrative is backdrop, not a same-day trigger.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "OC",
+        "company": "Owens Corning Inc",
+        "mkt_cap": 12570000000,
+        "change_pct": 15.26,
+        "catalyst": "OC jumped after the Wall Street Journal reported on June 29 that Carlisle (CSL) had made unsolicited takeover approaches, fueling takeover-premium speculation. OC had not substantively engaged with the offers as of the report. The bid speculation drove the building-products name's re-rating.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "OUST",
+        "company": "Ouster, Inc.",
+        "mkt_cap": 3440000000,
+        "change_pct": 28.68,
+        "catalyst": "OUST rallied on accumulating Rev8 lidar commercialization wins through late June, including new deals with AIM Intelligent Machines and FieldAI and a manufacturing scale-up toward 100k+ units per year. Its BlueCity Rev8 lidar is now fully deployed across 40+ NJ DOT highway sites ahead of the 2026 World Cup, with 700+ sites installed or contracted. The catalyst is a cumulative product and contract news flow rather than a single release.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "PTRN",
+        "company": "Pattern Group Inc. - Series",
+        "mkt_cap": 4320000000,
+        "change_pct": 6.77,
+        "catalyst": "PTRN recovered on its record Q1 results, with revenue of $774M beating the $730M estimate and non-GAAP EPS of $0.16 topping $0.10, alongside FY2026 revenue guidance raised to $3.29-3.33B (+32-33% YoY). The Monday gain also reflects a bounce off the mid-June secondary offering that priced 8M Series A shares at $19.00. No discrete June 29 catalyst was confirmed.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "QDEL",
+        "company": "QuidelOrtho Corporation",
+        "mkt_cap": 1240000000,
+        "change_pct": 32.2,
+        "catalyst": "QDEL surged on reports dated June 29 that it is exploring a roughly $1.5B sale of its point-of-care testing business and weighing private-equity bids, a move aimed at cutting its ~$3.8B debt load from the 2022 Ortho Clinical Diagnostics acquisition. Jefferies framed a potential sale as a net positive. A prior earnings beat of $0.80 versus $0.51 added support.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "SLS",
+        "company": "SELLAS Life Sciences Group, Inc.",
+        "mkt_cap": 2870000000,
+        "change_pct": 24.7,
+        "catalyst": "SLS ran on heavy speculative volume of roughly 32.5M shares versus a 9M average with no stock-specific catalyst on June 29. It traded as a high-beta biotech runner on sentiment and its cash position rather than news. The move is part of a low-float speculative-biotech rotation alongside VOR.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "speculative-biotech",
+        "group_summary": "SLS and VOR ran on heavy speculative volume on June 29 with no stock-specific catalysts, reflecting a low-float, cash-rich clinical-stage biotech rotation. Both traded on sentiment rather than dated company news."
+      },
+      {
+        "ticker": "VOR",
+        "company": "Vor Biopharma Inc.",
+        "mkt_cap": 1010000000,
+        "change_pct": 15.53,
+        "catalyst": "VOR rose on the same low-float speculative-biotech rotation as SLS, with no discrete June 29 company catalyst. Its last hard news was June 8 NMPA approvals for telitacicept, three weeks prior and not the same-day driver. Heavy volume and a thin float drove the move.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": "speculative-biotech",
+        "group_summary": "SLS and VOR ran on heavy speculative volume on June 29 with no stock-specific catalysts, reflecting a low-float, cash-rich clinical-stage biotech rotation. Both traded on sentiment rather than dated company news."
+      },
+      {
+        "ticker": "VSAT",
+        "company": "ViaSat, Inc.",
+        "mkt_cap": 10470000000,
+        "change_pct": 23.79,
+        "catalyst": "VSAT soared after the US Space Force selected it for the first maneuverable GEO satellite under the Protected Tactical SATCOM-Global program, part of a $437.7M award for two anti-jam PTS-G satellites. Analyst targets were lifted sharply in the same window, including Deutsche Bank to $97 and Needham to $90. The government contract win was the primary driver.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
       }
     ]
   }

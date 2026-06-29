@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-28T12:01:25.451643+00:00",
+  "updated_at": "2026-06-29T22:25:41.084216+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -1359,6 +1359,68 @@
         "group_summary": null
       }
     ],
-    "2026-06-26": []
+    "2026-06-26": [],
+    "2026-06-29": [
+      {
+        "ticker": "2162",
+        "company": "Keymed Biosciences, Inc.",
+        "mkt_cap": 17980000000,
+        "change_pct": 14.13,
+        "catalyst": "2162 amplified a sector-wide rally after China's National Healthcare Security Administration published its 2026 innovative-drug catalogue preliminary-review pass list on June 29, sending the Hang Seng innovative-drug index up roughly 8% intraday. As a high-beta innovative-drug and licensing name, 2162 outpaced the sector. No stock-specific same-day catalyst was identified.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "cn-innovative-drug-rally",
+        "group_summary": "2162, 2315, 2359 and 6821 rallied on June 29 after China's NHSA published its 2026 innovative-drug catalogue preliminary-review pass list, lifting the Hang Seng innovative-drug index roughly 8% intraday. 2162, 2359 and 6821 moved as sector beta, while 2315 added a same-day Shanghai IP Court non-infringement win over Harbour BioMed."
+      },
+      {
+        "ticker": "2315",
+        "company": "Biocytogen Pharmaceuticals (Beijing) Co. Ltd. Class",
+        "mkt_cap": 16540000000,
+        "change_pct": 15.75,
+        "catalyst": "2315 jumped after the Shanghai IP Court ruled on June 29 that its RenNano platform did not infringe a Harbour BioMed patent, ordering the plaintiff to bear all litigation costs in the long-running dispute. The ruling coincided with a sector-wide innovative-drug rally on the NHSA 2026 drug-catalogue list. The IP win was the stock-specific driver.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "cn-innovative-drug-rally",
+        "group_summary": "2162, 2315, 2359 and 6821 rallied on June 29 after China's NHSA published its 2026 innovative-drug catalogue preliminary-review pass list, lifting the Hang Seng innovative-drug index roughly 8% intraday. 2162, 2359 and 6821 moved as sector beta, while 2315 added a same-day Shanghai IP Court non-infringement win over Harbour BioMed."
+      },
+      {
+        "ticker": "2359",
+        "company": "WuXi AppTec Co., Ltd. Class",
+        "mkt_cap": 402150000000,
+        "change_pct": 5.16,
+        "catalyst": "2359 rose as CXO-sector beta on the innovative-drug rally sparked by the NHSA 2026 drug-catalogue preliminary-review list on June 29. The move extends a late-June CXO valuation-repair run. No stock-specific same-day catalyst was found; next earnings are due August 3.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "cn-innovative-drug-rally",
+        "group_summary": "2162, 2315, 2359 and 6821 rallied on June 29 after China's NHSA published its 2026 innovative-drug catalogue preliminary-review pass list, lifting the Hang Seng innovative-drug index roughly 8% intraday. 2162, 2359 and 6821 moved as sector beta, while 2315 added a same-day Shanghai IP Court non-infringement win over Harbour BioMed."
+      },
+      {
+        "ticker": "6821",
+        "company": "Asymchem Laboratories (Tianjin) Co., Ltd. Class",
+        "mkt_cap": 61440000000,
+        "change_pct": 11.14,
+        "catalyst": "6821 gained as CDMO-sector beta on the NHSA 2026 drug-catalogue list that drove the June 29 innovative-drug and CXO rally. June corporate-action items such as a dividend register closure were administrative, not the same-day driver. No stock-specific catalyst was identified.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "cn-innovative-drug-rally",
+        "group_summary": "2162, 2315, 2359 and 6821 rallied on June 29 after China's NHSA published its 2026 innovative-drug catalogue preliminary-review pass list, lifting the Hang Seng innovative-drug index roughly 8% intraday. 2162, 2359 and 6821 moved as sector beta, while 2315 added a same-day Shanghai IP Court non-infringement win over Harbour BioMed."
+      },
+      {
+        "ticker": "9999",
+        "company": "Netease Inc",
+        "mkt_cap": 598520000000,
+        "change_pct": 6.35,
+        "catalyst": "9999 advanced as its conversion to a dual-primary Hong Kong listing took effect June 30, removing the S suffix and making it Stock Connect Southbound eligible, which is expected to draw mainland inflows. A new game, Sea of Remnants, with a PC launch set for July 9 added a tailwind. The listing change was unrelated to the biotech rally.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ]
   }
 }
