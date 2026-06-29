@@ -1623,7 +1623,13 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <!-- Charts (click a Leadership Breadth bar to load that day's categories) -->
   <div class="lead-charts-row">
     <div class="card" style="margin-bottom:0">
-      <div class="card-header">Leadership Breadth</div>
+      <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span>Leadership Breadth</span>
+        <div style="display:flex;gap:14px;font-size:var(--fs-xs);color:var(--text-muted);font-weight:500">
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#3b82f6;display:inline-block"></span>Defensive</span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#3fb950;display:inline-block"></span>Growth</span>
+        </div>
+      </div>
       <div style="font-size:var(--fs-xs);color:var(--text-muted);margin:-8px 0 12px">% of placed industries in Bounced Off + Leading, per snapshot &middot; click a bar to view that day</div>
       <div class="cw">
         <div id="lead-chart-pct"></div>
@@ -3467,6 +3473,10 @@ const LEAD_CATS=[
   {key:'leading',    label:'Leading',     color:'#3fb950'}
 ];
 const LEAD_RANK={lostGround:0,foundGround:1,bouncedOff:2,leading:3};
+// Industry -> [sector, macro] map for the Leadership Breadth All/Def/Gro filter.
+// macro: 'def' (Defensive) | 'gro' (Growth). Covers all 138 US industries.
+const LEAD_MACRO={"AI":["Technology","gro"],"Advertising":["Technology","gro"],"Airplanes":["Industrials","def"],"Apparel":["Consumer Discretionary","gro"],"Automation":["Industrials","def"],"Automobile":["Automotive","gro"],"Banks":["Financials","def"],"Battery":["Automotive","gro"],"Big Tech":["Technology","gro"],"Biotech":["Healthcare","def"],"Brokers":["Financials","def"],"Business Processes":["Technology","gro"],"Cabling":["Technology","gro"],"Cement":["Materials","gro"],"Chemicals: Fertilizers":["Materials","gro"],"Chemicals: Industrial Gas":["Materials","gro"],"Chemicals: Paint & Coatings":["Materials","gro"],"Chemicals: Petro/Plastics":["Materials","gro"],"Chemicals: Specialty":["Materials","gro"],"Coal":["Energy","def"],"Credit Fintech":["Technology","gro"],"Credit Rating":["Financials","def"],"Crypto Data Center":["Technology","gro"],"Cybersecurity":["Technology","gro"],"Data Center":["Technology","gro"],"Data Manipulation":["Technology","gro"],"Defense":["Industrials","def"],"Drones":["Technology","gro"],"EV Chargers":["Automotive","gro"],"Ecommerce":["Consumer Discretionary","gro"],"Education":["Consumer Discretionary","gro"],"Electric":["Utilities","def"],"Electronics/ADAS":["Automotive","gro"],"Exchanges":["Financials","def"],"Filtration/Component":["Industrials","def"],"Fintech":["Technology","gro"],"Full-System Suppliers":["Automotive","gro"],"Gambling":["Consumer Discretionary","gro"],"Gaming":["Consumer Discretionary","gro"],"Gas":["Utilities","def"],"Gas: Exporters":["Energy","def"],"Grid: Boilers & Heat Exchange":["Industrials","def"],"Grid: Construction/Engineering":["Industrials","def"],"Grid: Nuclear SMR":["Industrials","def"],"Grid: Transformers & Switchgear":["Industrials","def"],"Grid: Turbines & Generators":["Industrials","def"],"Grocery/Department Store":["Consumer Staples","def"],"HVAC":["Industrials","def"],"Hailing/Delivery":["Logistics","def"],"Healthcare Provider":["Healthcare","def"],"Home Improvement":["Consumer Discretionary","gro"],"Intermodal":["Logistics","def"],"LIDAR":["Automotive","gro"],"Less-Than Truckload":["Logistics","def"],"Lumber":["Materials","gro"],"Machinery":["Industrials","def"],"Manufacturers: Agricultural Products":["Consumer Staples","def"],"Manufacturers: Beverage":["Consumer Staples","def"],"Manufacturers: Condiments and Flavorings":["Consumer Staples","def"],"Manufacturers: Nutritional & Health-Focused":["Consumer Staples","def"],"Manufacturers: Snacks and Confectionaries":["Consumer Staples","def"],"Media & Entertainment":["Consumer Discretionary","gro"],"Medical Devices":["Healthcare","def"],"Metals: Aluminum":["Materials","gro"],"Metals: Copper":["Materials","gro"],"Metals: Gold":["Materials","gro"],"Metals: Lithium":["Materials","gro"],"Metals: Palladium":["Materials","gro"],"Metals: Platinum":["Materials","gro"],"Metals: Rare Earths":["Materials","gro"],"Metals: Silver":["Materials","gro"],"Metals: Steel":["Materials","gro"],"Neo Data Center":["Technology","gro"],"Networking":["Technology","gro"],"Nuclear":["Utilities","def"],"Oil and Gas: Downstream":["Energy","def"],"Oil and Gas: Integrated":["Energy","def"],"Oil and Gas: Midstream (Gas)":["Energy","def"],"Oil and Gas: Midstream (Gen)":["Energy","def"],"Oil and Gas: Midstream (Oil)":["Energy","def"],"Oil and Gas: Offshore Drill":["Energy","def"],"Oil and Gas: Onshore Drill":["Energy","def"],"Oil and Gas: Services":["Energy","def"],"Oil and Gas: Upstream (Gas)":["Energy","def"],"Oil and Gas: Upstream (Oil)":["Energy","def"],"Online Broker":["Financials","def"],"POS/Solutions":["Technology","gro"],"Payments":["Financials","def"],"Personal Care":["Consumer Staples","def"],"Pharmaceuticals":["Healthcare","def"],"Platform Builder":["Technology","gro"],"Powertrain/Engines":["Automotive","gro"],"Private Credit/Equity":["Financials","def"],"Quantum":["Technology","gro"],"RPA":["Technology","gro"],"Railroads":["Logistics","def"],"Renewables":["Utilities","def"],"Residential US":["Real Estate","def"],"Restaurants":["Consumer Discretionary","gro"],"Robotics":["Technology","gro"],"Safety/Seating":["Industrials","def"],"Satellite":["Technology","gro"],"Semiconductors: ASIC":["Technology","gro"],"Semiconductors: Analog, Connectivity & Mixed Signal":["Technology","gro"],"Semiconductors: Design IP":["Technology","gro"],"Semiconductors: Foundries":["Technology","gro"],"Semiconductors: Memory & Storage":["Technology","gro"],"Semiconductors: OSAT":["Technology","gro"],"Semiconductors: Packaging & Test Equipment":["Technology","gro"],"Semiconductors: Photonics":["Technology","gro"],"Semiconductors: Power & Compound":["Technology","gro"],"Semiconductors: Processors":["Technology","gro"],"Semiconductors: Scientific Instrumentation":["Technology","gro"],"Semiconductors: Subsystems, Materials & EMS":["Technology","gro"],"Semiconductors: WFE & Metrology":["Technology","gro"],"Shipping: Containerships":["Logistics","def"],"Shipping: Crude Tankers":["Logistics","def"],"Shipping: Dry Bulk":["Logistics","def"],"Shipping: Gas Carriers":["Logistics","def"],"Shipping: Liners":["Logistics","def"],"Shipping: Product Tankers":["Logistics","def"],"Solar: Inverter":["Technology","gro"],"Solar: Modules":["Technology","gro"],"Solar: PV Film":["Technology","gro"],"Solar: PV Tracker":["Technology","gro"],"Solar: Poly":["Technology","gro"],"Space":["Technology","gro"],"Specialty Beverage":["Consumer Staples","def"],"Telco":["Utilities","def"],"Tools":["Industrials","def"],"Travel: Airlines":["Consumer Discretionary","gro"],"Travel: Booking":["Consumer Discretionary","gro"],"Travel: Cruises & Parks":["Consumer Discretionary","gro"],"Travel: Lodging":["Consumer Discretionary","gro"],"Truckload":["Logistics","def"],"Uranium":["Energy","def"],"Waste Management":["Industrials","def"],"Water":["Utilities","def"]};
+function _leadMacroOf(name){const m=LEAD_MACRO[name];return m?m[1]:null;}
 // Leadership is fully algorithmic (auto-categorized from sector_rotation data).
 // Manual editing is disabled — the board reads only the precomputed snapshots.
 const LEAD_EDIT=false;
@@ -3937,18 +3947,25 @@ function leadSave(){
 
 // ── Leadership charts ──
 function leadCharts(){try{leadChartPct();}catch(e){}try{leadChartMove();}catch(e){}}
+const LEAD_BREADTH_SERIES=[{key:'def',col:'#3b82f6',label:'Defensive'},{key:'gro',col:'#3fb950',label:'Growth'}];
 function leadChartPct(){
   const ds=leadDates();
   const items=ds.map(d=>{
     const s=leadData.snapshots[d];
-    const total=LEAD_CATS.reduce((a,c)=>a+s[c.key].length,0);
-    const lead=s.bouncedOff.length+s.leading.length;
-    return {label:d.slice(5),d,total,lead,up:total?lead/total*100:0};
+    const bars=LEAD_BREADTH_SERIES.map(se=>{
+      const cnt=arr=>arr.reduce((a,n)=>a+(_leadMacroOf(n)===se.key?1:0),0);
+      const total=LEAD_CATS.reduce((a,c)=>a+cnt(s[c.key]),0);
+      const lead=cnt(s.bouncedOff)+cnt(s.leading);
+      return {key:se.key,label:se.label,col:se.col,total,lead,v:total?lead/total*100:0};
+    });
+    return {label:d.slice(5),d,bars};
   });
   leadDrawBars('lead-chart-pct','lead-tt-pct',items,{
-    max:100,vH:300,colorOf:()=>'#3fb950',fmtAxis:v=>Math.round(v)+'%',
+    group:true,max:100,vH:300,fmtAxis:v=>Math.round(v)+'%',
     selKey:leadDate,onBar:it=>leadSetDate(it.d),
-    tip:it=>`<strong>${it.d}</strong>${it.d===leadDate?' <span style="color:var(--ps-blue)">(viewing)</span>':''}<br>${it.up.toFixed(1)}% in Bounced Off + Leading<br><span style="color:var(--text-muted)">${it.lead} of ${it.total} placed &middot; click to view</span>`
+    tip:it=>`<strong>${it.d}</strong>${it.d===leadDate?' <span style="color:var(--ps-blue)">(viewing)</span>':''}<br>`
+      +it.bars.map(b=>`<span style="color:${b.col}">${b.label}: ${b.v.toFixed(1)}%</span> <span style="color:var(--text-muted)">(${b.lead}/${b.total})</span>`).join('<br>')
+      +`<br><span style="color:var(--text-muted)">in Bounced Off + Leading &middot; click to view</span>`
   });
 }
 function leadChartMove(){
@@ -4015,6 +4032,20 @@ function leadDrawBars(wrapId,ttId,items,opts){
       hl.setAttribute('x',x-slot/2);hl.setAttribute('width',slot);hl.setAttribute('y',pad.t);hl.setAttribute('height',iH);
       hl.setAttribute('fill','rgba(255,184,0,0.10)');hl.setAttribute('pointer-events','none');svg.appendChild(hl);
     }
+    if(opts.group){
+      // Grouped (side-by-side) bars, one per series in it.bars — all positive, share the 0 baseline.
+      const grp=it.bars||[],n=grp.length||1,gap=2,gw=Math.min(slot*0.82,42),subW=Math.max(2,(gw-gap*(n-1))/n);
+      grp.forEach((bar,bi)=>{
+        if(bar.v<=0)return;
+        const bx=x-gw/2+bi*(subW+gap),h=Math.abs(yOf(bar.v)-y0);
+        const rect=document.createElementNS(ns,'rect');
+        rect.setAttribute('x',bx);rect.setAttribute('width',subW);
+        rect.setAttribute('y',yOf(bar.v));rect.setAttribute('height',Math.max(0.5,h));
+        rect.setAttribute('fill',bar.col);rect.setAttribute('opacity',isSel?'1':'0.82');
+        if(isSel){rect.setAttribute('stroke','#fff');rect.setAttribute('stroke-width','1');}
+        svg.appendChild(rect);
+      });
+    }else{
     const segs=opts.net?[{v:Math.abs(it.net||0),col:(it.net||0)>=0?(opts.upColor||'#3fb950'):(opts.downColor||'#f85149'),up:(it.net||0)>=0}]
                      :mirror?[{v:it.up||0,col:opts.upColor||'#3fb950',up:true},{v:it.down||0,col:opts.downColor||'#f85149',up:false}]
                      :[{v:it.up||0,col:(opts.colorOf?opts.colorOf(it):'#3fb950'),up:true}];
@@ -4033,6 +4064,7 @@ function leadDrawBars(wrapId,ttId,items,opts){
       }
       svg.appendChild(rect);
     });
+    }
     // full-height clickable hit area (so 0-value days are still selectable)
     if(opts.onBar){
       const hit=document.createElementNS(ns,'rect');
