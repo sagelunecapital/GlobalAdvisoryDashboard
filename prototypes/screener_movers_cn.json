@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-29T22:25:41.084216+00:00",
+  "updated_at": "2026-06-30T23:13:14.637855+00:00",
   "by_date": {
     "2026-05-22": [
       {
@@ -1420,6 +1420,44 @@
         "continuation": false,
         "group_id": null,
         "group_summary": null
+      }
+    ],
+    "2026-06-30": [
+      {
+        "ticker": "1651",
+        "company": "Precision Tsugami (China) Corp. Ltd.",
+        "mkt_cap": 22360000000,
+        "change_pct": 15.83,
+        "catalyst": "1651 released its FY2026 annual results on June 29, confirming an earlier profit alert with net profit up about 40% to RMB1.094 billion and revenue up to RMB5.184 billion. The board proposed a final dividend of HK$0.90 per share, and management guided to stronger FY2027 demand citing China's 15th Five-Year Plan, AI and liquid-cooling, and automotive segments alongside record monthly orders. The earnings beat was the clear dated catalyst.",
+        "catalyst_type": "earnings",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "2652",
+        "company": "CF PharmTech. Inc. Class",
+        "mkt_cap": 7820000000,
+        "change_pct": 10.64,
+        "catalyst": "2652 rose with a broad China and Hong Kong innovative-drug rally on June 29 after the National Healthcare Security Administration published its preliminary-review list for the 2026 national medical-insurance drug catalogue. No 2652-specific announcement was found for the session; the move tracked the sector reaction, with the Hang Seng Innovative Drug Index up about 7.7%.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-innovative-drug",
+        "group_summary": "2652 and 6887 both rallied on June 29 after China's National Healthcare Security Administration published its preliminary-review list for the 2026 national medical-insurance drug catalogue (557 drugs through basic-insurance review, 54 innovative drugs through the commercial-insurance catalogue), driving a broad innovative-drug rally that lifted the Hang Seng Innovative Drug Index about 7.7%. Neither move was tied to a company-specific announcement."
+      },
+      {
+        "ticker": "6887",
+        "company": "Sunshine Lake Pharma Co., Ltd. Class",
+        "mkt_cap": 20390000000,
+        "change_pct": 13.12,
+        "catalyst": "6887 rose with the same June 29 innovative-drug rally driven by the National Healthcare Security Administration's 2026 medical-insurance drug-catalogue preliminary-review list, which passed 557 drugs through basic-insurance review and 54 innovative drugs through the commercial-insurance catalogue. No 6887-specific announcement was found for the session; its earlier RMB2 billion healthcare and AI venture-fund news and AGM predate the move. The move is attributable to the sector rally.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "china-innovative-drug",
+        "group_summary": "2652 and 6887 both rallied on June 29 after China's National Healthcare Security Administration published its preliminary-review list for the 2026 national medical-insurance drug catalogue (557 drugs through basic-insurance review, 54 innovative drugs through the commercial-insurance catalogue), driving a broad innovative-drug rally that lifted the Hang Seng Innovative Drug Index about 7.7%. Neither move was tied to a company-specific announcement."
       }
     ]
   }

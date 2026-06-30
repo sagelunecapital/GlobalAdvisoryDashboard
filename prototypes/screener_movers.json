@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-29T22:25:41.084216+00:00",
+  "updated_at": "2026-06-30T23:13:14.637855+00:00",
   "by_date": {
     "2026-05-21": [
       {
@@ -6378,6 +6378,200 @@
         "catalyst_type": "other",
         "source": "Claude | Web",
         "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      }
+    ],
+    "2026-06-30": [
+      {
+        "ticker": "ABVX",
+        "company": "Abivax",
+        "mkt_cap": 7590000000,
+        "change_pct": 38.6,
+        "catalyst": "ABVX reported positive topline results from the Phase 3 ABTECT maintenance trial of obefazimod in ulcerative colitis on June 30, hitting the FDA-defined primary endpoint and all key secondary endpoints at Week 44 with roughly 50-51% clinical remission versus 10.4% for placebo. The expanded 44-week safety dataset eased the cancer-signal worries that had crashed the stock in early June, with no new safety signals. ABVX plans a US NDA filing in late 2026, and analysts recalibrated targets sharply higher (Citizens to $187, Truist $135). The readout also triggered a broad biotech rally.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-rally",
+        "group_summary": "ABVX, AKTS, and RARE rallied on June 30 after ABVX reported positive Phase 3 ABTECT maintenance data for obefazimod in ulcerative colitis (roughly 50% clinical remission versus 10% on placebo), triggering a broad biotech and XBI rally. AKTS and RARE rose in sympathy with the sector move, with no company-specific catalyst of their own that session."
+      },
+      {
+        "ticker": "AEVA",
+        "company": "Aeva Technologies, Inc.",
+        "mkt_cap": 1810000000,
+        "change_pct": 11.88,
+        "catalyst": "AEVA rose about 12% in a sector sympathy move with no fresh company-specific catalyst on the tape. Lidar peer Ouster jumped after its Rev8 sensors achieved Build America Buy America Act compliance, unlocking federal infrastructure eligibility, and AEVA traded up alongside it on broad physical-AI lidar enthusiasm. The move extends momentum rather than reflecting a dated AEVA announcement.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "AKTS",
+        "company": "Aktis Oncology, Inc.",
+        "mkt_cap": 1780000000,
+        "change_pct": 7.04,
+        "catalyst": "AKTS rose with the broad biotech rally led by ABVX's positive Phase 3 ulcerative colitis data on June 30, with no company-specific catalyst of its own that session. The most recent stock-level items were earlier in June - a Raymond James initiation at Strong Buy ($40 target) and first-in-human AKY-2519 imaging data at ASCO. The session move reads as sector sympathy rather than a discrete event.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-rally",
+        "group_summary": "ABVX, AKTS, and RARE rallied on June 30 after ABVX reported positive Phase 3 ABTECT maintenance data for obefazimod in ulcerative colitis (roughly 50% clinical remission versus 10% on placebo), triggering a broad biotech and XBI rally. AKTS and RARE rose in sympathy with the sector move, with no company-specific catalyst of their own that session."
+      },
+      {
+        "ticker": "AMBA",
+        "company": "Ambarella, Inc.",
+        "mkt_cap": 3760000000,
+        "change_pct": 28.04,
+        "catalyst": "AMBA surged about 28% with no discrete company-specific catalyst dated to the session, extending a multi-week momentum run from roughly $63 in early June to about $86. The move tracked broad edge-AI and computer-vision enthusiasm rather than fresh news; the last earnings were Q1 FY2027 on May 28 (revenue $100.4M, up 16.9% YoY) and recent analyst actions predate the move. Treat the spike as sentiment-driven.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "APD",
+        "company": "Air Products and Chemicals, Inc.",
+        "mkt_cap": 65290000000.00001,
+        "change_pct": 8.04,
+        "catalyst": "APD jumped after announcing on June 30 it will not proceed with its Louisiana Clean Energy Complex, citing returns below its criteria, and will take fiscal Q3 pre-tax charges of up to $2.9 billion. The market read the retreat from low-return clean-energy projects - which also includes discontinuing a zero-carbon liquid hydrogen facility in Arizona - as a positive capital-discipline pivot. APD also said it is finalizing a renewable-ammonia marketing agreement with Yara tied to the NEOM project in Saudi Arabia.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ELF",
+        "company": "e.l.f. Beauty, Inc.",
+        "mkt_cap": 4400000000,
+        "change_pct": 5.85,
+        "catalyst": "ELF rose about 6% with no confirmed company-specific catalyst on the session. The most recent stock-level events were Q4 FY2026 earnings on May 20 and a reiterated Hold rating on June 25 citing softening near-term demand. The move appears technical and momentum-driven, with the stock recently reclaiming its 50-day moving average.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "FBIN",
+        "company": "Fortune Brands Innovations, Inc.",
+        "mkt_cap": 6550000000,
+        "change_pct": 7.71,
+        "catalyst": "FBIN surged after appointing Jesse Singh as Chief Executive Officer effective June 29; Singh is the former CEO of AZEK, where revenue tripled and margins expanded materially. Wolfe Research called the hire a clear positive and flagged FBIN's discounted valuation relative to history. The stock extended the gain into June 30 as the appointment was digested.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "FCEL",
+        "company": "FuelCell Energy, Inc.",
+        "mkt_cap": 2430000000,
+        "change_pct": 20.84,
+        "catalyst": "FCEL soared after disclosing on June 29 that the US Export-Import Bank approved a $49 million financing package to support delivery of its fuel cell units to Gyeonggi Green Energy in South Korea, with a first tranche of about $22 million due June 30. B. Riley upgraded the stock to Buy and more than doubled its target to $32 from $13, citing an agreement to supply up to 380 MW of power to Fit Energy for AI data centers. The stock hit a fresh 52-week high and extended gains into June 30.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "KXIAY",
+        "company": "KIOXIA",
+        "mkt_cap": 298840000000,
+        "change_pct": 5.4,
+        "catalyst": "KXIAY rose about 5% as part of an ongoing AI and NAND demand-driven rally, with the ADR up roughly 460% year to date, rather than on a discrete dated catalyst. Recent supporting items include a Goldman Sachs upgrade to Buy in early June and a confident tone at the June 25 shareholder meeting, but neither was a June 29-30 trigger. The move reflects continued AI-memory momentum and US-listing optimism.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "LCII",
+        "company": "LCI Industries",
+        "mkt_cap": 2570000000,
+        "change_pct": 5.75,
+        "catalyst": "LCII rose after agreeing on June 30 to an all-stock merger with Patrick Industries to create a component-solutions provider for the outdoor, housing, and transportation markets. LCII holders receive 1.2440 Patrick shares per share and will own about 48% of the combined company, which targets over $150 million in run-rate cost synergies within three years on roughly $8.1 billion pro forma revenue.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "MYE",
+        "company": "Myers Industries, Inc.",
+        "mkt_cap": 1330000000,
+        "change_pct": 14.42,
+        "catalyst": "MYE jumped about 14% with no confirmable dated company-specific catalyst for the session. The stock had run roughly 34% over the prior month on its Focused Transformation margin story and the pending Myers Tire Supply divestiture, and several 8-Ks were filed in late June, but no outlet attributed the one-day spike to a specific event. A routine $0.135 quarterly dividend does not explain the move; treat as momentum-driven.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "ONTO",
+        "company": "Onto Innovation Inc.",
+        "mkt_cap": 18830000000,
+        "change_pct": 7.68,
+        "catalyst": "ONTO rose after Cantor Fitzgerald upgraded the stock to Overweight and raised its target to $410 from $350 on June 29, citing AI advanced-packaging earnings upside. The call followed a string of bullish June notes (Deutsche Bank Buy/$350, Oppenheimer Outperform/$450) as the stock hit fresh 52-week highs. The underlying thesis is Gen5 Dragonfly traction in advanced packaging and TSMC tool qualification.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "QLYS",
+        "company": "Qualys, Inc.",
+        "mkt_cap": 4840000000,
+        "change_pct": 7.15,
+        "catalyst": "QLYS rose after JPMorgan upgraded the stock to Neutral from Underweight and raised its target to $139 from $87 on June 30, citing growth in the vulnerability management category. The upgrade was the immediate trigger, building on a smaller prior-session gain tied to broad software-sector strength.",
+        "catalyst_type": "analyst",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "RARE",
+        "company": "Ultragenyx Pharmaceutical Inc.",
+        "mkt_cap": 3290000000,
+        "change_pct": 8.83,
+        "catalyst": "RARE rose about 9% in sympathy with the strong biotech rally driven by ABVX's June 30 positive Phase 3 ulcerative colitis data, with no company-specific catalyst on the session. Recent RARE events were mid-June or earlier (an inducement RSU grant, an ESOP shelf filing, a Goldman Sachs conference appearance), and its key pipeline catalysts - the DTX401 PDUFA on August 23 and UX111 in Q3 - remained upcoming. The move reads as sector beta.",
+        "catalyst_type": "macro",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": "biotech-rally",
+        "group_summary": "ABVX, AKTS, and RARE rallied on June 30 after ABVX reported positive Phase 3 ABTECT maintenance data for obefazimod in ulcerative colitis (roughly 50% clinical remission versus 10% on placebo), triggering a broad biotech and XBI rally. AKTS and RARE rose in sympathy with the sector move, with no company-specific catalyst of their own that session."
+      },
+      {
+        "ticker": "RRX",
+        "company": "Regal Rexnord Corporation",
+        "mkt_cap": 15860000000,
+        "change_pct": 8.33,
+        "catalyst": "RRX rose about 8% around its CEO transition, with Aamir Paul taking over as Chief Executive no later than July 1, succeeding Louis Pinkham. The move was supported by continued data-center order momentum - roughly $735 million of E-Pod orders flagged in prior results - and a Baird target raise to $300 from $253 at Outperform.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": false,
+        "group_id": null,
+        "group_summary": null
+      },
+      {
+        "ticker": "VSAT",
+        "company": "ViaSat, Inc.",
+        "mkt_cap": 12270000000,
+        "change_pct": 17.11,
+        "catalyst": "VSAT surged after the US Space Force selected it on June 29 to build, launch, and deliver the first satellite in a fleet of maneuverable GEO satellites under the Protected Tactical SATCOM-Global program, part of a $437.7 million award for two anti-jam satellites. Deutsche Bank amplified the move with a target hike to $97 from $48. The defense contract win is the primary driver and the move extended into June 30.",
+        "catalyst_type": "other",
+        "source": "Claude | Web",
+        "continuation": true,
         "group_id": null,
         "group_summary": null
       }
