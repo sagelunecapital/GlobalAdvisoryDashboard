@@ -641,6 +641,108 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .scr-change.chg-green,.scr-gticker-chg.chg-green{color:#3fb950}
 .scr-change.chg-purple,.scr-gticker-chg.chg-purple{color:#a855f7}
 .scr-change.chg-blue,.scr-gticker-chg.chg-blue{color:#3b82f6}
+
+/* ════════════════════ Cross-Asset Regimes tab ════════════════════ */
+#main-cross-asset{--r1:#3fb950;--r2:#26c281;--r3:#4a9eff;--r4:#2dd4bf;--r5:#f85149;--r6:#ff9f1c;--r7:#a371f7;--r8:#d857c9}
+.ca-pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.ca-title{font-size:28px;font-weight:800;color:var(--amber);letter-spacing:0.08em;line-height:1}
+.ca-sub{font-size:var(--fs-base);color:var(--text-muted);letter-spacing:0.04em;margin-left:12px;font-weight:600}
+.ca-status{border:1px solid var(--outline-dim);background:var(--surface-low);padding:10px 14px;min-width:300px}
+.ca-linkage{display:flex;align-items:center;gap:8px;justify-content:flex-end;margin-bottom:8px}
+.ca-linkage-label{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.09em;font-weight:700}
+.ca-linkage-val{font-size:var(--fs-base);font-weight:800;letter-spacing:0.03em}
+.ca-readouts{display:flex;gap:18px;justify-content:flex-end;flex-wrap:wrap}
+.ca-rd{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+.ca-rd-tk{font-size:var(--fs-xs);color:var(--text-muted);font-weight:700;letter-spacing:0.05em}
+.ca-rd-val{font-size:var(--fs-base);color:#fff;font-weight:700}
+.ca-rd-chg{font-size:var(--fs-xs);font-weight:700}
+.chg-pos{color:var(--green)}.chg-neg{color:var(--red)}.chg-flat{color:var(--text-muted)}
+
+.ca-controls{display:flex;gap:22px;flex-wrap:wrap;align-items:center;padding:12px 0 4px;border-top:1px solid var(--outline-dim);border-bottom:1px solid var(--outline-dim);margin-bottom:14px}
+.ca-ctlg{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ca-ctlg-label{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.09em;font-weight:700;margin-right:2px}
+.ca-seg{padding:4px 10px;cursor:pointer;border:1px solid var(--outline-dim);border-radius:0;color:var(--text-muted);font-size:var(--fs-xs);font-weight:700;background:transparent;font-family:inherit;letter-spacing:0.04em;transition:background 140ms,color 140ms,border-color 140ms}
+.ca-seg:hover{color:var(--text);border-color:var(--outline)}
+.ca-seg.active{color:#000;background:var(--amber);border-color:var(--amber)}
+
+.ca-banner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 16px;margin-bottom:16px;border:1px solid var(--outline-dim);font-weight:700;font-variant-numeric:tabular-nums}
+.ca-banner.pol-risk-off{background:rgba(248,81,73,0.10);border-color:rgba(248,81,73,0.35)}
+.ca-banner.pol-risk-on{background:rgba(63,185,80,0.10);border-color:rgba(63,185,80,0.35)}
+.ca-banner.pol-mixed{background:rgba(255,184,0,0.07);border-color:rgba(255,184,0,0.30)}
+.ca-banner-sq{width:14px;height:14px;flex:none;border-radius:2px}
+.ca-banner-name{color:#fff;font-size:var(--fs-md)}
+.ca-banner-nums{color:var(--text-dim);font-size:var(--fs-sm)}
+.ca-banner-link{margin-left:auto;font-size:var(--fs-sm);letter-spacing:0.05em}
+
+.ca-cols{display:grid;grid-template-columns:1.35fr 1fr;gap:14px;align-items:start}
+@media(max-width:1100px){.ca-cols{grid-template-columns:1fr}}
+.ca-sub-view{display:none}
+.ca-sub-view.active{display:block}
+.ca-explain{background:var(--surface-low);border:1px solid var(--outline-dim);border-left:2px solid var(--outline);padding:10px 13px;font-size:var(--fs-sm);color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.ca-explain-lg{font-size:var(--fs-base);line-height:1.7;margin-bottom:18px}
+.ca-explain-lg b{color:var(--text);font-weight:800}
+.ca-strip{border:1px solid var(--outline-dim);margin-bottom:10px}
+.ca-foot{font-size:var(--fs-xs);color:var(--text-muted);margin-top:10px;line-height:1.6}
+
+.ca-table{width:100%;border-collapse:collapse;font-size:var(--fs-sm);font-variant-numeric:tabular-nums}
+.ca-table th{color:var(--text-muted);font-weight:700;text-align:right;padding:6px 8px;border-bottom:1px solid var(--outline-dim);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap}
+.ca-table th:first-child{text-align:left}
+.ca-table td{padding:5px 8px;border-bottom:1px solid rgba(65,71,82,0.35);color:var(--text-dim);text-align:right;white-space:nowrap}
+.ca-table td:first-child{text-align:left;color:var(--text)}
+.ca-table tr:hover td{background:rgba(255,184,0,0.05)}
+.ca-table tr.ca-row-current td{background:rgba(248,81,73,0.14)}
+.ca-table tr.ca-row-current.pol-risk-on td{background:rgba(63,185,80,0.14)}
+.ca-table tr.ca-bar-hi td{background:rgba(255,184,0,0.12)}
+.ca-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:baseline}
+.ca-emph{color:#fff !important;font-weight:800}
+
+.ca-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.ca-legend span{display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--text-muted);font-weight:600}
+.ca-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+.ca-actions{display:flex;gap:4px;justify-content:flex-end;margin-top:14px;color:var(--text-muted)}
+.ca-actions button{background:transparent;border:none;color:var(--text-muted);cursor:pointer;padding:5px;border-radius:3px;font-family:'Material Symbols Outlined';font-size:18px;line-height:1;transition:background 140ms,color 140ms}
+.ca-actions button:hover{color:var(--text);background:var(--surface-high)}
+
+.ca-winrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.ca-winrow .ca-ctlg-label{margin-right:4px}
+.ca-winhelp{font-size:var(--fs-xs);color:var(--text-muted);margin-left:10px;font-style:italic}
+
+.ca-stats{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.ca-stat{flex:1;min-width:150px;border:1px solid var(--outline-dim);background:var(--surface-low);padding:12px 14px}
+.ca-stat-lbl{font-size:var(--fs-xs);color:var(--text-muted);font-weight:700;letter-spacing:0.05em;margin-bottom:6px}
+.ca-stat-val{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.ca-stat-cap{font-size:var(--fs-xs);color:var(--text-muted);margin-top:5px;height:14px}
+
+.ca-signalbox{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 14px}
+.ca-signal{flex:1;min-width:120px;border:1px solid var(--outline-dim);padding:11px 14px;text-align:center}
+.ca-signal-lbl{font-size:var(--fs-xs);color:var(--text-muted);font-weight:700;letter-spacing:0.05em;margin-bottom:6px}
+.ca-signal-val{font-size:23px;font-weight:800;font-variant-numeric:tabular-nums}
+.ca-callout{border:1px solid rgba(63,185,80,0.35);background:rgba(63,185,80,0.08);padding:11px 14px;font-size:var(--fs-sm);color:var(--text-dim);line-height:1.6;margin-bottom:12px}
+.ca-callout.link-weak{border-color:rgba(248,81,73,0.35);background:rgba(248,81,73,0.08)}
+.ca-callout.link-mod{border-color:rgba(255,184,0,0.35);background:rgba(255,184,0,0.07)}
+.ca-callout b{color:#fff}
+.ca-histline{font-size:var(--fs-sm);color:var(--text-muted);line-height:1.6}
+.ca-histline b{color:var(--text)}
+.ca-namebar{padding:8px 12px;margin-bottom:12px;font-weight:700;color:#fff;font-size:var(--fs-base);border-left:3px solid}
+
+.ca-themebar{display:inline-flex;height:9px;width:80px;border-radius:2px;overflow:hidden;vertical-align:middle}
+.ca-themebar i{display:block;height:100%}
+
+.ca-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:800;letter-spacing:0.06em}
+.b-primary{color:#000;background:var(--green)}
+.b-secondary{color:#000;background:var(--amber)}
+.b-confirming{color:var(--text-muted);background:rgba(158,143,120,0.12)}
+.v-primary{color:var(--green);font-weight:800}
+.v-secondary{color:var(--amber);font-weight:800}
+.v-confirming{color:#5a5348;font-weight:600}
+.ca-table tr.tier-confirming td{color:#5a5348}
+.ca-table tr.tier-confirming td:first-child{color:#6b6355}
+
+.ca-brush{position:relative;height:26px;margin:12px 4px 2px;user-select:none;touch-action:none}
+.ca-brush-track{position:absolute;top:10px;left:0;right:0;height:6px;background:var(--surface-highest);border:1px solid var(--outline-dim)}
+.ca-brush-fill{position:absolute;top:10px;height:6px;background:rgba(255,184,0,0.45);border:1px solid var(--amber)}
+.ca-brush-h{position:absolute;top:3px;width:10px;height:20px;background:var(--amber);border:1px solid #000;cursor:ew-resize;border-radius:2px}
 </style>
 </head>
 <body>
@@ -668,6 +770,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)"><span class="nav-ico">swap_horiz</span>Positioning</button>
+    <button class="nav-tab" onclick="showMain('cross-asset',this)"><span class="nav-ico">hub</span>Cross Asset</button>
     <button class="nav-tab" onclick="showMain('research',this)"><span class="nav-ico">science</span>Research</button>
     <button class="nav-tab nav-sub" onclick="showMain('screener',this)"><span class="nav-ico">filter_alt</span>Screener</button>
     <button class="nav-tab" id="nav-resources" onclick="showMain('resources',this)"><span class="nav-ico">folder_open</span>Resources</button>
@@ -783,6 +886,176 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   </div>
 
 </div><!-- /macro panel -->
+
+<!-- ═══════════════════════════ CROSS-ASSET REGIMES TAB ═══════════════════════════ -->
+<div id="main-cross-asset" class="main-panel">
+
+  <div class="ca-pagehead">
+    <div style="display:flex;align-items:baseline;flex-wrap:wrap">
+      <span class="ca-title">CROSS-ASSET REGIMES</span>
+      <span class="ca-sub">SPX + UST 10Y + DXY</span>
+    </div>
+    <div class="ca-status">
+      <div class="ca-linkage"><span class="ca-linkage-label">MARKET LINKAGE</span><span class="ca-linkage-val" id="ca-hdr-link">&mdash;</span></div>
+      <div class="ca-readouts" id="ca-readouts"></div>
+    </div>
+  </div>
+
+  <div class="itabs" id="ca-subtabs">
+    <button class="itab active" onclick="caSub('regimes',this)">Regimes</button>
+    <button class="itab" onclick="caSub('attribution',this)">Attribution</button>
+    <button class="itab" onclick="caSub('transitions',this)">Transitions</button>
+    <button class="itab" onclick="caSub('synthesis',this)">Synthesis</button>
+  </div>
+
+  <div class="ca-controls">
+    <div class="ca-ctlg"><span class="ca-ctlg-label">METHOD</span>
+      <button class="ca-seg active" onclick="caSet('method','vol',this)">VOL-SCALED</button>
+      <button class="ca-seg" onclick="caSet('method','z',this)">Z-SCORE</button>
+    </div>
+    <div class="ca-ctlg"><span class="ca-ctlg-label">LOOKBACK</span>
+      <button class="ca-seg" onclick="caSet('lookback',5,this)">5D</button>
+      <button class="ca-seg" onclick="caSet('lookback',10,this)">10D</button>
+      <button class="ca-seg active" onclick="caSet('lookback',20,this)">20D</button>
+      <button class="ca-seg" onclick="caSet('lookback',60,this)">60D</button>
+    </div>
+    <div class="ca-ctlg"><span class="ca-ctlg-label">VOL</span>
+      <button class="ca-seg" onclick="caSet('vol',10,this)">10D</button>
+      <button class="ca-seg active" onclick="caSet('vol',21,this)">21D</button>
+      <button class="ca-seg" onclick="caSet('vol',42,this)">42D</button>
+      <button class="ca-seg" onclick="caSet('vol',63,this)">63D</button>
+    </div>
+    <div class="ca-ctlg"><span class="ca-ctlg-label">RANGE</span>
+      <button class="ca-seg" onclick="caSet('range','1M',this)">1M</button>
+      <button class="ca-seg" onclick="caSet('range','3M',this)">3M</button>
+      <button class="ca-seg" onclick="caSet('range','6M',this)">6M</button>
+      <button class="ca-seg" onclick="caSet('range','YTD',this)">YTD</button>
+      <button class="ca-seg" onclick="caSet('range','1Y',this)">1Y</button>
+      <button class="ca-seg active" onclick="caSet('range','2Y',this)">2Y</button>
+      <button class="ca-seg" onclick="caSet('range','5Y',this)">5Y</button>
+      <button class="ca-seg" onclick="caSet('range','10Y',this)">10Y</button>
+      <button class="ca-seg" onclick="caSet('range','15Y',this)">15Y</button>
+      <button class="ca-seg" onclick="caSet('range','20Y',this)">20Y</button>
+      <button class="ca-seg" onclick="caSet('range','ALL',this)">ALL</button>
+    </div>
+  </div>
+
+  <div class="ca-banner" id="ca-banner"></div>
+
+  <!-- ─────────── REGIMES ─────────── -->
+  <div id="ca-sub-regimes" class="ca-sub-view active">
+    <div class="ca-cols">
+      <div>
+        <div class="card">
+          <div class="card-header" id="ca-timeline-hdr">Regime Timeline</div>
+          <div class="ca-strip cw" id="ca-strip" style="height:30px"><div class="chart-tt" id="tt-ca-strip"></div></div>
+          <div class="cw" id="ca-line" style="height:280px"><div class="chart-tt" id="tt-ca-line"></div></div>
+          <div class="ca-brush" id="ca-brush-reg"><div class="ca-brush-track"></div><div class="ca-brush-fill"></div><div class="ca-brush-h ca-brush-h0"></div><div class="ca-brush-h ca-brush-h1"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">Market Linkage &mdash; Are all 3 assets moving together or independently?</div>
+          <div class="ca-explain">How to read this: When the amber area is HIGH (&gt;60%), stocks, bonds, and the dollar are being driven by the same thing (e.g. a Fed decision or risk-on/risk-off move). When it's LOW (&lt;40%), each asset is moving on its own drivers. High linkage = macro-driven market. Low linkage = idiosyncratic moves.</div>
+          <div class="cw" id="ca-linkage" style="height:210px"><div class="chart-tt" id="tt-ca-linkage"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-header">Regime Frequency &mdash; How often each regime occurs &amp; what returns look like in it</div>
+          <div class="ca-explain">Reading the table: FREQ = how often this regime happens. AVG DUR = how many consecutive days it typically lasts. SPX/10Y/DXY = the median daily return for each asset while in this regime. Green = positive for you (stocks up or yields down). Red = negative.</div>
+          <table class="ca-table" id="ca-freq-table">
+            <thead><tr><th>Regime</th><th>Freq</th><th>Avg Dur</th><th>SPX</th><th>10Y</th><th>DXY</th></tr></thead>
+            <tbody id="ca-freq-body"></tbody>
+          </table>
+          <div class="cw" id="ca-freq-bar" style="height:190px;margin-top:14px"><div class="chart-tt" id="tt-ca-freq-bar"></div></div>
+          <div class="ca-legend" id="ca-freq-legend"></div>
+          <div class="ca-actions">
+            <button title="Helpful">thumb_up</button><button title="Not helpful">thumb_down</button>
+            <button title="Comment">chat_bubble</button><button title="Quote">format_quote</button>
+            <button title="Share">share</button><button title="Regenerate">auto_awesome</button>
+            <button title="More">more_horiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── ATTRIBUTION ─────────── -->
+  <div id="ca-sub-attribution" class="ca-sub-view">
+    <div class="ca-winrow"><span class="ca-ctlg-label">ANALYSIS WINDOW:</span>
+      <button class="ca-seg" onclick="caSet('attrWin',21,this)">21D</button>
+      <button class="ca-seg" onclick="caSet('attrWin',42,this)">42D</button>
+      <button class="ca-seg active" onclick="caSet('attrWin',63,this)">63D</button>
+      <button class="ca-seg" onclick="caSet('attrWin',126,this)">126D</button>
+      <span class="ca-winhelp" id="ca-attr-help"></span>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ca-attr-hdr">Rolling Returns &mdash; 20D vol-adjusted returns for each asset</div>
+      <div class="ca-explain">What this shows: The 20D rolling return for SPX, 10Y yield, and DXY, each divided by its own volatility so they're comparable. A value of +2.0 means the asset moved up by 2x its normal volatility. Above zero = up, below zero = down. This is the same signal that defines the regimes. When lines move together, the assets are correlated.</div>
+      <div class="ca-stats" id="ca-attr-stats"></div>
+      <div class="cw" id="ca-attr-line" style="height:360px"><div class="chart-tt" id="tt-ca-attr-line"></div></div>
+      <div class="ca-brush" id="ca-brush-attr"><div class="ca-brush-track"></div><div class="ca-brush-fill"></div><div class="ca-brush-h ca-brush-h0"></div><div class="ca-brush-h ca-brush-h1"></div></div>
+      <div class="ca-foot">Dashed reference lines mark &plusmn;2 sigma extreme-move thresholds.</div>
+    </div>
+  </div>
+
+  <!-- ─────────── TRANSITIONS ─────────── -->
+  <div id="ca-sub-transitions" class="ca-sub-view">
+    <div class="ca-winrow"><span class="ca-ctlg-label">FOCUS:</span>
+      <button class="ca-seg active" onclick="caSet('focus','ALL',this)">ALL</button>
+      <button class="ca-seg" onclick="caSet('focus','SPX',this)">SPX</button>
+      <button class="ca-seg" onclick="caSet('focus','10Y',this)">10Y</button>
+      <button class="ca-seg" onclick="caSet('focus','DXY',this)">DXY</button>
+    </div>
+    <div class="ca-cols">
+      <div>
+        <div class="card">
+          <div class="card-header" id="ca-cur-hdr">Current State</div>
+          <div class="ca-namebar" id="ca-cur-name"></div>
+          <div class="ca-signalbox" id="ca-cur-signals"></div>
+          <div class="ca-callout" id="ca-cur-callout"></div>
+          <div class="ca-histline" id="ca-cur-hist"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">Regime Economics</div>
+          <div class="ca-explain">Reading the table: SPX/10Y/DXY = median daily return while in that regime. LINKAGE = how much the assets move together in that regime. THEME = which asset drives the common move most (wider bar = bigger role).</div>
+          <table class="ca-table" id="ca-econ-table">
+            <thead><tr><th>Regime</th><th>SPX</th><th>10Y</th><th>DXY</th><th>Linkage</th><th>Theme</th></tr></thead>
+            <tbody id="ca-econ-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-header" id="ca-next-hdr">What's Next</div>
+          <div class="ca-explain">How to read: PROB = chance of transitioning to that regime next. (stay) = staying in the current regime. SPX/10Y/DXY = median daily returns in the destination regime. LINKAGE = how correlated the 3 assets typically are in that regime.</div>
+          <table class="ca-table" id="ca-next-table">
+            <thead><tr><th>To</th><th>Prob</th><th>Hist Obs</th><th>SPX</th><th>10Y</th><th>DXY</th><th>Linkage</th></tr></thead>
+            <tbody id="ca-next-body"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-header">Transition Matrix &mdash; P(row &rarr; col)</div>
+          <div class="ca-explain">Each cell = % chance of going from the row regime to the column regime. Diagonal (highlighted) = how likely it is to stay in the same regime.</div>
+          <div class="cw" id="ca-matrix" style="height:360px"><div class="chart-tt" id="tt-ca-matrix"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── SYNTHESIS ─────────── -->
+  <div id="ca-sub-synthesis" class="ca-sub-view">
+    <div class="ca-explain ca-explain-lg"><b>SYNTHESIS TAB:</b> This page connects all moving parts &mdash; curve regimes, cross-asset regimes, rate decomposition, dollar, spreads &mdash; and ranks them by statistical importance. Sections are ordered top-to-bottom by actionability. It tells you <b>what is happening</b> (regime classification), <b>whether it's internally consistent</b> (dollar durability, flows netting, signal agreement), and <b>what historically co-occurs</b> (curve mapping, conditional attribution, transition probabilities). It does <b>not</b> predict the future. Use it to size conviction and identify when your thesis is aligned with or against historical base rates.</div>
+    <div class="card">
+      <div class="card-header">Relationship Ranking &mdash; All pairwise associations ranked by Cramer's V statistical strength</div>
+      <table class="ca-table" id="ca-synth-table">
+        <thead><tr><th>Rank</th><th>Relationship</th><th>V</th><th>Category</th><th>Interpretation</th></tr></thead>
+        <tbody id="ca-synth-body"></tbody>
+      </table>
+      <div class="ca-foot">Cramer's V measures association strength between categorical variables (0 = independent, 1 = perfect association). V &gt; 0.3 = strong linkage, worth conditioning trades on. V 0.15&ndash;0.3 = confirming signal only, not primary. V &lt; 0.15 = essentially independent &mdash; don't read causality into it. This ranking tells you which relationships are informative vs. noise: a high V between curve regime and cross-asset regime means curve dynamics can be used as a leading/confirming signal for cross-asset positioning; a near-zero V means the two are independent and positioning in one tells you nothing about the other. High V does <b>not</b> indicate which variable leads, timing, or return magnitude &mdash; only frequency of co-occurrence.</div>
+    </div>
+  </div>
+
+</div><!-- /cross-asset panel -->
 
 <!-- ═══════════════════════════ RESOURCES TAB ═══════════════════════════ -->
 <div id="main-resources" class="main-panel">
@@ -1960,7 +2233,7 @@ function syncTacticsHeight() {
 
 function openResource(id){ showMain(id, document.getElementById('nav-resources')); }
 function showMain(id, btn) {
-  if((id==='journal'||id==='warsh'||id==='yen'||id==='resources') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
+  if((id==='journal'||id==='warsh'||id==='yen'||id==='resources'||id==='cross-asset') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
@@ -6174,6 +6447,352 @@ function gaSettings(e){
     .then(res=>res.ok?res.json():null)
     .then(d=>{ if(d&&d.charts){ window._yenData=d; if(window._activeMain==='yen'&&window._redraw.yen) window._redraw.yen(); } })
     .catch(()=>{});
+})();
+</script>
+
+<!-- ═══════════════════════════ CROSS-ASSET REGIMES ENGINE ═══════════════════════════ -->
+<script>
+(function(){
+"use strict";
+// 8-regime palette (R1..R8), stocks-up = cool (green/emerald/blue/teal),
+// stocks-down = warm (red/orange/purple/magenta) -> "warm = bad, cool = good".
+const COL=['#3fb950','#26c281','#4a9eff','#2dd4bf','#f85149','#ff9f1c','#a371f7','#d857c9'];
+const NAME=['Stocks Up / Rates Up / Dollar Up','Stocks Up / Rates Up / Dollar Down',
+  'Stocks Up / Rates Down / Dollar Up','Stocks Up / Rates Down / Dollar Down',
+  'Stocks Down / Rates Up / Dollar Up','Stocks Down / Rates Up / Dollar Down',
+  'Stocks Down / Rates Down / Dollar Up','Stocks Down / Rates Down / Dollar Down'];
+const A_SPX='#3fb950', A_10Y='#ff9f1c', A_DXY='#4a9eff';
+const RANGE_DAYS={'1M':21,'3M':63,'6M':126,'1Y':252,'2Y':504,'5Y':1260,'10Y':2520,'15Y':3780,'20Y':5040};
+
+const CA={raw:null,comp:null,st:{method:'vol',lookback:20,vol:21,range:'2Y',sub:'regimes',attrWin:63,focus:'ALL'},
+  brush:{reg:[0,1],attr:[0,1]}, barHi:-1};
+
+function regIdx(sUp,rUp,dUp){ return (sUp?0:4)+(rUp?0:2)+(dUp?0:1); }
+function std(arr,i,w){ let s=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null){s+=arr[k];c++;} }
+  if(c<w*0.8) return null; const m=s/c; let v=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null) v+=(arr[k]-m)*(arr[k]-m); }
+  return Math.sqrt(v/(c-1)); }
+function mean(arr,i,w){ let s=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null){s+=arr[k];c++;} } return c<w*0.8?null:s/c; }
+function median(a){ if(!a.length) return null; const b=a.slice().sort((x,y)=>x-y); const m=b.length>>1;
+  return b.length%2?b[m]:(b[m-1]+b[m])/2; }
+function corr(x,y,i,w){ let sx=0,sy=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&x[k]!=null&&y[k]!=null){sx+=x[k];sy+=y[k];c++;} }
+  if(c<w*0.7) return null; const mx=sx/c,my=sy/c; let sxx=0,syy=0,sxy=0;
+  for(let k=i-w+1;k<=i;k++){ if(k>=0&&x[k]!=null&&y[k]!=null){ const dx=x[k]-mx,dy=y[k]-my; sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy; } }
+  return (sxx>0&&syy>0)?sxy/Math.sqrt(sxx*syy):null; }
+
+// ── core computation (depends only on method / lookback / vol) ──────────────
+function recompute(){
+  const r=CA.raw; if(!r) return; const n=r.n, spx=r.spx, y10=r.y10, dxy=r.dxy;
+  const L=CA.st.lookback, V=CA.st.vol, meth=CA.st.method;
+  const sret=new Array(n),dret=new Array(n),ybp=new Array(n);
+  for(let i=0;i<n;i++){ sret[i]=i>0?spx[i]/spx[i-1]-1:null; dret[i]=i>0?dxy[i]/dxy[i-1]-1:null; ybp[i]=i>0?(y10[i]-y10[i-1])*100:null; }
+  const spxL=new Array(n),dxyL=new Array(n),y10L=new Array(n);
+  for(let i=0;i<n;i++){ spxL[i]=i>=L?spx[i]/spx[i-L]-1:null; dxyL[i]=i>=L?dxy[i]/dxy[i-L]-1:null; y10L[i]=i>=L?(y10[i]-y10[i-L])*100:null; }
+  const sigS=new Array(n),sigY=new Array(n),sigD=new Array(n);
+  const sq=Math.sqrt(L);
+  for(let i=0;i<n;i++){
+    if(meth==='vol'){
+      const vs=std(sret,i,V),vy=std(ybp,i,V),vd=std(dret,i,V);
+      sigS[i]=(spxL[i]!=null&&vs)?spxL[i]/(vs*sq):null;
+      sigY[i]=(y10L[i]!=null&&vy)?y10L[i]/(vy*sq):null;
+      sigD[i]=(dxyL[i]!=null&&vd)?dxyL[i]/(vd*sq):null;
+    } else { // z-score of the L-day return over the trailing V-window
+      const ms=mean(spxL,i,V),ss=std(spxL,i,V), my=mean(y10L,i,V),sy=std(y10L,i,V), md=mean(dxyL,i,V),sd=std(dxyL,i,V);
+      sigS[i]=(spxL[i]!=null&&ss)?(spxL[i]-ms)/ss:null;
+      sigY[i]=(y10L[i]!=null&&sy)?(y10L[i]-my)/sy:null;
+      sigD[i]=(dxyL[i]!=null&&sd)?(dxyL[i]-md)/sd:null;
+    }
+  }
+  const reg=new Array(n);
+  for(let i=0;i<n;i++){ reg[i]=(sigS[i]!=null&&sigY[i]!=null&&sigD[i]!=null)?regIdx(sigS[i]>0,sigY[i]>0,sigD[i]>0):-1; }
+  const LW=Math.max(V,20), link=new Array(n);
+  for(let i=0;i<n;i++){ const a=corr(sret,ybp,i,LW),b=corr(sret,dret,i,LW),c=corr(ybp,dret,i,LW);
+    link[i]=(a!=null&&b!=null&&c!=null)?(Math.abs(a)+Math.abs(b)+Math.abs(c))/3*100:null; }
+  CA.comp={n,sret,dret,ybp,sigS,sigY,sigD,reg,link};
+}
+
+// ── windowing ───────────────────────────────────────────────────────────────
+function baseStart(){ const n=CA.raw.n, rg=CA.st.range;
+  if(rg==='ALL') return 0;
+  if(rg==='YTD'){ const yr=CA.raw.dates[n-1].slice(0,4); for(let i=0;i<n;i++){ if(CA.raw.dates[i].slice(0,4)===yr) return i; } return 0; }
+  return Math.max(0, n-(RANGE_DAYS[rg]||504)); }
+function windowIdx(brushKey){ const bs=baseStart(), n=CA.raw.n, e=n-1, span=e-bs;
+  const b=CA.brush[brushKey]||[0,1]; const vs=bs+Math.round(b[0]*span), ve=bs+Math.round(b[1]*span);
+  return [Math.max(bs,vs), Math.max(vs,ve)]; }
+
+// ── formatting ────────────────────────────────────────────────────────────
+const sgn=v=>v>0?'+':'';
+const fpct=(v,d=2)=>v==null?'—':sgn(v)+v.toFixed(d)+'%';
+const fbp=(v,d=1)=>v==null?'—':sgn(v)+v.toFixed(d)+'bp';
+function clsSD(v){ return v==null?'chg-flat':v>0?'chg-pos':v<0?'chg-neg':'chg-flat'; }   // SPX/DXY: up=green
+function cls10(v){ return v==null?'chg-flat':v<0?'chg-pos':v>0?'chg-neg':'chg-flat'; }   // 10Y: yields down=green
+function linkLabel(p){ return p>=60?'STRONGLY LINKED':p>=40?'MODERATELY LINKED':'WEAKLY LINKED'; }
+function linkCls(p){ return p>=60?'chg-pos':p>=40?'':'chg-neg'; }
+function linkColor(p){ return p>=60?'var(--green)':p>=40?'var(--amber)':'var(--red)'; }
+
+function baseLayout(extra){ return Object.assign({
+  paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+  font:{family:'JetBrains Mono,monospace',color:'#c9c3bd',size:11},
+  margin:{l:44,r:16,t:8,b:34}, showlegend:false,
+  xaxis:{gridcolor:'#1c1c1f',zerolinecolor:'#2a2a2a',nticks:3,tickangle:0},
+  yaxis:{gridcolor:'#27272a',griddash:'dot',zerolinecolor:'#3a3a3a'},
+  hoverlabel:{bgcolor:'#141414',bordercolor:'#27272a',font:{family:'JetBrains Mono,monospace',color:'#e5e2e1'}},
+},extra||{}); }
+const CFG={displayModeBar:false,responsive:true};
+
+// ── aggregation over a window ───────────────────────────────────────────────
+function aggregate(vs,ve){
+  const c=CA.comp; const cnt=new Array(8).fill(0), runs=new Array(8).fill(0);
+  const rS=[[],[],[],[],[],[],[],[]],rY=[[],[],[],[],[],[],[],[]],rD=[[],[],[],[],[],[],[],[]],rL=[[],[],[],[],[],[],[],[]];
+  const sgS=[[],[],[],[],[],[],[],[]],sgY=[[],[],[],[],[],[],[],[]],sgD=[[],[],[],[],[],[],[],[]];
+  let prev=-1;
+  for(let i=vs;i<=ve;i++){ const g=c.reg[i]; if(g<0){prev=-1;continue;}
+    cnt[g]++; if(g!==prev) runs[g]++; prev=g;
+    if(c.sret[i]!=null) rS[g].push(c.sret[i]*100);
+    if(c.ybp[i]!=null) rY[g].push(c.ybp[i]);
+    if(c.dret[i]!=null) rD[g].push(c.dret[i]*100);
+    if(c.link[i]!=null) rL[g].push(c.link[i]);
+    if(c.sigS[i]!=null) sgS[g].push(Math.abs(c.sigS[i]));
+    if(c.sigY[i]!=null) sgY[g].push(Math.abs(c.sigY[i]));
+    if(c.sigD[i]!=null) sgD[g].push(Math.abs(c.sigD[i]));
+  }
+  const tot=cnt.reduce((a,b)=>a+b,0)||1;
+  const trans=[]; for(let a=0;a<8;a++) trans.push(new Array(8).fill(0));
+  for(let i=vs;i<ve;i++){ const a=c.reg[i],b=c.reg[i+1]; if(a>=0&&b>=0) trans[a][b]++; }
+  const stat=[]; for(let g=0;g<8;g++){ stat.push({
+    freq:cnt[g]/tot*100, dur:runs[g]?cnt[g]/runs[g]:0,
+    spx:median(rS[g]), y10:median(rY[g]), dxy:median(rD[g]), link:median(rL[g]),
+    theme:[median(sgS[g])||0, median(sgY[g])||0, median(sgD[g])||0] }); }
+  return {cnt,tot,trans,stat};
+}
+function currentRegime(ve){ const c=CA.comp; for(let i=ve;i>=0;i--){ if(c.reg[i]>=0) return i; } return -1; }
+
+// ── header + banner ─────────────────────────────────────────────────────────
+function renderHeader(){ const r=CA.raw.readout, c=CA.comp; const [vs,ve]=windowIdx('reg');
+  const ci=currentRegime(ve); let lp=null; for(let i=ve;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} }
+  const el=document.getElementById('ca-hdr-link');
+  if(lp!=null){ el.textContent=linkLabel(lp)+' ('+Math.round(lp)+'%)'; el.style.color=linkColor(lp); }
+  const rd=document.getElementById('ca-readouts');
+  rd.innerHTML=
+    rdItem('SPX', r.spx.toFixed(2), fpct(r.spx_chg_pct), clsSD(r.spx_chg_pct))+
+    rdItem('10Y', r.y10.toFixed(3)+'%', fbp(r.y10_chg_bp), cls10(r.y10_chg_bp))+
+    rdItem('DXY', r.dxy.toFixed(2), fpct(r.dxy_chg_pct), clsSD(r.dxy_chg_pct));
+}
+function rdItem(tk,val,chg,cls){ return `<div class="ca-rd"><span class="ca-rd-tk">${tk}</span><span class="ca-rd-val">${val}</span><span class="ca-rd-chg ${cls}">${chg}</span></div>`; }
+
+function renderBanner(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ci=currentRegime(ve);
+  const b=document.getElementById('ca-banner'); if(ci<0){ b.innerHTML=''; return; }
+  const g=c.reg[ci]; let s=ci; while(s>0&&c.reg[s-1]===g) s--; const base=Math.max(0,s-1);
+  const cumS=(CA.raw.spx[ci]/CA.raw.spx[base]-1)*100, cumY=(CA.raw.y10[ci]-CA.raw.y10[base])*100, cumD=(CA.raw.dxy[ci]/CA.raw.dxy[base]-1)*100;
+  let lp=null; for(let i=ci;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} }
+  const stocksUp=g<4; b.className='ca-banner '+(stocksUp?'pol-risk-on':'pol-risk-off');
+  b.innerHTML=`<span class="ca-banner-sq" style="background:${COL[g]}"></span>`+
+    `<span class="ca-banner-name">${NAME[g]}</span>`+
+    `<span class="ca-banner-nums">SPX: ${cumS.toFixed(2)} | 10Y: ${sgn(cumY)}${cumY.toFixed(2)} | DXY: ${sgn(cumD)}${cumD.toFixed(2)}</span>`+
+    `<span class="ca-banner-link ${lp!=null?linkCls(lp):''}">${lp!=null?linkLabel(lp):'—'}</span>`;
+}
+
+// ── REGIMES sub-tab ───────────────────────────────────────────────────────
+function regScale(){ const s=[]; for(let k=0;k<8;k++){ s.push([k/8,COL[k]]); s.push([(k+1)/8,COL[k]]); } return s; }
+function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
+  const dates=CA.raw.dates.slice(vs,ve+1);
+  const reg=c.reg.slice(vs,ve+1);
+  document.getElementById('ca-timeline-hdr').textContent='Regime Timeline — '+dates.length+' days';
+  // strip
+  Plotly.react('ca-strip',[{type:'heatmap',z:[reg],x:dates,y:[''],
+    zmin:-0.5,zmax:7.5,colorscale:regScale(),showscale:false,xgap:0,ygap:0,
+    text:[reg.map(g=>g>=0?NAME[g]:'—')],
+    hovertemplate:'%{x}<br>%{text}<extra></extra>'}],
+    baseLayout({height:30,margin:{l:44,r:16,t:2,b:2},
+      xaxis:{visible:false},yaxis:{visible:false}}),CFG);
+  // normalized line
+  const L={x:dates,mode:'lines',type:'scatter',hoverlabel:{namelength:0}};
+  let mx=8; for(let i=vs;i<=ve;i++){ [c.sigS[i],c.sigY[i],c.sigD[i]].forEach(v=>{ if(v!=null) mx=Math.max(mx,Math.abs(v)); }); }
+  const rng=Math.min(Math.ceil(mx),18);
+  Plotly.react('ca-line',[
+    Object.assign({},L,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1.5},name:'SPX',hovertemplate:'SPX %{y:.2f}<extra></extra>'}),
+    Object.assign({},L,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1.5},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
+    Object.assign({},L,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1.5},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
+  ],baseLayout({height:280,hovermode:'x unified',yaxis:{gridcolor:'#27272a',griddash:'dot',zerolinecolor:'#4a4a4a',zerolinewidth:1.4,range:[-rng,rng]}}),CFG);
+  // linkage
+  const lk=c.link.slice(vs,ve+1);
+  Plotly.react('ca-linkage',[{x:dates,y:lk,type:'scatter',mode:'lines',fill:'tozeroy',
+    line:{color:'#ffb800',width:1.4},fillcolor:'rgba(255,184,0,0.18)',
+    hovertemplate:'%{x}<br>Linkage %{y:.0f}%<extra></extra>'}],
+    baseLayout({height:210,yaxis:{gridcolor:'#27272a',griddash:'dot',range:[0,100],ticksuffix:'%'}}),CFG);
+  renderFreq(vs,ve);
+}
+function renderFreq(vs,ve){ const ag=aggregate(vs,ve); const ci=currentRegime(ve), cg=ci>=0?CA.comp.reg[ci]:-1;
+  let body=''; for(let g=0;g<8;g++){ const s=ag.stat[g]; const cur=g===cg;
+    body+=`<tr data-reg="${g}" class="${cur?('ca-row-current '+(g<4?'pol-risk-on':'')):''}" onmouseenter="window.caBarHi(${g})" onmouseleave="window.caBarHi(-1)">`+
+      `<td><span class="ca-dot" style="background:${COL[g]}"></span>${NAME[g]}${cur?' *':''}</td>`+
+      `<td>${s.freq.toFixed(1)}%</td><td>${s.dur.toFixed(1)}d</td>`+
+      `<td class="${clsSD(s.spx)}">${fpct(s.spx,3)}</td>`+
+      `<td class="${cls10(s.y10)}">${fbp(s.y10)}</td>`+
+      `<td class="${clsSD(s.dxy)}">${fpct(s.dxy,3)}</td></tr>`; }
+  document.getElementById('ca-freq-body').innerHTML=body;
+  const freqs=ag.stat.map(s=>s.freq), ymax=Math.max(28,Math.ceil(Math.max.apply(null,freqs)/4)*4);
+  Plotly.react('ca-freq-bar',[{type:'bar',x:['R1','R2','R3','R4','R5','R6','R7','R8'],y:freqs,
+    marker:{color:COL.slice()},text:freqs.map(f=>f.toFixed(1)+'%'),textposition:'none',
+    hovertemplate:'%{x}  %{y:.1f}%<extra></extra>'}],
+    baseLayout({height:190,margin:{l:34,r:8,t:6,b:24},yaxis:{gridcolor:'#27272a',griddash:'dot',range:[0,ymax],ticksuffix:'%'},xaxis:{tickfont:{size:10}}}),CFG);
+  document.getElementById('ca-freq-legend').innerHTML=COL.map((c,k)=>`<span><i style="background:${c}"></i>R${k+1}</span>`).join('');
+}
+window.caBarHi=function(g){ const rows=document.querySelectorAll('#ca-freq-body tr'); rows.forEach(r=>r.classList.remove('ca-bar-hi'));
+  const bar=document.getElementById('ca-freq-bar');
+  if(g>=0){ const rw=document.querySelector('#ca-freq-body tr[data-reg="'+g+'"]'); if(rw)rw.classList.add('ca-bar-hi');
+    try{ Plotly.restyle(bar,{'marker.line.width':[COL.map((_,k)=>k===g?2.5:0)],'marker.line.color':[COL.map(()=>'#fff')]}); }catch(e){} }
+  else{ try{ Plotly.restyle(bar,{'marker.line.width':[COL.map(()=>0)]}); }catch(e){} }
+};
+
+// ── ATTRIBUTION sub-tab ─────────────────────────────────────────────────────
+function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
+  document.getElementById('ca-attr-help').textContent=`Uses ${L}D rolling returns, analyzed over ${W}-day windows.`;
+  document.getElementById('ca-attr-hdr').innerHTML='Rolling Returns &mdash; '+L+'D vol-adjusted returns for each asset';
+  // full history, brush-zoomed
+  const n=CA.raw.n, span=n-1, b=CA.brush.attr; const vs=Math.round(b[0]*span), ve=Math.round(b[1]*span);
+  const dates=CA.raw.dates.slice(vs,ve+1);
+  // stat blocks = latest signal values
+  const last=currentRegime(n-1); const vS=c.sigS[last],vY=c.sigY[last],vD=c.sigD[last];
+  const blocks=[['SPX '+L+'D (vol-adj)',vS,clsSD(vS)],['10Y '+L+'D (vol-adj)',vY,cls10(vY)],['DXY '+L+'D (vol-adj)',vD,clsSD(vD)]];
+  document.getElementById('ca-attr-stats').innerHTML=blocks.map(([lbl,v,cl])=>
+    `<div class="ca-stat"><div class="ca-stat-lbl">${lbl}</div>`+
+    `<div class="ca-stat-val ${cl}">${v==null?'—':(v>0?'+':'')+v.toFixed(2)}</div>`+
+    `<div class="ca-stat-cap">${(v!=null&&Math.abs(v)>2)?'extreme move':''}</div></div>`).join('');
+  const Ln={x:dates,mode:'lines',type:'scatter'};
+  Plotly.react('ca-attr-line',[
+    Object.assign({},Ln,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1},name:'SPX',hovertemplate:'SPX %{y:.2f}<extra></extra>'}),
+    Object.assign({},Ln,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
+    Object.assign({},Ln,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
+  ],baseLayout({height:360,hovermode:'x unified',
+    yaxis:{gridcolor:'#27272a',griddash:'dot',zerolinecolor:'#4a4a4a',zerolinewidth:1.2},
+    shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:2,y1:2,line:{color:'#6b6355',dash:'dash',width:1}},
+            {type:'line',xref:'paper',x0:0,x1:1,y0:-2,y1:-2,line:{color:'#6b6355',dash:'dash',width:1}}]}),CFG);
+}
+
+// ── TRANSITIONS sub-tab ─────────────────────────────────────────────────────
+function histLinkFor(g){ const c=CA.comp,a=[]; for(let i=0;i<c.n;i++){ if(c.reg[i]===g&&c.link[i]!=null) a.push(c.link[i]); } return median(a); }
+function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ag=aggregate(vs,ve);
+  const ci=currentRegime(ve); if(ci<0) return; const g=c.reg[ci]; const foc=CA.st.focus;
+  document.getElementById('ca-cur-hdr').textContent='Current State — R'+(g+1);
+  const nb=document.getElementById('ca-cur-name'); nb.textContent=NAME[g];
+  nb.style.borderLeftColor=COL[g]; nb.style.background=(g<4?'rgba(63,185,80,0.10)':'rgba(248,81,73,0.10)');
+  const sig=[['SPX SIGNAL',c.sigS[ci],clsSD(c.sigS[ci])],['10Y SIGNAL',c.sigY[ci],cls10(c.sigY[ci])],['DXY SIGNAL',c.sigD[ci],clsSD(c.sigD[ci])]];
+  document.getElementById('ca-cur-signals').innerHTML=sig.map(([l,v,cl])=>
+    `<div class="ca-signal"><div class="ca-signal-lbl">${l}</div><div class="ca-signal-val ${cl}">${v==null?'—':(v>0?'+':'')+v.toFixed(2)}</div></div>`).join('');
+  let lp=null; for(let i=ci;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} } lp=lp==null?0:lp;
+  const co=document.getElementById('ca-cur-callout');
+  co.className='ca-callout '+(lp>=60?'':lp>=40?'link-mod':'link-weak');
+  const sent=lp>=60?'All 3 assets are being driven by the same theme. Regime signal is strong.'
+    :lp>=40?'The 3 assets are partially linked. Regime signal is moderate.'
+    :'The 3 assets are moving on their own drivers. Regime signal is weak.';
+  co.innerHTML=`<b>MARKET LINKAGE</b>  ${linkLabel(lp)} (${Math.round(lp)}%)  ${sent}`;
+  const hl=histLinkFor(g); const tag=hl==null?'':(hl>=55?'typically linked':hl>=40?'typically mixed':'typically independent');
+  document.getElementById('ca-cur-hist').innerHTML=`Historical median linkage when in this regime: <b>${hl==null?'—':Math.round(hl)+'%'}</b> ${hl==null?'':'('+tag+')'}`;
+  // what's next
+  document.getElementById('ca-next-hdr').textContent="What's Next — From R"+(g+1)+" - historical transition probabilities";
+  const row=ag.trans[g], rtot=row.reduce((a,b)=>a+b,0)||1;
+  const order=[]; for(let j=0;j<8;j++) order.push(j); order.sort((a,b)=>row[b]-row[a]);
+  const emph={SPX:3,'10Y':4,DXY:5};
+  let nb2=''; order.forEach(j=>{ const st=ag.stat[j]; const cur=j===g; const p=row[j]/rtot*100;
+    const ec=k=>(foc!=='ALL'&&emph[foc]===k)?' ca-emph':'';
+    nb2+=`<tr class="${cur?'ca-row-current':''}">`+
+      `<td><span class="ca-dot" style="background:${COL[j]}"></span>${cur?'<b>R'+(j+1)+' (stay)</b>':'R'+(j+1)}</td>`+
+      `<td>${p.toFixed(0)}%</td><td>${row[j]}</td>`+
+      `<td class="${clsSD(st.spx)}${ec(3)}">${fpct(st.spx,3)}</td>`+
+      `<td class="${cls10(st.y10)}${ec(4)}">${fbp(st.y10)}</td>`+
+      `<td class="${clsSD(st.dxy)}${ec(5)}">${fpct(st.dxy,3)}</td>`+
+      `<td>${st.link==null?'—':Math.round(st.link)+'%'}</td></tr>`; });
+  document.getElementById('ca-next-body').innerHTML=nb2;
+  // regime economics
+  let eb=''; for(let j=0;j<8;j++){ const st=ag.stat[j]; const th=st.theme, tt=(th[0]+th[1]+th[2])||1;
+    const seg=`<span class="ca-themebar"><i style="width:${th[0]/tt*100}%;background:${A_SPX}"></i><i style="width:${th[1]/tt*100}%;background:${A_10Y}"></i><i style="width:${th[2]/tt*100}%;background:${A_DXY}"></i></span>`;
+    eb+=`<tr class="${j===g?'ca-row-current':''}"><td><span class="ca-dot" style="background:${COL[j]}"></span>R${j+1}</td>`+
+      `<td class="${clsSD(st.spx)}">${fpct(st.spx,3)}</td><td class="${cls10(st.y10)}">${fbp(st.y10)}</td>`+
+      `<td class="${clsSD(st.dxy)}">${fpct(st.dxy,3)}</td><td>${st.link==null?'—':Math.round(st.link)+'%'}</td><td style="text-align:right">${seg}</td></tr>`; }
+  document.getElementById('ca-econ-body').innerHTML=eb;
+  // transition matrix (rows R1..R8, cols R1..R8 + STICK)
+  const labX=['R1','R2','R3','R4','R5','R6','R7','R8','STICK'], labY=['R1','R2','R3','R4','R5','R6','R7','R8'];
+  const z=[],txt=[]; for(let a=7;a>=0;a--){ const t=ag.trans[a].reduce((x,y)=>x+y,0)||1; const zr=[],tr=[];
+    for(let bcol=0;bcol<8;bcol++){ const p=ag.trans[a][bcol]/t*100; zr.push(p); tr.push(p.toFixed(0)); }
+    const stick=ag.trans[a][a]/t*100; zr.push(stick); tr.push(stick.toFixed(0)); z.push(zr); txt.push(tr); }
+  const yRev=labY.slice().reverse();
+  const shapes=[]; for(let d=0;d<8;d++){ shapes.push({type:'rect',x0:d-0.5,x1:d+0.5,xref:'x',
+    y0:(7-d)-0.5,y1:(7-d)+0.5,yref:'y',line:{color:'#ffb800',width:1.6},fillcolor:'rgba(0,0,0,0)'}); }
+  Plotly.react('ca-matrix',[{type:'heatmap',z:z,x:labX,y:yRev,text:txt,texttemplate:'%{text}',
+    textfont:{size:9,color:'#e5e2e1'},colorscale:[[0,'#0e0e0e'],[0.4,'#5c4300'],[1,'#ffb800']],
+    showscale:false,xgap:1,ygap:1,hovertemplate:'%{y} → %{x}: %{z:.0f}%<extra></extra>'}],
+    baseLayout({height:360,margin:{l:34,r:8,t:8,b:26},shapes:shapes,
+      xaxis:{side:'top',tickfont:{size:10}},yaxis:{tickfont:{size:10},autorange:true}}),CFG);
+}
+
+// ── SYNTHESIS sub-tab ───────────────────────────────────────────────────────
+function renderSynthesis(){ const rows=CA.raw.synthesis||[];
+  const tierCls={PRIMARY:'v-primary',SECONDARY:'v-secondary',CONFIRMING:'v-confirming'};
+  const badgeCls={PRIMARY:'b-primary',SECONDARY:'b-secondary',CONFIRMING:'b-confirming'};
+  document.getElementById('ca-synth-body').innerHTML=rows.map(r=>
+    `<tr class="${r.cat==='CONFIRMING'?'tier-confirming':''}">`+
+    `<td style="text-align:left">${r.rank}</td>`+
+    `<td style="text-align:left"><b>${r.rel}</b></td>`+
+    `<td class="${tierCls[r.cat]}">${r.v.toFixed(3)}</td>`+
+    `<td style="text-align:left"><span class="ca-badge ${badgeCls[r.cat]}">${r.cat}</span></td>`+
+    `<td style="text-align:left;color:var(--text-muted);white-space:normal">${r.interp}</td></tr>`).join('');
+}
+
+// ── dispatch ────────────────────────────────────────────────────────────────
+function renderActive(){ const s=CA.st.sub;
+  if(s==='regimes') renderRegimes();
+  else if(s==='attribution') renderAttr();
+  else if(s==='transitions') renderTransitions();
+  else if(s==='synthesis') renderSynthesis();
+}
+function renderAll(){ if(!CA.comp) recompute(); if(!CA.comp) return; renderHeader(); renderBanner(); renderActive(); }
+
+window.caSet=function(key,val,btn){ CA.st[key]=val;
+  const grp=btn.parentElement; grp.querySelectorAll('.ca-seg').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  if(key==='method'||key==='lookback'||key==='vol'){ recompute(); CA.brush.attr=[0,1]; setBrushUI('attr'); renderAll(); }
+  else if(key==='range'){ CA.brush.reg=[0,1]; setBrushUI('reg'); renderHeader(); renderBanner(); if(CA.st.sub==='regimes'||CA.st.sub==='transitions') renderActive(); }
+  else if(key==='attrWin'){ renderAttr(); }
+  else if(key==='focus'){ renderTransitions(); }
+};
+window.caSub=function(name,btn){ CA.st.sub=name;
+  document.querySelectorAll('#ca-subtabs .itab').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.querySelectorAll('#main-cross-asset .ca-sub-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('ca-sub-'+name).classList.add('active');
+  renderActive();
+};
+
+// ── range brush (dual-handle) ────────────────────────────────────────────────
+function setBrushUI(key){ const id=key==='reg'?'ca-brush-reg':'ca-brush-attr'; const el=document.getElementById(id); if(!el) return;
+  const b=CA.brush[key], W=el.clientWidth||el.offsetWidth; const fill=el.querySelector('.ca-brush-fill');
+  const h0=el.querySelector('.ca-brush-h0'), h1=el.querySelector('.ca-brush-h1');
+  fill.style.left=(b[0]*100)+'%'; fill.style.width=((b[1]-b[0])*100)+'%';
+  h0.style.left='calc('+(b[0]*100)+'% - 5px)'; h1.style.left='calc('+(b[1]*100)+'% - 5px)';
+}
+function initBrush(key){ const id=key==='reg'?'ca-brush-reg':'ca-brush-attr'; const el=document.getElementById(id); if(!el) return;
+  const h0=el.querySelector('.ca-brush-h0'), h1=el.querySelector('.ca-brush-h1'), fill=el.querySelector('.ca-brush-fill');
+  let drag=null,startX=0,start0=0,start1=0;
+  const frac=e=>{ const r=el.getBoundingClientRect(); return Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)); };
+  const onMove=e=>{ if(!drag)return; const f=frac(e); const b=CA.brush[key];
+    if(drag==='h0') b[0]=Math.min(f,b[1]-0.02);
+    else if(drag==='h1') b[1]=Math.max(f,b[0]+0.02);
+    else if(drag==='fill'){ const d=f-startX, w=start1-start0; let a=start0+d; a=Math.min(Math.max(0,a),1-w); b[0]=a; b[1]=a+w; }
+    setBrushUI(key); brushRender(key); };
+  const onUp=()=>{ drag=null; document.removeEventListener('pointermove',onMove); document.removeEventListener('pointerup',onUp); };
+  const grab=(which)=>e=>{ e.preventDefault(); drag=which; startX=frac(e); start0=CA.brush[key][0]; start1=CA.brush[key][1];
+    document.addEventListener('pointermove',onMove); document.addEventListener('pointerup',onUp); };
+  h0.addEventListener('pointerdown',grab('h0')); h1.addEventListener('pointerdown',grab('h1')); fill.addEventListener('pointerdown',grab('fill'));
+  setBrushUI(key);
+}
+function brushRender(key){ if(key==='reg'){ renderHeader(); renderBanner(); renderRegimes(); } else { renderAttr(); } }
+
+// ── boot ──────────────────────────────────────────────────────────────────
+window._redraw=window._redraw||{};
+window._redraw['cross-asset']=function(){ renderAll(); setBrushUI('reg'); setBrushUI('attr'); };
+fetch('cross_asset.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{ if(!d) return;
+  CA.raw=d; recompute();
+  initBrush('reg'); initBrush('attr');
+  if(window._activeMain==='cross-asset') renderAll();
+}).catch(e=>{ console.error('cross_asset load failed',e); });
 })();
 </script>
 </body>
