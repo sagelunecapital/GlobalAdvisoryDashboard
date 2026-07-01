@@ -6582,7 +6582,7 @@ function renderBanner(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ci=cur
   const g=c.reg[ci]; let s=ci; while(s>0&&c.reg[s-1]===g) s--; const base=Math.max(0,s-1);
   const cumS=(CA.raw.spx[ci]/CA.raw.spx[base]-1)*100, cumY=(CA.raw.y10[ci]-CA.raw.y10[base])*100, cumD=(CA.raw.dxy[ci]/CA.raw.dxy[base]-1)*100;
   let lp=null; for(let i=ci;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} }
-  const stocksUp=g<4; b.className='ca-banner '+(stocksUp?'pol-risk-on':'pol-risk-off');
+  b.className='ca-banner '+(lp==null?'':(lp>=60?'pol-risk-on':lp>=40?'pol-mixed':'pol-risk-off'));  // tint mirrors linkage strength
   b.innerHTML=`<span class="ca-banner-sq" style="background:${COL[g]}"></span>`+
     `<span class="ca-banner-name" style="color:${COL[g]}">${NAME[g]}</span>`+
     `<span class="ca-banner-nums">SPX: ${cumS.toFixed(2)} | 10Y: ${sgn(cumY)}${cumY.toFixed(2)} | DXY: ${sgn(cumD)}${cumD.toFixed(2)}</span>`+
@@ -6643,28 +6643,38 @@ window.caBarHi=function(g){ const rows=document.querySelectorAll('#ca-freq-body 
 };
 
 // ── ATTRIBUTION sub-tab ─────────────────────────────────────────────────────
+function windowStats(arr,endIdx,w){ const a=[]; for(let i=Math.max(0,endIdx-w+1);i<=endIdx;i++){ if(arr[i]!=null) a.push(arr[i]); }
+  if(a.length<w*0.6) return null; const m=a.reduce((x,y)=>x+y,0)/a.length;
+  const sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/Math.max(1,a.length-1)); return {m,sd}; }
 function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
   document.getElementById('ca-attr-help').textContent=`Uses ${L}D rolling returns, analyzed over ${W}-day windows.`;
   document.getElementById('ca-attr-hdr').innerHTML='Rolling Returns <span class="ca-desc">&mdash; '+L+'D vol-adjusted returns for each asset</span>';
   // full history, brush-zoomed
   const n=CA.raw.n, span=n-1, b=CA.brush.attr; const vs=Math.round(b[0]*span), ve=Math.round(b[1]*span);
   const dates=CA.raw.dates.slice(vs,ve+1);
-  // stat blocks = latest signal values
-  const last=currentRegime(n-1); const vS=c.sigS[last],vY=c.sigY[last],vD=c.sigD[last];
-  const blocks=[['SPX '+L+'D (vol-adj)',vS,clsSD(vS)],['10Y '+L+'D (vol-adj)',vY,cls10(vY)],['DXY '+L+'D (vol-adj)',vD,clsSD(vD)]];
-  document.getElementById('ca-attr-stats').innerHTML=blocks.map(([lbl,v,cl])=>
-    `<div class="ca-stat"><div class="ca-stat-lbl">${lbl}</div>`+
-    `<div class="ca-stat-val ${cl}">${v==null?'—':(v>0?'+':'')+v.toFixed(2)}</div>`+
-    `<div class="ca-stat-cap">${(v!=null&&Math.abs(v)>2)?'extreme move':''}</div></div>`).join('');
+  // stat blocks: latest signal; "extreme move" judged over the trailing W-day window
+  const last=currentRegime(n-1);
+  const defs=[['SPX '+L+'D (vol-adj)',c.sigS,clsSD],['10Y '+L+'D (vol-adj)',c.sigY,cls10],['DXY '+L+'D (vol-adj)',c.sigD,clsSD]];
+  document.getElementById('ca-attr-stats').innerHTML=defs.map(([lbl,arr,clsFn])=>{
+    const v=arr[last], ws=windowStats(arr,last,W);
+    const ext=(v!=null&&ws&&ws.sd>0&&Math.abs((v-ws.m)/ws.sd)>2);
+    return `<div class="ca-stat"><div class="ca-stat-lbl">${lbl}</div>`+
+      `<div class="ca-stat-val ${clsFn(v)}">${v==null?'—':(v>0?'+':'')+v.toFixed(2)}</div>`+
+      `<div class="ca-stat-cap">${ext?'extreme move':''}</div></div>`;
+  }).join('');
   const Ln={x:dates,mode:'lines',type:'scatter'};
+  const shapes=[{type:'line',xref:'paper',x0:0,x1:1,y0:2,y1:2,line:{color:'#6b6355',dash:'dash',width:1}},
+                {type:'line',xref:'paper',x0:0,x1:1,y0:-2,y1:-2,line:{color:'#6b6355',dash:'dash',width:1}}];
+  if(ve===n-1 && dates.length){ shapes.push({type:'rect',xref:'x',yref:'paper',layer:'below',
+    x0:CA.raw.dates[Math.max(vs,n-W)],x1:CA.raw.dates[ve],y0:0,y1:1,
+    fillcolor:'rgba(255,184,0,0.06)',line:{width:0}}); }
   Plotly.react('ca-attr-line',[
     Object.assign({},Ln,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1},name:'SPX',hovertemplate:'SPX %{y:.2f}<extra></extra>'}),
     Object.assign({},Ln,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
     Object.assign({},Ln,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
   ],baseLayout({height:360,hovermode:'x unified',
     yaxis:{gridcolor:'#27272a',griddash:'dot',zerolinecolor:'#4a4a4a',zerolinewidth:1.2},
-    shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:2,y1:2,line:{color:'#6b6355',dash:'dash',width:1}},
-            {type:'line',xref:'paper',x0:0,x1:1,y0:-2,y1:-2,line:{color:'#6b6355',dash:'dash',width:1}}]}),CFG);
+    shapes:shapes}),CFG);
 }
 
 // ── TRANSITIONS sub-tab ─────────────────────────────────────────────────────
