@@ -6586,7 +6586,7 @@ function renderBanner(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ci=cur
   b.innerHTML=`<span class="ca-banner-sq" style="background:${COL[g]}"></span>`+
     `<span class="ca-banner-name" style="color:${COL[g]}">${NAME[g]}</span>`+
     `<span class="ca-banner-nums">SPX: ${cumS.toFixed(2)} | 10Y: ${sgn(cumY)}${cumY.toFixed(2)} | DXY: ${sgn(cumD)}${cumD.toFixed(2)}</span>`+
-    `<span class="ca-banner-link ${lp!=null?linkCls(lp):''}">${lp!=null?linkLabel(lp):'—'}</span>`;
+    `<span class="ca-banner-link" style="color:${lp!=null?linkColor(lp):'inherit'}">${lp!=null?linkLabel(lp):'—'}</span>`;
 }
 
 // ── REGIMES sub-tab ───────────────────────────────────────────────────────
@@ -6622,7 +6622,7 @@ function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
 function renderFreq(vs,ve){ const ag=aggregate(vs,ve); const ci=currentRegime(ve), cg=ci>=0?CA.comp.reg[ci]:-1;
   let body=''; for(let g=0;g<8;g++){ const s=ag.stat[g]; const cur=g===cg;
     body+=`<tr data-reg="${g}" class="${cur?('ca-row-current '+(g<4?'pol-risk-on':'')):''}" onmouseenter="window.caBarHi(${g})" onmouseleave="window.caBarHi(-1)">`+
-      `<td><span class="ca-dot" style="background:${COL[g]}"></span>${NAME[g]}${cur?' *':''}</td>`+
+      `<td><span class="ca-dot" style="background:${COL[g]}"></span><span style="color:${COL[g]}">${NAME[g]}${cur?' *':''}</span></td>`+
       `<td>${s.freq.toFixed(1)}%</td><td>${s.dur.toFixed(1)}d</td>`+
       `<td class="${clsSD(s.spx)}">${fpct(s.spx,3)}</td>`+
       `<td class="${cls10(s.y10)}">${fbp(s.y10)}</td>`+
@@ -6669,7 +6669,7 @@ function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
 
 // ── TRANSITIONS sub-tab ─────────────────────────────────────────────────────
 function histLinkFor(g){ const c=CA.comp,a=[]; for(let i=0;i<c.n;i++){ if(c.reg[i]===g&&c.link[i]!=null) a.push(c.link[i]); } return median(a); }
-function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ag=aggregate(vs,ve);
+function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ag=aggregate(0,CA.raw.n-1);  // transition stats are historical (full sample), not range-windowed
   const ci=currentRegime(ve); if(ci<0) return; const g=c.reg[ci]; const foc=CA.st.focus;
   document.getElementById('ca-cur-hdr').innerHTML='Current State <span class="ca-desc">— R'+(g+1)+'</span>';
   const nb=document.getElementById('ca-cur-name'); nb.textContent=NAME[g];
