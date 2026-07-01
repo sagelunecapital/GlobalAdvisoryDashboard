@@ -57,6 +57,9 @@ Invoke-Step "scripts\fetch_warsh.py"    "fetch_warsh.py failed - warsh.json may 
 # 2c. Yen & Carry tab data (FRED + yfinance: USDJPY/DXY, fair-value, correlation, Aug-2024 unwind)
 Invoke-Step "scripts\fetch_yen.py"      "fetch_yen.py failed - yen.json may be stale (tab falls back to illustrative curves)."
 
+# 2d. Cross-Asset Regimes tab data (yfinance ^GSPC/DX-Y.NYB + FRED DGS10/DGS2/DFII10/T10YIE)
+Invoke-Step "scripts\cross_asset_fetch.py" "cross_asset_fetch.py failed - cross_asset.json may be stale."
+
 # 3. Sector rotation: the collector refreshes sector_rotation.db AND auto-exports
 #    sector_rotation.json + ticker_perf.json internally (no separate export step needed).
 #    MFRA then computes/exports from the same DB.
@@ -84,7 +87,8 @@ $dataFiles = @(
     "prototypes/mfra_group.json",
     "prototypes/cot_data.json",
     "prototypes/price_data.json",
-    "prototypes/carry.json"
+    "prototypes/carry.json",
+    "prototypes/cross_asset.json"
 )
 $changes = git diff --name-only -- $dataFiles
 if ($changes) {
