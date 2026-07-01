@@ -26,9 +26,16 @@ NEVER call `screener_enrich.py` or the Anthropic API — those are forbidden for
    continuation flag; ticker-only naming; **no em dashes**. For HK/CN, reuse the existing US
    enrichment logic — do not duplicate with a separate code path.
 
-4. **Commit the JSON and push to MAIN.** Vercel deploys from `main`, not `staging`. Commit the
-   affected file(s): `screener_movers.json`, `screener_movers_cn.json`, and/or `screener_ipos.json`.
+4. **Refresh weekly returns.** After enrichment, run `python scripts/screener_weekly.py`. It
+   recomputes the Fri-to-Fri weekly return per ticker (via yfinance) and rewrites
+   `weekly_returns` inside `screener_movers.json` and `screener_movers_cn.json` — the weekly
+   movers view reads these to show each ticker once with its true weekly move. Idempotent; any
+   ticker that doesn't resolve is listed and falls back to the daily change in the UI.
 
-5. **Verify live before reporting done.** Curl the live Vercel URL for the JSON
+5. **Commit the JSON and push to MAIN.** Vercel deploys from `main`, not `staging`. Commit the
+   affected file(s): `screener_movers.json`, `screener_movers_cn.json`, and/or `screener_ipos.json`
+   (the weekly-returns step above also modifies the two movers files — include those changes).
+
+6. **Verify live before reporting done.** Curl the live Vercel URL for the JSON
    (e.g. `https://global-advisory-dashboard.vercel.app/screener_movers.json`) and confirm the new
    enriched values are actually served. Do not declare success on push alone.
