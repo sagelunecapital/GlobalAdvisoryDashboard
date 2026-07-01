@@ -5990,12 +5990,44 @@ function scrRenderMovers(){
   const byDate=_mData.by_date||{};
   let rows;
   if(scrView==='weekly'){
-    // Aggregate the Mon–Fri week (dedup by ticker, keeping first occurrence)
+    // Consolidate the Mon-Fri week: one row per ticker, themes merged across days
+    // by ticker overlap, and % = the true Fri-to-Fri weekly return.
     const day=scrDate.getDay();
     const mon=new Date(scrDate); mon.setDate(scrDate.getDate()-(day===0?6:day-1));
-    rows=[]; const seen=new Set();
+    const monIso=scrIso(mon);
+    const wret=(_mData.weekly_returns||{})[monIso]||{};
+    const weekRows=[];
     for(let i=0;i<5;i++){const dt=new Date(mon);dt.setDate(mon.getDate()+i);
-      (byDate[scrIso(dt)]||[]).forEach(r=>{const k=r.ticker+'|'+(r.group_id||'');if(!seen.has(k)){seen.add(k);rows.push(r);}});}
+      (byDate[scrIso(dt)]||[]).forEach(r=>weekRows.push(r));}
+    // group_id -> set of tickers seen under it this week
+    const gTk={};
+    weekRows.forEach(r=>{ if(r.group_id){(gTk[r.group_id]=gTk[r.group_id]||new Set()).add(r.ticker);} });
+    // union-find: merge two groups that share >=2 tickers (same evolving theme)
+    const gids=Object.keys(gTk), parent={}; gids.forEach(g=>parent[g]=g);
+    const find=x=>{while(parent[x]!==x){parent[x]=parent[parent[x]];x=parent[x];}return x;};
+    for(let a=0;a<gids.length;a++)for(let b=a+1;b<gids.length;b++){
+      let ov=0; gTk[gids[a]].forEach(t=>{if(gTk[gids[b]].has(t))ov++;});
+      if(ov>=2) parent[find(gids[a])]=find(gids[b]);
+    }
+    // canonical theme per group + representative group (largest membership) for the summary
+    const themeRep={};
+    gids.forEach(g=>{ const th=find(g), sz=gTk[g].size;
+      if(!themeRep[th]||sz>themeRep[th].size){ const rr=weekRows.find(x=>x.group_id===g);
+        themeRep[th]={size:sz,summary:(rr&&rr.group_summary)||'',cat:(rr&&rr.catalyst_type)||'other'}; } });
+    // ticker -> theme (a standalone ticker is absorbed into any group it joined that week)
+    const tkTheme={};
+    weekRows.forEach(r=>{ if(r.group_id && !(r.ticker in tkTheme)) tkTheme[r.ticker]=find(r.group_id); });
+    // pick one representative row per ticker (prefer a grouped occurrence)
+    const byTk={};
+    weekRows.forEach(r=>{ const sc=r.group_id?2:1; const cur=byTk[r.ticker];
+      if(!cur||sc>cur._sc) byTk[r.ticker]={...r,_sc:sc}; });
+    rows=Object.values(byTk).map(r=>{
+      const th=tkTheme[r.ticker]||null, o={...r};
+      if(th){ o.group_id=th; o.group_summary=themeRep[th].summary; o.catalyst_type=r.catalyst_type||themeRep[th].cat; }
+      else o.group_id=null;
+      if(r.ticker in wret) o.change_pct=wret[r.ticker];   // Fri-to-Fri weekly return
+      delete o._sc; return o;
+    });
   } else {
     rows=byDate[scrIso(scrDate)]||[];
   }
