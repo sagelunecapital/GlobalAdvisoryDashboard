@@ -695,6 +695,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .ca-table tr.ca-bar-hi td{background:rgba(255,184,0,0.12)}
 .ca-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:baseline}
 .ca-emph{color:#fff !important;font-weight:800}
+.ca-table td.chg-pos{color:var(--green)}
+.ca-table td.chg-neg{color:var(--red)}
+.ca-table td.chg-flat{color:var(--text-muted)}
+.ca-desc{font-size:var(--fs-sm);color:var(--text-muted);font-weight:500;letter-spacing:0}
 
 .ca-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
 .ca-legend span{display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--text-muted);font-weight:600}
@@ -953,14 +957,14 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           <div class="ca-brush" id="ca-brush-reg"><div class="ca-brush-track"></div><div class="ca-brush-fill"></div><div class="ca-brush-h ca-brush-h0"></div><div class="ca-brush-h ca-brush-h1"></div></div>
         </div>
         <div class="card">
-          <div class="card-header">Market Linkage &mdash; Are all 3 assets moving together or independently?</div>
+          <div class="card-header">Market Linkage <span class="ca-desc">&mdash; Are all 3 assets moving together or independently?</span></div>
           <div class="ca-explain">How to read this: When the amber area is HIGH (&gt;60%), stocks, bonds, and the dollar are being driven by the same thing (e.g. a Fed decision or risk-on/risk-off move). When it's LOW (&lt;40%), each asset is moving on its own drivers. High linkage = macro-driven market. Low linkage = idiosyncratic moves.</div>
           <div class="cw" id="ca-linkage" style="height:210px"><div class="chart-tt" id="tt-ca-linkage"></div></div>
         </div>
       </div>
       <div>
         <div class="card">
-          <div class="card-header">Regime Frequency &mdash; How often each regime occurs &amp; what returns look like in it</div>
+          <div class="card-header">Regime Frequency <span class="ca-desc">&mdash; How often each regime occurs &amp; what returns look like in it</span></div>
           <div class="ca-explain">Reading the table: FREQ = how often this regime happens. AVG DUR = how many consecutive days it typically lasts. SPX/10Y/DXY = the median daily return for each asset while in this regime. Green = positive for you (stocks up or yields down). Red = negative.</div>
           <table class="ca-table" id="ca-freq-table">
             <thead><tr><th>Regime</th><th>Freq</th><th>Avg Dur</th><th>SPX</th><th>10Y</th><th>DXY</th></tr></thead>
@@ -968,12 +972,6 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           </table>
           <div class="cw" id="ca-freq-bar" style="height:190px;margin-top:14px"><div class="chart-tt" id="tt-ca-freq-bar"></div></div>
           <div class="ca-legend" id="ca-freq-legend"></div>
-          <div class="ca-actions">
-            <button title="Helpful">thumb_up</button><button title="Not helpful">thumb_down</button>
-            <button title="Comment">chat_bubble</button><button title="Quote">format_quote</button>
-            <button title="Share">share</button><button title="Regenerate">auto_awesome</button>
-            <button title="More">more_horiz</button>
-          </div>
         </div>
       </div>
     </div>
@@ -1034,7 +1032,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
           </table>
         </div>
         <div class="card">
-          <div class="card-header">Transition Matrix &mdash; P(row &rarr; col)</div>
+          <div class="card-header">Transition Matrix <span class="ca-desc">&mdash; P(row &rarr; col)</span></div>
           <div class="ca-explain">Each cell = % chance of going from the row regime to the column regime. Diagonal (highlighted) = how likely it is to stay in the same regime.</div>
           <div class="cw" id="ca-matrix" style="height:360px"><div class="chart-tt" id="tt-ca-matrix"></div></div>
         </div>
@@ -1046,7 +1044,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
   <div id="ca-sub-synthesis" class="ca-sub-view">
     <div class="ca-explain ca-explain-lg"><b>SYNTHESIS TAB:</b> This page connects all moving parts &mdash; curve regimes, cross-asset regimes, rate decomposition, dollar, spreads &mdash; and ranks them by statistical importance. Sections are ordered top-to-bottom by actionability. It tells you <b>what is happening</b> (regime classification), <b>whether it's internally consistent</b> (dollar durability, flows netting, signal agreement), and <b>what historically co-occurs</b> (curve mapping, conditional attribution, transition probabilities). It does <b>not</b> predict the future. Use it to size conviction and identify when your thesis is aligned with or against historical base rates.</div>
     <div class="card">
-      <div class="card-header">Relationship Ranking &mdash; All pairwise associations ranked by Cramer's V statistical strength</div>
+      <div class="card-header">Relationship Ranking <span class="ca-desc">&mdash; All pairwise associations ranked by Cramer's V statistical strength</span></div>
       <table class="ca-table" id="ca-synth-table">
         <thead><tr><th>Rank</th><th>Relationship</th><th>V</th><th>Category</th><th>Interpretation</th></tr></thead>
         <tbody id="ca-synth-body"></tbody>
@@ -6586,7 +6584,7 @@ function renderBanner(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ci=cur
   let lp=null; for(let i=ci;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} }
   const stocksUp=g<4; b.className='ca-banner '+(stocksUp?'pol-risk-on':'pol-risk-off');
   b.innerHTML=`<span class="ca-banner-sq" style="background:${COL[g]}"></span>`+
-    `<span class="ca-banner-name">${NAME[g]}</span>`+
+    `<span class="ca-banner-name" style="color:${COL[g]}">${NAME[g]}</span>`+
     `<span class="ca-banner-nums">SPX: ${cumS.toFixed(2)} | 10Y: ${sgn(cumY)}${cumY.toFixed(2)} | DXY: ${sgn(cumD)}${cumD.toFixed(2)}</span>`+
     `<span class="ca-banner-link ${lp!=null?linkCls(lp):''}">${lp!=null?linkLabel(lp):'—'}</span>`;
 }
@@ -6596,7 +6594,7 @@ function regScale(){ const s=[]; for(let k=0;k<8;k++){ s.push([k/8,COL[k]]); s.p
 function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
   const dates=CA.raw.dates.slice(vs,ve+1);
   const reg=c.reg.slice(vs,ve+1);
-  document.getElementById('ca-timeline-hdr').textContent='Regime Timeline — '+dates.length+' days';
+  document.getElementById('ca-timeline-hdr').innerHTML='Regime Timeline <span class="ca-desc">— '+dates.length+' days</span>';
   // strip
   Plotly.react('ca-strip',[{type:'heatmap',z:[reg],x:dates,y:[''],
     zmin:-0.5,zmax:7.5,colorscale:regScale(),showscale:false,xgap:0,ygap:0,
@@ -6647,7 +6645,7 @@ window.caBarHi=function(g){ const rows=document.querySelectorAll('#ca-freq-body 
 // ── ATTRIBUTION sub-tab ─────────────────────────────────────────────────────
 function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
   document.getElementById('ca-attr-help').textContent=`Uses ${L}D rolling returns, analyzed over ${W}-day windows.`;
-  document.getElementById('ca-attr-hdr').innerHTML='Rolling Returns &mdash; '+L+'D vol-adjusted returns for each asset';
+  document.getElementById('ca-attr-hdr').innerHTML='Rolling Returns <span class="ca-desc">&mdash; '+L+'D vol-adjusted returns for each asset</span>';
   // full history, brush-zoomed
   const n=CA.raw.n, span=n-1, b=CA.brush.attr; const vs=Math.round(b[0]*span), ve=Math.round(b[1]*span);
   const dates=CA.raw.dates.slice(vs,ve+1);
@@ -6673,9 +6671,9 @@ function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
 function histLinkFor(g){ const c=CA.comp,a=[]; for(let i=0;i<c.n;i++){ if(c.reg[i]===g&&c.link[i]!=null) a.push(c.link[i]); } return median(a); }
 function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ag=aggregate(vs,ve);
   const ci=currentRegime(ve); if(ci<0) return; const g=c.reg[ci]; const foc=CA.st.focus;
-  document.getElementById('ca-cur-hdr').textContent='Current State — R'+(g+1);
+  document.getElementById('ca-cur-hdr').innerHTML='Current State <span class="ca-desc">— R'+(g+1)+'</span>';
   const nb=document.getElementById('ca-cur-name'); nb.textContent=NAME[g];
-  nb.style.borderLeftColor=COL[g]; nb.style.background=(g<4?'rgba(63,185,80,0.10)':'rgba(248,81,73,0.10)');
+  nb.style.borderLeftColor=COL[g]; nb.style.color=COL[g]; nb.style.background=(g<4?'rgba(63,185,80,0.10)':'rgba(248,81,73,0.10)');
   const sig=[['SPX SIGNAL',c.sigS[ci],clsSD(c.sigS[ci])],['10Y SIGNAL',c.sigY[ci],cls10(c.sigY[ci])],['DXY SIGNAL',c.sigD[ci],clsSD(c.sigD[ci])]];
   document.getElementById('ca-cur-signals').innerHTML=sig.map(([l,v,cl])=>
     `<div class="ca-signal"><div class="ca-signal-lbl">${l}</div><div class="ca-signal-val ${cl}">${v==null?'—':(v>0?'+':'')+v.toFixed(2)}</div></div>`).join('');
@@ -6689,7 +6687,7 @@ function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const a
   const hl=histLinkFor(g); const tag=hl==null?'':(hl>=55?'typically linked':hl>=40?'typically mixed':'typically independent');
   document.getElementById('ca-cur-hist').innerHTML=`Historical median linkage when in this regime: <b>${hl==null?'—':Math.round(hl)+'%'}</b> ${hl==null?'':'('+tag+')'}`;
   // what's next
-  document.getElementById('ca-next-hdr').textContent="What's Next — From R"+(g+1)+" - historical transition probabilities";
+  document.getElementById('ca-next-hdr').innerHTML="What's Next <span class=\"ca-desc\">— From R"+(g+1)+" - historical transition probabilities</span>";
   const row=ag.trans[g], rtot=row.reduce((a,b)=>a+b,0)||1;
   const order=[]; for(let j=0;j<8;j++) order.push(j); order.sort((a,b)=>row[b]-row[a]);
   const emph={SPX:3,'10Y':4,DXY:5};
