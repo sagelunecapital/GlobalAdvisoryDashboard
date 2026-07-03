@@ -264,7 +264,7 @@ def _fetch_tv_ipos(markets: list[str]) -> list[dict]:
         deal_amt    = d[12]
         mkt_cap     = d[13]
         price_range = d[14]
-        ipo_date = datetime.utcfromtimestamp(offer_ts).strftime("%Y-%m-%d") if offer_ts else None
+        ipo_date = datetime.fromtimestamp(offer_ts, timezone.utc).strftime("%Y-%m-%d") if offer_ts else None
         ipos.append({
             "ticker":          ticker,
             "company":         company,
