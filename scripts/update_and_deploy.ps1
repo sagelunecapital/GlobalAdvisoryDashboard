@@ -81,6 +81,7 @@ $dataFiles = @(
     "prototypes/regime.json",
     "prototypes/gdpnow.json",
     "prototypes/sector_rotation.json",
+    "prototypes/leadership.json",
     "prototypes/stir.json",
     "prototypes/warsh.json",
     "prototypes/yen.json",
