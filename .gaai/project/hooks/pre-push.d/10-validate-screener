@@ -1,0 +1,12 @@
+#!/bin/bash
+# Pre-push: validate screener movers JSON format (em dashes, ticker-first,
+# catalyst_type enum). Blocks the push on violations; warns on missing
+# weekly_returns. See scripts/validate_screener.py.
+
+ROOT="$(git rev-parse --show-toplevel)"
+
+PY="C:/Users/lance/AppData/Local/Programs/Python/Python313/python.exe"
+[ -x "$PY" ] || PY="$(command -v python)"
+[ -n "$PY" ] || { echo "10-validate-screener: python not found, skipping"; exit 0; }
+
+"$PY" "$ROOT/scripts/validate_screener.py"

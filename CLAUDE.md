@@ -36,6 +36,38 @@
 
 ---
 
+## Verification Discipline (applies to every model driving this repo)
+
+**After any data fetch, spot-check before using the data:**
+- Sanity-check mkt_cap values (volume gets picked up instead when USD/HKD suffix matching breaks)
+- Diff against HEAD at the *content* level, not just `git diff --stat`: confirm only the expected
+  date key was added, no existing dates changed, no enriched catalysts clobbered, and check
+  top-level keys (a fetch drops `weekly_returns`; `screener_weekly.py` must rebuild it before deploy)
+
+**When live data looks stale or wrong, triage three states before touching code:**
+compare (1) local working copy, (2) HEAD, (3) the live URL. A local-newer-than-live mismatch
+means an uncommitted regen or a generated file missing from a deploy commit list - not a code bug.
+Every generated JSON the UI reads must be in `$dataFiles` in `scripts/update_and_deploy.ps1`;
+when a script starts emitting a new JSON, add it to that list in the same change.
+
+**When editing data files:**
+- Patch JSON programmatically (script with assertions) - never hand-edit large JSON files
+- Assert format rules in the patch script itself; `scripts/validate_screener.py` is the
+  reference checker and also runs as a pre-push hook
+- Scope commits to the files the task touched; screener JSON commits stay separate from
+  pipeline data commits
+
+**Claims about market events (enrichment, research):**
+- Only state facts a search result confirmed, with source name + URL + date
+- "No catalyst found" is a valid, publishable answer - classify as `macro` and say so plainly;
+  never invent an event, number, or announcement
+- Events after the model's knowledge cutoff MUST be researched via web search, never recalled
+
+**Never declare a deploy done until the live URL serves the new values** (poll with a
+cache-buster query param; Vercel builds take ~30-60s).
+
+---
+
 ## You Are Operating Under GAAI Governance
 
 This project uses the **GAAI framework** (`.gaai/` folder). Read `.gaai/core/GAAI.md` first.

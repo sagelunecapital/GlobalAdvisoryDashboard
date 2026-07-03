@@ -26,6 +26,27 @@ NEVER call `screener_enrich.py` or the Anthropic API — those are forbidden for
    continuation flag; ticker-only naming; **no em dashes**. For HK/CN, reuse the existing US
    enrichment logic — do not duplicate with a separate code path.
 
+   **Research process (mover dates are after the model's cutoff — always search, never recall):**
+   - Spawn one research subagent per ticker, all in parallel. Each prompt must require:
+     the ticker + % move + exact date; a source name, URL, and date for every claim;
+     an explicit `CATALYST_FOUND: yes|no` (finding nothing is a valid answer — do NOT
+     invent events; classify those as `macro` and say no specific trigger was found);
+     a confidence rating; ticker-only naming (numeric for HK) and plain hyphens in the draft;
+     a one-phrase `SECTOR_THEME` so the main agent can detect same-day thematic groups.
+   - The MAIN agent (not the subagents) does synthesis: grouping needs the cross-ticker
+     view — group only tickers sharing the same specific same-day catalyst/trigger
+     (stricter for HK: same broad sector is NOT enough).
+   - `continuation` is set programmatically by comparing against the previous trading
+     day's tickers in `by_date` — never authored by judgment.
+   - Sanity-check suspicious movers: a big % on a thinly-traded ADR with a flat underlying
+     listing is a pricing artifact — say so in the catalyst rather than forcing a story.
+
+   **Write the enriched rows via a patch script, never by hand-editing the JSON.** The script
+   must preserve fetched fields, only touch the new date key, and assert format rules
+   (no em dashes, ticker mentioned, valid catalyst_type). Then run
+   `python scripts/validate_screener.py` — it must exit 0 before you commit (it also runs
+   as a pre-push hook and will block the push otherwise).
+
 4. **Refresh weekly returns.** After enrichment, run `python scripts/screener_weekly.py`. It
    recomputes the Fri-to-Fri weekly return per ticker (via yfinance) and rewrites
    `weekly_returns` inside `screener_movers.json` and `screener_movers_cn.json` — the weekly
