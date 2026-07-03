@@ -39,3 +39,17 @@ tests/ui/screenshots/
 # (Sector Rotation/ is ignored above; these are the same kind of artifact)
 scripts/barchart_zq_cache.json
 data/cftc_cot.db
+data/sector_rotation.db
+
+# MCP browser session logs
+.playwright-mcp/
+
+# Personal journal/notes/research captures from the live /api endpoints — local backups only
+prototypes/_api_*.json
+
+# Carry-model research intermediates — reference only, pipeline reads data/carry_calibration.json
+data/*.png
+data/fx_carry_g10_*.csv
+data/fxctg10_model.csv
+data/rates_2025_26.csv
+data/us_healthcare_under2.csv
