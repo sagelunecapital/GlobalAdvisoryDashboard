@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-06T14:43:38.507765+00:00",
+  "fetched_at": "2026-07-06T22:32:47.155376+00:00",
   "us": [
     {
       "ticker": "DSC",
@@ -41,17 +41,17 @@
       "ipo_close": 12.0
     },
     {
-      "ticker": "BSP",
-      "company": "Bending Spoons S.p.A.",
+      "ticker": "LIME",
+      "company": "Neutron Holdings, Inc.",
       "exchange": "NASDAQ",
       "date": "2026-07-01",
-      "price_usd": 29.0,
-      "price_range": "26.00 - 28.00",
+      "price_usd": 25.0,
+      "price_range": "24.00 - 26.00",
       "status": "Closed",
-      "shares": 57971015,
-      "deal_amount_usd": 1681159435.0,
-      "mkt_cap_usd": 19532699440.0,
-      "ipo_close": 40.5
+      "shares": 6956522,
+      "deal_amount_usd": 173913050.0,
+      "mkt_cap_usd": 1600648400.0,
+      "ipo_close": 26.0
     },
     {
       "ticker": "ITG",
@@ -67,32 +67,20 @@
       "ipo_close": 17.71
     },
     {
-      "ticker": "LIME",
-      "company": "Neutron Holdings, Inc.",
+      "ticker": "BSP",
+      "company": "Bending Spoons S.p.A.",
       "exchange": "NASDAQ",
       "date": "2026-07-01",
-      "price_usd": 25.0,
-      "price_range": "24.00 - 26.00",
+      "price_usd": 29.0,
+      "price_range": "26.00 - 28.00",
       "status": "Closed",
-      "shares": 6956522,
-      "deal_amount_usd": 173913050.0,
-      "mkt_cap_usd": 1600648400.0,
-      "ipo_close": 26.0
+      "shares": 57971015,
+      "deal_amount_usd": 1681159435.0,
+      "mkt_cap_usd": 19532699440.0,
+      "ipo_close": 40.5
     }
   ],
   "hk": [
-    {
-      "ticker": "1392",
-      "company": "Shenzhen HQVT Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-22",
-      "price_usd": 0.91864270512,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 85162500,
-      "deal_amount_usd": 70410288.77662753,
-      "mkt_cap_usd": 710971458.4037
-    },
     {
       "ticker": "6067",
       "company": "Shenzhen Senior Technology Material Co., Ltd. Class H",
@@ -142,40 +130,16 @@
       "mkt_cap_usd": 1431918277.1615
     },
     {
-      "ticker": "1688",
-      "company": "Lingyi iTech (Guangdong) Company Class H",
+      "ticker": "2272",
+      "company": "Keytop Parking Inc. Class H",
       "exchange": "HKEX",
       "date": "2026-06-26",
-      "price_usd": 1.298345183528,
+      "price_usd": 5.04766888269,
       "price_range": null,
       "status": "Closed",
-      "shares": 811811880,
-      "deal_amount_usd": 948610668.5143654,
-      "mkt_cap_usd": 10541232190.7617
-    },
-    {
-      "ticker": "3661",
-      "company": "SG Micro Corp. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 10.86630742992,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 54001200,
-      "deal_amount_usd": 528113407.40154195,
-      "mkt_cap_usd": 7333994099.0776
-    },
-    {
-      "ticker": "1956",
-      "company": "Beijing Zhongke WengeAI Science and Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 7.74842510243,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 14834600,
-      "deal_amount_usd": 109197005.2835255,
-      "mkt_cap_usd": 1339910513.4509
+      "shares": 10112280,
+      "deal_amount_usd": 45939036.408117,
+      "mkt_cap_usd": 510013605.0569
     },
     {
       "ticker": "9630",
@@ -190,40 +154,40 @@
       "mkt_cap_usd": 4659615925.3904
     },
     {
-      "ticker": "2272",
-      "company": "Keytop Parking Inc. Class H",
+      "ticker": "1956",
+      "company": "Beijing Zhongke WengeAI Science and Technology Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-06-26",
-      "price_usd": 5.04766888269,
+      "price_usd": 7.74842510243,
       "price_range": null,
       "status": "Closed",
-      "shares": 10112280,
-      "deal_amount_usd": 45939036.408117,
-      "mkt_cap_usd": 510013605.0569
+      "shares": 14834600,
+      "deal_amount_usd": 109197005.2835255,
+      "mkt_cap_usd": 1339910513.4509
     },
     {
-      "ticker": "9637",
-      "company": "Alebund Pharmaceuticals (Jiangsu) Limited Class H",
+      "ticker": "3661",
+      "company": "SG Micro Corp. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-29",
-      "price_usd": 2.88200975656,
+      "date": "2026-06-26",
+      "price_usd": 10.86630742992,
       "price_range": null,
       "status": "Closed",
-      "shares": 56755400,
-      "deal_amount_usd": 147212481.96313348,
-      "mkt_cap_usd": 979301341.4841
+      "shares": 54001200,
+      "deal_amount_usd": 528113407.40154195,
+      "mkt_cap_usd": 7333994099.0776
     },
     {
-      "ticker": "2672",
-      "company": "Baige Online Digital Technology Co. Ltd. Class H",
+      "ticker": "1688",
+      "company": "Lingyi iTech (Guangdong) Company Class H",
       "exchange": "HKEX",
-      "date": "2026-06-29",
-      "price_usd": 1.98935186736,
-      "price_range": "1.99 - 2.59",
+      "date": "2026-06-26",
+      "price_usd": 1.298345183528,
+      "price_range": null,
       "status": "Closed",
-      "shares": 33344400,
-      "deal_amount_usd": 59700051.66910013,
-      "mkt_cap_usd": 637725597.3007
+      "shares": 811811880,
+      "deal_amount_usd": 948610668.5143654,
+      "mkt_cap_usd": 10541232190.7617
     },
     {
       "ticker": "1191",
@@ -238,28 +202,28 @@
       "mkt_cap_usd": 1301516400.7238
     },
     {
-      "ticker": "6915",
-      "company": "Jiangxi Institute of Biological Products Inc. Class H",
+      "ticker": "2672",
+      "company": "Baige Online Digital Technology Co. Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-30",
-      "price_usd": 1.42802499056,
-      "price_range": "1.19 - 1.67",
+      "date": "2026-06-29",
+      "price_usd": 1.98935186736,
+      "price_range": "1.99 - 2.59",
       "status": "Closed",
-      "shares": 36234500,
-      "deal_amount_usd": 46569322.96715216,
-      "mkt_cap_usd": 440423865.1591
+      "shares": 33344400,
+      "deal_amount_usd": 59700051.66910013,
+      "mkt_cap_usd": 637725597.3007
     },
     {
-      "ticker": "2697",
-      "company": "Guangdong True Health Medical Technology Development Co. Ltd. Class H",
+      "ticker": "9637",
+      "company": "Alebund Pharmaceuticals (Jiangsu) Limited Class H",
       "exchange": "HKEX",
-      "date": "2026-06-30",
-      "price_usd": 16.09078159006,
-      "price_range": "15.21 - 17.26",
+      "date": "2026-06-29",
+      "price_usd": 2.88200975656,
+      "price_range": null,
       "status": "Closed",
-      "shares": 3564700,
-      "deal_amount_usd": 51622767.31286229,
-      "mkt_cap_usd": 573657624.8889
+      "shares": 56755400,
+      "deal_amount_usd": 147212481.96313348,
+      "mkt_cap_usd": 979301341.4841
     },
     {
       "ticker": "3952",
@@ -286,6 +250,30 @@
       "mkt_cap_usd": 1048305328.0138
     },
     {
+      "ticker": "2697",
+      "company": "Guangdong True Health Medical Technology Development Co. Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": 16.09078159006,
+      "price_range": "15.21 - 17.26",
+      "status": "Closed",
+      "shares": 3564700,
+      "deal_amount_usd": 51622767.31286229,
+      "mkt_cap_usd": 573657624.8889
+    },
+    {
+      "ticker": "6915",
+      "company": "Jiangxi Institute of Biological Products Inc. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": 1.42802499056,
+      "price_range": "1.19 - 1.67",
+      "status": "Closed",
+      "shares": 36234500,
+      "deal_amount_usd": 46569322.96715216,
+      "mkt_cap_usd": 440423865.1591
+    },
+    {
       "ticker": "668",
       "company": "Anker Innovations Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -296,6 +284,30 @@
       "shares": 46632800,
       "deal_amount_usd": 531546054.76349205,
       "mkt_cap_usd": 7381729827.9176
+    },
+    {
+      "ticker": "2667",
+      "company": "Beijing Tong Ren Tang Healthcare Investment Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-07",
+      "price_usd": null,
+      "price_range": "0.70 - 0.79",
+      "status": "Pending",
+      "shares": 108153500,
+      "deal_amount_usd": 77068195.7668665,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "9971",
+      "company": "BASiC Semiconductor Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-08",
+      "price_usd": null,
+      "price_range": "3.50 - 4.03",
+      "status": "Pending",
+      "shares": 27386200,
+      "deal_amount_usd": 104885853.63394295,
+      "mkt_cap_usd": null
     },
     {
       "ticker": "7656",
@@ -310,6 +322,18 @@
       "mkt_cap_usd": 843094656.6814
     },
     {
+      "ticker": "1770",
+      "company": "DKE HOLDING CO LTD",
+      "exchange": "HKEX",
+      "date": "2026-07-08",
+      "price_usd": null,
+      "price_range": "10.03 - 12.89",
+      "status": "Pending",
+      "shares": 5118600,
+      "deal_amount_usd": 59386155.94083907,
+      "mkt_cap_usd": null
+    },
+    {
       "ticker": "6880",
       "company": "Momenta Global Ltd. Class A",
       "exchange": "HKEX",
@@ -322,6 +346,18 @@
       "mkt_cap_usd": 8877007896.5836
     },
     {
+      "ticker": "7687",
+      "company": "EACON Group Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-08",
+      "price_usd": null,
+      "price_range": "10.35 - 11.21",
+      "status": "Pending",
+      "shares": 26132000,
+      "deal_amount_usd": 263635573.74002635,
+      "mkt_cap_usd": null
+    },
+    {
       "ticker": "3752",
       "company": "Rokae (Shandong) Robotics Group Inc. Class H",
       "exchange": "HKEX",
@@ -332,6 +368,18 @@
       "shares": 23031900,
       "deal_amount_usd": 100432309.07403578,
       "mkt_cap_usd": 1268037078.4833
+    },
+    {
+      "ticker": "6745",
+      "company": "Befar Group Co. Ltd.",
+      "exchange": "HKEX",
+      "date": "2026-07-10",
+      "price_usd": null,
+      "price_range": "0.39 - 0.46",
+      "status": "Pending",
+      "shares": 352126000,
+      "deal_amount_usd": 145055992.97913226,
+      "mkt_cap_usd": null
     }
   ]
 }
