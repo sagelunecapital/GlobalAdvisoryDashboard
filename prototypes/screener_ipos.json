@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-07-06T22:32:47.155376+00:00",
+  "fetched_at": "2026-07-07T22:29:57.906127+00:00",
   "us": [
-    {
-      "ticker": "DSC",
-      "company": "DSC Holdings Ltd.",
-      "exchange": "NASDAQ",
-      "date": "2026-06-25",
-      "price_usd": 17.0,
-      "price_range": "16.00 - 18.00",
-      "status": "Closed",
-      "shares": 3000000,
-      "deal_amount_usd": 51000000.0,
-      "mkt_cap_usd": 851232369.95,
-      "ipo_close": 9.06
-    },
     {
       "ticker": "DPC",
       "company": "DPC Holdings PLC",
@@ -28,6 +15,19 @@
       "ipo_close": 46.88
     },
     {
+      "ticker": "DSC",
+      "company": "DSC Holdings Ltd.",
+      "exchange": "NASDAQ",
+      "date": "2026-06-25",
+      "price_usd": 17.0,
+      "price_range": "16.00 - 18.00",
+      "status": "Closed",
+      "shares": 3000000,
+      "deal_amount_usd": 51000000.0,
+      "mkt_cap_usd": 851232369.95,
+      "ipo_close": 9.06
+    },
+    {
       "ticker": "SIND",
       "company": "Sinda Ltd.",
       "exchange": "NYSE",
@@ -39,19 +39,6 @@
       "deal_amount_usd": 213000000.0,
       "mkt_cap_usd": 1881297000.0,
       "ipo_close": 12.0
-    },
-    {
-      "ticker": "LIME",
-      "company": "Neutron Holdings, Inc.",
-      "exchange": "NASDAQ",
-      "date": "2026-07-01",
-      "price_usd": 25.0,
-      "price_range": "24.00 - 26.00",
-      "status": "Closed",
-      "shares": 6956522,
-      "deal_amount_usd": 173913050.0,
-      "mkt_cap_usd": 1600648400.0,
-      "ipo_close": 26.0
     },
     {
       "ticker": "ITG",
@@ -78,33 +65,34 @@
       "deal_amount_usd": 1681159435.0,
       "mkt_cap_usd": 19532699440.0,
       "ipo_close": 40.5
+    },
+    {
+      "ticker": "LIME",
+      "company": "Neutron Holdings, Inc.",
+      "exchange": "NASDAQ",
+      "date": "2026-07-01",
+      "price_usd": 25.0,
+      "price_range": "24.00 - 26.00",
+      "status": "Closed",
+      "shares": 6956522,
+      "deal_amount_usd": 173913050.0,
+      "mkt_cap_usd": 1600648400.0,
+      "ipo_close": 26.0
+    },
+    {
+      "ticker": "CSQR",
+      "company": "Csquare Inc.",
+      "exchange": "NYSE",
+      "date": "2026-07-16",
+      "price_usd": null,
+      "price_range": "23.00 - 27.00",
+      "status": "Pending",
+      "shares": 50000000,
+      "deal_amount_usd": 1350000000.0,
+      "mkt_cap_usd": null
     }
   ],
   "hk": [
-    {
-      "ticker": "6067",
-      "company": "Shenzhen Senior Technology Material Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-23",
-      "price_usd": 1.14534972674,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 149523500,
-      "deal_amount_usd": 154130858.07712853,
-      "mkt_cap_usd": 1712456806.392
-    },
-    {
-      "ticker": "6132",
-      "company": "HJ Science Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-23",
-      "price_usd": 10.4331411634,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 13600000,
-      "deal_amount_usd": 127701647.840016,
-      "mkt_cap_usd": 767826103.0303
-    },
     {
       "ticker": "2335",
       "company": "Shaanxi Micot Pharmaceutical Technology Co., Ltd. Class H",
@@ -130,6 +118,18 @@
       "mkt_cap_usd": 1431918277.1615
     },
     {
+      "ticker": "3661",
+      "company": "SG Micro Corp. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 10.86630742992,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 54001200,
+      "deal_amount_usd": 528113407.40154195,
+      "mkt_cap_usd": 7333994099.0776
+    },
+    {
       "ticker": "2272",
       "company": "Keytop Parking Inc. Class H",
       "exchange": "HKEX",
@@ -140,6 +140,18 @@
       "shares": 10112280,
       "deal_amount_usd": 45939036.408117,
       "mkt_cap_usd": 510013605.0569
+    },
+    {
+      "ticker": "1688",
+      "company": "Lingyi iTech (Guangdong) Company Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-26",
+      "price_usd": 1.298345183528,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 811811880,
+      "deal_amount_usd": 948610668.5143654,
+      "mkt_cap_usd": 10541232190.7617
     },
     {
       "ticker": "9630",
@@ -166,28 +178,16 @@
       "mkt_cap_usd": 1339910513.4509
     },
     {
-      "ticker": "3661",
-      "company": "SG Micro Corp. Class H",
+      "ticker": "2672",
+      "company": "Baige Online Digital Technology Co. Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 10.86630742992,
-      "price_range": null,
+      "date": "2026-06-29",
+      "price_usd": 1.98935186736,
+      "price_range": "1.99 - 2.59",
       "status": "Closed",
-      "shares": 54001200,
-      "deal_amount_usd": 528113407.40154195,
-      "mkt_cap_usd": 7333994099.0776
-    },
-    {
-      "ticker": "1688",
-      "company": "Lingyi iTech (Guangdong) Company Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-26",
-      "price_usd": 1.298345183528,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 811811880,
-      "deal_amount_usd": 948610668.5143654,
-      "mkt_cap_usd": 10541232190.7617
+      "shares": 33344400,
+      "deal_amount_usd": 59700051.66910013,
+      "mkt_cap_usd": 637725597.3007
     },
     {
       "ticker": "1191",
@@ -202,18 +202,6 @@
       "mkt_cap_usd": 1301516400.7238
     },
     {
-      "ticker": "2672",
-      "company": "Baige Online Digital Technology Co. Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-29",
-      "price_usd": 1.98935186736,
-      "price_range": "1.99 - 2.59",
-      "status": "Closed",
-      "shares": 33344400,
-      "deal_amount_usd": 59700051.66910013,
-      "mkt_cap_usd": 637725597.3007
-    },
-    {
       "ticker": "9637",
       "company": "Alebund Pharmaceuticals (Jiangsu) Limited Class H",
       "exchange": "HKEX",
@@ -224,30 +212,6 @@
       "shares": 56755400,
       "deal_amount_usd": 147212481.96313348,
       "mkt_cap_usd": 979301341.4841
-    },
-    {
-      "ticker": "3952",
-      "company": "Zhejiang Laifual Drive Co. Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-30",
-      "price_usd": 10.90144077615,
-      "price_range": "9.82 - 10.90",
-      "status": "Closed",
-      "shares": 13441900,
-      "deal_amount_usd": 117228643.38632903,
-      "mkt_cap_usd": 1127332302.8884
-    },
-    {
-      "ticker": "6715",
-      "company": "Hangzhou Qiandaohu Xunlong Sci-tech Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-06-30",
-      "price_usd": 9.62641846315,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 16332900,
-      "deal_amount_usd": 141504500.84091973,
-      "mkt_cap_usd": 1048305328.0138
     },
     {
       "ticker": "2697",
@@ -274,6 +238,30 @@
       "mkt_cap_usd": 440423865.1591
     },
     {
+      "ticker": "6715",
+      "company": "Hangzhou Qiandaohu Xunlong Sci-tech Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": 9.62641846315,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 16332900,
+      "deal_amount_usd": 141504500.84091973,
+      "mkt_cap_usd": 1048305328.0138
+    },
+    {
+      "ticker": "3952",
+      "company": "Zhejiang Laifual Drive Co. Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-06-30",
+      "price_usd": 10.90144077615,
+      "price_range": "9.82 - 10.90",
+      "status": "Closed",
+      "shares": 13441900,
+      "deal_amount_usd": 117228643.38632903,
+      "mkt_cap_usd": 1127332302.8884
+    },
+    {
       "ticker": "668",
       "company": "Anker Innovations Technology Co., Ltd. Class H",
       "exchange": "HKEX",
@@ -290,23 +278,23 @@
       "company": "Beijing Tong Ren Tang Healthcare Investment Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-07-07",
-      "price_usd": null,
+      "price_usd": 0.70128015485,
       "price_range": "0.70 - 0.79",
-      "status": "Pending",
+      "status": "Closed",
       "shares": 108153500,
-      "deal_amount_usd": 77068195.7668665,
-      "mkt_cap_usd": null
+      "deal_amount_usd": 68261207.7127893,
+      "mkt_cap_usd": 326349169.784
     },
     {
-      "ticker": "9971",
-      "company": "BASiC Semiconductor Co., Ltd. Class H",
+      "ticker": "1770",
+      "company": "DKE HOLDING CO LTD",
       "exchange": "HKEX",
       "date": "2026-07-08",
       "price_usd": null,
-      "price_range": "3.50 - 4.03",
+      "price_range": "10.03 - 12.89",
       "status": "Pending",
-      "shares": 27386200,
-      "deal_amount_usd": 104885853.63394295,
+      "shares": 5118600,
+      "deal_amount_usd": 59389941.96835004,
       "mkt_cap_usd": null
     },
     {
@@ -319,18 +307,30 @@
       "status": "Pending",
       "shares": 28087000,
       "deal_amount_usd": 73689291.85893732,
-      "mkt_cap_usd": 843094656.6814
+      "mkt_cap_usd": 843148406.2383
     },
     {
-      "ticker": "1770",
-      "company": "DKE HOLDING CO LTD",
+      "ticker": "7687",
+      "company": "EACON Group Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-07-08",
       "price_usd": null,
-      "price_range": "10.03 - 12.89",
+      "price_range": "10.35 - 11.21",
       "status": "Pending",
-      "shares": 5118600,
-      "deal_amount_usd": 59386155.94083907,
+      "shares": 26132000,
+      "deal_amount_usd": 263652381.2184569,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "9971",
+      "company": "BASiC Semiconductor Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-08",
+      "price_usd": null,
+      "price_range": "3.51 - 4.03",
+      "status": "Pending",
+      "shares": 27386200,
+      "deal_amount_usd": 104892540.38982196,
       "mkt_cap_usd": null
     },
     {
@@ -343,18 +343,42 @@
       "status": "Pending",
       "shares": 19938300,
       "deal_amount_usd": 676428396.46712,
-      "mkt_cap_usd": 8877007896.5836
+      "mkt_cap_usd": 8877573829.7642
     },
     {
-      "ticker": "7687",
-      "company": "EACON Group Co., Ltd. Class H",
+      "ticker": "537",
+      "company": "RIGOL TECHNOLOGIES CO LTD",
       "exchange": "HKEX",
-      "date": "2026-07-08",
+      "date": "2026-07-09",
       "price_usd": null,
-      "price_range": "10.35 - 11.21",
+      "price_range": null,
       "status": "Pending",
-      "shares": 26132000,
-      "deal_amount_usd": 263635573.74002635,
+      "shares": 24802200,
+      "deal_amount_usd": 130866649.88424636,
+      "mkt_cap_usd": null
+    },
+    {
+      "ticker": "2475",
+      "company": "LUXSHARE PRECISION INDUSTRY CO LTD",
+      "exchange": "HKEX",
+      "date": "2026-07-09",
+      "price_usd": 8.068546945256,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 383472800,
+      "deal_amount_usd": 2784661298.7549496,
+      "mkt_cap_usd": 62141775099.4598
+    },
+    {
+      "ticker": "1337",
+      "company": "GUANDONG DTECH TECHNOLOGY CO LTD",
+      "exchange": "HKEX",
+      "date": "2026-07-09",
+      "price_usd": null,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 12632000,
+      "deal_amount_usd": 550842046.0535088,
       "mkt_cap_usd": null
     },
     {
@@ -367,18 +391,18 @@
       "status": "Pending",
       "shares": 23031900,
       "deal_amount_usd": 100432309.07403578,
-      "mkt_cap_usd": 1268037078.4833
+      "mkt_cap_usd": 1268117919.2649
     },
     {
       "ticker": "6745",
-      "company": "Befar Group Co. Ltd.",
+      "company": "Befar Group Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-07-10",
       "price_usd": null,
       "price_range": "0.39 - 0.46",
       "status": "Pending",
       "shares": 352126000,
-      "deal_amount_usd": 145055992.97913226,
+      "deal_amount_usd": 145065240.6896693,
       "mkt_cap_usd": null
     }
   ]
