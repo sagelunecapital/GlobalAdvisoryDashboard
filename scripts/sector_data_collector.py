@@ -21,6 +21,7 @@ Group indices: market-cap weighted, rebalanced monthly.
 
 import importlib.util
 import sqlite3
+import time
 import warnings
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta
@@ -41,6 +42,17 @@ LOG_F        = BASE_DIR / "data_collector.log"
 HISTORY_DAYS = 1000  # days on first run — needs 800+ for 200D EMA to converge
 BATCH_SIZE   = 150   # tickers per yfinance download call
 SPX_TICKER   = "^GSPC"
+
+# Market-cap fetch reliability. yfinance fast_info.market_cap gets rate-limited
+# by Yahoo under high concurrency — at 10 workers ~30-60% of requests silently
+# returned None every month (even AAPL/AMZN), corrupting cap-weighted group
+# indices. 5 workers + retry recovers ~100%. See CAP_* below.
+CAP_FETCH_WORKERS = 4      # concurrency within a chunk (was 10 — caused throttling)
+CAP_FETCH_CHUNK   = 60     # tickers per chunk; pause between chunks to avoid 429s
+CAP_FETCH_PAUSE   = 1.5    # seconds between chunks (sustained volume gets throttled)
+CAP_FETCH_RETRIES = 3      # fast_info attempts before falling back to .info
+CAP_COVERAGE_MIN  = 0.60   # group cap coverage below this -> equal-weight fallback
+CAP_REFRESH_MIN   = 0.85   # if latest snapshot covers < this, retry within month
 
 
 # ── Ticker mapping ─────────────────────────────────────────────────────────
@@ -432,42 +444,105 @@ def compute_and_insert(conn: sqlite3.Connection,
 
 
 # ── Market cap fetch (monthly) ─────────────────────────────────────────────
-def needs_cap_refresh(conn: sqlite3.Connection, today: date) -> bool:
+def needs_cap_refresh(conn: sqlite3.Connection, today: date, n_tickers: int = 0) -> bool:
     row = conn.execute("SELECT MAX(date) FROM market_caps").fetchone()
     if not row[0]:
         return True
     last = datetime.strptime(row[0], "%Y-%m-%d").date()
-    return last.year != today.year or last.month != today.month
+    if last.year != today.year or last.month != today.month:
+        return True
+    # Self-heal: if the latest snapshot only covers a small fraction of the
+    # ticker universe, the last fetch was throttled — retry within the month
+    # rather than shipping corrupted cap weights until month-end.
+    if n_tickers:
+        got = conn.execute(
+            "SELECT COUNT(*) FROM market_caps WHERE date=?", (row[0],)
+        ).fetchone()[0]
+        # Denominator is the RESOLVABLE universe (tickers that have ever had a
+        # cap), not the raw list — many symbols never resolve on Yahoo, and
+        # dividing by the full list would keep coverage < threshold forever,
+        # retriggering a full fetch on every run.
+        ever = conn.execute(
+            "SELECT COUNT(DISTINCT yf_ticker) FROM market_caps"
+        ).fetchone()[0]
+        denom = max(min(ever, n_tickers), 1)
+        if got / denom < CAP_REFRESH_MIN:
+            print(f"  Latest cap snapshot covers only {got}/{denom} resolvable "
+                  f"({got/denom*100:.0f}%) — retrying fetch.")
+            return True
+    return False
 
 
 def _fetch_one_cap(ticker: str):
+    """fast_info first (fast, but rate-limit prone); retry, then .info fallback."""
+    for attempt in range(CAP_FETCH_RETRIES):
+        try:
+            mc = yf.Ticker(ticker).fast_info.market_cap
+            if mc and mc > 0:
+                return ticker, float(mc)
+        except Exception:
+            pass
+        time.sleep(0.4 * (attempt + 1))  # back off before retry
     try:
-        mc = yf.Ticker(ticker).fast_info.market_cap
-        return ticker, float(mc) if (mc and mc > 0) else None
+        mc = yf.Ticker(ticker).info.get("marketCap")
+        if mc and mc > 0:
+            return ticker, float(mc)
     except Exception:
-        return ticker, None
+        pass
+    return ticker, None
 
 
 def fetch_and_store_market_caps(
     conn: sqlite3.Connection, tickers: list, ref_date: str
 ) -> None:
-    print(f"  Fetching market caps for {len(tickers)} tickers (monthly refresh)...")
-    rows, done = [], 0
-    with ThreadPoolExecutor(max_workers=10) as ex:
-        futs = {ex.submit(_fetch_one_cap, t): t for t in tickers}
-        for f in as_completed(futs):
-            ticker, mc = f.result()
-            done += 1
-            if mc:
-                rows.append((ticker, ref_date, mc))
-            if done % 300 == 0:
-                print(f"    {done}/{len(tickers)}...")
+    print(f"  Fetching market caps for {len(tickers)} tickers "
+          f"({CAP_FETCH_WORKERS} workers, retry+info fallback)...")
+    # Last known cap per ticker — used to carry forward transient misses so a
+    # single bad fetch never drops a previously-known constituent to zero weight.
+    # Bounded to the last ~100 days: a long-dead ticker's stale cap must not be
+    # re-stamped as current (it would defeat the coverage guard downstream).
+    cutoff = (datetime.strptime(ref_date, "%Y-%m-%d").date()
+              - timedelta(days=100)).strftime("%Y-%m-%d")
+    last_cap = dict(conn.execute(
+        "SELECT yf_ticker, market_cap FROM market_caps m "
+        "WHERE date=(SELECT MAX(date) FROM market_caps m2 WHERE m2.yf_ticker=m.yf_ticker) "
+        "AND date >= ?", (cutoff,)
+    ).fetchall())
+
+    # Fetch in small chunks with a pause between them. A single large burst
+    # (all tickers at once) gets rate-limited by Yahoo — even at low worker
+    # counts — so ~50% of caps silently fail. Chunking keeps sustained request
+    # volume under the throttle and recovers ~all resolvable tickers.
+    fetched, carried, missing = {}, 0, 0
+    done = 0
+    for i in range(0, len(tickers), CAP_FETCH_CHUNK):
+        chunk = tickers[i:i + CAP_FETCH_CHUNK]
+        with ThreadPoolExecutor(max_workers=CAP_FETCH_WORKERS) as ex:
+            for f in as_completed({ex.submit(_fetch_one_cap, t): t for t in chunk}):
+                ticker, mc = f.result()
+                if mc:
+                    fetched[ticker] = mc
+        done += len(chunk)
+        print(f"    {done}/{len(tickers)}...")
+        if i + CAP_FETCH_CHUNK < len(tickers):
+            time.sleep(CAP_FETCH_PAUSE)
+
+    rows = []
+    for t in tickers:
+        if t in fetched:
+            rows.append((t, ref_date, fetched[t]))
+        elif t in last_cap:            # carry forward the previous value
+            rows.append((t, ref_date, last_cap[t]))
+            carried += 1
+        else:
+            missing += 1               # never had a cap — cannot recover here
     conn.executemany(
         "INSERT OR REPLACE INTO market_caps (yf_ticker, date, market_cap) VALUES (?,?,?)",
         rows,
     )
     conn.commit()
-    print(f"  Stored {len(rows)}/{len(tickers)} market caps for {ref_date}.")
+    print(f"  Stored {len(rows)}/{len(tickers)} caps for {ref_date} "
+          f"(fresh={len(fetched)}, carried-forward={carried}, unresolved={missing}).")
 
 
 # ── Group RS computation (full recompute, runs after each daily fetch) ─────
@@ -586,7 +661,15 @@ def compute_group_rs(conn: sqlite3.Connection, industry_df: pd.DataFrame) -> Non
                 caps = pd.Series(0.0, index=tickers)
 
             total = caps.sum()
-            w = caps / total if total > 0 else pd.Series(1.0 / len(tickers), index=tickers)
+            # Coverage guard: cap-weight only when enough of the group has a
+            # real cap. With partial coverage the missing (mega-cap) names get
+            # zero weight and a single small name can dominate the whole group
+            # index — so below CAP_COVERAGE_MIN fall back to equal-weight.
+            coverage = float((caps > 0).sum()) / len(tickers)
+            if total > 0 and coverage >= CAP_COVERAGE_MIN:
+                w = caps / total
+            else:
+                w = pd.Series(1.0 / len(tickers), index=tickers)
             month_w[m] = w
 
         # ── Build full weight DataFrame aligned to trading dates ─────────
@@ -910,9 +993,10 @@ def main() -> None:
 
     # 4. Monthly market cap refresh
     print("\n[5] Checking market caps...")
-    if needs_cap_refresh(conn, today):
+    cap_universe = industry["YF_Ticker"].dropna().unique().tolist()
+    if needs_cap_refresh(conn, today, len(cap_universe)):
         ref_date = today.strftime("%Y-%m-%d")
-        fetch_and_store_market_caps(conn, industry["YF_Ticker"].unique().tolist(), ref_date)
+        fetch_and_store_market_caps(conn, cap_universe, ref_date)
     else:
         print("  Market caps current — no refresh needed.")
 
