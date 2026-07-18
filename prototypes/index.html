@@ -1173,6 +1173,29 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 .layout-header h1{display:none !important}
 .hdr-right{margin-left:auto !important}
 
+
+/* == macOS control polish: pop-up selects, snapshot button, screener arrows == */
+.cot-sel,#rs-sort-select{background:rgba(255,255,255,0.92) !important;border:1px solid var(--sep) !important;border-radius:8px !important;color:var(--ink) !important;font-family:var(--sf) !important;font-size:13px !important;padding:6px 30px 6px 11px !important;box-shadow:0 1px 2px rgba(16,24,40,0.05) !important;appearance:none;-webkit-appearance:none;outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a9099' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;background-repeat:no-repeat !important;background-position:right 9px center !important;transition:background-color .18s var(--ease),box-shadow .2s var(--ease),border-color .18s var(--ease),transform .2s var(--spring) !important}
+.cot-sel:hover,#rs-sort-select:hover{background:#fff !important;border-color:rgba(60,60,67,0.16) !important;box-shadow:0 2px 6px rgba(16,24,40,0.08) !important}
+.cot-sel:active,#rs-sort-select:active{transform:scale(.985) !important}
+.cot-sel:focus-visible,#rs-sort-select:focus-visible{box-shadow:0 0 0 4px rgba(0,122,255,0.28) !important;border-color:transparent !important}
+.lead-snap-btn{min-width:150px}
+/* Screener / journal date arrows -> soft rounded macOS buttons */
+.scr-nav-btn{background:rgba(255,255,255,0.9) !important;border:1px solid var(--sep) !important;border-radius:8px !important;color:var(--ink-2) !important;box-shadow:var(--shadow-1) !important;padding:3px 12px !important;transition:transform .2s var(--spring),box-shadow .22s var(--ease),background-color .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease) !important}
+.scr-nav-btn:hover{background:#fff !important;color:var(--accent) !important;border-color:rgba(60,60,67,0.14) !important;box-shadow:var(--shadow-2) !important;transform:translateY(-1px) !important}
+.scr-nav-btn:active{transform:scale(.95) !important}
+
+
+/* == Collapsed sidebar: icons only (beat the restyle !important rules) == */
+.app.collapsed .nav-tab{font-size:0 !important;justify-content:center !important;padding:9px 0 !important;margin:2px 7px !important}
+.app.collapsed .nav-tab.nav-sub{padding:9px 0 !important}
+.app.collapsed .nav-ico{font-size:19px !important;margin-right:0 !important}
+.app.collapsed .sidebar-label{font-size:0 !important;margin:10px 0 !important;height:1px;overflow:hidden}
+.app.collapsed .nav-tab .nav-ico{opacity:1 !important}
+/* == macOS chart reveal: replays on every (re)render of a chart == */
+@keyframes chartIn{0%{opacity:0;transform:translateY(8px) scale(.992)}100%{opacity:1;transform:none}}
+.chart-anim{animation:chartIn .55s cubic-bezier(.32,.72,0,1) both;will-change:opacity,transform}
+
 </style>
 </head>
 <body>
@@ -2429,7 +2452,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
       <!-- Row 1: Market Signal + SPX/EMAs -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
-        <div style="flex:0 0 35%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:0;padding:10px 14px">
+        <div style="flex:0 0 35%;background:#fff;border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
           <div style="font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Market Signal</div>
           <div id="mkt-signal-val" style="font-size:var(--fs-lg);font-weight:700">—</div>
         </div>
@@ -2449,7 +2472,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
       <!-- Row 2: Breadth Signal + MMTH -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
-        <div style="flex:0 0 35%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:0;padding:10px 14px">
+        <div style="flex:0 0 35%;background:#fff;border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
           <div style="font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Breadth Signal</div>
           <div id="breadth-signal-val" style="font-size:var(--fs-lg);font-weight:700">—</div>
           <div id="breadth-signal-since" style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:4px"></div>
@@ -2462,7 +2485,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
       <!-- Row 3: Buying Signal + NCFD/NHNL -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
-        <div style="flex:0 0 35%;background:var(--surface-low);border:1px solid var(--outline-dim);border-radius:0;padding:10px 14px">
+        <div style="flex:0 0 35%;background:#fff;border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
           <div style="font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Buying Signal</div>
           <div id="regime-signal-val" style="font-size:var(--fs-lg);font-weight:700;color:var(--text-muted)">—</div>
         </div>
@@ -7270,6 +7293,34 @@ fetch('cross_asset.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{ if
   initBrush('reg'); initBrush('attr');
   if(window._activeMain==='cross-asset') renderAll();
 }).catch(e=>{ console.error('cross_asset load failed',e); });
+})();
+</script>
+
+<script>
+/* macOS chart reveal: animate any substantial chart when its SVG/Plotly content (re)draws */
+(function(){
+  var last=new WeakMap();
+  function big(el){ var r=el.getBoundingClientRect(); return r.width>=160&&r.height>=90; }
+  function reveal(el){
+    if(!el||!el.classList||!big(el)) return;
+    var t=Date.now(); if(last.get(el)&&t-last.get(el)<500) return; last.set(el,t);
+    el.classList.remove("chart-anim"); void el.offsetWidth; el.classList.add("chart-anim");
+  }
+  function scan(m,set){
+    var tg=m.target;
+    if(tg&&tg.nodeType===1&&tg.closest){ var c=tg.closest("svg,.js-plotly-plot"); if(c) set.add(c); }
+    for(var k=0;k<m.addedNodes.length;k++){ var n=m.addedNodes[k]; if(!n||n.nodeType!==1) continue;
+      if(n.matches&&n.matches("svg,.js-plotly-plot")) set.add(n);
+      else if(n.querySelector){ var q=n.querySelector("svg,.js-plotly-plot"); if(q) set.add(q); }
+    }
+  }
+  var obs=new MutationObserver(function(muts){
+    var set=new Set();
+    for(var i=0;i<muts.length;i++) scan(muts[i],set);
+    set.forEach(reveal);
+  });
+  function start(){ var mc=document.querySelector(".main-content"); if(mc) obs.observe(mc,{childList:true,subtree:true}); }
+  if(document.readyState!=="loading") start(); else document.addEventListener("DOMContentLoaded",start);
 })();
 </script>
 </body>
