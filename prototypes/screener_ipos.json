@@ -1,21 +1,22 @@
 {
-  "fetched_at": "2026-07-15T22:46:24.279908+00:00",
+  "fetched_at": "2026-07-18T03:32:00.738657+00:00",
   "us": [
     {
       "ticker": "STDN",
-      "company": "Standard Nuclear Inc.",
+      "company": "Standard Nuclear, Inc.",
       "exchange": "NYSE",
       "date": "2026-07-16",
       "price_usd": null,
-      "price_range": "18.00 - 21.00",
+      "price_range": null,
       "status": "Pending",
-      "shares": 18250000,
+      "shares": 10000000,
       "deal_amount_usd": 383250000.0,
-      "mkt_cap_usd": null
+      "mkt_cap_usd": 2410103130.0,
+      "ipo_close": 12.3
     },
     {
       "ticker": "CSQR",
-      "company": "Csquare Inc.",
+      "company": "Csquare, Inc.",
       "exchange": "NYSE",
       "date": "2026-07-16",
       "price_usd": null,
@@ -23,22 +24,11 @@
       "status": "Pending",
       "shares": 50000000,
       "deal_amount_usd": 1350000000.0,
-      "mkt_cap_usd": null
+      "mkt_cap_usd": 3255434742.0,
+      "ipo_close": 20.67
     }
   ],
   "hk": [
-    {
-      "ticker": "668",
-      "company": "Anker Innovations Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-02",
-      "price_usd": 12.665055689572,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 46632800,
-      "deal_amount_usd": 531546054.76349205,
-      "mkt_cap_usd": 7381729827.9176
-    },
     {
       "ticker": "2667",
       "company": "Beijing Tong Ren Tang Healthcare Investment Co. Ltd. Class H",
@@ -50,30 +40,6 @@
       "shares": 108153500,
       "deal_amount_usd": 68261207.7127893,
       "mkt_cap_usd": 326361653.7027
-    },
-    {
-      "ticker": "1770",
-      "company": "DKE Holding Company Limited Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 10.027414726128,
-      "price_range": "10.03 - 12.89",
-      "status": "Closed",
-      "shares": 5118600,
-      "deal_amount_usd": 46193291.41885386,
-      "mkt_cap_usd": 513443947.5729
-    },
-    {
-      "ticker": "7687",
-      "company": "EACON Group Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 11.210710868784,
-      "price_range": "10.35 - 11.21",
-      "status": "Closed",
-      "shares": 26132000,
-      "deal_amount_usd": 263662466.78075713,
-      "mkt_cap_usd": 1658317294.4313
     },
     {
       "ticker": "9971",
@@ -100,6 +66,18 @@
       "mkt_cap_usd": 843481807.1686
     },
     {
+      "ticker": "1770",
+      "company": "DKE Holding Company Limited Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-08",
+      "price_usd": 10.027414726128,
+      "price_range": "10.03 - 12.89",
+      "status": "Closed",
+      "shares": 5118600,
+      "deal_amount_usd": 46193291.41885386,
+      "mkt_cap_usd": 513443947.5729
+    },
+    {
       "ticker": "6880",
       "company": "Momenta Global Ltd. Class A",
       "exchange": "HKEX",
@@ -112,20 +90,20 @@
       "mkt_cap_usd": 8881084233.5693
     },
     {
-      "ticker": "2475",
-      "company": "Luxshare Precision Industry Co., Ltd. Class H",
+      "ticker": "7687",
+      "company": "EACON Group Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 8.071737440592,
-      "price_range": null,
+      "date": "2026-07-08",
+      "price_usd": 11.210710868784,
+      "price_range": "10.35 - 11.21",
       "status": "Closed",
-      "shares": 383472800,
-      "deal_amount_usd": 2785762420.0530343,
-      "mkt_cap_usd": 62187764956.2853
+      "shares": 26132000,
+      "deal_amount_usd": 263662466.78075713,
+      "mkt_cap_usd": 1658317294.4313
     },
     {
       "ticker": "537",
-      "company": "Rigol Technologies Co., Ltd. Class H",
+      "company": "Rigol Technologies Co Ltd",
       "exchange": "HKEX",
       "date": "2026-07-09",
       "price_usd": 5.865020346372,
@@ -134,42 +112,6 @@
       "shares": 24802200,
       "deal_amount_usd": 130918397.66968115,
       "mkt_cap_usd": 1282984669.0343
-    },
-    {
-      "ticker": "1377",
-      "company": "Guangdong Dtech Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 48.471242532,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 12632000,
-      "deal_amount_usd": 551059862.0978016,
-      "mkt_cap_usd": 20561066089.7058
-    },
-    {
-      "ticker": "6951",
-      "company": "Chaozhou Three-Circle (Group) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 12.78928912806,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 71364300,
-      "deal_amount_usd": 821427904.259212,
-      "mkt_cap_usd": 25441179741.2612
-    },
-    {
-      "ticker": "3752",
-      "company": "Rokae (Shandong) Robotics Group Inc. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 4.8471242532,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 23031900,
-      "deal_amount_usd": 100474584.50730684,
-      "mkt_cap_usd": 1269056427.4014
     },
     {
       "ticker": "2797",
@@ -184,16 +126,52 @@
       "mkt_cap_usd": 102079877.52
     },
     {
-      "ticker": "2249",
-      "company": "Nexchip Semiconductor Corp. Class H",
+      "ticker": "6951",
+      "company": "Chaozhou Three-Circle (Group) Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-07-10",
-      "price_usd": 4.12147505487,
-      "price_range": "3.83 - 4.12",
+      "date": "2026-07-09",
+      "price_usd": 12.78928912806,
+      "price_range": null,
       "status": "Closed",
-      "shares": 216167000,
-      "deal_amount_usd": 801834208.3674749,
-      "mkt_cap_usd": 9161542060.8942
+      "shares": 71364300,
+      "deal_amount_usd": 821427904.259212,
+      "mkt_cap_usd": 25441179741.2612
+    },
+    {
+      "ticker": "2475",
+      "company": "Luxshare Precision Industry Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-09",
+      "price_usd": 8.071737440592,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 383472800,
+      "deal_amount_usd": 2785762420.0530343,
+      "mkt_cap_usd": 62187764956.2853
+    },
+    {
+      "ticker": "3752",
+      "company": "Rokae (Shandong) Robotics Group Inc. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-09",
+      "price_usd": 4.8471242532,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 23031900,
+      "deal_amount_usd": 100474584.50730684,
+      "mkt_cap_usd": 1269056427.4014
+    },
+    {
+      "ticker": "1377",
+      "company": "Guangdong Dtech Technology Co Ltd Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-09",
+      "price_usd": 48.471242532,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 12632000,
+      "deal_amount_usd": 551059862.0978016,
+      "mkt_cap_usd": 20561066089.7058
     },
     {
       "ticker": "6745",
@@ -206,6 +184,18 @@
       "shares": 352126000,
       "deal_amount_usd": 140724414.97655657,
       "mkt_cap_usd": 1069270636.8933
+    },
+    {
+      "ticker": "2249",
+      "company": "Nexchip Semiconductor Corp. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-10",
+      "price_usd": 4.12147505487,
+      "price_range": "3.83 - 4.12",
+      "status": "Closed",
+      "shares": 216167000,
+      "deal_amount_usd": 801834208.3674749,
+      "mkt_cap_usd": 9161542060.8942
     }
   ]
 }
