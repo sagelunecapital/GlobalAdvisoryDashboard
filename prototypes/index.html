@@ -1195,6 +1195,8 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 /* == macOS chart reveal: replays on every (re)render of a chart == */
 @keyframes chartIn{0%{opacity:0;transform:translateY(8px) scale(.992)}100%{opacity:1;transform:none}}
 .chart-anim{animation:chartIn .55s cubic-bezier(.32,.72,0,1) both;will-change:opacity,transform}
+@keyframes chartFade{from{opacity:0}to{opacity:1}}
+.chart-fade{animation:chartFade .42s cubic-bezier(.32,.72,0,1) both}
 
 </style>
 </head>
@@ -7297,30 +7299,51 @@ fetch('cross_asset.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{ if
 </script>
 
 <script>
-/* macOS chart reveal: animate any substantial chart when its SVG/Plotly content (re)draws */
+/* macOS chart reveal: line charts draw on (stroke-dashoffset), others fade in */
 (function(){
   var last=new WeakMap();
   function big(el){ var r=el.getBoundingClientRect(); return r.width>=160&&r.height>=90; }
-  function reveal(el){
-    if(!el||!el.classList||!big(el)) return;
-    var t=Date.now(); if(last.get(el)&&t-last.get(el)<500) return; last.set(el,t);
-    el.classList.remove("chart-anim"); void el.offsetWidth; el.classList.add("chart-anim");
+  function isLine(p){
+    var cs=getComputedStyle(p);
+    if(!cs.stroke||cs.stroke==='none') return false;
+    if((parseFloat(cs.strokeWidth)||0)<0.8) return false;
+    var bb; try{ bb=p.getBBox(); }catch(e){ return false; }
+    if(bb.width<40||bb.height<15) return false;   /* skip straight grid/axis/zero lines */
+    var len=0; try{ len=p.getTotalLength(); }catch(e){ return false; }
+    return len>120;
+  }
+  function drawOn(p){
+    var len; try{ len=p.getTotalLength(); }catch(e){ return; } if(!len) return;
+    p.style.transition='none'; p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
+    p.getBoundingClientRect();
+    requestAnimationFrame(function(){
+      p.style.transition='stroke-dashoffset .62s cubic-bezier(.22,.61,.36,1)';
+      p.style.strokeDashoffset='0';
+      setTimeout(function(){ p.style.transition=''; p.style.strokeDasharray=''; p.style.strokeDashoffset=''; }, 720);
+    });
+  }
+  function reveal(chart){
+    if(!chart||!chart.classList||!big(chart)) return;
+    var t=Date.now(); if(last.get(chart)&&t-last.get(chart)<600) return; last.set(chart,t);
+    var lines=[]; try{ lines=[].slice.call(chart.querySelectorAll('path,polyline')).filter(isLine); }catch(e){}
+    if(lines.length){
+      chart.classList.remove('chart-fade'); void chart.offsetWidth; chart.classList.add('chart-fade');
+      lines.forEach(drawOn);
+    } else {
+      chart.classList.remove('chart-anim'); void chart.offsetWidth; chart.classList.add('chart-anim');
+    }
   }
   function scan(m,set){
     var tg=m.target;
-    if(tg&&tg.nodeType===1&&tg.closest){ var c=tg.closest("svg,.js-plotly-plot"); if(c) set.add(c); }
+    if(tg&&tg.nodeType===1&&tg.closest){ var c=tg.closest('svg,.js-plotly-plot'); if(c) set.add(c); }
     for(var k=0;k<m.addedNodes.length;k++){ var n=m.addedNodes[k]; if(!n||n.nodeType!==1) continue;
-      if(n.matches&&n.matches("svg,.js-plotly-plot")) set.add(n);
-      else if(n.querySelector){ var q=n.querySelector("svg,.js-plotly-plot"); if(q) set.add(q); }
+      if(n.matches&&n.matches('svg,.js-plotly-plot')) set.add(n);
+      else if(n.querySelector){ var q=n.querySelector('svg,.js-plotly-plot'); if(q) set.add(q); }
     }
   }
-  var obs=new MutationObserver(function(muts){
-    var set=new Set();
-    for(var i=0;i<muts.length;i++) scan(muts[i],set);
-    set.forEach(reveal);
-  });
-  function start(){ var mc=document.querySelector(".main-content"); if(mc) obs.observe(mc,{childList:true,subtree:true}); }
-  if(document.readyState!=="loading") start(); else document.addEventListener("DOMContentLoaded",start);
+  var obs=new MutationObserver(function(muts){ var set=new Set(); for(var i=0;i<muts.length;i++) scan(muts[i],set); set.forEach(reveal); });
+  function start(){ var mc=document.querySelector('.main-content'); if(mc) obs.observe(mc,{childList:true,subtree:true}); }
+  if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded',start);
 })();
 </script>
 </body>
