@@ -42,6 +42,9 @@
   --red:#e5484d;
   --amber:#007aff;
   --sidebar-w:188px;
+  /* theme-adaptive panel washes (used by inline styles in markup) */
+  --panel-wash:rgba(255,255,255,0.5);
+  --panel-solid:#ffffff;
   /* Type scale (standardized, floor 11px): xs 11 · sm 12 · base 13 · md 15 · lg 18 · xl 24 */
   --fs-xs:11px;
   --fs-sm:12px;
@@ -58,7 +61,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:auto 1fr;height:100%}
 .layout-corner{border-right:1px solid #e4e6ee;border-bottom:1px solid #e4e6ee;display:flex;align-items:center;padding:0 14px}
 .layout-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px 16px 24px;border-bottom:1px solid #e4e6ee}
-.layout-header h1{font-size:var(--fs-lg);font-weight:700;color:#1f2430;letter-spacing:0.04em;line-height:1.25}
+.layout-header h1{font-size:var(--fs-lg);font-weight:700;color:var(--text);letter-spacing:0.04em;line-height:1.25}
 .header-meta{font-size:var(--fs-xs);color:var(--text-muted);font-weight:500;letter-spacing:0.04em}
 .msi{font-family:'Material Symbols Outlined';font-weight:400;line-height:1}
 .hdr-right{display:flex;align-items:center;gap:16px}
@@ -85,7 +88,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .nav-tab.nav-foot{color:var(--text-muted)}
 .brand{display:flex;align-items:center;gap:10px}
 .brand-mark{width:30px;height:30px;display:grid;place-items:center;background:var(--amber);color:#000;font-weight:800;font-size:var(--fs-base);flex:none}
-.brand-name{font-weight:800;letter-spacing:.1em;font-size:var(--fs-sm);color:#1f2430;line-height:1.18}
+.brand-name{font-weight:800;letter-spacing:.1em;font-size:var(--fs-sm);color:var(--text);line-height:1.18}
 .side-spacer{flex:1;min-height:24px}
 /* ── US STIR tab ── */
 .stir-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -116,7 +119,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .main-panel.active{display:block}
 
 /* ── Section headings ── */
-.section-heading{font-size:var(--fs-xl);font-weight:800;color:#1f2430;margin:20px 0 14px;letter-spacing:-0.015em;line-height:1.2}
+.section-heading{font-size:var(--fs-xl);font-weight:800;color:var(--text);margin:20px 0 14px;letter-spacing:-0.015em;line-height:1.2}
 .section-heading:first-child{margin-top:0}
 
 /* ── Cards ── */
@@ -145,7 +148,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 /* ── Warsh Playbook tab ── */
 #main-warsh .warsh-hero{background:var(--surface-card);border:1px solid var(--outline-dim);border-left:3px solid var(--amber);padding:28px 30px;margin-bottom:22px}
 #main-warsh .warsh-tag{font-size:var(--fs-xs);font-weight:700;color:var(--amber);letter-spacing:0.22em;text-transform:uppercase}
-#main-warsh .warsh-title{font-size:38px;font-weight:800;color:#1f2430;letter-spacing:-0.02em;line-height:1.02;margin:12px 0 8px}
+#main-warsh .warsh-title{font-size:38px;font-weight:800;color:var(--text);letter-spacing:-0.02em;line-height:1.02;margin:12px 0 8px}
 #main-warsh .warsh-subt{font-size:var(--fs-md);color:var(--text-dim);letter-spacing:0.04em;text-transform:uppercase;font-weight:500}
 #main-warsh .warsh-meta{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:14px}
 #main-warsh .warsh-quote{margin-top:18px;padding:14px 18px;background:var(--surface);border-left:2px solid var(--outline-dim);font-size:var(--fs-md);color:var(--text-dim);line-height:1.7;font-style:italic}
@@ -181,7 +184,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 /* ── Yen & Carry tab (shares the warsh-* layout language) ── */
 #main-yen .warsh-hero{background:var(--surface-card);border:1px solid var(--outline-dim);border-left:3px solid var(--amber);padding:28px 30px;margin-bottom:22px}
 #main-yen .warsh-tag{font-size:var(--fs-xs);font-weight:700;color:var(--amber);letter-spacing:0.22em;text-transform:uppercase}
-#main-yen .warsh-title{font-size:38px;font-weight:800;color:#1f2430;letter-spacing:-0.02em;line-height:1.02;margin:12px 0 8px}
+#main-yen .warsh-title{font-size:38px;font-weight:800;color:var(--text);letter-spacing:-0.02em;line-height:1.02;margin:12px 0 8px}
 #main-yen .warsh-subt{font-size:var(--fs-md);color:var(--text-dim);letter-spacing:0.04em;text-transform:uppercase;font-weight:500}
 #main-yen .warsh-meta{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:14px}
 #main-yen .warsh-quote{margin-top:18px;padding:14px 18px;background:var(--surface);border-left:2px solid var(--outline-dim);font-size:var(--fs-md);color:var(--text-dim);line-height:1.7;font-style:italic}
@@ -204,7 +207,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 #main-yen .warsh-foot{font-size:var(--fs-xs);color:var(--text-muted);line-height:1.6;border-top:1px solid var(--outline-dim);padding-top:10px;margin-top:6px;margin-bottom:4px}
 #main-yen .warsh-foot b{color:var(--amber);font-weight:700}
 #main-yen .yen-stat{font-size:var(--fs-base);color:var(--text-dim);line-height:1.7;margin-bottom:12px}
-#main-yen .yen-stat b{color:#1f2430;font-weight:700}
+#main-yen .yen-stat b{color:var(--text);font-weight:700}
 #main-yen .yen-cite{font-size:var(--fs-xs);color:var(--text-muted);letter-spacing:0.02em;margin-bottom:10px;font-style:italic}
 #main-yen .yen-chain{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin:6px 0 4px}
 @media(max-width:1050px){#main-yen .yen-chain{grid-template-columns:repeat(4,1fr)}}
@@ -215,7 +218,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 #main-yen .yen-id{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface-card);border:1px solid var(--outline-dim);padding:16px 18px;margin:4px 0}
 #main-yen .yen-id .yen-id-cell{font-size:var(--fs-base);color:var(--text-dim);line-height:1.6}
 #main-yen .yen-id .yen-id-op{font-size:24px;font-weight:800;color:var(--amber);text-align:center}
-#main-yen .yen-id b{color:#1f2430}
+#main-yen .yen-id b{color:var(--text)}
 
 /* Chart cards: equal height + plot pinned to the bottom, so both the bordered
    boxes AND the plot areas line up across a row regardless of title length or
@@ -269,7 +272,7 @@ svg.linechart line[stroke="#e4e6ee"]{stroke-dasharray:3 3}
 .ga-modal{width:360px;max-width:92vw;background:var(--surface-low);border:1px solid var(--outline-dim);box-shadow:0 14px 52px rgba(0,0,0,0.65)}
 .ga-modal-head{display:flex;align-items:center;gap:10px;padding:18px 20px 0}
 .ga-modal-head .msi{font-size:var(--fs-xl);color:var(--amber)}
-.ga-modal-title{font-size:var(--fs-md);font-weight:700;color:#1f2430;letter-spacing:0.02em}
+.ga-modal-title{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:0.02em}
 .ga-modal-body{padding:12px 20px 0}
 .ga-modal-sub{font-size:var(--fs-sm);color:var(--text-muted);margin-bottom:12px;line-height:1.45}
 .ga-modal-input{width:100%;background:var(--surface);border:1px solid var(--outline-dim);color:var(--text);font-family:inherit;font-size:var(--fs-base);padding:11px 13px;outline:none}
@@ -434,8 +437,8 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:999px;font-size:var(--fs-sm);font-weight:500;cursor:pointer;border:1px solid var(--outline-dim);background:transparent;color:var(--text-muted);transition:background 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease,box-shadow 180ms ease;font-family:inherit}
 .btn:hover{color:var(--text);border-color:var(--outline);background:var(--surface-high);transform:scale(1.05)}
 .btn:active{opacity:.7}
-.btn.pri{border-color:var(--ps-blue);color:#1f2430;background:var(--ps-blue)}
-.btn.pri:hover{background:var(--ps-cyan);border-color:#1f2430;box-shadow:0 0 0 2px var(--ps-blue);transform:scale(1.2)}
+.btn.pri{border-color:var(--ps-blue);color:var(--text);background:var(--ps-blue)}
+.btn.pri:hover{background:var(--ps-cyan);border-color:var(--text);box-shadow:0 0 0 2px var(--ps-blue);transform:scale(1.2)}
 .btn.pri:active{opacity:.7}
 .btn.dan{border-color:var(--red);color:var(--red)}
 .btn.dan:hover{background:rgba(224,82,82,0.12);border-color:var(--red);transform:scale(1.05)}
@@ -522,7 +525,7 @@ textarea.sta:focus{outline:none;border-color:var(--ps-blue);box-shadow:0 0 0 2px
 .lead-auth .lock{color:var(--text-muted)}
 .lead-auth .unlock{color:var(--green)}
 .lead-auth-link{border:none;background:transparent;color:var(--ps-blue);cursor:pointer;font-family:inherit;font-size:var(--fs-xs);padding:0;text-decoration:underline}
-.lead-auth-link:hover{color:#1f2430}
+.lead-auth-link:hover{color:var(--text)}
 /* E08S01 — Finviz chart preview popover + open affordance on Leadership chips */
 .lead-chip-main{cursor:pointer}
 .lead-fv-pop{position:fixed;z-index:200;display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:1240px;max-width:96vw;max-height:80vh;overflow:auto;padding:10px;background:var(--surface-low);border:1px solid var(--outline);box-shadow:0 8px 28px rgba(0,0,0,0.6)}
@@ -656,7 +659,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .ca-readouts{display:flex;gap:18px;justify-content:flex-end;flex-wrap:wrap}
 .ca-rd{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
 .ca-rd-tk{font-size:var(--fs-xs);color:var(--text-muted);font-weight:700;letter-spacing:0.05em}
-.ca-rd-val{font-size:var(--fs-base);color:#1f2430;font-weight:700}
+.ca-rd-val{font-size:var(--fs-base);color:var(--text);font-weight:700}
 .ca-rd-chg{font-size:var(--fs-xs);font-weight:700}
 .chg-pos{color:var(--green)}.chg-neg{color:var(--red)}.chg-flat{color:var(--text-muted)}
 
@@ -672,7 +675,7 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .ca-banner.pol-risk-on{background:rgba(63,185,80,0.10);border-color:rgba(63,185,80,0.35)}
 .ca-banner.pol-mixed{background:rgba(0,122,255,0.07);border-color:rgba(0,122,255,0.30)}
 .ca-banner-sq{width:14px;height:14px;flex:none;border-radius:2px}
-.ca-banner-name{color:#1f2430;font-size:var(--fs-md)}
+.ca-banner-name{color:var(--text);font-size:var(--fs-md)}
 .ca-banner-nums{color:var(--text-dim);font-size:var(--fs-sm)}
 .ca-banner-link{margin-left:auto;font-size:var(--fs-sm);letter-spacing:0.05em}
 
@@ -727,10 +730,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .ca-callout{border:1px solid rgba(63,185,80,0.35);background:rgba(63,185,80,0.08);padding:11px 14px;font-size:var(--fs-sm);color:var(--text-dim);line-height:1.6;margin-bottom:12px}
 .ca-callout.link-weak{border-color:rgba(248,81,73,0.35);background:rgba(248,81,73,0.08)}
 .ca-callout.link-mod{border-color:rgba(0,122,255,0.35);background:rgba(0,122,255,0.07)}
-.ca-callout b{color:#1f2430}
+.ca-callout b{color:var(--text)}
 .ca-histline{font-size:var(--fs-sm);color:var(--text-muted);line-height:1.6}
 .ca-histline b{color:var(--text)}
-.ca-namebar{padding:8px 12px;margin-bottom:12px;font-weight:700;color:#1f2430;font-size:var(--fs-base);border-left:3px solid}
+.ca-namebar{padding:8px 12px;margin-bottom:12px;font-weight:700;color:var(--text);font-size:var(--fs-base);border-left:3px solid}
 
 .ca-themebar{display:inline-flex;height:9px;width:80px;border-radius:2px;overflow:hidden;vertical-align:middle}
 .ca-themebar i{display:block;height:100%}
@@ -1198,7 +1201,148 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 @keyframes chartFade{from{opacity:0}to{opacity:1}}
 .chart-fade{animation:chartFade .42s cubic-bezier(.32,.72,0,1) both}
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE — activated by <html data-theme="dark">.
+   Appended last so same-specificity rules win; higher-specificity + !important
+   override the layered macOS "polish" passes that hardcode light surfaces.
+   ═══════════════════════════════════════════════════════════════════════════ */
+html[data-theme="dark"]{
+  color-scheme:dark;
+  /* ── macOS Dark Appearance palette ──
+     Warm-neutral charcoal elevation ladder (never pure black); depth reads
+     from surface lightness + diffuse shadow, not borders. */
+  --mac-bg-0:#1c1c1e;   /* window / content base            */
+  --mac-bg-1:#232326;   /* recessed groups                  */
+  --mac-elev-1:#2c2c2e; /* grouped content boxes (cards)    */
+  --mac-elev-2:#363638; /* tiles floating on a card         */
+  --mac-elev-3:#3a3a3c; /* controls / raised fills          */
+  --mac-blue:#0a84ff; --mac-green:#30d158; --mac-amber:#ffd60a; --mac-red:#ff453a;
+  /* base token system */
+  --surface:var(--mac-bg-0);
+  --surface-low:var(--mac-elev-1); --surface-card:var(--mac-elev-1); --surface-high:var(--mac-elev-2); --surface-highest:var(--mac-elev-3);
+  --outline:rgba(255,255,255,0.12); --outline-dim:rgba(255,255,255,0.07);
+  --text:rgba(255,255,255,0.92); --text-dim:rgba(255,255,255,0.65); --text-muted:rgba(255,255,255,0.45);
+  --green:var(--mac-green); --red:var(--mac-red); --amber:var(--mac-blue);
+  /* liquid-glass token system */
+  --accent:var(--mac-blue); --accent-hi:#409cff; --accent-soft:rgba(10,132,255,0.18); --accent-soft2:rgba(10,132,255,0.30);
+  --canvas:var(--mac-bg-0); --sidebar-bg:rgba(30,30,32,0.68); --card-bg:var(--mac-elev-1);
+  --hair:rgba(255,255,255,0.08); --sep:rgba(255,255,255,0.06);
+  --ink:rgba(255,255,255,0.92); --ink-2:rgba(255,255,255,0.65); --ink-3:rgba(255,255,255,0.45);
+  --panel-wash:rgba(255,255,255,0.04); --panel-solid:var(--mac-elev-1);
+}
+html[data-theme="dark"] body{background:var(--canvas) !important;color:var(--ink);}
+/* Cards / KPI tiles — grouped boxes that float above the window (depth via
+   lighter surface + soft diffuse shadow; borders nearly invisible) */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .stir-kpi{
+  background:var(--mac-elev-1) !important;
+  border-color:rgba(255,255,255,0.06) !important;
+  box-shadow:0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.28) !important;
+}
+html[data-theme="dark"] .card:hover{box-shadow:0 2px 6px rgba(0,0,0,0.45), 0 16px 40px rgba(0,0,0,0.42) !important;}
+html[data-theme="dark"] .card .card,
+html[data-theme="dark"] .card .stir-kpi{background:var(--mac-elev-2) !important;border-color:rgba(255,255,255,0.05) !important;}
+/* Tiles floating on a card */
+html[data-theme="dark"] .rcrit,
+html[data-theme="dark"] .cot-card,
+html[data-theme="dark"] .lead-col,
+html[data-theme="dark"] .lead-chip,
+html[data-theme="dark"] .ca-explain,
+html[data-theme="dark"] .rsum-combined{
+  background:var(--mac-elev-2) !important;
+  box-shadow:0 1px 2px rgba(0,0,0,0.30) !important;
+}
+/* Translucent outer wrapper (recessed group — no visible border) */
+html[data-theme="dark"] .card:has(.rcrit),
+html[data-theme="dark"] .card:has(.stir-kpi),
+html[data-theme="dark"] .card:has(.cot-card),
+html[data-theme="dark"] .card:has(.lead-col),
+html[data-theme="dark"] .card:has(.regime-criteria),
+html[data-theme="dark"] .card:has(> .card){
+  background:rgba(255,255,255,0.03) !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+}
+/* Warsh / Yen hero + quote */
+html[data-theme="dark"] #main-warsh .warsh-hero,
+html[data-theme="dark"] #main-yen .warsh-hero{background:var(--mac-elev-1) !important;box-shadow:0 1px 2px rgba(0,0,0,0.35),0 8px 24px rgba(0,0,0,0.28) !important;}
+html[data-theme="dark"] #main-warsh .warsh-quote,
+html[data-theme="dark"] #main-yen .warsh-quote{background:rgba(255,255,255,0.04) !important;}
+/* Header / corner / sidebar — vibrant dark chrome */
+html[data-theme="dark"] .layout-header,
+html[data-theme="dark"] .layout-corner{background:rgba(30,30,32,0.68) !important;}
+/* Floating: modals / popovers / dropdowns / calendars — vibrant material */
+html[data-theme="dark"] [class*="modal"],
+html[data-theme="dark"] [class*="popover"],
+html[data-theme="dark"] [class*="dropdown"],
+html[data-theme="dark"] .lead-dd-menu,
+html[data-theme="dark"] .lead-cal,
+html[data-theme="dark"] .lead-fv-pop{
+  background:rgba(44,44,46,0.80) !important;
+  border-color:rgba(255,255,255,0.08) !important;
+  box-shadow:0 16px 44px rgba(0,0,0,0.55) !important;
+}
+html[data-theme="dark"] .lead-fv-cell,
+html[data-theme="dark"] .lead-fv-more{border-color:rgba(255,255,255,0.07) !important;}
+/* Chart tooltip bubble */
+html[data-theme="dark"] .chart-tt{
+  background:rgba(44,44,46,0.92) !important;
+  border-color:rgba(255,255,255,0.08) !important;
+  color:var(--ink) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,0.55) !important;
+}
+/* Theme highlight washes (Apple semantic tints) */
+html[data-theme="dark"] .hl-green,html[data-theme="dark"] .scr-card-hl.hl-green{background:rgba(48,209,88,0.14) !important;border-color:rgba(48,209,88,0.42) !important;}
+html[data-theme="dark"] .hl-blue,html[data-theme="dark"] .scr-card-hl.hl-blue{background:rgba(10,132,255,0.15) !important;border-color:rgba(10,132,255,0.45) !important;}
+html[data-theme="dark"] .hl-purple,html[data-theme="dark"] .scr-card-hl.hl-purple{background:rgba(191,90,242,0.15) !important;border-color:rgba(191,90,242,0.45) !important;}
+/* Screener / research cards */
+html[data-theme="dark"] .scr-card,html[data-theme="dark"] .rs-card{background:var(--mac-elev-1);border-color:rgba(255,255,255,0.06);box-shadow:0 1px 2px rgba(0,0,0,0.35),0 8px 24px rgba(0,0,0,0.28);}
+html[data-theme="dark"] .scr-card:hover,html[data-theme="dark"] .rs-card:hover{border-color:rgba(10,132,255,0.5) !important;box-shadow:0 16px 40px rgba(10,132,255,0.14) !important;}
+/* Tables */
+html[data-theme="dark"] table td{border-color:rgba(255,255,255,0.06) !important;}
+html[data-theme="dark"] .stir-table td{border-bottom-color:rgba(255,255,255,0.06);}
+html[data-theme="dark"] .stir-table tr.stir-yr td{background:rgba(255,255,255,0.05);}
+html[data-theme="dark"] tbody tr:hover{background:rgba(255,255,255,0.045) !important;}
+/* Interactive washes */
+html[data-theme="dark"] .nav-tab:hover{background:rgba(255,255,255,0.06) !important;}
+html[data-theme="dark"] .nav-tab.active,
+html[data-theme="dark"] .nav-tab.active:hover{background:rgba(10,132,255,0.22) !important;color:var(--accent) !important;}
+/* Buttons / segmented controls — subtle raised fills, no hard borders */
+html[data-theme="dark"] .btn{background:rgba(255,255,255,0.07) !important;border-color:rgba(255,255,255,0.08) !important;color:var(--ink-2) !important;box-shadow:none !important;}
+html[data-theme="dark"] .btn:hover{background:rgba(255,255,255,0.12) !important;color:var(--ink) !important;}
+html[data-theme="dark"] .btn.pri,
+html[data-theme="dark"] .btn.active{background:var(--accent) !important;color:#fff !important;border-color:transparent !important;}
+html[data-theme="dark"] .btn.dan{color:var(--red) !important;border-color:transparent !important;background:rgba(255,69,58,0.14) !important;}
+html[data-theme="dark"] .scr-nav-btn{background:rgba(255,255,255,0.07) !important;border-color:rgba(255,255,255,0.08) !important;color:var(--ink-2) !important;box-shadow:none !important;}
+html[data-theme="dark"] .scr-nav-btn:hover{background:rgba(255,255,255,0.12) !important;color:var(--accent) !important;}
+html[data-theme="dark"] .ca-seg.active{color:#fff;}
+/* Inputs / controls */
+html[data-theme="dark"] .hdr-search{background:rgba(255,255,255,0.07) !important;border-color:rgba(255,255,255,0.08) !important;}
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.09);color:var(--ink);}
+html[data-theme="dark"] .cot-sel,
+html[data-theme="dark"] #rs-sort-select{background:rgba(255,255,255,0.07) !important;border-color:rgba(255,255,255,0.08) !important;color:var(--ink) !important;box-shadow:none !important;}
+html[data-theme="dark"] .cot-sel:hover,
+html[data-theme="dark"] #rs-sort-select:hover{background:rgba(255,255,255,0.12) !important;}
+html[data-theme="dark"] .cot-sel option,
+html[data-theme="dark"] #rs-sort-select option{background:var(--mac-elev-2);color:var(--ink);}
+/* Soft focus rings (Apple keyboard-focus glow) */
+html[data-theme="dark"] .cot-sel:focus-visible,
+html[data-theme="dark"] #rs-sort-select:focus-visible,
+html[data-theme="dark"] input:focus-visible,
+html[data-theme="dark"] textarea:focus-visible{box-shadow:0 0 0 4px rgba(10,132,255,0.35) !important;border-color:transparent !important;outline:none;}
+/* Scrollbar */
+html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.16);}
+html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.26);}
+/* Header theme toggle icon */
+.hdr-ic{transition:color 140ms ease;}
 </style>
+<script>
+/* Set theme attribute before first paint to avoid a light flash */
+(function(){try{var t=localStorage.getItem('ga-theme');if(t!=='dark'&&t!=='light')t=(window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
 </head>
 <body>
 <div class="app">
@@ -1209,6 +1353,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
     <button class="hdr-burger" aria-label="Open menu" onclick="gaDrawer(true)">menu</button>
     <h1>Global Advisory Dashboard</h1>
     <div class="hdr-right">
+      <span class="hdr-ic msi" id="theme-ic" title="Switch to dark mode" onclick="gaToggleTheme()">dark_mode</span>
       <span class="hdr-ic msi" id="auth-ic" title="Log in to edit" onclick="leadAuthToggle()">person</span>
       <span class="hdr-ic msi" title="Toggle fullscreen" onclick="gaFullscreen()">fullscreen</span>
       <div class="header-meta" id="session-date">Session: —</div>
@@ -1335,7 +1480,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
       All other criteria compute normally. Market Narrative: Unavailable.
   -->
 
-  <div style="margin-top:28px;padding:18px 22px;background:rgba(255,255,255,0.5);border:none;border-radius:14px">
+  <div style="margin-top:28px;padding:18px 22px;background:var(--panel-wash);border:none;border-radius:14px">
     <div style="font-size:var(--fs-xs);font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
     <p style="font-size:var(--fs-base);color:var(--text-muted);line-height:1.8;margin:0">80% of returns in most asset classes come from macro. Every individual stock and the broad market decompose into market returns, sector returns, and fundamental returns. Market and sector returns are macro-driven; fundamentals stack on top. If you can map the macro regime correctly, you are already capturing 80% of the available return before you even pick a name — that is why the entire framework starts at the macro level and works down.<br><br>It begins with growth, the upstream driver. Growth feeds inflation — together they define the regime (reflation, goldilocks, stagflation, deflation) and form what the central bank is reacting to. That reaction shows up in yields, the operating system of every other market: there is no single interest rate, and the curve is the cleanest synthesis of both the price of money (real rates) and its quantity. Yields drive the currency through rate differentials, and yields and currency together shape liquidity — the cost and availability of money that ultimately feeds back into growth, closing the loop. Markets are not moved by sentiment or euphoria; sentiment moves a single low-float name, but only liquidity and credit move the whole market. The chain is not symmetric. Growth, demand, and breadth panels are mostly confirmation — they tell you the cycle is intact. The catalyst for a regime change almost always sits downstream, in the yields and liquidity panels.</p>
   </div>
@@ -1910,7 +2055,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
   <!-- ── 6 · The Structural Chain ── -->
   <div class="section-heading">The Structural Chain &mdash; Why Japan Funds the World</div>
-  <div style="font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:14px;max-width:900px">Japan is a structural carry machine: demographics force the cheapest money on earth, and the carry trade is the belt that wires it into global risk. It starts with a hard demographic fact &mdash; a population of <b style="color:#1f2430">~122M</b> shrinking <b style="color:#1f2430">~0.5%/yr</b>, a fertility rate of <b style="color:#1f2430">1.15</b>, and deaths outnumbering births by <b style="color:#1f2430">~900k a year</b>. A contracting workforce supporting a swelling 65+ cohort produces chronic weak demand and a savings glut that must be exported. Each step below forces the next &mdash; Japan did not choose to fund the world&rsquo;s carry trade, its structure did. A demographic fact &rarr; the cheapest money on earth &rarr; a global carry trade &rarr; a volatility spike.</div>
+  <div style="font-size:var(--fs-base);color:var(--text-dim);line-height:1.78;margin-bottom:14px;max-width:900px">Japan is a structural carry machine: demographics force the cheapest money on earth, and the carry trade is the belt that wires it into global risk. It starts with a hard demographic fact &mdash; a population of <b style="color:var(--text)">~122M</b> shrinking <b style="color:var(--text)">~0.5%/yr</b>, a fertility rate of <b style="color:var(--text)">1.15</b>, and deaths outnumbering births by <b style="color:var(--text)">~900k a year</b>. A contracting workforce supporting a swelling 65+ cohort produces chronic weak demand and a savings glut that must be exported. Each step below forces the next &mdash; Japan did not choose to fund the world&rsquo;s carry trade, its structure did. A demographic fact &rarr; the cheapest money on earth &rarr; a global carry trade &rarr; a volatility spike.</div>
   <div class="yen-chain">
     <div class="yen-chain-box"><em>01</em><b>Demographics</b></div>
     <div class="yen-chain-box"><em>02</em><b>Deflation</b></div>
@@ -2028,37 +2173,37 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
       </div>
     </div>
     <div id="ic-cpi-head" class="infl-combo active">
-      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#1f2430;font-weight:600">Breakeven Inflation</span></div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:var(--text);font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-cpi-head-yoy"><div class="chart-tt" id="tt-cpi-head-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-cpi-head-mom"><div class="chart-tt" id="tt-cpi-head-mom"></div></div>
     </div>
     <div id="ic-cpi-core" class="infl-combo">
-      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#1f2430;font-weight:600">Breakeven Inflation</span></div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:var(--text);font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-cpi-core-yoy"><div class="chart-tt" id="tt-cpi-core-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-cpi-core-mom"><div class="chart-tt" id="tt-cpi-core-mom"></div></div>
     </div>
     <div id="ic-pce-head" class="infl-combo">
-      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#1f2430;font-weight:600">Breakeven Inflation</span></div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:var(--text);font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-pce-head-yoy"><div class="chart-tt" id="tt-pce-head-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-pce-head-mom"><div class="chart-tt" id="tt-pce-head-mom"></div></div>
     </div>
     <div id="ic-pce-core" class="infl-combo">
-      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#1f2430;font-weight:600">Breakeven Inflation</span></div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:var(--text);font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-pce-core-yoy"><div class="chart-tt" id="tt-pce-core-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-pce-core-mom"><div class="chart-tt" id="tt-pce-core-mom"></div></div>
     </div>
     <div id="ic-ppi-head" class="infl-combo">
-      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#1f2430;font-weight:600">Breakeven Inflation</span></div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:var(--text);font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-ppi-head-yoy"><div class="chart-tt" id="tt-ppi-head-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-ppi-head-mom"><div class="chart-tt" id="tt-ppi-head-mom"></div></div>
     </div>
     <div id="ic-ppi-core" class="infl-combo">
-      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:#1f2430;font-weight:600">Breakeven Inflation</span></div>
+      <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>YoY %</span><span style="color:var(--text);font-weight:600">Breakeven Inflation</span></div>
       <div class="cw" style="height:350px" id="w-ppi-core-yoy"><div class="chart-tt" id="tt-ppi-core-yoy"></div></div>
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
@@ -2225,7 +2370,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
   </div>
 
 
-  <div style="margin-top:28px;padding:18px 22px;background:rgba(255,255,255,0.5);border:none;border-radius:14px">
+  <div style="margin-top:28px;padding:18px 22px;background:var(--panel-wash);border:none;border-radius:14px">
     <div style="font-size:var(--fs-xs);font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
     <p style="font-size:var(--fs-base);color:var(--text-muted);line-height:1.8;margin:0">The rate complex is the operating system of every other market. There is no single interest rate — fed funds, SOFR, the 2-year, 5-year, 10-year, and 30-year each price a different question and transmit to different parts of the equity complex, the economy, and FX. SOFR and fed funds price what the Fed will do. The 2-year prices the policy path with marginal duration. The 5-year is the belly hinge between policy and term premium. The 10-year and 30-year are pure duration.</p>
   </div>
@@ -2454,7 +2599,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
       <!-- Row 1: Market Signal + SPX/EMAs -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
-        <div style="flex:0 0 35%;background:#fff;border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
+        <div style="flex:0 0 35%;background:var(--panel-solid);border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
           <div style="font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Market Signal</div>
           <div id="mkt-signal-val" style="font-size:var(--fs-lg);font-weight:700">—</div>
         </div>
@@ -2474,7 +2619,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
       <!-- Row 2: Breadth Signal + MMTH -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
-        <div style="flex:0 0 35%;background:#fff;border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
+        <div style="flex:0 0 35%;background:var(--panel-solid);border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
           <div style="font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Breadth Signal</div>
           <div id="breadth-signal-val" style="font-size:var(--fs-lg);font-weight:700">—</div>
           <div id="breadth-signal-since" style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:4px"></div>
@@ -2487,7 +2632,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
 
       <!-- Row 3: Buying Signal + NCFD/NHNL -->
       <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:10px">
-        <div style="flex:0 0 35%;background:#fff;border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
+        <div style="flex:0 0 35%;background:var(--panel-solid);border:none;border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,24,40,.05)">
           <div style="font-size:var(--fs-xs);font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px">Buying Signal</div>
           <div id="regime-signal-val" style="font-size:var(--fs-lg);font-weight:700;color:var(--text-muted)">—</div>
         </div>
@@ -2508,7 +2653,7 @@ table th,table td{padding-top:9px !important;padding-bottom:9px !important}
       <div class="data-date" id="regime-date">Source: Bloomberg | updated —</div>
     </div><!-- /regime card -->
 
-    <div style="flex:1;min-width:0;padding:18px 22px;background:rgba(255,255,255,0.5);border:none;border-radius:14px">
+    <div style="flex:1;min-width:0;padding:18px 22px;background:var(--panel-wash);border:none;border-radius:14px">
       <div style="font-size:var(--fs-xs);font-weight:700;color:var(--ps-blue);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px">What is this?</div>
       <p style="font-size:var(--fs-base);color:var(--text-muted);line-height:1.8;margin:0">The market signal is used as a broad window. Signal uses EMAs as the main indicator. EMAs determine the trend of the market.<br><br>The breadth signal is used in identifying whether the stock universe is broad or narrow. Signal uses MMTH as the main indicator. MMTH is a long-term indicator of the quantity of market participation.<br><br>The buying signal is used to determine the execution timing. Signal uses both NCFD and NHNL as the main indicators. NCFD takes a look at the underlying short-term momentum of the market. We set the upper threshold at 75 and the lower threshold at 25. Using this, NCFD is "Hot" when it hits the upper threshold, "Warm" when it lives below the upper threshold, "Lukewarm" when it lives above the lower threshold, and "Cold" when it hits the lower threshold. NHNL provides valuable information regarding stocks making new highs and stocks making new lows that can be used in determining the quality of the move of the market, whether up or down. While it can show whether we are in a stretch conducive of buying or selling, not all periods are equal in the timeliness of buying or selling. Therefore, NHNL is used in a contrarian manner depending on if it moves too fast by either velocity or level, or if it shifts direction during the market's upturn or downturn, or both.<br><br>Using all three in conjunction allows us to put out a certain thesis to the market and have a higher precision on pointing out market opportunities.</p>
     </div>
@@ -2829,8 +2974,17 @@ function deleteSector(id) {
 
 // ══ Chart engine ════════════════════════════════════════════════
 const FALLBACK_VW = 800;
-const GRID_COLOR = '#e4e6ee';
-const AXIS_COLOR = '#6b7280';
+/* Chart theme globals — reassigned by applyChartTheme() on light/dark toggle; read at render time */
+let GRID_COLOR = '#e4e6ee';
+let AXIS_COLOR = '#6b7280';
+let SVG_ZERO   = '#333';
+let PLOT_ZERO  = '#d6d9e2';
+let HOVER_BG   = 'rgba(255,255,255,0.98)';
+let HOVER_BORDER = 'rgba(0,0,0,0.08)';
+let HOVER_TEXT = '#1f2430';
+let INK_LINE   = '#2a2f3a';             /* prominent neutral series line (breakeven, bar selection) */
+let MUTED_LINE = '#39404e';             /* secondary neutral line (open interest) */
+let REF_LINE   = 'rgba(20,24,33,0.55)'; /* faint reference marker (SPX guide line/label) */
 window._redraw = window._redraw || {};   // tab-id -> redraw fn (charts re-render at correct width on tab show / resize)
 
 function mkSvg(ns, vW, vH) {
@@ -2887,7 +3041,7 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH, dFmt) {
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOf(0));z.setAttribute('y2',yOf(0));
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   // Mosaic-style soft area fill under the primary line
   const _area=document.createElementNS(ns,'path');
@@ -2952,7 +3106,7 @@ function drawMulti(wrapId, ttId, dates, seriesDefs, vH, legId) {
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOf(0));z.setAttribute('y2',yOf(0));
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   seriesDefs.forEach((s,si)=>{
     addLine(ns,svg,aligned.map(r=>r.vs[si]),xOf,yOf,s.color,s.dash||null);
@@ -3039,7 +3193,7 @@ function drawDualAxis(wrapId, ttId, dates, seriesDefs, vH) {
   if(lMin<0&&lMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOfL(0));z.setAttribute('y2',yOfL(0));
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   seriesDefs.forEach((s,si)=>{
     if(s.rightAxis){
@@ -3112,7 +3266,7 @@ function drawStackedBar(wrapId, ttId, quarters, seriesDefs, vH, legId) {
   if(allMin<0&&allMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   const tt=document.getElementById(ttId);
   quarters.forEach((q,i)=>{
@@ -3193,7 +3347,7 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId,refVal){
   if(allMin<0&&allMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   const tt=document.getElementById(ttId);
   quarters.forEach((q,i)=>{
@@ -3222,10 +3376,10 @@ function drawGDPCombo(wrapId,ttId,quarters,seriesDefs,gdpLine,vH,legId,refVal){
   }
   const linePath=document.createElementNS(ns,'path');
   linePath.setAttribute('d',gdpLine.map((v,i)=>`${i===0?'M':'L'}${xOf(i)},${yOf(v)}`).join(' '));
-  linePath.setAttribute('fill','none');linePath.setAttribute('stroke','#2a2f3a');linePath.setAttribute('stroke-width','2');
+  linePath.setAttribute('fill','none');linePath.setAttribute('stroke',INK_LINE);linePath.setAttribute('stroke-width','2');
   svg.appendChild(linePath);
   const dot=document.createElementNS(ns,'circle');
-  dot.setAttribute('r','3.5');dot.setAttribute('fill','#2a2f3a');dot.setAttribute('display','none');svg.appendChild(dot);
+  dot.setAttribute('r','3.5');dot.setAttribute('fill',INK_LINE);dot.setAttribute('display','none');svg.appendChild(dot);
   quarters.forEach((q,i)=>{
     if(i%4===0||i===n-1){
       const x=xOf(i),y=vH-pad.b+4;
@@ -3338,7 +3492,7 @@ function drawCurveBars(wrapId,ttId,dates,spread,regs,vH,legId){
   });
   const z=document.createElementNS(ns,'line');
   z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
-  z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');svg.appendChild(z);
+  z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');svg.appendChild(z);
   const tt=document.getElementById(ttId);
   bars.forEach((b,i)=>{
     const x=xOf(i),h=Math.abs(yOf(b.v)-y0);
@@ -3392,7 +3546,7 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
   const yL=v=>pad.t+(1-(v-lMin)/lR)*iH;
   const yR=v=>pad.t+(1-(v-rMin)/rRg)*iH;
   const ns='http://www.w3.org/2000/svg';const svg=mkSvg(ns,VW,vH);
-  const BLUE='#007aff',BE='#2a2f3a';
+  const BLUE='#007aff',BE=INK_LINE;
   [0,.25,.5,.75,1].forEach(f=>{
     const y=pad.t+f*iH;
     const g=document.createElementNS(ns,'line');
@@ -3417,7 +3571,7 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
   if(lMin<0&&lMax>0){
     const zl=document.createElementNS(ns,'line');
     zl.setAttribute('x1',pad.l);zl.setAttribute('x2',pad.l+iW);zl.setAttribute('y1',yL(0));zl.setAttribute('y2',yL(0));
-    zl.setAttribute('stroke','#333');zl.setAttribute('stroke-width','1');zl.setAttribute('stroke-dasharray','4,3');svg.appendChild(zl);
+    zl.setAttribute('stroke',SVG_ZERO);zl.setAttribute('stroke-width','1');zl.setAttribute('stroke-dasharray','4,3');svg.appendChild(zl);
   }
   if(R.length){
     const bp=document.createElementNS(ns,'path');
@@ -3524,7 +3678,7 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
   if(A1.bot<0&&A1.top>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOfL1(0));z.setAttribute('y2',yOfL1(0));
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   seriesDefs.forEach((s,si)=>{
     if(s.axis==='lhs1')addLine(ns,svg,aligned.map(r=>r.vs[si]),xOf,yOfL1,s.color,null);
@@ -4172,7 +4326,7 @@ function renderSrQuadrant(){
   const tt=document.getElementById('sr-qtt');
   wrap.querySelectorAll('.sr-dot').forEach(c=>{
     c.addEventListener('mouseenter',()=>{
-      const col=c.dataset.color||'#39404e';
+      const col=c.dataset.color||MUTED_LINE;
       const tks=c.dataset.tickers?`<br><span style="color:var(--text-muted);font-size:var(--fs-xs)">${c.dataset.tickers}</span>`:'';
       tt.innerHTML=`<strong>${c.dataset.name}</strong>${tks}<br><span style="color:${col}">&#9632;</span> ${xLbl}: ${c.dataset.x}%<br><span style="color:${col}">&#9632;</span> ${yLbl}: ${c.dataset.y}%`;
       tt.style.display='block';
@@ -4764,7 +4918,7 @@ function leadDrawBars(wrapId,ttId,items,opts){
         rect.setAttribute('x',bx);rect.setAttribute('width',subW);
         rect.setAttribute('y',yOf(bar.v));rect.setAttribute('height',Math.max(0.5,h));
         rect.setAttribute('fill',bar.col);rect.setAttribute('opacity',isSel?'1':'0.82');
-        if(isSel){rect.setAttribute('stroke','#2a2f3a');rect.setAttribute('stroke-width','1');}
+        if(isSel){rect.setAttribute('stroke',INK_LINE);rect.setAttribute('stroke-width','1');}
         svg.appendChild(rect);
       });
     }else{
@@ -4778,7 +4932,7 @@ function leadDrawBars(wrapId,ttId,items,opts){
       rect.setAttribute('x',x-bw/2);rect.setAttribute('width',bw);
       rect.setAttribute('y',top);rect.setAttribute('height',Math.max(0.5,h));
       rect.setAttribute('fill',sg.col);rect.setAttribute('opacity',isSel?'1':'0.82');
-      if(isSel){rect.setAttribute('stroke','#2a2f3a');rect.setAttribute('stroke-width','1');}
+      if(isSel){rect.setAttribute('stroke',INK_LINE);rect.setAttribute('stroke-width','1');}
       if(!opts.onBar&&tt&&opts.tip){
         rect.addEventListener('mouseenter',()=>showTip(it));
         rect.addEventListener('mousemove',e=>moveTip(e,x));
@@ -5040,9 +5194,9 @@ function stirLayout(extra){
     paper_bgcolor:p.bg, plot_bgcolor:p.plot,
     font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:p.text,size:11},
     margin:{l:50,r:60,t:20,b:40},
-    xaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#d6d9e2',tickangle:-38},
-    yaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#d6d9e2',title:'Implied rate (%)'},
-    hoverlabel:{bgcolor:'rgba(255,255,255,0.98)',bordercolor:'rgba(0,0,0,0.08)',font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:p.text}},
+    xaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,tickangle:-38},
+    yaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,title:'Implied rate (%)'},
+    hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:p.text}},
   }, extra||{});
 }
 
@@ -5110,11 +5264,11 @@ function renderStirMeetings(){
     x:path.map(r=>r.meeting), y:path.map(r=>r.post_rate),
     customdata:path.map(r=>r.contract),
     hovertemplate:'<b>%{x}</b><br>&#9632; %{customdata}<br>&#9632; Post-rate: %{y:.3f}%<extra></extra>',
-    hoverlabel:{bgcolor:'rgba(255,255,255,0.98)',bordercolor:'rgba(0,0,0,0.08)',font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:'#39404e'}},
+    hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:HOVER_TEXT}},
   };
   const layout=stirLayout({
     height:380,
-    yaxis:{gridcolor:'#e4e6ee',griddash:'dot',title:'Implied post-meeting rate (%)'},
+    yaxis:{gridcolor:GRID_COLOR,griddash:'dot',title:'Implied post-meeting rate (%)'},
     shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:d.effr,y1:d.effr,
              line:{color:p.orange,dash:'dash',width:1.4}}],
     annotations:[{xref:'paper',x:1.0,xanchor:'right',y:d.effr,yanchor:'bottom',
@@ -5523,18 +5677,18 @@ function renderRpCharts(sector){
       y:sorted.map(d=>d.ticker),
       marker:{color:sorted.map(d=>d.perf_ytd>=0?'#3fb950':'#f85149'),opacity:.85},
       hovertemplate:'<b>%{y}</b><br>&#9632; YTD Return: %{x:.2f}%<extra></extra>',
-      hoverlabel:{bgcolor:'rgba(255,255,255,0.98)',bordercolor:'rgba(0,0,0,0.08)',font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:'#39404e'}}
+      hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:HOVER_TEXT}}
     }],{
       paper_bgcolor:'transparent',plot_bgcolor:'transparent',
       font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#5b6472',size:11},
       margin:{t:12,b:44,l:80,r:20},
-      xaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#c0c6d1',zerolinewidth:2,ticksuffix:'%',
+      xaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,zerolinewidth:2,ticksuffix:'%',
         title:{text:'YTD Return',font:{size:11,color:'#5b6472'}}},
-      yaxis:{gridcolor:'transparent',tickfont:{size:11,color:'#6b7280'}},
+      yaxis:{gridcolor:'transparent',tickfont:{size:11,color:AXIS_COLOR}},
       shapes:spxYtd!=null?[{type:'line',x0:spxYtd,x1:spxYtd,y0:-0.5,y1:sorted.length-0.5,
-        line:{color:'rgba(20,24,33,0.55)',width:1.5,dash:'dot'}}]:[],
+        line:{color:REF_LINE,width:1.5,dash:'dot'}}]:[],
       annotations:spxYtd!=null?[{x:spxYtd,y:sorted.length-0.5,xanchor:'left',yanchor:'bottom',
-        text:'SPX',showarrow:false,font:{color:'rgba(20,24,33,0.55)',size:11}}]:[],
+        text:'SPX',showarrow:false,font:{color:REF_LINE,size:11}}]:[],
       height:Math.max(260,sorted.length*30+60)
     },{responsive:true,displayModeBar:false});
   }
@@ -5554,25 +5708,25 @@ function renderRpCharts(sector){
         type:'scatter',mode:'markers+text',
         x:bdata.map(d=>d.mktcap),y:bdata.map(d=>d.perf_ytd),
         text:bdata.map(d=>d.ticker),textposition:'top center',
-        textfont:{size:10,color:'#6b7280'},
+        textfont:{size:10,color:AXIS_COLOR},
         marker:{size:sizes,color:bdata.map(d=>d.perf_ytd>=0?'#3fb950':'#f85149'),
           opacity:.72,line:{color:'rgba(255,255,255,0.1)',width:1}},
         hovertemplate:'<b>%{text}</b><br>&#9632; Mkt Cap: $%{x:.3s}<br>&#9632; YTD Return: %{y:.2f}%<extra></extra>',
-        hoverlabel:{bgcolor:'rgba(255,255,255,0.98)',bordercolor:'rgba(0,0,0,0.08)',font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:'#39404e'}}
+        hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:HOVER_TEXT}}
       }],{
         paper_bgcolor:'transparent',plot_bgcolor:'transparent',
         font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#5b6472',size:11},
         margin:{t:12,b:50,l:60,r:20},
-        xaxis:{gridcolor:'#e4e6ee',griddash:'dot',
+        xaxis:{gridcolor:GRID_COLOR,griddash:'dot',
           title:{text:'Market Cap',font:{size:11,color:'#5b6472'}},
           tickvals:[minMc,maxMc],ticktext:[fmc(minMc),fmc(maxMc)],
           range:[minMc*0.85,maxMc*1.15]},
-        yaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#ccd0da',zerolinewidth:1,ticksuffix:'%',
+        yaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,zerolinewidth:1,ticksuffix:'%',
           title:{text:'YTD Return',font:{size:11,color:'#5b6472'}}},
         shapes:spxYtd!=null?[{type:'line',x0:0,x1:1,y0:spxYtd,y1:spxYtd,
-          xref:'paper',yref:'y',line:{color:'rgba(20,24,33,0.55)',width:1.5,dash:'dot'}}]:[],
+          xref:'paper',yref:'y',line:{color:REF_LINE,width:1.5,dash:'dot'}}]:[],
         annotations:spxYtd!=null?[{x:1,y:spxYtd,xref:'paper',yref:'y',xanchor:'right',yanchor:'bottom',
-          text:'SPX',showarrow:false,font:{color:'rgba(20,24,33,0.55)',size:11}}]:[],
+          text:'SPX',showarrow:false,font:{color:REF_LINE,size:11}}]:[],
         height:300
       },{responsive:true,displayModeBar:false});
     }
@@ -5860,15 +6014,15 @@ function drawCotCandle(code, cotDates){
     height:300,
     xaxis:{
       type:'date', range:[d0,d1], autorange:false,
-      tickangle:-38, tickformat:'%b %Y', hoverformat:'%b %d %Y', color:'#6b7280',
-      gridcolor:'#e4e6ee',griddash:'dot', showgrid:true,
+      tickangle:-38, tickformat:'%b %Y', hoverformat:'%b %d %Y', color:AXIS_COLOR,
+      gridcolor:GRID_COLOR,griddash:'dot', showgrid:true,
       rangeslider:{visible:false},
-      tickfont:{size:11,color:'#5b6472'},
+      tickfont:{size:11,color:AXIS_COLOR},
     },
     yaxis:{
-      color:'#6b7280', tickformat:',.2~f', hoverformat:',.2f',
-      gridcolor:'#e4e6ee',griddash:'dot', showgrid:true,
-      tickfont:{size:11,color:'#5b6472'},
+      color:AXIS_COLOR, tickformat:',.2~f', hoverformat:',.2f',
+      gridcolor:GRID_COLOR,griddash:'dot', showgrid:true,
+      tickfont:{size:11,color:AXIS_COLOR},
       side:'left',
     },
     showlegend:false,
@@ -5957,7 +6111,7 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
   if(netMin<0&&netMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0R);z.setAttribute('y2',y0R);
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   // Net position bars (right scale)
   const nSeries=seriesDefs.length;
@@ -5978,14 +6132,14 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
     });
   });
   // OI line on top (left scale, white)
-  addLine(ns,svg,aligned.map(r=>r.oi),xOf,yOfL,'#39404e',null);
+  addLine(ns,svg,aligned.map(r=>r.oi),xOf,yOfL,MUTED_LINE,null);
   // Hover dots
   const dots=seriesDefs.map(s=>{
     const c=document.createElementNS(ns,'circle');
     c.setAttribute('r','3');c.setAttribute('fill',s.color);c.setAttribute('display','none');svg.appendChild(c); return c;
   });
   const oiDot=document.createElementNS(ns,'circle');
-  oiDot.setAttribute('r','3');oiDot.setAttribute('fill','#39404e');oiDot.setAttribute('display','none');svg.appendChild(oiDot);
+  oiDot.setAttribute('r','3');oiDot.setAttribute('fill',MUTED_LINE);oiDot.setAttribute('display','none');svg.appendChild(oiDot);
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
   cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
@@ -6006,7 +6160,7 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
     tt.style.left=Math.min(cx*sx+12,r.width-220)+'px';
     tt.style.top=Math.max(yOfR(avgV)-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(row.d)+'</strong><br>'+
-      '<span style="color:#39404e">&#9632;</span> OI: '+fmtK(row.oi)+'<br>'+
+      '<span style="color:var(--text-dim)">&#9632;</span> OI: '+fmtK(row.oi)+'<br>'+
       seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${fmtK(row.vs[si])}`).join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{
@@ -6064,7 +6218,7 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
     z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',yOf(0));z.setAttribute('y2',yOf(0));
-    z.setAttribute('stroke','#333');z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+    z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
   }
   const nSeries=seriesDefs.length;
   const slotW=aligned.length>1?iW/(aligned.length-1):iW;
@@ -7014,9 +7168,9 @@ function baseLayout(extra){ return Object.assign({
   paper_bgcolor:'transparent', plot_bgcolor:'transparent',
   font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#4a5160',size:11},
   margin:{l:44,r:16,t:8,b:34}, showlegend:false,
-  xaxis:{gridcolor:'#edeef3',zerolinecolor:'#d6d9e2',nticks:3,tickangle:0},
-  yaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#cfd3dd'},
-  hoverlabel:{bgcolor:'rgba(255,255,255,0.98)',bordercolor:'rgba(0,0,0,0.08)',font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#1f2430'}},
+  xaxis:{gridcolor:GRID_COLOR,zerolinecolor:PLOT_ZERO,nticks:3,tickangle:0},
+  yaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO},
+  hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:HOVER_TEXT}},
 },extra||{}); }
 const CFG={displayModeBar:false,responsive:true};
 
@@ -7093,13 +7247,13 @@ function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
     Object.assign({},L,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1.5},name:'SPX',hovertemplate:'SPX %{y:.2f}<extra></extra>'}),
     Object.assign({},L,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1.5},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
     Object.assign({},L,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1.5},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
-  ],baseLayout({height:280,hovermode:'x unified',yaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#c4c9d4',zerolinewidth:1.4,range:[-rng,rng]}}),CFG);
+  ],baseLayout({height:280,hovermode:'x unified',yaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,zerolinewidth:1.4,range:[-rng,rng]}}),CFG);
   // linkage
   const lk=c.link.slice(vs,ve+1);
   Plotly.react('ca-linkage',[{x:dates,y:lk,type:'scatter',mode:'lines',fill:'tozeroy',
     line:{color:'#007aff',width:1.4},fillcolor:'rgba(0,122,255,0.18)',
     hovertemplate:'%{x}<br>Linkage %{y:.0f}%<extra></extra>'}],
-    baseLayout({height:210,yaxis:{gridcolor:'#e4e6ee',griddash:'dot',range:[0,100],ticksuffix:'%'}}),CFG);
+    baseLayout({height:210,yaxis:{gridcolor:GRID_COLOR,griddash:'dot',range:[0,100],ticksuffix:'%'}}),CFG);
   renderFreq(vs,ve);
 }
 function renderFreq(vs,ve){ const ag=aggregate(vs,ve); const ci=currentRegime(ve), cg=ci>=0?CA.comp.reg[ci]:-1;
@@ -7115,13 +7269,13 @@ function renderFreq(vs,ve){ const ag=aggregate(vs,ve); const ci=currentRegime(ve
   Plotly.react('ca-freq-bar',[{type:'bar',x:['R1','R2','R3','R4','R5','R6','R7','R8'],y:freqs,
     marker:{color:COL.slice()},text:freqs.map(f=>f.toFixed(1)+'%'),textposition:'none',
     hovertemplate:'%{x}  %{y:.1f}%<extra></extra>'}],
-    baseLayout({height:190,margin:{l:34,r:8,t:6,b:24},yaxis:{gridcolor:'#e4e6ee',griddash:'dot',range:[0,ymax],ticksuffix:'%'},xaxis:{tickfont:{size:10}}}),CFG);
+    baseLayout({height:190,margin:{l:34,r:8,t:6,b:24},yaxis:{gridcolor:GRID_COLOR,griddash:'dot',range:[0,ymax],ticksuffix:'%'},xaxis:{tickfont:{size:10}}}),CFG);
   document.getElementById('ca-freq-legend').innerHTML=COL.map((c,k)=>`<span><i style="background:${c}"></i>R${k+1}</span>`).join('');
 }
 window.caBarHi=function(g){ const rows=document.querySelectorAll('#ca-freq-body tr'); rows.forEach(r=>r.classList.remove('ca-bar-hi'));
   const bar=document.getElementById('ca-freq-bar');
   if(g>=0){ const rw=document.querySelector('#ca-freq-body tr[data-reg="'+g+'"]'); if(rw)rw.classList.add('ca-bar-hi');
-    try{ Plotly.restyle(bar,{'marker.line.width':[COL.map((_,k)=>k===g?2.5:0)],'marker.line.color':[COL.map(()=>'#2a2f3a')]}); }catch(e){} }
+    try{ Plotly.restyle(bar,{'marker.line.width':[COL.map((_,k)=>k===g?2.5:0)],'marker.line.color':[COL.map(()=>INK_LINE)]}); }catch(e){} }
   else{ try{ Plotly.restyle(bar,{'marker.line.width':[COL.map(()=>0)]}); }catch(e){} }
 };
 
@@ -7156,7 +7310,7 @@ function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
     Object.assign({},Ln,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
     Object.assign({},Ln,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
   ],baseLayout({height:360,hovermode:'x unified',
-    yaxis:{gridcolor:'#e4e6ee',griddash:'dot',zerolinecolor:'#c4c9d4',zerolinewidth:1.2},
+    yaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,zerolinewidth:1.2},
     shapes:shapes}),CFG);
 }
 
@@ -7344,6 +7498,61 @@ fetch('cross_asset.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{ if
   var obs=new MutationObserver(function(muts){ var set=new Set(); for(var i=0;i<muts.length;i++) scan(muts[i],set); set.forEach(reveal); });
   function start(){ var mc=document.querySelector('.main-content'); if(mc) obs.observe(mc,{childList:true,subtree:true}); }
   if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>
+<script>
+/* ── Dark mode: chart re-theming, toggle, persistence, system sync ── */
+(function(){
+  function chartDark(dark){
+    if(dark){
+      /* macOS Dark: subtle white gridlines, tertiary-label axes, vibrant tooltip */
+      GRID_COLOR='rgba(255,255,255,0.07)'; AXIS_COLOR='rgba(255,255,255,0.45)';
+      SVG_ZERO='rgba(255,255,255,0.22)'; PLOT_ZERO='rgba(255,255,255,0.14)';
+      HOVER_BG='rgba(44,44,46,0.96)'; HOVER_BORDER='rgba(255,255,255,0.10)'; HOVER_TEXT='rgba(255,255,255,0.92)';
+      INK_LINE='rgba(255,255,255,0.78)'; MUTED_LINE='rgba(255,255,255,0.50)'; REF_LINE='rgba(255,255,255,0.42)';
+    }else{
+      GRID_COLOR='#e4e6ee'; AXIS_COLOR='#6b7280';
+      SVG_ZERO='#333'; PLOT_ZERO='#d6d9e2';
+      HOVER_BG='rgba(255,255,255,0.98)'; HOVER_BORDER='rgba(0,0,0,0.08)'; HOVER_TEXT='#1f2430';
+      INK_LINE='#2a2f3a'; MUTED_LINE='#39404e'; REF_LINE='rgba(20,24,33,0.55)';
+    }
+    try{
+      STIR.PALETTE = dark
+        ? {bg:'transparent',plot:'transparent',orange:'rgba(235,235,245,0.55)',orangeHot:'#f5f5f7',orangeDim:'rgba(235,235,245,0.10)',text:'rgba(255,255,255,0.6)'}
+        : {bg:'transparent',plot:'transparent',orange:'rgba(30,41,59,0.55)',orangeHot:'#0f172a',orangeDim:'rgba(15,23,42,0.06)',text:'#3a4150'};
+    }catch(e){}
+  }
+  function curTheme(){ return document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light'; }
+  function redrawAll(){
+    if(!window._redraw) return;
+    Object.keys(window._redraw).forEach(function(k){ try{ window._redraw[k](); }catch(e){} });
+  }
+  function updateIcon(){
+    var ic=document.getElementById('theme-ic'); if(!ic) return;
+    var dark=curTheme()==='dark';
+    ic.textContent = dark ? 'light_mode' : 'dark_mode';
+    ic.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+  }
+  window.gaSetTheme=function(theme, persist){
+    document.documentElement.setAttribute('data-theme', theme);
+    if(persist){ try{ localStorage.setItem('ga-theme', theme); }catch(e){} }
+    chartDark(theme==='dark');
+    updateIcon();
+    redrawAll();
+  };
+  window.gaToggleTheme=function(){ window.gaSetTheme(curTheme()==='dark'?'light':'dark', true); };
+  /* Sync chart colour globals to the theme already set in <head> — runs before
+     DOMContentLoaded, so first chart render uses the correct palette. */
+  chartDark(curTheme()==='dark');
+  if(document.readyState!=='loading') updateIcon();
+  else document.addEventListener('DOMContentLoaded', updateIcon);
+  /* Follow OS theme changes until the user makes an explicit choice */
+  try{
+    matchMedia('(prefers-color-scheme:dark)').addEventListener('change', function(e){
+      try{ if(localStorage.getItem('ga-theme')) return; }catch(_){}
+      window.gaSetTheme(e.matches?'dark':'light', false);
+    });
+  }catch(e){}
 })();
 </script>
 </body>
