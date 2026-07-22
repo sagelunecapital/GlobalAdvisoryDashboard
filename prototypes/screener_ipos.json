@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-21T22:18:54.747568+00:00",
+  "fetched_at": "2026-07-22T22:39:09.611908+00:00",
   "us": [
     {
       "ticker": "STDN",
@@ -30,92 +30,32 @@
   ],
   "hk": [
     {
-      "ticker": "7656",
-      "company": "Reconova Technologies Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 2.761698329958,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 28087000,
-      "deal_amount_usd": 62054256.79482428,
-      "mkt_cap_usd": 843481807.1686
-    },
-    {
-      "ticker": "1770",
-      "company": "DKE Holding Company Limited Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 10.027414726128,
-      "price_range": "10.03 - 12.89",
-      "status": "Closed",
-      "shares": 5118600,
-      "deal_amount_usd": 46193291.41885386,
-      "mkt_cap_usd": 513443947.5729
-    },
-    {
-      "ticker": "6880",
-      "company": "Momenta Global Ltd. Class A",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 37.69206247512,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 19938300,
-      "deal_amount_usd": 676363707.4022919,
-      "mkt_cap_usd": 8881084233.5693
-    },
-    {
-      "ticker": "9971",
-      "company": "BASiC Semiconductor Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 4.031877589524,
-      "price_range": "3.51 - 4.03",
-      "status": "Closed",
-      "shares": 27386200,
-      "deal_amount_usd": 88333599.7333634,
-      "mkt_cap_usd": 1227297104.0318
-    },
-    {
-      "ticker": "7687",
-      "company": "EACON Group Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-08",
-      "price_usd": 11.210710868784,
-      "price_range": "10.35 - 11.21",
-      "status": "Closed",
-      "shares": 26132000,
-      "deal_amount_usd": 263662466.78075713,
-      "mkt_cap_usd": 1658317294.4313
-    },
-    {
-      "ticker": "1377",
-      "company": "Guangdong Dtech Technology Co., Ltd. Class H",
+      "ticker": "6951",
+      "company": "Chaozhou Three-Circle (Group) Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-07-09",
-      "price_usd": 48.471242532,
+      "price_usd": 12.78928912806,
       "price_range": null,
       "status": "Closed",
-      "shares": 12632000,
-      "deal_amount_usd": 551059862.0978016,
-      "mkt_cap_usd": 20561066089.7058
+      "shares": 71364300,
+      "deal_amount_usd": 821427904.259212,
+      "mkt_cap_usd": 25441179741.2612
     },
     {
-      "ticker": "3752",
-      "company": "Rokae (Shandong) Robotics Group Inc. Class H",
+      "ticker": "2797",
+      "company": "Jiangxi Qiyunshan Food Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-07-09",
-      "price_usd": 4.8471242532,
-      "price_range": null,
+      "price_usd": 1.0204472112,
+      "price_range": "0.64 - 1.02",
       "status": "Closed",
-      "shares": 23031900,
-      "deal_amount_usd": 100474584.50730684,
-      "mkt_cap_usd": 1269056427.4014
+      "shares": 25000000,
+      "deal_amount_usd": 22960062.252,
+      "mkt_cap_usd": 102079877.52
     },
     {
       "ticker": "537",
-      "company": "Rigol Technologies Co Ltd",
+      "company": "Rigol Technologies Co., Ltd. Class H",
       "exchange": "HKEX",
       "date": "2026-07-09",
       "price_usd": 5.865020346372,
@@ -138,28 +78,28 @@
       "mkt_cap_usd": 62187764956.2853
     },
     {
-      "ticker": "2797",
-      "company": "Jiangxi Qiyunshan Food Co., Ltd. Class H",
+      "ticker": "3752",
+      "company": "Rokae (Shandong) Robotics Group Inc. Class H",
       "exchange": "HKEX",
       "date": "2026-07-09",
-      "price_usd": 1.0204472112,
-      "price_range": "0.64 - 1.02",
-      "status": "Closed",
-      "shares": 25000000,
-      "deal_amount_usd": 22960062.252,
-      "mkt_cap_usd": 102079877.52
-    },
-    {
-      "ticker": "6951",
-      "company": "Chaozhou Three-Circle (Group) Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 12.78928912806,
+      "price_usd": 4.8471242532,
       "price_range": null,
       "status": "Closed",
-      "shares": 71364300,
-      "deal_amount_usd": 821427904.259212,
-      "mkt_cap_usd": 25441179741.2612
+      "shares": 23031900,
+      "deal_amount_usd": 100474584.50730684,
+      "mkt_cap_usd": 1269056427.4014
+    },
+    {
+      "ticker": "1377",
+      "company": "Guangdong Dtech Technology Co., Ltd. Class H",
+      "exchange": "HKEX",
+      "date": "2026-07-09",
+      "price_usd": 48.471242532,
+      "price_range": null,
+      "status": "Closed",
+      "shares": 12632000,
+      "deal_amount_usd": 551059862.0978016,
+      "mkt_cap_usd": 20561066089.7058
     },
     {
       "ticker": "2249",
