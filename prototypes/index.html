@@ -7263,7 +7263,9 @@ function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
   Plotly.react('ca-linkage',[{x:dates,y:lk,type:'scatter',mode:'lines',fill:'tozeroy',
     line:{color:'#007aff',width:1.4},fillcolor:'rgba(0,122,255,0.18)',
     hovertemplate:'%{x}<br>Linkage %{y:.0f}%<extra></extra>'}],
-    baseLayout({height:210,yaxis:{gridcolor:GRID_COLOR,griddash:'dot',range:[0,100],ticksuffix:'%'}}),CFG);
+    baseLayout({height:210,yaxis:{gridcolor:GRID_COLOR,griddash:'dot',range:[30,100],ticksuffix:'%'}}),CFG);
+    // y-axis zoomed to [30,100]: 33% is the 3-asset PC1 floor, so no data clips; the zoom
+    // reveals the peaks/troughs in the 63D linkage that a 0-100 fill visually flattened.
   renderFreq(vs,ve);
 }
 function renderFreq(vs,ve){ const ag=aggregate(vs,ve); const ci=currentRegime(ve), cg=ci>=0?CA.comp.reg[ci]:-1;
