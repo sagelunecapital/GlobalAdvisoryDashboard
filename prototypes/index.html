@@ -1584,7 +1584,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     </div>
     <div class="card">
       <div class="card-header" id="ca-attr-hdr">Rolling Returns &mdash; 20D vol-adjusted returns for each asset</div>
-      <div class="ca-explain">What this shows: The 20D rolling return for SPX, 10Y yield, and DXY, each divided by its own volatility so they're comparable. A value of +2.0 means the asset moved up by 2x its normal volatility. Above zero = up, below zero = down. This is the same signal that defines the regimes. When lines move together, the assets are correlated.</div>
+      <div class="ca-explain">What this shows: The 20D rolling return for SPX, 10Y yield, and DXY, each divided by its own daily volatility so they're comparable across assets. Above zero = up, below zero = down; the sign of all three defines the regime. The dashed lines mark a 2-sigma extreme move for the window. When lines move together, the assets are correlated.</div>
       <div class="ca-stats" id="ca-attr-stats"></div>
       <div class="cw" id="ca-attr-line" style="height:360px"><div class="chart-tt" id="tt-ca-attr-line"></div></div>
       <div class="ca-brush" id="ca-brush-attr"><div class="ca-brush-track"></div><div class="ca-brush-fill"></div><div class="ca-brush-h ca-brush-h0"></div><div class="ca-brush-h ca-brush-h1"></div></div>
@@ -7113,6 +7113,14 @@ function corr(x,y,i,w){ let sx=0,sy=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&x
   if(c<w*0.7) return null; const mx=sx/c,my=sy/c; let sxx=0,syy=0,sxy=0;
   for(let k=i-w+1;k<=i;k++){ if(k>=0&&x[k]!=null&&y[k]!=null){ const dx=x[k]-mx,dy=y[k]-my; sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy; } }
   return (sxx>0&&syy>0)?sxy/Math.sqrt(sxx*syy):null; }
+// Market linkage: share of total variance captured by the 1st principal component of the
+// 3-asset correlation matrix [[1,a,b],[a,1,c],[b,c,1]] = largest eigenvalue / 3, as a %.
+// Closed form for a symmetric 3x3 with unit diagonal: 33.3% = fully independent, 100% = one common factor.
+function pc1Share(a,b,c){ const p1=a*a+b*b+c*c; if(p1===0) return 100/3;
+  const p=Math.sqrt(p1/3);                          // = sqrt(2*p1/6)
+  let r=(a*b*c)/(p*p*p); r=Math.max(-1,Math.min(1,r));
+  const eig1=1+2*p*Math.cos(Math.acos(r)/3);        // largest eigenvalue (trace=3, q=1)
+  return eig1/3*100; }
 
 // ── core computation (depends only on method / lookback / vol) ──────────────
 function recompute(){
@@ -7123,13 +7131,15 @@ function recompute(){
   const spxL=new Array(n),dxyL=new Array(n),y10L=new Array(n);
   for(let i=0;i<n;i++){ spxL[i]=i>=L?spx[i]/spx[i-L]-1:null; dxyL[i]=i>=L?dxy[i]/dxy[i-L]-1:null; y10L[i]=i>=L?(y10[i]-y10[i-L])*100:null; }
   const sigS=new Array(n),sigY=new Array(n),sigD=new Array(n);
-  const sq=Math.sqrt(L);
   for(let i=0;i<n;i++){
     if(meth==='vol'){
+      // L-day move divided by DAILY vol (no sqrt(L) normalization): the cumulative
+      // move accumulated in units of daily sigma, matching the reference pack's scale.
+      // Sign is unchanged vs a per-period z-score, so regime classification is identical.
       const vs=std(sret,i,V),vy=std(ybp,i,V),vd=std(dret,i,V);
-      sigS[i]=(spxL[i]!=null&&vs)?spxL[i]/(vs*sq):null;
-      sigY[i]=(y10L[i]!=null&&vy)?y10L[i]/(vy*sq):null;
-      sigD[i]=(dxyL[i]!=null&&vd)?dxyL[i]/(vd*sq):null;
+      sigS[i]=(spxL[i]!=null&&vs)?spxL[i]/vs:null;
+      sigY[i]=(y10L[i]!=null&&vy)?y10L[i]/vy:null;
+      sigD[i]=(dxyL[i]!=null&&vd)?dxyL[i]/vd:null;
     } else { // z-score of the L-day return over the trailing V-window
       const ms=mean(spxL,i,V),ss=std(spxL,i,V), my=mean(y10L,i,V),sy=std(y10L,i,V), md=mean(dxyL,i,V),sd=std(dxyL,i,V);
       sigS[i]=(spxL[i]!=null&&ss)?(spxL[i]-ms)/ss:null;
@@ -7139,9 +7149,9 @@ function recompute(){
   }
   const reg=new Array(n);
   for(let i=0;i<n;i++){ reg[i]=(sigS[i]!=null&&sigY[i]!=null&&sigD[i]!=null)?regIdx(sigS[i]>0,sigY[i]>0,sigD[i]>0):-1; }
-  const LW=Math.max(V,20), link=new Array(n);
+  const LW=63, link=new Array(n);   // market linkage = PC1 variance share, 63D rolling (reference-pack method)
   for(let i=0;i<n;i++){ const a=corr(sret,ybp,i,LW),b=corr(sret,dret,i,LW),c=corr(ybp,dret,i,LW);
-    link[i]=(a!=null&&b!=null&&c!=null)?(Math.abs(a)+Math.abs(b)+Math.abs(c))/3*100:null; }
+    link[i]=(a!=null&&b!=null&&c!=null)?pc1Share(a,b,c):null; }
   CA.comp={n,sret,dret,ybp,sigS,sigY,sigD,reg,link};
 }
 
@@ -7300,8 +7310,9 @@ function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
       `<div class="ca-stat-cap">${ext?'extreme move':''}</div></div>`;
   }).join('');
   const Ln={x:dates,mode:'lines',type:'scatter'};
-  const shapes=[{type:'line',xref:'paper',x0:0,x1:1,y0:2,y1:2,line:{color:'#6b6355',dash:'dash',width:1}},
-                {type:'line',xref:'paper',x0:0,x1:1,y0:-2,y1:-2,line:{color:'#6b6355',dash:'dash',width:1}}];
+  const T=2*Math.sqrt(L);   // 2-sigma threshold on the cumulative signal scale (signal std grows ~sqrt(L))
+  const shapes=[{type:'line',xref:'paper',x0:0,x1:1,y0:T,y1:T,line:{color:'#6b6355',dash:'dash',width:1}},
+                {type:'line',xref:'paper',x0:0,x1:1,y0:-T,y1:-T,line:{color:'#6b6355',dash:'dash',width:1}}];
   if(ve===n-1 && dates.length){ shapes.push({type:'rect',xref:'x',yref:'paper',layer:'below',
     x0:CA.raw.dates[Math.max(vs,n-W)],x1:CA.raw.dates[ve],y0:0,y1:1,
     fillcolor:'rgba(0,122,255,0.06)',line:{width:0}}); }
