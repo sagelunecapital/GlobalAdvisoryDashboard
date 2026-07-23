@@ -510,6 +510,36 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
     }
 
 
+def apply_oi_chg(payload: dict, prior_path: Path) -> None:
+    """Derive per-contract open-interest change by diffing against the previously
+    published stir.json. Neither data feed (yfinance free, Barchart) exposes an OI
+    delta, so it is computed from consecutive daily snapshots, matched by symbol.
+
+    Must be called BEFORE prior_path is overwritten.
+      - new session (prior asof_date < current): oi_chg = oi_now - oi_prev
+      - same-session re-run (prior asof_date == current): carry the prior delta
+        forward, so a same-day redeploy does not blank the column
+      - no prior file / prior asof newer or equal-missing: leave None (nothing to diff)
+    """
+    try:
+        prior = json.loads(prior_path.read_text(encoding="utf-8"))
+    except Exception:
+        return  # first run or unreadable prior: oi_chg stays None
+    cur_asof, prior_asof = payload.get("asof_date"), prior.get("asof_date")
+    if not (cur_asof and prior_asof):
+        return
+    for key in ("sofr_strip", "ff_strip"):
+        prev_rows = prior.get(key) or []
+        prev_oi  = {r["symbol"]: r.get("oi")     for r in prev_rows if r.get("symbol")}
+        prev_chg = {r["symbol"]: r.get("oi_chg") for r in prev_rows if r.get("symbol")}
+        for row in payload.get(key) or []:
+            sym = row.get("symbol")
+            if cur_asof == prior_asof:
+                row["oi_chg"] = prev_chg.get(sym)                       # same session: keep prior delta
+            elif cur_asof > prior_asof and row.get("oi") is not None and prev_oi.get(sym) is not None:
+                row["oi_chg"] = int(row["oi"]) - int(prev_oi[sym])     # day-over-day change
+
+
 # A6 - End-to-end driver
 def main(show_plots: bool = False) -> None:
     today = date.today()
@@ -544,6 +574,7 @@ def main(show_plots: bool = False) -> None:
     print("[5] Exporting dashboard JSON...", flush=True)
     payload = build_dashboard_payload(strip, ref_rates, fomc_dates, path,
                                       OCR, SOFR, today)
+    apply_oi_chg(payload, JSON_OUT)   # derive OI change from the prior published snapshot (before overwrite)
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     with open(JSON_OUT, "w", encoding="utf-8") as f:
         json.dump(payload, f, separators=(",", ":"))
