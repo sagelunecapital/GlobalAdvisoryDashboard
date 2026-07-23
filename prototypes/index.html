@@ -7149,9 +7149,13 @@ function recompute(){
   }
   const reg=new Array(n);
   for(let i=0;i<n;i++){ reg[i]=(sigS[i]!=null&&sigY[i]!=null&&sigD[i]!=null)?regIdx(sigS[i]>0,sigY[i]>0,sigD[i]>0):-1; }
-  const LW=63, link=new Array(n);   // market linkage = PC1 variance share, 63D rolling (reference-pack method)
-  for(let i=0;i<n;i++){ const a=corr(sret,ybp,i,LW),b=corr(sret,dret,i,LW),c=corr(ybp,dret,i,LW);
-    link[i]=(a!=null&&b!=null&&c!=null)?pc1Share(a,b,c):null; }
+  // market linkage = 63D moving average of the 20D-window PC1 variance share
+  // (20D correlation matrix each day -> largest-eigenvalue share, then smoothed over a quarter)
+  const CW=20, MW=63, pc1raw=new Array(n);
+  for(let i=0;i<n;i++){ const a=corr(sret,ybp,i,CW),b=corr(sret,dret,i,CW),c=corr(ybp,dret,i,CW);
+    pc1raw[i]=(a!=null&&b!=null&&c!=null)?pc1Share(a,b,c):null; }
+  const link=new Array(n);
+  for(let i=0;i<n;i++) link[i]=mean(pc1raw,i,MW);
   CA.comp={n,sret,dret,ybp,sigS,sigY,sigD,reg,link};
 }
 
