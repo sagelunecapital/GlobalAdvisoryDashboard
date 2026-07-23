@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-07-22T22:39:09.611908+00:00",
+  "fetched_at": "2026-07-23T23:13:12.382402+00:00",
   "us": [
-    {
-      "ticker": "STDN",
-      "company": "Standard Nuclear, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-07-16",
-      "price_usd": null,
-      "price_range": null,
-      "status": "Pending",
-      "shares": 10000000,
-      "deal_amount_usd": 383250000.0,
-      "mkt_cap_usd": 2410103130.0,
-      "ipo_close": 12.3
-    },
     {
       "ticker": "CSQR",
       "company": "Csquare, Inc.",
@@ -26,80 +13,33 @@
       "deal_amount_usd": 1350000000.0,
       "mkt_cap_usd": 3255434742.0,
       "ipo_close": 20.67
+    },
+    {
+      "ticker": "STDN",
+      "company": "Standard Nuclear, Inc.",
+      "exchange": "NYSE",
+      "date": "2026-07-16",
+      "price_usd": null,
+      "price_range": null,
+      "status": "Pending",
+      "shares": 10000000,
+      "deal_amount_usd": 383250000.0,
+      "mkt_cap_usd": 2410103130.0,
+      "ipo_close": 12.3
     }
   ],
   "hk": [
     {
-      "ticker": "6951",
-      "company": "Chaozhou Three-Circle (Group) Co., Ltd. Class H",
+      "ticker": "6745",
+      "company": "Befar Group Co., Ltd. Class H",
       "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 12.78928912806,
-      "price_range": null,
+      "date": "2026-07-10",
+      "price_usd": 0.444047467212,
+      "price_range": "0.39 - 0.46",
       "status": "Closed",
-      "shares": 71364300,
-      "deal_amount_usd": 821427904.259212,
-      "mkt_cap_usd": 25441179741.2612
-    },
-    {
-      "ticker": "2797",
-      "company": "Jiangxi Qiyunshan Food Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 1.0204472112,
-      "price_range": "0.64 - 1.02",
-      "status": "Closed",
-      "shares": 25000000,
-      "deal_amount_usd": 22960062.252,
-      "mkt_cap_usd": 102079877.52
-    },
-    {
-      "ticker": "537",
-      "company": "Rigol Technologies Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 5.865020346372,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 24802200,
-      "deal_amount_usd": 130918397.66968115,
-      "mkt_cap_usd": 1282984669.0343
-    },
-    {
-      "ticker": "2475",
-      "company": "Luxshare Precision Industry Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 8.071737440592,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 383472800,
-      "deal_amount_usd": 2785762420.0530343,
-      "mkt_cap_usd": 62187764956.2853
-    },
-    {
-      "ticker": "3752",
-      "company": "Rokae (Shandong) Robotics Group Inc. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 4.8471242532,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 23031900,
-      "deal_amount_usd": 100474584.50730684,
-      "mkt_cap_usd": 1269056427.4014
-    },
-    {
-      "ticker": "1377",
-      "company": "Guangdong Dtech Technology Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-09",
-      "price_usd": 48.471242532,
-      "price_range": null,
-      "status": "Closed",
-      "shares": 12632000,
-      "deal_amount_usd": 551059862.0978016,
-      "mkt_cap_usd": 20561066089.7058
+      "shares": 352126000,
+      "deal_amount_usd": 140724414.97655657,
+      "mkt_cap_usd": 1069270636.8933
     },
     {
       "ticker": "2249",
@@ -112,18 +52,6 @@
       "shares": 216167000,
       "deal_amount_usd": 801834208.3674749,
       "mkt_cap_usd": 9161542060.8942
-    },
-    {
-      "ticker": "6745",
-      "company": "Befar Group Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-10",
-      "price_usd": 0.444047467212,
-      "price_range": "0.39 - 0.46",
-      "status": "Closed",
-      "shares": 352126000,
-      "deal_amount_usd": 140724414.97655657,
-      "mkt_cap_usd": 1069270636.8933
     }
   ]
 }
