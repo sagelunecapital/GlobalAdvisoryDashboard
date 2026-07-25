@@ -1,19 +1,6 @@
 {
-  "fetched_at": "2026-07-23T23:13:12.382402+00:00",
+  "fetched_at": "2026-07-25T05:00:01.165006+00:00",
   "us": [
-    {
-      "ticker": "CSQR",
-      "company": "Csquare, Inc.",
-      "exchange": "NYSE",
-      "date": "2026-07-16",
-      "price_usd": null,
-      "price_range": "23.00 - 27.00",
-      "status": "Pending",
-      "shares": 50000000,
-      "deal_amount_usd": 1350000000.0,
-      "mkt_cap_usd": 3255434742.0,
-      "ipo_close": 20.67
-    },
     {
       "ticker": "STDN",
       "company": "Standard Nuclear, Inc.",
@@ -26,32 +13,20 @@
       "deal_amount_usd": 383250000.0,
       "mkt_cap_usd": 2410103130.0,
       "ipo_close": 12.3
-    }
-  ],
-  "hk": [
-    {
-      "ticker": "6745",
-      "company": "Befar Group Co., Ltd. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-10",
-      "price_usd": 0.444047467212,
-      "price_range": "0.39 - 0.46",
-      "status": "Closed",
-      "shares": 352126000,
-      "deal_amount_usd": 140724414.97655657,
-      "mkt_cap_usd": 1069270636.8933
     },
     {
-      "ticker": "2249",
-      "company": "Nexchip Semiconductor Corp. Class H",
-      "exchange": "HKEX",
-      "date": "2026-07-10",
-      "price_usd": 4.12147505487,
-      "price_range": "3.83 - 4.12",
-      "status": "Closed",
-      "shares": 216167000,
-      "deal_amount_usd": 801834208.3674749,
-      "mkt_cap_usd": 9161542060.8942
+      "ticker": "CSQR",
+      "company": "Csquare, Inc.",
+      "exchange": "NYSE",
+      "date": "2026-07-16",
+      "price_usd": null,
+      "price_range": "23.00 - 27.00",
+      "status": "Pending",
+      "shares": 50000000,
+      "deal_amount_usd": 1350000000.0,
+      "mkt_cap_usd": 3255434742.0,
+      "ipo_close": 20.67
     }
-  ]
+  ],
+  "hk": []
 }
