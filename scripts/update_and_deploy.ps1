@@ -48,7 +48,7 @@ Invoke-Step "update_dashboard.py"      "update_dashboard.py failed - macro data 
 Invoke-Step "scripts\fetch_regime.py"  "fetch_regime.py failed - regime.json may be stale."
 
 # 2. STIR
-Invoke-Step "scripts\barchart_fetch.py" "barchart_fetch.py failed - ZQ cache stale (stir falls back to yfinance)."
+Invoke-Step "scripts\barchart_fetch.py" "barchart_fetch.py failed - ZQ cache not refreshed. stir_pipeline.py rejects it once older than 4d and falls back to yfinance (no OI); if that also fails it hard-errors rather than publish a stale strip."
 Invoke-Step "scripts\stir_pipeline.py"  "stir_pipeline.py failed - stir.json may be stale."
 
 # 2b. Warsh Playbook tab data (reads stir.json above; FRED + yfinance for the rest)

@@ -10,18 +10,24 @@ Run:      python scripts/barchart_fetch.py
 
 import json
 import asyncio
-from datetime import date, datetime
+import time
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from playwright.async_api import async_playwright
+from playwright.async_api import TimeoutError as PWTimeout
 
 OUT_F = Path(__file__).resolve().parent / "barchart_zq_cache.json"
 
 ZQ_URL  = "https://www.barchart.com/futures/quotes/ZQ*0/futures-prices"
 API_PAT = "/proxies/core-api/v1/quotes/get"
 
+NAV_TIMEOUT_MS   = 45_000   # page load only, not the quotes call
+CAPTURE_TIMEOUT_S = 30      # how long to wait for the intercepted root=ZQ response
+ATTEMPTS          = 2
 
-async def fetch_zq() -> list[dict]:
+
+async def _attempt() -> list[dict]:
     captured: list[dict] = []
 
     async with async_playwright() as p:
@@ -46,10 +52,41 @@ async def fetch_zq() -> list[dict]:
 
         page.on("response", handle_response)
 
-        await page.goto(ZQ_URL, wait_until="networkidle", timeout=30_000)
+        # Barchart streams live quotes, so "networkidle" never settles and goto()
+        # times out - which previously threw away rows handle_response had already
+        # captured. Load to domcontentloaded, then poll for the quotes call, and
+        # treat a nav timeout as non-fatal.
+        try:
+            await page.goto(ZQ_URL, wait_until="domcontentloaded",
+                            timeout=NAV_TIMEOUT_MS)
+        except PWTimeout:
+            print("[barchart_fetch] nav timeout - continuing with whatever "
+                  "the response handler captured", flush=True)
+
+        deadline = time.monotonic() + CAPTURE_TIMEOUT_S
+        while not captured and time.monotonic() < deadline:
+            await page.wait_for_timeout(500)
+
         await browser.close()
 
     return captured
+
+
+async def fetch_zq() -> list[dict]:
+    for i in range(1, ATTEMPTS + 1):
+        try:
+            rows = await _attempt()
+        except Exception as e:
+            print(f"[barchart_fetch] attempt {i}/{ATTEMPTS} errored: "
+                  f"{type(e).__name__}: {e}", flush=True)
+            rows = []
+        if rows:
+            if i > 1:
+                print(f"[barchart_fetch] succeeded on attempt {i}.", flush=True)
+            return rows
+        print(f"[barchart_fetch] attempt {i}/{ATTEMPTS} captured nothing.",
+              flush=True)
+    return []
 
 
 def parse_contracts(raw: list[dict]) -> list[dict]:
@@ -95,14 +132,16 @@ def main():
     print("[barchart_fetch] Launching headless browser...", flush=True)
     raw = asyncio.run(fetch_zq())
     if not raw:
-        print("[barchart_fetch] ERROR: No data captured — Barchart page may have changed.")
+        print("[barchart_fetch] ERROR: No data captured - Barchart page may have changed.")
+        print("[barchart_fetch] Leaving the existing cache untouched; "
+              "stir_pipeline.py will reject it once stale and fall back.")
         raise SystemExit(1)
 
     contracts = parse_contracts(raw)
     print(f"[barchart_fetch] Captured {len(contracts)} ZQ contracts.", flush=True)
 
     payload = {
-        "fetched_at": datetime.utcnow().isoformat() + "Z",
+        "fetched_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "as_of_date": date.today().isoformat(),
         "contracts":  contracts,
     }

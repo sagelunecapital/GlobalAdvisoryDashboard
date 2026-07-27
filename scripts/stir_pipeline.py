@@ -63,6 +63,21 @@ ROOT           = Path(__file__).resolve().parent.parent
 JSON_OUT       = ROOT / "prototypes" / "stir.json"
 BARCHART_CACHE = Path(__file__).resolve().parent / "barchart_zq_cache.json"
 
+# The ZQ cache is only usable if its as_of_date is within this many calendar days
+# of today - enough to cover a weekend plus one holiday. Beyond that the strip is
+# stale and must not be published as if it were current.
+BARCHART_MAX_AGE_DAYS = 4
+
+# Provenance of the ZQ strip for this run, surfaced into stir.json so the UI can
+# show the strip's true vintage rather than implying it is live.
+ZQ_PROVENANCE: dict = {
+    "source":   None,   # barchart | yfinance | unavailable
+    "as_of":    None,
+    "age_days": None,
+    "stale":    False,
+    "note":     None,
+}
+
 
 # A2 - Loaders (real implementations, replacing the playbook's make_mock_*)
 
@@ -143,40 +158,78 @@ def _fetch_history(symbol: str) -> dict | None:
         return None
 
 
-def _load_barchart_zq() -> list[dict]:
-    """Load ZQ contracts from barchart_fetch.py cache. Returns [] if missing."""
+def _load_barchart_zq(today: date) -> list[dict]:
+    """Load ZQ contracts from the barchart_fetch.py cache.
+
+    Returns [] if the cache is missing, unparseable, or STALE - callers must
+    treat [] as "fall back to yfinance".
+
+    The stale case is the dangerous one and the reason for the age check: a stale
+    cache parses perfectly and silently republishes weeks-old settles as current,
+    which also pins oi_chg at exactly 0 forever because consecutive snapshots are
+    byte-identical. That failure mode went unnoticed for two weeks.
+    """
     if not BARCHART_CACHE.exists():
+        print("    [ZQ] Barchart cache absent.", flush=True)
+        ZQ_PROVENANCE.update(note="barchart cache absent")
         return []
     try:
         data = json.loads(BARCHART_CACHE.read_text(encoding="utf-8"))
-        rows = []
-        for c in data.get("contracts", []):
-            sym_bc = c.get("symbol_bc", "")
-            if len(sym_bc) < 5:
-                continue
-            mc   = sym_bc[2]
-            yr2  = sym_bc[3:]
-            if mc not in _CME_MONTH_TO_NUM or not yr2.isdigit():
-                continue
-            month_num = _CME_MONTH_TO_NUM[mc]
-            year      = 2000 + int(yr2)
-            exp       = _expiry_for_month(year, month_num)
-            rows.append({
-                "symbol":  _cme_symbol("ZQ", exp),
-                "root":    "ZQ",
-                "expiry":  exp,
-                "settle":  c["settle"],
-                "px_1d":   None,
-                "px_5d":   None,
-                "px_1m":   None,
-                "volume":  c.get("volume"),
-                "oi":      c.get("oi"),
-                "oi_chg":  None,
-            })
-        return rows
     except Exception as e:
         print(f"[stir] Barchart cache load failed: {e}", flush=True)
+        ZQ_PROVENANCE.update(note=f"barchart cache unreadable: {e}")
         return []
+
+    as_of_raw = data.get("as_of_date")
+    try:
+        as_of = date.fromisoformat(as_of_raw)
+    except (TypeError, ValueError):
+        print(f"    [ZQ] Barchart cache has no usable as_of_date "
+              f"({as_of_raw!r}) - treating as stale.", flush=True)
+        ZQ_PROVENANCE.update(note=f"barchart cache bad as_of_date {as_of_raw!r}")
+        return []
+
+    age = (today - as_of).days
+    if age > BARCHART_MAX_AGE_DAYS:
+        print(f"    [ZQ] Barchart cache STALE: as_of {as_of} is {age}d old "
+              f"(max {BARCHART_MAX_AGE_DAYS}d). Rejecting - "
+              f"run scripts/barchart_fetch.py.", flush=True)
+        ZQ_PROVENANCE.update(
+            note=f"barchart cache rejected as stale (as_of {as_of}, {age}d old)")
+        return []
+
+    rows = []
+    for c in data.get("contracts", []):
+        sym_bc = c.get("symbol_bc", "")
+        if len(sym_bc) < 5:
+            continue
+        mc   = sym_bc[2]
+        yr2  = sym_bc[3:]
+        if mc not in _CME_MONTH_TO_NUM or not yr2.isdigit():
+            continue
+        month_num = _CME_MONTH_TO_NUM[mc]
+        year      = 2000 + int(yr2)
+        exp       = _expiry_for_month(year, month_num)
+        rows.append({
+            "symbol":  _cme_symbol("ZQ", exp),
+            "root":    "ZQ",
+            "expiry":  exp,
+            "settle":  c["settle"],
+            "px_1d":   None,
+            "px_5d":   None,
+            "px_1m":   None,
+            "volume":  c.get("volume"),
+            "oi":      c.get("oi"),
+            "oi_chg":  None,
+        })
+    if rows:
+        ZQ_PROVENANCE.update(source="barchart", as_of=as_of.isoformat(),
+                             age_days=age, stale=False, note=None)
+        print(f"    [ZQ] Barchart cache OK: {len(rows)} contracts, "
+              f"as_of {as_of} ({age}d old).", flush=True)
+    else:
+        ZQ_PROVENANCE.update(note="barchart cache parsed but held no contracts")
+    return rows
 
 
 def load_strip(today: date,
@@ -186,11 +239,13 @@ def load_strip(today: date,
     rows: list[dict] = []
 
     # ZQ - prefer Barchart cache (60+ contracts to 2031); fall back to yfinance
-    bc_rows = _load_barchart_zq()
+    bc_rows = _load_barchart_zq(today)
     if bc_rows:
         rows.extend(bc_rows)
     else:
-        print("    [ZQ] Barchart cache missing, falling back to yfinance...", flush=True)
+        print("    [ZQ] Falling back to yfinance (fresh settles, but this feed "
+              "exposes little or no OI)...", flush=True)
+        yf_rows = []
         for i in range(zq_months):
             m = ((today.month - 1 + i) % 12) + 1
             y = today.year + (today.month + i - 1) // 12
@@ -198,8 +253,20 @@ def load_strip(today: date,
             sym = f"ZQ{_CME_MONTH_CODES[m]}{y % 100:02d}.CBT"
             d = _fetch_history(sym)
             if d is not None:
-                rows.append({"symbol": _cme_symbol("ZQ", exp), "root": "ZQ",
-                             "expiry": exp, **d})
+                yf_rows.append({"symbol": _cme_symbol("ZQ", exp), "root": "ZQ",
+                                "expiry": exp, **d})
+        rows.extend(yf_rows)
+        prior_note = ZQ_PROVENANCE.get("note")
+        if yf_rows:
+            ZQ_PROVENANCE.update(
+                source="yfinance", as_of=today.isoformat(), age_days=0,
+                stale=False,
+                note=f"{prior_note}; served from yfinance fallback"
+                     if prior_note else "served from yfinance fallback")
+            print(f"    [ZQ] yfinance fallback returned {len(yf_rows)} contracts.",
+                  flush=True)
+        else:
+            ZQ_PROVENANCE.update(source="unavailable", stale=True)
 
     # SR3 - quarterly listings (Mar/Jun/Sep/Dec), ~2 years out
     cur_q = ((today.month - 1) // 3) * 3 + 3
@@ -216,6 +283,13 @@ def load_strip(today: date,
                          "expiry": exp, **d})
         q += 3
 
+    if not rows:
+        # Every source failed. Return a typed-but-empty frame so callers hit the
+        # explicit "no contracts loaded" guard instead of a bare KeyError from
+        # sort_values on a column-less DataFrame.
+        return pd.DataFrame(columns=["symbol", "root", "expiry", "settle",
+                                     "px_1d", "px_5d", "px_1m",
+                                     "volume", "oi", "oi_chg"])
     return (pd.DataFrame(rows)
             .sort_values(["root", "expiry"])
             .reset_index(drop=True))
@@ -495,6 +569,9 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
     return {
         "updated":      datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "asof_date":    asof,
+        # Vintage of the ZQ strip specifically. asof_date above tracks the NY Fed
+        # reference rates, which keep advancing even when the futures feed is dead.
+        "zq_provenance": dict(ZQ_PROVENANCE),
         "effr":         round(effr, 4),
         "sofr":         round(sofr, 4),
         "basis_bp":     round((sofr - effr) * 100, 1),
@@ -510,34 +587,78 @@ def build_dashboard_payload(strip: pd.DataFrame, ref_rates: pd.DataFrame,
     }
 
 
+# oi_chg is a session-over-session delta. If two snapshots are further apart than
+# this, their difference is a multi-week accumulation, not a daily change, and
+# publishing it as one would be worse than publishing nothing.
+OI_CHG_MAX_GAP_DAYS = 4
+
+
+def _oi_vintage(payload: dict, key: str) -> str | None:
+    """Snapshot date governing the OI figures in `key`, or None if unknowable.
+
+    ff_strip OI comes from the Barchart cache, which carries its own as_of that
+    moves independently of asof_date (the NY Fed reference-rate date). Keying the
+    ZQ delta off asof_date meant a freshly refreshed strip still reported a zero
+    change whenever EFFR had not yet published for that session.
+
+    For ff_strip this deliberately does NOT fall back to asof_date. A payload
+    written before zq_provenance existed carries an asof_date that tracks EFFR and
+    can be weeks newer than the ZQ figures sitting beside it - trusting it is what
+    manufactured the permanent phantom oi_chg=0. An unknown vintage must read as
+    unknown. sofr_strip OI is pulled from yfinance at request time, so it has no
+    vintage of its own and legitimately follows asof_date.
+    """
+    if key == "ff_strip":
+        return (payload.get("zq_provenance") or {}).get("as_of")
+    return payload.get("asof_date")
+
+
 def apply_oi_chg(payload: dict, prior_path: Path) -> None:
     """Derive per-contract open-interest change by diffing against the previously
     published stir.json. Neither data feed (yfinance free, Barchart) exposes an OI
     delta, so it is computed from consecutive daily snapshots, matched by symbol.
 
+    The comparison is keyed on the vintage of the strip that owns the OI figures
+    (see _oi_vintage), not on the payload-wide asof_date.
+
     Must be called BEFORE prior_path is overwritten.
-      - new session (prior asof_date < current): oi_chg = oi_now - oi_prev
-      - same-session re-run (prior asof_date == current): carry the prior delta
-        forward, so a same-day redeploy does not blank the column
-      - no prior file / prior asof newer or equal-missing: leave None (nothing to diff)
+      - new snapshot (prior vintage < current): oi_chg = oi_now - oi_prev
+      - same snapshot (prior vintage == current): carry the prior delta forward,
+        so a same-day redeploy does not blank the column
+      - snapshots more than OI_CHG_MAX_GAP_DAYS apart: leave None. After a feed
+        outage the two nearest snapshots are weeks apart and their difference is
+        not a daily change.
+      - no prior file / unknown vintage / prior vintage newer: leave None
     """
     try:
         prior = json.loads(prior_path.read_text(encoding="utf-8"))
     except Exception:
         return  # first run or unreadable prior: oi_chg stays None
-    cur_asof, prior_asof = payload.get("asof_date"), prior.get("asof_date")
-    if not (cur_asof and prior_asof):
-        return
     for key in ("sofr_strip", "ff_strip"):
+        cur_v, prior_v = _oi_vintage(payload, key), _oi_vintage(prior, key)
+        if not (cur_v and prior_v):
+            print(f"    [oi_chg] {key}: vintage unknown "
+                  f"(cur={cur_v}, prior={prior_v}) - leaving blank", flush=True)
+            continue
+        if cur_v > prior_v:
+            try:
+                gap = (date.fromisoformat(cur_v) - date.fromisoformat(prior_v)).days
+            except ValueError:
+                continue
+            if gap > OI_CHG_MAX_GAP_DAYS:
+                print(f"    [oi_chg] {key}: snapshots {gap}d apart "
+                      f"({prior_v} -> {cur_v}), not a session delta - "
+                      f"leaving blank", flush=True)
+                continue
         prev_rows = prior.get(key) or []
         prev_oi  = {r["symbol"]: r.get("oi")     for r in prev_rows if r.get("symbol")}
         prev_chg = {r["symbol"]: r.get("oi_chg") for r in prev_rows if r.get("symbol")}
         for row in payload.get(key) or []:
             sym = row.get("symbol")
-            if cur_asof == prior_asof:
-                row["oi_chg"] = prev_chg.get(sym)                       # same session: keep prior delta
-            elif cur_asof > prior_asof and row.get("oi") is not None and prev_oi.get(sym) is not None:
-                row["oi_chg"] = int(row["oi"]) - int(prev_oi[sym])     # day-over-day change
+            if cur_v == prior_v:
+                row["oi_chg"] = prev_chg.get(sym)                   # same snapshot: keep prior delta
+            elif cur_v > prior_v and row.get("oi") is not None and prev_oi.get(sym) is not None:
+                row["oi_chg"] = int(row["oi"]) - int(prev_oi[sym])  # snapshot-over-snapshot change
 
 
 # A6 - End-to-end driver
@@ -555,9 +676,22 @@ def main(show_plots: bool = False) -> None:
     strip = load_strip(today)
     if strip.empty:
         raise RuntimeError("No futures contracts loaded - check yfinance access")
+    n_zq = int((strip["root"] == "ZQ").sum())
+    if n_zq == 0:
+        # Both sources failed. Publishing now would ship a Fed Funds tab with no
+        # strip, no meeting path and no terminal rate, so fail loudly instead and
+        # leave the previous stir.json in place.
+        raise RuntimeError(
+            "ZQ strip empty: Barchart cache stale/absent AND the yfinance "
+            f"fallback returned nothing ({ZQ_PROVENANCE.get('note')}). Refusing "
+            "to publish stir.json without a Fed Funds strip - run "
+            "scripts/barchart_fetch.py."
+        )
     print(f"    Loaded {len(strip)} contracts "
-          f"({(strip['root'] == 'ZQ').sum()} ZQ, "
-          f"{(strip['root'] == 'SR3').sum()} SR3)", flush=True)
+          f"({n_zq} ZQ, {(strip['root'] == 'SR3').sum()} SR3)", flush=True)
+    print(f"    ZQ source: {ZQ_PROVENANCE['source']} "
+          f"(as_of {ZQ_PROVENANCE['as_of']}, "
+          f"age {ZQ_PROVENANCE['age_days']}d)", flush=True)
 
     print("[3] Computing implied rates and terminal...", flush=True)
     strip = add_implied(strip, OCR)
