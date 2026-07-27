@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-25T05:00:01.165006+00:00",
+  "fetched_at": "2026-07-27T23:11:36.378917+00:00",
   "us": [
     {
       "ticker": "STDN",
@@ -8,7 +8,7 @@
       "date": "2026-07-16",
       "price_usd": null,
       "price_range": null,
-      "status": "Pending",
+      "status": "Closed",
       "shares": 10000000,
       "deal_amount_usd": 383250000.0,
       "mkt_cap_usd": 2410103130.0,
@@ -21,7 +21,7 @@
       "date": "2026-07-16",
       "price_usd": null,
       "price_range": "23.00 - 27.00",
-      "status": "Pending",
+      "status": "Closed",
       "shares": 50000000,
       "deal_amount_usd": 1350000000.0,
       "mkt_cap_usd": 3255434742.0,
