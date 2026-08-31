@@ -14,6 +14,11 @@ import requests
 import yfinance as yf
 import pandas as pd
 
+# Barchart $SPX fallback lives with the other Barchart scrapers so the
+# HTML-format fragility has a single source of truth.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
+from fetch_regime import fetch_spx_barchart
+
 # ── Config ────────────────────────────────────────────────────────
 FRED_KEY  = "2e8783a45bc0ff35dda158225a6b2b02"
 FRED_BASE = "https://api.stlouisfed.org/fred/series/observations"
@@ -255,10 +260,28 @@ def fetch_spx():
     closes = raw["Close"].astype(float).dropna()
     if closes.empty:
         raise RuntimeError("yfinance returned no valid closes for ^GSPC")
-    ema12 = closes.ewm(span=12, adjust=False).mean()
-    ema25 = closes.ewm(span=25, adjust=False).mean()
-    last_date = closes.index[-1].strftime("%Y-%m-%d")
-    return last_date, float(closes.iloc[-1]), float(ema12.iloc[-1]), float(ema25.iloc[-1])
+    values    = closes.tolist()
+    last_date = closes.index[-1].date()
+
+    # Backfill the session Yahoo dropped, if Barchart already has it.
+    bc = fetch_spx_barchart()
+    if bc is not None:
+        bc_date, bc_close = bc
+        if bc_date > last_date:
+            if abs(bc_close - values[-1]) / values[-1] > 0.10:
+                print(f"  Barchart $SPX {bc_close:.2f} for {bc_date} looks wrong vs "
+                      f"{values[-1]:.2f} - ignoring")
+            else:
+                print(f"  Yahoo last close {last_date}; Barchart has {bc_date} "
+                      f"-> appending {bc_close:.2f}")
+                values.append(bc_close)
+                last_date = bc_date
+
+    series = pd.Series(values)
+    ema12 = series.ewm(span=12, adjust=False).mean()
+    ema25 = series.ewm(span=25, adjust=False).mean()
+    return (last_date.strftime("%Y-%m-%d"), float(series.iloc[-1]),
+            float(ema12.iloc[-1]), float(ema25.iloc[-1]))
 
 
 def fetch_mmth_latest():

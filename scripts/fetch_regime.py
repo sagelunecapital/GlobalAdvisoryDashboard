@@ -35,14 +35,16 @@ NHNL label (priority: Hot > Highs > Cold > Lows > Neutral):
 import json
 import os
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
+import pandas as pd
 import requests
 import yfinance as yf
 
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, "..", "prototypes", "regime.json")
 
+BC_URL_SPX  = "https://www.barchart.com/stocks/quotes/$SPX/overview"
 BC_URL_MMTH = "https://www.barchart.com/stocks/quotes/$MMTH/overview"
 BC_URL_NCFD = "https://www.barchart.com/stocks/quotes/$NCFD/overview"
 BC_URL_HIGQ = "https://www.barchart.com/stocks/quotes/$HIGQ/overview"
@@ -62,15 +64,45 @@ BC_HEADERS = {
 def _bc_extract(text, *field_names):
     """Extract a numeric field from Barchart HTML, trying multiple key names."""
     for fname in field_names:
-        # Quoted number: "fieldName": "123.45"
-        m = re.search(rf'"{re.escape(fname)}"\s*:\s*"([0-9]+(?:\.[0-9]+)?)"', text)
+        # Quoted number, optional thousands separators: "fieldName": "7,711.76"
+        m = re.search(rf'"{re.escape(fname)}"\s*:\s*"(-?[0-9][0-9,]*(?:\.[0-9]+)?)"', text)
         if m:
-            return float(m.group(1))
+            return float(m.group(1).replace(",", ""))
         # Unquoted number: "fieldName": 123.45
-        m = re.search(rf'"{re.escape(fname)}"\s*:\s*([0-9]+(?:\.[0-9]+)?)(?=[,\s\}}])', text)
+        m = re.search(rf'"{re.escape(fname)}"\s*:\s*(-?[0-9][0-9,]*(?:\.[0-9]+)?)(?=[,\s\}}])', text)
         if m:
-            return float(m.group(1))
+            return float(m.group(1).replace(",", ""))
     return None
+
+
+def _bc_trade_date(text):
+    """Parse Barchart's tradeTime (MM/DD/YY, backslash-escaped in the HTML)."""
+    m = re.search(r'"tradeTime"\s*:\s*"([0-9]{1,2})\\?/([0-9]{1,2})\\?/([0-9]{2})"', text)
+    if not m:
+        return None
+    mm, dd, yy = (int(g) for g in m.groups())
+    return date(2000 + yy, mm, dd)
+
+
+def fetch_spx_barchart():
+    """Return (date, close) for the latest $SPX session from Barchart, or None.
+
+    Yahoo intermittently serves a bar with real Volume but all-NaN OHLC (seen
+    2026-08-28 on both ^GSPC and SPY), which leaves SPX a full session stale.
+    Barchart carries the same index and already backs MMTH/NCFD/HIGQ/LOWQ.
+    """
+    try:
+        r = requests.get(BC_URL_SPX, headers=BC_HEADERS, timeout=30)
+        r.raise_for_status()
+        close = _bc_extract(r.text, "lastPrice")
+        when  = _bc_trade_date(r.text)
+        if close is None or when is None:
+            print("  Barchart $SPX: could not parse lastPrice/tradeTime", flush=True)
+            return None
+        return when, close
+    except Exception as exc:
+        print(f"  Barchart $SPX unavailable: {exc}", flush=True)
+        return None
 
 
 def fetch_spx():
@@ -81,13 +113,34 @@ def fetch_spx():
     # yfinance can append a placeholder row for the current/upcoming session whose
     # Close is NaN. ewm() skips NaN so the EMAs look fine, but iloc[-1] picks it up
     # and NaN propagates into regime.json as bare `NaN` (invalid JSON).
-    close = hist["Close"].dropna()
-    if close.empty:
+    valid = hist["Close"].dropna()
+    if valid.empty:
         raise ValueError("No valid SPX closes returned by yfinance")
-    spx   = float(close.iloc[-1])
-    ema12 = float(close.ewm(span=12, adjust=False).mean().iloc[-1])
-    ema25 = float(close.ewm(span=25, adjust=False).mean().iloc[-1])
-    print(f"  SPX: {spx:.2f}", flush=True)
+    closes    = valid.tolist()
+    last_date = valid.index[-1].date()
+
+    # Backfill the session Yahoo dropped, if Barchart already has it.
+    bc = fetch_spx_barchart()
+    if bc is not None:
+        bc_date, bc_close = bc
+        if bc_date > last_date:
+            drift = abs(bc_close - closes[-1]) / closes[-1]
+            if drift > 0.10:
+                # Guard against a mis-scrape; a >10% daily move is far likelier
+                # to be a parse error than a real session.
+                print(f"  Barchart $SPX {bc_close:.2f} for {bc_date} deviates "
+                      f"{drift:.1%} from {closes[-1]:.2f} - ignoring", flush=True)
+            else:
+                print(f"  Yahoo last close {last_date}; Barchart has {bc_date} "
+                      f"-> appending {bc_close:.2f}", flush=True)
+                closes.append(bc_close)
+                last_date = bc_date
+
+    series = pd.Series(closes)
+    spx    = float(series.iloc[-1])
+    ema12  = float(series.ewm(span=12, adjust=False).mean().iloc[-1])
+    ema25  = float(series.ewm(span=25, adjust=False).mean().iloc[-1])
+    print(f"  SPX: {spx:.2f}  (session {last_date})", flush=True)
     print(f"  12d EMA: {ema12:.2f}  25d EMA: {ema25:.2f}", flush=True)
     return spx, round(ema12, 2), round(ema25, 2)
 

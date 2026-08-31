@@ -249,6 +249,23 @@ def main():
     spx_raw = y10_raw = dxy_raw = None
     try:
         spx_raw = yf_close("^GSPC")
+        # Yahoo can serve the newest bar with real Volume but NaN OHLC, which
+        # yf_close drops; ffill_on would then carry the prior close forward.
+        # Barchart has the same index, so take the real print when it is newer.
+        try:
+            import os as _os, sys as _sys
+            _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+            from fetch_regime import fetch_spx_barchart
+            bc = fetch_spx_barchart()
+            if bc is not None and spx_raw:
+                bc_iso, bc_close = bc[0].isoformat(), bc[1]
+                newest = max(spx_raw)
+                if bc_iso > newest and abs(bc_close - spx_raw[newest]) / spx_raw[newest] <= 0.10:
+                    print("  SPX: Barchart backfill %s = %.2f (Yahoo ends %s)"
+                          % (bc_iso, bc_close, newest))
+                    spx_raw[bc_iso] = bc_close
+        except Exception as e:
+            warnv.append("SPX Barchart backfill skipped: %s" % e)
     except Exception as e:
         warnv.append("SPX ^GSPC failed: %s" % e)
     try:
