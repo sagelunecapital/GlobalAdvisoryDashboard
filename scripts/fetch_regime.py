@@ -78,7 +78,12 @@ def fetch_spx():
     hist   = ticker.history(period="2y")
     if hist.empty:
         raise ValueError("No SPX history returned by yfinance")
-    close = hist["Close"]
+    # yfinance can append a placeholder row for the current/upcoming session whose
+    # Close is NaN. ewm() skips NaN so the EMAs look fine, but iloc[-1] picks it up
+    # and NaN propagates into regime.json as bare `NaN` (invalid JSON).
+    close = hist["Close"].dropna()
+    if close.empty:
+        raise ValueError("No valid SPX closes returned by yfinance")
     spx   = float(close.iloc[-1])
     ema12 = float(close.ewm(span=12, adjust=False).mean().iloc[-1])
     ema25 = float(close.ewm(span=25, adjust=False).mean().iloc[-1])

@@ -250,7 +250,11 @@ def fetch_spx():
         raise RuntimeError("yfinance returned no data for ^GSPC")
     if isinstance(raw.columns, pd.MultiIndex):
         raw.columns = raw.columns.get_level_values(0)
-    closes = raw["Close"].astype(float)
+    # Drop the NaN placeholder row yfinance can append for the current/upcoming
+    # session; otherwise iloc[-1] yields NaN and emits `const regimeSpx=nan;`.
+    closes = raw["Close"].astype(float).dropna()
+    if closes.empty:
+        raise RuntimeError("yfinance returned no valid closes for ^GSPC")
     ema12 = closes.ewm(span=12, adjust=False).mean()
     ema25 = closes.ewm(span=25, adjust=False).mean()
     last_date = closes.index[-1].strftime("%Y-%m-%d")
