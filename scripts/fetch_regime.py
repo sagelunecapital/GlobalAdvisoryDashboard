@@ -105,7 +105,13 @@ def _bc_html(url, timeout_s=30):
     html     = ""
     deadline = time.monotonic() + timeout_s
     while time.monotonic() < deadline:
-        html = page.content()
+        try:
+            html = page.content()
+        except Exception:
+            # Solving the challenge navigates the page; content() raises if it
+            # lands mid-navigation. Not fatal - keep polling until the deadline.
+            page.wait_for_timeout(500)
+            continue
         if "gokuProps" not in html and _bc_extract(html, "lastPrice") is not None:
             return html
         page.wait_for_timeout(500)
