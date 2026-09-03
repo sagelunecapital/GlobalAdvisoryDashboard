@@ -32,14 +32,17 @@ NHNL label (priority: Hot > Highs > Cold > Lows > Neutral):
   - Lows   : LOWQ >= 50
 """
 
+import atexit
 import json
 import os
 import re
+import time
 from datetime import date, datetime, timezone
 
 import pandas as pd
-import requests
 import yfinance as yf
+from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PWTimeout
 
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PATH = os.path.join(SCRIPT_DIR, "..", "prototypes", "regime.json")
@@ -49,16 +52,64 @@ BC_URL_MMTH = "https://www.barchart.com/stocks/quotes/$MMTH/overview"
 BC_URL_NCFD = "https://www.barchart.com/stocks/quotes/$NCFD/overview"
 BC_URL_HIGQ = "https://www.barchart.com/stocks/quotes/$HIGQ/overview"
 BC_URL_LOWQ = "https://www.barchart.com/stocks/quotes/$LOWQ/overview"
-BC_HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Referer":         "https://www.barchart.com/",
-}
+BC_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/124.0.0.0 Safari/537.36"
+)
+
+
+_BC = {}
+
+
+def _bc_close():
+    """Tear down the shared Barchart browser."""
+    try:
+        if "browser" in _BC:
+            _BC["browser"].close()
+        if "pw" in _BC:
+            _BC["pw"].stop()
+    except Exception:
+        pass
+    _BC.clear()
+
+
+def _bc_page():
+    """Lazily open one headless Chromium page, reused for every Barchart symbol."""
+    if "page" in _BC:
+        return _BC["page"]
+    pw      = sync_playwright().start()
+    browser = pw.chromium.launch(headless=True)
+    ctx     = browser.new_context(user_agent=BC_USER_AGENT)
+    page    = ctx.new_page()
+    _BC.update(pw=pw, browser=browser, page=page)
+    atexit.register(_bc_close)
+    return page
+
+
+def _bc_html(url, timeout_s=30):
+    """Render a Barchart quote page and return its HTML.
+
+    Barchart sits behind an AWS WAF JS challenge: a plain requests.get gets a
+    202 interstitial (gokuProps + challenge.js) with no quote data in it, which
+    is why every _bc_extract call started returning None. A real browser runs
+    challenge.js, receives the WAF cookie and is then served the actual page.
+    The browser is opened once and reused, so the challenge is solved once per
+    run rather than once per symbol.
+    """
+    page = _bc_page()
+    try:
+        page.goto(url, wait_until="domcontentloaded", timeout=45_000)
+    except PWTimeout:
+        pass  # Barchart streams quotes, so the load event may never settle
+    html     = ""
+    deadline = time.monotonic() + timeout_s
+    while time.monotonic() < deadline:
+        html = page.content()
+        if "gokuProps" not in html and _bc_extract(html, "lastPrice") is not None:
+            return html
+        page.wait_for_timeout(500)
+    return html
 
 
 def _bc_extract(text, *field_names):
@@ -92,10 +143,9 @@ def fetch_spx_barchart():
     Barchart carries the same index and already backs MMTH/NCFD/HIGQ/LOWQ.
     """
     try:
-        r = requests.get(BC_URL_SPX, headers=BC_HEADERS, timeout=30)
-        r.raise_for_status()
-        close = _bc_extract(r.text, "lastPrice")
-        when  = _bc_trade_date(r.text)
+        text  = _bc_html(BC_URL_SPX)
+        close = _bc_extract(text, "lastPrice")
+        when  = _bc_trade_date(text)
         if close is None or when is None:
             print("  Barchart $SPX: could not parse lastPrice/tradeTime", flush=True)
             return None
@@ -146,9 +196,7 @@ def fetch_spx():
 
 
 def fetch_mmth():
-    r = requests.get(BC_URL_MMTH, headers=BC_HEADERS, timeout=30)
-    r.raise_for_status()
-    val = _bc_extract(r.text, 'lastPrice')
+    val = _bc_extract(_bc_html(BC_URL_MMTH), 'lastPrice')
     if val is None:
         raise ValueError("Could not find lastPrice for $MMTH in Barchart HTML")
     print(f"  MMTH: {val:.2f}", flush=True)
@@ -157,9 +205,7 @@ def fetch_mmth():
 
 def fetch_ncfd():
     """Return (close, high, low) for $NCFD from Barchart."""
-    r = requests.get(BC_URL_NCFD, headers=BC_HEADERS, timeout=30)
-    r.raise_for_status()
-    text  = r.text
+    text  = _bc_html(BC_URL_NCFD)
     close = _bc_extract(text, 'lastPrice')
     if close is None:
         raise ValueError("Could not find lastPrice for $NCFD in Barchart HTML")
@@ -171,9 +217,7 @@ def fetch_ncfd():
 
 def fetch_barchart_last(url, symbol):
     """Fetch the lastPrice for any Barchart symbol."""
-    r = requests.get(url, headers=BC_HEADERS, timeout=30)
-    r.raise_for_status()
-    val = _bc_extract(r.text, 'lastPrice')
+    val = _bc_extract(_bc_html(url), 'lastPrice')
     if val is None:
         raise ValueError(f"Could not find lastPrice for {symbol} in Barchart HTML")
     print(f"  {symbol}: {val:.0f}", flush=True)
