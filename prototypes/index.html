@@ -242,6 +242,9 @@ svg.linechart line[stroke="#e4e6ee"]{stroke-dasharray:3 3}
 .cot-card:hover{border-color:rgba(0,122,255,0.4)}
 .cot-card-name{font-size:var(--fs-base);font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cot-card-val{font-size:var(--fs-lg);font-weight:700;margin-top:8px;font-variant-numeric:tabular-nums}
+.cot-gap-title{font-size:var(--fs-sm);font-weight:700;letter-spacing:0.04em;color:var(--text)}
+.cot-gap-meta{font-size:var(--fs-xs);color:var(--text-muted);font-variant-numeric:tabular-nums}
+.cot-gap-meta b{color:var(--text);font-weight:700}
 .cot-card-sub{font-size:var(--fs-xs);color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
 .cot-spark{width:100%;height:40px;display:block;margin-top:8px}
 .cot-back{display:inline-flex;align-items:center;gap:8px;background:transparent;border:none;color:var(--text-muted);font-family:inherit;font-size:var(--fs-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-bottom:16px;padding:0}
@@ -2574,6 +2577,14 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
       <div id="cot-pos-legend" class="legend" style="margin-bottom:0"></div>
     </div>
     <div id="cot-pos-wrap" style="position:relative"><div class="chart-tt" id="cot-pos-tt"></div></div>
+
+    <!-- Large Specs: distance from the selected period peak -->
+    <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:0 64px 6px">
+      <div class="cot-gap-title">Large Specs &mdash; distance from period peak</div>
+      <div id="cot-gap-meta" class="cot-gap-meta"></div>
+    </div>
+    <div id="cot-gap-wrap" style="position:relative"><div class="chart-tt" id="cot-gap-tt"></div></div>
 
     <!-- Period slider -->
     <div style="padding:14px 14px 2px 64px">
@@ -5972,6 +5983,19 @@ function cotUpdateChart(code){
     {label:'Large Specs', values:lspec, color:'#3b82f6'},
     {label:'Small Specs', values:sspec, color:'#a855f7'},
   ],oi,300,'cot-pos-legend');
+  // Same alignment rule as drawCotCombined (all three nets AND oi non-null) so the
+  // distance-from-peak panel lines up week-for-week with the chart above it.
+  const gd=[],gv=[];
+  for(let i=0;i<dates.length;i++){
+    if(comm[i]!==null&&lspec[i]!==null&&sspec[i]!==null&&oi[i]!==null){ gd.push(dates[i]); gv.push(lspec[i]); }
+  }
+  const gapMeta=drawCotPeakGap('cot-gap-wrap','cot-gap-tt',gd,gv,'#3b82f6',190);
+  const gm=document.getElementById('cot-gap-meta');
+  if(gm) gm.innerHTML = gapMeta
+    ? 'peak <b>'+fmtK(gapMeta.peak)+'</b> on '+fmtDate(gapMeta.peakDate)
+      +' &nbsp;&middot;&nbsp; current <b>'+fmtK(gapMeta.current)+'</b>'
+      +' &nbsp;&middot;&nbsp; gap <b style="color:'+(gapMeta.gap<0?'var(--red)':'var(--text)')+'">'+fmtK(gapMeta.gap)+'</b>'
+    : '';
   drawCotCandle(code, dates);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
@@ -6056,6 +6080,95 @@ function drawCotCandle(code, cotDates){
     });
     gd.on('plotly_unhover',()=>{ tt.style.display='none'; });
   });
+}
+
+// Distance from the selected period peak: for each week, value - max(value) over the
+// window. Every bar is therefore <= 0 and the peak week sits exactly on the zero line, so
+// the panel reads as how far positioning has unwound from its high FOR THAT WINDOW - widen
+// the slider and a higher earlier peak deepens every bar. Returns the headline numbers.
+function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
+  vH=vH||190;
+  const wrap=document.getElementById(wrapId); if(!wrap) return null;
+  wrap.querySelectorAll('svg').forEach(s=>s.remove());
+  const VW=wrap.clientWidth||FALLBACK_VW;
+  const pad={t:8,r:64,b:52,l:64};        // identical to drawCotCombined -> x-axes align
+  const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
+  const aligned=[];
+  for(let i=0;i<dates.length;i++){ const v=values[i]; if(v!==null&&v!==undefined) aligned.push({d:dates[i],v:v}); }
+  if(!aligned.length) return null;
+  let peak=-Infinity,peakIdx=0;
+  aligned.forEach((r,i)=>{ if(r.v>peak){ peak=r.v; peakIdx=i; } });
+  const gaps=aligned.map(r=>r.v-peak);
+  const lo=(Math.min.apply(null,gaps)*1.08)||-1;   // 0 is the top of the panel
+  const yOf=v=>pad.t+(1-(v-lo)/(0-lo))*iH;
+  const y0=yOf(0);
+  const xOf=i=>pad.l+(i/Math.max(aligned.length-1,1))*iW;
+  const ns='http://www.w3.org/2000/svg'; const svg=mkSvg(ns,VW,vH);
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=pad.t+t*iH;
+    const g=document.createElementNS(ns,'line');
+    g.setAttribute('x1',pad.l);g.setAttribute('x2',pad.l+iW);g.setAttribute('y1',y);g.setAttribute('y2',y);
+    g.setAttribute('stroke',GRID_COLOR);g.setAttribute('stroke-width','1');svg.appendChild(g);
+    const rb=document.createElementNS(ns,'text');
+    rb.setAttribute('x',pad.l+iW+4);rb.setAttribute('y',y+4);rb.setAttribute('text-anchor','start');
+    rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');
+    rb.textContent=fmtK(0-t*(0-lo));svg.appendChild(rb);
+  });
+  const _rMs=aligned.length>1?(new Date(aligned[aligned.length-1].d)-new Date(aligned[0].d)):0;
+  aligned.forEach((_,i)=>{
+    if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
+    const lb=document.createElementNS(ns,'text');
+    lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');
+    lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');
+    lb.textContent=fmtDateAuto(aligned[i].d,_rMs);svg.appendChild(lb);
+  });
+  const z=document.createElementNS(ns,'line');   // zero line == the period peak
+  z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
+  z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
+  const slotW=aligned.length>1?iW/(aligned.length-1):iW;
+  const bW=Math.max(1,slotW*0.75), lastIdx=aligned.length-1;
+  gaps.forEach((gvv,i)=>{
+    const w=Math.max(i===lastIdx?3:1,bW);   // keep the current week legible at 500 weeks
+    const rect=document.createElementNS(ns,'rect');
+    rect.setAttribute('x',xOf(i)-w/2);rect.setAttribute('y',y0);
+    rect.setAttribute('width',w);
+    rect.setAttribute('height',Math.max(1,Math.abs(yOf(gvv)-y0)));
+    rect.setAttribute('fill',i===lastIdx?'#f85149':color);
+    rect.setAttribute('opacity',i===lastIdx?'0.95':'0.65');svg.appendChild(rect);
+  });
+  const pm=document.createElementNS(ns,'circle');   // marks the peak week
+  pm.setAttribute('cx',xOf(peakIdx));pm.setAttribute('cy',y0);pm.setAttribute('r','3.5');
+  pm.setAttribute('fill','#3fb950');svg.appendChild(pm);
+  const dot=document.createElementNS(ns,'circle');
+  dot.setAttribute('r','3');dot.setAttribute('fill',color);dot.setAttribute('display','none');svg.appendChild(dot);
+  const cur=document.createElementNS(ns,'line');
+  cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
+  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  const ov=document.createElementNS(ns,'rect');
+  ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
+  ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
+  const tt=document.getElementById(ttId);
+  ov.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect(),sx=r.width/VW;
+    const mx=(e.clientX-r.left)/sx-pad.l;
+    const idx=Math.max(0,Math.min(aligned.length-1,Math.round((mx/iW)*(aligned.length-1))));
+    const cx=xOf(idx);
+    cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');
+    dot.setAttribute('cx',cx);dot.setAttribute('cy',yOf(gaps[idx]));dot.setAttribute('display','');
+    tt.style.display='block';
+    tt.style.left=Math.min(cx*sx+12,r.width-220)+'px';
+    tt.style.top=Math.max(yOf(gaps[idx])-10,2)+'px';
+    tt.innerHTML='<strong>'+fmtDate(aligned[idx].d)+'</strong><br>'+
+      '<span style="color:'+color+'">&#9632;</span> Large Specs: '+fmtK(aligned[idx].v)+'<br>'+
+      '<span style="color:#3fb950">&#9632;</span> Period peak: '+fmtK(peak)+'<br>'+
+      '<span style="color:var(--text-dim)">&#9632;</span> Gap: '+fmtK(gaps[idx]);
+  });
+  ov.addEventListener('mouseleave',()=>{
+    dot.setAttribute('display','none');cur.setAttribute('display','none');tt.style.display='none';
+  });
+  wrap.appendChild(svg);
+  return {peak:peak,peakDate:aligned[peakIdx].d,current:aligned[lastIdx].v,gap:gaps[lastIdx]};
 }
 
 function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
