@@ -8,9 +8,9 @@ lookback and vol windows are user-selectable on the page, so the regime model,
 frequency table, transition matrix and linkage are ALL computed client-side
 from the raw daily series shipped here. This script's job is therefore:
 
-  1. Fetch the raw aligned daily history (deep -> the 15Y/20Y/ALL range buttons
-     are real):
-       - SPX   : yfinance ^GSPC      (close, decades)
+  1. Fetch the raw daily history and INNER-JOIN it (Pine alignData(); an
+     observation exists only where every leg printed - no forward-fill):
+       - EQUITY: yfinance ES=F       (E-mini S&P front-month continuous)
        - UST10Y: FRED   DGS10        (constant-maturity yield %)
        - DXY   : yfinance DX-Y.NYB   (ICE dollar index, matches the readouts)
   2. Compute the latest-day ticker readouts (level + 1d change).
@@ -37,7 +37,11 @@ PROTO    = os.path.normpath(os.path.join(HERE, "..", "prototypes"))
 OUT_PATH = os.path.join(PROTO, "cross_asset.json")
 
 TODAY = datetime.date.today()
-START = "1985-01-01"   # DX-Y.NYB daily history begins ~here; binds the core axis
+START = "1985-01-01"   # request deep; the inner join binds the real axis (ES=F starts 2000-09)
+
+# Equity leg. The Pine model prices the equity leg off the E-mini front month, so
+# the joined series is a ~23h futures session rather than the 09:30-16:00 cash index.
+EQUITY_TICKER = "ES=F"
 
 # Default regime settings used ONLY for the structural Cramer's V computation
 # (the live tab recomputes regimes client-side under the user's controls).
@@ -248,26 +252,13 @@ def main():
     warnv = []
     spx_raw = y10_raw = dxy_raw = None
     try:
-        spx_raw = yf_close("^GSPC")
-        # Yahoo can serve the newest bar with real Volume but NaN OHLC, which
-        # yf_close drops; ffill_on would then carry the prior close forward.
-        # Barchart has the same index, so take the real print when it is newer.
-        try:
-            import os as _os, sys as _sys
-            _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
-            from fetch_regime import fetch_spx_barchart
-            bc = fetch_spx_barchart()
-            if bc is not None and spx_raw:
-                bc_iso, bc_close = bc[0].isoformat(), bc[1]
-                newest = max(spx_raw)
-                if bc_iso > newest and abs(bc_close - spx_raw[newest]) / spx_raw[newest] <= 0.10:
-                    print("  SPX: Barchart backfill %s = %.2f (Yahoo ends %s)"
-                          % (bc_iso, bc_close, newest))
-                    spx_raw[bc_iso] = bc_close
-        except Exception as e:
-            warnv.append("SPX Barchart backfill skipped: %s" % e)
+        spx_raw = yf_close(EQUITY_TICKER)
+        # The Barchart $SPX backfill that used to sit here is deliberately gone: it
+        # patched a missing Yahoo bar with the CASH index print, which cannot be
+        # spliced onto an ES front-month series without injecting a basis-sized jump.
+        # A missing newest ES bar now just drops out of the inner join instead.
     except Exception as e:
-        warnv.append("SPX ^GSPC failed: %s" % e)
+        warnv.append("equity %s failed: %s" % (EQUITY_TICKER, e))
     try:
         y10_raw = fred("DGS10")
     except Exception as e:
@@ -283,20 +274,13 @@ def main():
             print("  [warn]", w)
         return 1
 
-    # Common daily axis: union of all observed dates, then keep only dates at or
-    # after each series' own first observation (so every point is real, not a
-    # pre-history forward-fill).
-    first = max(min(spx_raw), min(y10_raw), min(dxy_raw))
-    axis = sorted(d for d in (set(spx_raw) | set(y10_raw) | set(dxy_raw)) if d >= first)
-    spx = ffill_on(spx_raw, axis)
-    y10 = ffill_on(y10_raw, axis)
-    dxy = ffill_on(dxy_raw, axis)
-    # Drop any leading day still missing a leg
-    keep = [i for i in range(len(axis)) if None not in (spx[i], y10[i], dxy[i])]
-    axis = [axis[i] for i in keep]
-    spx = [round(spx[i], 2) for i in keep]
-    y10 = [round(y10[i], 3) for i in keep]
-    dxy = [round(dxy[i], 3) for i in keep]
+    # Pine alignData(): exact k-way INNER JOIN on session dates. An observation
+    # exists only on dates where EVERY leg actually printed, so a bond-market-only
+    # holiday drops the day instead of fabricating a forward-filled 0bp change.
+    axis = sorted(set(spx_raw) & set(y10_raw) & set(dxy_raw))
+    spx = [round(spx_raw[d], 2) for d in axis]
+    y10 = [round(y10_raw[d], 3) for d in axis]
+    dxy = [round(dxy_raw[d], 3) for d in axis]
 
     # Latest-day readouts
     def chg_pct(a):

@@ -730,6 +730,10 @@ html{scrollbar-color:rgba(139,145,158,0.35) var(--surface)}
 .ca-callout{border:1px solid rgba(63,185,80,0.35);background:rgba(63,185,80,0.08);padding:11px 14px;font-size:var(--fs-sm);color:var(--text-dim);line-height:1.6;margin-bottom:12px}
 .ca-callout.link-weak{border-color:rgba(248,81,73,0.35);background:rgba(248,81,73,0.08)}
 .ca-callout.link-mod{border-color:rgba(0,122,255,0.35);background:rgba(0,122,255,0.07)}
+.ca-rho-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:var(--fs-xs)}
+.ca-rho-row>span{color:var(--text-muted);letter-spacing:0.09em;font-weight:700}
+.ca-rho-row em{font-style:normal;color:var(--text-muted);margin-left:6px}
+.ca-rho-row b{font-variant-numeric:tabular-nums;margin-left:4px}
 .ca-callout b{color:var(--text)}
 .ca-histline{font-size:var(--fs-sm);color:var(--text-muted);line-height:1.6}
 .ca-histline b{color:var(--text)}
@@ -1493,7 +1497,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   <div class="ca-pagehead">
     <div style="display:flex;align-items:baseline;flex-wrap:wrap">
       <span class="ca-title">CROSS-ASSET REGIMES</span>
-      <span class="ca-sub">SPX + UST 10Y + DXY</span>
+      <span class="ca-sub">ES + UST 10Y + DXY</span>
     </div>
     <div class="ca-status">
       <div class="ca-linkage"><span class="ca-linkage-label">MARKET LINKAGE</span><span class="ca-linkage-val" id="ca-hdr-link">&mdash;</span></div>
@@ -1554,16 +1558,16 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         </div>
         <div class="card">
           <div class="card-header">Market Linkage <span class="ca-desc">&mdash; Are all 3 assets moving together or independently?</span></div>
-          <div class="ca-explain">How to read this: When the amber area is HIGH (&gt;60%), stocks, bonds, and the dollar are being driven by the same thing (e.g. a Fed decision or risk-on/risk-off move). When it's LOW (&lt;40%), each asset is moving on its own drivers. High linkage = macro-driven market. Low linkage = idiosyncratic moves.</div>
+          <div class="ca-explain">How to read this: the average absolute 20-day correlation across the three pairs (ES&middot;10Y, ES&middot;DXY, 10Y&middot;DXY), on a 0&ndash;1 scale. HIGH (&gt;0.60) means stocks, bonds, and the dollar are being driven by the same thing (e.g. a Fed decision or risk-on/risk-off move). LOW (&lt;0.30) means each asset is moving on its own drivers. Because it averages the <i>absolute</i> correlations it measures how tightly the assets move, not whether they move in the same direction.</div>
           <div class="cw" id="ca-linkage" style="height:210px"><div class="chart-tt" id="tt-ca-linkage"></div></div>
         </div>
       </div>
       <div>
         <div class="card">
           <div class="card-header">Regime Frequency <span class="ca-desc">&mdash; How often each regime occurs &amp; what returns look like in it</span></div>
-          <div class="ca-explain">Reading the table: FREQ = how often this regime happens. AVG DUR = how many consecutive days it typically lasts. SPX/10Y/DXY = the median daily return for each asset while in this regime. Green = positive for you (stocks up or yields down). Red = negative.</div>
+          <div class="ca-explain">Reading the table: FREQ = how often this regime happens. AVG DUR = how many consecutive days it typically lasts. ES/10Y/DXY = the median daily return for each asset while in this regime. Green = positive for you (stocks up or yields down). Red = negative.</div>
           <table class="ca-table" id="ca-freq-table">
-            <thead><tr><th>Regime</th><th>Freq</th><th>Avg Dur</th><th>SPX</th><th>10Y</th><th>DXY</th></tr></thead>
+            <thead><tr><th>Regime</th><th>Freq</th><th>Avg Dur</th><th>ES</th><th>10Y</th><th>DXY</th></tr></thead>
             <tbody id="ca-freq-body"></tbody>
           </table>
           <div class="cw" id="ca-freq-bar" style="height:190px;margin-top:14px"><div class="chart-tt" id="tt-ca-freq-bar"></div></div>
@@ -1584,7 +1588,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     </div>
     <div class="card">
       <div class="card-header" id="ca-attr-hdr">Rolling Returns &mdash; 20D vol-adjusted returns for each asset</div>
-      <div class="ca-explain">What this shows: The 20D rolling return for SPX, 10Y yield, and DXY, each divided by its own daily volatility so they're comparable across assets. Above zero = up, below zero = down; the sign of all three defines the regime. The dashed lines mark a 2-sigma extreme move for the window. When lines move together, the assets are correlated.</div>
+      <div class="ca-explain">What this shows: The 20D rolling return for ES (E-mini S&amp;P front month), the 10Y yield, and DXY, each divided by its own daily volatility so they're comparable across assets. Above zero = up, below zero = down; the sign of all three defines the regime. The dashed lines mark a 2-sigma extreme move for the window. When lines move together, the assets are correlated.</div>
       <div class="ca-stats" id="ca-attr-stats"></div>
       <div class="cw" id="ca-attr-line" style="height:360px"><div class="chart-tt" id="tt-ca-attr-line"></div></div>
       <div class="ca-brush" id="ca-brush-attr"><div class="ca-brush-track"></div><div class="ca-brush-fill"></div><div class="ca-brush-h ca-brush-h0"></div><div class="ca-brush-h ca-brush-h1"></div></div>
@@ -1596,7 +1600,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   <div id="ca-sub-transitions" class="ca-sub-view">
     <div class="ca-winrow"><span class="ca-ctlg-label">FOCUS:</span>
       <button class="ca-seg active" onclick="caSet('focus','ALL',this)">ALL</button>
-      <button class="ca-seg" onclick="caSet('focus','SPX',this)">SPX</button>
+      <button class="ca-seg" onclick="caSet('focus','ES',this)">ES</button>
       <button class="ca-seg" onclick="caSet('focus','10Y',this)">10Y</button>
       <button class="ca-seg" onclick="caSet('focus','DXY',this)">DXY</button>
     </div>
@@ -1611,9 +1615,9 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         </div>
         <div class="card">
           <div class="card-header">Regime Economics</div>
-          <div class="ca-explain">Reading the table: SPX/10Y/DXY = median daily return while in that regime. LINKAGE = how much the assets move together in that regime. THEME = which asset drives the common move most (wider bar = bigger role).</div>
+          <div class="ca-explain">Reading the table: ES/10Y/DXY = median daily return while in that regime. LINKAGE = how much the assets move together in that regime. THEME = which asset drives the common move most (wider bar = bigger role).</div>
           <table class="ca-table" id="ca-econ-table">
-            <thead><tr><th>Regime</th><th>SPX</th><th>10Y</th><th>DXY</th><th>Linkage</th><th>Theme</th></tr></thead>
+            <thead><tr><th>Regime</th><th>ES</th><th>10Y</th><th>DXY</th><th>Linkage</th><th>Theme</th></tr></thead>
             <tbody id="ca-econ-body"></tbody>
           </table>
         </div>
@@ -1621,9 +1625,9 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
       <div>
         <div class="card">
           <div class="card-header" id="ca-next-hdr">What's Next</div>
-          <div class="ca-explain">How to read: PROB = chance of transitioning to that regime next. (stay) = staying in the current regime. SPX/10Y/DXY = median daily returns in the destination regime. LINKAGE = how correlated the 3 assets typically are in that regime.</div>
+          <div class="ca-explain">How to read: PROB = chance of transitioning to that regime next. (stay) = staying in the current regime. ES/10Y/DXY = median daily returns in the destination regime. LINKAGE = how correlated the 3 assets typically are in that regime.</div>
           <table class="ca-table" id="ca-next-table">
-            <thead><tr><th>To</th><th>Prob</th><th>Hist Obs</th><th>SPX</th><th>10Y</th><th>DXY</th><th>Linkage</th></tr></thead>
+            <thead><tr><th>To</th><th>Prob</th><th>Hist Obs</th><th>ES</th><th>10Y</th><th>DXY</th><th>Linkage</th></tr></thead>
             <tbody id="ca-next-body"></tbody>
           </table>
         </div>
@@ -7104,23 +7108,23 @@ const CA={raw:null,comp:null,st:{method:'vol',lookback:20,vol:21,range:'2Y',sub:
 
 function regIdx(sUp,rUp,dUp){ return (sUp?0:4)+(rUp?0:2)+(dUp?0:1); }
 function std(arr,i,w){ let s=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null){s+=arr[k];c++;} }
-  if(c<w*0.8) return null; const m=s/c; let v=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null) v+=(arr[k]-m)*(arr[k]-m); }
-  return Math.sqrt(v/(c-1)); }
-function mean(arr,i,w){ let s=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null){s+=arr[k];c++;} } return c<w*0.8?null:s/c; }
+  if(c<w) return null; const m=s/c; let v=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null) v+=(arr[k]-m)*(arr[k]-m); }
+  return Math.sqrt(v/c); }   // Pine f_stdevPop: population sigma (ddof=0), full window required
+function mean(arr,i,w){ let s=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&arr[k]!=null){s+=arr[k];c++;} } return c<w?null:s/c; }
 function median(a){ if(!a.length) return null; const b=a.slice().sort((x,y)=>x-y); const m=b.length>>1;
   return b.length%2?b[m]:(b[m-1]+b[m])/2; }
 function corr(x,y,i,w){ let sx=0,sy=0,c=0; for(let k=i-w+1;k<=i;k++){ if(k>=0&&x[k]!=null&&y[k]!=null){sx+=x[k];sy+=y[k];c++;} }
-  if(c<w*0.7) return null; const mx=sx/c,my=sy/c; let sxx=0,syy=0,sxy=0;
+  if(c<w) return null; const mx=sx/c,my=sy/c; let sxx=0,syy=0,sxy=0;
   for(let k=i-w+1;k<=i;k++){ if(k>=0&&x[k]!=null&&y[k]!=null){ const dx=x[k]-mx,dy=y[k]-my; sxx+=dx*dx;syy+=dy*dy;sxy+=dx*dy; } }
-  return (sxx>0&&syy>0)?sxy/Math.sqrt(sxx*syy):null; }
-// Market linkage: share of total variance captured by the 1st principal component of the
-// 3-asset correlation matrix [[1,a,b],[a,1,c],[b,c,1]] = largest eigenvalue / 3, as a %.
-// Closed form for a symmetric 3x3 with unit diagonal: 33.3% = fully independent, 100% = one common factor.
-function pc1Share(a,b,c){ const p1=a*a+b*b+c*c; if(p1===0) return 100/3;
-  const p=Math.sqrt(p1/3);                          // = sqrt(2*p1/6)
-  let r=(a*b*c)/(p*p*p); r=Math.max(-1,Math.min(1,r));
-  const eig1=1+2*p*Math.cos(Math.acos(r)/3);        // largest eigenvalue (trace=3, q=1)
-  return eig1/3*100; }
+  return (sxx>0&&syy>0)?sxy/Math.sqrt(sxx*syy):0; }   // Pine f_corr: sd==0 -> 0.0
+// Market linkage (Pine COV panel): average |rho| across every active pair, on a 0-1 axis.
+// 0 = the pairs are uncorrelated, 1 = every pair moves one-for-one. Unlike an eigenvalue
+// share this discards the SIGN of each rho, which is what the Pine model plots.
+function avgAbsRho(a,b,c){ let t=0,k=0;
+  if(a!=null){t+=Math.abs(a);k++;} if(b!=null){t+=Math.abs(b);k++;} if(c!=null){t+=Math.abs(c);k++;}
+  return k>0?t/k:null; }
+// Pine f_sig: na if either leg is na; sigma exactly 0 yields 0.0 rather than a divide.
+function fsig(w,v){ return (w==null||v==null)?null:(v>0?w/v:0); }
 
 // ── core computation (depends only on method / lookback / vol) ──────────────
 function recompute(){
@@ -7137,9 +7141,7 @@ function recompute(){
       // move accumulated in units of daily sigma, matching the reference pack's scale.
       // Sign is unchanged vs a per-period z-score, so regime classification is identical.
       const vs=std(sret,i,V),vy=std(ybp,i,V),vd=std(dret,i,V);
-      sigS[i]=(spxL[i]!=null&&vs)?spxL[i]/vs:null;
-      sigY[i]=(y10L[i]!=null&&vy)?y10L[i]/vy:null;
-      sigD[i]=(dxyL[i]!=null&&vd)?dxyL[i]/vd:null;
+      sigS[i]=fsig(spxL[i],vs); sigY[i]=fsig(y10L[i],vy); sigD[i]=fsig(dxyL[i],vd);
     } else { // z-score of the L-day return over the trailing V-window
       const ms=mean(spxL,i,V),ss=std(spxL,i,V), my=mean(y10L,i,V),sy=std(y10L,i,V), md=mean(dxyL,i,V),sd=std(dxyL,i,V);
       sigS[i]=(spxL[i]!=null&&ss)?(spxL[i]-ms)/ss:null;
@@ -7149,14 +7151,13 @@ function recompute(){
   }
   const reg=new Array(n);
   for(let i=0;i<n;i++){ reg[i]=(sigS[i]!=null&&sigY[i]!=null&&sigD[i]!=null)?regIdx(sigS[i]>0,sigY[i]>0,sigD[i]>0):-1; }
-  // market linkage = 63D moving average of the 20D-window PC1 variance share
-  // (20D correlation matrix each day -> largest-eigenvalue share, then smoothed over a quarter)
-  const CW=20, MW=63, pc1raw=new Array(n);
+  // Pine model: Pearson on the RAW 1-obs changes over corrW (NOT the overlapping
+  // signals), then COV = mean |rho| across the pairs. No 63D smoothing - each bar
+  // shows its own window's value, exactly as the Pine COV panel plots it.
+  const CW=20, cSY=new Array(n),cSD=new Array(n),cYD=new Array(n),link=new Array(n);
   for(let i=0;i<n;i++){ const a=corr(sret,ybp,i,CW),b=corr(sret,dret,i,CW),c=corr(ybp,dret,i,CW);
-    pc1raw[i]=(a!=null&&b!=null&&c!=null)?pc1Share(a,b,c):null; }
-  const link=new Array(n);
-  for(let i=0;i<n;i++) link[i]=mean(pc1raw,i,MW);
-  CA.comp={n,sret,dret,ybp,sigS,sigY,sigD,reg,link};
+    cSY[i]=a; cSD[i]=b; cYD[i]=c; link[i]=avgAbsRho(a,b,c); }
+  CA.comp={n,sret,dret,ybp,sigS,sigY,sigD,reg,link,cSY,cSD,cYD};
 }
 
 // ── windowing ───────────────────────────────────────────────────────────────
@@ -7174,9 +7175,11 @@ const fpct=(v,d=2)=>v==null?'—':sgn(v)+v.toFixed(d)+'%';
 const fbp=(v,d=1)=>v==null?'—':sgn(v)+v.toFixed(d)+'bp';
 function clsSD(v){ return v==null?'chg-flat':v>0?'chg-pos':v<0?'chg-neg':'chg-flat'; }   // SPX/DXY: up=green
 function cls10(v){ return v==null?'chg-flat':v<0?'chg-pos':v>0?'chg-neg':'chg-flat'; }   // 10Y: yields down=green
-function linkLabel(p){ return p>=60?'STRONGLY LINKED':p>=40?'MODERATELY LINKED':'WEAKLY LINKED'; }
-function linkCls(p){ return p>=60?'chg-pos':p>=40?'':'chg-neg'; }
-function linkColor(p){ return p>=60?'var(--green)':p>=40?'var(--amber)':'var(--red)'; }
+// Pine strength thresholds on avg |rho|: >0.6 STRONG, >0.3 MODERATE, else WEAK.
+function linkLabel(p){ return p>0.6?'STRONGLY LINKED':p>0.3?'MODERATELY LINKED':'WEAKLY LINKED'; }
+function linkCls(p){ return p>0.6?'chg-pos':p>0.3?'':'chg-neg'; }
+function linkColor(p){ return p>0.6?'var(--green)':p>0.3?'var(--amber)':'var(--red)'; }
+const frho=v=>v==null?'&mdash;':v.toFixed(2);
 
 function baseLayout(extra){ return Object.assign({
   paper_bgcolor:'transparent', plot_bgcolor:'transparent',
@@ -7219,10 +7222,10 @@ function currentRegime(ve){ const c=CA.comp; for(let i=ve;i>=0;i--){ if(c.reg[i]
 function renderHeader(){ const r=CA.raw.readout, c=CA.comp; const [vs,ve]=windowIdx('reg');
   const ci=currentRegime(ve); let lp=null; for(let i=ve;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} }
   const el=document.getElementById('ca-hdr-link');
-  if(lp!=null){ el.textContent=linkLabel(lp)+' ('+Math.round(lp)+'%)'; el.style.color=linkColor(lp); }
+  if(lp!=null){ el.textContent=linkLabel(lp)+' (|ρ| '+lp.toFixed(2)+')'; el.style.color=linkColor(lp); }
   const rd=document.getElementById('ca-readouts');
   rd.innerHTML=
-    rdItem('SPX', r.spx.toFixed(2), fpct(r.spx_chg_pct), clsSD(r.spx_chg_pct))+
+    rdItem('ES', r.spx.toFixed(2), fpct(r.spx_chg_pct), clsSD(r.spx_chg_pct))+
     rdItem('10Y', r.y10.toFixed(3)+'%', fbp(r.y10_chg_bp), cls10(r.y10_chg_bp))+
     rdItem('DXY', r.dxy.toFixed(2), fpct(r.dxy_chg_pct), clsSD(r.dxy_chg_pct));
 }
@@ -7236,7 +7239,7 @@ function renderBanner(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const ci=cur
   b.className='ca-banner '+(lp==null?'':(lp>=60?'pol-risk-on':lp>=40?'pol-mixed':'pol-risk-off'));  // tint mirrors linkage strength
   b.innerHTML=`<span class="ca-banner-sq" style="background:${COL[g]}"></span>`+
     `<span class="ca-banner-name" style="color:${COL[g]}">${NAME[g]}</span>`+
-    `<span class="ca-banner-nums">SPX: ${cumS.toFixed(2)} | 10Y: ${sgn(cumY)}${cumY.toFixed(2)} | DXY: ${sgn(cumD)}${cumD.toFixed(2)}</span>`+
+    `<span class="ca-banner-nums">ES: ${cumS.toFixed(2)} | 10Y: ${sgn(cumY)}${cumY.toFixed(2)} | DXY: ${sgn(cumD)}${cumD.toFixed(2)}</span>`+
     `<span class="ca-banner-link" style="color:${lp!=null?linkColor(lp):'inherit'}">${lp!=null?linkLabel(lp):'—'}</span>`;
 }
 
@@ -7258,7 +7261,7 @@ function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
   let mx=8; for(let i=vs;i<=ve;i++){ [c.sigS[i],c.sigY[i],c.sigD[i]].forEach(v=>{ if(v!=null) mx=Math.max(mx,Math.abs(v)); }); }
   const rng=Math.min(Math.ceil(mx),18);
   Plotly.react('ca-line',[
-    Object.assign({},L,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1.5},name:'SPX',hovertemplate:'SPX %{y:.2f}<extra></extra>'}),
+    Object.assign({},L,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1.5},name:'ES',hovertemplate:'ES %{y:.2f}<extra></extra>'}),
     Object.assign({},L,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1.5},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
     Object.assign({},L,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1.5},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
   ],baseLayout({height:280,hovermode:'x unified',yaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,zerolinewidth:1.4,range:[-rng,rng]}}),CFG);
@@ -7266,10 +7269,10 @@ function renderRegimes(){ const c=CA.comp, [vs,ve]=windowIdx('reg');
   const lk=c.link.slice(vs,ve+1);
   Plotly.react('ca-linkage',[{x:dates,y:lk,type:'scatter',mode:'lines',fill:'tozeroy',
     line:{color:'#007aff',width:1.4},fillcolor:'rgba(0,122,255,0.18)',
-    hovertemplate:'%{x}<br>Linkage %{y:.0f}%<extra></extra>'}],
-    baseLayout({height:210,yaxis:{gridcolor:GRID_COLOR,griddash:'dot',range:[30,100],ticksuffix:'%'}}),CFG);
-    // y-axis zoomed to [30,100]: 33% is the 3-asset PC1 floor, so no data clips; the zoom
-    // reveals the peaks/troughs in the 63D linkage that a 0-100 fill visually flattened.
+    hovertemplate:'%{x}<br>Avg |ρ| %{y:.2f}<extra></extra>'}],
+    baseLayout({height:210,yaxis:{gridcolor:GRID_COLOR,griddash:'dot',range:[0,1],dtick:0.2}}),CFG);
+    // Pine COV panel scale: avg |rho| is bounded 0-1 with 0 a real floor, so the axis is
+    // the full [0,1] - no zoom. The series is unsmoothed, so it is noisier than the old 63D line.
   renderFreq(vs,ve);
 }
 function renderFreq(vs,ve){ const ag=aggregate(vs,ve); const ci=currentRegime(ve), cg=ci>=0?CA.comp.reg[ci]:-1;
@@ -7307,7 +7310,7 @@ function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
   const dates=CA.raw.dates.slice(vs,ve+1);
   // stat blocks: latest signal; "extreme move" judged over the trailing W-day window
   const last=currentRegime(n-1);
-  const defs=[['SPX '+L+'D (vol-adj)',c.sigS,clsSD],['10Y '+L+'D (vol-adj)',c.sigY,cls10],['DXY '+L+'D (vol-adj)',c.sigD,clsSD]];
+  const defs=[['ES '+L+'D (vol-adj)',c.sigS,clsSD],['10Y '+L+'D (vol-adj)',c.sigY,cls10],['DXY '+L+'D (vol-adj)',c.sigD,clsSD]];
   document.getElementById('ca-attr-stats').innerHTML=defs.map(([lbl,arr,clsFn])=>{
     const v=arr[last], ws=windowStats(arr,last,W);
     const ext=(v!=null&&ws&&ws.sd>0&&Math.abs((v-ws.m)/ws.sd)>2);
@@ -7323,7 +7326,7 @@ function renderAttr(){ const c=CA.comp, L=CA.st.lookback, W=CA.st.attrWin;
     x0:CA.raw.dates[Math.max(vs,n-W)],x1:CA.raw.dates[ve],y0:0,y1:1,
     fillcolor:'rgba(0,122,255,0.06)',line:{width:0}}); }
   Plotly.react('ca-attr-line',[
-    Object.assign({},Ln,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1},name:'SPX',hovertemplate:'SPX %{y:.2f}<extra></extra>'}),
+    Object.assign({},Ln,{y:c.sigS.slice(vs,ve+1),line:{color:A_SPX,width:1},name:'ES',hovertemplate:'ES %{y:.2f}<extra></extra>'}),
     Object.assign({},Ln,{y:c.sigY.slice(vs,ve+1),line:{color:A_10Y,width:1},name:'10Y',hovertemplate:'10Y %{y:.2f}<extra></extra>'}),
     Object.assign({},Ln,{y:c.sigD.slice(vs,ve+1),line:{color:A_DXY,width:1},name:'DXY',hovertemplate:'DXY %{y:.2f}<extra></extra>'})
   ],baseLayout({height:360,hovermode:'x unified',
@@ -7338,23 +7341,27 @@ function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const a
   document.getElementById('ca-cur-hdr').innerHTML='Current State <span class="ca-desc">— R'+(g+1)+'</span>';
   const nb=document.getElementById('ca-cur-name'); nb.textContent=NAME[g];
   nb.style.borderLeftColor=COL[g]; nb.style.color=COL[g]; nb.style.background=(g<4?'rgba(63,185,80,0.10)':'rgba(248,81,73,0.10)');
-  const sig=[['SPX SIGNAL',c.sigS[ci],clsSD(c.sigS[ci])],['10Y SIGNAL',c.sigY[ci],cls10(c.sigY[ci])],['DXY SIGNAL',c.sigD[ci],clsSD(c.sigD[ci])]];
+  const sig=[['ES SIGNAL',c.sigS[ci],clsSD(c.sigS[ci])],['10Y SIGNAL',c.sigY[ci],cls10(c.sigY[ci])],['DXY SIGNAL',c.sigD[ci],clsSD(c.sigD[ci])]];
   document.getElementById('ca-cur-signals').innerHTML=sig.map(([l,v,cl])=>
     `<div class="ca-signal"><div class="ca-signal-lbl">${l}</div><div class="ca-signal-val ${cl}">${v==null?'—':(v>0?'+':'')+v.toFixed(2)}</div></div>`).join('');
   let lp=null; for(let i=ci;i>=0;i--){ if(c.link[i]!=null){lp=c.link[i];break;} } lp=lp==null?0:lp;
   const co=document.getElementById('ca-cur-callout');
-  co.className='ca-callout '+(lp>=60?'':lp>=40?'link-mod':'link-weak');
-  const sent=lp>=60?'All 3 assets are being driven by the same theme. Regime signal is strong.'
-    :lp>=40?'The 3 assets are partially linked. Regime signal is moderate.'
+  co.className='ca-callout '+(lp>0.6?'':lp>0.3?'link-mod':'link-weak');
+  const sent=lp>0.6?'All 3 assets are being driven by the same theme. Regime signal is strong.'
+    :lp>0.3?'The 3 assets are partially linked. Regime signal is moderate.'
     :'The 3 assets are moving on their own drivers. Regime signal is weak.';
-  co.innerHTML=`<b>MARKET LINKAGE</b>  ${linkLabel(lp)} (${Math.round(lp)}%)  ${sent}`;
-  const hl=histLinkFor(g); const tag=hl==null?'':(hl>=55?'typically linked':hl>=40?'typically mixed':'typically independent');
-  document.getElementById('ca-cur-hist').innerHTML=`Historical median linkage when in this regime: <b>${hl==null?'—':Math.round(hl)+'%'}</b> ${hl==null?'':'('+tag+')'}`;
+  co.innerHTML=`<b>MARKET LINKAGE</b>  ${linkLabel(lp)} (|&rho;| ${lp.toFixed(2)})  ${sent}`+
+    `<div class="ca-rho-row"><span>&rho; 20d</span>`+
+    `<em>ES&middot;10Y</em> <b>${frho(c.cSY[ci])}</b>`+
+    `<em>ES&middot;DXY</em> <b>${frho(c.cSD[ci])}</b>`+
+    `<em>10Y&middot;DXY</em> <b>${frho(c.cYD[ci])}</b></div>`;
+  const hl=histLinkFor(g); const tag=hl==null?'':(hl>0.6?'typically linked':hl>0.3?'typically mixed':'typically independent');
+  document.getElementById('ca-cur-hist').innerHTML=`Historical median linkage when in this regime: <b>${hl==null?'—':'|&rho;| '+hl.toFixed(2)}</b> ${hl==null?'':'('+tag+')'}`;
   // what's next
   document.getElementById('ca-next-hdr').innerHTML="What's Next <span class=\"ca-desc\">— From R"+(g+1)+" - historical transition probabilities</span>";
   const row=ag.trans[g], rtot=row.reduce((a,b)=>a+b,0)||1;
   const order=[]; for(let j=0;j<8;j++) order.push(j); order.sort((a,b)=>row[b]-row[a]);
-  const emph={SPX:3,'10Y':4,DXY:5};
+  const emph={ES:3,'10Y':4,DXY:5};
   let nb2=''; order.forEach(j=>{ const st=ag.stat[j]; const cur=j===g; const p=row[j]/rtot*100;
     const ec=k=>(foc!=='ALL'&&emph[foc]===k)?' ca-emph':'';
     nb2+=`<tr class="${cur?'ca-row-current':''}">`+
@@ -7363,14 +7370,14 @@ function renderTransitions(){ const c=CA.comp, [vs,ve]=windowIdx('reg'); const a
       `<td class="${clsSD(st.spx)}${ec(3)}">${fpct(st.spx,3)}</td>`+
       `<td class="${cls10(st.y10)}${ec(4)}">${fbp(st.y10)}</td>`+
       `<td class="${clsSD(st.dxy)}${ec(5)}">${fpct(st.dxy,3)}</td>`+
-      `<td>${st.link==null?'—':Math.round(st.link)+'%'}</td></tr>`; });
+      `<td>${frho(st.link)}</td></tr>`; });
   document.getElementById('ca-next-body').innerHTML=nb2;
   // regime economics
   let eb=''; for(let j=0;j<8;j++){ const st=ag.stat[j]; const th=st.theme, tt=(th[0]+th[1]+th[2])||1;
     const seg=`<span class="ca-themebar"><i style="width:${th[0]/tt*100}%;background:${A_SPX}"></i><i style="width:${th[1]/tt*100}%;background:${A_10Y}"></i><i style="width:${th[2]/tt*100}%;background:${A_DXY}"></i></span>`;
     eb+=`<tr class="${j===g?'ca-row-current':''}"><td><span class="ca-dot" style="background:${COL[j]}"></span>R${j+1}</td>`+
       `<td class="${clsSD(st.spx)}">${fpct(st.spx,3)}</td><td class="${cls10(st.y10)}">${fbp(st.y10)}</td>`+
-      `<td class="${clsSD(st.dxy)}">${fpct(st.dxy,3)}</td><td>${st.link==null?'—':Math.round(st.link)+'%'}</td><td style="text-align:right">${seg}</td></tr>`; }
+      `<td class="${clsSD(st.dxy)}">${fpct(st.dxy,3)}</td><td>${frho(st.link)}</td><td style="text-align:right">${seg}</td></tr>`; }
   document.getElementById('ca-econ-body').innerHTML=eb;
   // transition matrix (rows R1..R8, cols R1..R8 + STICK)
   const labX=['R1','R2','R3','R4','R5','R6','R7','R8','STICK'], labY=['R1','R2','R3','R4','R5','R6','R7','R8'];
