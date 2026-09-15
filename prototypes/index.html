@@ -176,10 +176,20 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .flw-card .val{font-size:var(--fs-md);font-weight:600;font-variant-numeric:tabular-nums}
 .flw-spark{width:100%;height:44px;display:block;margin-top:6px}
 .flw-pos{color:var(--green)}.flw-neg{color:var(--red)}
-.flw-bars{width:100%;height:190px;display:block}
-.flw-line{width:100%;height:170px;display:block}
-.flw-axis-label{font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;
-  letter-spacing:0.6px;font-weight:600;margin-bottom:2px}
+.flw-chartwrap{position:relative;width:100%}
+.flw-combo{width:100%;height:340px;display:block}
+.flw-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--text-muted);
+  margin-bottom:8px;align-items:center}
+.flw-legend span{display:inline-flex;align-items:center;gap:6px}
+.flw-legend i{width:11px;height:11px;flex:none;display:inline-block}
+.flw-legend i.ln{height:2px;width:16px}
+.flw-tip{position:absolute;pointer-events:none;z-index:5;min-width:150px;
+  background:var(--surface-highest);border:1px solid var(--outline);
+  box-shadow:0 2px 10px rgba(15,23,42,0.18);padding:8px 10px;font-size:var(--fs-xs);
+  line-height:1.5;color:var(--text)}
+.flw-tip .d{font-weight:600;margin-bottom:4px;color:var(--text)}
+.flw-tip .r{display:flex;justify-content:space-between;gap:14px;font-variant-numeric:tabular-nums}
+.flw-tip .r span:first-child{color:var(--text-muted)}
 .flw-scroll{overflow-x:auto}
 .stir-table th.flw-sort{cursor:pointer;user-select:none;white-space:nowrap}
 .stir-table th.flw-sort:hover{color:var(--text)}
@@ -1582,10 +1592,11 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <button class="itab" onclick="flwSetFreq('W',this)">Weekly</button>
       </div>
     </div>
-    <div class="flw-axis-label" id="flw-bars-label">Net flow</div>
-    <svg class="flw-bars" id="flw-bars" role="img" aria-label="Net fund flow per period"></svg>
-    <div class="flw-axis-label" style="margin-top:14px">Cumulative flow</div>
-    <svg class="flw-line" id="flw-line" role="img" aria-label="Cumulative fund flow"></svg>
+    <div class="flw-legend" id="flw-legend"></div>
+    <div class="flw-chartwrap" id="flw-wrap">
+      <svg class="flw-combo" id="flw-combo" role="img" aria-label="Net fund flow and cumulative flow"></svg>
+      <div class="flw-tip" id="flw-tip" hidden></div>
+    </div>
   </div>
 
   <div class="card">
@@ -4601,65 +4612,124 @@ function _flwBucket(rows){
 function _flwCum(rows){ let r=0; return rows.map(([d,v])=>{r+=v; return [d,r];}); }
 function _esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ---- bar chart: net flow per bucket ----
-function flwDrawBars(el, rows){
-  const W=1000,H=190,PL=46,PR=12,PT=10,PB=22;
-  el.setAttribute('viewBox','0 0 '+W+' '+H);
-  if(!rows.length){ el.innerHTML=''; return; }
-  const ys=rows.map(r=>r[1]);
-  let hi=Math.max(0,...ys), lo=Math.min(0,...ys);
-  if(hi===lo){ hi=lo+1; }
-  const pad=(hi-lo)*0.08; hi+=pad; lo-=pad;
-  const iw=W-PL-PR, ih=H-PT-PB;
-  const sy=v=>PT+(hi-v)/(hi-lo)*ih;
-  const bw=Math.max(1, iw/rows.length*0.72), step=iw/rows.length;
-  const zero=sy(0);
-  const bars=rows.map((r,i)=>{
-    const x=PL+i*step+(step-bw)/2, y=r[1]>=0?sy(r[1]):zero, h=Math.max(0.6,Math.abs(sy(r[1])-zero));
-    return '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+
-      '" fill="'+(r[1]>=0?'var(--green)':'var(--red)')+'" opacity="0.85"><title>'+r[0]+'  '+_flwM(r[1])+'</title></rect>';
+// ---- combined chart: net flow bars (left axis) + cumulative line (right axis) ----
+// Both scales are built around a SHARED zero line. Without that, a dual-axis chart
+// lets the bars and the line cross wherever the scaling happens to put them, which
+// reads as signal but is an artifact. With a common zero, "line above zero" and
+// "bars above zero" mean the same thing on the page.
+let _flwGeom = null;
+
+function flwDrawCombo(){
+  const el = document.getElementById('flw-combo');
+  const wrap = document.getElementById('flw-wrap');
+  if(!el || !_flwData) return;
+  const sel = _flwData.tickers[_flwSel];
+  const bars = _flwBucket(_flwSlice(sel.daily));
+  const cum = _flwCum(bars);
+  const W = Math.max(320, Math.round((wrap && wrap.clientWidth) || el.clientWidth || 960));
+  const H = 340, PL = 62, PR = 68, PT = 14, PB = 26;
+  el.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  el.setAttribute('preserveAspectRatio', 'none');
+  if(!bars.length){ el.innerHTML=''; _flwGeom=null; return; }
+
+  const iw = W - PL - PR, ih = H - PT - PB;
+  const bv = bars.map(r=>r[1]), cv = cum.map(r=>r[1]);
+  let bHi = Math.max(0, ...bv), bLo = Math.min(0, ...bv);
+  let cHi = Math.max(0, ...cv), cLo = Math.min(0, ...cv);
+  if(bHi===bLo) bHi = bLo + 1;
+  if(cHi===cLo) cHi = cLo + 1;
+  bHi *= 1.10; bLo *= 1.10; cHi *= 1.10; cLo *= 1.10;
+
+  // common zero fraction: the larger of the two "share of height above zero"
+  const zb = bHi/(bHi-bLo), zc = cHi/(cHi-cLo);
+  const z = Math.min(0.92, Math.max(0.08, Math.max(zb, zc)));
+  const zeroY = PT + z*ih;
+  const up = z*ih, dn = (1-z)*ih;
+  const kBar = Math.min(bHi>0 ? up/bHi : Infinity, bLo<0 ? dn/(-bLo) : Infinity);
+  const kCum = Math.min(cHi>0 ? up/cHi : Infinity, cLo<0 ? dn/(-cLo) : Infinity);
+  const yBar = v => zeroY - v*kBar;
+  const yCum = v => zeroY - v*kCum;
+
+  const step = iw/bars.length;
+  const bw = Math.max(1, step*0.72);
+  const xAt = i => PL + i*step + step/2;
+
+  // gridlines + dual axis ticks, each labelled in its own series colour
+  const gl = [];
+  [PT, zeroY, PT+ih].forEach(y=>{
+    gl.push('<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+y.toFixed(1)+'" y2="'+y.toFixed(1)+
+      '" stroke="var(--outline-dim)" stroke-width="1" stroke-dasharray="2 3"/>');
+  });
+  const lab = [];
+  [[PT, (PT-zeroY)/-kBar, (PT-zeroY)/-kCum], [PT+ih, (PT+ih-zeroY)/-kBar, (PT+ih-zeroY)/-kCum]]
+    .forEach(([y, bvv, cvv])=>{
+      lab.push('<text x="'+(PL-8)+'" y="'+(y+4).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">'+_flwB(bvv)+'</text>');
+      lab.push('<text x="'+(W-PR+8)+'" y="'+(y+4).toFixed(1)+'" font-size="11" text-anchor="start" fill="var(--ps-blue)">'+_flwB(cvv)+'</text>');
+    });
+  lab.push('<text x="'+(PL-8)+'" y="'+(zeroY+4).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">0</text>');
+  lab.push('<text x="'+(W-PR+8)+'" y="'+(zeroY+4).toFixed(1)+'" font-size="11" text-anchor="start" fill="var(--ps-blue)">0</text>');
+
+  const rect = bars.map((r,i)=>{
+    const y = r[1]>=0 ? yBar(r[1]) : zeroY;
+    const h = Math.max(0.6, Math.abs(yBar(r[1]) - zeroY));
+    return '<rect x="'+(xAt(i)-bw/2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+
+      '" height="'+h.toFixed(1)+'" fill="'+(r[1]>=0?'var(--green)':'var(--red)')+'" opacity="0.8"/>';
   }).join('');
-  const gy=[hi,(hi+lo)/2,lo].map(v=>
-    '<text x="'+(PL-6)+'" y="'+(sy(v)+3.5).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">'+_flwB(v)+'</text>'+
-    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(v).toFixed(1)+'" y2="'+sy(v).toFixed(1)+
-    '" stroke="var(--outline-dim)" stroke-width="1" stroke-dasharray="2 3"/>').join('');
-  const xi=[0,Math.floor(rows.length/2),rows.length-1].filter((v,i,a)=>a.indexOf(v)===i&&rows[v]);
-  const xl=xi.map(i=>'<text x="'+(PL+i*step+step/2).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
-    'text-anchor="'+(i===0?'start':i===rows.length-1?'end':'middle')+'">'+rows[i][0]+'</text>').join('');
-  el.innerHTML=gy+bars+
-    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+zero.toFixed(1)+'" y2="'+zero.toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+xl;
+
+  const path = cum.map((r,i)=>(i?'L':'M')+xAt(i).toFixed(1)+' '+yCum(r[1]).toFixed(1)).join(' ');
+  const lastV = cum[cum.length-1][1];
+
+  const xi = [0, Math.floor(bars.length/2), bars.length-1].filter((v,i,a)=>a.indexOf(v)===i);
+  const xl = xi.map(i=>'<text x="'+xAt(i).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
+    'text-anchor="'+(i===0?'start':i===bars.length-1?'end':'middle')+'">'+bars[i][0]+'</text>').join('');
+
+  el.innerHTML = gl.join('') + lab.join('') + rect +
+    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+zeroY.toFixed(1)+'" y2="'+zeroY.toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+
+    '<path d="'+path+'" fill="none" stroke="var(--ps-blue)" stroke-width="2" stroke-linejoin="round"/>'+
+    '<circle cx="'+xAt(cum.length-1).toFixed(1)+'" cy="'+yCum(lastV).toFixed(1)+'" r="4" fill="var(--ps-blue)"/>'+
+    '<line id="flw-cross" x1="0" x2="0" y1="'+PT+'" y2="'+(PT+ih)+'" stroke="var(--text-muted)" stroke-width="1" opacity="0"/>'+
+    '<circle id="flw-dot" r="4" fill="var(--ps-blue)" stroke="var(--surface-card)" stroke-width="1.5" opacity="0"/>'+
+    xl;
+
+  _flwGeom = {W,H,PL,PR,PT,PB,iw,ih,step,xAt,yCum,bars,cum};
+
+  document.getElementById('flw-legend').innerHTML =
+    '<span><i style="background:var(--green)"></i><i style="background:var(--red)"></i> Net flow &mdash; bars, left axis</span>'+
+    '<span><i class="ln" style="background:var(--ps-blue)"></i> Cumulative flow &mdash; line, right axis</span>'+
+    '<span style="color:var(--text-muted)">both axes share the same zero line</span>';
 }
 
-// ---- line chart: cumulative ----
-function flwDrawLine(el, rows){
-  const W=1000,H=170,PL=46,PR=12,PT=10,PB=22;
-  el.setAttribute('viewBox','0 0 '+W+' '+H);
-  if(!rows.length){ el.innerHTML=''; return; }
-  const ys=rows.map(r=>r[1]);
-  let hi=Math.max(0,...ys), lo=Math.min(0,...ys);
-  if(hi===lo){ hi=lo+1; }
-  const pad=(hi-lo)*0.08; hi+=pad; lo-=pad;
-  const iw=W-PL-PR, ih=H-PT-PB;
-  const sy=v=>PT+(hi-v)/(hi-lo)*ih;
-  const sx=i=>PL+(rows.length<2?iw/2:i*iw/(rows.length-1));
-  const last=rows[rows.length-1][1];
-  const col=last>=0?'var(--green)':'var(--red)';
-  const d=rows.map((r,i)=>(i?'L':'M')+sx(i).toFixed(1)+' '+sy(r[1]).toFixed(1)).join(' ');
-  const area=d+' L '+sx(rows.length-1).toFixed(1)+' '+sy(0).toFixed(1)+' L '+sx(0).toFixed(1)+' '+sy(0).toFixed(1)+' Z';
-  const gy=[hi,(hi+lo)/2,lo].map(v=>
-    '<text x="'+(PL-6)+'" y="'+(sy(v)+3.5).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">'+_flwB(v)+'</text>'+
-    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(v).toFixed(1)+'" y2="'+sy(v).toFixed(1)+
-    '" stroke="var(--outline-dim)" stroke-width="1" stroke-dasharray="2 3"/>').join('');
-  const xi=[0,Math.floor(rows.length/2),rows.length-1].filter((v,i,a)=>a.indexOf(v)===i&&rows[v]);
-  const xl=xi.map(i=>'<text x="'+sx(i).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
-    'text-anchor="'+(i===0?'start':i===rows.length-1?'end':'middle')+'">'+rows[i][0]+'</text>').join('');
-  el.innerHTML=gy+
-    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(0).toFixed(1)+'" y2="'+sy(0).toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+
-    '<path d="'+area+'" fill="'+col+'" opacity="0.10"/>'+
-    '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linejoin="round"/>'+
-    '<circle cx="'+sx(rows.length-1).toFixed(1)+'" cy="'+sy(last).toFixed(1)+'" r="4" fill="'+col+'"/>'+
-    '<text x="'+(sx(rows.length-1)-8).toFixed(1)+'" y="'+(sy(last)-9).toFixed(1)+'" font-size="12" font-weight="600" '+
-    'text-anchor="end" fill="'+col+'">'+_flwM(last)+'</text>'+xl;
+function flwHover(ev){
+  const g=_flwGeom; if(!g) return;
+  const el=document.getElementById('flw-combo');
+  const wrap=document.getElementById('flw-wrap');
+  const tip=document.getElementById('flw-tip');
+  const rc=el.getBoundingClientRect();
+  const px=(ev.clientX-rc.left)*(g.W/rc.width);
+  let i=Math.round((px-g.PL-g.step/2)/g.step);
+  if(i<0) i=0; if(i>g.bars.length-1) i=g.bars.length-1;
+  const cross=document.getElementById('flw-cross'), dot=document.getElementById('flw-dot');
+  const x=g.xAt(i);
+  if(cross){ cross.setAttribute('x1',x.toFixed(1)); cross.setAttribute('x2',x.toFixed(1)); cross.setAttribute('opacity','0.45'); }
+  if(dot){ dot.setAttribute('cx',x.toFixed(1)); dot.setAttribute('cy',g.yCum(g.cum[i][1]).toFixed(1)); dot.setAttribute('opacity','1'); }
+  const nv=g.bars[i][1], cvv=g.cum[i][1];
+  tip.innerHTML='<div class="d">'+g.bars[i][0]+'</div>'+
+    '<div class="r"><span>Net flow</span><span class="'+(nv>=0?'flw-pos':'flw-neg')+'">'+_flwM(nv)+'</span></div>'+
+    '<div class="r"><span>Cumulative</span><span class="'+(cvv>=0?'flw-pos':'flw-neg')+'">'+_flwM(cvv)+'</span></div>';
+  tip.hidden=false;
+  const wpx=x*(rc.width/g.W);
+  const tw=tip.offsetWidth||160;
+  let left=wpx+14;
+  if(left+tw > wrap.clientWidth) left=wpx-tw-14;
+  if(left<0) left=0;
+  tip.style.left=left+'px';
+  tip.style.top=Math.max(0,(ev.clientY-rc.top)-tip.offsetHeight-12)+'px';
+}
+function flwHoverOut(){
+  const tip=document.getElementById('flw-tip'); if(tip) tip.hidden=true;
+  const c=document.getElementById('flw-cross'), d=document.getElementById('flw-dot');
+  if(c) c.setAttribute('opacity','0');
+  if(d) d.setAttribute('opacity','0');
 }
 
 function flwRender(){
@@ -4668,14 +4738,24 @@ function flwRender(){
 
   if(!_flwSel || O.indexOf(_flwSel)<0) _flwSel=O[0];
   const sel=D.tickers[_flwSel];
-  const rows=_flwBucket(_flwSlice(sel.daily));
-  const cum=_flwCum(rows);
   document.getElementById('flw-main-title').textContent=
     _flwSel+' \u2014 '+sel.sector;
-  document.getElementById('flw-bars-label').textContent=
-    'Net flow '+(_flwFreq==='D'?'per day':'per week')+' ($M)';
-  flwDrawBars(document.getElementById('flw-bars'), rows);
-  flwDrawLine(document.getElementById('flw-line'), cum);
+  flwDrawCombo();
+  const _w=document.getElementById('flw-wrap');
+  if(_w && !_w._flwBound){
+    _w._flwBound=true;
+    _w.addEventListener('mousemove', flwHover);
+    _w.addEventListener('mouseleave', flwHoverOut);
+  }
+  window._redraw = window._redraw || {};
+  window._redraw['etf-flows'] = function(){ if(_flwData) flwDrawCombo(); };
+  if(!window._flwResizeBound){
+    window._flwResizeBound=true;
+    let _t=null;
+    window.addEventListener('resize', function(){
+      clearTimeout(_t); _t=setTimeout(function(){ if(_flwData) flwDrawCombo(); }, 150);
+    });
+  }
 
   // ---- sector cards, ranked by window flow ----
   const cards=O.map(tk=>{
