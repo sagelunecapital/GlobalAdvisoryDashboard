@@ -40,6 +40,8 @@ tests/ui/screenshots/
 scripts/barchart_zq_cache.json
 data/cftc_cot.db
 data/sector_rotation.db
+data/etf_flows_daily.json
+data/etf_flows_scrape.log
 
 # MCP browser session logs
 .playwright-mcp/

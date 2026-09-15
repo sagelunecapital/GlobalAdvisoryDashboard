@@ -162,6 +162,23 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .risk-pos{color:var(--green)}.risk-neg{color:var(--red)}
 @media(max-width:820px){.risk-meters{grid-template-columns:1fr}}
 
+
+/* -- ETF Flows Tab -- */
+.flw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.flw-card{border:1px solid var(--outline-dim);background:var(--surface-card);padding:11px 12px}
+.flw-card .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:2px}
+.flw-card .sym{font-weight:700;font-size:var(--fs-base);color:var(--text)}
+.flw-card .sec{font-size:var(--fs-xs);color:var(--text-muted)}
+.flw-card .val{font-size:var(--fs-md);font-weight:600;font-variant-numeric:tabular-nums}
+.flw-spark{width:100%;height:46px;display:block;margin-top:6px}
+.flw-pos{color:var(--green)}.flw-neg{color:var(--red)}
+.flw-hero{width:100%;height:290px;display:block}
+.flw-legend{font-size:var(--fs-xs);color:var(--text-muted);margin-top:6px}
+.flw-note{font-size:var(--fs-sm);color:var(--text-dim);line-height:1.55}
+.flw-scroll{overflow-x:auto}
+.flw-bar{height:9px;background:var(--surface-high);border:1px solid var(--outline-dim);position:relative;min-width:90px}
+.flw-bar i{position:absolute;top:0;bottom:0;display:block}
+
 /* ── Inner tabs ── */
 .itabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .itab{padding:6px 16px;cursor:pointer;border:1px solid var(--outline-dim);border-radius:999px;color:var(--text-muted);font-size:var(--fs-sm);font-weight:500;background:transparent;font-family:inherit;transition:background 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease,box-shadow 180ms ease}
@@ -1412,6 +1429,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)"><span class="nav-ico">swap_horiz</span>Positioning</button>
+    <button class="nav-tab nav-sub" onclick="showMain('etf-flows',this)"><span class="nav-ico">waterfall_chart</span>ETF Flows</button>
     <button class="nav-tab" onclick="showMain('research',this)"><span class="nav-ico">science</span>Research</button>
     <button class="nav-tab" onclick="showMain('risk',this)"><span class="nav-ico">shield</span>Risk</button>
     <!-- Archived from the sidebar 15 Sep 2026: Leadership, Cross Asset, Screener, Resources, Journal.
@@ -1530,6 +1548,53 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
 
 <!-- ═══════════════════════════ CROSS-ASSET REGIMES TAB ═══════════════════════════ -->
 <!-- ═════════════════════════ RISK TAB ═════════════════════════ -->
+<!-- ════════════════════ ETF FLOWS TAB ════════════════════ -->
+<div id="main-etf-flows" class="main-panel">
+  <div class="exec-row" style="margin-bottom:16px;align-items:flex-start">
+    <div>
+      <div class="section-heading" style="margin:0">Sector ETF Flows</div>
+      <div id="flw-sub" style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:3px"></div>
+    </div>
+    <div class="itabs" id="flw-period" style="margin-bottom:0">
+      <button class="itab" onclick="flwSetPeriod('3M',this)">3M</button>
+      <button class="itab active" onclick="flwSetPeriod('6M',this)">6M</button>
+      <button class="itab" onclick="flwSetPeriod('1Y',this)">1Y</button>
+    </div>
+  </div>
+
+  <div class="stir-kpi-row" id="flw-kpis"></div>
+
+  <div class="card">
+    <div class="card-header">Net cumulative flow &mdash; all 11 sectors</div>
+    <svg class="flw-hero" id="flw-hero" role="img" aria-label="Net cumulative sector ETF flow"></svg>
+    <div class="flw-legend" id="flw-hero-legend"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Cumulative flow by sector</div>
+    <div class="flw-grid" id="flw-cards"></div>
+    <div class="flw-note" style="margin-top:12px">
+      Each panel is that sector's cumulative flow across the selected window, drawn on its own scale.
+      The figure is where the line ends &mdash; net money in or out over the period.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Period totals and the non-overlapping path</div>
+    <div class="flw-scroll"><table class="stir-table" id="flw-table"></table></div>
+    <div class="flw-note" style="margin-top:12px">
+      3M, 6M and 1Y are <em>nested</em> trailing windows, so they cannot be added. The right-hand
+      columns decompose them into sequential buckets &mdash; months 4&ndash;6 = 6M &minus; 3M, months
+      7&ndash;12 = 1Y &minus; 6M &mdash; which is what shows whether flows are accelerating or reversing.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Source and reconciliation</div>
+    <div class="flw-note" id="flw-recon"></div>
+  </div>
+</div>
+
 <div id="main-risk" class="main-panel">
   <div class="exec-row" style="margin-bottom:18px;align-items:flex-start">
     <div>
@@ -2962,6 +3027,7 @@ function showMain(id, btn) {
   if (id === 'journal')  jrnlInit();
   if (id === 'leadership') leadInit();
   if (id === 'risk')     riskInit();
+  if (id === 'etf-flows') flowsInit();
   // Re-render this tab's charts at the now-visible container width (fixes letterboxing)
   if (window._redraw[id]) { try{ window._redraw[id](); }catch(e){} }
 }
@@ -4467,9 +4533,143 @@ function renderSrQuadrant(){
 }
 
 
-// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 Risk Board \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// ══════════════════════ Risk Board ══════════════════════
 // Reads risk.json. Every figure is measured against the fixed $300,000 notional
 // mandate - never account equity. Regenerate with scripts/gen_risk_json.py.
+
+// ================ Sector ETF Flows ================
+// Daily bars scraped from etfdb's Fund Flows chart; cumulative series derived here.
+// Regenerate the data with scripts/gen_etf_flows.py.
+let _flwData = null, _flwPeriod = '6M';
+const _FLW_MONTHS = {'3M': 3, '6M': 6, '1Y': 12};
+
+function flowsInit(){
+  if(_flwData) return;
+  fetch('etf_flows.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{_flwData=d; flwRender();})
+    .catch(e=>{
+      const k=document.getElementById('flw-kpis');
+      if(k) k.innerHTML='<div style="color:var(--text-muted);font-size:var(--fs-sm)">etf_flows.json not available ('+e+'). Run scripts/gen_etf_flows.py, then reopen this tab.</div>';
+    });
+}
+function flwSetPeriod(p, btn){
+  _flwPeriod = p;
+  document.querySelectorAll('#flw-period .itab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(_flwData) flwRender();
+}
+const _flwM = v => (v<0?'-':'+')+'$'+Math.abs(Math.round(v)).toLocaleString()+'M';
+function _flwStart(){
+  const d=new Date(_flwData.as_of+'T00:00:00Z');
+  d.setUTCMonth(d.getUTCMonth()-_FLW_MONTHS[_flwPeriod]);
+  return d.toISOString().slice(0,10);
+}
+// slice a [date,value] series to the window and return running totals
+function _flwCum(daily){
+  const s=_flwStart(), out=[]; let run=0;
+  for(const [d,v] of daily){ if(d>=s){ run+=v; out.push([d,run]); } }
+  return out;
+}
+// line path + zero baseline, drawn into a viewBox
+function _flwPath(pts, w, h, pad){
+  if(!pts.length) return {d:'', zero:h/2, min:0, max:0};
+  const ys=pts.map(p=>p[1]);
+  let lo=Math.min(0,...ys), hi=Math.max(0,...ys);
+  if(hi===lo){ hi=lo+1; }
+  const sx=(w-pad*2)/Math.max(1,pts.length-1);
+  const sy=v=>pad+(hi-v)/(hi-lo)*(h-pad*2);
+  const d=pts.map((p,i)=>(i?'L':'M')+(pad+i*sx).toFixed(1)+' '+sy(p[1]).toFixed(1)).join(' ');
+  const area=d+' L '+(pad+(pts.length-1)*sx).toFixed(1)+' '+sy(0).toFixed(1)+' L '+pad.toFixed(1)+' '+sy(0).toFixed(1)+' Z';
+  return {d, area, zero:sy(0), min:lo, max:hi, sx, sy, pad};
+}
+
+function flwRender(){
+  const D=_flwData, O=D.order;
+  document.getElementById('flw-sub').textContent =
+    '11 SPDR sector ETFs \u00b7 daily fund-flow bars \u00b7 as of '+D.as_of+' \u00b7 $ millions';
+
+  // ---- hero: net cumulative ----
+  const net=_flwCum(D.net.daily);
+  const W=1000,H=290,P=34;
+  const g=_flwPath(net,W,H,P);
+  const last=net.length?net[net.length-1][1]:0;
+  const peak=net.length?Math.max(...net.map(p=>p[1])):0;
+  const trough=net.length?Math.min(...net.map(p=>p[1])):0;
+  const col=last>=0?'var(--green)':'var(--red)';
+  const ticks=[g.max,(g.max+g.min)/2,g.min].map(v=>
+    '<text x="4" y="'+(g.sy(v)+3).toFixed(1)+'" font-size="11" fill="var(--text-muted)">'+
+    (Math.round(v/1000*10)/10)+'B</text>');
+  const xs=[0,Math.floor(net.length/2),net.length-1].filter(i=>i>=0&&net[i]);
+  const xlab=xs.map(i=>'<text x="'+(P+i*g.sx).toFixed(1)+'" y="'+(H-8)+'" font-size="11" '+
+    'text-anchor="'+(i===0?'start':i===net.length-1?'end':'middle')+'" fill="var(--text-muted)">'+net[i][0]+'</text>');
+  document.getElementById('flw-hero').setAttribute('viewBox','0 0 '+W+' '+H);
+  document.getElementById('flw-hero').innerHTML =
+    '<line x1="'+P+'" x2="'+(W-P)+'" y1="'+g.zero.toFixed(1)+'" y2="'+g.zero.toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+
+    '<path d="'+g.area+'" fill="'+col+'" opacity="0.10"/>'+
+    '<path d="'+g.d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linejoin="round"/>'+
+    '<circle cx="'+(P+(net.length-1)*g.sx).toFixed(1)+'" cy="'+g.sy(last).toFixed(1)+'" r="4" fill="'+col+'"/>'+
+    ticks.join('')+xlab.join('');
+  document.getElementById('flw-hero-legend').innerHTML =
+    'Running total of daily net flows across all 11 sectors over the selected window. '+
+    'Ends at <b>'+_flwM(last)+'</b> \u00b7 peak <b>'+_flwM(peak)+'</b> \u00b7 trough <b>'+_flwM(trough)+
+    '</b> \u00b7 <b>'+_flwM(last-peak)+'</b> from the peak.';
+
+  // ---- KPI row ----
+  const np=D.net.periods;
+  document.getElementById('flw-kpis').innerHTML=[
+    ['Net, selected window', _flwM(last), _flwPeriod+' \u00b7 all 11 sectors'],
+    ['Net 3M', _flwM(np['3M'].total), np['3M'].start+' to '+np['3M'].end],
+    ['Net 6M', _flwM(np['6M'].total), np['6M'].start+' to '+np['6M'].end],
+    ['Net 1Y', _flwM(np['1Y'].total), np['1Y'].start+' to '+np['1Y'].end],
+    ['From the peak', _flwM(last-peak), 'drawdown in cumulative flow']
+  ].map(k=>'<div class="stir-kpi"><div class="stir-kpi-label">'+k[0]+'</div>'+
+    '<div class="stir-kpi-value '+(k[1][0]==='-'?'flw-neg':'flw-pos')+'">'+k[1]+'</div>'+
+    '<div class="stir-kpi-sub">'+k[2]+'</div></div>').join('');
+
+  // ---- per-sector small multiples, ranked by window flow ----
+  const rows=O.map(tk=>{
+    const c=_flwCum(D.tickers[tk].daily);
+    return {tk, sector:D.tickers[tk].sector, cum:c, end:c.length?c[c.length-1][1]:0};
+  }).sort((a,b)=>b.end-a.end);
+
+  document.getElementById('flw-cards').innerHTML = rows.map(r=>{
+    const w=240,h=46,p=3,gg=_flwPath(r.cum,w,h,p);
+    const c=r.end>=0?'var(--green)':'var(--red)';
+    return '<div class="flw-card"><div class="t"><span class="sym">'+r.tk+'</span>'+
+      '<span class="val '+(r.end>=0?'flw-pos':'flw-neg')+'">'+_flwM(r.end)+'</span></div>'+
+      '<div class="sec">'+r.sector+'</div>'+
+      '<svg class="flw-spark" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" aria-hidden="true">'+
+      '<line x1="0" x2="'+w+'" y1="'+gg.zero.toFixed(1)+'" y2="'+gg.zero.toFixed(1)+'" stroke="var(--outline-dim)" stroke-width="1"/>'+
+      '<path d="'+gg.area+'" fill="'+c+'" opacity="0.12"/>'+
+      '<path d="'+gg.d+'" fill="none" stroke="'+c+'" stroke-width="1.6"/></svg></div>';
+  }).join('');
+
+  // ---- table ----
+  const cell=v=>'<td class="'+(v>=0?'flw-pos':'flw-neg')+'">'+_flwM(v)+'</td>';
+  document.getElementById('flw-table').innerHTML =
+    '<thead><tr><th>ETF</th><th>Sector</th><th>3M</th><th>6M</th><th>1Y</th>'+
+    '<th>Last 3M</th><th>Months 4-6</th><th>Months 7-12</th></tr></thead><tbody>'+
+    O.map(tk=>{const p=D.tickers[tk].periods,a=p['3M'].total,b=p['6M'].total,c=p['1Y'].total;
+      return '<tr><td><b>'+tk+'</b></td><td>'+D.tickers[tk].sector+'</td>'+
+        cell(a)+cell(b)+cell(c)+cell(a)+cell(b-a)+cell(c-b)+'</tr>';}).join('')+
+    (()=>{const a=np['3M'].total,b=np['6M'].total,c=np['1Y'].total;
+      return '<tr class="stir-terminal"><td><b>NET</b></td><td>all 11 sectors</td>'+
+        cell(a)+cell(b)+cell(c)+cell(a)+cell(b-a)+cell(c-b)+'</tr>';})()+
+    '</tbody>';
+
+  // ---- provenance ----
+  const R=D.reconciliation;
+  document.getElementById('flw-recon').innerHTML =
+    'Daily bars read from the Fund Flows chart on <a href="'+D.source_url_pattern.replace('{TICKER}','XLY')+
+    '" target="_blank" rel="noopener">etfdb.com</a> ETF profile pages, scraped '+(D.scraped_at||'')+'. '+
+    'Values are net flow per trading day in $ millions; cumulative series are running sums computed here.<br>'+
+    '<b>Window rule:</b> '+D.window_rule+'<br>'+
+    '<b>Reconciliation:</b> summing the daily bars over each window reproduces etfdb\'s own printed 3M/6M/1Y totals across '+
+    R.checks+' checks, mean absolute error <b>$'+R.mean_abs_err+'M</b>, worst <b>$'+R.max_abs_err+'M</b>. '+
+    'Residuals are the site\'s display rounding to three significant figures, not a data discrepancy.';
+}
+
 let _riskLoaded = false;
 function riskInit(){
   if(_riskLoaded) return;
@@ -7222,7 +7422,7 @@ const GA_TABS=[
  {id:'macro',label:'Macro',ico:'insights'},{id:'growth',label:'Growth',ico:'trending_up'},
  {id:'inflation',label:'Inflation',ico:'thermostat'},{id:'stir',label:'Yields',ico:'show_chart'},
  {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'warsh',label:'Warsh Playbook',ico:'menu_book'},{id:'yen',label:'Yen Carry Trade',ico:'currency_yen'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
- {id:'risk',label:'Risk',ico:'shield'},
+ {id:'risk',label:'Risk',ico:'shield'},{id:'etf-flows',label:'ETF Flows',ico:'waterfall_chart'},
  {id:'breadth',label:'Breadth',ico:'bar_chart'},{id:'leadership',label:'Leadership',ico:'leaderboard'},{id:'positioning',label:'Positioning',ico:'swap_horiz'},
  {id:'cross-asset',label:'Cross Asset',ico:'hub'},{id:'resources',label:'Resources',ico:'folder_open'},
  {id:'research',label:'Research',ico:'science'},{id:'screener',label:'Screener',ico:'filter_alt'},
