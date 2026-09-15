@@ -129,7 +129,7 @@ doc = {
         "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
         "Themes are assigned, not fed. IBKR returns no sector tags; UNG and XOP are both classified Energy as a stated assumption.",
         "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry.",
-        "Both stop orders returned status REPLACED. Quantities and sides reconcile, but confirm in TWS that they are working, and whether they are enabled outside regular hours.",
+        "Both stops CONFIRMED as working orders by the account owner, 15 Sep 2026. The API returned status REPLACED, which marks a prior modification, not a cancellation. Defined-risk figures therefore hold. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
         "Parametric VaR understates the tail: historical 5th percentile $751 vs parametric $704; the worst day in the window was $1,449, or 1.46x the 99% VaR.",
         "Correlation of 0.284 is not a usable parameter - standard error 0.121, 95% interval [0.030, 0.503], rolling 20-day range -0.114 to +0.691. Total diversification benefit versus perfect correlation is $108.",
         "Scenario betas are assumed: UNG ~1.0 to front-month gas; XOP ~1.2 to equities, ~1.5 to crude. The XOP leg of the gas shock uses the measured beta of 0.24.",
