@@ -164,20 +164,31 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 
 
 /* -- ETF Flows Tab -- */
-.flw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-.flw-card{border:1px solid var(--outline-dim);background:var(--surface-card);padding:11px 12px}
+.flw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.flw-card{border:1px solid var(--outline-dim);background:var(--surface-card);padding:11px 12px;
+  cursor:pointer;transition:border-color 160ms ease,background 160ms ease}
+.flw-card:hover{border-color:var(--ps-blue)}
+.flw-card:focus-visible{outline:2px solid var(--ps-blue);outline-offset:2px}
+.flw-card.sel{border-color:var(--ps-blue);background:rgba(0,122,255,0.08)}
 .flw-card .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:2px}
 .flw-card .sym{font-weight:700;font-size:var(--fs-base);color:var(--text)}
 .flw-card .sec{font-size:var(--fs-xs);color:var(--text-muted)}
 .flw-card .val{font-size:var(--fs-md);font-weight:600;font-variant-numeric:tabular-nums}
-.flw-spark{width:100%;height:46px;display:block;margin-top:6px}
+.flw-spark{width:100%;height:44px;display:block;margin-top:6px}
 .flw-pos{color:var(--green)}.flw-neg{color:var(--red)}
-.flw-hero{width:100%;height:290px;display:block}
-.flw-legend{font-size:var(--fs-xs);color:var(--text-muted);margin-top:6px}
-.flw-note{font-size:var(--fs-sm);color:var(--text-dim);line-height:1.55}
+.flw-bars{width:100%;height:190px;display:block}
+.flw-line{width:100%;height:170px;display:block}
+.flw-axis-label{font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;
+  letter-spacing:0.6px;font-weight:600;margin-bottom:2px}
 .flw-scroll{overflow-x:auto}
-.flw-bar{height:9px;background:var(--surface-high);border:1px solid var(--outline-dim);position:relative;min-width:90px}
-.flw-bar i{position:absolute;top:0;bottom:0;display:block}
+.stir-table th.flw-sort{cursor:pointer;user-select:none;white-space:nowrap}
+.stir-table th.flw-sort:hover{color:var(--text)}
+.stir-table th.flw-sort .ind{opacity:.45;font-size:9px;margin-left:3px}
+.stir-table th.flw-sort.on{color:var(--ps-blue)}
+.stir-table th.flw-sort.on .ind{opacity:1}
+.stir-table tbody tr.flw-row{cursor:pointer}
+.stir-table tbody tr.flw-row:hover td{background:rgba(0,122,255,0.07)}
+.stir-table tbody tr.flw-row.sel td{background:rgba(0,122,255,0.12)}
 
 /* ── Inner tabs ── */
 .itabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
@@ -1550,48 +1561,41 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
 <!-- ═════════════════════════ RISK TAB ═════════════════════════ -->
 <!-- ════════════════════ ETF FLOWS TAB ════════════════════ -->
 <div id="main-etf-flows" class="main-panel">
-  <div class="exec-row" style="margin-bottom:16px;align-items:flex-start">
-    <div>
-      <div class="section-heading" style="margin:0">Sector ETF Flows</div>
-      <div id="flw-sub" style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:3px"></div>
-    </div>
-    <div class="itabs" id="flw-period" style="margin-bottom:0">
-      <button class="itab" onclick="flwSetPeriod('3M',this)">3M</button>
-      <button class="itab active" onclick="flwSetPeriod('6M',this)">6M</button>
-      <button class="itab" onclick="flwSetPeriod('1Y',this)">1Y</button>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <div class="section-heading" style="margin:0">Sector ETF Flows</div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div class="itabs" id="flw-period" style="margin-bottom:0">
+        <button class="itab" onclick="flwSetPeriod('3M',this)">3M</button>
+        <button class="itab active" onclick="flwSetPeriod('6M',this)">6M</button>
+        <button class="itab" onclick="flwSetPeriod('1Y',this)">1Y</button>
+      </div>
+      <div id="flw-updated" style="font-size:var(--fs-xs);color:var(--text-muted)"></div>
     </div>
   </div>
 
-  <div class="stir-kpi-row" id="flw-kpis"></div>
-
   <div class="card">
-    <div class="card-header">Net cumulative flow &mdash; all 11 sectors</div>
-    <svg class="flw-hero" id="flw-hero" role="img" aria-label="Net cumulative sector ETF flow"></svg>
-    <div class="flw-legend" id="flw-hero-legend"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div class="card-header" id="flw-main-title" style="margin:0">&nbsp;</div>
+      <div class="itabs" id="flw-freq" style="margin-bottom:0">
+        <button class="itab active" onclick="flwSetFreq('D',this)">Daily</button>
+        <button class="itab" onclick="flwSetFreq('W',this)">Weekly</button>
+      </div>
+    </div>
+    <div class="flw-axis-label" id="flw-bars-label">Net flow</div>
+    <svg class="flw-bars" id="flw-bars" role="img" aria-label="Net fund flow per period"></svg>
+    <div class="flw-axis-label" style="margin-top:14px">Cumulative flow</div>
+    <svg class="flw-line" id="flw-line" role="img" aria-label="Cumulative fund flow"></svg>
   </div>
 
   <div class="card">
-    <div class="card-header">Cumulative flow by sector</div>
+    <div class="card-header">Sector Cumulative Flow</div>
     <div class="flw-grid" id="flw-cards"></div>
-    <div class="flw-note" style="margin-top:12px">
-      Each panel is that sector's cumulative flow across the selected window, drawn on its own scale.
-      The figure is where the line ends &mdash; net money in or out over the period.
-    </div>
   </div>
 
   <div class="card">
-    <div class="card-header">Period totals and the non-overlapping path</div>
+    <div class="card-header">Summary</div>
     <div class="flw-scroll"><table class="stir-table" id="flw-table"></table></div>
-    <div class="flw-note" style="margin-top:12px">
-      3M, 6M and 1Y are <em>nested</em> trailing windows, so they cannot be added. The right-hand
-      columns decompose them into sequential buckets &mdash; months 4&ndash;6 = 6M &minus; 3M, months
-      7&ndash;12 = 1Y &minus; 6M &mdash; which is what shows whether flows are accelerating or reversing.
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">Source and reconciliation</div>
-    <div class="flw-note" id="flw-recon"></div>
   </div>
 </div>
 
@@ -4538,138 +4542,187 @@ function renderSrQuadrant(){
 // mandate - never account equity. Regenerate with scripts/gen_risk_json.py.
 
 // ================ Sector ETF Flows ================
-// Daily bars scraped from etfdb's Fund Flows chart; cumulative series derived here.
-// Regenerate the data with scripts/gen_etf_flows.py.
-let _flwData = null, _flwPeriod = '6M';
+// Daily bars scraped from etfdb's Fund Flows chart; cumulative derived here.
+// Regenerate with scripts/scrape_etf_flows.py then scripts/gen_etf_flows.py.
+let _flwData = null, _flwPeriod = '6M', _flwFreq = 'D', _flwSel = null;
+let _flwSortKey = '6M', _flwSortDir = -1;
 const _FLW_MONTHS = {'3M': 3, '6M': 6, '1Y': 12};
 
 function flowsInit(){
   if(_flwData) return;
   fetch('etf_flows.json?_='+Date.now())
     .then(r=>r.ok?r.json():Promise.reject(r.status))
-    .then(d=>{_flwData=d; flwRender();})
+    .then(d=>{_flwData=d; _flwSel=d.order[0]; flwRender();})
     .catch(e=>{
-      const k=document.getElementById('flw-kpis');
-      if(k) k.innerHTML='<div style="color:var(--text-muted);font-size:var(--fs-sm)">etf_flows.json not available ('+e+'). Run scripts/gen_etf_flows.py, then reopen this tab.</div>';
+      const t=document.getElementById('flw-main-title');
+      if(t) t.textContent='etf_flows.json not available ('+e+') - run scripts/gen_etf_flows.py';
     });
 }
 function flwSetPeriod(p, btn){
-  _flwPeriod = p;
+  _flwPeriod=p;
   document.querySelectorAll('#flw-period .itab').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   if(_flwData) flwRender();
 }
+function flwSetFreq(f, btn){
+  _flwFreq=f;
+  document.querySelectorAll('#flw-freq .itab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(_flwData) flwRender();
+}
+function flwSelect(tk){ _flwSel=tk; flwRender(); }
+function flwSort(k){
+  if(_flwSortKey===k){ _flwSortDir=-_flwSortDir; } else { _flwSortKey=k; _flwSortDir=-1; }
+  flwRender();
+}
+
 const _flwM = v => (v<0?'-':'+')+'$'+Math.abs(Math.round(v)).toLocaleString()+'M';
+const _flwB = v => (Math.abs(v)>=1000 ? (v/1000).toFixed(1)+'B' : Math.round(v)+'M');
 function _flwStart(){
   const d=new Date(_flwData.as_of+'T00:00:00Z');
   d.setUTCMonth(d.getUTCMonth()-_FLW_MONTHS[_flwPeriod]);
   return d.toISOString().slice(0,10);
 }
-// slice a [date,value] series to the window and return running totals
-function _flwCum(daily){
-  const s=_flwStart(), out=[]; let run=0;
-  for(const [d,v] of daily){ if(d>=s){ run+=v; out.push([d,run]); } }
+function _flwSlice(daily){ const s=_flwStart(); return daily.filter(r=>r[0]>=s); }
+// aggregate daily rows into ISO weeks when weekly is selected
+function _flwBucket(rows){
+  if(_flwFreq==='D') return rows.map(r=>[r[0],r[1]]);
+  const out=[]; let key=null, sum=0, label=null;
+  for(const [d,v] of rows){
+    const dt=new Date(d+'T00:00:00Z');
+    const wk=new Date(dt); wk.setUTCDate(dt.getUTCDate()-((dt.getUTCDay()+6)%7)); // Monday
+    const k=wk.toISOString().slice(0,10);
+    if(k!==key){ if(key!==null) out.push([label,sum]); key=k; label=k; sum=0; }
+    sum+=v;
+  }
+  if(key!==null) out.push([label,sum]);
   return out;
 }
-// line path + zero baseline, drawn into a viewBox
-function _flwPath(pts, w, h, pad){
-  if(!pts.length) return {d:'', zero:h/2, min:0, max:0};
-  const ys=pts.map(p=>p[1]);
-  let lo=Math.min(0,...ys), hi=Math.max(0,...ys);
+function _flwCum(rows){ let r=0; return rows.map(([d,v])=>{r+=v; return [d,r];}); }
+function _esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ---- bar chart: net flow per bucket ----
+function flwDrawBars(el, rows){
+  const W=1000,H=190,PL=46,PR=12,PT=10,PB=22;
+  el.setAttribute('viewBox','0 0 '+W+' '+H);
+  if(!rows.length){ el.innerHTML=''; return; }
+  const ys=rows.map(r=>r[1]);
+  let hi=Math.max(0,...ys), lo=Math.min(0,...ys);
   if(hi===lo){ hi=lo+1; }
-  const sx=(w-pad*2)/Math.max(1,pts.length-1);
-  const sy=v=>pad+(hi-v)/(hi-lo)*(h-pad*2);
-  const d=pts.map((p,i)=>(i?'L':'M')+(pad+i*sx).toFixed(1)+' '+sy(p[1]).toFixed(1)).join(' ');
-  const area=d+' L '+(pad+(pts.length-1)*sx).toFixed(1)+' '+sy(0).toFixed(1)+' L '+pad.toFixed(1)+' '+sy(0).toFixed(1)+' Z';
-  return {d, area, zero:sy(0), min:lo, max:hi, sx, sy, pad};
+  const pad=(hi-lo)*0.08; hi+=pad; lo-=pad;
+  const iw=W-PL-PR, ih=H-PT-PB;
+  const sy=v=>PT+(hi-v)/(hi-lo)*ih;
+  const bw=Math.max(1, iw/rows.length*0.72), step=iw/rows.length;
+  const zero=sy(0);
+  const bars=rows.map((r,i)=>{
+    const x=PL+i*step+(step-bw)/2, y=r[1]>=0?sy(r[1]):zero, h=Math.max(0.6,Math.abs(sy(r[1])-zero));
+    return '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+
+      '" fill="'+(r[1]>=0?'var(--green)':'var(--red)')+'" opacity="0.85"><title>'+r[0]+'  '+_flwM(r[1])+'</title></rect>';
+  }).join('');
+  const gy=[hi,(hi+lo)/2,lo].map(v=>
+    '<text x="'+(PL-6)+'" y="'+(sy(v)+3.5).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">'+_flwB(v)+'</text>'+
+    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(v).toFixed(1)+'" y2="'+sy(v).toFixed(1)+
+    '" stroke="var(--outline-dim)" stroke-width="1" stroke-dasharray="2 3"/>').join('');
+  const xi=[0,Math.floor(rows.length/2),rows.length-1].filter((v,i,a)=>a.indexOf(v)===i&&rows[v]);
+  const xl=xi.map(i=>'<text x="'+(PL+i*step+step/2).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
+    'text-anchor="'+(i===0?'start':i===rows.length-1?'end':'middle')+'">'+rows[i][0]+'</text>').join('');
+  el.innerHTML=gy+bars+
+    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+zero.toFixed(1)+'" y2="'+zero.toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+xl;
+}
+
+// ---- line chart: cumulative ----
+function flwDrawLine(el, rows){
+  const W=1000,H=170,PL=46,PR=12,PT=10,PB=22;
+  el.setAttribute('viewBox','0 0 '+W+' '+H);
+  if(!rows.length){ el.innerHTML=''; return; }
+  const ys=rows.map(r=>r[1]);
+  let hi=Math.max(0,...ys), lo=Math.min(0,...ys);
+  if(hi===lo){ hi=lo+1; }
+  const pad=(hi-lo)*0.08; hi+=pad; lo-=pad;
+  const iw=W-PL-PR, ih=H-PT-PB;
+  const sy=v=>PT+(hi-v)/(hi-lo)*ih;
+  const sx=i=>PL+(rows.length<2?iw/2:i*iw/(rows.length-1));
+  const last=rows[rows.length-1][1];
+  const col=last>=0?'var(--green)':'var(--red)';
+  const d=rows.map((r,i)=>(i?'L':'M')+sx(i).toFixed(1)+' '+sy(r[1]).toFixed(1)).join(' ');
+  const area=d+' L '+sx(rows.length-1).toFixed(1)+' '+sy(0).toFixed(1)+' L '+sx(0).toFixed(1)+' '+sy(0).toFixed(1)+' Z';
+  const gy=[hi,(hi+lo)/2,lo].map(v=>
+    '<text x="'+(PL-6)+'" y="'+(sy(v)+3.5).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">'+_flwB(v)+'</text>'+
+    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(v).toFixed(1)+'" y2="'+sy(v).toFixed(1)+
+    '" stroke="var(--outline-dim)" stroke-width="1" stroke-dasharray="2 3"/>').join('');
+  const xi=[0,Math.floor(rows.length/2),rows.length-1].filter((v,i,a)=>a.indexOf(v)===i&&rows[v]);
+  const xl=xi.map(i=>'<text x="'+sx(i).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
+    'text-anchor="'+(i===0?'start':i===rows.length-1?'end':'middle')+'">'+rows[i][0]+'</text>').join('');
+  el.innerHTML=gy+
+    '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+sy(0).toFixed(1)+'" y2="'+sy(0).toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+
+    '<path d="'+area+'" fill="'+col+'" opacity="0.10"/>'+
+    '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linejoin="round"/>'+
+    '<circle cx="'+sx(rows.length-1).toFixed(1)+'" cy="'+sy(last).toFixed(1)+'" r="4" fill="'+col+'"/>'+
+    '<text x="'+(sx(rows.length-1)-8).toFixed(1)+'" y="'+(sy(last)-9).toFixed(1)+'" font-size="12" font-weight="600" '+
+    'text-anchor="end" fill="'+col+'">'+_flwM(last)+'</text>'+xl;
 }
 
 function flwRender(){
   const D=_flwData, O=D.order;
-  document.getElementById('flw-sub').textContent =
-    '11 SPDR sector ETFs \u00b7 daily fund-flow bars \u00b7 as of '+D.as_of+' \u00b7 $ millions';
+  document.getElementById('flw-updated').textContent='Data as of '+D.as_of;
 
-  // ---- hero: net cumulative ----
-  const net=_flwCum(D.net.daily);
-  const W=1000,H=290,P=34;
-  const g=_flwPath(net,W,H,P);
-  const last=net.length?net[net.length-1][1]:0;
-  const peak=net.length?Math.max(...net.map(p=>p[1])):0;
-  const trough=net.length?Math.min(...net.map(p=>p[1])):0;
-  const col=last>=0?'var(--green)':'var(--red)';
-  const ticks=[g.max,(g.max+g.min)/2,g.min].map(v=>
-    '<text x="4" y="'+(g.sy(v)+3).toFixed(1)+'" font-size="11" fill="var(--text-muted)">'+
-    (Math.round(v/1000*10)/10)+'B</text>');
-  const xs=[0,Math.floor(net.length/2),net.length-1].filter(i=>i>=0&&net[i]);
-  const xlab=xs.map(i=>'<text x="'+(P+i*g.sx).toFixed(1)+'" y="'+(H-8)+'" font-size="11" '+
-    'text-anchor="'+(i===0?'start':i===net.length-1?'end':'middle')+'" fill="var(--text-muted)">'+net[i][0]+'</text>');
-  document.getElementById('flw-hero').setAttribute('viewBox','0 0 '+W+' '+H);
-  document.getElementById('flw-hero').innerHTML =
-    '<line x1="'+P+'" x2="'+(W-P)+'" y1="'+g.zero.toFixed(1)+'" y2="'+g.zero.toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+
-    '<path d="'+g.area+'" fill="'+col+'" opacity="0.10"/>'+
-    '<path d="'+g.d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linejoin="round"/>'+
-    '<circle cx="'+(P+(net.length-1)*g.sx).toFixed(1)+'" cy="'+g.sy(last).toFixed(1)+'" r="4" fill="'+col+'"/>'+
-    ticks.join('')+xlab.join('');
-  document.getElementById('flw-hero-legend').innerHTML =
-    'Running total of daily net flows across all 11 sectors over the selected window. '+
-    'Ends at <b>'+_flwM(last)+'</b> \u00b7 peak <b>'+_flwM(peak)+'</b> \u00b7 trough <b>'+_flwM(trough)+
-    '</b> \u00b7 <b>'+_flwM(last-peak)+'</b> from the peak.';
+  if(!_flwSel || O.indexOf(_flwSel)<0) _flwSel=O[0];
+  const sel=D.tickers[_flwSel];
+  const rows=_flwBucket(_flwSlice(sel.daily));
+  const cum=_flwCum(rows);
+  document.getElementById('flw-main-title').textContent=
+    _flwSel+' \u2014 '+sel.sector;
+  document.getElementById('flw-bars-label').textContent=
+    'Net flow '+(_flwFreq==='D'?'per day':'per week')+' ($M)';
+  flwDrawBars(document.getElementById('flw-bars'), rows);
+  flwDrawLine(document.getElementById('flw-line'), cum);
 
-  // ---- KPI row ----
-  const np=D.net.periods;
-  document.getElementById('flw-kpis').innerHTML=[
-    ['Net, selected window', _flwM(last), _flwPeriod+' \u00b7 all 11 sectors'],
-    ['Net 3M', _flwM(np['3M'].total), np['3M'].start+' to '+np['3M'].end],
-    ['Net 6M', _flwM(np['6M'].total), np['6M'].start+' to '+np['6M'].end],
-    ['Net 1Y', _flwM(np['1Y'].total), np['1Y'].start+' to '+np['1Y'].end],
-    ['From the peak', _flwM(last-peak), 'drawdown in cumulative flow']
-  ].map(k=>'<div class="stir-kpi"><div class="stir-kpi-label">'+k[0]+'</div>'+
-    '<div class="stir-kpi-value '+(k[1][0]==='-'?'flw-neg':'flw-pos')+'">'+k[1]+'</div>'+
-    '<div class="stir-kpi-sub">'+k[2]+'</div></div>').join('');
-
-  // ---- per-sector small multiples, ranked by window flow ----
-  const rows=O.map(tk=>{
-    const c=_flwCum(D.tickers[tk].daily);
+  // ---- sector cards, ranked by window flow ----
+  const cards=O.map(tk=>{
+    const c=_flwCum(_flwSlice(D.tickers[tk].daily));
     return {tk, sector:D.tickers[tk].sector, cum:c, end:c.length?c[c.length-1][1]:0};
   }).sort((a,b)=>b.end-a.end);
 
-  document.getElementById('flw-cards').innerHTML = rows.map(r=>{
-    const w=240,h=46,p=3,gg=_flwPath(r.cum,w,h,p);
+  document.getElementById('flw-cards').innerHTML=cards.map(r=>{
+    const w=240,h=44,ys=r.cum.map(p=>p[1]);
+    let hi=Math.max(0,...ys), lo=Math.min(0,...ys); if(hi===lo){hi=lo+1;}
+    const sy=v=>3+(hi-v)/(hi-lo)*(h-6);
+    const sx=i=>(r.cum.length<2?w/2:i*w/(r.cum.length-1));
+    const d=r.cum.map((p,i)=>(i?'L':'M')+sx(i).toFixed(1)+' '+sy(p[1]).toFixed(1)).join(' ');
     const c=r.end>=0?'var(--green)':'var(--red)';
-    return '<div class="flw-card"><div class="t"><span class="sym">'+r.tk+'</span>'+
+    return '<div class="flw-card'+(r.tk===_flwSel?' sel':'')+'" tabindex="0" role="button" '+
+      'aria-pressed="'+(r.tk===_flwSel)+'" onclick="flwSelect(\''+r.tk+'\')" '+
+      'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();flwSelect(\''+r.tk+'\');}">'+
+      '<div class="t"><span class="sym">'+r.tk+'</span>'+
       '<span class="val '+(r.end>=0?'flw-pos':'flw-neg')+'">'+_flwM(r.end)+'</span></div>'+
-      '<div class="sec">'+r.sector+'</div>'+
+      '<div class="sec">'+_esc(r.sector)+'</div>'+
       '<svg class="flw-spark" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" aria-hidden="true">'+
-      '<line x1="0" x2="'+w+'" y1="'+gg.zero.toFixed(1)+'" y2="'+gg.zero.toFixed(1)+'" stroke="var(--outline-dim)" stroke-width="1"/>'+
-      '<path d="'+gg.area+'" fill="'+c+'" opacity="0.12"/>'+
-      '<path d="'+gg.d+'" fill="none" stroke="'+c+'" stroke-width="1.6"/></svg></div>';
+      '<line x1="0" x2="'+w+'" y1="'+sy(0).toFixed(1)+'" y2="'+sy(0).toFixed(1)+'" stroke="var(--outline-dim)" stroke-width="1"/>'+
+      '<path d="'+d+'" fill="none" stroke="'+c+'" stroke-width="1.6"/></svg></div>';
   }).join('');
 
-  // ---- table ----
+  // ---- sortable summary table ----
+  const data=O.map(tk=>({tk, sector:D.tickers[tk].sector,
+    '3M':D.tickers[tk].periods['3M'].total,
+    '6M':D.tickers[tk].periods['6M'].total,
+    '1Y':D.tickers[tk].periods['1Y'].total}));
+  data.sort((a,b)=>{
+    const k=_flwSortKey;
+    const va=(k==='tk'||k==='sector')?a[k]:Number(a[k]);
+    const vb=(k==='tk'||k==='sector')?b[k]:Number(b[k]);
+    if(va<vb) return _flwSortDir; if(va>vb) return -_flwSortDir; return 0;
+  });
+  const arrow=k=>_flwSortKey===k?(_flwSortDir===-1?'\u25bc':'\u25b2'):'\u25c6';
+  const th=(k,label)=>'<th class="flw-sort'+(_flwSortKey===k?' on':'')+'" onclick="flwSort(\''+k+'\')" '+
+    'title="Sort by '+label+'">'+label+'<span class="ind">'+arrow(k)+'</span></th>';
   const cell=v=>'<td class="'+(v>=0?'flw-pos':'flw-neg')+'">'+_flwM(v)+'</td>';
-  document.getElementById('flw-table').innerHTML =
-    '<thead><tr><th>ETF</th><th>Sector</th><th>3M</th><th>6M</th><th>1Y</th>'+
-    '<th>Last 3M</th><th>Months 4-6</th><th>Months 7-12</th></tr></thead><tbody>'+
-    O.map(tk=>{const p=D.tickers[tk].periods,a=p['3M'].total,b=p['6M'].total,c=p['1Y'].total;
-      return '<tr><td><b>'+tk+'</b></td><td>'+D.tickers[tk].sector+'</td>'+
-        cell(a)+cell(b)+cell(c)+cell(a)+cell(b-a)+cell(c-b)+'</tr>';}).join('')+
-    (()=>{const a=np['3M'].total,b=np['6M'].total,c=np['1Y'].total;
-      return '<tr class="stir-terminal"><td><b>NET</b></td><td>all 11 sectors</td>'+
-        cell(a)+cell(b)+cell(c)+cell(a)+cell(b-a)+cell(c-b)+'</tr>';})()+
+  document.getElementById('flw-table').innerHTML=
+    '<thead><tr>'+th('tk','ETF')+th('sector','Sector')+th('3M','3M')+th('6M','6M')+th('1Y','1Y')+'</tr></thead><tbody>'+
+    data.map(r=>'<tr class="flw-row'+(r.tk===_flwSel?' sel':'')+'" onclick="flwSelect(\''+r.tk+'\')">'+
+      '<td><b>'+r.tk+'</b></td><td>'+_esc(r.sector)+'</td>'+
+      cell(r['3M'])+cell(r['6M'])+cell(r['1Y'])+'</tr>').join('')+
     '</tbody>';
-
-  // ---- provenance ----
-  const R=D.reconciliation;
-  document.getElementById('flw-recon').innerHTML =
-    'Daily bars read from the Fund Flows chart on <a href="'+D.source_url_pattern.replace('{TICKER}','XLY')+
-    '" target="_blank" rel="noopener">etfdb.com</a> ETF profile pages, scraped '+(D.scraped_at||'')+'. '+
-    'Values are net flow per trading day in $ millions; cumulative series are running sums computed here.<br>'+
-    '<b>Window rule:</b> '+D.window_rule+'<br>'+
-    '<b>Reconciliation:</b> summing the daily bars over each window reproduces etfdb\'s own printed 3M/6M/1Y totals across '+
-    R.checks+' checks, mean absolute error <b>$'+R.mean_abs_err+'M</b>, worst <b>$'+R.max_abs_err+'M</b>. '+
-    'Residuals are the site\'s display rounding to three significant figures, not a data discrepancy.';
 }
-
 let _riskLoaded = false;
 function riskInit(){
   if(_riskLoaded) return;
