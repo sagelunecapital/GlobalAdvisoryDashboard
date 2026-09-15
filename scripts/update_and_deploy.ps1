@@ -90,7 +90,8 @@ $dataFiles = @(
     "prototypes/cot_data.json",
     "prototypes/price_data.json",
     "prototypes/carry.json",
-    "prototypes/cross_asset.json"
+    "prototypes/cross_asset.json",
+    "prototypes/risk.json"
 )
 $changes = git diff --name-only -- $dataFiles
 if ($changes) {

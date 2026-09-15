@@ -126,6 +126,42 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .card{background:var(--surface-card);border:1px solid var(--outline-dim);border-radius:0;padding:20px;margin-bottom:14px}
 .card-header{font-size:var(--fs-lg);font-weight:600;color:var(--text);margin-bottom:14px;letter-spacing:0.1px;line-height:1.25}
 
+
+/* ── Risk Tab ── */
+.risk-stamp{font-size:var(--fs-xs);color:var(--text-muted);text-align:right;line-height:1.5}
+.risk-basis{display:inline-block;font-size:var(--fs-xs);font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  color:var(--text-dim);background:var(--surface-high);border:1px solid var(--outline);padding:3px 9px;margin-bottom:4px}
+.risk-meters{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.risk-mhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:7px}
+.risk-mbig{font-size:var(--fs-lg);font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+.risk-track{position:relative;height:24px;background:var(--surface-high);border:1px solid var(--outline-dim);overflow:hidden}
+.risk-fill{position:absolute;top:0;bottom:0;left:0}
+.risk-fill.f1{background:var(--green);z-index:3}
+.risk-fill.f2{background:rgba(18,161,80,0.42);z-index:2}
+.risk-fill.f3{background:rgba(0,122,255,0.22);z-index:1}
+.risk-ticks{display:flex;justify-content:space-between;margin-top:5px;font-size:var(--fs-xs);color:var(--text-muted);font-variant-numeric:tabular-nums}
+.risk-key{display:flex;flex-direction:column;gap:4px;margin-top:9px;font-size:var(--fs-xs);color:var(--text-dim)}
+.risk-key span{display:inline-flex;align-items:center;gap:6px}
+.risk-sw{width:10px;height:10px;flex:none}
+.risk-chip{display:inline-block;font-size:var(--fs-xs);font-weight:600;letter-spacing:.5px;padding:1px 7px;border:1px solid transparent}
+.risk-chip.ok{color:var(--green);background:rgba(18,161,80,0.10);border-color:rgba(18,161,80,0.40)}
+.risk-chip.wn{color:var(--amber);background:rgba(0,122,255,0.10);border-color:rgba(0,122,255,0.40)}
+.risk-chip.cr{color:var(--red);background:rgba(229,72,77,0.10);border-color:rgba(229,72,77,0.40)}
+.risk-pt{display:grid;grid-template-columns:46px 1fr 42px;gap:9px;align-items:center;margin-bottom:5px;font-size:var(--fs-xs)}
+.risk-ptbar{height:12px;background:var(--surface-high);border:1px solid var(--outline-dim);overflow:hidden}
+.risk-ptbar i{display:block;height:100%;background:rgba(0,122,255,0.55)}
+.risk-pt b{font-variant-numeric:tabular-nums;text-align:right;color:var(--text-dim)}
+.risk-news{border-left:2px solid var(--outline);padding-left:11px;margin-bottom:12px}
+.risk-news.hot{border-left-color:var(--amber)}
+.risk-news h4{margin:0 0 2px;font-size:var(--fs-base);font-weight:600;color:var(--text)}
+.risk-news p{margin:0;font-size:var(--fs-sm);color:var(--text-dim);line-height:1.5}
+.risk-news .src{font-size:var(--fs-xs);color:var(--text-muted);margin-top:3px}
+.risk-notes{margin:0;padding-left:16px;font-size:var(--fs-xs);color:var(--text-muted);line-height:1.6}
+.risk-notes li{margin-bottom:4px}
+.risk-scroll{overflow-x:auto}
+.risk-pos{color:var(--green)}.risk-neg{color:var(--red)}
+@media(max-width:820px){.risk-meters{grid-template-columns:1fr}}
+
 /* ── Inner tabs ── */
 .itabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
 .itab{padding:6px 16px;cursor:pointer;border:1px solid var(--outline-dim);border-radius:999px;color:var(--text-muted);font-size:var(--fs-sm);font-weight:500;background:transparent;font-family:inherit;transition:background 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease,box-shadow 180ms ease}
@@ -1375,13 +1411,11 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     <button class="nav-tab nav-sub" onclick="showMain('liquidity',this)"><span class="nav-ico">water_drop</span>Liquidity</button>
     <button class="nav-tab" onclick="showMain('execution',this)"><span class="nav-ico">candlestick_chart</span>Technicals</button>
     <button class="nav-tab nav-sub" onclick="showMain('breadth',this)"><span class="nav-ico">bar_chart</span>Breadth</button>
-    <button class="nav-tab nav-sub" onclick="showMain('leadership',this)"><span class="nav-ico">leaderboard</span>Leadership</button>
     <button class="nav-tab nav-sub" onclick="showMain('positioning',this)"><span class="nav-ico">swap_horiz</span>Positioning</button>
-    <button class="nav-tab" onclick="showMain('cross-asset',this)"><span class="nav-ico">hub</span>Cross Asset</button>
     <button class="nav-tab" onclick="showMain('research',this)"><span class="nav-ico">science</span>Research</button>
-    <button class="nav-tab nav-sub" onclick="showMain('screener',this)"><span class="nav-ico">filter_alt</span>Screener</button>
-    <button class="nav-tab" id="nav-resources" onclick="showMain('resources',this)"><span class="nav-ico">folder_open</span>Resources</button>
-    <button class="nav-tab" id="nav-journal" onclick="showMain('journal',this)"><span class="nav-ico">edit_note</span>Journal</button>
+    <button class="nav-tab" onclick="showMain('risk',this)"><span class="nav-ico">shield</span>Risk</button>
+    <!-- Archived from the sidebar 15 Sep 2026: Leadership, Cross Asset, Screener, Resources, Journal.
+         Panels and JS are untouched below; reach them via Ctrl+K or showMain('<id>'). -->
     <div class="side-spacer"></div>
     <button class="nav-tab nav-foot" onclick="gaCollapse()"><span class="nav-ico">left_panel_close</span>Collapse</button>
   </aside>
@@ -1495,6 +1529,79 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
 </div><!-- /macro panel -->
 
 <!-- ═══════════════════════════ CROSS-ASSET REGIMES TAB ═══════════════════════════ -->
+<!-- ═════════════════════════ RISK TAB ═════════════════════════ -->
+<div id="main-risk" class="main-panel">
+  <div class="exec-row" style="margin-bottom:18px;align-items:flex-start">
+    <div>
+      <div class="section-heading" style="margin:0">Morning Risk Board</div>
+      <div id="risk-sub" style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:3px"></div>
+    </div>
+    <div class="risk-stamp" id="risk-stamp"></div>
+  </div>
+
+  <div class="stir-kpi-row" id="risk-kpis"></div>
+
+  <div class="card">
+    <div class="card-header">Risk budgets</div>
+    <div class="risk-meters" id="risk-budgets"></div>
+    <div id="risk-budget-note" style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:16px;line-height:1.55"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Positions</div>
+    <div class="risk-scroll"><table class="stir-table" id="risk-positions"></table></div>
+    <div id="risk-conc" style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:12px;line-height:1.55"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Stops &mdash; probability of being hit</div>
+    <div class="risk-meters" id="risk-stops"></div>
+    <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:14px;line-height:1.55">
+      These are GTC orders with no expiry, so the useful measure is the chance of <em>touching</em> the level over a
+      holding period &mdash; not a one-day sigma, which would imply a near-impossible event.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Scenario shocks</div>
+    <div class="risk-scroll"><table class="stir-table" id="risk-scen"></table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">What a gas gap costs</div>
+    <div class="risk-scroll"><table class="stir-table" id="risk-slip"></table></div>
+    <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:12px;line-height:1.55">
+      A &minus;20% gas move most likely arrives as a gap &mdash; a storage surprise, a weather-model flip, an LNG outage.
+      In that case the stop's protection falls toward zero. Plan for the bottom row.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">What the 6% budget permits in gross exposure</div>
+    <div class="risk-scroll"><table class="stir-table" id="risk-gross"></table></div>
+    <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:12px;line-height:1.55">
+      Leeway arrives mechanically: tighten stops and permitted gross rises; widen them and it falls. Winners that trail
+      their stops up release budget with no exception to approve. A gross cap is still needed for the gap case, where a
+      stop does not bind &mdash; currently <strong>not configured</strong>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Limit rulings</div>
+    <div class="risk-scroll"><table class="stir-table" id="risk-limits"></table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Overnight</div>
+    <div id="risk-news"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Method, assumptions and blind spots</div>
+    <ul class="risk-notes" id="risk-notes"></ul>
+  </div>
+</div>
+
 <div id="main-cross-asset" class="main-panel">
 
   <div class="ca-pagehead">
@@ -2843,6 +2950,8 @@ function syncTacticsHeight() {
 function openResource(id){ showMain(id, document.getElementById('nav-resources')); }
 function showMain(id, btn) {
   if((id==='journal'||id==='warsh'||id==='yen'||id==='resources'||id==='cross-asset') && !gaLoggedIn()){ leadLogin(); return; }  // private tabs — login required
+  // Risk carries live position data: gated when served, open for local preview where /api/edit-auth does not exist.
+  if(id==='risk' && !gaLoggedIn() && !gaIsLocal()){ leadLogin(); return; }
   document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('main-'+id).classList.add('active');
@@ -2852,6 +2961,7 @@ function showMain(id, btn) {
   if (id === 'screener') scrInit();
   if (id === 'journal')  jrnlInit();
   if (id === 'leadership') leadInit();
+  if (id === 'risk')     riskInit();
   // Re-render this tab's charts at the now-visible container width (fixes letterboxing)
   if (window._redraw[id]) { try{ window._redraw[id](); }catch(e){} }
 }
@@ -4356,6 +4466,152 @@ function renderSrQuadrant(){
   });
 }
 
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 Risk Board \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// Reads risk.json. Every figure is measured against the fixed $300,000 notional
+// mandate - never account equity. Regenerate with scripts/gen_risk_json.py.
+let _riskLoaded = false;
+function riskInit(){
+  if(_riskLoaded) return;
+  _riskLoaded = true;
+  fetch('risk.json?_='+Date.now())
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(riskRender)
+    .catch(e=>{
+      _riskLoaded = false;
+      const k=document.getElementById('risk-kpis');
+      if(k) k.innerHTML='<div style="color:var(--text-muted);font-size:var(--fs-sm)">risk.json not available ('+e+'). Regenerate it, then reopen this tab.</div>';
+    });
+}
+const _rM = v => (v<0?'-':'')+'$'+Math.abs(Math.round(v)).toLocaleString();
+const _rP = v => (v*100).toFixed(1)+'%';
+function _rRule(used){ return used>1 ? ['cr','BREACH'] : (used>=0.9 ? ['wn','NEAR'] : ['ok','WITHIN']); }
+
+function riskRender(d){
+  const t=d.totals, L=d.limits;
+
+  document.getElementById('risk-sub').textContent =
+    d.positions.length+' positions, long only \u00b7 '+t.themes_live+' theme live \u00b7 '+
+    'budgets support '+t.themes_supported.toFixed(0)+' themes at full risk';
+  document.getElementById('risk-stamp').innerHTML =
+    '<div class="risk-basis">NAV basis '+_rM(d.nav)+'</div><div>Export pulled <b>'+d.export_pulled+
+    '</b> \u00b7 '+d.source+'<br>Vol window '+d.vol_window+'</div>';
+
+  // KPI row
+  const [tc,tl]=_rRule(t.theme_used), [pc,pl]=_rRule(t.portfolio_used);
+  document.getElementById('risk-kpis').innerHTML = [
+    ['Gross exposure',_rP(t.gross_pct),_rM(t.gross)+' \u00b7 net +'+_rP(t.net_pct)+', no shorts'],
+    ['If all stops fill',_rM(t.stop_total),_rP(t.stop_pct)+' of NAV \u00b7 clean fills only'],
+    ['Theme budget used',_rP(t.theme_used),'2% limit = '+_rM(L.theme_abs)+' <span class="risk-chip '+tc+'">'+tl+'</span>'],
+    ['Portfolio budget used',_rP(t.portfolio_used),'6% limit = '+_rM(L.portfolio_abs)+' <span class="risk-chip '+pc+'">'+pl+'</span>'],
+    ['Open P&L',(t.unreal>=0?'+':'')+_rM(t.unreal),'today '+(t.daily>=0?'+':'')+_rM(t.daily)]
+  ].map(k=>'<div class="stir-kpi"><div class="stir-kpi-label">'+k[0]+'</div><div class="stir-kpi-value">'+k[1]+'</div><div class="stir-kpi-sub">'+k[2]+'</div></div>').join('');
+
+  // Budget meters
+  const meter=(title,budget,used,usedGap,usedVar)=>
+    '<div><div class="stir-kpi-label" style="margin-bottom:7px">'+title+'</div>'+
+    '<div class="risk-mhead"><div><span class="risk-mbig">'+_rM(t.stop_total)+'</span> '+
+      '<span style="color:var(--text-muted);font-size:var(--fs-sm)">of '+_rM(budget)+'</span></div>'+
+      '<div style="font-size:var(--fs-sm);color:var(--text-dim)">'+_rP(1-used)+' unused</div></div>'+
+    '<div class="risk-track">'+
+      '<div class="risk-fill f3" style="width:'+Math.min(100,usedGap*100)+'%"></div>'+
+      '<div class="risk-fill f2" style="width:'+Math.min(100,used*100)+'%"></div>'+
+      '<div class="risk-fill f1" style="width:'+Math.min(100,usedVar*100)+'%"></div></div>'+
+    '<div class="risk-ticks"><span>$0</span><span>'+_rM(budget/2)+'</span><span>'+_rM(budget)+' limit</span></div>'+
+    '<div class="risk-key">'+
+      '<span><i class="risk-sw" style="background:var(--green)"></i> VaR 99% &mdash; '+_rM(t.var99)+' \u00b7 '+_rP(usedVar)+'</span>'+
+      '<span><i class="risk-sw" style="background:rgba(18,161,80,0.42)"></i> All stops fill cleanly &mdash; '+_rM(t.stop_total)+' \u00b7 '+_rP(used)+'</span>'+
+      '<span><i class="risk-sw" style="background:rgba(0,122,255,0.22)"></i> Gas gap, stop gives nothing &mdash; '+_rM(t.gap_total)+' \u00b7 '+_rP(usedGap)+'</span>'+
+    '</div></div>';
+  document.getElementById('risk-budgets').innerHTML =
+    meter('Theme \u2014 Energy', L.theme_abs, t.theme_used, t.theme_used_gap, t.theme_used_var99) +
+    meter('Whole portfolio', L.portfolio_abs, t.portfolio_used, t.portfolio_used_gap, t.portfolio_used_var99);
+  document.getElementById('risk-budget-note').innerHTML =
+    'A '+_rP(L.theme_pct)+' theme cap inside a '+_rP(L.portfolio_pct)+' portfolio cap means the book is designed to carry <b>'+
+    t.themes_supported.toFixed(0)+' themes at full risk</b>. '+t.themes_live+' is live today, so both meters track the same '+
+    _rM(t.stop_total)+' against different denominators \u2014 the theme limit is the binding one.';
+
+  // Positions
+  document.getElementById('risk-positions').innerHTML =
+    '<thead><tr><th>Instrument</th><th>Theme</th><th>Qty</th><th>Price</th><th>Value</th><th>% NAV</th>'+
+    '<th>% book</th><th>Variance</th><th>Daily</th><th>Open P&L</th><th>Vol</th></tr></thead><tbody>'+
+    d.positions.map(p=>'<tr><td><b>'+p.sym+'</b> <span style="color:var(--text-muted)">'+p.sub+'</span></td><td>'+p.theme+'</td>'+
+      '<td>'+p.qty.toLocaleString()+'</td><td>$'+p.px.toFixed(2)+'</td><td>'+_rM(p.mv)+'</td><td>'+_rP(p.pct_nav)+'</td>'+
+      '<td>'+_rP(p.pct_book)+'</td><td>'+_rP(p.var_share)+'</td>'+
+      '<td class="'+(p.daily>=0?'risk-pos':'risk-neg')+'">'+(p.daily>=0?'+':'')+_rM(p.daily)+'</td>'+
+      '<td class="'+(p.unreal>=0?'risk-pos':'risk-neg')+'">'+(p.unreal>=0?'+':'')+_rM(p.unreal)+'</td>'+
+      '<td>'+(p.vol_d*100).toFixed(2)+'%</td></tr>').join('')+
+    '<tr class="stir-terminal"><td>Book total</td><td>'+t.themes_live+' theme</td><td>\u2014</td><td>\u2014</td><td>'+_rM(t.gross)+'</td>'+
+    '<td>'+_rP(t.gross_pct)+'</td><td>100.0%</td><td>100.0%</td>'+
+    '<td class="risk-pos">+'+_rM(t.daily)+'</td><td class="risk-pos">+'+_rM(t.unreal)+'</td><td>\u2014</td></tr></tbody>';
+
+  const top=d.positions.slice().sort((a,b)=>b.var_share-a.var_share)[0];
+  document.getElementById('risk-conc').innerHTML =
+    '<b>'+top.sym+' is '+_rP(top.pct_book)+' of the book by value and '+_rP(top.var_share)+' of its variance.</b> '+
+    'Setting the correlation between holdings to 1.0 \u2014 no diversification whatever \u2014 moves 99% VaR only from '+
+    _rM(t.var99)+' to $1,104. The entire diversification benefit is $108, so risk this as a single exposure with a satellite.';
+
+  // Stops - probability of touch
+  document.getElementById('risk-stops').innerHTML = d.positions.map(p=>{
+    const bar=(lab,v)=>'<div class="risk-pt"><span style="color:var(--text-muted)">'+lab+'</span>'+
+      '<span class="risk-ptbar"><i style="width:'+(v*100)+'%"></i></span><b>'+Math.round(v*100)+'%</b></div>';
+    return '<div><div class="stir-kpi-label" style="margin-bottom:7px">'+p.sym+' \u2014 stop $'+p.stop.toFixed(2)+
+      ', '+_rP(p.stop_dist)+' below mark</div>'+bar('5 days',p.p5)+bar('21 days',p.p21)+bar('63 days',p.p63)+
+      '<div style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:8px;line-height:1.5">'+
+      _rM(p.stop_risk)+' at risk \u00b7 '+_rP(p.theme_used)+' of the theme budget \u00b7 '+p.atr_mult.toFixed(1)+'\u00d7 ATR<br>'+
+      'If filled: <b class="'+(p.stop_vs_cost>=0?'risk-pos':'risk-neg')+'">'+(p.stop_vs_cost>=0?'+':'')+_rM(p.stop_vs_cost)+
+      '</b> against cost $'+p.avg.toFixed(2)+' \u00b7 headroom '+p.headroom.toFixed(1)+'\u00d7</div></div>';
+  }).join('');
+
+  // Scenarios
+  document.getElementById('risk-scen').innerHTML =
+    '<thead><tr><th>Scenario</th><th>Ignoring stops</th><th>Clean fills</th><th>Gap case</th><th>% NAV</th><th>Theme budget</th><th>Stop triggered</th></tr></thead><tbody>'+
+    d.scenarios.map(s=>'<tr><td>'+s.name+'</td>'+
+      '<td>'+(s.naive==null?'\u2014':_rM(s.naive))+'</td>'+
+      '<td class="risk-neg">'+_rM(s.stopped)+'</td>'+
+      '<td>'+(s.gap==null?'\u2014':_rM(s.gap))+'</td>'+
+      '<td>'+(Math.abs(s.stopped)/d.nav*100).toFixed(2)+'%</td>'+
+      '<td>'+_rP(Math.abs(s.stopped)/L.theme_abs)+'</td>'+
+      '<td>'+(s.trigger?'<span class="risk-chip wn">'+s.trigger+'</span>':'<span class="risk-chip ok">none</span>')+'</td></tr>').join('')+
+    '</tbody>';
+
+  // Slippage ladder
+  document.getElementById('risk-slip').innerHTML =
+    '<thead><tr><th>Fill relative to the stop</th><th>UNG loss</th><th>Total</th><th>% NAV</th><th>Theme budget</th><th>Portfolio budget</th></tr></thead><tbody>'+
+    d.slippage.map((s,i)=>'<tr'+(i===d.slippage.length-1?' class="stir-terminal"':'')+'><td>'+s.label+'</td>'+
+      '<td>'+_rM(s.ung)+'</td><td class="risk-neg">'+_rM(s.total)+'</td>'+
+      '<td>'+(Math.abs(s.total)/d.nav*100).toFixed(2)+'%</td>'+
+      '<td>'+_rP(Math.abs(s.total)/L.theme_abs)+'</td>'+
+      '<td>'+_rP(Math.abs(s.total)/L.portfolio_abs)+'</td></tr>').join('')+'</tbody>';
+
+  // Gross permitted by stop discipline
+  document.getElementById('risk-gross').innerHTML =
+    '<thead><tr><th>If every stop sits</th><th>Max gross notional</th><th>% of NAV</th><th>Posture</th></tr></thead><tbody>'+
+    d.gross_permitted.map(g=>'<tr><td>'+(g.stop*100).toFixed(1)+'% below entry</td><td>'+_rM(g.gross)+'</td>'+
+      '<td>'+Math.round(g.gross/d.nav*100)+'%</td><td style="color:var(--text-muted)">'+g.note+'</td></tr>').join('')+
+    '<tr class="stir-terminal"><td>Today \u2014 '+_rM(t.stop_total)+' of defined risk</td><td>'+_rM(t.gross)+'</td>'+
+    '<td>'+_rP(t.gross_pct)+'</td><td>'+_rP(t.portfolio_used)+' of the portfolio budget</td></tr></tbody>';
+
+  // Limit rulings
+  document.getElementById('risk-limits').innerHTML =
+    '<thead><tr><th>Limit</th><th>Budget</th><th>Current</th><th>Used</th><th>Ruling</th></tr></thead><tbody>'+
+    d.limit_rows.map(r=>{const u=r.cur/r.budget,[c,l]=_rRule(u);
+      return '<tr><td>'+r.name+'</td><td>'+_rM(r.budget)+'</td><td>'+_rM(r.cur)+'</td><td>'+_rP(u)+
+      '</td><td><span class="risk-chip '+c+'">'+l+'</span></td></tr>';}).join('')+
+    d.not_configured.map(n=>'<tr><td>'+n+'</td><td>not set</td><td>\u2014</td><td>\u2014</td>'+
+      '<td><span class="risk-chip wn">NOT CONFIGURED</span></td></tr>').join('')+'</tbody>';
+
+  // Overnight news
+  document.getElementById('risk-news').innerHTML = d.news.map(n=>
+    '<div class="risk-news'+(n.hot?' hot':'')+'"><h4>'+n.title+'</h4><p>'+n.body+'</p>'+
+    '<div class="src">'+n.src+' \u00b7 affects <b>'+n.affects+'</b></div></div>').join('');
+
+  // Method notes
+  document.getElementById('risk-notes').innerHTML =
+    d.notes.map(n=>'<li>'+n+'</li>').join('') +
+    '<li>Excluded: '+d.excluded.sym+' ('+d.excluded.qty.toLocaleString()+' shares, '+_rM(d.excluded.mv)+'). '+d.excluded.reason+'</li>';
+}
+
 // ══════════════════════ Industry Leadership ══════════════════════
 const LEAD_CATS=[
   {key:'lostGround', label:'Lost Ground', color:'#f85149'},
@@ -4374,6 +4630,8 @@ const LEAD_EDIT=false;
 let leadData={snapshots:{},saved_at:''};
 let leadDate=null,leadCanEdit=false,gaRole='guest',_leadSaveTimer=null,_leadInit=false,_leadOpenDd=null,_leadDdQuery='',_leadDragName=null,_leadDocBound=false,_leadTkMap=null,_leadNetMode=false;
 function gaLoggedIn(){return gaRole==='editor'||gaRole==='viewer';}
+// True when the page is opened locally rather than from the deployed site.
+function gaIsLocal(){var n=location.hostname;return location.protocol==='file:'||n==='localhost'||n==='127.0.0.1'||n==='[::1]'||n==='';}
 // Headers for write endpoints — carries the editor credentials the server checks.
 function gaEditHeaders(){
   return {'Content-Type':'application/json',
@@ -6964,7 +7222,9 @@ const GA_TABS=[
  {id:'macro',label:'Macro',ico:'insights'},{id:'growth',label:'Growth',ico:'trending_up'},
  {id:'inflation',label:'Inflation',ico:'thermostat'},{id:'stir',label:'Yields',ico:'show_chart'},
  {id:'liquidity',label:'Liquidity',ico:'water_drop'},{id:'warsh',label:'Warsh Playbook',ico:'menu_book'},{id:'yen',label:'Yen Carry Trade',ico:'currency_yen'},{id:'execution',label:'Technicals',ico:'candlestick_chart'},
+ {id:'risk',label:'Risk',ico:'shield'},
  {id:'breadth',label:'Breadth',ico:'bar_chart'},{id:'leadership',label:'Leadership',ico:'leaderboard'},{id:'positioning',label:'Positioning',ico:'swap_horiz'},
+ {id:'cross-asset',label:'Cross Asset',ico:'hub'},{id:'resources',label:'Resources',ico:'folder_open'},
  {id:'research',label:'Research',ico:'science'},{id:'screener',label:'Screener',ico:'filter_alt'},
  {id:'journal',label:'Journal',ico:'edit_note'}];
 let _gaSel=0,_gaFiltered=GA_TABS;
