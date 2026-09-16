@@ -3221,7 +3221,6 @@ function addLine(ns, svg, pts, xOf, yOf, color, dash) {
 
 function drawChart(wrapId, ttId, dates, values, color, fmt, vH, dFmt) {
   vH = vH || 170;
-  const _df = dFmt || fmtDateShort;
   const wrap=document.getElementById(wrapId); if(!wrap) return;
   wrap.querySelector('svg')?.remove();
   const VW=wrap.clientWidth||FALLBACK_VW;
@@ -3230,6 +3229,8 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH, dFmt) {
   const iW=VW-pad.l-pad.r, iH=vH-pad.t-pad.b;
   const pts=dates.map((d,i)=>({d,v:values[i]})).filter(p=>p.v!==null);
   if(!pts.length) return;
+  // after pts exists: a const cannot be read from its own dead zone
+  const _df = dFmt || fmtDateTip(pts.map(p=>p.d));
   const vMin=Math.min(...pts.map(p=>p.v)), vMax=Math.max(...pts.map(p=>p.v)), vR=vMax-vMin||1;
   const xOf=i=>pad.l+(i/(pts.length-1))*iW;
   const yOf=v=>pad.t+(1-(v-vMin)/vR)*iH;
@@ -3345,7 +3346,7 @@ function drawMulti(wrapId, ttId, dates, seriesDefs, vH, legId) {
     tt.style.display='block';
     tt.style.left=Math.min(cx*sx+12,r.width-200)+'px';
     tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
-    tt.innerHTML='<strong>'+fmtDateShort(row.d)+'</strong><br>'+
+    tt.innerHTML='<strong>'+fmtDateTip(aligned.map(r=>r.d))(row.d)+'</strong><br>'+
       seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(2)}%`).join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
@@ -3440,7 +3441,7 @@ function drawDualAxis(wrapId, ttId, dates, seriesDefs, vH) {
     tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
     const lLines=seriesDefs.filter(s=>!s.rightAxis).map(s=>{const si=seriesDefs.indexOf(s);return`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(1)}%`;});
     const rLines=seriesDefs.filter(s=>s.rightAxis).map(s=>{const si=seriesDefs.indexOf(s);return`<span style="color:${s.color}">&#9632;</span> ${s.label} (RHS): ${row.vs[si].toFixed(1)}%`;});
-    tt.innerHTML='<strong>'+fmtDateShort(row.d)+'</strong><br>'+[...lLines,...rLines].join('<br>');
+    tt.innerHTML='<strong>'+fmtDateTip(aligned.map(r=>r.d))(row.d)+'</strong><br>'+[...lLines,...rLines].join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
@@ -3810,7 +3811,7 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
     let beTxt='';
     if(R.length){let bi=0,bb=Infinity;R.forEach((q,i)=>{const dd=Math.abs(q.t-p.t);if(dd<bb){bb=dd;bi=i;}});beTxt='<br><span style="color:'+BE+'">&#9632;</span> Breakeven Inflation (RHS): '+R[bi].v.toFixed(2)+'%';}
     tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-200)+'px';tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
-    tt.innerHTML='<strong>'+fmtDateShort(p.raw)+'</strong><br><span style="color:'+BLUE+'">&#9632;</span> YoY: '+p.v.toFixed(2)+'%'+beTxt;
+    tt.innerHTML='<strong>'+fmtDateTip(L.map(q=>q.raw))(p.raw)+'</strong><br><span style="color:'+BLUE+'">&#9632;</span> YoY: '+p.v.toFixed(2)+'%'+beTxt;
   });
   ov.addEventListener('mouseleave',()=>{dotL.setAttribute('display','none');cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
@@ -3922,7 +3923,7 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
     tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-210)+'px';
     tt.style.top=Math.max(e.clientY-r.top-10,2)+'px';
     const lines=seriesDefs.map((s,si)=>`<span style="color:${s.color}">&#9632;</span> ${s.label}: ${row.vs[si].toFixed(1)}%`);
-    tt.innerHTML='<strong>'+fmtDateShort(row.d)+'</strong><br>'+lines.join('<br>');
+    tt.innerHTML='<strong>'+fmtDateTip(aligned.map(r=>r.d))(row.d)+'</strong><br>'+lines.join('<br>');
   });
   ov.addEventListener('mouseleave',()=>{dots.forEach(d=>d.setAttribute('display','none'));cur.setAttribute('display','none');tt.style.display='none';});
   wrap.appendChild(svg);
@@ -3957,7 +3958,30 @@ function dDates(yr,mo,targetN){
   while(d.length<targetN){const day=dt.getDay();if(day!==0&&day!==6)d.push(new Date(dt));dt.setDate(dt.getDate()+1);}
   return d;
 }
-function fmtDateShort(d){return d.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
+// Month + year: "Aug 2026". Accepts a Date or a 'YYYY-MM-DD' string, and reads
+// LOCAL components so a local-midnight date is not dragged back a day by UTC.
+function fmtDateShort(d){
+  if(!d) return '';
+  let y,m;
+  if(d instanceof Date){ y=d.getFullYear(); m=d.getMonth(); }
+  else{ const p=String(d).slice(0,10).split('-'); y=+p[0]; m=(+p[1])-1; }
+  if(isNaN(y)||isNaN(m)) return '';
+  return _MONTHS[m]+' '+y;
+}
+// A series whose every point lands on the 1st is monthly. Tooltips on one of
+// those name the month only - a monthly release did not happen on the 1st, and
+// printing a day would invent precision the data does not carry.
+function gaIsMonthly(arr){
+  if(!arr||arr.length<2) return false;
+  for(let i=0;i<arr.length;i++){
+    const x=arr[i];
+    const dd=(x instanceof Date)?x.getDate():(+String(x).slice(0,10).split('-')[2]||0);
+    if(dd!==1&&dd!==0) return false;
+  }
+  return true;
+}
+// Tooltips get the full date wherever a day means something.
+function fmtDateTip(arr){ return gaIsMonthly(arr) ? fmtDateShort : fmtDate; }
 
 function mAvg(arr,w){return arr.map((_,i)=>{if(i<w-1)return null;let s=0;for(let j=i-w+1;j<=i;j++)s+=arr[j];return s/w;});}
 function yoyPct(arr){return arr.map((v,i)=>i<12?null:((v-arr[i-12])/Math.abs(arr[i-12]))*100);}
@@ -4632,10 +4656,7 @@ function gaStampThrough(elId, dateArr, valueArr){
   }
   // A series whose points all land on the 1st is monthly; naming a day on it
   // would imply a precision the release does not have.
-  const dayOf=x=>(x instanceof Date)?x.getDate():(+String(x).split('-')[2]||0);
-  let monthly=dateArr.length>1;
-  for(let k=0;k<dateArr.length;k++){ const dd=dayOf(dateArr[k]);
-    if(dd!==1&&dd!==0){ monthly=false; break; } }
+  const monthly=gaIsMonthly(dateArr);
   const p=String(d).split('-');
   const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   el.textContent='data through '+(
@@ -6905,7 +6926,7 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');
     lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');
-    lb.textContent=fmtDateYear(aligned[i].d,_rMs);svg.appendChild(lb);
+    lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
   });
   const z=document.createElementNS(ns,'line');   // zero line == the period peak
   z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
@@ -7024,7 +7045,7 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
     if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateYear(aligned[i].d,_rMs);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
   });
   // Zero line for net positions
   if(netMin<0&&netMax>0){
@@ -7132,7 +7153,7 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
     if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateYear(aligned[i].d,_rMs);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -7225,7 +7246,7 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
     if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateYear(pts[i].d,_rMs);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(pts[i].d);svg.appendChild(lb);
   });
   addLine(ns,svg,pts.map(p=>p.v),xOf,yOf,'#22d3ee',null);
   const dot=document.createElementNS(ns,'circle');
