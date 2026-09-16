@@ -179,6 +179,11 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .flw-card .val{font-size:var(--fs-md);font-weight:600;font-variant-numeric:tabular-nums}
 .flw-spark{width:100%;height:64px;display:block;margin-top:10px}
 .flw-pos{color:var(--green)}.flw-neg{color:var(--red)}
+/* .stir-table td sets color:var(--text-dim) at specificity (0,1,1), which beat
+   the bare .flw-pos/.flw-neg classes (0,1,0) - so the flow table rendered every
+   figure dim grey and the sign was invisible. Qualify by td to outrank it. */
+.stir-table td.flw-pos{color:var(--green);font-weight:600}
+.stir-table td.flw-neg{color:var(--red);font-weight:600}
 .flw-chartwrap{position:relative;width:100%}
 .flw-combo{width:100%;height:350px;display:block}
 .flw-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--text-muted);
