@@ -1593,6 +1593,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
       </div>
     </div>
     <div class="flw-legend" id="flw-legend"></div>
+    <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>Net</span><span style="color:var(--text);font-weight:600">Cumulative</span></div>
     <div class="flw-chartwrap" id="flw-wrap">
       <svg class="flw-combo" id="flw-combo" role="img" aria-label="Net fund flow and cumulative flow"></svg>
       <div class="flw-tip" id="flw-tip" hidden></div>
@@ -4556,7 +4557,7 @@ function renderSrQuadrant(){
 // Daily bars scraped from etfdb's Fund Flows chart; cumulative derived here.
 // Regenerate with scripts/scrape_etf_flows.py then scripts/gen_etf_flows.py.
 let _flwData = null, _flwPeriod = '6M', _flwFreq = 'D', _flwSel = null;
-let _flwSortKey = '6M', _flwSortDir = -1;
+let [_flwSortKey, _flwSortDir] = gaSortLoad('gaai-flw-sort', '6M', -1);
 const _FLW_MONTHS = {'3M': 3, '6M': 6, '1Y': 12};
 
 function flowsInit(){
@@ -4582,8 +4583,39 @@ function flwSetFreq(f, btn){
   if(_flwData) flwRender();
 }
 function flwSelect(tk){ _flwSel=tk; flwRender(); }
+// ── Shared sort contract (the Research tab's behaviour, used by every table) ──
+// dir -1 = descending, +1 = ascending. Blanks sort last whichever way the column
+// points, so a missing value never masquerades as zero. Text uses localeCompare.
+function gaSortCmp(av, bv, dir){
+  const blank = v => v===null || v===undefined || v==='' ||
+                     (typeof v==='number' && !isFinite(v));
+  const na=blank(av), nb=blank(bv);
+  if(na&&nb) return 0;
+  if(na) return 1;
+  if(nb) return -1;
+  if(typeof av==='string' || typeof bv==='string')
+    return dir * String(av).localeCompare(String(bv));
+  return dir * (av<bv ? -1 : av>bv ? 1 : 0);
+}
+// First click on a fresh column: numbers open biggest-first, text opens A-Z -
+// the same pairing the Research tab's Performance and Name options use.
+function gaSortDefaultDir(isText){ return isText ? 1 : -1; }
+function gaSortSave(key, col, dir){
+  try{ localStorage.setItem(key, col+':'+dir); }catch(e){}
+}
+function gaSortLoad(key, fallbackCol, fallbackDir){
+  try{
+    const p=(localStorage.getItem(key)||'').split(':');
+    if(p.length===2 && p[0]) return [p[0], Number(p[1])===1?1:-1];
+  }catch(e){}
+  return [fallbackCol, fallbackDir];
+}
+
 function flwSort(k){
-  if(_flwSortKey===k){ _flwSortDir=-_flwSortDir; } else { _flwSortKey=k; _flwSortDir=-1; }
+  const txt=(k==='tk'||k==='sector');
+  if(_flwSortKey===k){ _flwSortDir=-_flwSortDir; }
+  else { _flwSortKey=k; _flwSortDir=gaSortDefaultDir(txt); }
+  gaSortSave('gaai-flw-sort', _flwSortKey, _flwSortDir);
   flwRender();
 }
 
@@ -4640,18 +4672,22 @@ function flwDrawCombo(){
   if(cHi===cLo) cHi = cLo + 1;
   bHi *= 1.10; bLo *= 1.10; cHi *= 1.10; cLo *= 1.10;
 
-  // common zero fraction: the larger of the two "share of height above zero"
-  const zb = bHi/(bHi-bLo), zc = cHi/(cHi-cLo);
-  const z = Math.min(0.92, Math.max(0.08, Math.max(zb, zc)));
+  // Zero pinned to the middle, so inflow and outflow read symmetrically and the
+  // eye can compare a month above the line with a month below it directly.
+  const z = 0.5;
   const zeroY = PT + z*ih;
   const up = z*ih, dn = (1-z)*ih;
-  const kBar = Math.min(bHi>0 ? up/bHi : Infinity, bLo<0 ? dn/(-bLo) : Infinity);
-  const kCum = Math.min(cHi>0 ? up/cHi : Infinity, cLo<0 ? dn/(-cLo) : Infinity);
+  // One scale factor per series, taken from its larger side: a -$50M bar is then
+  // exactly as long as a +$50M bar.
+  const bMax = Math.max(bHi, -bLo) || 1;
+  const cMax = Math.max(cHi, -cLo) || 1;
+  const kBar = up/bMax;
+  const kCum = up/cMax;
   const yBar = v => zeroY - v*kBar;
   const yCum = v => zeroY - v*kCum;
 
   const step = iw/bars.length;
-  const bw = Math.max(1, step*0.72);
+  const bw = Math.max(1, step*0.90);
   const xAt = i => PL + i*step + step/2;
 
   // gridlines + dual axis ticks, each labelled in its own series colour
@@ -4787,10 +4823,9 @@ function flwRender(){
     '6M':D.tickers[tk].periods['6M'].total,
     '1Y':D.tickers[tk].periods['1Y'].total}));
   data.sort((a,b)=>{
-    const k=_flwSortKey;
-    const va=(k==='tk'||k==='sector')?a[k]:Number(a[k]);
-    const vb=(k==='tk'||k==='sector')?b[k]:Number(b[k]);
-    if(va<vb) return _flwSortDir; if(va>vb) return -_flwSortDir; return 0;
+    const k=_flwSortKey, txt=(k==='tk'||k==='sector');
+    const cast=v=>txt ? v : ((v===null||v===undefined||v==='') ? null : Number(v));
+    return gaSortCmp(cast(a[k]), cast(b[k]), _flwSortDir);
   });
   const arrow=k=>_flwSortKey===k?(_flwSortDir===-1?'\u25bc':'\u25b2'):'\u25c6';
   const th=(k,label)=>'<th class="flw-sort'+(_flwSortKey===k?' on':'')+'" onclick="flwSort(\''+k+'\')" '+
@@ -6198,7 +6233,8 @@ function openRp(id,editMode){
   editMode=!!editMode;
   const s=researchSectors.find(x=>x.id===id);
   if(!s) return;
-  currentRpId=id; rpSortCol='perf_ytd'; rpSortDir=-1;
+  currentRpId=id;
+  [rpSortCol, rpSortDir] = gaSortLoad('gaai-rp-sort', 'perf_ytd', -1);
   document.querySelector('.layout').style.display='none';
   const rp=document.getElementById('research-page');
   rp.style.display='block';
@@ -6211,8 +6247,8 @@ function openRp(id,editMode){
   document.getElementById('rp-tickers-edit').value=s.tickers||'';
   document.getElementById('rp-edit-btn').textContent=editMode?'Save':'Edit';
   document.querySelectorAll('.rp-table th').forEach(h=>h.classList.remove('sort-asc','sort-desc'));
-  const ytdTh=document.querySelector('.rp-table th[onclick*="perf_ytd"]');
-  if(ytdTh) ytdTh.classList.add('sort-desc');
+  const curTh=document.querySelector('.rp-table th[onclick*="'+rpSortCol+'"]');
+  if(curTh) curTh.classList.add(rpSortDir===1?'sort-asc':'sort-desc');
   renderRpCharts(s);
   renderRpTable(s);
   updateMissingNotice(_parseTks(s.tickers));
@@ -6355,10 +6391,7 @@ function renderRpTable(sector){
       perf_6m:d.perf_6m??null,perf_1y:d.perf_1y??null,perf_ytd:d.perf_ytd??null,mktcap:d.mktcap??null};
   });
   rows.sort((a,b)=>{
-    const av=a[rpSortCol],bv=b[rpSortCol];
-    if(av==null&&bv==null)return 0;
-    if(av==null)return 1; if(bv==null)return -1;
-    return rpSortDir*(av<bv?-1:av>bv?1:0);
+    return gaSortCmp(a[rpSortCol], b[rpSortCol], rpSortDir);
   });
   function fp(v){
     if(v==null)return'<span style="color:var(--text-muted)">&#8212;</span>';
@@ -7048,8 +7081,10 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
 }
 
 function rpSort(col,th){
+  const txt=(col==='ticker'||col==='name');
   if(rpSortCol===col){rpSortDir=-rpSortDir;}
-  else{rpSortCol=col;rpSortDir=-1;}
+  else{rpSortCol=col;rpSortDir=gaSortDefaultDir(txt);}
+  gaSortSave('gaai-rp-sort', rpSortCol, rpSortDir);
   document.querySelectorAll('.rp-table th').forEach(h=>h.classList.remove('sort-asc','sort-desc'));
   th.classList.add(rpSortDir===1?'sort-asc':'sort-desc');
   const s=researchSectors.find(x=>x.id===currentRpId);
