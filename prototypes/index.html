@@ -4606,7 +4606,7 @@ function renderSrQuadrant(){
     wrap.innerHTML='<div style="height:350px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:var(--fs-base)">No data available</div>';
     return;
   }
-  const W=wrap.clientWidth||900,H=350,mg={t:36,r:36,b:52,l:56};
+  const W=wrap.clientWidth||900,H=700,mg={t:36,r:36,b:52,l:56};
   const pw=W-mg.l-mg.r,ph=H-mg.t-mg.b;
   const xv=filtered.map(g=>g[srXAxis]),yv=filtered.map(g=>g[srYAxis]);
   const xPad=(Math.max(...xv)-Math.min(...xv)||2)*0.05;
@@ -6923,6 +6923,20 @@ function drawCotCandle(code, cotDates){
   pw.dates.forEach((dt,i)=>{ if(dt>=d0&&dt<=d1){dates.push(dt);open.push(pw.open[i]);high.push(pw.high[i]);low.push(pw.low[i]);close.push(pw.close[i]);} });
   if(dates.length<2){ if(section) section.style.display='none'; if(divider) divider.style.display='none'; return; }
 
+  // Same quarter grid as the COT charts below. Plotly's own date ticks pick their
+  // own intervals and stamp every one "%b %Y", so this chart read "Apr 2025,
+  // Jul 2025, Oct 2025" against "Apr 2025, Jul, Oct" a few pixels underneath.
+  // Feeding tickvals/ticktext puts both on one rule.
+  // COT dates arrive as '2017-02-14 00:00:00', so slice to the date part before
+  // parsing - appending 'T00:00:00' to the full string yields NaN.
+  const _pd=s=>new Date(String(s).slice(0,10)+'T00:00:00').getTime();
+  const _iso=t=>{const d=new Date(t);
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')
+           +'-'+String(d.getDate()).padStart(2,'0');};
+  const _qt=gaQuarterTicksTime(_pd(d0), _pd(d1));
+  // Plotly wants plain date strings on a date axis, not Date objects
+  const _qv=_qt.map(q=>_iso(q.t)), _ql=_qt.map(q=>q.label);
+
   Plotly.react('cot-candle-wrap',[{
     type:'candlestick', x:dates, open, high, low, close,
     increasing:{line:{color:'#3fb950',width:1},fillcolor:'#3fb950'},
@@ -6936,7 +6950,8 @@ function drawCotCandle(code, cotDates){
     height:350,
     xaxis:{
       type:'date', range:[d0,d1], autorange:false,
-      tickangle:-38, tickformat:'%b %Y', hoverformat:'%b %d %Y', color:AXIS_COLOR,
+      tickangle:-38, hoverformat:'%b %d %Y', color:AXIS_COLOR,
+      tickmode:_qv.length?'array':'auto', tickvals:_qv, ticktext:_ql,
       gridcolor:GRID_COLOR,griddash:'dot', showgrid:true,
       rangeslider:{visible:false},
       tickfont:{size:11,color:AXIS_COLOR},
