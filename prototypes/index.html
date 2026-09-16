@@ -325,8 +325,6 @@ svg.linechart line[stroke="#e4e6ee"]{stroke-dasharray:3 3}
 .cot-card-name{font-size:var(--fs-base);font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cot-card-val{font-size:var(--fs-lg);font-weight:700;margin-top:8px;font-variant-numeric:tabular-nums}
 .cot-gap-title{font-size:var(--fs-sm);font-weight:700;letter-spacing:0.04em;color:var(--text)}
-.cot-gap-meta{font-size:var(--fs-xs);color:var(--text-muted);font-variant-numeric:tabular-nums}
-.cot-gap-meta b{color:var(--text);font-weight:700}
 .cot-card-sub{font-size:var(--fs-xs);color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
 .cot-spark{width:100%;height:40px;display:block;margin-top:8px}
 .cot-back{display:inline-flex;align-items:center;gap:8px;background:transparent;border:none;color:var(--text-muted);font-family:inherit;font-size:var(--fs-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-bottom:16px;padding:0}
@@ -2773,16 +2771,9 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     </div>
     <div id="cot-pos-wrap" style="position:relative"><div class="chart-tt" id="cot-pos-tt"></div></div>
 
-    <!-- Large Specs: distance from the selected period peak -->
+    <!-- Period slider - sits above the panel it controls -->
     <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
-    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:0 64px 6px">
-      <div class="cot-gap-title">Large Specs &mdash; distance from period peak</div>
-      <div id="cot-gap-meta" class="cot-gap-meta"></div>
-    </div>
-    <div id="cot-gap-wrap" style="position:relative"><div class="chart-tt" id="cot-gap-tt"></div></div>
-
-    <!-- Period slider -->
-    <div style="padding:14px 14px 2px 64px">
+    <div style="padding:2px 14px 2px 64px">
       <input type="range" id="cot-period-slider" min="52" max="500" value="78"
         oninput="cotSlide()"
         style="width:100%;accent-color:#007aff;cursor:pointer">
@@ -2792,6 +2783,12 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <span id="cot-slider-to"></span>
       </div>
     </div>
+
+    <!-- Large Specs: distance from the selected period peak -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:14px 64px 6px">
+      <div class="cot-gap-title">Large Specs Distance from Peak</div>
+    </div>
+    <div id="cot-gap-wrap" style="position:relative"><div class="chart-tt" id="cot-gap-tt"></div></div>
   </div>
   </div><!-- /cot-detail -->
 
@@ -6688,13 +6685,7 @@ function cotUpdateChart(code){
   for(let i=0;i<dates.length;i++){
     if(comm[i]!==null&&lspec[i]!==null&&sspec[i]!==null&&oi[i]!==null){ gd.push(dates[i]); gv.push(lspec[i]); }
   }
-  const gapMeta=drawCotPeakGap('cot-gap-wrap','cot-gap-tt',gd,gv,'#3b82f6',350);
-  const gm=document.getElementById('cot-gap-meta');
-  if(gm) gm.innerHTML = gapMeta
-    ? 'peak <b>'+fmtK(gapMeta.peak)+'</b> on '+fmtDate(gapMeta.peakDate)
-      +' &nbsp;&middot;&nbsp; current <b>'+fmtK(gapMeta.current)+'</b>'
-      +' &nbsp;&middot;&nbsp; gap <b style="color:'+(gapMeta.gap<0?'var(--red)':'var(--text)')+'">'+fmtK(gapMeta.gap)+'</b>'
-    : '';
+  drawCotPeakGap('cot-gap-wrap','cot-gap-tt',gd,gv,'#3b82f6',350);
   drawCotCandle(code, dates);
   const upd=document.getElementById('cot-updated');
   if(upd&&weeks.length) upd.textContent='Latest: '+weeks[weeks.length-1];
@@ -6825,20 +6816,38 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
   const z=document.createElementNS(ns,'line');   // zero line == the period peak
   z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
   z.setAttribute('stroke',SVG_ZERO);z.setAttribute('stroke-width','1');z.setAttribute('stroke-dasharray','4,3');svg.appendChild(z);
-  const slotW=aligned.length>1?iW/(aligned.length-1):iW;
-  const bW=Math.max(1,slotW*0.75), lastIdx=aligned.length-1;
-  gaps.forEach((gvv,i)=>{
-    const w=Math.max(i===lastIdx?3:1,bW);   // keep the current week legible at 500 weeks
-    const rect=document.createElementNS(ns,'rect');
-    rect.setAttribute('x',xOf(i)-w/2);rect.setAttribute('y',y0);
-    rect.setAttribute('width',w);
-    rect.setAttribute('height',Math.max(1,Math.abs(yOf(gvv)-y0)));
-    rect.setAttribute('fill',i===lastIdx?'#f85149':color);
-    rect.setAttribute('opacity',i===lastIdx?'0.95':'0.65');svg.appendChild(rect);
-  });
+  const lastIdx=aligned.length-1;
+  // Shaded area hanging from the peak line down to each week's gap, with the
+  // line drawn over it. At 500 weeks a bar per week was thinner than a pixel;
+  // an area reads as one continuous drawdown instead.
+  const pts=gaps.map((gvv,i)=>[xOf(i), yOf(gvv)]);
+  const lineD=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const areaD='M'+pts[0][0].toFixed(1)+' '+y0.toFixed(1)+' '+
+              pts.map(p=>'L'+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')+
+              ' L'+pts[lastIdx][0].toFixed(1)+' '+y0.toFixed(1)+' Z';
+  const area=document.createElementNS(ns,'path');
+  area.setAttribute('d',areaD);area.setAttribute('fill',color);
+  area.setAttribute('opacity','0.18');svg.appendChild(area);
+  const ln=document.createElementNS(ns,'path');
+  ln.setAttribute('d',lineD);ln.setAttribute('fill','none');
+  ln.setAttribute('stroke',color);ln.setAttribute('stroke-width','1.6');
+  ln.setAttribute('stroke-linejoin','round');svg.appendChild(ln);
+  if(peakIdx!==lastIdx){                            // where it stands now
+    const cd=document.createElementNS(ns,'circle');  // (skipped when the peak IS
+    cd.setAttribute('cx',xOf(lastIdx));               //  the current week - the
+    cd.setAttribute('cy',yOf(gaps[lastIdx]));         //  markers would coincide)
+    cd.setAttribute('r','3.5');cd.setAttribute('fill','#f85149');svg.appendChild(cd);
+  }
   const pm=document.createElementNS(ns,'circle');   // marks the peak week
   pm.setAttribute('cx',xOf(peakIdx));pm.setAttribute('cy',y0);pm.setAttribute('r','3.5');
   pm.setAttribute('fill','#3fb950');svg.appendChild(pm);
+  const pl=document.createElementNS(ns,'text');     // ...and names it
+  const nearRight=xOf(peakIdx)>pad.l+iW-46;
+  pl.setAttribute('x',xOf(peakIdx)+(nearRight?-7:7));
+  pl.setAttribute('y',y0+13);
+  pl.setAttribute('text-anchor',nearRight?'end':'start');
+  pl.setAttribute('fill','#3fb950');pl.setAttribute('font-size','10');
+  pl.setAttribute('font-weight','700');pl.textContent='Peak';svg.appendChild(pl);
   const dot=document.createElementNS(ns,'circle');
   dot.setAttribute('r','3');dot.setAttribute('fill',color);dot.setAttribute('display','none');svg.appendChild(dot);
   const cur=document.createElementNS(ns,'line');
@@ -6860,7 +6869,7 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
     tt.style.top=Math.max(yOf(gaps[idx])-10,2)+'px';
     tt.innerHTML='<strong>'+fmtDate(aligned[idx].d)+'</strong><br>'+
       '<span style="color:'+color+'">&#9632;</span> Large Specs: '+fmtK(aligned[idx].v)+'<br>'+
-      '<span style="color:#3fb950">&#9632;</span> Period peak: '+fmtK(peak)+'<br>'+
+      '<span style="color:#3fb950">&#9632;</span> Period Peak: '+fmtK(peak)+'<br>'+
       '<span style="color:var(--text-dim)">&#9632;</span> Gap: '+fmtK(gaps[idx]);
   });
   ov.addEventListener('mouseleave',()=>{
