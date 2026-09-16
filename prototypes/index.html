@@ -467,6 +467,7 @@ svg.linechart line[stroke="#e4e6ee"]{stroke-dasharray:3 3}
 .rcrit-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
 .rcrit-toggle{color:var(--ps-blue);font-size:var(--fs-xs);line-height:1;flex-shrink:0;user-select:none}
 .rcrit-clickable{cursor:pointer;transition:border-color 180ms ease}
+.rcrit-clickable:focus-visible,.rsum-row:focus-visible{outline:2px solid var(--ps-blue);outline-offset:2px}
 .rcrit-clickable:hover{border-color:var(--ps-blue)}
 .drop-table{display:none;margin-top:8px;border-top:1px solid var(--outline-dim);padding-top:6px}
 .drop-table.open{display:block}
@@ -1486,7 +1487,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <div class="rcrit-value neg" id="rc-infl-val">Accelerating</div>
         <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:3px" id="rc-infl-sub">Inflation Expectations Rising</div>
       </div>
-      <div class="rcrit rcrit-clickable" onclick="toggleDrop('mps-drop')">
+      <div class="rcrit rcrit-clickable" onclick="toggleDrop('mps-drop')" tabindex="0" role="button" aria-controls="mps-drop" aria-expanded="false" onkeydown="gaKeyActivate(event,()=>toggleDrop('mps-drop'))">
         <div class="rcrit-hdr">
           <div class="rcrit-label">Yield Curve Regime</div>
           <span class="rcrit-toggle">▾</span>
@@ -1503,7 +1504,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
           <div class="drop-row"><span class="drop-cond">2Y ≈ 10Y ≈ 0</span><span class="drop-eq">=</span><span class="drop-result-lbl">Neutral</span></div>
         </div>
       </div>
-      <div class="rcrit rcrit-clickable" onclick="toggleDrop('gcc-drop')">
+      <div class="rcrit rcrit-clickable" onclick="toggleDrop('gcc-drop')" tabindex="0" role="button" aria-controls="gcc-drop" aria-expanded="false" onkeydown="gaKeyActivate(event,()=>toggleDrop('gcc-drop'))">
         <div class="rcrit-hdr">
           <div class="rcrit-label">Global Credit Creation</div>
           <span class="rcrit-toggle">▾</span>
@@ -1522,7 +1523,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
 
     <!-- Market Narrative + Long Bias (combined) -->
     <div class="rsum-combined">
-      <div class="rsum-row" onclick="toggleDrop('mn-drop')">
+      <div class="rsum-row" onclick="toggleDrop('mn-drop')" tabindex="0" role="button" aria-controls="mn-drop" aria-expanded="false" onkeydown="gaKeyActivate(event,()=>toggleDrop('mn-drop'))">
         <div class="rsum-hdr">
           <div class="rsum-label">Market Narrative</div>
           <span class="rcrit-toggle">▾</span>
@@ -1536,7 +1537,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         </div>
       </div>
       <hr class="rsum-divider">
-      <div class="rsum-row" onclick="toggleDrop('lb-drop')">
+      <div class="rsum-row" onclick="toggleDrop('lb-drop')" tabindex="0" role="button" aria-controls="lb-drop" aria-expanded="false" onkeydown="gaKeyActivate(event,()=>toggleDrop('lb-drop'))">
         <div class="rsum-hdr">
           <div class="rsum-label">Long Bias</div>
           <span class="rcrit-toggle">▾</span>
@@ -1628,7 +1629,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   <div class="stir-kpi-row" id="risk-kpis"></div>
 
   <div class="card">
-    <div class="card-header">Risk budgets</div>
+    <div class="card-header">Risk Budgets</div>
     <div class="risk-meters" id="risk-budgets"></div>
     <div id="risk-budget-note" style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:16px;line-height:1.55"></div>
   </div>
@@ -1640,7 +1641,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   </div>
 
   <div class="card">
-    <div class="card-header">Stops &mdash; probability of being hit</div>
+    <div class="card-header">Stops &mdash; Probability of Being Hit</div>
     <div class="risk-meters" id="risk-stops"></div>
     <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:14px;line-height:1.55">
       These are GTC orders with no expiry, so the useful measure is the chance of <em>touching</em> the level over a
@@ -1649,12 +1650,12 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   </div>
 
   <div class="card">
-    <div class="card-header">Scenario shocks</div>
+    <div class="card-header">Scenario Shocks</div>
     <div class="risk-scroll"><table class="stir-table" id="risk-scen"></table></div>
   </div>
 
   <div class="card">
-    <div class="card-header">What a gas gap costs</div>
+    <div class="card-header">What a Gas Gap Costs</div>
     <div class="risk-scroll"><table class="stir-table" id="risk-slip"></table></div>
     <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:12px;line-height:1.55">
       A &minus;20% gas move most likely arrives as a gap &mdash; a storage surprise, a weather-model flip, an LNG outage.
@@ -1663,7 +1664,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   </div>
 
   <div class="card">
-    <div class="card-header">What the 6% budget permits in gross exposure</div>
+    <div class="card-header">What the 6% Budget Permits in Gross Exposure</div>
     <div class="risk-scroll"><table class="stir-table" id="risk-gross"></table></div>
     <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:12px;line-height:1.55">
       Leeway arrives mechanically: tighten stops and permitted gross rises; widen them and it falls. Winners that trail
@@ -1673,7 +1674,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   </div>
 
   <div class="card">
-    <div class="card-header">Limit rulings</div>
+    <div class="card-header">Limit Rulings</div>
     <div class="risk-scroll"><table class="stir-table" id="risk-limits"></table></div>
   </div>
 
@@ -1683,7 +1684,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   </div>
 
   <div class="card">
-    <div class="card-header">Method, assumptions and blind spots</div>
+    <div class="card-header">Method, Assumptions and Blind Spots</div>
     <ul class="risk-notes" id="risk-notes"></ul>
   </div>
 </div>
@@ -5838,7 +5839,14 @@ function _setRcrit(valId, subId, label, cls, sub){
 function toggleDrop(id){
   const el=document.getElementById(id);
   if(!el) return;
-  el.classList.toggle('open');
+  const open=el.classList.toggle('open');
+  // keep the control that owns this panel honest about its state
+  const ctl=document.querySelector('[aria-controls="'+id+'"]');
+  if(ctl) ctl.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+// Enter and Space on a div that behaves like a button. Space must not scroll.
+function gaKeyActivate(ev, fn){
+  if(ev.key==='Enter'||ev.key===' '||ev.key==='Spacebar'){ ev.preventDefault(); fn(); }
 }
 
 const HIGH_EDGE={
