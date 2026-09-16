@@ -2408,7 +2408,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
       <div class="chart-sub-label" style="margin-top:10px">MoM %</div>
       <div class="cw" style="height:350px" id="w-ppi-core-mom"><div class="chart-tt" id="tt-ppi-core-mom"></div></div>
     </div>
-    <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; updated 2026-04-24</div>
+    <div class="data-date">Source: BLS / BEA &nbsp;|&nbsp; <span id="dd-inflation">updated 2026-04-24</span></div>
   </div>
 </div><!-- /inflation panel -->
 
@@ -2427,23 +2427,23 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
       </div>
       <div id="liq-resbal" class="ipanel liq-inner active">
         <div class="cw" style="height:350px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
-        <div class="data-date">Source: FRED (WRESBAL) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (WRESBAL) &nbsp;|&nbsp; <span id="dd-liq-resbal">updated 2026-04-24</span></div>
       </div>
       <div id="liq-fedliq" class="ipanel liq-inner">
         <div class="cw" style="height:350px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
-        <div class="data-date">Source: FRED (WALCL-WDTGAL-WLRRAL) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (WALCL-WDTGAL-WLRRAL) &nbsp;|&nbsp; <span id="dd-liq-fedliq">updated 2026-04-24</span></div>
       </div>
       <div id="liq-trade" class="ipanel liq-inner">
         <div class="cw" style="height:350px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
-        <div class="data-date">Source: FRED (BOPGSTB) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (BOPGSTB) &nbsp;|&nbsp; <span id="dd-liq-trade">updated 2026-04-24</span></div>
       </div>
       <div id="liq-carry" class="ipanel liq-inner">
         <div class="cw" style="height:350px" id="w-liq-carry"><div class="chart-tt" id="tt-liq-carry"></div></div>
-        <div class="data-date">Source: G10 FX, FXCTG10 Methodology &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: G10 FX, FXCTG10 Methodology &nbsp;|&nbsp; <span id="dd-liq-carry">updated 2026-04-24</span></div>
       </div>
       <div id="liq-real" class="ipanel liq-inner">
         <div class="cw" style="height:350px" id="w-liq-real"><div class="chart-tt" id="tt-liq-real"></div></div>
-        <div class="data-date">Source: FRED (DFII10) &nbsp;|&nbsp; updated 2026-04-24</div>
+        <div class="data-date">Source: FRED (DFII10) &nbsp;|&nbsp; <span id="dd-liq-real">updated 2026-04-24</span></div>
       </div>
     </div>
     <div class="card">
@@ -2476,7 +2476,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     </div>
     <div class="legend" id="curve-bars-legend" style="margin-top:14px;margin-bottom:8px"></div>
     <div class="cw" style="height:350px" id="w-curve-bars"><div class="chart-tt" id="tt-curve-bars"></div></div>
-    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
+    <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; <span id="dd-stir">updated 2026-04-24</span></div>
   </div>
 
   <div class="section-heading" style="margin-top:28px">US STIR</div>
@@ -3190,6 +3190,7 @@ let GRID_COLOR = '#e4e6ee';
 let AXIS_COLOR = '#6b7280';
 let SVG_ZERO   = '#333';
 let PLOT_ZERO  = '#d6d9e2';
+let CROSSHAIR  = '#d6d9e2';             /* hover crosshair; louder than a gridline, quieter than an axis */
 let HOVER_BG   = 'rgba(255,255,255,0.98)';
 let HOVER_BORDER = 'rgba(0,0,0,0.08)';
 let HOVER_TEXT = '#1f2430';
@@ -3328,7 +3329,7 @@ function drawMulti(wrapId, ttId, dates, seriesDefs, vH, legId) {
   });
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -3418,7 +3419,7 @@ function drawDualAxis(wrapId, ttId, dates, seriesDefs, vH) {
   });
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -3793,7 +3794,7 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
   lp.setAttribute('d',L.map((p,i)=>`${i===0?'M':'L'}${xOf(p.t).toFixed(1)},${yL(p.v).toFixed(1)}`).join(' '));
   lp.setAttribute('fill','none');lp.setAttribute('stroke',BLUE);lp.setAttribute('stroke-width','1.6');svg.appendChild(lp);
   const dotL=document.createElementNS(ns,'circle');dotL.setAttribute('r','3');dotL.setAttribute('fill',BLUE);dotL.setAttribute('display','none');svg.appendChild(dotL);
-  const cur=document.createElementNS(ns,'line');cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('display','none');svg.appendChild(cur);
+  const cur=document.createElementNS(ns,'line');cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -3901,7 +3902,7 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
   });
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -4069,6 +4070,7 @@ function renderYieldCharts(){
   // the lookback reaches back before the visible range.
   const regFull=curveRegimeSeries(nomDaily['2Y'],nomDaily['10Y'],CURVE_LOOKBACK);
   drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(regFull),350,'curve-bars-legend');
+  gaStampThrough('dd-stir',dSlice,sl(sprNom));
 }
 
 // ══ Render all charts ═══════════════════════════════════════════
@@ -4142,7 +4144,18 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawInflBE(`w-${key}-yoy`,`tt-${key}-yoy`,dates,inflSets[key].yoy,dDatesArr,_be5,350);
     drawChart(`w-${key}-mom`,`tt-${key}-mom`,dates,inflSets[key].mom,'#007aff',fPct,350);
   };
-  window._redraw.inflation=()=>{ Object.keys(inflSets).forEach(window._drawInflOne); };
+  window._redraw.inflation=()=>{
+    Object.keys(inflSets).forEach(window._drawInflOne);
+    // one label covers all twelve charts, so report the freshest release among them
+    let best=-1;
+    Object.keys(inflSets).forEach(k=>{
+      const y=inflSets[k].yoy||[];
+      for(let i=Math.min(y.length,dates.length)-1;i>=0;i--){
+        if(y[i]!==null&&y[i]!==undefined&&isFinite(y[i])){ if(i>best) best=i; break; }
+      }
+    });
+    if(best>=0) gaStampThrough('dd-inflation',dates.slice(0,best+1));
+  };
   window._redraw.inflation();
 
   // GDP combo chart — load live GDPNow data, fall back to built-in quarterly data
@@ -4201,9 +4214,13 @@ window.addEventListener('DOMContentLoaded',()=>{
     drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#3b82f6',_fBn,350);
     drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',_fBn,350);
     drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#22d3ee',_fTrade,350);
+    gaStampThrough('dd-liq-resbal',dates,liqResbal);
+    gaStampThrough('dd-liq-fedliq',dates,liqFedliq);
+    gaStampThrough('dd-liq-trade', dates,liqTrade);
     // 10Y real yield = US10Y (DGS10) - 10Y breakeven (T10YIE); daily, same window as the other charts
     const _realY=(typeof realDaily!=='undefined'&&realDaily['10Y'])?realDaily['10Y']:nomDaily['10Y'].map((v,i)=>(v==null||beDaily['10Y'][i]==null)?null:v-beDaily['10Y'][i]);
     drawChart('w-liq-real','tt-liq-real',dDatesArr,_realY,'#ec4899',fPct,350,fmtDLong);
+    gaStampThrough('dd-liq-real',dDatesArr,_realY);
     // Liquidity YoY combined
     const _combo=[
       {values:yoyRB,color:'#3b82f6',label:'Reserve Balance',axis:'lhs1'},
@@ -4216,6 +4233,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       // left card: carry index level (base 100) — slice to the same start as the other liquidity charts
       let _ci=cd._dObj.findIndex(dt=>dt>=dates[0]); if(_ci<0)_ci=0;
       drawChart('w-liq-carry','tt-liq-carry',cd._dObj.slice(_ci),cd.carry.slice(_ci),'#a855f7',v=>v.toFixed(1),350,fmtDLong);
+    gaStampThrough('dd-liq-carry',cd._dObj.slice(_ci),cd.carry.slice(_ci));
       // combined chart: carry YoY % on the same % axis as the other liquidity lines
       _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#a855f7',label:'Carry Trade',axis:'rhs'});
     }
@@ -4512,12 +4530,12 @@ function renderSrQuadrant(){
   svg+=`<text x="${ox+(pw-ox)/2}" y="${ph-8}" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(59,130,246,0.9)" font-family="JetBrains Mono,monospace">Recovering</text>`;
 
   // Axes
-  svg+=`<line x1="${ox}" y1="0" x2="${ox}" y2="${ph}" stroke="#e4e6ee" stroke-width="1"/>`;
-  svg+=`<line x1="0" y1="${oy}" x2="${pw}" y2="${oy}" stroke="#e4e6ee" stroke-width="1"/>`;
+  svg+=`<line x1="${ox}" y1="0" x2="${ox}" y2="${ph}" stroke="${GRID_COLOR}" stroke-width="1"/>`;
+  svg+=`<line x1="0" y1="${oy}" x2="${pw}" y2="${oy}" stroke="${GRID_COLOR}" stroke-width="1"/>`;
 
   // Axis labels
-  svg+=`<text x="${pw/2}" y="${ph+40}" text-anchor="middle" font-size="12" fill="#6b7280" font-family="JetBrains Mono,monospace">${xLbl}</text>`;
-  svg+=`<text x="${-ph/2}" y="-42" text-anchor="middle" font-size="12" fill="#6b7280" font-family="JetBrains Mono,monospace" transform="rotate(-90)">${yLbl}</text>`;
+  svg+=`<text x="${pw/2}" y="${ph+40}" text-anchor="middle" font-size="12" fill="${AXIS_COLOR}" font-family="JetBrains Mono,monospace">${xLbl}</text>`;
+  svg+=`<text x="${-ph/2}" y="-42" text-anchor="middle" font-size="12" fill="${AXIS_COLOR}" font-family="JetBrains Mono,monospace" transform="rotate(-90)">${yLbl}</text>`;
 
   // Dots
   svg+=`<g clip-path="url(#srCp)">`;
@@ -4527,7 +4545,7 @@ function renderSrQuadrant(){
     const col=xval>0&&yval>0?'#3fb950':xval<0&&yval>0?'#fb923c':xval<0&&yval<0?'#f85149':'#3b82f6';
     const nm=_srName(g.group_id).replace(/"/g,'&quot;');
     const tks=(g.tickers||[]).join(', ').replace(/"/g,'&quot;');
-    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" data-tickers="${tks}" data-color="${col}" style="cursor:pointer"/>`;
+    svg+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" opacity="0.82" stroke="var(--outline)" stroke-width="1" class="sr-dot" data-name="${nm}" data-x="${xval.toFixed(2)}" data-y="${yval.toFixed(2)}" data-tickers="${tks}" data-color="${col}" style="cursor:pointer"/>`;
   });
   svg+=`</g></g></svg>`;
 
@@ -4590,6 +4608,46 @@ function flwSelect(tk){ _flwSel=tk; flwRender(); }
 // ── Shared sort contract (the Research tab's behaviour, used by every table) ──
 // dir -1 = descending, +1 = ascending. Blanks sort last whichever way the column
 // points, so a missing value never masquerades as zero. Text uses localeCompare.
+// ── "data through" provenance stamps ────────────────────────────────────
+// These lines used to carry a date typed into the markup, so they froze on the
+// day they were written while the series underneath kept moving - five months
+// of drift by the time anyone noticed. Each now reports the last OBSERVATION it
+// actually holds, found by walking back to the last finite value: CPI and the
+// trade balance publish with a lag, so the end of the date axis is routinely
+// not the end of the data.
+function gaStampThrough(elId, dateArr, valueArr){
+  const el=document.getElementById(elId);
+  if(!el||!dateArr||!dateArr.length) return;
+  let i=dateArr.length-1;
+  if(valueArr&&valueArr.length){
+    i=-1;
+    for(let k=Math.min(valueArr.length,dateArr.length)-1;k>=0;k--){
+      const v=valueArr[k];
+      if(v!==null&&v!==undefined&&isFinite(v)){ i=k; break; }
+    }
+    if(i<0) return;
+  }
+  let d=dateArr[Math.min(i,dateArr.length-1)];
+  // Read LOCAL components. These are local-midnight Date objects, so
+  // toISOString() would shift them back a day east of UTC - enough to report
+  // an August release as July.
+  if(d instanceof Date){
+    d=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')
+       +'-'+String(d.getDate()).padStart(2,'0');
+  }
+  // A series whose points all land on the 1st is monthly; naming a day on it
+  // would imply a precision the release does not have.
+  const dayOf=x=>(x instanceof Date)?x.getDate():(+String(x).split('-')[2]||0);
+  let monthly=dateArr.length>1;
+  for(let k=0;k<dateArr.length;k++){ const dd=dayOf(dateArr[k]);
+    if(dd!==1&&dd!==0){ monthly=false; break; } }
+  const p=String(d).split('-');
+  const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  el.textContent='data through '+(
+    (monthly||p.length<3) ? M[+p[1]-1]+' '+p[0]
+    : M[+p[1]-1]+' '+(+p[2])+', '+p[0]);
+}
+
 function gaSortCmp(av, bv, dir){
   const blank = v => v===null || v===undefined || v==='' ||
                      (typeof v==='number' && !isFinite(v));
@@ -6401,7 +6459,7 @@ function renderRpCharts(sector){
       hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:HOVER_TEXT}}
     }],{
       paper_bgcolor:'transparent',plot_bgcolor:'transparent',
-      font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#5b6472',size:11},
+      font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:AXIS_COLOR,size:11},
       margin:{t:12,b:44,l:80,r:20},
       xaxis:{gridcolor:GRID_COLOR,griddash:'dot',zerolinecolor:PLOT_ZERO,zerolinewidth:2,ticksuffix:'%',
         title:{text:'YTD Return',font:{size:11,color:'#5b6472'}}},
@@ -6436,7 +6494,7 @@ function renderRpCharts(sector){
         hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:HOVER_TEXT}}
       }],{
         paper_bgcolor:'transparent',plot_bgcolor:'transparent',
-        font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#5b6472',size:11},
+        font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:AXIS_COLOR,size:11},
         margin:{t:12,b:50,l:60,r:20},
         xaxis:{gridcolor:GRID_COLOR,griddash:'dot',
           title:{text:'Market Cap',font:{size:11,color:'#5b6472'}},
@@ -6753,7 +6811,7 @@ function drawCotCandle(code, cotDates){
     whiskerwidth:0.5,
   }],{
     paper_bgcolor:'transparent', plot_bgcolor:'transparent',
-    font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#5b6472',size:11},
+    font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:AXIS_COLOR,size:11},
     margin:{t:8,b:64,l:64,r:64},
     height:350,
     xaxis:{
@@ -6879,7 +6937,7 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
   dot.setAttribute('r','3');dot.setAttribute('fill',color);dot.setAttribute('display','none');svg.appendChild(dot);
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -6944,7 +7002,7 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
     const oiV=oiHigh-t*oiRange;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
-    lb.setAttribute('fill','#888');lb.setAttribute('font-size','10');lb.textContent=fmtK(oiV);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtK(oiV);svg.appendChild(lb);
     // Right — net positions
     const netV=netMax-t*netR;
     const rb=document.createElementNS(ns,'text');
@@ -6994,7 +7052,7 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
   oiDot.setAttribute('r','3');oiDot.setAttribute('fill',MUTED_LINE);oiDot.setAttribute('display','none');svg.appendChild(oiDot);
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -7098,7 +7156,7 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
   });
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -7165,7 +7223,7 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
   dot.setAttribute('r','3');dot.setAttribute('fill','#22d3ee');dot.setAttribute('display','none');svg.appendChild(dot);
   const cur=document.createElementNS(ns,'line');
   cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);
-  cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+  cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
   const ov=document.createElementNS(ns,'rect');
   ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);
   ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
@@ -7785,7 +7843,7 @@ function gaSettings(e){
     if(series.length===1&&opt.fill!==false){const s=series[0];const a=document.createElementNS(NS,'path');a.setAttribute('d',s.vals.map((v,i)=>(i===0?'M':'L')+xOf(i)+','+yL(v)).join(' ')+'L'+xOf(N-1)+','+(pad.t+iH)+' L'+xOf(0)+','+(pad.t+iH)+' Z');a.setAttribute('fill',s.color);a.setAttribute('opacity','0.07');a.setAttribute('stroke','none');svg.appendChild(a);}
     series.forEach(s=>{const yf=s.axis==='R'?yR:yL;const p=document.createElementNS(NS,'path');p.setAttribute('d',s.vals.map((v,i)=>(i===0?'M':'L')+xOf(i)+','+yf(v)).join(' '));p.setAttribute('fill','none');p.setAttribute('stroke',s.color);p.setAttribute('stroke-width','1.8');p.setAttribute('stroke-linejoin','round');p.setAttribute('stroke-linecap','round');if(s.dash)p.setAttribute('stroke-dasharray',s.dash);svg.appendChild(p);});
     const dots=series.map(s=>{const c=document.createElementNS(NS,'circle');c.setAttribute('r','3');c.setAttribute('fill',s.color);c.setAttribute('display','none');svg.appendChild(c);return c;});
-    const cur=document.createElementNS(NS,'line');cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);cur.setAttribute('stroke','#d6d9e2');cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
+    const cur=document.createElementNS(NS,'line');cur.setAttribute('y1',pad.t);cur.setAttribute('y2',pad.t+iH);cur.setAttribute('stroke',CROSSHAIR);cur.setAttribute('stroke-width','1');cur.setAttribute('display','none');svg.appendChild(cur);
     const ov=document.createElementNS(NS,'rect');ov.setAttribute('x',pad.l);ov.setAttribute('y',pad.t);ov.setAttribute('width',iW);ov.setAttribute('height',iH);ov.setAttribute('fill','transparent');ov.setAttribute('cursor','crosshair');svg.appendChild(ov);
     const tt=document.getElementById(ttId);
     ov.addEventListener('mousemove',e=>{const r=svg.getBoundingClientRect(),sx=r.width/VW;const mx=(e.clientX-r.left)/sx-pad.l;const idx=Math.max(0,Math.min(N-1,Math.round((mx/iW)*(N-1))));const cx=xOf(idx);cur.setAttribute('x1',cx);cur.setAttribute('x2',cx);cur.setAttribute('display','');series.forEach((s,si)=>{const yf=s.axis==='R'?yR:yL;dots[si].setAttribute('cx',cx);dots[si].setAttribute('cy',yf(s.vals[idx]));dots[si].setAttribute('display','');});if(tt){tt.style.display='block';tt.style.left=Math.min(cx*sx+12,r.width-180)+'px';tt.style.top='6px';tt.innerHTML='<strong>'+fmtFull(ds[idx])+'</strong><br>'+series.map(s=>'<span style="color:'+s.color+'">&#9632;</span> '+s.label+': '+(s.fmt||(v=>v.toFixed(2)))(s.vals[idx])).join('<br>');}});
@@ -8378,11 +8436,13 @@ fetch('cross_asset.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{ if
       /* macOS Dark: subtle white gridlines, tertiary-label axes, vibrant tooltip */
       GRID_COLOR='rgba(255,255,255,0.07)'; AXIS_COLOR='rgba(255,255,255,0.45)';
       SVG_ZERO='rgba(255,255,255,0.22)'; PLOT_ZERO='rgba(255,255,255,0.14)';
+      CROSSHAIR='rgba(255,255,255,0.30)';
       HOVER_BG='rgba(44,44,46,0.96)'; HOVER_BORDER='rgba(255,255,255,0.10)'; HOVER_TEXT='rgba(255,255,255,0.92)';
       INK_LINE='rgba(255,255,255,0.78)'; MUTED_LINE='rgba(255,255,255,0.50)'; REF_LINE='rgba(255,255,255,0.42)';
     }else{
       GRID_COLOR='#e4e6ee'; AXIS_COLOR='#6b7280';
       SVG_ZERO='#333'; PLOT_ZERO='#d6d9e2';
+      CROSSHAIR='#d6d9e2';
       HOVER_BG='rgba(255,255,255,0.98)'; HOVER_BORDER='rgba(0,0,0,0.08)'; HOVER_TEXT='#1f2430';
       INK_LINE='#2a2f3a'; MUTED_LINE='#39404e'; REF_LINE='rgba(20,24,33,0.55)';
     }
