@@ -75,6 +75,15 @@ Invoke-Step "scripts\export_price_json.py" "export_price_json.py failed - price_
 # 5. FX carry index (G10 carry replication w/ recovered FXCTG10 alpha; reads data/carry_calibration.json)
 Invoke-Step "scripts\carry_export.py"      "carry_export.py failed - carry.json may be stale."
 
+# 6. Risk tab: pull the IBKR book of record, then rebuild risk.json against it.
+#    ibkr_flex_fetch.py needs IBKR_FLEX_TOKEN + IBKR_FLEX_QUERY_ID (see the setup block
+#    at the top of that file). Without them it exits 1 and leaves the previous snapshot,
+#    and gen_risk_json.py then REFUSES to publish once that snapshot passes 36h - by
+#    design, so a stale book never ships looking fresh. Stops are not in the Flex feed
+#    (no Flex section reports working orders); they live in data/risk_manual.json.
+Invoke-Step "scripts\ibkr_flex_fetch.py" "ibkr_flex_fetch.py failed - IBKR book not refreshed. Check IBKR_FLEX_TOKEN/IBKR_FLEX_QUERY_ID; gen_risk_json.py will refuse to publish a snapshot older than 36h."
+Invoke-Step "scripts\gen_risk_json.py"   "gen_risk_json.py failed - risk.json NOT updated (stale IBKR snapshot, an untracked new position, or a closed position needing risk_manual.json updated)."
+
 # --- Commit ONLY the generated pipeline data files (explicit list; screener excluded) ---
 $dataFiles = @(
     "prototypes/index.html",

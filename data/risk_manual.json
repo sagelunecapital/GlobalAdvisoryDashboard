@@ -1,0 +1,121 @@
+{
+ "_README": [
+  "Judgment inputs for the Risk tab. scripts/gen_risk_json.py reads this, joins it to",
+  "the live IBKR book (data/ibkr_flex.json) and live prices, and writes prototypes/risk.json.",
+  "",
+  "EVERYTHING IN THIS FILE IS A HUMAN DECISION. Nothing here is refreshed by the pipeline.",
+  "The generator recomputes only what is unambiguously price-driven: marks, stop distances,",
+  "vol, ATR, touch probabilities, VaR, correlation, gross, stop_total and the budget meters.",
+  "",
+  "Stops live HERE, not in the Flex feed: an Activity Flex Query has 47 sections and none",
+  "of them report working orders, so a GTC stop cannot be read back from IBKR unattended.",
+  "Confirm them in TWS and update stop_confirmed_on when you do.",
+  "",
+  "scenarios / slippage / gap are authored at the prices in price_basis. They do NOT",
+  "auto-update - the betas behind rows other than the gas shock are not documented, and",
+  "the generator will not invent them. When live prices drift past drift_tolerance the",
+  "output carries judgment_stale=true and the tab says so. Re-derive them and bump",
+  "reviewed_on."
+ ],
+
+ "reviewed_on": "2026-09-15",
+ "drift_tolerance": 0.05,
+ "price_basis": {"UNG": 10.39, "XOP": 195.20},
+
+ "nav": 300000.0,
+ "limits": {
+  "theme_pct": 0.02,
+  "portfolio_pct": 0.06,
+  "basis": "NAV fixed at the $300,000 notional mandate. Never measured against account equity.",
+  "provisional": true,
+  "set_on": "15 Sep 2026"
+ },
+
+ "holdings": {
+  "UNG": {
+   "name": "US Natural Gas Fund",
+   "theme": "Energy",
+   "sub": "Natural gas futures",
+   "stop": 9.35,
+   "stop_confirmed_on": "2026-09-15"
+  },
+  "XOP": {
+   "name": "SPDR S&P Oil & Gas E&P",
+   "theme": "Energy",
+   "sub": "Oil & gas E&P equities",
+   "stop": 185.00,
+   "stop_confirmed_on": "2026-09-15"
+  }
+ },
+
+ "excluded": {
+  "TLT": {
+   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to these two positions."
+  }
+ },
+
+ "gap": {
+  "total": 4371.0,
+  "basis": "UNG full -20% with no stop protection + XOP at measured beta 0.24"
+ },
+
+ "scenarios": [
+  {"name": "Natural gas -20%", "naive": -4371, "stopped": -2295, "gap": -4371, "trigger": "UNG"},
+  {"name": "Energy equities -12%", "naive": -1370, "stopped": -1066, "gap": -1370, "trigger": "XOP"},
+  {"name": "Crude -10%", "naive": -1297, "stopped": -858, "gap": -1297, "trigger": "XOP"},
+  {"name": "Broad market -3%", "naive": -369, "stopped": -369, "gap": -369, "trigger": null},
+  {"name": "Rates +50bp", "naive": -298, "stopped": -298, "gap": -298, "trigger": null},
+  {"name": "UNG realised drift, next 21d", "naive": null, "stopped": -847, "gap": null,
+   "trigger": "no market move required"}
+ ],
+
+ "slippage": [
+  {"label": "Clean fill at $9.35", "ung": -2080, "total": -2295},
+  {"label": "2% below stop", "ung": -2454, "total": -2669},
+  {"label": "5% below stop", "ung": -3015, "total": -3230},
+  {"label": "10% below stop", "ung": -3950, "total": -4165},
+  {"label": "Full gap - stop gives nothing", "ung": -4156, "total": -4371}
+ ],
+
+ "gross_permitted": [
+  {"stop": 0.03, "note": "tight stops, high turnover"},
+  {"stop": 0.05, "note": "levered, actively managed"},
+  {"stop": 0.075, "note": "fully invested, unlevered"},
+  {"stop": 0.10, "note": "your current UNG stop discipline"},
+  {"stop": 0.15, "note": "wide stops, low turnover"},
+  {"stop": 0.20, "note": "conviction holds, little protection"}
+ ],
+
+ "not_configured": [
+  "Single-commodity concentration (UNG is {UNG_PCT} of the book)",
+  "Gross exposure backstop for gap risk",
+  "Net exposure range"
+ ],
+
+ "news_as_of": "2026-09-14",
+ "news": [
+  {"hot": true,
+   "title": "Crude at a four-month high on Saudi pipeline shutdown",
+   "body": "Brent traded around $106-110 after rallying more than 9% last week. Saudi Arabia shut its East-West pipeline - roughly 7m b/d to Yanbu, the route that bypasses Hormuz - following drone attacks. WTI near $101.",
+   "src": "Bloomberg, Energy Intelligence, Fortune - 13-14 Sep 2026",
+   "affects": "XOP"},
+  {"hot": false,
+   "title": "Natural gas at a three-week low on a bearish storage build",
+   "body": "Gas fell to about $2.80/MMBtu. The EIA reported a 40 Bcf injection for the week to 4 Sep against roughly 31 Bcf expected, lifting stocks to 3.254 Tcf - some 4.8% above the five-year average. Lower-48 output averages 112.9 Bcf/d in September.",
+   "src": "EIA Short-Term Energy Outlook, Trading Economics, NGI - Sep 2026",
+   "affects": "UNG"}
+ ],
+
+ "notes": [
+  "NAV is $300,000 throughout - the notional mandate assigned by the firm. Never measured against account equity, by instruction. 1% = $3,000.",
+  "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
+  "Themes are assigned, not fed. IBKR returns no sector tags; UNG and XOP are both classified Energy as a stated assumption.",
+  "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
+  "Stops are confirmed by the account owner, not read from the API: an IBKR Activity Flex Query cannot report working orders. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
+  "Parametric VaR understates the tail: the historical 5th percentile has run above the parametric figure, and the worst day in the window was roughly 1.5x the 99% VaR.",
+  "Correlation between the two legs is not a usable parameter - the standard error is wide and the rolling 20-day figure has swung through zero in both directions.",
+  "Scenario betas are assumed: UNG ~1.0 to front-month gas; XOP ~1.2 to equities, ~1.5 to crude. The XOP leg of the gas shock uses the measured beta of 0.24.",
+  "Scenario, slippage and gap figures are authored at the prices in price_basis and do not move with the market. The tab flags them when live prices drift past tolerance.",
+  "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn."
+ ]
+}

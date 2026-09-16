@@ -54,6 +54,7 @@ DATA_FILES = [
     "mfra_group.json",
     "price_data.json",
     "regime.json",
+    "risk.json",
     "sector_rotation.json",
     "stir.json",
     "ticker_perf.json",

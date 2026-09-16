@@ -1,10 +1,18 @@
 {
- "updated": "2026-09-15T11:05:00Z",
- "export_pulled": "15 Sep 2026",
- "source": "Interactive Brokers (live)",
- "vol_window": "18 Jun - 14 Sep 2026 (60 daily bars)",
+ "updated": "2026-09-16T02:28:42Z",
+ "export_pulled": "16 Sep 2026",
+ "source": "IBKR MCP connector (bootstrap - Flex Web Service not yet configured) + live marks",
+ "vol_window": "22 Jun - 15 Sep 2026 (60 daily bars)",
+ "mark_date": "2026-09-15",
+ "flex_report_date": "2026-09-16",
  "nav": 300000.0,
  "unit": 3000.0,
+ "judgment_reviewed_on": "2026-09-15",
+ "judgment_stale": false,
+ "judgment_drift": {
+  "UNG": 0.014436954942543481,
+  "XOP": 0.023053263054519463
+ },
  "limits": {
   "theme_pct": 0.02,
   "theme_abs": 6000.0,
@@ -20,88 +28,90 @@
    "name": "US Natural Gas Fund",
    "theme": "Energy",
    "sub": "Natural gas futures",
-   "qty": 2000,
-   "px": 10.39000035,
+   "qty": 2000.0,
+   "px": 10.539999961853027,
    "avg": 10.361528,
    "stop": 9.35,
-   "daily": 120.0007,
-   "unreal": 56.9447,
-   "vol_d": 0.019322,
-   "vol_a": 0.30673,
-   "atr": 0.299,
-   "p5": 0.01,
-   "p21": 0.23,
-   "p63": 0.49,
-   "var_share": 0.88,
-   "mv": 20780.000699999997,
-   "pct_nav": 0.06926666899999999,
-   "stop_dist": 0.10009627670513022,
-   "stop_risk": 2080.0006999999996,
+   "stop_confirmed_on": "2026-09-15",
+   "daily": 420.0000762939453,
+   "unreal": 356.943923706055,
+   "vol_d": 0.01937294211085919,
+   "vol_a": 0.3075359219339047,
+   "atr": 0.2840292837041566,
+   "mv": 21079.999923706055,
+   "pct_nav": 0.07026666641235352,
+   "stop_dist": 0.1129032225958201,
+   "stop_risk": 2379.9999237060556,
    "stop_vs_cost": -2023.0560000000005,
-   "atr_mult": 3.4782620401337785,
-   "theme_used": 0.3466667833333333,
-   "max_shares_theme": 5769.228827663377,
-   "headroom": 2.8846144138316885,
-   "pct_book": 0.8223319792182782
+   "atr_mult": 4.189708703038259,
+   "p5": 0.0056827939148507145,
+   "p21": 0.17719333913107038,
+   "p63": 0.43591859680759504,
+   "theme_used": 0.39666665395100925,
+   "max_shares_theme": 5042.016968350993,
+   "headroom": 2.5210084841754967,
+   "pct_book": 0.8210928966109794,
+   "var_share": 0.8703563197085006
   },
   {
    "sym": "XOP",
    "name": "SPDR S&P Oil & Gas E&P",
    "theme": "Energy",
    "sub": "Oil & gas E&P equities",
-   "qty": 23,
-   "px": 195.19999695,
+   "qty": 23.0,
+   "px": 199.6999969482422,
    "avg": 169.50395217,
    "stop": 185.0,
-   "daily": 39.78992985,
-   "unreal": 591.00902985,
-   "vol_d": 0.0163,
-   "vol_a": 0.25875,
-   "atr": 4.359,
-   "p5": 0.14,
-   "p21": 0.47,
-   "p63": 0.68,
-   "var_share": 0.029,
-   "mv": 4489.59992985,
-   "pct_nav": 0.014965333099500001,
-   "stop_dist": 0.05225408355212586,
-   "stop_risk": 234.5999298500003,
+   "stop_confirmed_on": "2026-09-15",
+   "daily": 143.28990173339844,
+   "unreal": 694.5090298995706,
+   "vol_d": 0.016563723539928212,
+   "vol_a": 0.26294095963125896,
+   "atr": 4.629514182147771,
+   "mv": 4593.09992980957,
+   "pct_nav": 0.015310333099365234,
+   "stop_dist": 0.07361040146661645,
+   "stop_risk": 338.0999298095703,
    "stop_vs_cost": 356.4091000900002,
-   "atr_mult": 2.3399855356733226,
-   "theme_used": 0.03909998830833338,
-   "max_shares_theme": 588.2354700115859,
-   "headroom": 25.57545521789504,
-   "pct_book": 0.17766802078172184
+   "atr_mult": 3.1752785216487696,
+   "p5": 0.03897992345286072,
+   "p21": 0.3137793629759146,
+   "p63": 0.5608506507530051,
+   "theme_used": 0.05634998830159505,
+   "max_shares_theme": 408.1633500418838,
+   "headroom": 17.74623261051669,
+   "pct_book": 0.17890710338902063,
+   "var_share": 0.030205946623904648
   }
  ],
  "totals": {
-  "gross": 25269.600629849996,
-  "gross_pct": 0.08423200209949999,
-  "net_pct": 0.08423200209949999,
-  "daily": 159.79062985,
-  "unreal": 647.9537298500001,
-  "stop_total": 2314.6006298499997,
-  "stop_pct": 0.007715335432833332,
+  "gross": 25673.099853515625,
+  "gross_pct": 0.08557699951171875,
+  "net_pct": 0.08557699951171875,
+  "daily": 563.2899780273438,
+  "unreal": 1051.4529536056257,
+  "stop_total": 2718.099853515626,
+  "stop_pct": 0.009060332845052086,
   "gap_total": 4371.0,
   "gap_pct": 0.01457,
-  "var95": 704.2,
-  "var99": 995.73,
-  "correlation": 0.284,
-  "theme_used": 0.3857667716416666,
-  "portfolio_used": 0.12858892388055554,
+  "var95": 720.0846354843809,
+  "var99": 1018.1865423323222,
+  "correlation": 0.3066383384635821,
+  "theme_used": 0.4530166422526043,
+  "portfolio_used": 0.15100554741753477,
   "theme_used_gap": 0.7285,
   "portfolio_used_gap": 0.24283333333333335,
-  "theme_used_var99": 0.165955,
-  "portfolio_used_var99": 0.05531833333333334,
+  "theme_used_var99": 0.16969775705538703,
+  "portfolio_used_var99": 0.05656591901846235,
   "themes_live": 1,
   "themes_supported": 3.0
  },
  "excluded": {
   "sym": "TLT",
-  "qty": 900,
-  "px": 80.40000155,
-  "mv": 72360.001395,
-  "unreal": -11261.722505,
+  "qty": 900.0,
+  "px": 80.70999908447266,
+  "mv": 72638.99917602539,
+  "unreal": -10982.724727974615,
   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to these two positions."
  },
  "scenarios": [
@@ -178,40 +188,40 @@
  "gross_permitted": [
   {
    "stop": 0.03,
-   "gross": 600000.0,
-   "note": "tight stops, high turnover"
+   "note": "tight stops, high turnover",
+   "gross": 600000.0
   },
   {
    "stop": 0.05,
-   "gross": 360000.0,
-   "note": "levered, actively managed"
+   "note": "levered, actively managed",
+   "gross": 360000.0
   },
   {
    "stop": 0.075,
-   "gross": 240000.0,
-   "note": "fully invested, unlevered"
+   "note": "fully invested, unlevered",
+   "gross": 240000.0
   },
   {
    "stop": 0.1,
-   "gross": 180000.0,
-   "note": "your current UNG stop discipline"
+   "note": "your current UNG stop discipline",
+   "gross": 180000.0
   },
   {
    "stop": 0.15,
-   "gross": 120000.0,
-   "note": "wide stops, low turnover"
+   "note": "wide stops, low turnover",
+   "gross": 120000.0
   },
   {
    "stop": 0.2,
-   "gross": 90000.0,
-   "note": "conviction holds, little protection"
+   "note": "conviction holds, little protection",
+   "gross": 90000.0
   }
  ],
  "limit_rows": [
   {
-   "name": "Portfolio - both stops fill cleanly",
+   "name": "Portfolio - all stops fill cleanly",
    "budget": 18000.0,
-   "cur": 2314.6006298499997
+   "cur": 2718.099853515626
   },
   {
    "name": "Portfolio - gas gap, no stop protection",
@@ -221,12 +231,12 @@
   {
    "name": "Portfolio - VaR 99%, correlation-adjusted",
    "budget": 18000.0,
-   "cur": 995.73
+   "cur": 1018.1865423323222
   },
   {
-   "name": "Energy theme - both stops fill cleanly",
+   "name": "Energy theme - all stops fill cleanly",
    "budget": 6000.0,
-   "cur": 2314.6006298499997
+   "cur": 2718.099853515626
   },
   {
    "name": "Energy theme - gas gap, no stop protection",
@@ -236,60 +246,59 @@
   {
    "name": "Energy theme - VaR 99%, correlation-adjusted",
    "budget": 6000.0,
-   "cur": 995.73
+   "cur": 1018.1865423323222
   },
   {
    "name": "Energy theme - VaR 95%, correlation-adjusted",
    "budget": 6000.0,
-   "cur": 704.2
+   "cur": 720.0846354843809
   },
   {
    "name": "UNG - position risk at stop",
    "budget": 6000.0,
-   "cur": 2080.0
+   "cur": 2379.9999237060556
   },
   {
    "name": "XOP - position risk at stop",
    "budget": 6000.0,
-   "cur": 234.6
+   "cur": 338.0999298095703
   }
  ],
  "not_configured": [
-  "Single-commodity concentration (UNG is 82.2% of the book)",
+  "Single-commodity concentration (UNG is 82.1% of the book)",
   "Gross exposure backstop for gap risk",
   "Net exposure range"
  ],
  "regime": {
-  "cls": "red",
-  "div": "bearish",
-  "since": "2026-09-10",
-  "note": "Read live from regime.json; snapshot held here for the brief."
+  "note": "Read live from regime.json by the tab."
  },
+ "news_as_of": "2026-09-14",
  "news": [
   {
    "hot": true,
    "title": "Crude at a four-month high on Saudi pipeline shutdown",
    "body": "Brent traded around $106-110 after rallying more than 9% last week. Saudi Arabia shut its East-West pipeline - roughly 7m b/d to Yanbu, the route that bypasses Hormuz - following drone attacks. WTI near $101.",
    "src": "Bloomberg, Energy Intelligence, Fortune - 13-14 Sep 2026",
-   "affects": "XOP, $4,490"
+   "affects": "XOP, $4,593"
   },
   {
    "hot": false,
    "title": "Natural gas at a three-week low on a bearish storage build",
    "body": "Gas fell to about $2.80/MMBtu. The EIA reported a 40 Bcf injection for the week to 4 Sep against roughly 31 Bcf expected, lifting stocks to 3.254 Tcf - some 4.8% above the five-year average. Lower-48 output averages 112.9 Bcf/d in September.",
    "src": "EIA Short-Term Energy Outlook, Trading Economics, NGI - Sep 2026",
-   "affects": "UNG, $20,780"
+   "affects": "UNG, $21,080"
   }
  ],
  "notes": [
   "NAV is $300,000 throughout - the notional mandate assigned by the firm. Never measured against account equity, by instruction. 1% = $3,000.",
   "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
   "Themes are assigned, not fed. IBKR returns no sector tags; UNG and XOP are both classified Energy as a stated assumption.",
-  "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry.",
-  "Both stops CONFIRMED as working orders by the account owner, 15 Sep 2026. The API returned status REPLACED, which marks a prior modification, not a cancellation. Defined-risk figures therefore hold. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
-  "Parametric VaR understates the tail: historical 5th percentile $751 vs parametric $704; the worst day in the window was $1,449, or 1.46x the 99% VaR.",
-  "Correlation of 0.284 is not a usable parameter - standard error 0.121, 95% interval [0.030, 0.503], rolling 20-day range -0.114 to +0.691. Total diversification benefit versus perfect correlation is $108.",
+  "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
+  "Stops are confirmed by the account owner, not read from the API: an IBKR Activity Flex Query cannot report working orders. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
+  "Parametric VaR understates the tail: the historical 5th percentile has run above the parametric figure, and the worst day in the window was roughly 1.5x the 99% VaR.",
+  "Correlation between the two legs is not a usable parameter - the standard error is wide and the rolling 20-day figure has swung through zero in both directions.",
   "Scenario betas are assumed: UNG ~1.0 to front-month gas; XOP ~1.2 to equities, ~1.5 to crude. The XOP leg of the gas shock uses the measured beta of 0.24.",
+  "Scenario, slippage and gap figures are authored at the prices in price_basis and do not move with the market. The tab flags them when live prices drift past tolerance.",
   "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn."
  ]
 }

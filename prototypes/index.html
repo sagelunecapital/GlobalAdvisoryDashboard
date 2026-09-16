@@ -4826,9 +4826,14 @@ function riskRender(d){
   document.getElementById('risk-sub').textContent =
     d.positions.length+' positions, long only \u00b7 '+t.themes_live+' theme live \u00b7 '+
     'budgets support '+t.themes_supported.toFixed(0)+' themes at full risk';
+  const _jStale = !!d.judgment_stale;
+  const _jChip = d.judgment_reviewed_on
+    ? '<br>Scenarios reviewed <b>'+d.judgment_reviewed_on+'</b> '+
+      '<span class="risk-chip '+(_jStale?'wn':'ok')+'">'+(_jStale?'RE-DERIVE':'CURRENT')+'</span>'
+    : '';
   document.getElementById('risk-stamp').innerHTML =
     '<div class="risk-basis">NAV basis '+_rM(d.nav)+'</div><div>Export pulled <b>'+d.export_pulled+
-    '</b> \u00b7 '+d.source+'<br>Vol window '+d.vol_window+'</div>';
+    '</b> \u00b7 '+d.source+'<br>Vol window '+d.vol_window+_jChip+'</div>';
 
   // KPI row
   const [tc,tl]=_rRule(t.theme_used), [pc,pl]=_rRule(t.portfolio_used);

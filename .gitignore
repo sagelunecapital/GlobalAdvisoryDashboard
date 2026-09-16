@@ -38,6 +38,7 @@ tests/ui/screenshots/
 # Pipeline runtime caches / regenerated data — rebuilt each run, not committed
 # (Sector Rotation/ is ignored above; these are the same kind of artifact)
 scripts/barchart_zq_cache.json
+data/ibkr_flex.json
 data/cftc_cot.db
 data/sector_rotation.db
 data/etf_flows_daily.json

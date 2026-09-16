@@ -1,162 +1,378 @@
 # Generates prototypes/risk.json for the dashboard Risk tab.
+#
 # All figures measured against a fixed $300,000 notional NAV - never account equity.
-import json, io, os
+#
+# Inputs:
+#   data/ibkr_flex.json   - the book of record (scripts/ibkr_flex_fetch.py, Flex Web Service)
+#   data/risk_manual.json - human judgment: stops, themes, scenarios, news, notes
+#   yfinance              - live marks and the daily bars behind vol / ATR / VaR
+# Output:
+#   prototypes/risk.json
+#
+# The split matters. Everything price-driven is recomputed every run: marks, stop
+# distances, vol, ATR, touch probabilities, VaR, correlation, gross, stop_total and
+# the budget meters. Everything in risk_manual.json is left exactly as authored and
+# stamped with reviewed_on; when live prices drift past drift_tolerance the output
+# carries judgment_stale=true so the tab can say the scenarios need re-deriving
+# rather than quietly presenting old arithmetic as current.
+#
+# Methods, all reproducing the hand-built 15 Sep 2026 issue:
+#   vol_d      sample stdev of simple daily returns over the window
+#   vol_a      vol_d * sqrt(252)
+#   pN         P(stop touched within N sessions), reflection principle, zero drift:
+#              2 * Phi(-ln(S/B) / (vol_d * sqrt(N)))
+#   VaR        parametric, z95=1.645 / z99=2.326 on the correlated portfolio sigma
+#   var_share  (mv_i * vol_i)^2 / sigma_p^2
+import json, io, os, sys, math, datetime
 
-NAV = 300000.0
-THEME = 0.02 * NAV      # 2% max loss per theme  = $6,000
-PORT = 0.06 * NAV       # 6% max loss portfolio  = $18,000
-OUT = os.path.join(r"C:\Users\LANCE\Documents\OneDrive\[03] Cowork", "prototypes", "risk.json")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FLEX = os.path.join(ROOT, "data", "ibkr_flex.json")
+MANUAL = os.path.join(ROOT, "data", "risk_manual.json")
+OUT = os.path.join(ROOT, "prototypes", "risk.json")
 
-pos = [
-    dict(sym="UNG", name="US Natural Gas Fund", theme="Energy", sub="Natural gas futures",
-         qty=2000, px=10.39000035, avg=10.361528, stop=9.35,
-         daily=120.0007, unreal=56.9447,
-         vol_d=0.019322, vol_a=0.30673, atr=0.299, p5=0.01, p21=0.23, p63=0.49, var_share=0.880),
-    dict(sym="XOP", name="SPDR S&P Oil & Gas E&P", theme="Energy", sub="Oil & gas E&P equities",
-         qty=23, px=195.19999695, avg=169.50395217, stop=185.00,
-         daily=39.78992985, unreal=591.00902985,
-         vol_d=0.016300, vol_a=0.25875, atr=4.359, p5=0.14, p21=0.47, p63=0.68, var_share=0.029),
-]
+WINDOW = 60          # daily bars behind vol / correlation
+ATR_N = 14           # Wilder ATR period
+Z95, Z99 = 1.645, 2.326
+HORIZONS = (5, 21, 63)
+FLEX_MAX_AGE_H = 36  # a Flex snapshot older than this is not publishable
 
-for p in pos:
-    p["mv"] = p["qty"] * p["px"]
-    p["pct_nav"] = p["mv"] / NAV
-    p["stop_dist"] = (p["px"] - p["stop"]) / p["px"]
-    p["stop_risk"] = p["qty"] * (p["px"] - p["stop"])       # loss from today's mark
-    p["stop_vs_cost"] = p["qty"] * (p["stop"] - p["avg"])   # realised P&L if filled
-    p["atr_mult"] = (p["px"] - p["stop"]) / p["atr"]
-    p["theme_used"] = p["stop_risk"] / THEME
-    p["max_shares_theme"] = THEME / (p["px"] - p["stop"])
-    p["headroom"] = p["max_shares_theme"] / p["qty"]
 
-gross = sum(p["mv"] for p in pos)
-for p in pos:
-    p["pct_book"] = p["mv"] / gross
+def fail(msg):
+    print("FATAL: " + msg)
+    sys.exit(1)
 
-stop_total = sum(p["stop_risk"] for p in pos)
-gap_total = 4371.0          # UNG full -20% with no stop protection + XOP at measured beta 0.24
-var95, var99 = 704.20, 995.73
 
-doc = {
-    "updated": "2026-09-15T11:05:00Z",
-    "export_pulled": "15 Sep 2026",
-    "source": "Interactive Brokers (live)",
-    "vol_window": "18 Jun - 14 Sep 2026 (60 daily bars)",
-    "nav": NAV,
-    "unit": 0.01 * NAV,
-    "limits": {
-        "theme_pct": 0.02, "theme_abs": THEME,
-        "portfolio_pct": 0.06, "portfolio_abs": PORT,
-        "basis": "NAV fixed at the $300,000 notional mandate. Never measured against account equity.",
-        "provisional": True, "set_on": "15 Sep 2026"
-    },
-    "positions": pos,
-    "totals": {
-        "gross": gross, "gross_pct": gross / NAV, "net_pct": gross / NAV,
-        "daily": sum(p["daily"] for p in pos),
-        "unreal": sum(p["unreal"] for p in pos),
-        "stop_total": stop_total, "stop_pct": stop_total / NAV,
-        "gap_total": gap_total, "gap_pct": gap_total / NAV,
-        "var95": var95, "var99": var99, "correlation": 0.2840,
-        "theme_used": stop_total / THEME, "portfolio_used": stop_total / PORT,
-        "theme_used_gap": gap_total / THEME, "portfolio_used_gap": gap_total / PORT,
-        "theme_used_var99": var99 / THEME, "portfolio_used_var99": var99 / PORT,
-        "themes_live": 1, "themes_supported": PORT / THEME
-    },
-    "excluded": {
-        "sym": "TLT", "qty": 900, "px": 80.40000155, "mv": 900 * 80.40000155,
-        "unreal": -11261.722505,
-        "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to these two positions."
-    },
-    "scenarios": [
-        {"name": "Natural gas -20%", "naive": -4371, "stopped": -2295, "gap": -4371, "trigger": "UNG"},
-        {"name": "Energy equities -12%", "naive": -1370, "stopped": -1066, "gap": -1370, "trigger": "XOP"},
-        {"name": "Crude -10%", "naive": -1297, "stopped": -858, "gap": -1297, "trigger": "XOP"},
-        {"name": "Broad market -3%", "naive": -369, "stopped": -369, "gap": -369, "trigger": None},
-        {"name": "Rates +50bp", "naive": -298, "stopped": -298, "gap": -298, "trigger": None},
-        {"name": "UNG realised drift, next 21d", "naive": None, "stopped": -847, "gap": None,
-         "trigger": "no market move required"}
-    ],
-    "slippage": [
-        {"label": "Clean fill at $9.35", "ung": -2080, "total": -2295},
-        {"label": "2% below stop", "ung": -2454, "total": -2669},
-        {"label": "5% below stop", "ung": -3015, "total": -3230},
-        {"label": "10% below stop", "ung": -3950, "total": -4165},
-        {"label": "Full gap - stop gives nothing", "ung": -4156, "total": -4371}
-    ],
-    "gross_permitted": [
-        {"stop": 0.03, "gross": PORT / 0.03, "note": "tight stops, high turnover"},
-        {"stop": 0.05, "gross": PORT / 0.05, "note": "levered, actively managed"},
-        {"stop": 0.075, "gross": PORT / 0.075, "note": "fully invested, unlevered"},
-        {"stop": 0.10, "gross": PORT / 0.10, "note": "your current UNG stop discipline"},
-        {"stop": 0.15, "gross": PORT / 0.15, "note": "wide stops, low turnover"},
-        {"stop": 0.20, "gross": PORT / 0.20, "note": "conviction holds, little protection"}
-    ],
-    "limit_rows": [
-        {"name": "Portfolio - both stops fill cleanly", "budget": PORT, "cur": stop_total},
-        {"name": "Portfolio - gas gap, no stop protection", "budget": PORT, "cur": gap_total},
-        {"name": "Portfolio - VaR 99%, correlation-adjusted", "budget": PORT, "cur": var99},
-        {"name": "Energy theme - both stops fill cleanly", "budget": THEME, "cur": stop_total},
-        {"name": "Energy theme - gas gap, no stop protection", "budget": THEME, "cur": gap_total},
-        {"name": "Energy theme - VaR 99%, correlation-adjusted", "budget": THEME, "cur": var99},
-        {"name": "Energy theme - VaR 95%, correlation-adjusted", "budget": THEME, "cur": var95},
-        {"name": "UNG - position risk at stop", "budget": THEME, "cur": 2080.0},
-        {"name": "XOP - position risk at stop", "budget": THEME, "cur": 234.60}
-    ],
-    "not_configured": [
-        "Single-commodity concentration (UNG is 82.2% of the book)",
-        "Gross exposure backstop for gap risk",
-        "Net exposure range"
-    ],
-    "regime": {
-        "cls": "red", "div": "bearish", "since": "2026-09-10",
-        "note": "Read live from regime.json; snapshot held here for the brief."
-    },
-    "news": [
-        {"hot": True,
-         "title": "Crude at a four-month high on Saudi pipeline shutdown",
-         "body": "Brent traded around $106-110 after rallying more than 9% last week. Saudi Arabia shut its East-West pipeline - roughly 7m b/d to Yanbu, the route that bypasses Hormuz - following drone attacks. WTI near $101.",
-         "src": "Bloomberg, Energy Intelligence, Fortune - 13-14 Sep 2026",
-         "affects": "XOP, $4,490"},
-        {"hot": False,
-         "title": "Natural gas at a three-week low on a bearish storage build",
-         "body": "Gas fell to about $2.80/MMBtu. The EIA reported a 40 Bcf injection for the week to 4 Sep against roughly 31 Bcf expected, lifting stocks to 3.254 Tcf - some 4.8% above the five-year average. Lower-48 output averages 112.9 Bcf/d in September.",
-         "src": "EIA Short-Term Energy Outlook, Trading Economics, NGI - Sep 2026",
-         "affects": "UNG, $20,780"}
-    ],
-    "notes": [
-        "NAV is $300,000 throughout - the notional mandate assigned by the firm. Never measured against account equity, by instruction. 1% = $3,000.",
-        "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
-        "Themes are assigned, not fed. IBKR returns no sector tags; UNG and XOP are both classified Energy as a stated assumption.",
-        "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry.",
-        "Both stops CONFIRMED as working orders by the account owner, 15 Sep 2026. The API returned status REPLACED, which marks a prior modification, not a cancellation. Defined-risk figures therefore hold. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
-        "Parametric VaR understates the tail: historical 5th percentile $751 vs parametric $704; the worst day in the window was $1,449, or 1.46x the 99% VaR.",
-        "Correlation of 0.284 is not a usable parameter - standard error 0.121, 95% interval [0.030, 0.503], rolling 20-day range -0.114 to +0.691. Total diversification benefit versus perfect correlation is $108.",
-        "Scenario betas are assumed: UNG ~1.0 to front-month gas; XOP ~1.2 to equities, ~1.5 to crude. The XOP leg of the gas shock uses the measured beta of 0.24.",
-        "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn."
-    ]
-}
+def phi(x):
+    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
 
-with io.open(OUT, "w", encoding="utf-8") as f:
-    json.dump(doc, f, indent=1, ensure_ascii=True)
 
-# ---- assertions: fail loudly rather than ship a wrong file ----
-d = json.load(io.open(OUT, encoding="utf-8"))
-assert abs(d["totals"]["gross"] - 25269.60) < 0.01, "gross mismatch"
-assert abs(d["totals"]["stop_total"] - 2314.60) < 0.01, "stop total mismatch"
-assert abs(d["limits"]["theme_abs"] - 6000.0) < 1e-9, "theme budget must be 2% of 300k"
-assert abs(d["limits"]["portfolio_abs"] - 18000.0) < 1e-9, "portfolio budget must be 6% of 300k"
-assert d["nav"] == 300000.0, "NAV must be the 300k mandate"
-assert abs(d["totals"]["theme_used"] - 0.3857667) < 1e-4, "theme usage mismatch"
-assert abs(d["totals"]["portfolio_used"] - 0.1285889) < 1e-4, "portfolio usage mismatch"
-assert len(d["positions"]) == 2, "expected exactly two positions"
-assert all(p["theme"] == "Energy" for p in d["positions"]), "theme tagging changed"
-for r in d["limit_rows"]:
-    assert r["cur"] <= r["budget"], "unexpected breach: " + r["name"]
+def touch_prob(spot, barrier, vol_d, days):
+    """P(barrier touched within `days` sessions). Reflection principle, zero drift."""
+    if spot <= 0 or barrier <= 0 or vol_d <= 0 or days <= 0:
+        return None
+    if barrier >= spot:          # already at or through the stop
+        return 1.0
+    x = math.log(spot / barrier)
+    return min(1.0, 2.0 * phi(-x / (vol_d * math.sqrt(days))))
 
-print("OK  wrote %s  (%d bytes)" % (OUT, os.path.getsize(OUT)))
-print("  gross $%.2f | stop risk $%.2f" % (d["totals"]["gross"], d["totals"]["stop_total"]))
-print("  theme used %.1f%% of $%.0f | portfolio used %.1f%% of $%.0f" % (
-    100 * d["totals"]["theme_used"], d["limits"]["theme_abs"],
-    100 * d["totals"]["portfolio_used"], d["limits"]["portfolio_abs"]))
-print("  no limit breaches; %d rows checked" % len(d["limit_rows"]))
+
+def load(path, what):
+    if not os.path.exists(path):
+        fail("%s missing (%s). Run the step that produces it before this one." % (path, what))
+    with io.open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def main():
+    man = load(MANUAL, "judgment inputs")
+    flex = load(FLEX, "IBKR book of record")
+
+    # ---- the Flex snapshot must be fresh, or we are publishing yesterday's book ----
+    try:
+        fetched = datetime.datetime.strptime(flex["fetched_at"], "%Y-%m-%dT%H:%M:%SZ") \
+                          .replace(tzinfo=datetime.timezone.utc)
+    except (KeyError, ValueError):
+        fail("data/ibkr_flex.json has no usable fetched_at stamp")
+    age_h = (datetime.datetime.now(datetime.timezone.utc) - fetched).total_seconds() / 3600.0
+    if age_h > FLEX_MAX_AGE_H:
+        fail("IBKR snapshot is %.1fh old (limit %dh). Re-run scripts/ibkr_flex_fetch.py; "
+             "refusing to publish a stale book." % (age_h, FLEX_MAX_AGE_H))
+
+    NAV = float(man["nav"])
+    THEME = man["limits"]["theme_pct"] * NAV
+    PORT = man["limits"]["portfolio_pct"] * NAV
+    holdings = man["holdings"]
+    excluded_cfg = man.get("excluded", {})
+
+    # ---- reconcile the live book against what the judgment file knows about ----
+    live = {p["sym"]: p for p in flex["positions"]}
+    unknown = [s for s in live if s not in holdings and s not in excluded_cfg]
+    if unknown:
+        fail("IBKR holds %s, which data/risk_manual.json neither tracks nor excludes. "
+             "A new position must not silently vanish from the risk board - add it to "
+             "holdings (with a stop and a theme) or to excluded, then re-run."
+             % ", ".join(sorted(unknown)))
+    gone = [s for s in holdings if s not in live]
+    if gone:
+        fail("data/risk_manual.json tracks %s but IBKR no longer holds it. Remove it "
+             "from holdings (and re-derive the scenarios) before publishing."
+             % ", ".join(sorted(gone)))
+
+    syms = sorted(holdings)
+
+    # ---- prices: yfinance for live marks and the bars behind every statistic ----
+    try:
+        import yfinance as yf
+        import pandas as pd
+    except ImportError as e:
+        fail("yfinance/pandas required for marks and vol (%s)" % e)
+
+    need = syms + sorted(excluded_cfg)
+    raw = yf.download(need, period="6mo", interval="1d",
+                      auto_adjust=False, progress=False, group_by="ticker")
+    if raw is None or len(raw) == 0:
+        fail("yfinance returned no bars for %s" % ", ".join(need))
+
+    bars = {}
+    for s in need:
+        try:
+            df = raw[s] if len(need) > 1 else raw
+            df = df.dropna(subset=["Close"])
+        except KeyError:
+            fail("yfinance returned no frame for %s" % s)
+        if len(df) < WINDOW + 1:
+            fail("%s has only %d usable bars, need %d" % (s, len(df), WINDOW + 1))
+        bars[s] = df
+
+    rets = {}
+    for s in syms:
+        c = bars[s]["Close"].astype(float)
+        rets[s] = c.pct_change().dropna().iloc[-WINDOW:]
+        if len(rets[s]) < WINDOW:
+            fail("%s: only %d returns in the window" % (s, len(rets[s])))
+
+    win = bars[syms[0]].index[-WINDOW:]
+    vol_window = "%s - %s (%d daily bars)" % (
+        win[0].strftime("%d %b"), win[-1].strftime("%d %b %Y"), WINDOW)
+
+    # ---- per-position ----
+    pos = []
+    for s in syms:
+        h = holdings[s]
+        lv = live[s]
+        df = bars[s]
+        close = df["Close"].astype(float)
+        px = float(close.iloc[-1])
+        prev = float(close.iloc[-2])
+        qty = float(lv["qty"])
+        avg = float(lv["avg"])
+        stop = float(h["stop"])
+
+        if stop >= px:
+            print("  WARNING %s stop %.2f is at or above the mark %.2f" % (s, stop, px))
+
+        vol_d = float(rets[s].std(ddof=1))
+        # Wilder ATR on true range
+        high = df["High"].astype(float)
+        low = df["Low"].astype(float)
+        pc = close.shift(1)
+        tr = pd.concat([high - low, (high - pc).abs(), (low - pc).abs()], axis=1).max(axis=1)
+        atr = float(tr.dropna().ewm(alpha=1.0 / ATR_N, adjust=False).mean().iloc[-1])
+
+        mv = qty * px
+        p = {
+            "sym": s,
+            "name": h["name"],
+            "theme": h["theme"],
+            "sub": h["sub"],
+            "qty": qty,
+            "px": px,
+            "avg": avg,
+            "stop": stop,
+            "stop_confirmed_on": h.get("stop_confirmed_on"),
+            "daily": qty * (px - prev),
+            "unreal": qty * (px - avg),
+            "vol_d": vol_d,
+            "vol_a": vol_d * math.sqrt(252.0),
+            "atr": atr,
+            "mv": mv,
+            "pct_nav": mv / NAV,
+            "stop_dist": (px - stop) / px,
+            "stop_risk": qty * (px - stop),
+            "stop_vs_cost": qty * (stop - avg),
+            "atr_mult": (px - stop) / atr if atr > 0 else None,
+        }
+        for n, key in zip(HORIZONS, ("p5", "p21", "p63")):
+            p[key] = touch_prob(px, stop, vol_d, n)
+        p["theme_used"] = p["stop_risk"] / THEME
+        p["max_shares_theme"] = THEME / (px - stop) if px > stop else None
+        p["headroom"] = (p["max_shares_theme"] / qty) if p["max_shares_theme"] else None
+        pos.append(p)
+
+    gross = sum(p["mv"] for p in pos)
+    for p in pos:
+        p["pct_book"] = p["mv"] / gross
+
+    # ---- portfolio VaR: parametric, correlation-adjusted ----
+    sig = {p["sym"]: p["mv"] * p["vol_d"] for p in pos}
+    var_sum = sum(v * v for v in sig.values())
+    cross = 0.0
+    corr = None
+    if len(syms) == 2:
+        a, b = syms
+        corr = float(rets[a].corr(rets[b]))
+        cross = 2.0 * corr * sig[a] * sig[b]
+    elif len(syms) > 2:
+        for i, a in enumerate(syms):
+            for b in syms[i + 1:]:
+                cross += 2.0 * float(rets[a].corr(rets[b])) * sig[a] * sig[b]
+    sigma_p = math.sqrt(max(0.0, var_sum + cross))
+    var95, var99 = Z95 * sigma_p, Z99 * sigma_p
+    for p in pos:
+        p["var_share"] = (sig[p["sym"]] ** 2) / (sigma_p ** 2) if sigma_p > 0 else None
+
+    stop_total = sum(p["stop_risk"] for p in pos)
+    gap_total = float(man["gap"]["total"])
+
+    # ---- is the authored judgment still anchored to today's prices? ----
+    basis = man.get("price_basis", {})
+    tol = float(man.get("drift_tolerance", 0.05))
+    drift = {}
+    for p in pos:
+        b = basis.get(p["sym"])
+        if b:
+            drift[p["sym"]] = (p["px"] - b) / b
+    worst = max((abs(v) for v in drift.values()), default=0.0)
+    stale = worst > tol
+
+    # ---- excluded holding (UI renders a single one) ----
+    if len(excluded_cfg) > 1:
+        fail("the Risk tab renders exactly one excluded holding; %d configured"
+             % len(excluded_cfg))
+    excluded = None
+    for s, cfg in excluded_cfg.items():
+        lv = live.get(s)
+        if not lv:
+            continue
+        px = float(bars[s]["Close"].astype(float).iloc[-1])
+        excluded = {"sym": s, "qty": float(lv["qty"]), "px": px,
+                    "mv": float(lv["qty"]) * px,
+                    "unreal": float(lv["qty"]) * (px - float(lv["avg"])),
+                    "reason": cfg["reason"]}
+
+    themes = sorted({p["theme"] for p in pos})
+
+    # {SYM_PCT} placeholders in not_configured resolve to live concentration
+    by_sym = {p["sym"]: p for p in pos}
+    not_configured = []
+    for line in man["not_configured"]:
+        for s, p in by_sym.items():
+            line = line.replace("{%s_PCT}" % s, "%.1f%%" % (100 * p["pct_book"]))
+        not_configured.append(line)
+
+    # news "affects" carries the live exposure alongside the authored text
+    news = []
+    for n in man["news"]:
+        n = dict(n)
+        p = by_sym.get(n.get("affects"))
+        if p:
+            n["affects"] = "%s, $%s" % (p["sym"], format(int(round(p["mv"])), ","))
+        news.append(n)
+
+    notes = list(man["notes"])
+    if stale:
+        notes.insert(0, "Scenario, slippage and gap figures were authored on %s at "
+                        "%s and prices have since moved %.1f%%. Treat those rows as "
+                        "indicative until they are re-derived; the positions, stops, "
+                        "vol, VaR and budget meters above are live."
+                     % (man["reviewed_on"],
+                        ", ".join("%s $%.2f" % (s, v) for s, v in sorted(basis.items())),
+                        100 * worst))
+
+    now = datetime.datetime.now(datetime.timezone.utc)
+    doc = {
+        "updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "export_pulled": fetched.strftime("%d %b %Y"),
+        # Say what the book actually came from - the tab prints this verbatim.
+        "source": "%s + live marks" % flex.get("source", "unknown source"),
+        "vol_window": vol_window,
+        "mark_date": bars[syms[0]].index[-1].strftime("%Y-%m-%d"),
+        "flex_report_date": flex.get("report_date"),
+        "nav": NAV,
+        "unit": 0.01 * NAV,
+        "judgment_reviewed_on": man["reviewed_on"],
+        "judgment_stale": stale,
+        "judgment_drift": drift,
+        "limits": {
+            "theme_pct": man["limits"]["theme_pct"], "theme_abs": THEME,
+            "portfolio_pct": man["limits"]["portfolio_pct"], "portfolio_abs": PORT,
+            "basis": man["limits"]["basis"],
+            "provisional": man["limits"]["provisional"],
+            "set_on": man["limits"]["set_on"],
+        },
+        "positions": pos,
+        "totals": {
+            "gross": gross, "gross_pct": gross / NAV, "net_pct": gross / NAV,
+            "daily": sum(p["daily"] for p in pos),
+            "unreal": sum(p["unreal"] for p in pos),
+            "stop_total": stop_total, "stop_pct": stop_total / NAV,
+            "gap_total": gap_total, "gap_pct": gap_total / NAV,
+            "var95": var95, "var99": var99, "correlation": corr,
+            "theme_used": stop_total / THEME, "portfolio_used": stop_total / PORT,
+            "theme_used_gap": gap_total / THEME, "portfolio_used_gap": gap_total / PORT,
+            "theme_used_var99": var99 / THEME, "portfolio_used_var99": var99 / PORT,
+            "themes_live": len(themes), "themes_supported": PORT / THEME,
+        },
+        "excluded": excluded,
+        "scenarios": man["scenarios"],
+        "slippage": man["slippage"],
+        "gross_permitted": [dict(r, gross=PORT / r["stop"]) for r in man["gross_permitted"]],
+        "limit_rows": (
+            [{"name": "Portfolio - all stops fill cleanly", "budget": PORT, "cur": stop_total},
+             {"name": "Portfolio - gas gap, no stop protection", "budget": PORT, "cur": gap_total},
+             {"name": "Portfolio - VaR 99%, correlation-adjusted", "budget": PORT, "cur": var99}]
+            + [{"name": "%s theme - all stops fill cleanly" % t, "budget": THEME,
+                "cur": sum(p["stop_risk"] for p in pos if p["theme"] == t)} for t in themes]
+            + [{"name": "Energy theme - gas gap, no stop protection", "budget": THEME,
+                "cur": gap_total},
+               {"name": "Energy theme - VaR 99%, correlation-adjusted", "budget": THEME,
+                "cur": var99},
+               {"name": "Energy theme - VaR 95%, correlation-adjusted", "budget": THEME,
+                "cur": var95}]
+            + [{"name": "%s - position risk at stop" % p["sym"], "budget": THEME,
+                "cur": p["stop_risk"]} for p in pos]
+        ),
+        "not_configured": not_configured,
+        "regime": {"note": "Read live from regime.json by the tab."},
+        "news_as_of": man.get("news_as_of"),
+        "news": news,
+        "notes": notes,
+    }
+
+    with io.open(OUT, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=1, ensure_ascii=True)
+
+    # ---- assertions: invariants, NOT a pinned snapshot. These must hold at any price. ----
+    d = json.load(io.open(OUT, encoding="utf-8"))
+    t = d["totals"]
+    assert d["nav"] == 300000.0, "NAV must be the 300k mandate"
+    assert abs(d["limits"]["theme_abs"] - 0.02 * NAV) < 1e-9, "theme budget must be 2% of NAV"
+    assert abs(d["limits"]["portfolio_abs"] - 0.06 * NAV) < 1e-9, "portfolio budget must be 6% of NAV"
+    assert d["positions"], "no positions"
+    assert abs(t["gross"] - sum(p["mv"] for p in d["positions"])) < 0.01, "gross != sum of mv"
+    assert abs(t["stop_total"] - sum(p["stop_risk"] for p in d["positions"])) < 0.01, \
+        "stop_total != sum of stop_risk"
+    assert abs(sum(p["pct_book"] for p in d["positions"]) - 1.0) < 1e-9, "pct_book must sum to 1"
+    assert abs(t["theme_used"] - t["stop_total"] / d["limits"]["theme_abs"]) < 1e-9, \
+        "theme_used inconsistent"
+    assert t["var99"] > t["var95"] > 0, "VaR ordering broken"
+    assert t["var99"] <= t["stop_total"] * 50, "VaR implausibly large vs stop risk"
+    for p in d["positions"]:
+        assert p["px"] > 0 and p["qty"] != 0, "bad price/qty for " + p["sym"]
+        assert p["stop"] < p["px"], "stop above mark for " + p["sym"]
+        assert 0 <= p["p5"] <= p["p21"] <= p["p63"] <= 1, "touch probs not monotonic for " + p["sym"]
+        assert abs(p["stop_risk"] - p["qty"] * (p["px"] - p["stop"])) < 0.01, \
+            "stop_risk inconsistent for " + p["sym"]
+    for r in d["limit_rows"]:
+        if r["cur"] > r["budget"]:
+            print("  BREACH %s: $%.0f of $%.0f" % (r["name"], r["cur"], r["budget"]))
+
+    print("OK  wrote %s  (%d bytes)" % (OUT, os.path.getsize(OUT)))
+    print("  marks %s | Flex pulled %s | vol window %s"
+          % (d["mark_date"], d["export_pulled"], d["vol_window"]))
+    for p in d["positions"]:
+        print("  %-5s %8.0f @ %8.2f  stop %7.2f  risk $%7.2f  p21 %4.1f%%"
+              % (p["sym"], p["qty"], p["px"], p["stop"], p["stop_risk"], 100 * p["p21"]))
+    print("  gross $%.2f | stop risk $%.2f | VaR95 $%.2f VaR99 $%.2f | corr %s"
+          % (t["gross"], t["stop_total"], t["var95"], t["var99"],
+             ("%.3f" % t["correlation"]) if t["correlation"] is not None else "n/a"))
+    print("  theme used %.1f%% of $%.0f | portfolio used %.1f%% of $%.0f"
+          % (100 * t["theme_used"], d["limits"]["theme_abs"],
+             100 * t["portfolio_used"], d["limits"]["portfolio_abs"]))
+    if d["judgment_stale"]:
+        print("  JUDGMENT STALE: prices moved %.1f%% since %s - scenarios need re-deriving"
+              % (100 * worst, d["judgment_reviewed_on"]))
+
+
+if __name__ == "__main__":
+    main()
