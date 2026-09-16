@@ -4559,7 +4559,7 @@ function renderSrQuadrant(){
 // Daily bars scraped from etfdb's Fund Flows chart; cumulative derived here.
 // Regenerate with scripts/scrape_etf_flows.py then scripts/gen_etf_flows.py.
 let _flwData = null, _flwPeriod = '6M', _flwFreq = 'D', _flwSel = null;
-let [_flwSortKey, _flwSortDir] = gaSortLoad('gaai-flw-sort', '6M', -1);
+let [_flwSortKey, _flwSortDir] = gaSortLoad('gaai-flw-sort', '3M', -1);
 const _FLW_MONTHS = {'3M': 3, '6M': 6, '1Y': 12};
 
 function flowsInit(){
@@ -4776,6 +4776,38 @@ function flwHoverOut(){
   if(d) d.setAttribute('opacity','0');
 }
 
+// ── Rolling 3-month flow buckets, anchored to as_of ─────────────────────
+// The reported 3M/6M/1Y windows all END on as_of, so they are nested and
+// overlap - reading them side by side double-counts. Each bucket here is the
+// difference of two trailing windows, which partitions the year exactly:
+//   last 3M = W3,  4-6M = W6-W3,  7-9M = W9-W6,  10-12M = W12-W9
+// so the four always sum to the reported 1Y. Windows use the pipeline's own
+// convention (calendar months, INCLUSIVE start), which reproduces etfdb's
+// published totals to under $0.01M - so "last 3M" equals the reported 3M.
+function _flwMinusMonths(d, n){
+  let y = d.getUTCFullYear(), m = d.getUTCMonth() - n;
+  while(m < 0){ m += 12; y -= 1; }
+  const dim = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(y, m, Math.min(d.getUTCDate(), dim)));
+}
+function _flwWindow(daily, asOf, n){
+  const lo = _flwMinusMonths(asOf, n).toISOString().slice(0, 10);
+  const hi = asOf.toISOString().slice(0, 10);
+  let s = 0;
+  for(let i = 0; i < daily.length; i++){
+    const ds = daily[i][0];
+    if(ds >= lo && ds <= hi) s += daily[i][1];
+  }
+  return s;
+}
+function _flwBuckets(daily, asOfStr){
+  const asOf = new Date(asOfStr + 'T00:00:00Z');
+  const w = [3, 6, 9, 12].map(n => _flwWindow(daily, asOf, n));
+  return {'3M': w[0], '4-6M': w[1] - w[0], '7-9M': w[2] - w[1],
+          '10-12M': w[3] - w[2], '1Y': w[3]};
+}
+const _FLW_COLS = ['3M', '4-6M', '7-9M', '10-12M', '1Y'];
+
 function flwRender(){
   const D=_flwData, O=D.order;
   document.getElementById('flw-updated').textContent='Data as of '+D.as_of;
@@ -4825,11 +4857,15 @@ function flwRender(){
       '<path d="'+d+'" fill="none" stroke="'+c+'" stroke-width="1.6"/></svg></div>';
   }).join('');
 
-  // ---- sortable summary table ----
-  const data=O.map(tk=>({tk, sector:D.tickers[tk].sector,
-    '3M':D.tickers[tk].periods['3M'].total,
-    '6M':D.tickers[tk].periods['6M'].total,
-    '1Y':D.tickers[tk].periods['1Y'].total}));
+    // ---- sortable summary table ----
+  const data=O.map(tk=>Object.assign(
+    {tk, sector:D.tickers[tk].sector},
+    _flwBuckets(D.tickers[tk].daily, D.as_of)));
+  // a stored sort key from the old 3M/6M/1Y header would silently sort on
+  // undefined, so fall back when it no longer names a column
+  if(_FLW_COLS.indexOf(_flwSortKey)<0 && _flwSortKey!=='tk' && _flwSortKey!=='sector'){
+    _flwSortKey='3M'; _flwSortDir=-1;
+  }
   data.sort((a,b)=>{
     const k=_flwSortKey, txt=(k==='tk'||k==='sector');
     const cast=v=>txt ? v : ((v===null||v===undefined||v==='') ? null : Number(v));
@@ -4840,10 +4876,12 @@ function flwRender(){
     'title="Sort by '+label+'">'+label+(arrow(k)?'<span class="flw-ind">'+arrow(k)+'</span>':'')+'</th>';
   const cell=v=>'<td class="'+(v>=0?'flw-pos':'flw-neg')+'">'+_flwM(v)+'</td>';
   document.getElementById('flw-table').innerHTML=
-    '<thead><tr>'+th('tk','ETF')+th('sector','Sector')+th('3M','3M')+th('6M','6M')+th('1Y','1Y')+'</tr></thead><tbody>'+
+    '<thead><tr>'+th('tk','ETF')+th('sector','Sector')+
+    th('3M','Last 3M')+th('4-6M','4-6M')+th('7-9M','7-9M')+th('10-12M','10-12M')+
+    th('1Y','1Y total')+'</tr></thead><tbody>'+
     data.map(r=>'<tr class="flw-row'+(r.tk===_flwSel?' sel':'')+'" onclick="flwSelect(\''+r.tk+'\')">'+
       '<td><b>'+r.tk+'</b></td><td>'+_esc(r.sector)+'</td>'+
-      cell(r['3M'])+cell(r['6M'])+cell(r['1Y'])+'</tr>').join('')+
+      _FLW_COLS.map(k=>cell(r[k])).join('')+'</tr>').join('')+
     '</tbody>';
 }
 let _riskLoaded = false;
