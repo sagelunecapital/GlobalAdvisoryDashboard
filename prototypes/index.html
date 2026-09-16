@@ -196,9 +196,9 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .flw-scroll{overflow-x:auto}
 .stir-table th.flw-sort{cursor:pointer;user-select:none;white-space:nowrap}
 .stir-table th.flw-sort:hover{color:var(--text)}
-.stir-table th.flw-sort .ind{opacity:.45;font-size:9px;margin-left:3px}
+.stir-table th.flw-sort .flw-ind{opacity:.9;font-size:9px;margin-left:3px}
 .stir-table th.flw-sort.on{color:var(--ps-blue)}
-.stir-table th.flw-sort.on .ind{opacity:1}
+.stir-table th.flw-sort.on .flw-ind{opacity:1}
 .stir-table tbody tr.flw-row{cursor:pointer}
 .stir-table tbody tr.flw-row:hover td{background:rgba(0,122,255,0.07)}
 .stir-table tbody tr.flw-row.sel td{background:rgba(0,122,255,0.12)}
@@ -4837,7 +4837,7 @@ function flwRender(){
   });
   const arrow=k=>_flwSortKey===k?(_flwSortDir===-1?'\u25bc':'\u25b2'):'';
   const th=(k,label)=>'<th class="flw-sort'+(_flwSortKey===k?' on':'')+'" onclick="flwSort(\''+k+'\')" '+
-    'title="Sort by '+label+'">'+label+'<span class="ind">'+arrow(k)+'</span></th>';
+    'title="Sort by '+label+'">'+label+(arrow(k)?'<span class="flw-ind">'+arrow(k)+'</span>':'')+'</th>';
   const cell=v=>'<td class="'+(v>=0?'flw-pos':'flw-neg')+'">'+_flwM(v)+'</td>';
   document.getElementById('flw-table').innerHTML=
     '<thead><tr>'+th('tk','ETF')+th('sector','Sector')+th('3M','3M')+th('6M','6M')+th('1Y','1Y')+'</tr></thead><tbody>'+
