@@ -2774,7 +2774,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     <!-- Period slider - sits above the panel it controls -->
     <div style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
     <div style="padding:2px 14px 2px 64px">
-      <input type="range" id="cot-period-slider" min="52" max="500" value="78"
+      <input type="range" id="cot-period-slider" min="0" max="500" value="0"
         oninput="cotSlide()"
         style="width:100%;accent-color:#007aff;cursor:pointer">
       <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:var(--fs-xs);color:var(--text-muted)">
@@ -6663,9 +6663,25 @@ function cotUpdateChart(code){
   const ct=document.getElementById('cot-title'); if(ct) ct.textContent=d.name;
   const slider=document.getElementById('cot-period-slider');
   const maxN=d.weeks.length;
-  if(slider) slider.max=maxN;
-  const nWeeks=slider?Math.min(parseInt(slider.value)||maxN,maxN):maxN;
-  const start=Math.max(0,maxN-nWeeks);
+  // The slider carries the START INDEX of the visible window, not a lookback
+  // length. Dragging right moves the start date later, so the chart's left edge
+  // travels the same way the thumb does; the old duration mapping
+  // (start = maxN - value) moved them in opposite directions, which is what made
+  // the control feel inverted.
+  const maxStart=Math.max(0,maxN-COT_MIN_WEEKS);
+  if(slider){ slider.min=0; slider.max=maxStart; }
+  let start;
+  if(_cotStartDate){
+    // carry the chosen START DATE across contracts rather than the raw index -
+    // histories differ in length, so the same index means a different date
+    start=d.weeks.findIndex(w=>w>=_cotStartDate);
+    if(start<0) start=maxStart;
+  } else {
+    start=Math.max(0,maxN-COT_DEFAULT_WEEKS);
+  }
+  start=Math.min(Math.max(start,0),maxStart);
+  if(slider) slider.value=start;
+  const nWeeks=maxN-start;
   const weeks=d.weeks.slice(start);
   const dates=(d.dates||[]).slice(start);
   const oi=d.oi.slice(start);
@@ -6694,11 +6710,21 @@ function cotUpdateChart(code){
   const lblEl=document.getElementById('cot-slider-label');
   if(fromEl) fromEl.textContent=dates.length?fmtDate(dates[0]):'';
   if(toEl)   toEl.textContent  =dates.length?fmtDate(dates[dates.length-1]):'';
-  if(lblEl)  lblEl.textContent =nWeeks+' weeks';
+  if(lblEl)  lblEl.textContent =nWeeks+' weeks';   // window implied by the start date
 }
+
+// Shortest window the slider can squeeze to, and the window a contract opens on.
+const COT_MIN_WEEKS=52, COT_DEFAULT_WEEKS=78;
+let _cotStartDate=null;          // the start date the user has dialled in
 
 function cotSlide(){
   const code=document.getElementById('cot-contract-sel').value;
+  const slider=document.getElementById('cot-period-slider');
+  const d=code?COT_DATA[code]:null;
+  if(slider&&d&&d.weeks.length){
+    const i=Math.min(Math.max(parseInt(slider.value)||0,0),d.weeks.length-1);
+    _cotStartDate=d.weeks[i];
+  }
   if(code) cotUpdateChart(code);
 }
 
@@ -6781,7 +6807,8 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
   const wrap=document.getElementById(wrapId); if(!wrap) return null;
   wrap.querySelectorAll('svg').forEach(s=>s.remove());
   const VW=wrap.clientWidth||FALLBACK_VW;
-  const pad={t:8,r:64,b:52,l:64};        // identical to drawCotCombined -> x-axes align
+  const pad={t:22,r:64,b:52,l:64};       // l/r identical to drawCotCombined -> x-axes align
+                                         // t leaves room for the Peak label above the line
   const iW=VW-pad.l-pad.r,iH=vH-pad.t-pad.b;
   const aligned=[];
   for(let i=0;i<dates.length;i++){ const v=values[i]; if(v!==null&&v!==undefined) aligned.push({d:dates[i],v:v}); }
@@ -6844,7 +6871,7 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
   const pl=document.createElementNS(ns,'text');     // ...and names it
   const nearRight=xOf(peakIdx)>pad.l+iW-46;
   pl.setAttribute('x',xOf(peakIdx)+(nearRight?-7:7));
-  pl.setAttribute('y',y0+13);
+  pl.setAttribute('y',y0-7);
   pl.setAttribute('text-anchor',nearRight?'end':'start');
   pl.setAttribute('fill','#3fb950');pl.setAttribute('font-size','10');
   pl.setAttribute('font-weight','700');pl.textContent='Peak';svg.appendChild(pl);
