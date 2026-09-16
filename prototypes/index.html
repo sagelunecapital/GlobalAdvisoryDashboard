@@ -1595,7 +1595,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <button class="itab" onclick="flwSetFreq('W',this)">Weekly</button>
       </div>
     </div>
-    <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>Net <span style="color:var(--text-muted)">· log</span></span><span style="color:var(--text);font-weight:600">Cumulative</span></div>
+    <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>Net</span><span style="color:var(--text);font-weight:600">Cumulative</span></div>
     <div class="flw-chartwrap" id="flw-wrap">
       <svg class="flw-combo" id="flw-combo" role="img" aria-label="Net fund flow and cumulative flow"></svg>
       <div class="flw-tip" id="flw-tip" hidden></div>
@@ -4192,8 +4192,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderYieldCharts();
 
   // Liquidity raw
-  const _fBn=v=>'$'+Math.round(Math.abs(v)).toLocaleString('en-US')+'B';
-  const _fTrade=v=>(v<0?'-$':'$')+Math.round(Math.abs(v)).toLocaleString('en-US')+'B';
+  const _fBn=v=>gaMoney(v,1e9);
+  const _fTrade=v=>gaMoney(v,1e9);
   const _fBtc=v=>'$'+Math.round(v).toLocaleString('en-US');
   window._redraw.liquidity=()=>{
     drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#3b82f6',_fBn,350);
@@ -4621,8 +4621,8 @@ function flwSort(k){
   flwRender();
 }
 
-const _flwM = v => (v<0?'-':'+')+'$'+Math.abs(Math.round(v)).toLocaleString()+'M';
-const _flwB = v => (Math.abs(v)>=1000 ? (v/1000).toFixed(1)+'B' : Math.round(v)+'M');
+const _flwM = v => gaMoney(v,1e6,true);
+const _flwB = v => gaMag(v,1e6);
 function _flwStart(){
   const d=new Date(_flwData.as_of+'T00:00:00Z');
   d.setUTCMonth(d.getUTCMonth()-_FLW_MONTHS[_flwPeriod]);
@@ -4859,7 +4859,33 @@ function riskInit(){
       if(k) k.innerHTML='<div style="color:var(--text-muted);font-size:var(--fs-sm)">risk.json not available ('+e+'). Regenerate it, then reopen this tab.</div>';
     });
 }
-const _rM = v => (v<0?'-':'')+'$'+Math.abs(Math.round(v)).toLocaleString();
+// ── Canonical magnitude formatting ──────────────────────────────────────
+// 100 k | 100 mn | 1.00 bn | 1.00 tn - three significant figures, so the
+// decimals shrink as the mantissa grows (1.00 -> 12.3 -> 100). Below a
+// thousand the value is shown whole, because it is not a "big number".
+// `unit` says what v is ALREADY expressed in: 1 = units, 1e6 = millions,
+// 1e9 = billions. Sign is preserved; gaMag returns the magnitude only.
+function gaMag(v, unit){
+  // a missing value must never render as 0 - that is how a blank starts
+  // passing for a real reading
+  if(v === null || v === undefined || v === '') return '\u2014';
+  const n = Number(v) * (unit || 1);
+  if(!isFinite(n)) return '\u2014';
+  const a = Math.abs(n), sg = n < 0 ? '-' : '';
+  const s3 = m => m.toFixed(m >= 100 ? 0 : m >= 10 ? 1 : 2);
+  if(a >= 1e12) return sg + s3(a/1e12) + '\u00a0' + 'tn';
+  if(a >= 1e9)  return sg + s3(a/1e9)  + '\u00a0' + 'bn';
+  if(a >= 1e6)  return sg + s3(a/1e6)  + '\u00a0' + 'mn';
+  if(a >= 1e3)  return sg + s3(a/1e3)  + '\u00a0' + 'k';
+  return sg + String(Math.round(a));
+}
+// Money wrapper - sign sits outside the currency symbol: -$1.23 bn, +$450 mn
+function gaMoney(v, unit, plus){
+  const s = gaMag(v, unit);
+  return s.charAt(0) === '-' ? '-$' + s.slice(1)
+                             : (plus ? '+' : '') + '$' + s;
+}
+const _rM = v => gaMoney(v, 1);
 const _rP = v => (v*100).toFixed(1)+'%';
 function _rRule(used){ return used>1 ? ['cr','BREACH'] : (used>=0.9 ? ['wn','NEAR'] : ['ok','WITHIN']); }
 
@@ -6358,7 +6384,7 @@ function renderRpCharts(sector){
       const maxMc=Math.max(...bdata.map(d=>d.mktcap),1);
       const minMc=Math.min(...bdata.map(d=>d.mktcap));
       const sizes=bdata.map(d=>Math.sqrt(d.mktcap/maxMc)*50+8);
-      function fmc(v){if(v>=1e12)return'$'+(v/1e12).toFixed(1)+'T';if(v>=1e9)return'$'+(v/1e9).toFixed(0)+'B';return'$'+(v/1e6).toFixed(0)+'M';}
+      function fmc(v){return gaMoney(v,1);}
       Plotly.newPlot(bubEl,[{
         type:'scatter',mode:'markers+text',
         x:bdata.map(d=>d.mktcap),y:bdata.map(d=>d.perf_ytd),
@@ -6407,9 +6433,7 @@ function renderRpTable(sector){
   }
   function fmc(v){
     if(v==null)return'<span style="color:var(--text-muted)">&#8212;</span>';
-    if(v>=1e12)return'$'+(v/1e12).toFixed(2)+'T';
-    if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';
-    return'$'+(v/1e6).toFixed(0)+'M';
+    return gaMoney(v,1);
   }
   tbody.innerHTML=rows.map(r=>`<tr>
     <td>${r.ticker}</td>
@@ -6518,12 +6542,7 @@ function fmtDateAuto(d,rangeMs){
   return _MONTHS[parseInt(p[1])-1]+' '+p[0]; // ≤2 years: MMM YYYY
 }
 
-function fmtK(v){
-  const a=Math.abs(v);
-  if(a>=1e6) return (v/1e6).toFixed(1)+'M';
-  if(a>=1e3) return (v/1e3).toFixed(0)+'K';
-  return v.toFixed(0);
-}
+function fmtK(v){ return gaMag(v,1); }
 
 function cotSetClass(cls){
   const sel=document.getElementById('cot-contract-sel'); if(!sel) return;
@@ -7406,9 +7425,7 @@ function scrRenderMovers(){
   const fMcSym=isCn?'HK$':'$';
   const fMc=v=>{
     if(v==null) return '';
-    if(v>=1e12) return fMcSym+(v/1e12).toFixed(1)+'T';
-    if(v>=1e9)  return fMcSym+(v/1e9).toFixed(1)+'B';
-    return fMcSym+(v/1e6).toFixed(0)+'M';
+    return fMcSym+gaMag(v,1);
   };
   const hlCls=t=>t==='earnings'||t==='guidance'?'hl-green':t==='analyst'?'hl-purple':t==='other'?'hl-blue':'';
   const chgColorCls=r=>{const t=r.catalyst_type;if(t==='earnings'||t==='guidance')return'chg-green';if(t==='analyst')return'chg-purple';if(t==='other')return'chg-blue';return chgCls(r.change_pct);};
@@ -7497,9 +7514,7 @@ function scrRenderIpos(){
   };
   const fMc=v=>{
     if(v==null) return '';
-    if(v>=1e12) return '$'+(v/1e12).toFixed(1)+'T';
-    if(v>=1e9)  return '$'+(v/1e9).toFixed(1)+'B';
-    return '$'+(v/1e6).toFixed(0)+'M';
+    return '$'+gaMag(v,1);
   };
   const HKD=7.78;
   const isCn=scrMarket==='cn';
@@ -7508,9 +7523,7 @@ function scrRenderIpos(){
     if(v==null) return '';
     const val=isCn?v*HKD:v;
     const sym=isCn?'HK$':'$';
-    if(val>=1e12) return sym+(val/1e12).toFixed(1)+'T';
-    if(val>=1e9)  return sym+(val/1e9).toFixed(1)+'B';
-    return sym+(val/1e6).toFixed(0)+'M';
+    return sym+gaMag(val,1);
   };
   grid.innerHTML=ipos.map(r=>{
     const cap=fMcIpo(r.mkt_cap_usd);
@@ -7826,13 +7839,13 @@ function gaSettings(e){
     else { wChart('y-bankreal','tt-y-bankreal',d24,[{label:'TOPIX Banks',vals:banksSeed(),color:AMBER,axis:'L',fmt:v=>v.toFixed(0)},{label:'1Y real',vals:realSeed(),color:CYAN,axis:'R',dash:'5 4',fmt:pct}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>v.toFixed(1)}); }
 
     // 9 · August 2024 unwind (USDJPY vs Nikkei) — fixed historical window
-    if(D.unwind){ wChart('y-unwind','tt-y-unwind',dts(D.unwind.labels),[{label:'USDJPY',vals:D.unwind.usdjpy,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'Nikkei',vals:D.unwind.nikkei,color:CYAN,axis:'R',dash:'5 4',fmt:v=>Math.round(v).toLocaleString()}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>(v/1000).toFixed(0)+'k'}); }
+    if(D.unwind){ wChart('y-unwind','tt-y-unwind',dts(D.unwind.labels),[{label:'USDJPY',vals:D.unwind.usdjpy,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'Nikkei',vals:D.unwind.nikkei,color:CYAN,axis:'R',dash:'5 4',fmt:v=>Math.round(v).toLocaleString()}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>gaMag(v,1)}); }
     else {
       const aug=[]; for(let i=0;i<48;i++){const d=new Date(2024,6,1);d.setDate(1+i);aug.push(d);}
       const ujfn=(t,i)=> i<=30 ? 161.5-0.12*i : (i<=35 ? 157.9-3.2*(i-30) : 141.9+0.5*(i-35));
       const nkfn=(t,i)=> i<=30 ? 41800-30*i : (i<=35 ? 40900-1900*(i-30) : 31400+320*(i-35));
       const uju=build(48,ujfn,r,0.3); const nk=build(48,nkfn,r,90);
-      wChart('y-unwind','tt-y-unwind',aug,[{label:'USDJPY',vals:uju,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'Nikkei',vals:nk,color:CYAN,axis:'R',dash:'5 4',fmt:v=>Math.round(v).toLocaleString()}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>(v/1000).toFixed(0)+'k'}); }
+      wChart('y-unwind','tt-y-unwind',aug,[{label:'USDJPY',vals:uju,color:AMBER,axis:'L',fmt:v=>v.toFixed(1)},{label:'Nikkei',vals:nk,color:CYAN,axis:'R',dash:'5 4',fmt:v=>Math.round(v).toLocaleString()}],{h:200,lfmt:v=>v.toFixed(0),rfmt:v=>gaMag(v,1)}); }
   };
 
   // Pull live yen data if present (mirrors warsh.json); fallback series render otherwise
