@@ -1595,7 +1595,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <button class="itab" onclick="flwSetFreq('W',this)">Weekly</button>
       </div>
     </div>
-    <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>Net</span><span style="color:var(--text);font-weight:600">Cumulative</span></div>
+    <div class="chart-sub-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>Net <span style="color:var(--text-muted)">· log</span></span><span style="color:var(--text);font-weight:600">Cumulative</span></div>
     <div class="flw-chartwrap" id="flw-wrap">
       <svg class="flw-combo" id="flw-combo" role="img" aria-label="Net fund flow and cumulative flow"></svg>
       <div class="flw-tip" id="flw-tip" hidden></div>
@@ -4679,14 +4679,24 @@ function flwDrawCombo(){
   const z = 0.5;
   const zeroY = PT + z*ih;
   const up = z*ih, dn = (1-z)*ih;
-  // One scale factor per series, taken from its larger side: a -$50M bar is then
-  // exactly as long as a +$50M bar.
-  const bMax = Math.max(bHi, -bLo) || 1;
+  // Net flow is symlog-scaled: sign(v)*log10(1+|v|/FLW_LIN). Daily sector flows
+  // sit near +/-$350M (p95) but spike past +/-$9,000M, and on a linear axis those
+  // few spikes own the whole chart. Sign-preserving with 0 -> 0, so the centred
+  // zero line and the equal treatment of inflow and outflow both still hold.
+  // Below FLW_LIN the scale is near-linear; above it compresses.
+  // The cumulative line stays LINEAR - it is a running total, and compressing it
+  // would flatten the trend the line exists to show.
+  const FLW_LIN = 100;                                  // $M
+  const slog = v => Math.sign(v)*Math.log10(1 + Math.abs(v)/FLW_LIN);
+  const unslog = s => Math.sign(s)*FLW_LIN*(Math.pow(10, Math.abs(s)) - 1);
+  const bMax = slog(Math.max(bHi, -bLo) || 1) || 1;
   const cMax = Math.max(cHi, -cLo) || 1;
   const kBar = up/bMax;
   const kCum = up/cMax;
-  const yBar = v => zeroY - v*kBar;
+  const yBar = v => zeroY - slog(v)*kBar;
   const yCum = v => zeroY - v*kCum;
+  const barAt = y => unslog((zeroY - y)/kBar);           // axis label -> $M
+  const cumAt = y => (zeroY - y)/kCum;
 
   const step = iw/bars.length;
   const bw = Math.max(1, step*0.90);
@@ -4699,7 +4709,7 @@ function flwDrawCombo(){
       '" stroke="var(--outline-dim)" stroke-width="1" stroke-dasharray="2 3"/>');
   });
   const lab = [];
-  [[PT, (PT-zeroY)/-kBar, (PT-zeroY)/-kCum], [PT+ih, (PT+ih-zeroY)/-kBar, (PT+ih-zeroY)/-kCum]]
+  [[PT, barAt(PT), cumAt(PT)], [PT+ih, barAt(PT+ih), cumAt(PT+ih)]]
     .forEach(([y, bvv, cvv])=>{
       lab.push('<text x="'+(PL-8)+'" y="'+(y+4).toFixed(1)+'" font-size="11" text-anchor="end" fill="var(--text-muted)">'+_flwB(bvv)+'</text>');
       lab.push('<text x="'+(W-PR+8)+'" y="'+(y+4).toFixed(1)+'" font-size="11" text-anchor="start" fill="var(--text)">'+_flwB(cvv)+'</text>');
