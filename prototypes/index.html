@@ -3246,11 +3246,12 @@ function drawChart(wrapId, ttId, dates, values, color, fmt, vH, dFmt) {
     lb.setAttribute('x',pad.l-4);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','11');lb.textContent=fmt(v);svg.appendChild(lb);
   });
+  const _tk=gaQuarterTicks(pts.map(r=>r.d));
   pts.forEach((_,i)=>{
-    if(i%(Math.ceil(pts.length/7))!==0 && i!==pts.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','11');lb.textContent=fmtDateShort(pts[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','11');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -3311,11 +3312,12 @@ function drawMulti(wrapId, ttId, dates, seriesDefs, vH, legId) {
     lb.setAttribute('x',pad.l-3);lb.setAttribute('y',y+4);lb.setAttribute('text-anchor','end');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=v.toFixed(2)+'%';svg.appendChild(lb);
   });
+  const _tk=gaQuarterTicks(aligned.map(r=>r.d));
   aligned.forEach((_,i)=>{
-    if(i%(Math.ceil(aligned.length/6))!==0&&i!==aligned.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -3398,11 +3400,12 @@ function drawDualAxis(wrapId, ttId, dates, seriesDefs, vH) {
     lb.setAttribute('fill','#22d3ee');lb.setAttribute('font-size','10');
     lb.textContent=vActual.toFixed(0)+'%';svg.appendChild(lb);
   });
+  const _tk=gaQuarterTicks(aligned.map(r=>r.d));
   aligned.forEach((_,i)=>{
-    if(i%(Math.ceil(aligned.length/6))!==0&&i!==aligned.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   if(lMin<0&&lMax>0){
     const z=document.createElementNS(ns,'line');
@@ -3727,11 +3730,12 @@ function drawCurveBars(wrapId,ttId,dates,spread,regs,vH,legId){
     }
     svg.appendChild(rect);
   });
+  const _tk=gaQuarterTicks(bars.map(r=>r.d));
   bars.forEach((b,i)=>{
-    if(i%(Math.ceil(bars.length/6))!==0&&i!==bars.length-1)return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+14);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+14)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(b.d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   wrap.appendChild(svg);
   if(legId){
@@ -3775,13 +3779,11 @@ function drawInflBE(wrapId,ttId,mDates,yoy,beDates,be,vH){
       rb.setAttribute('fill',BE);rb.setAttribute('font-size','10');rb.textContent=(rMax-f*rRg).toFixed(1)+'%';svg.appendChild(rb);
     }
   });
-  const NT=6;
-  for(let k=0;k<=NT;k++){
-    const tk=t0+(t1-t0)*k/NT;
+  gaQuarterTicksTime(t0,t1).forEach(q=>{
     const lb=document.createElementNS(ns,'text');
-    lb.setAttribute('x',xOf(tk));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(new Date(tk));svg.appendChild(lb);
-  }
+    lb.setAttribute('x',xOf(q.t));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=q.label;svg.appendChild(lb);
+  });
   if(lMin<0&&lMax>0){
     const zl=document.createElementNS(ns,'line');
     zl.setAttribute('x1',pad.l);zl.setAttribute('x2',pad.l+iW);zl.setAttribute('y1',yL(0));zl.setAttribute('y2',yL(0));
@@ -3883,11 +3885,12 @@ function drawTripleAxis(wrapId,ttId,dates,seriesDefs,vH){
       lbR.setAttribute('fill','#a855f7');lbR.setAttribute('font-size','9');lbR.textContent=vR.toFixed(0)+'%';svg.appendChild(lbR);
     }
   });
+  const _tk=gaQuarterTicks(aligned.map(r=>r.d));
   aligned.forEach((_,i)=>{
-    if(i%(Math.ceil(aligned.length/6))!==0&&i!==aligned.length-1)return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   if(A1.bot<0&&A1.top>0){
     const z=document.createElementNS(ns,'line');
@@ -3971,6 +3974,90 @@ function fmtDateShort(d){
 // A series whose every point lands on the 1st is monthly. Tooltips on one of
 // those name the month only - a monthly release did not happen on the 1st, and
 // printing a day would invent precision the data does not carry.
+// ── X-axis ticks on quarter starts ──────────────────────────────────────
+// Ticks land on Jan / Apr / Jul / Oct. January carries the YEAR and the quarters
+// after it carry the month alone, because the year is understood from the
+// January to their left:  2020  Apr  Jul  Oct  2021  Apr  Jul  Oct  2022
+// The first tick always carries its year - it has no January to inherit from.
+// As a range lengthens the ticks thin to Januarys only, then to every Nth
+// January, so a ten-year window reads as plain years instead of colliding.
+function gaQuarterTicks(dates, maxTicks){
+  maxTicks = maxTicks || 8;
+  const out = {};
+  if(!dates || !dates.length) return out;
+  const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const asDate = x => (x instanceof Date) ? x
+      : new Date(String(x).slice(0,10) + 'T00:00:00');
+  // first data point falling inside each quarter
+  const marks = [];
+  let seen = null;
+  for(let i=0;i<dates.length;i++){
+    const d = asDate(dates[i]);
+    if(!d || isNaN(d.getTime())) continue;
+    const m = d.getMonth();
+    if(m % 3 !== 0) continue;
+    const key = d.getFullYear() + ':' + m;
+    if(key === seen) continue;
+    seen = key;
+    marks.push({i:i, y:d.getFullYear(), m:m});
+  }
+  // too short to hold a quarter boundary: label the ends and stop
+  if(marks.length < 2){
+    [0, dates.length-1].filter((v,n,a)=>a.indexOf(v)===n).forEach(i=>{
+      const d = asDate(dates[i]);
+      if(d && !isNaN(d.getTime())) out[i] = M[d.getMonth()] + ' ' + d.getFullYear();
+    });
+    return out;
+  }
+  let use = marks;
+  if(use.length > maxTicks){
+    const jans = marks.filter(k => k.m === 0);
+    if(jans.length >= 2) use = jans;
+  }
+  if(use.length > maxTicks){
+    const step = Math.ceil(use.length / maxTicks);
+    use = use.filter((_, n) => n % step === 0);
+  }
+  use.forEach((k, n) => {
+    out[k.i] = (k.m === 0) ? String(k.y)
+             : (n === 0)   ? M[k.m] + ' ' + k.y
+             :               M[k.m];
+  });
+  return out;
+}
+
+// Same rule as gaQuarterTicks, for an axis that is a continuous time scale
+// rather than a row index. Returns [{t, label}] on quarter boundaries.
+function gaQuarterTicksTime(t0, t1, maxTicks){
+  maxTicks = maxTicks || 8;
+  const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if(!(t1 > t0)) return [];
+  const a = new Date(t0);
+  let y = a.getFullYear(), m = Math.ceil(a.getMonth()/3)*3;   // first quarter start at or after t0
+  if(m > 9){ m = 0; y += 1; }
+  const marks = [];
+  for(;;){
+    const t = new Date(y, m, 1).getTime();
+    if(t > t1) break;
+    if(t >= t0) marks.push({t:t, y:y, m:m});
+    m += 3; if(m > 9){ m = 0; y += 1; }
+  }
+  if(!marks.length) return [];
+  let use = marks;
+  if(use.length > maxTicks){
+    const jans = marks.filter(k => k.m === 0);
+    if(jans.length >= 2) use = jans;
+  }
+  if(use.length > maxTicks){
+    const step = Math.ceil(use.length / maxTicks);
+    use = use.filter((_, n) => n % step === 0);
+  }
+  return use.map((k, n) => ({
+    t: k.t,
+    label: (k.m === 0) ? String(k.y) : (n === 0 ? M[k.m] + ' ' + k.y : M[k.m])
+  }));
+}
+
 function gaIsMonthly(arr){
   if(!arr||arr.length<2) return false;
   for(let i=0;i<arr.length;i++){
@@ -4803,9 +4890,12 @@ function flwDrawCombo(){
   const path = cum.map((r,i)=>(i?'L':'M')+xAt(i).toFixed(1)+' '+yCum(r[1]).toFixed(1)).join(' ');
   const lastV = cum[cum.length-1][1];
 
-  const xi = [0, Math.floor(bars.length/2), bars.length-1].filter((v,i,a)=>a.indexOf(v)===i);
-  const xl = xi.map(i=>'<text x="'+xAt(i).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
-    'text-anchor="'+(i===0?'start':i===bars.length-1?'end':'middle')+'">'+bars[i][0]+'</text>').join('');
+  // was raw ISO strings at first / middle / last; now the same quarter grid as
+  // every other chart, and anchored so the end labels stay inside the plot
+  const _tk = gaQuarterTicks(bars.map(r=>r[0]), 7);
+  const xl = Object.keys(_tk).map(k=>+k).sort((a,b)=>a-b).map(i=>
+    '<text x="'+xAt(i).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
+    'text-anchor="'+(i===0?'start':i===bars.length-1?'end':'middle')+'">'+_tk[i]+'</text>').join('');
 
   el.innerHTML = gl.join('') + lab.join('') + rect +
     '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+zeroY.toFixed(1)+'" y2="'+zeroY.toFixed(1)+'" stroke="var(--outline)" stroke-width="1"/>'+
@@ -6920,13 +7010,14 @@ function drawCotPeakGap(wrapId,ttId,dates,values,color,vH){
     rb.textContent=fmtK(0-t*(0-lo));svg.appendChild(rb);
   });
   const _rMs=aligned.length>1?(new Date(aligned[aligned.length-1].d)-new Date(aligned[0].d)):0;
+  const _tk=gaQuarterTicks(aligned.map(r=>r.d));
   aligned.forEach((_,i)=>{
-    if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');
     lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
     lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');
-    lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
+    lb.textContent=_tk[i];svg.appendChild(lb);
   });
   const z=document.createElementNS(ns,'line');   // zero line == the period peak
   z.setAttribute('x1',pad.l);z.setAttribute('x2',pad.l+iW);z.setAttribute('y1',y0);z.setAttribute('y2',y0);
@@ -7041,11 +7132,12 @@ function drawCotCombined(wrapId,ttId,dates,seriesDefs,oiValues,vH,legId){
   });
   // X labels
   const _rMs=aligned.length>1?(new Date(aligned[aligned.length-1].d)-new Date(aligned[0].d)):0;
+  const _tk=gaQuarterTicks(aligned.map(r=>r.d));
   aligned.forEach((_,i)=>{
-    if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   // Zero line for net positions
   if(netMin<0&&netMax>0){
@@ -7149,11 +7241,12 @@ function drawCotLines(wrapId,ttId,dates,seriesDefs,vH,legId){
     rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(v);svg.appendChild(rb);
   });
   const _rMs=aligned.length>1?(new Date(aligned[aligned.length-1].d)-new Date(aligned[0].d)):0;
+  const _tk=gaQuarterTicks(aligned.map(r=>r.d));
   aligned.forEach((_,i)=>{
-    if(i%(Math.ceil(aligned.length/7))!==0&&i!==aligned.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(aligned[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   if(vMin<0&&vMax>0){
     const z=document.createElementNS(ns,'line');
@@ -7242,11 +7335,12 @@ function drawCotBar(wrapId,ttId,dates,values,vH){
     rb.setAttribute('fill',AXIS_COLOR);rb.setAttribute('font-size','10');rb.textContent=fmtK(v);svg.appendChild(rb);
   });
   const _rMs=pts.length>1?(new Date(pts[pts.length-1].d)-new Date(pts[0].d)):0;
+  const _tk=gaQuarterTicks(pts.map(r=>r.d));
   pts.forEach((_,i)=>{
-    if(i%(Math.ceil(pts.length/7))!==0&&i!==pts.length-1) return;
+    if(_tk[i]===undefined) return;
     const lb=document.createElementNS(ns,'text');
     lb.setAttribute('x',xOf(i));lb.setAttribute('y',vH-pad.b+13);lb.setAttribute('text-anchor','end');lb.setAttribute('transform','rotate(-38 '+lb.getAttribute('x')+' '+(vH-pad.b+13)+')');
-    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=fmtDateShort(pts[i].d);svg.appendChild(lb);
+    lb.setAttribute('fill',AXIS_COLOR);lb.setAttribute('font-size','10');lb.textContent=_tk[i];svg.appendChild(lb);
   });
   addLine(ns,svg,pts.map(p=>p.v),xOf,yOf,'#22d3ee',null);
   const dot=document.createElementNS(ns,'circle');
