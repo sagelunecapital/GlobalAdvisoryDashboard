@@ -127,6 +127,16 @@ def num(v, default=None):
         return default
 
 
+def iso_date(v):
+    """Flex reports dates as YYYYMMDD; normalise to YYYY-MM-DD."""
+    if not v:
+        return None
+    v = v.strip()
+    if len(v) == 8 and v.isdigit():
+        return "%s-%s-%s" % (v[:4], v[4:6], v[6:])
+    return v
+
+
 def main():
     token = os.environ.get("IBKR_FLEX_TOKEN")
     query_id = os.environ.get("IBKR_FLEX_QUERY_ID")
@@ -159,7 +169,7 @@ def main():
             "unreal_flex": num(a.get("fifoPnlUnrealized")),
             "asset_class": a.get("assetCategory"),
             "currency": a.get("currency"),
-            "report_date": a.get("reportDate"),
+            "report_date": iso_date(a.get("reportDate")),
         })
 
     if not rows:
@@ -190,6 +200,23 @@ def main():
     print("  report date %s | %d positions: %s"
           % (doc["report_date"], len(rows), ", ".join(
               "%s %g" % (r["sym"], r["qty"]) for r in rows)))
+
+    # A Flex statement settles a day or two behind, so the book of record lags the
+    # market. Marks come from yfinance, not from here, so a small lag is harmless -
+    # but a trade placed today will not appear for a couple of days, and a statement
+    # that stops advancing altogether should be visible rather than silent.
+    if doc["report_date"]:
+        try:
+            rd = datetime.datetime.strptime(doc["report_date"], "%Y-%m-%d").date()
+            lag = (datetime.date.today() - rd).days
+            if lag > 4:
+                print("  WARNING statement is %d calendar days behind (%s). Positions "
+                      "opened since then are not in this book." % (lag, doc["report_date"]))
+            else:
+                print("  statement lags today by %d calendar day(s) - normal for Flex"
+                      % lag)
+        except ValueError:
+            pass
 
 
 if __name__ == "__main__":
