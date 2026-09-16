@@ -98,7 +98,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .stir-kpi-label{font-size:var(--fs-xs);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
 .stir-kpi-value{font-size:var(--fs-xl);font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
 .stir-kpi-sub{font-size:var(--fs-xs);color:var(--text-muted);margin-top:2px}
-.stir-chart{width:100%;height:360px}
+.stir-chart{width:100%;height:350px}
 .stir-meet-layout{display:grid;grid-template-columns:1fr 0.1fr 1fr;gap:0 16px;align-items:start}
 @media(max-width:900px){.stir-meet-layout{grid-template-columns:1fr;gap:16px 0}}
 .stir-table{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
@@ -177,7 +177,7 @@ body{background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemF
 .flw-spark{width:100%;height:44px;display:block;margin-top:6px}
 .flw-pos{color:var(--green)}.flw-neg{color:var(--red)}
 .flw-chartwrap{position:relative;width:100%}
-.flw-combo{width:100%;height:340px;display:block}
+.flw-combo{width:100%;height:350px;display:block}
 .flw-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--text-muted);
   margin-bottom:8px;align-items:center}
 .flw-legend span{display:inline-flex;align-items:center;gap:6px}
@@ -390,7 +390,7 @@ svg.linechart line[stroke="#e4e6ee"]{stroke-dasharray:3 3}
   #research-page{padding:14px 13px 30px}
   .section-heading{font-size:var(--fs-lg);margin:16px 0 11px}
   .card{padding:14px;overflow-x:auto}                     /* wide tables/charts scroll horizontally */
-  .stir-chart{height:280px}
+  .stir-chart{height:350px}
   .stir-kpi{min-width:calc(50% - 6px)}
 }
 .cmdk-item.sel,.cmdk-item:hover{background:linear-gradient(90deg,rgba(0,122,255,0.1),transparent);color:var(--amber)}
@@ -2346,7 +2346,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   <div class="section-heading">Growth</div>
   <div class="card">
     <div class="legend" id="gdp-combo-legend" style="margin-bottom:8px"></div>
-    <div class="cw" style="height:320px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
+    <div class="cw" style="height:350px" id="w-gdp-combo"><div class="chart-tt" id="tt-gdp-combo"></div></div>
     <div class="data-date" id="gdp-data-date">Source: Atlanta Fed GDPNow &nbsp;|&nbsp; updated —</div>
   </div>
 </div><!-- /growth panel -->
@@ -2420,23 +2420,23 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <button class="itab" onclick="showItab('liq-real',this,'liq-inner')">Real Yields</button>
       </div>
       <div id="liq-resbal" class="ipanel liq-inner active">
-        <div class="cw" style="height:320px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
+        <div class="cw" style="height:350px" id="w-liq-resbal"><div class="chart-tt" id="tt-liq-resbal"></div></div>
         <div class="data-date">Source: FRED (WRESBAL) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-fedliq" class="ipanel liq-inner">
-        <div class="cw" style="height:320px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
+        <div class="cw" style="height:350px" id="w-liq-fedliq"><div class="chart-tt" id="tt-liq-fedliq"></div></div>
         <div class="data-date">Source: FRED (WALCL-WDTGAL-WLRRAL) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-trade" class="ipanel liq-inner">
-        <div class="cw" style="height:320px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
+        <div class="cw" style="height:350px" id="w-liq-trade"><div class="chart-tt" id="tt-liq-trade"></div></div>
         <div class="data-date">Source: FRED (BOPGSTB) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-carry" class="ipanel liq-inner">
-        <div class="cw" style="height:320px" id="w-liq-carry"><div class="chart-tt" id="tt-liq-carry"></div></div>
+        <div class="cw" style="height:350px" id="w-liq-carry"><div class="chart-tt" id="tt-liq-carry"></div></div>
         <div class="data-date">Source: G10 FX, FXCTG10 Methodology &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
       <div id="liq-real" class="ipanel liq-inner">
-        <div class="cw" style="height:320px" id="w-liq-real"><div class="chart-tt" id="tt-liq-real"></div></div>
+        <div class="cw" style="height:350px" id="w-liq-real"><div class="chart-tt" id="tt-liq-real"></div></div>
         <div class="data-date">Source: FRED (DFII10) &nbsp;|&nbsp; updated 2026-04-24</div>
       </div>
     </div>
@@ -2447,7 +2447,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
         <div class="li"><div class="ld" style="background:#22d3ee"></div>Trade Balance <span style="font-size:var(--fs-xs);color:#22d3ee;margin-left:3px">(LHS2)</span></div>
         <div class="li"><div class="ld" style="background:#a855f7"></div>Carry Trade <span style="font-size:var(--fs-xs);color:#a855f7;margin-left:3px">(RHS, YoY)</span></div>
       </div>
-      <div class="cw" style="height:320px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
+      <div class="cw" style="height:350px" id="w-yoy-comb"><div class="chart-tt" id="tt-yoy-comb"></div></div>
     </div>
   </div>
 
@@ -2460,7 +2460,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   <div class="section-heading">Yield Curve</div>
   <div class="card">
     <div class="card-header">10Y - 2Y Spread</div>
-    <div class="cw" style="height:300px" id="w-spr-nom"><div class="chart-tt" id="tt-spr-nom"></div></div>
+    <div class="cw" style="height:350px" id="w-spr-nom"><div class="chart-tt" id="tt-spr-nom"></div></div>
     <div class="yield-period-row">
       <span class="yield-period-label">Period:</span>
       <button class="itab active" onclick="setYieldPeriod(252,this)">1Y</button>
@@ -2469,7 +2469,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
       <button class="itab" onclick="setYieldPeriod(0,this)">All</button>
     </div>
     <div class="legend" id="curve-bars-legend" style="margin-top:14px;margin-bottom:8px"></div>
-    <div class="cw" style="height:300px" id="w-curve-bars"><div class="chart-tt" id="tt-curve-bars"></div></div>
+    <div class="cw" style="height:350px" id="w-curve-bars"><div class="chart-tt" id="tt-curve-bars"></div></div>
     <div class="data-date">Source: US Treasury / FRED &nbsp;|&nbsp; updated 2026-04-24</div>
   </div>
 
@@ -2755,7 +2755,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
   <div class="card">
     <!-- Price candlestick chart (top) -->
     <div id="cot-candle-section" style="position:relative">
-      <div id="cot-candle-wrap" style="min-height:300px"></div>
+      <div id="cot-candle-wrap" style="min-height:350px"></div>
       <div class="chart-tt" id="cot-candle-tt"></div>
     </div>
     <div id="cot-candle-divider" style="border-top:1px solid var(--outline-dim);margin:14px 0 10px"></div>
@@ -4057,13 +4057,13 @@ function renderYieldCharts(){
   const sl=arr=>arr?arr.slice(-n):null;
 
   // Nominal yield spread (10Y - 2Y) line
-  drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#007aff',fPct,300,fmtDLong);
+  drawChart('w-spr-nom','tt-spr-nom',dSlice,sl(sprNom),'#007aff',fPct,350,fmtDLong);
 
   // Same spread as bars, colored by yield-curve regime (2Y/10Y change over CURVE_LOOKBACK
   // trading days). Regimes computed on the FULL daily series, then sliced to the window so
   // the lookback reaches back before the visible range.
   const regFull=curveRegimeSeries(nomDaily['2Y'],nomDaily['10Y'],CURVE_LOOKBACK);
-  drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(regFull),300,'curve-bars-legend');
+  drawCurveBars('w-curve-bars','tt-curve-bars',dSlice,sl(sprNom),sl(regFull),350,'curve-bars-legend');
 }
 
 // ══ Render all charts ═══════════════════════════════════════════
@@ -4169,7 +4169,7 @@ window.addEventListener('DOMContentLoaded',()=>{
         label:compNames[i]||lbl,color:colors[i]||'#5b6472',values:sl(vals)
       }));
       const _refV=(typeof macroRegime!=='undefined'?macroRegime.gdp_yoy:null);
-      window._redraw.growth=()=>drawGDPCombo('w-gdp-combo','tt-gdp-combo',sl(allDates),compsArr,sl(allGdp),320,'gdp-combo-legend',_refV);
+      window._redraw.growth=()=>drawGDPCombo('w-gdp-combo','tt-gdp-combo',sl(allDates),compsArr,sl(allGdp),350,'gdp-combo-legend',_refV);
       window._redraw.growth();
       // Keep regime Growth display in sync with live GDPNow value
       const lqData=d.quarters[d.latest_quarter];
@@ -4180,7 +4180,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     })
     .catch(()=>{
       const _refV=(typeof macroRegime!=='undefined'?macroRegime.gdp_yoy:null);
-      window._redraw.growth=()=>drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,320,'gdp-combo-legend',_refV);
+      window._redraw.growth=()=>drawGDPCombo('w-gdp-combo','tt-gdp-combo',gdpQuarters,gdpComponents,gdpLine,350,'gdp-combo-legend',_refV);
       window._redraw.growth();
     });
 
@@ -4193,12 +4193,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   const _fTrade=v=>(v<0?'-$':'$')+Math.round(Math.abs(v)).toLocaleString('en-US')+'B';
   const _fBtc=v=>'$'+Math.round(v).toLocaleString('en-US');
   window._redraw.liquidity=()=>{
-    drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#3b82f6',_fBn,320);
-    drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',_fBn,320);
-    drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#22d3ee',_fTrade,320);
+    drawChart('w-liq-resbal','tt-liq-resbal',dates,liqResbal,'#3b82f6',_fBn,350);
+    drawChart('w-liq-fedliq','tt-liq-fedliq',dates,liqFedliq,'#3fb950',_fBn,350);
+    drawChart('w-liq-trade', 'tt-liq-trade', dates,liqTrade, '#22d3ee',_fTrade,350);
     // 10Y real yield = US10Y (DGS10) - 10Y breakeven (T10YIE); daily, same window as the other charts
     const _realY=(typeof realDaily!=='undefined'&&realDaily['10Y'])?realDaily['10Y']:nomDaily['10Y'].map((v,i)=>(v==null||beDaily['10Y'][i]==null)?null:v-beDaily['10Y'][i]);
-    drawChart('w-liq-real','tt-liq-real',dDatesArr,_realY,'#ec4899',fPct,320,fmtDLong);
+    drawChart('w-liq-real','tt-liq-real',dDatesArr,_realY,'#ec4899',fPct,350,fmtDLong);
     // Liquidity YoY combined
     const _combo=[
       {values:yoyRB,color:'#3b82f6',label:'Reserve Balance',axis:'lhs1'},
@@ -4210,11 +4210,11 @@ window.addEventListener('DOMContentLoaded',()=>{
       if(!cd._dObj) cd._dObj=cd.dates.map(s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);});
       // left card: carry index level (base 100) — slice to the same start as the other liquidity charts
       let _ci=cd._dObj.findIndex(dt=>dt>=dates[0]); if(_ci<0)_ci=0;
-      drawChart('w-liq-carry','tt-liq-carry',cd._dObj.slice(_ci),cd.carry.slice(_ci),'#a855f7',v=>v.toFixed(1),320,fmtDLong);
+      drawChart('w-liq-carry','tt-liq-carry',cd._dObj.slice(_ci),cd.carry.slice(_ci),'#a855f7',v=>v.toFixed(1),350,fmtDLong);
       // combined chart: carry YoY % on the same % axis as the other liquidity lines
       _combo.push({values:yoyPct(carryMonthlyAligned(cd,dates)),color:'#a855f7',label:'Carry Trade',axis:'rhs'});
     }
-    drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,320);
+    drawTripleAxis('w-yoy-comb','tt-yoy-comb',dates,_combo,350);
   };
   window._redraw.liquidity();
   // Carry trade index (G10 carry replication w/ recovered FXCTG10 alpha) — async
@@ -4474,10 +4474,10 @@ function renderSrQuadrant(){
     g.country===srCountry&&g[srXAxis]!=null&&g[srYAxis]!=null
   );
   if(!filtered.length){
-    wrap.innerHTML='<div style="height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:var(--fs-base)">No data available</div>';
+    wrap.innerHTML='<div style="height:350px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:var(--fs-base)">No data available</div>';
     return;
   }
-  const W=900,H=520,mg={t:36,r:36,b:52,l:56};
+  const W=wrap.clientWidth||900,H=350,mg={t:36,r:36,b:52,l:56};
   const pw=W-mg.l-mg.r,ph=H-mg.t-mg.b;
   const xv=filtered.map(g=>g[srXAxis]),yv=filtered.map(g=>g[srYAxis]);
   const xPad=(Math.max(...xv)-Math.min(...xv)||2)*0.05;
@@ -4627,7 +4627,7 @@ function flwDrawCombo(){
   const bars = _flwBucket(_flwSlice(sel.daily));
   const cum = _flwCum(bars);
   const W = Math.max(320, Math.round((wrap && wrap.clientWidth) || el.clientWidth || 960));
-  const H = 340, PL = 62, PR = 68, PT = 14, PB = 26;
+  const H = 350, PL = 62, PR = 68, PT = 14, PB = 26;
   el.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
   el.setAttribute('preserveAspectRatio', 'none');
   if(!bars.length){ el.innerHTML=''; _flwGeom=null; return; }
@@ -5878,7 +5878,7 @@ function renderStirMeetings(){
     hoverlabel:{bgcolor:HOVER_BG,bordercolor:HOVER_BORDER,font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',size:12,color:HOVER_TEXT}},
   };
   const layout=stirLayout({
-    height:380,
+    height:350,
     yaxis:{gridcolor:GRID_COLOR,griddash:'dot',title:'Implied post-meeting rate (%)'},
     shapes:[{type:'line',xref:'paper',x0:0,x1:1,y0:d.effr,y1:d.effr,
              line:{color:p.orange,dash:'dash',width:1.4}}],
@@ -6300,7 +6300,7 @@ function renderRpCharts(sector){
         line:{color:REF_LINE,width:1.5,dash:'dot'}}]:[],
       annotations:spxYtd!=null?[{x:spxYtd,y:sorted.length-0.5,xanchor:'left',yanchor:'bottom',
         text:'SPX',showarrow:false,font:{color:REF_LINE,size:11}}]:[],
-      height:Math.max(260,sorted.length*30+60)
+      height:Math.max(350,sorted.length*30+60)
     },{responsive:true,displayModeBar:false});
   }
 
@@ -6338,7 +6338,7 @@ function renderRpCharts(sector){
           xref:'paper',yref:'y',line:{color:REF_LINE,width:1.5,dash:'dot'}}]:[],
         annotations:spxYtd!=null?[{x:1,y:spxYtd,xref:'paper',yref:'y',xanchor:'right',yanchor:'bottom',
           text:'SPX',showarrow:false,font:{color:REF_LINE,size:11}}]:[],
-        height:300
+        height:350
       },{responsive:true,displayModeBar:false});
     }
   }
@@ -6578,14 +6578,14 @@ function cotUpdateChart(code){
     {label:'Commercials', values:comm,  color:'#3fb950'},
     {label:'Large Specs', values:lspec, color:'#3b82f6'},
     {label:'Small Specs', values:sspec, color:'#a855f7'},
-  ],oi,300,'cot-pos-legend');
+  ],oi,350,'cot-pos-legend');
   // Same alignment rule as drawCotCombined (all three nets AND oi non-null) so the
   // distance-from-peak panel lines up week-for-week with the chart above it.
   const gd=[],gv=[];
   for(let i=0;i<dates.length;i++){
     if(comm[i]!==null&&lspec[i]!==null&&sspec[i]!==null&&oi[i]!==null){ gd.push(dates[i]); gv.push(lspec[i]); }
   }
-  const gapMeta=drawCotPeakGap('cot-gap-wrap','cot-gap-tt',gd,gv,'#3b82f6',190);
+  const gapMeta=drawCotPeakGap('cot-gap-wrap','cot-gap-tt',gd,gv,'#3b82f6',350);
   const gm=document.getElementById('cot-gap-meta');
   if(gm) gm.innerHTML = gapMeta
     ? 'peak <b>'+fmtK(gapMeta.peak)+'</b> on '+fmtDate(gapMeta.peakDate)
@@ -6635,7 +6635,7 @@ function drawCotCandle(code, cotDates){
     paper_bgcolor:'transparent', plot_bgcolor:'transparent',
     font:{family:'-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',color:'#5b6472',size:11},
     margin:{t:8,b:64,l:64,r:64},
-    height:300,
+    height:350,
     xaxis:{
       type:'date', range:[d0,d1], autorange:false,
       tickangle:-38, tickformat:'%b %Y', hoverformat:'%b %d %Y', color:AXIS_COLOR,
