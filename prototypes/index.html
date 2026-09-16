@@ -4058,6 +4058,39 @@ function gaQuarterTicksTime(t0, t1, maxTicks){
   }));
 }
 
+// Month-granularity ticks, for a short window where the quarter grid leaves the
+// axis bare. `step` counts months and is anchored to the CALENDAR, not to the
+// first bar: with step 2 the ticks land on Jan/Mar/May/Jul/Sep/Nov whatever the
+// window opens on, so January stays in the set and keeps carrying the year.
+// Labelling follows gaQuarterTicks - January shows the year, the first tick
+// shows month+year, everything else shows the month alone.
+function gaMonthTicks(dates, step){
+  step = step || 1;
+  const out = {};
+  if(!dates || !dates.length) return out;
+  const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const asDate = x => (x instanceof Date) ? x
+      : new Date(String(x).slice(0,10) + 'T00:00:00');
+  const marks = [];
+  let seen = null;
+  for(let i=0;i<dates.length;i++){
+    const d = asDate(dates[i]);
+    if(!d || isNaN(d.getTime())) continue;
+    const m = d.getMonth();
+    if(m % step !== 0) continue;
+    const key = d.getFullYear() + ':' + m;
+    if(key === seen) continue;
+    seen = key;
+    marks.push({i:i, y:d.getFullYear(), m:m});
+  }
+  marks.forEach((k, n) => {
+    out[k.i] = (k.m === 0) ? String(k.y)
+             : (n === 0)   ? M[k.m] + ' ' + k.y
+             :               M[k.m];
+  });
+  return out;
+}
+
 function gaIsMonthly(arr){
   if(!arr||arr.length<2) return false;
   for(let i=0;i<arr.length;i++){
@@ -4892,7 +4925,9 @@ function flwDrawCombo(){
 
   // was raw ISO strings at first / middle / last; now the same quarter grid as
   // every other chart, and anchored so the end labels stay inside the plot
-  const _tk = gaQuarterTicks(bars.map(r=>r[0]), 7);
+  // 3M is short enough to name every month; 6M and 1Y take every other one,
+  // which is denser than the quarter grid without crowding.
+  const _tk = gaMonthTicks(bars.map(r=>r[0]), _flwPeriod === '3M' ? 1 : 2);
   const xl = Object.keys(_tk).map(k=>+k).sort((a,b)=>a-b).map(i=>
     '<text x="'+xAt(i).toFixed(1)+'" y="'+(H-6)+'" font-size="11" fill="var(--text-muted)" '+
     'text-anchor="'+(i===0?'start':i===bars.length-1?'end':'middle')+'">'+_tk[i]+'</text>').join('');
