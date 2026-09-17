@@ -1,17 +1,17 @@
 {
- "updated": "2026-09-16T23:48:27Z",
- "export_pulled": "16 Sep 2026",
+ "updated": "2026-09-17T23:36:59Z",
+ "export_pulled": "17 Sep 2026",
  "source": "IBKR Flex Web Service v3 + live marks",
- "vol_window": "23 Jun - 16 Sep 2026 (60 daily bars)",
- "mark_date": "2026-09-16",
- "flex_report_date": "2026-09-14",
+ "vol_window": "24 Jun - 17 Sep 2026 (60 daily bars)",
+ "mark_date": "2026-09-17",
+ "flex_report_date": "2026-09-16",
  "nav": 300000.0,
  "unit": 3000.0,
  "judgment_reviewed_on": "2026-09-15",
  "judgment_stale": false,
  "judgment_drift": {
-  "UNG": -0.0028874247663863784,
-  "XOP": -0.01741801715288
+  "UNG": -0.005774790788637717,
+  "XOP": -0.01337092040015043
  },
  "limits": {
   "theme_pct": 0.02,
@@ -29,29 +29,29 @@
    "theme": "Energy",
    "sub": "Natural gas futures",
    "qty": 2000.0,
-   "px": 10.359999656677246,
+   "px": 10.329999923706055,
    "avg": 10.361528,
    "stop": 9.35,
    "stop_confirmed_on": "2026-09-15",
-   "daily": -360.0006103515625,
-   "unreal": -3.0566866455075115,
-   "vol_d": 0.019466996331283105,
-   "vol_a": 0.3090289863958911,
-   "atr": 0.28299881439839775,
-   "mv": 20719.999313354492,
-   "pct_nav": 0.06906666437784831,
-   "stop_dist": 0.09749031758184273,
-   "stop_risk": 2019.9993133544929,
+   "daily": -59.99946594238281,
+   "unreal": -63.056152587890324,
+   "vol_d": 0.019271449708191724,
+   "vol_a": 0.30592477998938145,
+   "atr": 0.28318109128317176,
+   "mv": 20659.99984741211,
+   "pct_nav": 0.06886666615804037,
+   "stop_dist": 0.09486930599651584,
+   "stop_risk": 1959.99984741211,
    "stop_vs_cost": -2023.0560000000005,
-   "atr_mult": 3.5689183321291145,
-   "p5": 0.018449745395986317,
-   "p21": 0.2502106914920327,
-   "p63": 0.5067804624691288,
-   "theme_used": 0.3366665522257488,
-   "max_shares_theme": 5940.596078754261,
-   "headroom": 2.9702980393771306,
-   "pct_book": 0.8244665964331916,
-   "var_share": 0.8624977132405263
+   "atr_mult": 3.4606827711038357,
+   "p5": 0.020718163397239198,
+   "p21": 0.25903784565050114,
+   "p63": 0.5146354593563786,
+   "theme_used": 0.32666664123535166,
+   "max_shares_theme": 6122.449456230431,
+   "headroom": 3.0612247281152154,
+   "pct_book": 0.823449745946962,
+   "var_share": 0.859932063994466
   },
   {
    "sym": "XOP",
@@ -59,59 +59,59 @@
    "theme": "Energy",
    "sub": "Oil & gas E&P equities",
    "qty": 23.0,
-   "px": 191.8000030517578,
+   "px": 192.58999633789062,
    "avg": 169.503953,
    "stop": 185.0,
    "stop_confirmed_on": "2026-09-15",
-   "daily": -181.69985961914062,
-   "unreal": 512.8091511904298,
-   "vol_d": 0.01749621384858208,
-   "vol_a": 0.2777437843713149,
-   "atr": 4.943084454116611,
-   "mv": 4411.40007019043,
-   "pct_nav": 0.014704666900634766,
-   "stop_dist": 0.035453612844431555,
-   "stop_risk": 156.4000701904297,
+   "daily": 18.169845581054688,
+   "unreal": 530.9789967714845,
+   "vol_d": 0.017492373898222655,
+   "vol_a": 0.27768282704912767,
+   "atr": 4.85920081824749,
+   "mv": 4429.569915771484,
+   "pct_nav": 0.014765233052571615,
+   "stop_dist": 0.03941012764014135,
+   "stop_risk": 174.56991577148438,
    "stop_vs_cost": 356.4090810000001,
-   "atr_mult": 1.3756598971508076,
-   "p5": 0.35617933784977296,
-   "p21": 0.6525541704696112,
-   "p63": 0.7949156459711011,
-   "theme_used": 0.026066678365071615,
-   "max_shares_theme": 882.3525451873128,
-   "headroom": 38.363154138578814,
-   "pct_book": 0.17553340356680835,
-   "var_share": 0.031580691331581257
+   "atr_mult": 1.5619844953491795,
+   "p5": 0.3039690714772617,
+   "p21": 0.6159540723856867,
+   "p63": 0.772126347777217,
+   "theme_used": 0.029094985961914063,
+   "max_shares_theme": 790.5142154083688,
+   "headroom": 34.37018327862473,
+   "pct_book": 0.176550254053038,
+   "var_share": 0.03256832086828503
   }
  ],
  "totals": {
-  "gross": 25131.399383544922,
-  "gross_pct": 0.08377133127848307,
-  "net_pct": 0.08377133127848307,
-  "daily": -541.7004699707031,
-  "unreal": 509.7524645449223,
-  "stop_total": 2176.399383544923,
-  "stop_pct": 0.007254664611816409,
+  "gross": 25089.569763183594,
+  "gross_pct": 0.08363189921061198,
+  "net_pct": 0.08363189921061198,
+  "daily": -41.829620361328125,
+  "unreal": 467.9228441835942,
+  "stop_total": 2134.5697631835947,
+  "stop_pct": 0.007115232543945316,
   "gap_total": 4371.0,
   "gap_pct": 0.01457,
-  "var95": 714.4562008106013,
-  "var99": 1010.2280383498229,
-  "correlation": 0.320896311644849,
-  "theme_used": 0.36273323059082047,
-  "portfolio_used": 0.12091107686360682,
+  "var95": 706.2826387688447,
+  "var99": 998.6707706847008,
+  "correlation": 0.32117901241840074,
+  "theme_used": 0.3557616271972658,
+  "portfolio_used": 0.11858720906575526,
   "theme_used_gap": 0.7285,
   "portfolio_used_gap": 0.24283333333333335,
-  "theme_used_var99": 0.16837133972497048,
-  "portfolio_used_var99": 0.05612377990832349,
+  "theme_used_var99": 0.16644512844745013,
+  "portfolio_used_var99": 0.05548170948248338,
   "themes_live": 1,
   "themes_supported": 3.0
  },
  "excluded": {
   "sym": "TLT",
   "qty": 900.0,
-  "px": 80.87999725341797,
-  "mv": 72791.99752807617,
-  "unreal": -10829.726372323834,
+  "px": 81.77999877929688,
+  "mv": 73601.99890136719,
+  "unreal": -10019.724999032818,
   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to these two positions."
  },
  "scenarios": [
@@ -221,7 +221,7 @@
   {
    "name": "Portfolio - all stops fill cleanly",
    "budget": 18000.0,
-   "cur": 2176.399383544923
+   "cur": 2134.5697631835947
   },
   {
    "name": "Portfolio - gas gap, no stop protection",
@@ -231,12 +231,12 @@
   {
    "name": "Portfolio - VaR 99%, correlation-adjusted",
    "budget": 18000.0,
-   "cur": 1010.2280383498229
+   "cur": 998.6707706847008
   },
   {
    "name": "Energy theme - all stops fill cleanly",
    "budget": 6000.0,
-   "cur": 2176.399383544923
+   "cur": 2134.5697631835947
   },
   {
    "name": "Energy theme - gas gap, no stop protection",
@@ -246,26 +246,26 @@
   {
    "name": "Energy theme - VaR 99%, correlation-adjusted",
    "budget": 6000.0,
-   "cur": 1010.2280383498229
+   "cur": 998.6707706847008
   },
   {
    "name": "Energy theme - VaR 95%, correlation-adjusted",
    "budget": 6000.0,
-   "cur": 714.4562008106013
+   "cur": 706.2826387688447
   },
   {
    "name": "UNG - position risk at stop",
    "budget": 6000.0,
-   "cur": 2019.9993133544929
+   "cur": 1959.99984741211
   },
   {
    "name": "XOP - position risk at stop",
    "budget": 6000.0,
-   "cur": 156.4000701904297
+   "cur": 174.56991577148438
   }
  ],
  "not_configured": [
-  "Single-commodity concentration (UNG is 82.4% of the book)",
+  "Single-commodity concentration (UNG is 82.3% of the book)",
   "Gross exposure backstop for gap risk",
   "Net exposure range"
  ],
@@ -279,14 +279,14 @@
    "title": "Crude at a four-month high on Saudi pipeline shutdown",
    "body": "Brent traded around $106-110 after rallying more than 9% last week. Saudi Arabia shut its East-West pipeline - roughly 7m b/d to Yanbu, the route that bypasses Hormuz - following drone attacks. WTI near $101.",
    "src": "Bloomberg, Energy Intelligence, Fortune - 13-14 Sep 2026",
-   "affects": "XOP, $4,411"
+   "affects": "XOP, $4,430"
   },
   {
    "hot": false,
    "title": "Natural gas at a three-week low on a bearish storage build",
    "body": "Gas fell to about $2.80/MMBtu. The EIA reported a 40 Bcf injection for the week to 4 Sep against roughly 31 Bcf expected, lifting stocks to 3.254 Tcf - some 4.8% above the five-year average. Lower-48 output averages 112.9 Bcf/d in September.",
    "src": "EIA Short-Term Energy Outlook, Trading Economics, NGI - Sep 2026",
-   "affects": "UNG, $20,720"
+   "affects": "UNG, $20,660"
   }
  ],
  "notes": [
