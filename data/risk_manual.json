@@ -32,6 +32,13 @@
  },
 
  "holdings": {
+  "GOOGL": {
+   "name": "Alphabet Inc Class A",
+   "theme": "MAG7",
+   "sub": "Mega-cap tech",
+   "stop": 340.0,
+   "stop_confirmed_on": "2026-09-19"
+  },
   "UNG": {
    "name": "US Natural Gas Fund",
    "theme": "Energy",
