@@ -49,6 +49,7 @@ DATA_FILES = [
     "carry.json",
     "cot_data.json",
     "cross_asset.json",
+    "etf_flows.json",
     "gdpnow.json",
     "leadership.json",
     "mfra_group.json",
