@@ -1,4 +1,4 @@
-# update_and_deploy.ps1  -  Complete daily dashboard data pipeline (single source of truth).
+﻿# update_and_deploy.ps1  -  Complete daily dashboard data pipeline (single source of truth).
 # Collect -> export -> commit -> push. Run manually each morning, or via the
 # "GAAI Dashboard Update" scheduled task (idempotent: skips commit when nothing changed).
 #
@@ -83,6 +83,15 @@ Invoke-Step "scripts\carry_export.py"      "carry_export.py failed - carry.json 
 #    (no Flex section reports working orders); they live in data/risk_manual.json.
 Invoke-Step "scripts\ibkr_flex_fetch.py" "ibkr_flex_fetch.py failed - IBKR book not refreshed. Check IBKR_FLEX_TOKEN/IBKR_FLEX_QUERY_ID; gen_risk_json.py will refuse to publish a snapshot older than 36h."
 Invoke-Step "scripts\gen_risk_json.py"   "gen_risk_json.py failed - risk.json NOT updated (stale IBKR snapshot, an untracked new position, or a closed position needing risk_manual.json updated)."
+
+# 7. ETF flows: scrape etfdb's daily fund-flow bars for the 11 SPDR sector ETFs
+#    (Playwright, fresh browser context per ticker - Highcharts state leaks across
+#    navigations), then rebuild etf_flows.json from data/etf_flows_daily.json.
+#    The scrape is the slow, network-bound half; gen_etf_flows.py is local math over
+#    its output, so a failed scrape still regenerates from the PREVIOUS day's bars
+#    rather than erroring - which is why the warning below calls out staleness.
+Invoke-Step "scripts\scrape_etf_flows.py" "scrape_etf_flows.py failed - data/etf_flows_daily.json NOT refreshed; gen_etf_flows.py will rebuild from the previous scrape, so etf_flows.json will look fresh but carry stale bars. Check Playwright/chromium and etfdb reachability."
+Invoke-Step "scripts\gen_etf_flows.py"    "gen_etf_flows.py failed - etf_flows.json may be stale."
 
 # --- Commit ONLY the generated pipeline data files (explicit list; screener excluded) ---
 $dataFiles = @(
