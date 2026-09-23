@@ -242,6 +242,13 @@ def main():
 
     themes = sorted({p["theme"] for p in pos})
 
+    # Stop risk per theme, and the binding theme - the one nearest its own cap.
+    theme_stop = {th: sum(p["stop_risk"] for p in pos if p["theme"] == th) for th in themes}
+    binding_theme = max(theme_stop, key=lambda th: theme_stop[th]) if theme_stop else None
+    binding_abs = theme_stop.get(binding_theme, 0.0)
+    # The authored gas gap is a UNG-only figure, so it loads whichever theme UNG sits in.
+    gap_theme = next((p["theme"] for p in pos if p["sym"] == "UNG"), None)
+
     # {SYM_PCT} placeholders in not_configured resolve to live concentration
     by_sym = {p["sym"]: p for p in pos}
     not_configured = []
@@ -298,9 +305,19 @@ def main():
             "stop_total": stop_total, "stop_pct": stop_total / NAV,
             "gap_total": gap_total, "gap_pct": gap_total / NAV,
             "var95": var95, "var99": var99, "correlation": corr,
-            "theme_used": stop_total / THEME, "portfolio_used": stop_total / PORT,
-            "theme_used_gap": gap_total / THEME, "portfolio_used_gap": gap_total / PORT,
-            "theme_used_var99": var99 / THEME, "portfolio_used_var99": var99 / PORT,
+            # The theme meter tracks the BINDING theme - the one closest to its own
+            # 2% cap. Measuring the whole book against a single theme budget only
+            # made sense while the book was effectively one theme.
+            "theme_binding": binding_theme,
+            "theme_binding_abs": binding_abs,
+            "theme_used": binding_abs / THEME, "portfolio_used": stop_total / PORT,
+            # The gas gap is authored on UNG alone, so it loads only UNG's theme.
+            "theme_gap_applies": gap_theme == binding_theme,
+            "theme_used_gap": (gap_total / THEME) if gap_theme == binding_theme else None,
+            "portfolio_used_gap": gap_total / PORT,
+            # VaR is computed book-wide; there is no per-theme covariance, so the
+            # theme meter carries no VaR segment rather than borrowing the book's.
+            "theme_used_var99": None, "portfolio_used_var99": var99 / PORT,
             "themes_live": len(themes), "themes_supported": PORT / THEME,
         },
         "excluded": excluded,
@@ -313,11 +330,12 @@ def main():
              {"name": "Portfolio - VaR 99%, correlation-adjusted", "budget": PORT, "cur": var99}]
             + [{"name": "%s theme - all stops fill cleanly" % t, "budget": THEME,
                 "cur": sum(p["stop_risk"] for p in pos if p["theme"] == t)} for t in themes]
-            + [{"name": "Energy theme - gas gap, no stop protection", "budget": THEME,
-                "cur": gap_total},
-               {"name": "Energy theme - VaR 99%, correlation-adjusted", "budget": THEME,
-                "cur": var99},
-               {"name": "Energy theme - VaR 95%, correlation-adjusted", "budget": THEME,
+            # The gas gap is a UNG-only figure, so it belongs to UNG's theme budget.
+            # VaR is book-wide and is measured against the portfolio cap, not a
+            # theme cap - comparing it to 2% of NAV manufactured a false breach.
+            + ([{"name": "%s theme - gas gap, no stop protection" % gap_theme,
+                 "budget": THEME, "cur": gap_total}] if gap_theme else [])
+            + [{"name": "Portfolio - VaR 95%, correlation-adjusted", "budget": PORT,
                 "cur": var95}]
             + [{"name": "%s - position risk at stop" % p["sym"], "budget": THEME,
                 "cur": p["stop_risk"]} for p in pos]
@@ -343,8 +361,15 @@ def main():
     assert abs(t["stop_total"] - sum(p["stop_risk"] for p in d["positions"])) < 0.01, \
         "stop_total != sum of stop_risk"
     assert abs(sum(p["pct_book"] for p in d["positions"]) - 1.0) < 1e-9, "pct_book must sum to 1"
-    assert abs(t["theme_used"] - t["stop_total"] / d["limits"]["theme_abs"]) < 1e-9, \
+    assert abs(t["theme_used"] - t["theme_binding_abs"] / d["limits"]["theme_abs"]) < 1e-9, \
         "theme_used inconsistent"
+    assert t["theme_binding_abs"] <= t["stop_total"] + 0.01, \
+        "binding theme cannot exceed the whole book"
+    _theme_stop = {}
+    for p in d["positions"]:
+        _theme_stop[p["theme"]] = _theme_stop.get(p["theme"], 0.0) + p["stop_risk"]
+    assert abs(t["theme_binding_abs"] - max(_theme_stop.values())) < 0.01, \
+        "theme_binding_abs is not the worst theme"
     assert t["var99"] > t["var95"] > 0, "VaR ordering broken"
     assert t["var99"] <= t["stop_total"] * 50, "VaR implausibly large vs stop risk"
     for p in d["positions"]:
@@ -366,8 +391,9 @@ def main():
     print("  gross $%.2f | stop risk $%.2f | VaR95 $%.2f VaR99 $%.2f | corr %s"
           % (t["gross"], t["stop_total"], t["var95"], t["var99"],
              ("%.3f" % t["correlation"]) if t["correlation"] is not None else "n/a"))
-    print("  theme used %.1f%% of $%.0f | portfolio used %.1f%% of $%.0f"
-          % (100 * t["theme_used"], d["limits"]["theme_abs"],
+    print("  binding theme %s: $%.0f = %.1f%% of $%.0f | portfolio used %.1f%% of $%.0f"
+          % (t["theme_binding"], t["theme_binding_abs"], 100 * t["theme_used"],
+             d["limits"]["theme_abs"],
              100 * t["portfolio_used"], d["limits"]["portfolio_abs"]))
     if d["judgment_stale"]:
         print("  JUDGMENT STALE: prices moved %.1f%% since %s - scenarios need re-deriving"

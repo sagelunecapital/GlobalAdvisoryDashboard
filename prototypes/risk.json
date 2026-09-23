@@ -1,17 +1,17 @@
 {
- "updated": "2026-09-17T23:36:59Z",
- "export_pulled": "17 Sep 2026",
+ "updated": "2026-09-23T07:11:11Z",
+ "export_pulled": "23 Sep 2026",
  "source": "IBKR Flex Web Service v3 + live marks",
- "vol_window": "24 Jun - 17 Sep 2026 (60 daily bars)",
- "mark_date": "2026-09-17",
- "flex_report_date": "2026-09-16",
+ "vol_window": "26 Jun - 21 Sep 2026 (60 daily bars)",
+ "mark_date": "2026-09-21",
+ "flex_report_date": "2026-09-22",
  "nav": 300000.0,
  "unit": 3000.0,
- "judgment_reviewed_on": "2026-09-15",
+ "judgment_reviewed_on": "2026-09-19",
  "judgment_stale": false,
  "judgment_drift": {
-  "UNG": -0.005774790788637717,
-  "XOP": -0.01337092040015043
+  "GOOGL": 0.008437503467906605,
+  "UNG": -0.012512008769794478
  },
  "limits": {
   "theme_pct": 0.02,
@@ -24,124 +24,270 @@
  },
  "positions": [
   {
+   "sym": "CRM",
+   "name": "Salesforce Inc",
+   "theme": "Enterprise software",
+   "sub": "Enterprise software",
+   "qty": 230.0,
+   "px": 236.4199981689453,
+   "avg": 241.990220391,
+   "stop": 229.0,
+   "stop_confirmed_on": "2026-09-23",
+   "daily": -345.0,
+   "unreal": -1281.15111107258,
+   "vol_d": 0.03940722611320833,
+   "vol_a": 0.6255703209266382,
+   "atr": 9.353521472545221,
+   "mv": 54376.59957885742,
+   "pct_nav": 0.18125533192952473,
+   "stop_dist": 0.03138481611713318,
+   "stop_risk": 1706.5995788574219,
+   "stop_vs_cost": -2987.750689930002,
+   "atr_mult": 0.793283918866787,
+   "p5": 0.7174416424162977,
+   "p21": 0.8598387755707135,
+   "p63": 0.9187978192705354,
+   "theme_used": 0.2844332631429036,
+   "max_shares_theme": 808.6255364740673,
+   "headroom": 3.515763202061162,
+   "pct_book": 0.1482863359928866,
+   "var_share": 0.1489545635701087
+  },
+  {
+   "sym": "GNRC",
+   "name": "Generac Holdings",
+   "theme": "AI infrastructure & power",
+   "sub": "Backup power & generators",
+   "qty": 250.0,
+   "px": 204.9600067138672,
+   "avg": 207.785003,
+   "stop": 201.0,
+   "stop_confirmed_on": "2026-09-23",
+   "daily": -619.9989318847656,
+   "unreal": -706.2490715332003,
+   "vol_d": 0.03935174226675973,
+   "vol_a": 0.6246895421697325,
+   "atr": 11.606269750952729,
+   "mv": 51240.0016784668,
+   "pct_nav": 0.1708000055948893,
+   "stop_dist": 0.019320875215404945,
+   "stop_risk": 990.0016784667969,
+   "stop_vs_cost": -1696.2507499999972,
+   "atr_mult": 0.3411954744152074,
+   "p5": 0.8245308244362769,
+   "p21": 0.9138458251576108,
+   "p63": 0.9501941989916727,
+   "theme_used": 0.16500027974446616,
+   "max_shares_theme": 1515.148946336163,
+   "headroom": 6.060595785344652,
+   "pct_book": 0.13973275570772378,
+   "var_share": 0.13189374242955373
+  },
+  {
+   "sym": "GOOGL",
+   "name": "Alphabet Inc Class A",
+   "theme": "MAG7",
+   "sub": "Mega-cap tech",
+   "qty": 200.0,
+   "px": 354.9700012207031,
+   "avg": 352.005003,
+   "stop": 340.0,
+   "stop_confirmed_on": "2026-09-19",
+   "daily": 1085.99853515625,
+   "unreal": 592.9996441406274,
+   "vol_d": 0.022330672491291677,
+   "vol_a": 0.3544884361247337,
+   "atr": 8.4082069509553,
+   "mv": 70994.00024414062,
+   "pct_nav": 0.23664666748046875,
+   "stop_dist": 0.04217258125819907,
+   "stop_risk": 2994.000244140625,
+   "stop_vs_cost": -2401.0005999999976,
+   "atr_mult": 1.7804035162338987,
+   "p5": 0.3881862417487011,
+   "p21": 0.673713024467768,
+   "p63": 0.8079297000605423,
+   "theme_used": 0.4990000406901042,
+   "max_shares_theme": 400.80157052373215,
+   "headroom": 2.0040078526186607,
+   "pct_book": 0.19360239984140096,
+   "var_share": 0.08153139817948775
+  },
+  {
+   "sym": "MSFT",
+   "name": "Microsoft Corp",
+   "theme": "MAG7",
+   "sub": "Mega-cap tech",
+   "qty": 200.0,
+   "px": 501.6099853515625,
+   "avg": 498.881328,
+   "stop": 487.0,
+   "stop_confirmed_on": "2026-09-23",
+   "daily": 1565.997314453125,
+   "unreal": 545.7314703125007,
+   "vol_d": 0.026193978761558993,
+   "vol_a": 0.4158165219023565,
+   "atr": 10.612741224760125,
+   "mv": 100321.9970703125,
+   "pct_nav": 0.33440665690104165,
+   "stop_dist": 0.02912618523995854,
+   "stop_risk": 2921.9970703125,
+   "stop_vs_cost": -2376.2655999999993,
+   "atr_mult": 1.376645773429072,
+   "p5": 0.6137968060487002,
+   "p21": 0.8054891315326739,
+   "p63": 0.8869439968030114,
+   "theme_used": 0.48699951171875,
+   "max_shares_theme": 410.67802982829926,
+   "headroom": 2.0533901491414963,
+   "pct_book": 0.27358057473733505,
+   "var_share": 0.22401302483100743
+  },
+  {
+   "sym": "SMCI",
+   "name": "Super Micro Computer",
+   "theme": "AI infrastructure & power",
+   "sub": "AI server hardware",
+   "qty": 857.0,
+   "px": 41.20000076293945,
+   "avg": 40.581543257,
+   "stop": 37.8,
+   "stop_confirmed_on": "2026-09-23",
+   "daily": 1808.270523071289,
+   "unreal": 530.0180825901115,
+   "vol_d": 0.05782448542264903,
+   "vol_a": 0.9179352487116539,
+   "atr": 2.447142730637865,
+   "mv": 35308.40065383911,
+   "pct_nav": 0.11769466884613038,
+   "stop_dist": 0.08252428883442768,
+   "stop_risk": 2913.8006538391137,
+   "stop_vs_cost": -2383.782571249002,
+   "atr_mult": 1.3893757484481595,
+   "p5": 0.505333400833522,
+   "p21": 0.7451553070785122,
+   "p63": 0.8511443707186335,
+   "theme_used": 0.48563344230651895,
+   "max_shares_theme": 1764.7054863636931,
+   "headroom": 2.0591662618012756,
+   "pct_book": 0.09628688449217401,
+   "var_share": 0.13522520105262956
+  },
+  {
+   "sym": "SNOW",
+   "name": "Snowflake Inc",
+   "theme": "Enterprise software",
+   "sub": "Data cloud",
+   "qty": 100.0,
+   "px": 339.3900146484375,
+   "avg": 344.460003,
+   "stop": 317.0,
+   "stop_confirmed_on": "2026-09-23",
+   "daily": 696.002197265625,
+   "unreal": -506.9988351562472,
+   "vol_d": 0.03291502447821658,
+   "vol_a": 0.5225098150017876,
+   "atr": 15.584909551012883,
+   "mv": 33939.00146484375,
+   "pct_nav": 0.1131300048828125,
+   "stop_dist": 0.06597134176628781,
+   "stop_risk": 2239.00146484375,
+   "stop_vs_cost": -2746.000299999997,
+   "atr_mult": 1.436647070369577,
+   "p5": 0.35378022664793973,
+   "p21": 0.650932443925609,
+   "p63": 0.7939135552900558,
+   "theme_used": 0.37316691080729164,
+   "max_shares_theme": 267.97660002507916,
+   "headroom": 2.6797660002507917,
+   "pct_book": 0.0925524989325682,
+   "var_share": 0.04048223451460608
+  },
+  {
    "sym": "UNG",
    "name": "US Natural Gas Fund",
    "theme": "Energy",
    "sub": "Natural gas futures",
    "qty": 2000.0,
-   "px": 10.329999923706055,
+   "px": 10.260000228881836,
    "avg": 10.361528,
    "stop": 9.35,
    "stop_confirmed_on": "2026-09-15",
-   "daily": -59.99946594238281,
-   "unreal": -63.056152587890324,
-   "vol_d": 0.019271449708191724,
-   "vol_a": 0.30592477998938145,
-   "atr": 0.28318109128317176,
-   "mv": 20659.99984741211,
-   "pct_nav": 0.06886666615804037,
-   "stop_dist": 0.09486930599651584,
-   "stop_risk": 1959.99984741211,
+   "daily": -299.9992370605469,
+   "unreal": -203.05554223632782,
+   "vol_d": 0.01916579383366677,
+   "vol_a": 0.3042475449781051,
+   "atr": 0.2699136755714963,
+   "mv": 20520.000457763672,
+   "pct_nav": 0.06840000152587891,
+   "stop_dist": 0.08869397744458049,
+   "stop_risk": 1820.0004577636726,
    "stop_vs_cost": -2023.0560000000005,
-   "atr_mult": 3.4606827711038357,
-   "p5": 0.020718163397239198,
-   "p21": 0.25903784565050114,
-   "p63": 0.5146354593563786,
-   "theme_used": 0.32666664123535166,
-   "max_shares_theme": 6122.449456230431,
-   "headroom": 3.0612247281152154,
-   "pct_book": 0.823449745946962,
-   "var_share": 0.859932063994466
-  },
-  {
-   "sym": "XOP",
-   "name": "SPDR S&P Oil & Gas E&P",
-   "theme": "Energy",
-   "sub": "Oil & gas E&P equities",
-   "qty": 23.0,
-   "px": 192.58999633789062,
-   "avg": 169.503953,
-   "stop": 185.0,
-   "stop_confirmed_on": "2026-09-15",
-   "daily": 18.169845581054688,
-   "unreal": 530.9789967714845,
-   "vol_d": 0.017492373898222655,
-   "vol_a": 0.27768282704912767,
-   "atr": 4.85920081824749,
-   "mv": 4429.569915771484,
-   "pct_nav": 0.014765233052571615,
-   "stop_dist": 0.03941012764014135,
-   "stop_risk": 174.56991577148438,
-   "stop_vs_cost": 356.4090810000001,
-   "atr_mult": 1.5619844953491795,
-   "p5": 0.3039690714772617,
-   "p21": 0.6159540723856867,
-   "p63": 0.772126347777217,
-   "theme_used": 0.029094985961914063,
-   "max_shares_theme": 790.5142154083688,
-   "headroom": 34.37018327862473,
-   "pct_book": 0.176550254053038,
-   "var_share": 0.03256832086828503
+   "atr_mult": 3.3714491381552474,
+   "p5": 0.030221462620482087,
+   "p21": 0.2902955690868009,
+   "p63": 0.5415090706355365,
+   "theme_used": 0.3033334096272788,
+   "max_shares_theme": 6593.404935043265,
+   "headroom": 3.2967024675216328,
+   "pct_book": 0.05595855029591145,
+   "var_share": 0.005017488051708063
   }
  ],
  "totals": {
-  "gross": 25089.569763183594,
-  "gross_pct": 0.08363189921061198,
-  "net_pct": 0.08363189921061198,
-  "daily": -41.829620361328125,
-  "unreal": 467.9228441835942,
-  "stop_total": 2134.5697631835947,
-  "stop_pct": 0.007115232543945316,
-  "gap_total": 4371.0,
-  "gap_pct": 0.01457,
-  "var95": 706.2826387688447,
-  "var99": 998.6707706847008,
-  "correlation": 0.32117901241840074,
-  "theme_used": 0.3557616271972658,
-  "portfolio_used": 0.11858720906575526,
-  "theme_used_gap": 0.7285,
-  "portfolio_used_gap": 0.24283333333333335,
-  "theme_used_var99": 0.16644512844745013,
-  "portfolio_used_var99": 0.05548170948248338,
-  "themes_live": 1,
+  "gross": 366700.0011482239,
+  "gross_pct": 1.2223333371607463,
+  "net_pct": 1.2223333371607463,
+  "daily": 3891.2704010009766,
+  "unreal": -1028.7053629551158,
+  "stop_total": 15585.40114822388,
+  "stop_pct": 0.05195133716074627,
+  "gap_total": 4156.0,
+  "gap_pct": 0.013853333333333334,
+  "var95": 9133.28283906716,
+  "var99": 12914.295370012289,
+  "correlation": null,
+  "theme_binding": "MAG7",
+  "theme_binding_abs": 5915.997314453125,
+  "theme_used": 0.9859995524088542,
+  "portfolio_used": 0.8658556193457712,
+  "theme_gap_applies": false,
+  "theme_used_gap": null,
+  "portfolio_used_gap": 0.2308888888888889,
+  "theme_used_var99": null,
+  "portfolio_used_var99": 0.7174608538895716,
+  "themes_live": 4,
   "themes_supported": 3.0
  },
  "excluded": {
   "sym": "TLT",
   "qty": 900.0,
-  "px": 81.77999877929688,
-  "mv": 73601.99890136719,
-  "unreal": -10019.724999032818,
+  "px": 81.80000305175781,
+  "mv": 73620.00274658203,
+  "unreal": -10001.721153817974,
   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to these two positions."
  },
  "scenarios": [
   {
    "name": "Natural gas -20%",
-   "naive": -4371,
-   "stopped": -2295,
-   "gap": -4371,
+   "naive": -4156.0,
+   "stopped": -2080.0,
+   "gap": -4156.0,
    "trigger": "UNG"
   },
   {
-   "name": "Energy equities -12%",
-   "naive": -1370,
-   "stopped": -1066,
-   "gap": -1370,
-   "trigger": "XOP"
-  },
-  {
-   "name": "Crude -10%",
-   "naive": -1297,
-   "stopped": -858,
-   "gap": -1297,
-   "trigger": "XOP"
+   "name": "Mega-cap tech -10%",
+   "naive": -7040,
+   "stopped": -2400,
+   "gap": -7040,
+   "trigger": "GOOGL"
   },
   {
    "name": "Broad market -3%",
-   "naive": -369,
-   "stopped": -369,
-   "gap": -369,
-   "trigger": null
+   "naive": -3612,
+   "stopped": -2769,
+   "gap": -3612,
+   "trigger": "GOOGL"
   },
   {
    "name": "Rates +50bp",
@@ -162,27 +308,27 @@
   {
    "label": "Clean fill at $9.35",
    "ung": -2080,
-   "total": -2295
+   "total": -2080
   },
   {
    "label": "2% below stop",
    "ung": -2454,
-   "total": -2669
+   "total": -2454
   },
   {
    "label": "5% below stop",
    "ung": -3015,
-   "total": -3230
+   "total": -3015
   },
   {
    "label": "10% below stop",
    "ung": -3950,
-   "total": -4165
+   "total": -3950
   },
   {
    "label": "Full gap - stop gives nothing",
    "ung": -4156,
-   "total": -4371
+   "total": -4156
   }
  ],
  "gross_permitted": [
@@ -221,51 +367,86 @@
   {
    "name": "Portfolio - all stops fill cleanly",
    "budget": 18000.0,
-   "cur": 2134.5697631835947
+   "cur": 15585.40114822388
   },
   {
    "name": "Portfolio - gas gap, no stop protection",
    "budget": 18000.0,
-   "cur": 4371.0
+   "cur": 4156.0
   },
   {
    "name": "Portfolio - VaR 99%, correlation-adjusted",
    "budget": 18000.0,
-   "cur": 998.6707706847008
+   "cur": 12914.295370012289
+  },
+  {
+   "name": "AI infrastructure & power theme - all stops fill cleanly",
+   "budget": 6000.0,
+   "cur": 3903.8023323059106
   },
   {
    "name": "Energy theme - all stops fill cleanly",
    "budget": 6000.0,
-   "cur": 2134.5697631835947
+   "cur": 1820.0004577636726
+  },
+  {
+   "name": "Enterprise software theme - all stops fill cleanly",
+   "budget": 6000.0,
+   "cur": 3945.601043701172
+  },
+  {
+   "name": "MAG7 theme - all stops fill cleanly",
+   "budget": 6000.0,
+   "cur": 5915.997314453125
   },
   {
    "name": "Energy theme - gas gap, no stop protection",
    "budget": 6000.0,
-   "cur": 4371.0
+   "cur": 4156.0
   },
   {
-   "name": "Energy theme - VaR 99%, correlation-adjusted",
-   "budget": 6000.0,
-   "cur": 998.6707706847008
+   "name": "Portfolio - VaR 95%, correlation-adjusted",
+   "budget": 18000.0,
+   "cur": 9133.28283906716
   },
   {
-   "name": "Energy theme - VaR 95%, correlation-adjusted",
+   "name": "CRM - position risk at stop",
    "budget": 6000.0,
-   "cur": 706.2826387688447
+   "cur": 1706.5995788574219
+  },
+  {
+   "name": "GNRC - position risk at stop",
+   "budget": 6000.0,
+   "cur": 990.0016784667969
+  },
+  {
+   "name": "GOOGL - position risk at stop",
+   "budget": 6000.0,
+   "cur": 2994.000244140625
+  },
+  {
+   "name": "MSFT - position risk at stop",
+   "budget": 6000.0,
+   "cur": 2921.9970703125
+  },
+  {
+   "name": "SMCI - position risk at stop",
+   "budget": 6000.0,
+   "cur": 2913.8006538391137
+  },
+  {
+   "name": "SNOW - position risk at stop",
+   "budget": 6000.0,
+   "cur": 2239.00146484375
   },
   {
    "name": "UNG - position risk at stop",
    "budget": 6000.0,
-   "cur": 1959.99984741211
-  },
-  {
-   "name": "XOP - position risk at stop",
-   "budget": 6000.0,
-   "cur": 174.56991577148438
+   "cur": 1820.0004577636726
   }
  ],
  "not_configured": [
-  "Single-commodity concentration (UNG is 82.3% of the book)",
+  "Single-commodity concentration (UNG is 5.6% of the book)",
   "Gross exposure backstop for gap risk",
   "Net exposure range"
  ],
@@ -275,30 +456,25 @@
  "news_as_of": "2026-09-14",
  "news": [
   {
-   "hot": true,
-   "title": "Crude at a four-month high on Saudi pipeline shutdown",
-   "body": "Brent traded around $106-110 after rallying more than 9% last week. Saudi Arabia shut its East-West pipeline - roughly 7m b/d to Yanbu, the route that bypasses Hormuz - following drone attacks. WTI near $101.",
-   "src": "Bloomberg, Energy Intelligence, Fortune - 13-14 Sep 2026",
-   "affects": "XOP, $4,430"
-  },
-  {
    "hot": false,
    "title": "Natural gas at a three-week low on a bearish storage build",
    "body": "Gas fell to about $2.80/MMBtu. The EIA reported a 40 Bcf injection for the week to 4 Sep against roughly 31 Bcf expected, lifting stocks to 3.254 Tcf - some 4.8% above the five-year average. Lower-48 output averages 112.9 Bcf/d in September.",
    "src": "EIA Short-Term Energy Outlook, Trading Economics, NGI - Sep 2026",
-   "affects": "UNG, $20,660"
+   "affects": "UNG, $20,520"
   }
  ],
  "notes": [
   "NAV is $300,000 throughout - the notional mandate assigned by the firm. Never measured against account equity, by instruction. 1% = $3,000.",
   "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
-  "Themes are assigned, not fed. IBKR returns no sector tags; UNG and XOP are both classified Energy as a stated assumption.",
+  "Themes are assigned, not fed. IBKR returns no sector tags; every theme in this file is a stated assumption.",
   "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
   "Stops are confirmed by the account owner, not read from the API: an IBKR Activity Flex Query cannot report working orders. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
   "Parametric VaR understates the tail: the historical 5th percentile has run above the parametric figure, and the worst day in the window was roughly 1.5x the 99% VaR.",
   "Correlation between the two legs is not a usable parameter - the standard error is wide and the rolling 20-day figure has swung through zero in both directions.",
-  "Scenario betas are assumed: UNG ~1.0 to front-month gas; XOP ~1.2 to equities, ~1.5 to crude. The XOP leg of the gas shock uses the measured beta of 0.24.",
+  "Scenario betas are assumed: UNG ~1.0 to front-month gas. The XOP terms were removed with the position on 23 Sep 2026.",
   "Scenario, slippage and gap figures are authored at the prices in price_basis and do not move with the market. The tab flags them when live prices drift past tolerance.",
-  "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn."
+  "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn.",
+  "MSFT, CRM, GNRC, SMCI and SNOW were added on 23 Sep 2026. Their stops are the GTC working orders read from the IBKR account's live order endpoint, not the Flex query - the same endpoint returns GOOGL 340.00 and UNG 9.35, which match the stops already confirmed in this file. Their themes are assigned assumptions, not fed.",
+  "Scenarios, slippage and the gap figure cover UNG and GOOGL only. The five positions added on 23 Sep 2026 carry no authored scenario terms, so every scenario row understates the current book. XOP was stopped out on 22 Sep 2026 and its scenario, news and gap terms were removed."
  ]
 }

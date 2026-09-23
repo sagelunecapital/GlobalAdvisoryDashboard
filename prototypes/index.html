@@ -5149,34 +5149,43 @@ function riskRender(d){
   document.getElementById('risk-kpis').innerHTML = [
     ['Gross exposure',_rP(t.gross_pct),_rM(t.gross)+' \u00b7 net +'+_rP(t.net_pct)+', no shorts'],
     ['If all stops fill',_rM(t.stop_total),_rP(t.stop_pct)+' of NAV \u00b7 clean fills only'],
-    ['Theme budget used',_rP(t.theme_used),'2% limit = '+_rM(L.theme_abs)+' <span class="risk-chip '+tc+'">'+tl+'</span>'],
+    ['Worst theme budget used',_rP(t.theme_used),(t.theme_binding||'theme')+' · 2% limit = '+_rM(L.theme_abs)+' <span class="risk-chip '+tc+'">'+tl+'</span>'],
     ['Portfolio budget used',_rP(t.portfolio_used),'6% limit = '+_rM(L.portfolio_abs)+' <span class="risk-chip '+pc+'">'+pl+'</span>'],
     ['Open P&L',(t.unreal>=0?'+':'')+_rM(t.unreal),'today '+(t.daily>=0?'+':'')+_rM(t.daily)]
   ].map(k=>'<div class="stir-kpi"><div class="stir-kpi-label">'+k[0]+'</div><div class="stir-kpi-value">'+k[1]+'</div><div class="stir-kpi-sub">'+k[2]+'</div></div>').join('');
 
   // Budget meters
-  const meter=(title,budget,used,usedGap,usedVar)=>
-    '<div><div class="stir-kpi-label" style="margin-bottom:7px">'+title+'</div>'+
-    '<div class="risk-mhead"><div><span class="risk-mbig">'+_rM(t.stop_total)+'</span> '+
+  // Each meter carries its OWN absolutes: the theme meter tracks the binding
+  // theme, not the whole book. A null segment (no per-theme VaR, or a gap that
+  // does not load this theme) is skipped rather than borrowing the book figure.
+  const meter=(title,budget,stopAbs,gapAbs,varAbs)=>{
+    const u=a=>(a==null?null:a/budget), us=u(stopAbs), ug=u(gapAbs), uv=u(varAbs);
+    const fill=(cls,v)=>v==null?'':'<div class="risk-fill '+cls+'" style="width:'+Math.min(100,v*100)+'%"></div>';
+    const key=(col,lbl,abs,v)=>v==null?'':
+      '<span><i class="risk-sw" style="background:'+col+'"></i> '+lbl+' &mdash; '+_rM(abs)+' \u00b7 '+_rP(v)+'</span>';
+    return '<div><div class="stir-kpi-label" style="margin-bottom:7px">'+title+'</div>'+
+    '<div class="risk-mhead"><div><span class="risk-mbig">'+_rM(stopAbs)+'</span> '+
       '<span style="color:var(--text-muted);font-size:var(--fs-sm)">of '+_rM(budget)+'</span></div>'+
-      '<div style="font-size:var(--fs-sm);color:var(--text-dim)">'+_rP(1-used)+' unused</div></div>'+
-    '<div class="risk-track">'+
-      '<div class="risk-fill f3" style="width:'+Math.min(100,usedGap*100)+'%"></div>'+
-      '<div class="risk-fill f2" style="width:'+Math.min(100,used*100)+'%"></div>'+
-      '<div class="risk-fill f1" style="width:'+Math.min(100,usedVar*100)+'%"></div></div>'+
+      '<div style="font-size:var(--fs-sm);color:var(--text-dim)">'+_rP(Math.max(0,1-us))+' unused</div></div>'+
+    '<div class="risk-track">'+fill('f3',ug)+fill('f2',us)+fill('f1',uv)+'</div>'+
     '<div class="risk-ticks"><span>$0</span><span>'+_rM(budget/2)+'</span><span>'+_rM(budget)+' limit</span></div>'+
     '<div class="risk-key">'+
-      '<span><i class="risk-sw" style="background:var(--green)"></i> VaR 99% &mdash; '+_rM(t.var99)+' \u00b7 '+_rP(usedVar)+'</span>'+
-      '<span><i class="risk-sw" style="background:rgba(18,161,80,0.42)"></i> All stops fill cleanly &mdash; '+_rM(t.stop_total)+' \u00b7 '+_rP(used)+'</span>'+
-      '<span><i class="risk-sw" style="background:rgba(0,122,255,0.22)"></i> Gas gap, stop gives nothing &mdash; '+_rM(t.gap_total)+' \u00b7 '+_rP(usedGap)+'</span>'+
+      key('var(--green)','VaR 99%',t.var99,uv)+
+      key('rgba(18,161,80,0.42)','All stops fill cleanly',stopAbs,us)+
+      key('rgba(0,122,255,0.22)','Gas gap, stop gives nothing',t.gap_total,ug)+
     '</div></div>';
+  };
+  const _bind=t.theme_binding||'Theme';
   document.getElementById('risk-budgets').innerHTML =
-    meter('Theme \u2014 Energy', L.theme_abs, t.theme_used, t.theme_used_gap, t.theme_used_var99) +
-    meter('Whole portfolio', L.portfolio_abs, t.portfolio_used, t.portfolio_used_gap, t.portfolio_used_var99);
+    meter('Theme \u2014 '+_bind, L.theme_abs, t.theme_binding_abs,
+          t.theme_gap_applies?t.gap_total:null, null) +
+    meter('Whole portfolio', L.portfolio_abs, t.stop_total, t.gap_total, t.var99);
   document.getElementById('risk-budget-note').innerHTML =
     'A '+_rP(L.theme_pct)+' theme cap inside a '+_rP(L.portfolio_pct)+' portfolio cap means the book is designed to carry <b>'+
-    t.themes_supported.toFixed(0)+' themes at full risk</b>. '+t.themes_live+' is live today, so both meters track the same '+
-    _rM(t.stop_total)+' against different denominators \u2014 the theme limit is the binding one.';
+    t.themes_supported.toFixed(0)+' themes at full risk</b>. '+t.themes_live+' '+(t.themes_live===1?'is':'are')+
+    ' live today. The theme meter tracks <b>'+_bind+'</b>, the theme closest to its own cap at '+
+    _rM(t.theme_binding_abs)+' of '+_rM(L.theme_abs)+'; the portfolio meter tracks the whole book at '+
+    _rM(t.stop_total)+' of '+_rM(L.portfolio_abs)+'.';
 
   // Positions
   document.getElementById('risk-positions').innerHTML =
