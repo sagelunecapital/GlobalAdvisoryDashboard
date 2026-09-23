@@ -55,8 +55,9 @@
    "name": "Alphabet Inc Class A",
    "theme": "MAG7",
    "sub": "Mega-cap tech",
-   "stop": 340.0,
-   "stop_confirmed_on": "2026-09-19"
+   "stop": 348.0,
+   "stop_confirmed_on": "2026-09-23",
+   "stop_source": "IBKR live working order (GTC), read 2026-09-23"
   },
   "UNG": {
    "name": "US Natural Gas Fund",
@@ -67,7 +68,7 @@
   },
   "MSFT": {
    "name": "Microsoft Corp",
-   "stop": 487.0,
+   "stop": 491.0,
    "stop_confirmed_on": "2026-09-23",
    "stop_source": "IBKR live working order (GTC), read 2026-09-23",
    "sub": "Mega-cap tech",
@@ -83,7 +84,7 @@
   },
   "SNOW": {
    "name": "Snowflake Inc",
-   "stop": 317.0,
+   "stop": 328.0,
    "stop_confirmed_on": "2026-09-23",
    "stop_source": "IBKR live working order (GTC), read 2026-09-23",
    "sub": "Data cloud",
@@ -91,7 +92,7 @@
   },
   "SMCI": {
    "name": "Super Micro Computer",
-   "stop": 37.8,
+   "stop": 39.9,
    "stop_confirmed_on": "2026-09-23",
    "stop_source": "IBKR live working order (GTC), read 2026-09-23",
    "sub": "AI server hardware",
@@ -99,7 +100,7 @@
   },
   "GNRC": {
    "name": "Generac Holdings",
-   "stop": 201.0,
+   "stop": 205.0,
    "stop_confirmed_on": "2026-09-23",
    "stop_source": "IBKR live working order (GTC), read 2026-09-23",
    "sub": "Backup power & generators",

@@ -135,6 +135,28 @@ def main():
     vol_window = "%s - %s (%d daily bars)" % (
         win[0].strftime("%d %b"), win[-1].strftime("%d %b %Y"), WINDOW)
 
+    # ---- freshest mark wins -------------------------------------------------
+    # Marks normally come from the last yfinance close. When the broker statement
+    # covers a LATER session than yfinance has published, the statement mark is
+    # the fresher truth and is used instead. The comparison is on date, never on
+    # source preference: pinning marks to Flex would have hidden the XOP stop-out,
+    # where yfinance was a session ahead of a stale statement. Vol, ATR and VaR
+    # always stay on the yfinance bar series.
+    bar_date = bars[syms[0]].index[-1].date()
+    flex_date = None
+    try:
+        flex_date = datetime.datetime.strptime(flex["report_date"], "%Y-%m-%d").date()
+    except (KeyError, ValueError, TypeError):
+        pass
+    use_flex_marks = flex_date is not None and flex_date > bar_date
+    mark_date = (flex_date if use_flex_marks else bar_date).strftime("%Y-%m-%d")
+    mark_source = ("%s statement %s (yfinance closes lag at %s)"
+                   % (flex.get("source", "broker"), mark_date, bar_date.strftime("%Y-%m-%d"))
+                   ) if use_flex_marks else ("yfinance close %s" % mark_date)
+    if use_flex_marks:
+        print("  marks: using %s marks - newer than the last yfinance close %s"
+              % (flex_date.strftime("%Y-%m-%d"), bar_date.strftime("%Y-%m-%d")))
+
     # ---- per-position ----
     pos = []
     for s in syms:
@@ -144,6 +166,10 @@ def main():
         close = df["Close"].astype(float)
         px = float(close.iloc[-1])
         prev = float(close.iloc[-2])
+        if use_flex_marks and lv.get("mark_flex"):
+            # statement covers a later session: its mark is today's, and the last
+            # yfinance close becomes the prior mark the daily move is measured from
+            px, prev = float(lv["mark_flex"]), float(close.iloc[-1])
         qty = float(lv["qty"])
         avg = float(lv["avg"])
         stop = float(h["stop"])
@@ -235,6 +261,8 @@ def main():
         if not lv:
             continue
         px = float(bars[s]["Close"].astype(float).iloc[-1])
+        if use_flex_marks and lv.get("mark_flex"):
+            px = float(lv["mark_flex"])
         excluded = {"sym": s, "qty": float(lv["qty"]), "px": px,
                     "mv": float(lv["qty"]) * px,
                     "unreal": float(lv["qty"]) * (px - float(lv["avg"])),
@@ -281,9 +309,10 @@ def main():
         "updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "export_pulled": fetched.strftime("%d %b %Y"),
         # Say what the book actually came from - the tab prints this verbatim.
-        "source": "%s + live marks" % flex.get("source", "unknown source"),
+        "source": "%s + marks from %s" % (flex.get("source", "unknown source"), mark_source),
         "vol_window": vol_window,
-        "mark_date": bars[syms[0]].index[-1].strftime("%Y-%m-%d"),
+        "mark_date": mark_date,
+        "mark_source": mark_source,
         "flex_report_date": flex.get("report_date"),
         "nav": NAV,
         "unit": 0.01 * NAV,
@@ -371,6 +400,9 @@ def main():
     assert abs(t["theme_binding_abs"] - max(_theme_stop.values())) < 0.01, \
         "theme_binding_abs is not the worst theme"
     assert t["var99"] > t["var95"] > 0, "VaR ordering broken"
+    # marks may only ever move forward: never price a book off a stale statement
+    assert d["mark_date"] >= bar_date.strftime("%Y-%m-%d"), \
+        "mark_date %s is older than the yfinance bars %s" % (d["mark_date"], bar_date)
     assert t["var99"] <= t["stop_total"] * 50, "VaR implausibly large vs stop risk"
     for p in d["positions"]:
         assert p["px"] > 0 and p["qty"] != 0, "bad price/qty for " + p["sym"]
