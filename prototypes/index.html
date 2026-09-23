@@ -7924,6 +7924,25 @@ function gaSnapshotFail(win,msg){
     win.document.close();
   }catch(e){}
 }
+// Snapshot export geometry. The margin is a print-style half inch at the CSS
+// reference 96px/inch. The 2x scale floor is not just for sharpness: at scale 1
+// html2canvas paints wide tile backgrounds ~190px short, leaving a grey band
+// down the right of every card where the translucent .card shows through.
+const GA_SNAP_MARGIN_IN=0.5,GA_SNAP_DPI=96,GA_SNAP_MAX_PX=12000;
+function gaSnapshotOpaque(bg){
+  return (!bg||bg==='transparent'||/rgba\(0,\s*0,\s*0,\s*0\)/.test(bg))?'#ffffff':bg;
+}
+// Draw the capture onto a larger opaque canvas so the export carries a real
+// margin instead of the transparent edge html2canvas leaves at scale > 1.
+function gaSnapshotFrame(canvas,scale,bg){
+  const m=Math.round(GA_SNAP_MARGIN_IN*GA_SNAP_DPI*scale);
+  const out=document.createElement('canvas');
+  out.width=canvas.width+m*2;out.height=canvas.height+m*2;
+  const ctx=out.getContext('2d');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,out.width,out.height);
+  ctx.drawImage(canvas,m,m);
+  return out;
+}
 function gaSnapshot(){
   const win=window.open('','_blank');
   if(!win){alert('Snapshot failed: pop-up blocked. Please allow pop-ups for this page and try again.');return;}
@@ -7931,9 +7950,12 @@ function gaSnapshot(){
   const run=()=>{
     const target=document.querySelector('.main-panel.active')||document.querySelector('.main-content')||document.body;
     if(!window.html2canvas){gaSnapshotFail(win,'Capture library failed to load.');return;}
-    const bg=getComputedStyle(document.body).backgroundColor||'#ffffff';
-    window.html2canvas(target,{backgroundColor:bg,useCORS:true,scrollX:0,scrollY:0}).then(canvas=>{
-      const dataUrl=canvas.toDataURL('image/png');
+    const bg=gaSnapshotOpaque(getComputedStyle(document.body).backgroundColor);
+    // Back off the 2x floor only if a very tall panel would blow the canvas limit.
+    const tall=Math.max(target.scrollHeight,1);
+    const scale=Math.max(1,Math.min(Math.max(2,window.devicePixelRatio||1),GA_SNAP_MAX_PX/tall));
+    window.html2canvas(target,{backgroundColor:bg,useCORS:true,scrollX:0,scrollY:0,scale:scale}).then(canvas=>{
+      const dataUrl=gaSnapshotFrame(canvas,scale,bg).toDataURL('image/png');
       win.document.open();
       win.document.write('<title>Dashboard Snapshot</title><body style="margin:0;background:#0d1117"><img src="'+dataUrl+'" style="display:block;max-width:100%"></body>');
       win.document.close();
