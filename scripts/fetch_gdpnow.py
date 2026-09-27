@@ -16,9 +16,11 @@ from datetime import datetime, timezone
 import openpyxl
 import requests
 
+# Moved from cqer/researchcq/gdpnow/ in Sep 2026; the old path serves a 404
+# HTML page with HTTP 200. Link source: the GDPNow page's download section.
 XLSX_URL = (
     "https://www.atlantafed.org/-/media/Project/Atlanta/FRBA/Documents/"
-    "cqer/researchcq/gdpnow/GDPTrackingModelDataAndForecasts.xlsx"
+    "research-and-data/data/gdpnow/GDPTrackingModelDataAndForecasts.xlsx"
 )
 
 HEADERS = {
@@ -64,6 +66,16 @@ def fetch_xlsx():
     r = requests.get(XLSX_URL, headers=HEADERS, timeout=60)
     r.raise_for_status()
     print(f"  Downloaded {len(r.content):,} bytes", flush=True)
+    # An xlsx is a zip ("PK" magic). The Atlanta Fed answers a moved file with
+    # HTTP 200 + its 404 HTML page, which openpyxl reports as BadZipFile.
+    if not r.content.startswith(b"PK"):
+        ctype = r.headers.get("Content-Type", "?")
+        sys.exit(
+            f"FATAL: GDPNow download is not an xlsx (Content-Type {ctype}) - "
+            f"the file has likely moved. Find the current link on "
+            f"https://www.atlantafed.org/research-and-data/data/gdpnow and "
+            f"update XLSX_URL."
+        )
     return r.content
 
 
