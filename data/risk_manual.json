@@ -23,32 +23,43 @@
   "output carries judgment_stale=true and the tab says so. Re-derive them, update",
   "basis_book and price_basis, and bump reviewed_on.",
   "",
-  "GOOGL (added 19 Sep 2026) - derivations, so these are reproducible:",
-  "  beta to SPX 1.5353 - OLS on simple daily returns, trailing 60 bars to 18 Sep 2026,",
-  "  corr 0.477. The 60-bar window is the one the generator already uses for vol. Wider",
-  "  windows give 252d 1.3348 and full-3y 1.1787, so 1.5353 is the conservative end.",
-  "  Broad market -3%: GOOGL term = 70,400 * 1.5353 * 0.03 = 3,242.55, added on top of the",
-  "  unchanged 369 energy term. The implied -4.61% move puts GOOGL at 335.79, through the",
-  "  340 stop, so clean fills takes the 12.00 stop distance (2,400) and the gap case takes",
-  "  the full move.",
-  "  Mega-cap tech -10%: theme shock at beta 1.0 to its own theme, 70,400 * 0.10 = 7,040.",
-  "  Rates +50bp: NO GOOGL term added. Measured slope -0.0083%/bp (n=746) at corr -0.023,",
-  "  i.e. no detectable rate sensitivity in a 3-year sample. That is a sample finding, not a",
-  "  claim that long-duration equity is rate-insensitive - revisit after a real rate shock.",
-  "  gap and slippage are UNCHANGED: both model a nat-gas gap event, which GOOGL does not",
-  "  participate in. The slippage ladder is UNG-only by construction (index.html hardcodes",
-  "  the UNG loss column), so a GOOGL stop-slippage ladder needs a UI change, not just data.",
-  "",
-  "The betas behind Energy equities -12% and Crude -10% remain UNDETERMINED - two unknown",
-  "betas and one equation each, so they cannot be recovered and were not touched."
+  "Derivations for the 27 Sep 2026 book (MSFT 200, SNOW 100, UNG 3,500), at the",
+  "2026-09-25 closes in price_basis, so every figure is reproducible:",
+  "  Natural gas -20%: UNG at beta 1.0 to front-month gas. -20% takes UNG to 8.90, through",
+  "  both stops, so clean fills = 1,500 x 0.48 + 2,000 x 1.78 = 4,280; gap = 38,955 x 0.20.",
+  "  Mega-cap tech -10% / Enterprise software -10%: MSFT and SNOW at beta 1.0 to their own",
+  "  theme. Both moves go through the stop, so clean fills = the stop distance.",
+  "  Broad market -3%: OLS beta to SPX on simple daily returns, trailing 60 bars to",
+  "  2026-09-25 - MSFT 1.8116 (corr 0.50), SNOW 1.6822 (corr 0.39). 252d betas are 0.99 and",
+  "  1.36, so the 60-bar figures are the conservative end - because the window holds",
+  "  MSFT's +15.5% earnings day (30 Jul); without it MSFT's 60-bar beta is 1.07. Both",
+  "  implied moves breach the stops. UNG's beta is -0.58 over 60 bars and -0.03 over 3",
+  "  years: no hedge credit is taken for it, so UNG contributes nothing to this row.",
+  "  Rates +50bp: 3-year regression of daily returns on daily ^TNX changes (n=756): MSFT",
+  "  +0.0196%/bp (t 1.79), SNOW +0.0021%/bp (t 0.09), UNG +0.0178%/bp (t 0.73). No name",
+  "  shows a loss when yields rise, none is significant, so the row carries no term. A",
+  "  sample finding, not a claim of rate immunity - revisit after a real rate shock.",
+  "  Gap cases (gaps): each name's own scenario move with the stop giving nothing - UNG -20%,",
+  "  MSFT -10%, SNOW -10%. They are alternatives, not additive; each loads its own theme.",
+  "  Removed: 'UNG realised drift, next 21d'. UNG's 60-bar mean return is -0.034%/day at",
+  "  t -0.12, i.e. indistinguishable from zero, so a projected drift loss is noise.",
+  "  Slippage: each UNG tranche fills x below its own stop, floored at the -20% gap price",
+  "  (8.90) because a worse fill would be a larger shock than the row describes.",
+  "  The earlier 369 energy term, -298 rates figure and -847 drift figure were never",
+  "  documented and are replaced, not reverse-engineered."
  ],
- "reviewed_on": "2026-09-19",
+ "reviewed_on": "2026-09-27",
  "drift_tolerance": 0.05,
  "price_basis": {
-  "UNG": 10.39,
-  "GOOGL": 352.0
+  "MSFT": 516.17,
+  "SNOW": 335.94,
+  "UNG": 11.13
  },
- "basis_book": {"UNG": 2000, "GOOGL": 200},
+ "basis_book": {
+  "MSFT": 200,
+  "SNOW": 100,
+  "UNG": 3500
+ },
  "nav": 300000.0,
  "limits": {
   "theme_pct": 0.02,
@@ -62,7 +73,16 @@
    "name": "US Natural Gas Fund",
    "theme": "Energy",
    "sub": "Natural gas futures",
-   "stops": [{"qty": 1500, "stop": 10.65}, {"qty": 2000, "stop": 9.35}],
+   "stops": [
+    {
+     "qty": 1500,
+     "stop": 10.65
+    },
+    {
+     "qty": 2000,
+     "stop": 9.35
+    }
+   ],
    "stop_confirmed_on": "2026-09-27",
    "stop_source": "IBKR live working orders (GTC) via the MCP connector, read 2026-09-27"
   },
@@ -87,85 +107,87 @@
  },
  "excluded": {
   "TLT": {
-   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to these two positions."
+   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to the positions above."
   }
- },
- "gap": {
-  "total": 4156.0,
-  "basis": "UNG full -20% with no stop protection"
  },
  "scenarios": [
   {
    "name": "Natural gas -20%",
-   "naive": -4156.0,
-   "stopped": -2080.0,
-   "gap": -4156.0,
-   "trigger": "UNG"
+   "naive": -7791.0,
+   "stopped": -4280.0,
+   "gap": -7791.0,
+   "trigger": "UNG",
+   "theme_loss": -4280.0
   },
   {
    "name": "Mega-cap tech -10%",
-   "naive": -7040,
-   "stopped": -2400,
-   "gap": -7040,
-   "trigger": "GOOGL"
+   "naive": -10323.4,
+   "stopped": -5034.0,
+   "gap": -10323.4,
+   "trigger": "MSFT",
+   "theme_loss": -5034.0
+  },
+  {
+   "name": "Enterprise software -10%",
+   "naive": -3359.4,
+   "stopped": -794.0,
+   "gap": -3359.4,
+   "trigger": "SNOW",
+   "theme_loss": -794.0
   },
   {
    "name": "Broad market -3%",
-   "naive": -3612,
-   "stopped": -2769,
-   "gap": -3612,
-   "trigger": "GOOGL"
+   "naive": -7305.92,
+   "stopped": -5828.0,
+   "gap": -7305.92,
+   "trigger": "MSFT + SNOW",
+   "theme_loss": -5034.0
   },
   {
    "name": "Rates +50bp",
-   "naive": -298,
-   "stopped": -298,
-   "gap": -298,
-   "trigger": null
-  },
-  {
-   "name": "UNG realised drift, next 21d",
    "naive": null,
-   "stopped": -847,
+   "stopped": null,
    "gap": null,
-   "trigger": "no market move required"
+   "trigger": null,
+   "theme_loss": null,
+   "note": "not modelled - no significant sensitivity in any holding (3y, n=756)"
   }
  ],
  "slippage": [
   {
-   "label": "Clean fill at $9.35",
-   "ung": -2080,
-   "total": -2080
+   "label": "Clean fills at $10.65 / $9.35",
+   "ung": -4280.0,
+   "total": -4280.0
   },
   {
-   "label": "2% below stop",
-   "ung": -2454,
-   "total": -2454
+   "label": "2% below each stop",
+   "ung": -4973.5,
+   "total": -4973.5
   },
   {
-   "label": "5% below stop",
-   "ung": -3015,
-   "total": -3015
+   "label": "5% below each stop (9.35 tranche floored at the -20% gap)",
+   "ung": -5970.75,
+   "total": -5970.75
   },
   {
-   "label": "10% below stop",
-   "ung": -3950,
-   "total": -3950
+   "label": "10% below each stop (9.35 tranche floored at the -20% gap)",
+   "ung": -6769.5,
+   "total": -6769.5
   },
   {
-   "label": "Full gap - stop gives nothing",
-   "ung": -4156,
-   "total": -4156
+   "label": "Full gap - stops give nothing",
+   "ung": -7791.0,
+   "total": -7791.0
   }
  ],
  "gross_permitted": [
   {
    "stop": 0.03,
-   "note": "tight stops, high turnover"
+   "note": "tight stops, high turnover - MSFT's stop is 1.6% below its entry"
   },
   {
    "stop": 0.05,
-   "note": "levered, actively managed"
+   "note": "levered, actively managed - SNOW's stop is 4.8% below its entry"
   },
   {
    "stop": 0.075,
@@ -173,7 +195,7 @@
   },
   {
    "stop": 0.1,
-   "note": "your current UNG stop discipline"
+   "note": "UNG's lower stop is 11.9% below its average entry; the upper one is above it"
   },
   {
    "stop": 0.15,
@@ -185,18 +207,40 @@
   }
  ],
  "not_configured": [
+  "Single-name concentration (MSFT is {MSFT_PCT} of the book)",
   "Single-commodity concentration (UNG is {UNG_PCT} of the book)",
   "Gross exposure backstop for gap risk",
   "Net exposure range"
  ],
- "news_as_of": "2026-09-14",
+ "news_as_of": "2026-09-27",
  "news": [
   {
-   "hot": false,
-   "title": "Natural gas at a three-week low on a bearish storage build",
-   "body": "Gas fell to about $2.80/MMBtu. The EIA reported a 40 Bcf injection for the week to 4 Sep against roughly 31 Bcf expected, lifting stocks to 3.254 Tcf - some 4.8% above the five-year average. Lower-48 output averages 112.9 Bcf/d in September.",
-   "src": "EIA Short-Term Energy Outlook, Trading Economics, NGI - Sep 2026",
+   "hot": true,
+   "title": "Pipeline force majeure sends gas futures up 9% in a day",
+   "body": "TC Energy's Columbia Gas Transmission declared force majeure on the Mountaineer XPress pipeline in West Virginia after a leak, cutting the segment to zero capacity from gas day 25 Sep - an estimated 1.4-1.8 Bcf/d. October NYMEX gas settled up 27.4 cents (+9.1%) at $3.297/MMBtu, its biggest one-day gain since January, then fell 15.1 cents (-4.6%) to $3.146 on 25 Sep, giving back about half the gain. UNG ended the week about 7% higher. Next EIA storage report: Thu 1 Oct.",
+   "src": "Marcellus Drilling News, Energy News Beat, Reuters via BOE Report - Sep 2026",
    "affects": "UNG"
+  },
+  {
+   "hot": false,
+   "title": "EIA: 53 Bcf injection, in line; surplus to five-year average narrows",
+   "body": "For the week to 18 Sep the EIA reported a 53 Bcf net injection, matching the Reuters poll, taking working gas to 3,351 Bcf - 95 Bcf above the five-year average (down from 118 Bcf a week earlier) and 146 Bcf below a year ago.",
+   "src": "EIA Weekly Natural Gas Storage Report, IndexBox - Sep 2026",
+   "affects": "UNG"
+  },
+  {
+   "hot": false,
+   "title": "Microsoft up 3.7% on Copilot relaunch; Oppenheimer lifts target",
+   "body": "MSFT closed at $516.17 on 25 Sep, up 3.7% on the day and about 4.5% on the week. Coverage tied the move to Microsoft's Copilot relaunch (Home, Code, Autopilot), and Oppenheimer raised its price target to $570 the same day. The next earnings date is not yet confirmed by the company; calendars estimate late October - the 30 Jul report moved the stock 15.5% in a day, far more than the 4.9% cushion above the 491 stop.",
+   "src": "Motley Fool, 24/7 Wall St, Wall Street Horizon - Sep 2026",
+   "affects": "MSFT"
+  },
+  {
+   "hot": false,
+   "title": "Snowflake: no new catalyst since the 2 Sep beat",
+   "body": "No confirmed company news in the fortnight; SNOW closed at $335.94 on 25 Sep, about 1% up on the week. The last report (2 Sep) showed product revenue of $1.491B, +37% year on year, and raised FY27 product revenue guidance to $6.07B.",
+   "src": "Snowflake 8-K (SEC) - Sep 2026",
+   "affects": "SNOW"
   }
  ],
  "notes": [
@@ -205,12 +249,31 @@
   "Themes are assigned, not fed. IBKR returns no sector tags; every theme in this file is a stated assumption.",
   "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
   "Stops are the account's GTC working orders, read through the IBKR connector when the board is refreshed in session; the unattended daily run carries the last read forward, because an IBKR Activity Flex Query cannot report working orders. Where a position has more than one stop, the nearest one drives the touch probabilities and the dollar risk sums every tranche. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
-  "Parametric VaR understates the tail: the historical 5th percentile has run above the parametric figure, and the worst day in the window was roughly 1.5x the 99% VaR.",
-  "Correlation between the two legs is not a usable parameter - the standard error is wide and the rolling 20-day figure has swung through zero in both directions.",
-  "Scenario betas are assumed: UNG ~1.0 to front-month gas. The XOP terms were removed with the position on 23 Sep 2026.",
-  "Scenario, slippage and gap figures are authored at the prices in price_basis and do not move with the market. The tab flags them when live prices drift past tolerance.",
-  "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn.",
-  "Stopped out: GOOGL and GNRC on 23 Sep, SMCI on 24 Sep, CRM on 25 Sep 2026. UNG was added to on 24 Sep (2,000 -> 3,500 shares) with a second stop on the new 1,500. MSFT and SNOW themes are assigned assumptions, not fed.",
-  "Scenarios, slippage and the gap figure were authored for UNG 2,000 and GOOGL 200 and have not been re-derived for the current book: GOOGL is closed, UNG is larger, and MSFT and SNOW carry no scenario terms. XOP was stopped out on 22 Sep 2026 and its scenario, news and gap terms were removed."
+  "Scenario betas: UNG ~1.0 to front-month gas; MSFT and SNOW 1.0 to their own theme; broad-market betas are measured 60-bar OLS (MSFT 1.81, SNOW 1.68) and are inflated by MSFT's 30 Jul earnings day - 1.07 without it. UNG's market beta is near zero to negative (-0.03 over 3 years), and no hedge credit is taken for it.",
+  "Scenario, slippage and gap figures are authored at the prices in price_basis against the positions in basis_book and do not move with the market. The tab flags them when prices drift past tolerance or the book changes.",
+  "Stops do not protect through a scheduled report. MSFT's next earnings (late October, unconfirmed) can gap it through 491: the 30 Jul report moved it 15.5% in a day, which downside would cost about $16.0k - 267% of the theme cap and 89% of the portfolio cap. The MSFT gap row uses the -10% scenario, so it is not the worst case.",
+  "Rates +50bp is not modelled for the book: no holding shows a significant yield sensitivity. The excluded TLT (900 shares) does - 3-year slope -0.137%/bp, t -52 - so +50bp would cost it about $4.9k, inside the same margin account.",
+  "Independently reviewed. The first issue (15 Sep 2026) was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and that the book was diversified withdrawn. The 27 Sep re-derivation was reviewed the same way; its findings (a buried gap breach, a missing MSFT gap case, a gas settle price, variance shares that ignored covariance) were fixed before publishing.",
+  "Stopped out: GOOGL and GNRC on 23 Sep, SMCI on 24 Sep, CRM on 25 Sep 2026. UNG was added to on 24 Sep (2,000 -> 3,500 shares) with a second stop on the new 1,500. MSFT and SNOW themes are assigned assumptions, not fed."
+ ],
+ "gaps": [
+  {
+   "name": "gas gap",
+   "sym": "UNG",
+   "total": 7791.0,
+   "basis": "UNG full -20% with no stop protection"
+  },
+  {
+   "name": "MSFT gap through stop",
+   "sym": "MSFT",
+   "total": 10323.4,
+   "basis": "MSFT -10% (the mega-cap tech scenario) with no stop protection"
+  },
+  {
+   "name": "SNOW gap through stop",
+   "sym": "SNOW",
+   "total": 3359.4,
+   "basis": "SNOW -10% (the enterprise software scenario) with no stop protection"
+  }
  ]
 }

@@ -1659,7 +1659,7 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     <div class="card-header">What a Gas Gap Costs</div>
     <div class="risk-scroll"><table class="stir-table" id="risk-slip"></table></div>
     <div style="font-size:var(--fs-sm);color:var(--text-dim);margin-top:12px;line-height:1.55">
-      A &minus;20% gas move most likely arrives as a gap &mdash; a storage surprise, a weather-model flip, an LNG outage.
+      A &minus;20% gas move can arrive as a gap &mdash; a storage surprise, a weather-model flip, an LNG or pipeline outage.
       In that case the stop's protection falls toward zero. Plan for the bottom row.
     </div>
   </div>
@@ -5132,9 +5132,16 @@ function _rRule(used){ return used>1 ? ['cr','BREACH'] : (used>=0.9 ? ['wn','NEA
 function riskRender(d){
   const t=d.totals, L=d.limits;
 
-  document.getElementById('risk-sub').textContent =
-    d.positions.length+' positions, long only \u00b7 '+t.themes_live+' theme live \u00b7 '+
-    'budgets support '+t.themes_supported.toFixed(0)+' themes at full risk';
+  // Headline carries the worst limit ruling, so a breach in any row is never buried
+  const _rul=(d.limit_rows||[]).map(r=>({n:r.name,u:r.cur/r.budget})).sort((a,b)=>b.u-a.u);
+  const _br=_rul.filter(r=>r.u>1), _nr=_rul.filter(r=>r.u>=0.9&&r.u<=1);
+  document.getElementById('risk-sub').innerHTML =
+    d.positions.length+' positions'+(t.long_only===false?'':', long only')+' \u00b7 '+t.themes_live+
+    (t.themes_live===1?' theme':' themes')+' live \u00b7 '+
+    'budgets support '+t.themes_supported.toFixed(0)+' themes at full risk'+
+    (_br.length?'<br><span class="risk-chip cr">'+_br.length+' BREACH'+(_br.length>1?'ES':'')+'</span> '+
+      _br.map(r=>r.n+' \u2014 '+_rP(r.u)).join(' \u00b7 '):
+     _nr.length?'<br><span class="risk-chip wn">NEAR</span> '+_nr.map(r=>r.n+' \u2014 '+_rP(r.u)).join(' \u00b7 '):'');
   const _jStale = !!d.judgment_stale;
   const _jChip = d.judgment_reviewed_on
     ? '<br>Scenarios reviewed <b>'+d.judgment_reviewed_on+'</b> '+
@@ -5147,7 +5154,7 @@ function riskRender(d){
   // KPI row
   const [tc,tl]=_rRule(t.theme_used), [pc,pl]=_rRule(t.portfolio_used);
   document.getElementById('risk-kpis').innerHTML = [
-    ['Gross exposure',_rP(t.gross_pct),_rM(t.gross)+' \u00b7 net +'+_rP(t.net_pct)+', no shorts'],
+    ['Gross exposure',_rP(t.gross_pct),_rM(t.gross)+' \u00b7 net '+(t.net_pct>=0?'+':'')+_rP(t.net_pct)+(t.long_only===false?'':', no shorts')],
     ['If all stops fill',_rM(t.stop_total),_rP(t.stop_pct)+' of NAV \u00b7 clean fills only'],
     ['Worst theme budget used',_rP(t.theme_used),(t.theme_binding||'theme')+' · 2% limit = '+_rM(L.theme_abs)+' <span class="risk-chip '+tc+'">'+tl+'</span>'],
     ['Portfolio budget used',_rP(t.portfolio_used),'6% limit = '+_rM(L.portfolio_abs)+' <span class="risk-chip '+pc+'">'+pl+'</span>'],
@@ -5158,7 +5165,8 @@ function riskRender(d){
   // Each meter carries its OWN absolutes: the theme meter tracks the binding
   // theme, not the whole book. A null segment (no per-theme VaR, or a gap that
   // does not load this theme) is skipped rather than borrowing the book figure.
-  const meter=(title,budget,stopAbs,gapAbs,varAbs)=>{
+  const _gapLbl=t.gap_name?'Worst gap ('+t.gap_name+'), stop gives nothing':'Gas gap, stop gives nothing';
+  const meter=(title,budget,stopAbs,gapAbs,varAbs,gapLbl)=>{
     const u=a=>(a==null?null:a/budget), us=u(stopAbs), ug=u(gapAbs), uv=u(varAbs);
     const fill=(cls,v)=>v==null?'':'<div class="risk-fill '+cls+'" style="width:'+Math.min(100,v*100)+'%"></div>';
     const key=(col,lbl,abs,v)=>v==null?'':
@@ -5172,13 +5180,14 @@ function riskRender(d){
     '<div class="risk-key">'+
       key('var(--green)','VaR 99%',t.var99,uv)+
       key('rgba(18,161,80,0.42)','All stops fill cleanly',stopAbs,us)+
-      key('rgba(0,122,255,0.22)','Gas gap, stop gives nothing',t.gap_total,ug)+
+      key('rgba(0,122,255,0.22)',gapLbl||_gapLbl,gapAbs,ug)+
     '</div></div>';
   };
   const _bind=t.theme_binding||'Theme';
   document.getElementById('risk-budgets').innerHTML =
     meter('Theme \u2014 '+_bind, L.theme_abs, t.theme_binding_abs,
-          t.theme_gap_applies?t.gap_total:null, null) +
+          t.theme_gap_applies?(t.theme_gap_abs!=null?t.theme_gap_abs:t.gap_total):null, null,
+          'Worst '+_bind+' gap, stop gives nothing') +
     meter('Whole portfolio', L.portfolio_abs, t.stop_total, t.gap_total, t.var99);
   document.getElementById('risk-budget-note').innerHTML =
     'A '+_rP(L.theme_pct)+' theme cap inside a '+_rP(L.portfolio_pct)+' portfolio cap means the book is designed to carry <b>'+
@@ -5197,15 +5206,25 @@ function riskRender(d){
       '<td class="'+(p.daily>=0?'risk-pos':'risk-neg')+'">'+(p.daily>=0?'+':'')+_rM(p.daily)+'</td>'+
       '<td class="'+(p.unreal>=0?'risk-pos':'risk-neg')+'">'+(p.unreal>=0?'+':'')+_rM(p.unreal)+'</td>'+
       '<td>'+(p.vol_d*100).toFixed(2)+'%</td></tr>').join('')+
-    '<tr class="stir-terminal"><td>Book total</td><td>'+t.themes_live+' theme</td><td>\u2014</td><td>\u2014</td><td>'+_rM(t.gross)+'</td>'+
+    '<tr class="stir-terminal"><td>Book total</td><td>'+t.themes_live+(t.themes_live===1?' theme':' themes')+'</td><td>\u2014</td><td>\u2014</td><td>'+_rM(t.gross)+'</td>'+
     '<td>'+_rP(t.gross_pct)+'</td><td>100.0%</td><td>100.0%</td>'+
-    '<td class="risk-pos">+'+_rM(t.daily)+'</td><td class="risk-pos">+'+_rM(t.unreal)+'</td><td>\u2014</td></tr></tbody>';
+    '<td class="'+(t.daily>=0?'risk-pos':'risk-neg')+'">'+(t.daily>=0?'+':'')+_rM(t.daily)+'</td>'+
+    '<td class="'+(t.unreal>=0?'risk-pos':'risk-neg')+'">'+(t.unreal>=0?'+':'')+_rM(t.unreal)+'</td><td>\u2014</td></tr></tbody>';
 
+  // Concentration - every figure computed by gen_risk_json.py for today's book
   const top=d.positions.slice().sort((a,b)=>b.var_share-a.var_share)[0];
-  document.getElementById('risk-conc').innerHTML =
-    '<b>'+top.sym+' is '+_rP(top.pct_book)+' of the book by value and '+_rP(top.var_share)+' of its variance.</b> '+
-    'Setting the correlation between holdings to 1.0 \u2014 no diversification whatever \u2014 moves 99% VaR only from '+
-    _rM(t.var99)+' to $1,104. The entire diversification benefit is $108, so risk this as a single exposure with a satellite.';
+  let _conc='<b>'+top.sym+' is '+_rP(top.pct_book)+' of the book by value and '+_rP(top.var_share)+' of its variance.</b> ';
+  if(t.var99_rho1!=null){
+    const _ben=t.var99_rho1-t.var99;
+    _conc+='Setting every correlation to 1.0 \u2014 no diversification whatever \u2014 moves 99% VaR from '+
+      _rM(t.var99)+' to '+_rM(t.var99_rho1)+', so diversification is worth '+_rM(_ben)+' ('+_rP(_ben/t.var99_rho1)+
+      ' of the undiversified figure). ';
+    _conc+=top.var_share>=0.6
+      ? 'With one name carrying most of the variance, risk this book mainly as '+
+        (/^[AEFHILMNORSX]/.test(top.sym)?'an ':'a ')+top.sym+' exposure.'
+      : 'No single name dominates the variance.';
+  }
+  document.getElementById('risk-conc').innerHTML = _conc;
 
   // Stops - probability of touch
   document.getElementById('risk-stops').innerHTML = d.positions.map(p=>{
@@ -5224,13 +5243,16 @@ function riskRender(d){
 
   // Scenarios
   document.getElementById('risk-scen').innerHTML =
-    '<thead><tr><th>Scenario</th><th>Ignoring stops</th><th>Clean fills</th><th>Gap case</th><th>% NAV</th><th>Theme budget</th><th>Stop triggered</th></tr></thead><tbody>'+
-    d.scenarios.map(s=>'<tr><td>'+s.name+'</td>'+
+    '<thead><tr><th>Scenario</th><th>Ignoring stops</th><th>Clean fills</th><th>Gap case</th><th>% NAV (clean)</th><th>Worst theme budget (clean)</th><th>Stop triggered</th></tr></thead><tbody>'+
+    d.scenarios.map(s=>s.stopped==null
+      ? '<tr><td>'+s.name+'</td><td colspan="6" style="color:var(--text-muted)">'+(s.note||'not modelled')+'</td></tr>'
+      : '<tr><td>'+s.name+'</td>'+
       '<td>'+(s.naive==null?'\u2014':_rM(s.naive))+'</td>'+
       '<td class="risk-neg">'+_rM(s.stopped)+'</td>'+
       '<td>'+(s.gap==null?'\u2014':_rM(s.gap))+'</td>'+
       '<td>'+(Math.abs(s.stopped)/d.nav*100).toFixed(2)+'%</td>'+
-      '<td>'+_rP(Math.abs(s.stopped)/L.theme_abs)+'</td>'+
+      // worst single theme hit, so a multi-theme row is not measured against one theme's cap
+      '<td>'+_rP(Math.abs(s.theme_loss!=null?s.theme_loss:s.stopped)/L.theme_abs)+'</td>'+
       '<td>'+(s.trigger?'<span class="risk-chip wn">'+s.trigger+'</span>':'<span class="risk-chip ok">none</span>')+'</td></tr>').join('')+
     '</tbody>';
 

@@ -24,7 +24,7 @@
 #   pN         P(stop touched within N sessions), reflection principle, zero drift:
 #              2 * Phi(-ln(S/B) / (vol_d * sqrt(N)))
 #   VaR        parametric, z95=1.645 / z99=2.326 on the correlated portfolio sigma
-#   var_share  (mv_i * vol_i)^2 / sigma_p^2
+#   var_share  Euler contribution  sig_i * sum_j rho_ij sig_j / sigma_p^2  (sums to 1)
 import json, io, os, sys, math, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -312,11 +312,63 @@ def main():
                 cross += 2.0 * float(rets[a].corr(rets[b])) * sig[a] * sig[b]
     sigma_p = math.sqrt(max(0.0, var_sum + cross))
     var95, var99 = Z95 * sigma_p, Z99 * sigma_p
+    rho = lambda a, b: 1.0 if a == b else float(rets[a].corr(rets[b]))
     for p in pos:
-        p["var_share"] = (sig[p["sym"]] ** 2) / (sigma_p ** 2) if sigma_p > 0 else None
+        s = p["sym"]
+        # Euler contribution: sig_i * sum_j rho_ij sig_j / sigma_p^2. Sums to 1 across
+        # the book, so the column reconciles with its 100% total. The standalone
+        # sig_i^2 / sigma_p^2 is kept for reference; it ignores covariance.
+        p["var_share"] = (sig[s] * sum(rho(s, b) * sig[b] for b in syms) / sigma_p ** 2
+                          if sigma_p > 0 else None)
+        p["var_standalone"] = (sig[s] ** 2) / (sigma_p ** 2) if sigma_p > 0 else None
+    # Undiversified VaR (every correlation = 1): the gap to var99 is the whole
+    # diversification benefit the parametric figure is taking credit for.
+    var99_rho1 = Z99 * sum(sig.values())
+    # VaR taking no credit for negative correlations (floored at zero), since a
+    # 60-bar negative estimate is no dependable hedge.
+    var99_noneg = Z99 * math.sqrt(max(0.0, sum(
+        max(0.0, rho(a, b)) * sig[a] * sig[b] for a in syms for b in syms)))
+
+    # Historical check on the parametric figures: today's holdings replayed over the
+    # same window. Computed, not authored, so the tail note can never go stale.
+    rdf = pd.DataFrame({s: rets[s] for s in syms}).dropna()
+    pnl = sum(rdf[s] * next(p["mv"] for p in pos if p["sym"] == s) for s in syms)
+    hist = {
+        "n": int(len(pnl)),
+        "var95": float(-pnl.quantile(0.05)),
+        "var99": float(-pnl.quantile(0.01)),
+        "worst": float(-pnl.min()),
+        "worst_date": pnl.idxmin().strftime("%Y-%m-%d"),
+    }
+    pair_corr = [{"a": a, "b": b, "rho": float(rdf[a].corr(rdf[b]))}
+                 for i, a in enumerate(syms) for b in syms[i + 1:]]
+    # The single largest daily move per name in the window. One earnings day can
+    # dominate a 60-bar vol, beta and VaR estimate, and its exit from the window
+    # moves every one of them - so say which day, and when it rolls off.
+    last_bar = rdf.index[-1]
+    outliers = []
+    for s in syms:
+        r = rdf[s]
+        d = r.abs().idxmax()
+        k = list(rdf.index).index(d)             # bars since the window opened
+        rolls = (last_bar + pd.offsets.BDay(k + 1)).strftime("%Y-%m-%d")
+        outliers.append({"sym": s, "date": d.strftime("%Y-%m-%d"), "ret": float(r[d]),
+                         "vol_ex": float(r.drop(d).std(ddof=1)), "vol": float(r.std(ddof=1)),
+                         "rolls_off": rolls})
 
     stop_total = sum(p["stop_risk"] for p in pos)
-    gap_total = float(man["gap"]["total"])
+    # Gap cases: each a named loss with the stop giving nothing. They are alternative
+    # events, not additive - the portfolio meter shows the worst one, and each loads
+    # the theme of the name it hits. `gap` (single, UNG) is the pre-27 Sep form.
+    gaps = man.get("gaps") or [dict(man["gap"], name="gas gap", sym="UNG")]
+    theme_of = {p["sym"]: p["theme"] for p in pos}
+    for g in gaps:
+        if g["sym"] not in theme_of:
+            fail("gap case '%s' names %s, which is not held" % (g["name"], g["sym"]))
+        g["theme"] = theme_of[g["sym"]]
+        g["total"] = float(g["total"])
+    worst_gap = max(gaps, key=lambda g: g["total"])
+    gap_total = worst_gap["total"]
 
     # ---- is the authored judgment still anchored to today's prices? ----
     basis = man.get("price_basis", {})
@@ -370,8 +422,9 @@ def main():
     theme_stop = {th: sum(p["stop_risk"] for p in pos if p["theme"] == th) for th in themes}
     binding_theme = max(theme_stop, key=lambda th: theme_stop[th]) if theme_stop else None
     binding_abs = theme_stop.get(binding_theme, 0.0)
-    # The authored gas gap is a UNG-only figure, so it loads whichever theme UNG sits in.
-    gap_theme = next((p["theme"] for p in pos if p["sym"] == "UNG"), None)
+    # The worst gap case inside the binding theme, if it has one.
+    bind_gaps = [g["total"] for g in gaps if g["theme"] == binding_theme]
+    bind_gap = max(bind_gaps) if bind_gaps else None
 
     # {SYM_PCT} placeholders in not_configured resolve to live concentration
     by_sym = {p["sym"]: p for p in pos}
@@ -391,6 +444,45 @@ def main():
         news.append(n)
 
     notes = list(man["notes"])
+    # Data-driven notes, appended so they always describe today's book.
+    ratio = hist["worst"] / var99 if var99 > 0 else None
+    if hist["var95"] > var95:
+        tail = ("Parametric VaR understates the tail on this window: the historical 5th "
+                "percentile loss is $%s against a parametric 95%% figure of $%s"
+                % (format(round(hist["var95"]), ","), format(round(var95), ",")))
+    else:
+        tail = ("Parametric VaR sits above this window's history: the historical 5th "
+                "percentile loss is $%s against a parametric 95%% figure of $%s, because "
+                "the volatility estimate includes large up-days. That is a sample "
+                "property, not safety - %d days is a short tail sample"
+                % (format(round(hist["var95"]), ","), format(round(var95), ","), hist["n"]))
+    notes.append("%s. The worst day for today's holdings in the window was $%s on %s, "
+                 "%.2fx the 99%% VaR." % (tail, format(round(hist["worst"]), ","),
+                                          hist["worst_date"], ratio))
+    # Name the single days that drive the vol estimates, and when they roll off.
+    big = [o for o in outliers if o["vol"] > 0 and o["vol_ex"] / o["vol"] < 0.85]
+    if big:
+        notes.append("One day drives the 60-bar statistics for %s: %s. Vol, beta, VaR and "
+                     "touch odds all fall when %s leaves the window - a lower reading then "
+                     "is the window rolling, not risk falling, and it can land just before "
+                     "the next report."
+                     % (", ".join(o["sym"] for o in big),
+                        "; ".join("%s %+.1f%% on %s (daily vol %.2f%%, %.2f%% without it; "
+                                  "rolls off about %s)" % (o["sym"], 100 * o["ret"], o["date"],
+                                  100 * o["vol"], 100 * o["vol_ex"], o["rolls_off"]) for o in big),
+                        "it" if len(big) == 1 else "each"))
+    if pair_corr:
+        se = 1.0 / math.sqrt(max(1, hist["n"] - 3))
+        neg = [c for c in pair_corr if c["rho"] < 0]
+        notes.append("Pairwise correlations over the window: %s. With %d observations "
+                     "each carries a standard error near %.2f, so treat any value inside "
+                     "about +/-%.2f as indistinguishable from zero, and a negative one as "
+                     "no dependable hedge.%s"
+                     % ("; ".join("%s-%s %+.2f" % (c["a"], c["b"], c["rho"]) for c in pair_corr),
+                        hist["n"], se, 2 * se,
+                        (" Taking no credit for the negative ones lifts 99%% VaR from $%s to $%s."
+                         % (format(round(var99), ","), format(round(var99_noneg), ",")))
+                        if neg else ""))
     # Both causes can hold at once; say each. Inserted in reverse so the book note leads.
     if worst > tol:
         notes.insert(0, "Scenario, slippage and gap figures were authored on %s at "
@@ -431,21 +523,28 @@ def main():
         },
         "positions": pos,
         "totals": {
-            "gross": gross, "gross_pct": gross / NAV, "net_pct": gross / NAV,
+            "gross": gross, "gross_pct": gross / NAV,
+            "net_pct": sum(p["mv"] if p["qty"] > 0 else -p["mv"] for p in pos) / NAV,
             "daily": sum(p["daily"] for p in pos),
             "unreal": sum(p["unreal"] for p in pos),
             "stop_total": stop_total, "stop_pct": stop_total / NAV,
             "gap_total": gap_total, "gap_pct": gap_total / NAV,
+            "gap_name": worst_gap["name"], "gaps": gaps,
             "var95": var95, "var99": var99, "correlation": corr,
+            "var99_rho1": var99_rho1, "var99_noneg": var99_noneg, "hist_var": hist,
+            "pair_corr": pair_corr, "outliers": outliers,
+            "long_only": all(p["qty"] > 0 for p in pos),
             # The theme meter tracks the BINDING theme - the one closest to its own
             # 2% cap. Measuring the whole book against a single theme budget only
             # made sense while the book was effectively one theme.
             "theme_binding": binding_theme,
             "theme_binding_abs": binding_abs,
             "theme_used": binding_abs / THEME, "portfolio_used": stop_total / PORT,
-            # The gas gap is authored on UNG alone, so it loads only UNG's theme.
-            "theme_gap_applies": gap_theme == binding_theme,
-            "theme_used_gap": (gap_total / THEME) if gap_theme == binding_theme else None,
+            # A gap case loads only the theme of the name it hits; the theme meter
+            # shows the worst one inside the binding theme, if there is one.
+            "theme_gap_applies": bind_gap is not None,
+            "theme_gap_abs": bind_gap,
+            "theme_used_gap": (bind_gap / THEME) if bind_gap is not None else None,
             "portfolio_used_gap": gap_total / PORT,
             # VaR is computed book-wide; there is no per-theme covariance, so the
             # theme meter carries no VaR segment rather than borrowing the book's.
@@ -457,16 +556,17 @@ def main():
         "slippage": man["slippage"],
         "gross_permitted": [dict(r, gross=PORT / r["stop"]) for r in man["gross_permitted"]],
         "limit_rows": (
-            [{"name": "Portfolio - all stops fill cleanly", "budget": PORT, "cur": stop_total},
-             {"name": "Portfolio - gas gap, no stop protection", "budget": PORT, "cur": gap_total},
-             {"name": "Portfolio - VaR 99%, correlation-adjusted", "budget": PORT, "cur": var99}]
+            [{"name": "Portfolio - all stops fill cleanly", "budget": PORT, "cur": stop_total}]
+            + [{"name": "Portfolio - %s, no stop protection" % g["name"], "budget": PORT,
+                "cur": g["total"]} for g in gaps]
+            + [{"name": "Portfolio - VaR 99%, correlation-adjusted", "budget": PORT, "cur": var99}]
             + [{"name": "%s theme - all stops fill cleanly" % t, "budget": THEME,
                 "cur": sum(p["stop_risk"] for p in pos if p["theme"] == t)} for t in themes]
-            # The gas gap is a UNG-only figure, so it belongs to UNG's theme budget.
+            # Each gap case belongs to the theme of the name it hits.
             # VaR is book-wide and is measured against the portfolio cap, not a
             # theme cap - comparing it to 2% of NAV manufactured a false breach.
-            + ([{"name": "%s theme - gas gap, no stop protection" % gap_theme,
-                 "budget": THEME, "cur": gap_total}] if gap_theme else [])
+            + [{"name": "%s theme - %s, no stop protection" % (g["theme"], g["name"]),
+                "budget": THEME, "cur": g["total"]} for g in gaps]
             + [{"name": "Portfolio - VaR 95%, correlation-adjusted", "budget": PORT,
                 "cur": var95}]
             + [{"name": "%s - position risk at stop" % p["sym"], "budget": THEME,
@@ -493,6 +593,9 @@ def main():
     assert abs(t["stop_total"] - sum(p["stop_risk"] for p in d["positions"])) < 0.01, \
         "stop_total != sum of stop_risk"
     assert abs(sum(p["pct_book"] for p in d["positions"]) - 1.0) < 1e-9, "pct_book must sum to 1"
+    assert abs(sum(p["var_share"] for p in d["positions"]) - 1.0) < 1e-9, \
+        "Euler variance contributions must sum to 1"
+    assert t["gap_total"] == max(g["total"] for g in t["gaps"]), "gap_total is not the worst gap"
     assert abs(t["theme_used"] - t["theme_binding_abs"] / d["limits"]["theme_abs"]) < 1e-9, \
         "theme_used inconsistent"
     assert t["theme_binding_abs"] <= t["stop_total"] + 0.01, \
@@ -503,6 +606,7 @@ def main():
     assert abs(t["theme_binding_abs"] - max(_theme_stop.values())) < 0.01, \
         "theme_binding_abs is not the worst theme"
     assert t["var99"] > t["var95"] > 0, "VaR ordering broken"
+    assert t["var99_rho1"] >= t["var99"] - 0.01, "undiversified VaR below diversified VaR"
     # marks may only ever move forward: never price a book off a stale statement
     assert d["mark_date"] >= bar_date.strftime("%Y-%m-%d"), \
         "mark_date %s is older than the yfinance bars %s" % (d["mark_date"], bar_date)
