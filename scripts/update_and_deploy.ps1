@@ -80,7 +80,9 @@ Invoke-Step "scripts\carry_export.py"      "carry_export.py failed - carry.json 
 #    at the top of that file). Without them it exits 1 and leaves the previous snapshot,
 #    and gen_risk_json.py then REFUSES to publish once that snapshot passes 36h - by
 #    design, so a stale book never ships looking fresh. Stops are not in the Flex feed
-#    (no Flex section reports working orders); they live in data/risk_manual.json.
+#    (no Flex section reports working orders). An in-session IBKR MCP read imported by
+#    scripts/ibkr_mcp_import.py (data/ibkr_live.json) carries live stops and wins while
+#    it covers the later session; otherwise stops come from data/risk_manual.json.
 Invoke-Step "scripts\ibkr_flex_fetch.py" "ibkr_flex_fetch.py failed - IBKR book not refreshed. Check IBKR_FLEX_TOKEN/IBKR_FLEX_QUERY_ID; gen_risk_json.py will refuse to publish a snapshot older than 36h."
 Invoke-Step "scripts\gen_risk_json.py"   "gen_risk_json.py failed - risk.json NOT updated (stale IBKR snapshot, an untracked new position, or a closed position needing risk_manual.json updated)."
 

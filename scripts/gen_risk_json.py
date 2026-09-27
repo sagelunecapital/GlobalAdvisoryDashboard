@@ -3,8 +3,10 @@
 # All figures measured against a fixed $300,000 notional NAV - never account equity.
 #
 # Inputs:
-#   data/ibkr_flex.json   - the book of record (scripts/ibkr_flex_fetch.py, Flex Web Service)
-#   data/risk_manual.json - human judgment: stops, themes, scenarios, news, notes
+#   data/ibkr_live.json   - book + working stops from an in-session IBKR MCP read
+#                           (scripts/ibkr_mcp_import.py); used while it is the fresher one
+#   data/ibkr_flex.json   - the unattended book of record (scripts/ibkr_flex_fetch.py)
+#   data/risk_manual.json - human judgment: fallback stops, themes, scenarios, news, notes
 #   yfinance              - live marks and the daily bars behind vol / ATR / VaR
 # Output:
 #   prototypes/risk.json
@@ -27,6 +29,7 @@ import json, io, os, sys, math, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FLEX = os.path.join(ROOT, "data", "ibkr_flex.json")
+LIVE = os.path.join(ROOT, "data", "ibkr_live.json")
 MANUAL = os.path.join(ROOT, "data", "risk_manual.json")
 OUT = os.path.join(ROOT, "prototypes", "risk.json")
 
@@ -63,20 +66,66 @@ def load(path, what):
         return json.load(f)
 
 
+def fetched_at(snap, path):
+    try:
+        return datetime.datetime.strptime(snap["fetched_at"], "%Y-%m-%dT%H:%M:%SZ") \
+                                .replace(tzinfo=datetime.timezone.utc)
+    except (KeyError, ValueError):
+        fail("%s has no usable fetched_at stamp" % path)
+
+
+def tranches(h, snap_stops, is_live):
+    """Stop tranches for one holding, nearest (highest) first. A live broker read is
+    the only source while it is the book - a stop missing from it was cancelled, not
+    forgotten, so it is never back-filled from the judgment file. Otherwise the
+    judgment file supplies either `stops` or a single `stop`."""
+    if is_live:
+        return sorted([{"qty": float(t["qty"]), "stop": float(t["stop"])}
+                       for t in (snap_stops or [])], key=lambda t: -t["stop"])
+    if h.get("stops"):
+        tr = [{"qty": float(t["qty"]), "stop": float(t["stop"])} for t in h["stops"]]
+    else:
+        tr = [{"qty": None, "stop": float(h["stop"])}]
+    return sorted(tr, key=lambda t: -t["stop"])
+
+
 def main():
     man = load(MANUAL, "judgment inputs")
-    flex = load(FLEX, "IBKR book of record")
 
-    # ---- the Flex snapshot must be fresh, or we are publishing yesterday's book ----
-    try:
-        fetched = datetime.datetime.strptime(flex["fetched_at"], "%Y-%m-%dT%H:%M:%SZ") \
-                          .replace(tzinfo=datetime.timezone.utc)
-    except (KeyError, ValueError):
-        fail("data/ibkr_flex.json has no usable fetched_at stamp")
-    age_h = (datetime.datetime.now(datetime.timezone.utc) - fetched).total_seconds() / 3600.0
-    if age_h > FLEX_MAX_AGE_H:
+    # ---- book of record: the snapshot covering the LATEST session, still fresh ----
+    # ibkr_live.json comes from an in-session IBKR MCP read (scripts/ibkr_mcp_import.py):
+    # same-day book plus working stops. ibkr_flex.json comes from the unattended Flex
+    # fetch, which lags about a business day. Ranking on report_date (not fetch time)
+    # keeps a later Flex fetch of an OLDER statement - e.g. the one update_and_deploy.ps1
+    # runs right before this script - from overriding a session read. A tie goes to
+    # the live read, which also carries the stops. Neither may be over FLEX_MAX_AGE_H.
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
+    cands = []
+    for path in (LIVE, FLEX):
+        if os.path.exists(path):
+            snap = load(path, "IBKR book")
+            t = fetched_at(snap, path)
+            age_h = (now_utc - t).total_seconds() / 3600.0
+            if age_h < -0.1:
+                fail("%s fetched_at %s is in the future - it must be UTC"
+                     % (path, snap["fetched_at"]))
+            cands.append({"t": t, "age_h": age_h, "path": path, "snap": snap,
+                          "live": path == LIVE, "rd": snap.get("report_date") or ""})
+    if not cands:
+        fail("no IBKR book: run scripts/ibkr_flex_fetch.py (or ibkr_mcp_import.py in-session)")
+    fresh = [c for c in cands if c["age_h"] <= FLEX_MAX_AGE_H]
+    if not fresh:
         fail("IBKR snapshot is %.1fh old (limit %dh). Re-run scripts/ibkr_flex_fetch.py; "
-             "refusing to publish a stale book." % (age_h, FLEX_MAX_AGE_H))
+             "refusing to publish a stale book."
+             % (min(c["age_h"] for c in cands), FLEX_MAX_AGE_H))
+    book = max(fresh, key=lambda c: (c["rd"], c["live"]))
+    fetched, book_path, flex, is_live = book["t"], book["path"], book["snap"], book["live"]
+    snap_stops = flex.get("stops", {}) if is_live else {}
+    print("  book: %s (%s, report %s, fetched %s)" % (os.path.basename(book_path),
+          flex.get("source"), book["rd"], flex["fetched_at"]))
+    for c in fresh:
+        if c is not book:
+            print("  passed over: %s (report %s)" % (os.path.basename(c["path"]), c["rd"]))
 
     NAV = float(man["nav"])
     THEME = man["limits"]["theme_pct"] * NAV
@@ -148,7 +197,8 @@ def main():
         flex_date = datetime.datetime.strptime(flex["report_date"], "%Y-%m-%d").date()
     except (KeyError, ValueError, TypeError):
         pass
-    use_flex_marks = flex_date is not None and flex_date > bar_date
+    # A live MCP book never supplies marks: its market_price includes extended hours.
+    use_flex_marks = (not is_live) and flex_date is not None and flex_date > bar_date
     mark_date = (flex_date if use_flex_marks else bar_date).strftime("%Y-%m-%d")
     mark_source = ("%s statement %s (yfinance closes lag at %s)"
                    % (flex.get("source", "broker"), mark_date, bar_date.strftime("%Y-%m-%d"))
@@ -172,10 +222,32 @@ def main():
             px, prev = float(lv["mark_flex"]), float(close.iloc[-1])
         qty = float(lv["qty"])
         avg = float(lv["avg"])
-        stop = float(h["stop"])
-
-        if stop >= px:
-            print("  WARNING %s stop %.2f is at or above the mark %.2f" % (s, stop, px))
+        trs = tranches(h, snap_stops.get(s), is_live)
+        if not trs:
+            fail("%s: the IBKR read shows no working stop. A cancelled stop must not be "
+                 "published from risk_manual.json - re-place it in TWS and re-read, or "
+                 "re-read the book." % s)
+        if trs[0]["qty"] is None:
+            # A single judgment-file stop covers the lot - but only the lot it was
+            # recorded against. A resized position needs its stops re-read.
+            if h.get("qty") is not None and abs(float(h["qty"]) - qty) > 1e-9:
+                fail("%s: risk_manual.json records its stop against %.0f shares; IBKR "
+                     "now holds %.0f. Re-read the stops before publishing."
+                     % (s, float(h["qty"]), qty))
+            trs[0]["qty"] = qty
+        covered = sum(t["qty"] for t in trs)
+        if abs(covered - qty) > 1e-9:
+            fail("%s: stops cover %.0f of %.0f shares. Every share needs a stop on the "
+                 "board - fix the order in TWS or the stops in risk_manual.json."
+                 % (s, covered, qty))
+        stop = trs[0]["stop"]                    # nearest tranche: the first to fire
+        stop_src = ("IBKR working orders, read %s" % flex["fetched_at"][:10]) if is_live \
+            else "risk_manual.json"
+        # Checked BEFORE anything is written: a tranche at or through the mark means
+        # the book or the stops are stale, and its negative risk would shrink stop_total.
+        if trs[0]["stop"] >= px:
+            fail("%s stop %.2f is at or above the mark %.2f - the book or the stops "
+                 "are stale (stopped out?). Re-read before publishing." % (s, stop, px))
 
         vol_d = float(rets[s].std(ddof=1))
         # Wilder ATR on true range
@@ -186,6 +258,8 @@ def main():
         atr = float(tr.dropna().ewm(alpha=1.0 / ATR_N, adjust=False).mean().iloc[-1])
 
         mv = qty * px
+        stop_risk = sum(t["qty"] * (px - t["stop"]) for t in trs)
+        stop_eff = px - stop_risk / qty          # share-weighted stop across tranches
         p = {
             "sym": s,
             "name": h["name"],
@@ -195,7 +269,11 @@ def main():
             "px": px,
             "avg": avg,
             "stop": stop,
-            "stop_confirmed_on": h.get("stop_confirmed_on"),
+            "stops": trs,
+            "stop_eff": stop_eff,
+            "stop_source": stop_src,
+            "stop_confirmed_on": flex["fetched_at"][:10] if is_live
+                                 else h.get("stop_confirmed_on"),
             "daily": qty * (px - prev),
             "unreal": qty * (px - avg),
             "vol_d": vol_d,
@@ -204,14 +282,14 @@ def main():
             "mv": mv,
             "pct_nav": mv / NAV,
             "stop_dist": (px - stop) / px,
-            "stop_risk": qty * (px - stop),
-            "stop_vs_cost": qty * (stop - avg),
+            "stop_risk": stop_risk,
+            "stop_vs_cost": sum(t["qty"] * (t["stop"] - avg) for t in trs),
             "atr_mult": (px - stop) / atr if atr > 0 else None,
         }
         for n, key in zip(HORIZONS, ("p5", "p21", "p63")):
             p[key] = touch_prob(px, stop, vol_d, n)
         p["theme_used"] = p["stop_risk"] / THEME
-        p["max_shares_theme"] = THEME / (px - stop) if px > stop else None
+        p["max_shares_theme"] = THEME / (px - stop_eff) if px > stop_eff else None
         p["headroom"] = (p["max_shares_theme"] / qty) if p["max_shares_theme"] else None
         pos.append(p)
 
@@ -250,6 +328,24 @@ def main():
             drift[p["sym"]] = (p["px"] - b) / b
     worst = max((abs(v) for v in drift.values()), default=0.0)
     stale = worst > tol
+    # Price drift alone cannot see the book changing under the judgment: a new name
+    # has no price_basis entry, a closed one leaves nothing to drift, and a resized
+    # position moves no price at all. basis_book records the book the scenarios were
+    # authored against; any difference from the live book marks them stale too.
+    basis_book = {k: float(v) for k, v in man.get("basis_book", {}).items()}
+    live_book = {p["sym"]: p["qty"] for p in pos}
+    book_changes = []
+    for s in sorted(set(basis_book) | set(live_book)):
+        a, b = basis_book.get(s), live_book.get(s)
+        if a is None:
+            book_changes.append("%s %.0f opened" % (s, b))
+        elif b is None:
+            book_changes.append("%s %.0f closed" % (s, a))
+        elif abs(a - b) > 1e-9:
+            book_changes.append("%s %.0f -> %.0f" % (s, a, b))
+    if not basis_book:
+        book_changes.append("no basis_book recorded")
+    stale = stale or bool(book_changes)
 
     # ---- excluded holding (UI renders a single one) ----
     if len(excluded_cfg) > 1:
@@ -295,7 +391,8 @@ def main():
         news.append(n)
 
     notes = list(man["notes"])
-    if stale:
+    # Both causes can hold at once; say each. Inserted in reverse so the book note leads.
+    if worst > tol:
         notes.insert(0, "Scenario, slippage and gap figures were authored on %s at "
                         "%s and prices have since moved %.1f%%. Treat those rows as "
                         "indicative until they are re-derived; the positions, stops, "
@@ -303,6 +400,11 @@ def main():
                      % (man["reviewed_on"],
                         ", ".join("%s $%.2f" % (s, v) for s, v in sorted(basis.items())),
                         100 * worst))
+    if book_changes:
+        notes.insert(0, "Scenario, slippage and gap figures were authored on %s against a "
+                        "different book (%s). Treat those rows as indicative until they "
+                        "are re-derived; the positions, stops, vol, VaR and budget meters "
+                        "above are live." % (man["reviewed_on"], "; ".join(book_changes)))
 
     now = datetime.datetime.now(datetime.timezone.utc)
     doc = {
@@ -319,6 +421,7 @@ def main():
         "judgment_reviewed_on": man["reviewed_on"],
         "judgment_stale": stale,
         "judgment_drift": drift,
+        "judgment_book_changes": book_changes,
         "limits": {
             "theme_pct": man["limits"]["theme_pct"], "theme_abs": THEME,
             "portfolio_pct": man["limits"]["portfolio_pct"], "portfolio_abs": PORT,
@@ -408,8 +511,14 @@ def main():
         assert p["px"] > 0 and p["qty"] != 0, "bad price/qty for " + p["sym"]
         assert p["stop"] < p["px"], "stop above mark for " + p["sym"]
         assert 0 <= p["p5"] <= p["p21"] <= p["p63"] <= 1, "touch probs not monotonic for " + p["sym"]
-        assert abs(p["stop_risk"] - p["qty"] * (p["px"] - p["stop"])) < 0.01, \
+        assert abs(p["stop_risk"] - sum(t["qty"] * (p["px"] - t["stop"])
+                                        for t in p["stops"])) < 0.01, \
             "stop_risk inconsistent for " + p["sym"]
+        assert abs(sum(t["qty"] for t in p["stops"]) - p["qty"]) < 1e-9, \
+            "stop tranches do not cover the position for " + p["sym"]
+        assert p["stop"] == max(t["stop"] for t in p["stops"]), \
+            "stop must be the nearest tranche for " + p["sym"]
+        assert all(t["stop"] < p["px"] for t in p["stops"]), "tranche above mark for " + p["sym"]
     for r in d["limit_rows"]:
         if r["cur"] > r["budget"]:
             print("  BREACH %s: $%.0f of $%.0f" % (r["name"], r["cur"], r["budget"]))
@@ -418,8 +527,10 @@ def main():
     print("  marks %s | Flex pulled %s | vol window %s"
           % (d["mark_date"], d["export_pulled"], d["vol_window"]))
     for p in d["positions"]:
-        print("  %-5s %8.0f @ %8.2f  stop %7.2f  risk $%7.2f  p21 %4.1f%%"
-              % (p["sym"], p["qty"], p["px"], p["stop"], p["stop_risk"], 100 * p["p21"]))
+        print("  %-5s %8.0f @ %8.2f  stop %-17s risk $%8.2f  p21 %4.1f%%  [%s]"
+              % (p["sym"], p["qty"], p["px"],
+                 " / ".join("%.2f" % t["stop"] for t in p["stops"]),
+                 p["stop_risk"], 100 * p["p21"], p["stop_source"]))
     print("  gross $%.2f | stop risk $%.2f | VaR95 $%.2f VaR99 $%.2f | corr %s"
           % (t["gross"], t["stop_total"], t["var95"], t["var99"],
              ("%.3f" % t["correlation"]) if t["correlation"] is not None else "n/a"))
@@ -428,8 +539,9 @@ def main():
              d["limits"]["theme_abs"],
              100 * t["portfolio_used"], d["limits"]["portfolio_abs"]))
     if d["judgment_stale"]:
-        print("  JUDGMENT STALE: prices moved %.1f%% since %s - scenarios need re-deriving"
-              % (100 * worst, d["judgment_reviewed_on"]))
+        print("  JUDGMENT STALE: prices moved %.1f%% since %s%s - scenarios need re-deriving"
+              % (100 * worst, d["judgment_reviewed_on"],
+                 ("; book changed: " + "; ".join(book_changes)) if book_changes else ""))
 
 
 if __name__ == "__main__":

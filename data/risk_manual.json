@@ -7,15 +7,21 @@
   "The generator recomputes only what is unambiguously price-driven: marks, stop distances,",
   "vol, ATR, touch probabilities, VaR, correlation, gross, stop_total and the budget meters.",
   "",
-  "Stops live HERE, not in the Flex feed: an Activity Flex Query has 47 sections and none",
-  "of them report working orders, so a GTC stop cannot be read back from IBKR unattended.",
-  "Confirm them in TWS and update stop_confirmed_on when you do.",
+  "Stops: an Activity Flex Query has 47 sections and none report working orders, so the",
+  "unattended pipeline cannot read a GTC stop. The IBKR MCP connector can, but only inside",
+  "a Claude session: scripts/ibkr_mcp_import.py turns that read into data/ibkr_live.json,",
+  "and while it is the fresher book gen_risk_json.py takes positions AND stops from it.",
+  "The stops below are the FALLBACK for runs that only have Flex - copy them from the",
+  "latest MCP read. A holding takes one `stop` plus the `qty` it was set against, or",
+  "`stops` as [{qty, stop}] tranches that must cover the whole position. Either way a",
+  "resized position is refused until its stops are re-read.",
   "",
-  "scenarios / slippage / gap are authored at the prices in price_basis. They do NOT",
-  "auto-update - the betas behind rows other than the gas shock are not documented, and",
-  "the generator will not invent them. When live prices drift past drift_tolerance the",
-  "output carries judgment_stale=true and the tab says so. Re-derive them and bump",
-  "reviewed_on.",
+  "scenarios / slippage / gap are authored at the prices in price_basis against the",
+  "positions in basis_book. They do NOT auto-update - the betas behind rows other than",
+  "the gas shock are not documented, and the generator will not invent them. When live",
+  "prices drift past drift_tolerance, or the live book differs from basis_book, the",
+  "output carries judgment_stale=true and the tab says so. Re-derive them, update",
+  "basis_book and price_basis, and bump reviewed_on.",
   "",
   "GOOGL (added 19 Sep 2026) - derivations, so these are reproducible:",
   "  beta to SPX 1.5353 - OLS on simple daily returns, trailing 60 bars to 18 Sep 2026,",
@@ -42,6 +48,7 @@
   "UNG": 10.39,
   "GOOGL": 352.0
  },
+ "basis_book": {"UNG": 2000, "GOOGL": 200},
  "nav": 300000.0,
  "limits": {
   "theme_pct": 0.02,
@@ -51,60 +58,31 @@
   "set_on": "15 Sep 2026"
  },
  "holdings": {
-  "GOOGL": {
-   "name": "Alphabet Inc Class A",
-   "theme": "MAG7",
-   "sub": "Mega-cap tech",
-   "stop": 348.0,
-   "stop_confirmed_on": "2026-09-23",
-   "stop_source": "IBKR live working order (GTC), read 2026-09-23"
-  },
   "UNG": {
    "name": "US Natural Gas Fund",
    "theme": "Energy",
    "sub": "Natural gas futures",
-   "stop": 9.35,
-   "stop_confirmed_on": "2026-09-15"
+   "stops": [{"qty": 1500, "stop": 10.65}, {"qty": 2000, "stop": 9.35}],
+   "stop_confirmed_on": "2026-09-27",
+   "stop_source": "IBKR live working orders (GTC) via the MCP connector, read 2026-09-27"
   },
   "MSFT": {
    "name": "Microsoft Corp",
    "stop": 491.0,
-   "stop_confirmed_on": "2026-09-23",
-   "stop_source": "IBKR live working order (GTC), read 2026-09-23",
+   "qty": 200,
+   "stop_confirmed_on": "2026-09-27",
+   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-09-27",
    "sub": "Mega-cap tech",
    "theme": "MAG7"
-  },
-  "CRM": {
-   "name": "Salesforce Inc",
-   "stop": 229.0,
-   "stop_confirmed_on": "2026-09-23",
-   "stop_source": "IBKR live working order (GTC), read 2026-09-23",
-   "sub": "Enterprise software",
-   "theme": "Enterprise software"
   },
   "SNOW": {
    "name": "Snowflake Inc",
    "stop": 328.0,
-   "stop_confirmed_on": "2026-09-23",
-   "stop_source": "IBKR live working order (GTC), read 2026-09-23",
+   "qty": 100,
+   "stop_confirmed_on": "2026-09-27",
+   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-09-27",
    "sub": "Data cloud",
    "theme": "Enterprise software"
-  },
-  "SMCI": {
-   "name": "Super Micro Computer",
-   "stop": 39.9,
-   "stop_confirmed_on": "2026-09-23",
-   "stop_source": "IBKR live working order (GTC), read 2026-09-23",
-   "sub": "AI server hardware",
-   "theme": "AI infrastructure & power"
-  },
-  "GNRC": {
-   "name": "Generac Holdings",
-   "stop": 205.0,
-   "stop_confirmed_on": "2026-09-23",
-   "stop_source": "IBKR live working order (GTC), read 2026-09-23",
-   "sub": "Backup power & generators",
-   "theme": "AI infrastructure & power"
   }
  },
  "excluded": {
@@ -226,13 +204,13 @@
   "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
   "Themes are assigned, not fed. IBKR returns no sector tags; every theme in this file is a stated assumption.",
   "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
-  "Stops are confirmed by the account owner, not read from the API: an IBKR Activity Flex Query cannot report working orders. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
+  "Stops are the account's GTC working orders, read through the IBKR connector when the board is refreshed in session; the unattended daily run carries the last read forward, because an IBKR Activity Flex Query cannot report working orders. Where a position has more than one stop, the nearest one drives the touch probabilities and the dollar risk sums every tranche. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
   "Parametric VaR understates the tail: the historical 5th percentile has run above the parametric figure, and the worst day in the window was roughly 1.5x the 99% VaR.",
   "Correlation between the two legs is not a usable parameter - the standard error is wide and the rolling 20-day figure has swung through zero in both directions.",
   "Scenario betas are assumed: UNG ~1.0 to front-month gas. The XOP terms were removed with the position on 23 Sep 2026.",
   "Scenario, slippage and gap figures are authored at the prices in price_basis and do not move with the market. The tab flags them when live prices drift past tolerance.",
   "Independently reviewed. The first issue was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and of diversification withdrawn.",
-  "MSFT, CRM, GNRC, SMCI and SNOW were added on 23 Sep 2026. Their stops are the GTC working orders read from the IBKR account's live order endpoint, not the Flex query - the same endpoint returns GOOGL 340.00 and UNG 9.35, which match the stops already confirmed in this file. Their themes are assigned assumptions, not fed.",
-  "Scenarios, slippage and the gap figure cover UNG and GOOGL only. The five positions added on 23 Sep 2026 carry no authored scenario terms, so every scenario row understates the current book. XOP was stopped out on 22 Sep 2026 and its scenario, news and gap terms were removed."
+  "Stopped out: GOOGL and GNRC on 23 Sep, SMCI on 24 Sep, CRM on 25 Sep 2026. UNG was added to on 24 Sep (2,000 -> 3,500 shares) with a second stop on the new 1,500. MSFT and SNOW themes are assigned assumptions, not fed.",
+  "Scenarios, slippage and the gap figure were authored for UNG 2,000 and GOOGL 200 and have not been re-derived for the current book: GOOGL is closed, UNG is larger, and MSFT and SNOW carry no scenario terms. XOP was stopped out on 22 Sep 2026 and its scenario, news and gap terms were removed."
  ]
 }
