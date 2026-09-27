@@ -118,6 +118,34 @@ class TestGDPNowFetch:
         assert date_str == "2024-03-13"
         assert abs(value - 2.9) < 1e-6
 
+    def test_contributions_sheet_latest_row(self):
+        """Tracking workbook: latest date on the Contributions sheet, GDP in column J."""
+        rows = [["title"] + [None] * 9, ["Date", "Quarter"] + [None] * 7 + ["GDP"]]
+        rows += [
+            [pd.Timestamp("2026-09-17"), pd.Timestamp("2026-09-30")] + [0.1] * 7 + [5.0796],
+            [pd.Timestamp("2026-09-25"), pd.Timestamp("2026-09-30")] + [0.1] * 7 + [5.0163],
+            [pd.Timestamp("2026-09-24"), pd.Timestamp("2026-09-30")] + [0.1] * 7 + [4.9478],
+        ]
+        buf = io.BytesIO()
+        with pd.ExcelWriter(buf, engine="openpyxl") as xw:
+            pd.DataFrame([["cover"]]).to_excel(xw, sheet_name="ReadMe", index=False, header=False)
+            pd.DataFrame(rows).to_excel(xw, sheet_name="Contributions", index=False, header=False)
+        mock_resp = _make_mock_response(buf.getvalue())
+
+        with patch("src.macro.fetch.gdpnow.requests.get", return_value=mock_resp):
+            date_str, value = fetch_gdpnow()
+
+        assert date_str == "2026-09-25"
+        assert abs(value - 5.0163) < 1e-6
+
+    def test_html_page_raises_runtime_error(self):
+        """A moved file served as an HTML 404 page with HTTP 200 raises RuntimeError."""
+        mock_resp = _make_mock_response(b"<!DOCTYPE html><html>404</html>")
+
+        with patch("src.macro.fetch.gdpnow.requests.get", return_value=mock_resp):
+            with pytest.raises(RuntimeError, match="not an xlsx"):
+                fetch_gdpnow()
+
     def test_returns_tuple_date_float(self):
         """Return type is (str, float)."""
         df = pd.DataFrame({

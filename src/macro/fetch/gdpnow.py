@@ -3,24 +3,55 @@ Atlanta Fed GDPNow fetch.
 
 Fetches the most recent GDPNow real GDP estimate from the Atlanta Fed Excel endpoint.
 
-Endpoint:
-  https://www.atlantafed.org/-/media/documents/cqer/researchcq/gdpnow/GDPNow-model-output.xlsx
+Endpoint (moved Sep 2026 - the old cqer/researchcq/ GDPNow-model-output.xlsx is gone):
+  https://www.atlantafed.org/-/media/Project/Atlanta/FRBA/Documents/research-and-data/data/gdpnow/GDPTrackingModelDataAndForecasts.xlsx
+
+The tracking workbook keeps the nowcast history on its "Contributions" sheet: column A
+is the estimate date, column B the forecast quarter, column J the GDP nowcast - the same
+layout scripts/fetch_gdpnow.py reads for the dashboard. A plain two-column sheet
+(date + GDPNow/Nowcast) is still accepted.
 
 AC3: stored as current quarter's real-time estimate.
 AC7: if GDPNow unavailable, visible error for that indicator only — other indicators not blocked.
 """
 
 import io
+from datetime import datetime
 import requests
 import pandas as pd
 
 
 GDPNOW_URL = (
-    "https://www.atlantafed.org/-/media/documents/cqer/researchcq/"
-    "gdpnow/GDPNow-model-output.xlsx"
+    "https://www.atlantafed.org/-/media/Project/Atlanta/FRBA/Documents/"
+    "research-and-data/data/gdpnow/GDPTrackingModelDataAndForecasts.xlsx"
 )
 
 _USER_AGENT = "Mozilla/5.0 (compatible; dashboard-fetch)"
+_CONTRIB_SHEET = "Contributions"
+_CONTRIB_GDP_COL = 9      # column J (0-indexed) = GDP nowcast
+
+
+def _latest_from_contributions(content: bytes):
+    """(date_str, value) of the most recent nowcast on the Contributions sheet,
+    or None when the workbook has no such sheet."""
+    xls = pd.ExcelFile(io.BytesIO(content), engine="openpyxl")
+    if _CONTRIB_SHEET not in xls.sheet_names:
+        return None
+    raw = xls.parse(_CONTRIB_SHEET, header=None)
+    if raw.shape[1] <= _CONTRIB_GDP_COL:
+        raise RuntimeError("GDPNow: Contributions sheet has only %d columns" % raw.shape[1])
+    # header/notes rows hold text; only real date cells mark a nowcast row
+    as_dt = lambda s: pd.to_datetime(s.where(s.map(lambda v: isinstance(v, datetime))),
+                                     errors="coerce")
+    df = pd.DataFrame({
+        "date": as_dt(raw.iloc[:, 0]),
+        "qtr": as_dt(raw.iloc[:, 1]),
+        "value": pd.to_numeric(raw.iloc[:, _CONTRIB_GDP_COL], errors="coerce"),
+    }).dropna()
+    if df.empty:
+        raise RuntimeError("GDPNow: no valid rows on the Contributions sheet")
+    latest = df.sort_values(["date", "qtr"]).iloc[-1]
+    return (latest["date"].strftime("%Y-%m-%d"), float(latest["value"]))
 
 
 def fetch_gdpnow() -> tuple:
@@ -45,6 +76,22 @@ def fetch_gdpnow() -> tuple:
         response.raise_for_status()
     except requests.RequestException as e:
         raise RuntimeError(f"GDPNow: HTTP request failed: {e}") from e
+
+    # A moved file comes back as HTTP 200 + an HTML 404 page; an xlsx is a zip.
+    if not response.content.startswith(b"PK"):
+        raise RuntimeError(
+            "GDPNow: download is not an xlsx - the file has likely moved; find the "
+            "current link on https://www.atlantafed.org/research-and-data/data/gdpnow"
+        )
+
+    try:
+        found = _latest_from_contributions(response.content)
+    except RuntimeError:
+        raise
+    except Exception as e:
+        raise RuntimeError(f"GDPNow: failed to parse Excel: {e}") from e
+    if found is not None:
+        return found
 
     try:
         df = pd.read_excel(io.BytesIO(response.content), sheet_name=0, header=0)
