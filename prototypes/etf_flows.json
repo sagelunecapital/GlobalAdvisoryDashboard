@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-29T01:34:31Z",
- "scraped_at": "2026-09-29T01:34:31Z",
+ "generated": "2026-09-30T02:28:09Z",
+ "scraped_at": "2026-09-30T02:28:09Z",
  "source": "etfdb.com Fund Flows chart (Highcharts series 'Fund Flow')",
  "source_url_pattern": "https://etfdb.com/etf/{TICKER}/#fund-flows",
  "unit": "USD millions",
