@@ -191,19 +191,42 @@ def main():
     # source preference: pinning marks to Flex would have hidden the XOP stop-out,
     # where yfinance was a session ahead of a stale statement. Vol, ATR and VaR
     # always stay on the yfinance bar series.
-    bar_date = bars[syms[0]].index[-1].date()
+    # Each symbol's own last usable bar: Yahoo can publish one name's close and not
+    # another's, so a single symbol's date can neither detect nor rule out a lag.
+    bar_dates = {s: bars[s].index[-1].date() for s in bars}
+    bar_date = min(bar_dates.values())
     flex_date = None
     try:
         flex_date = datetime.datetime.strptime(flex["report_date"], "%Y-%m-%d").date()
     except (KeyError, ValueError, TypeError):
         pass
-    # A live MCP book never supplies marks: its market_price includes extended hours.
-    use_flex_marks = (not is_live) and flex_date is not None and flex_date > bar_date
-    mark_date = (flex_date if use_flex_marks else bar_date).strftime("%Y-%m-%d")
-    mark_source = ("%s statement %s (yfinance closes lag at %s)"
-                   % (flex.get("source", "broker"), mark_date, bar_date.strftime("%Y-%m-%d"))
-                   ) if use_flex_marks else ("yfinance close %s" % mark_date)
-    if use_flex_marks:
+    # A live MCP book never supplies marks from market_price: it includes extended hours.
+    # It may carry IBKR regular-hours daily closes (mark_rth, see ibkr_mcp_import.py),
+    # used only when yfinance lags the book's session - and only if every priced symbol
+    # has one, so all marks share one date.
+    lagging = flex_date is not None and flex_date > bar_date
+    use_flex_marks = (not is_live) and lagging
+    priced = syms + [s for s in excluded_cfg if s in live]
+    use_rth_marks = is_live and lagging and all(
+        live[s].get("mark_rth_date") == flex["report_date"] for s in priced)
+    if is_live and lagging and not use_rth_marks:
+        print("  marks: yfinance lags the book (%s < %s) and the live read carries no RTH "
+              "closes for every name - pricing at %s" % (bar_date, flex_date, bar_date))
+    use_stmt_marks = use_flex_marks or use_rth_marks
+    if not use_stmt_marks and len(set(bar_dates.values())) > 1:
+        print("  WARNING yfinance last closes differ by name (%s) - marks mix sessions"
+              % ", ".join("%s %s" % (s, d) for s, d in sorted(bar_dates.items())))
+    mark_key = "mark_rth" if use_rth_marks else "mark_flex"
+    mark_date = (flex_date if use_stmt_marks else bar_date).strftime("%Y-%m-%d")
+    if use_rth_marks:
+        mark_source = ("IBKR regular-hours close %s (yfinance closes lag at %s)"
+                       % (mark_date, bar_date.strftime("%Y-%m-%d")))
+    elif use_flex_marks:
+        mark_source = ("%s statement %s (yfinance closes lag at %s)"
+                       % (flex.get("source", "broker"), mark_date, bar_date.strftime("%Y-%m-%d")))
+    else:
+        mark_source = "yfinance close %s" % mark_date
+    if use_stmt_marks:
         print("  marks: using %s marks - newer than the last yfinance close %s"
               % (flex_date.strftime("%Y-%m-%d"), bar_date.strftime("%Y-%m-%d")))
 
@@ -216,10 +239,12 @@ def main():
         close = df["Close"].astype(float)
         px = float(close.iloc[-1])
         prev = float(close.iloc[-2])
-        if use_flex_marks and lv.get("mark_flex"):
-            # statement covers a later session: its mark is today's, and the last
-            # yfinance close becomes the prior mark the daily move is measured from
-            px, prev = float(lv["mark_flex"]), float(close.iloc[-1])
+        if use_stmt_marks and lv.get(mark_key):
+            # statement covers a later session: its mark is today's, and the prior
+            # session's close is the mark the daily move is measured from - the last
+            # yfinance close if Yahoo lags for this name, else the one before it
+            px = float(lv[mark_key])
+            prev = float(close.iloc[-1] if bar_dates[s] < flex_date else close.iloc[-2])
         qty = float(lv["qty"])
         avg = float(lv["avg"])
         trs = tranches(h, snap_stops.get(s), is_live)
@@ -409,8 +434,8 @@ def main():
         if not lv:
             continue
         px = float(bars[s]["Close"].astype(float).iloc[-1])
-        if use_flex_marks and lv.get("mark_flex"):
-            px = float(lv["mark_flex"])
+        if use_stmt_marks and lv.get(mark_key):
+            px = float(lv[mark_key])
         excluded = {"sym": s, "qty": float(lv["qty"]), "px": px,
                     "mv": float(lv["qty"]) * px,
                     "unreal": float(lv["qty"]) * (px - float(lv["avg"])),

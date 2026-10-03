@@ -17,8 +17,10 @@
 # is the book, its stops are the only stops: a held symbol with no working stop
 # here is refused, never back-filled from risk_manual.json.
 #
-# Marks never come from here - the connector's market_price includes extended
-# hours. gen_risk_json.py prices a live book from yfinance closes.
+# Marks never come from market_price - it includes extended hours. gen_risk_json.py
+# prices a live book from yfinance closes, unless yfinance has no usable close for the
+# book's session yet (its NaN-close bug); then it uses the optional "rth_bars" in the
+# raw file - IBKR regular-hours daily bars from get_price_history (outside_rth=false).
 #
 # Order status: the connector returns NEW for untouched orders and REPLACED for
 # orders that were amended and are still working (the amended price is what it
@@ -91,6 +93,24 @@ def main():
             "currency": p["currency"],
         })
     held = {p["sym"]: p["qty"] for p in positions}
+    report_date = last_session(read_at).strftime("%Y-%m-%d")
+
+    # Optional "rth_bars": {SYM: {date, open, high, low, close}} from get_price_history
+    # with outside_rth=false - the official regular-hours daily bar, unlike market_price.
+    # gen_risk_json.py marks the book from these only when yfinance has not yet published
+    # a usable close for report_date. A bar must be for report_date and self-consistent.
+    for sym, b in (raw.get("rth_bars") or {}).items():
+        p = next((q for q in positions if q["sym"] == sym), None)
+        if p is None:
+            fail("rth_bars has %s, which is not held" % sym)
+        if b.get("date") != report_date:
+            fail("%s RTH bar is for %s, not the book's session %s" % (sym, b.get("date"), report_date))
+        lo, hi = float(b["low"]), float(b["high"])
+        o, c = float(b["open"]), float(b["close"])
+        if not (0 < lo <= min(o, c) and max(o, c) <= hi):
+            fail("%s RTH bar is inconsistent: open %.4f / close %.4f outside [%.4f, %.4f]"
+                 % (sym, o, c, lo, hi))
+        p["mark_rth"], p["mark_rth_date"] = c, b["date"]
 
     stops = {}
     for o in raw["orders"]:
@@ -145,7 +165,7 @@ def main():
     doc = {
         "fetched_at": raw["read_at"],
         "source": "IBKR MCP connector (live positions + working orders)",
-        "report_date": last_session(read_at).strftime("%Y-%m-%d"),
+        "report_date": report_date,
         "positions": positions,
         "stops": stops,
     }
@@ -156,6 +176,10 @@ def main():
           ", ".join("%s %.0f" % (p["sym"], p["qty"]) for p in positions)))
     for sym, tr in sorted(stops.items()):
         print("  stops %-5s %s" % (sym, " + ".join("%.0f @ %.2f" % (t["qty"], t["stop"]) for t in tr)))
+    rth = [p for p in positions if "mark_rth" in p]
+    if rth:
+        print("  RTH closes %s: %s" % (report_date,
+              ", ".join("%s %.2f" % (p["sym"], p["mark_rth"]) for p in rth)))
 
 
 if __name__ == "__main__":

@@ -1,19 +1,20 @@
 {
- "updated": "2026-09-27T04:27:16Z",
- "export_pulled": "27 Sep 2026",
- "source": "IBKR MCP connector (live positions + working orders) + marks from yfinance close 2026-09-25",
- "vol_window": "02 Jul - 25 Sep 2026 (60 daily bars)",
- "mark_date": "2026-09-25",
- "mark_source": "yfinance close 2026-09-25",
- "flex_report_date": "2026-09-25",
+ "updated": "2026-10-03T01:27:10Z",
+ "export_pulled": "03 Oct 2026",
+ "source": "IBKR MCP connector (live positions + working orders) + marks from IBKR regular-hours close 2026-10-02 (yfinance closes lag at 2026-10-01)",
+ "vol_window": "09 Jul - 01 Oct 2026 (60 daily bars)",
+ "mark_date": "2026-10-02",
+ "mark_source": "IBKR regular-hours close 2026-10-02 (yfinance closes lag at 2026-10-01)",
+ "flex_report_date": "2026-10-02",
  "nav": 300000.0,
  "unit": 3000.0,
- "judgment_reviewed_on": "2026-09-27",
+ "judgment_reviewed_on": "2026-10-03",
  "judgment_stale": false,
  "judgment_drift": {
-  "MSFT": -3.310894416388543e-08,
-  "SNOW": 7.267387784347612e-09,
-  "UNG": 1.0282202802080233e-08
+  "META": 0.0,
+  "MSFT": 0.0,
+  "SOXL": 0.0,
+  "UNG": 0.0
  },
  "judgment_book_changes": [],
  "limits": {
@@ -27,12 +28,51 @@
  },
  "positions": [
   {
+   "sym": "META",
+   "name": "Meta Platforms Inc",
+   "theme": "MAG7",
+   "sub": "Mega-cap tech",
+   "qty": 100.0,
+   "px": 728.08,
+   "avg": 740.723803,
+   "stop": 713.0,
+   "stops": [
+    {
+     "qty": 100.0,
+     "stop": 713.0
+    }
+   ],
+   "stop_eff": 713.0,
+   "stop_source": "IBKR working orders, read 2026-10-03",
+   "stop_confirmed_on": "2026-10-03",
+   "daily": 215.0007324218791,
+   "unreal": -1264.3802999999934,
+   "vol_d": 0.030609166532510196,
+   "vol_a": 0.48590545490389947,
+   "atr": 26.164845707018,
+   "mv": 72808.0,
+   "pct_nav": 0.24269333333333334,
+   "stop_dist": 0.02071200966926717,
+   "stop_risk": 1508.000000000004,
+   "stop_vs_cost": -2772.3802999999975,
+   "atr_mult": 0.5763458408606341,
+   "p5": 0.7597649106507864,
+   "p21": 0.8813879247685461,
+   "p63": 0.931350009331927,
+   "theme_used": 0.251333333333334,
+   "max_shares_theme": 397.87798408487953,
+   "headroom": 3.9787798408487953,
+   "pct_book": 0.33567666455201306,
+   "var_share": 0.2993736431221125,
+   "var_standalone": 0.3122340248501822
+  },
+  {
    "sym": "MSFT",
    "name": "Microsoft Corp",
    "theme": "MAG7",
    "sub": "Mega-cap tech",
    "qty": 200.0,
-   "px": 516.1699829101562,
+   "px": 517.53,
    "avg": 498.881328,
    "stop": 491.0,
    "stops": [
@@ -42,255 +82,288 @@
     }
    ],
    "stop_eff": 491.0,
-   "stop_source": "IBKR working orders, read 2026-09-27",
-   "stop_confirmed_on": "2026-09-27",
-   "daily": 3647.998046875,
-   "unreal": 3457.7309820312507,
-   "vol_d": 0.025425637420734594,
-   "vol_a": 0.4036194812433688,
-   "atr": 11.778537612896695,
-   "mv": 103233.99658203125,
-   "pct_nav": 0.3441133219401042,
-   "stop_dist": 0.04876297294206916,
-   "stop_risk": 5033.99658203125,
+   "stop_source": "IBKR working orders, read 2026-10-03",
+   "stop_confirmed_on": "2026-10-03",
+   "daily": 946.0024414062445,
+   "unreal": 3729.7343999999953,
+   "vol_d": 0.02532643776307547,
+   "vol_a": 0.4020447354975161,
+   "atr": 11.730327529327056,
+   "mv": 103506.0,
+   "pct_nav": 0.34502,
+   "stop_dist": 0.051262728730701555,
+   "stop_risk": 5305.9999999999945,
    "stop_vs_cost": -1576.2655999999993,
-   "atr_mult": 2.136936157727835,
-   "p5": 0.3792313336324312,
-   "p21": 0.6678788037280656,
-   "p63": 0.8043522114270689,
-   "theme_used": 0.8389994303385416,
-   "max_shares_theme": 238.3791844999212,
-   "headroom": 1.191895922499606,
-   "pct_book": 0.5872808986689754,
-   "var_share": 0.7814826523983799,
-   "var_standalone": 0.7030191314308025
+   "atr_mult": 2.2616589292730467,
+   "p5": 0.3527740101096378,
+   "p21": 0.6502506969643203,
+   "p63": 0.793492089971698,
+   "theme_used": 0.8843333333333324,
+   "max_shares_theme": 226.15906520919737,
+   "headroom": 1.1307953260459869,
+   "pct_book": 0.47720784585650844,
+   "var_share": 0.4572058555954716,
+   "var_standalone": 0.432014462570092
   },
   {
-   "sym": "SNOW",
-   "name": "Snowflake Inc",
-   "theme": "Enterprise software",
-   "sub": "Data cloud",
-   "qty": 100.0,
-   "px": 335.94000244140625,
-   "avg": 344.460003,
-   "stop": 328.0,
+   "sym": "SOXL",
+   "name": "Direxion Daily Semiconductor Bull 3x",
+   "theme": "Semiconductors",
+   "sub": "3x daily-leveraged semiconductor ETF",
+   "qty": 120.0,
+   "px": 163.71,
+   "avg": 154.00833633,
+   "stop": 129.0,
    "stops": [
     {
-     "qty": 100.0,
-     "stop": 328.0
+     "qty": 120.0,
+     "stop": 129.0
     }
    ],
-   "stop_eff": 328.0,
-   "stop_source": "IBKR working orders, read 2026-09-27",
-   "stop_confirmed_on": "2026-09-27",
-   "daily": 194.000244140625,
-   "unreal": -852.0000558593722,
-   "vol_d": 0.030714159483312485,
-   "vol_a": 0.48757216632732564,
-   "atr": 14.94469024125899,
-   "mv": 33594.000244140625,
-   "pct_nav": 0.11198000081380208,
-   "stop_dist": 0.023635180043171916,
-   "stop_risk": 794.000244140625,
-   "stop_vs_cost": -1646.0002999999972,
-   "atr_mult": 0.5312925402418618,
-   "p5": 0.7276357369758611,
-   "p21": 0.8650577526078731,
-   "p63": 0.921841302688303,
-   "theme_used": 0.1323333740234375,
-   "max_shares_theme": 755.6672739432234,
-   "headroom": 7.556672739432234,
-   "pct_book": 0.19111063512481222,
-   "var_share": 0.19665059978631533,
-   "var_standalone": 0.10863722788907226
+   "stop_eff": 129.0,
+   "stop_source": "IBKR working orders, read 2026-10-03",
+   "stop_confirmed_on": "2026-10-03",
+   "daily": 1202.399707031251,
+   "unreal": 1164.199640400002,
+   "vol_d": 0.08527152773951548,
+   "vol_a": 1.3536435378798222,
+   "atr": 11.987130267446055,
+   "mv": 19645.2,
+   "pct_nav": 0.065484,
+   "stop_dist": 0.21202125710097128,
+   "stop_risk": 4165.200000000001,
+   "stop_vs_cost": -3001.000359599999,
+   "atr_mult": 2.895605472334224,
+   "p5": 0.2114087708209037,
+   "p21": 0.5419998158195631,
+   "p63": 0.7247907244096745,
+   "theme_used": 0.6942000000000002,
+   "max_shares_theme": 172.86084701815034,
+   "headroom": 1.440507058484586,
+   "pct_book": 0.09057294817131645,
+   "var_share": 0.250117883196041,
+   "var_standalone": 0.176416829663382
   },
   {
    "sym": "UNG",
    "name": "US Natural Gas Fund",
    "theme": "Energy",
    "sub": "Natural gas futures",
-   "qty": 3500.0,
-   "px": 11.130000114440918,
-   "avg": 10.61587443,
-   "stop": 10.65,
+   "qty": 2000.0,
+   "px": 10.47,
+   "avg": 10.806528,
+   "stop": 9.35,
    "stops": [
-    {
-     "qty": 1500.0,
-     "stop": 10.65
-    },
     {
      "qty": 2000.0,
      "stop": 9.35
     }
    ],
-   "stop_eff": 9.907142857142857,
-   "stop_source": "IBKR working orders, read 2026-09-27",
-   "stop_confirmed_on": "2026-09-27",
-   "daily": -1470.0002670288086,
-   "unreal": 1799.4398955432134,
-   "vol_d": 0.021849584624268246,
-   "vol_a": 0.34685140299524664,
-   "atr": 0.3586915158786431,
-   "mv": 38955.00040054321,
-   "pct_nav": 0.12985000133514404,
-   "stop_dist": 0.043126694474884014,
-   "stop_risk": 4280.000400543213,
-   "stop_vs_cost": -2480.560505,
-   "atr_mult": 1.3381975686408962,
-   "p5": 0.3668924047818981,
-   "p21": 0.6597328592935372,
-   "p63": 0.7993434110524372,
-   "theme_used": 0.7133334000905355,
-   "max_shares_theme": 4906.541596896742,
-   "headroom": 1.4018690276847834,
-   "pct_book": 0.22160846620621236,
-   "var_share": 0.021866747815305076,
-   "var_standalone": 0.07392490236659964
+   "stop_eff": 9.35,
+   "stop_source": "IBKR working orders, read 2026-10-03",
+   "stop_confirmed_on": "2026-10-03",
+   "daily": 620.0003051757825,
+   "unreal": -673.055999999999,
+   "vol_d": 0.02277326839259917,
+   "vol_a": 0.36151442824167035,
+   "atr": 0.3610242171688155,
+   "mv": 20940.0,
+   "pct_nav": 0.0698,
+   "stop_dist": 0.10697230181470878,
+   "stop_risk": 2240.000000000002,
+   "stop_vs_cost": -2913.056000000001,
+   "atr_mult": 3.1022849624414177,
+   "p5": 0.02629961069064146,
+   "p21": 0.2783172329083212,
+   "p63": 0.5313742156551735,
+   "theme_used": 0.37333333333333363,
+   "max_shares_theme": 5357.142857142852,
+   "headroom": 2.678571428571426,
+   "pct_book": 0.09654254142016198,
+   "var_share": -0.006697381913625173,
+   "var_standalone": 0.014296281793888558
   }
  ],
  "totals": {
-  "gross": 175782.9972267151,
-  "gross_pct": 0.5859433240890503,
-  "net_pct": 0.5859433240890503,
-  "daily": 2371.9980239868164,
-  "unreal": 4405.170821715092,
-  "stop_total": 10107.997226715088,
-  "stop_pct": 0.03369332408905029,
-  "gap_total": 10323.4,
-  "gap_pct": 0.034411333333333335,
-  "gap_name": "MSFT gap through stop",
+  "gross": 216899.2,
+  "gross_pct": 0.7229973333333334,
+  "net_pct": 0.7229973333333334,
+  "daily": 2983.403186035157,
+  "unreal": 2956.4977404000047,
+  "stop_total": 13219.2,
+  "stop_pct": 0.044064,
+  "gap_total": 17631.4,
+  "gap_pct": 0.058771333333333335,
+  "gap_name": "MSFT + META shared report gap",
   "gaps": [
    {
     "name": "gas gap",
     "sym": "UNG",
-    "total": 7791.0,
+    "total": 4188.0,
     "basis": "UNG full -20% with no stop protection",
     "theme": "Energy"
    },
    {
     "name": "MSFT gap through stop",
     "sym": "MSFT",
-    "total": 10323.4,
+    "total": 10350.6,
     "basis": "MSFT -10% (the mega-cap tech scenario) with no stop protection",
     "theme": "MAG7"
    },
    {
-    "name": "SNOW gap through stop",
-    "sym": "SNOW",
-    "total": 3359.4,
-    "basis": "SNOW -10% (the enterprise software scenario) with no stop protection",
-    "theme": "Enterprise software"
+    "name": "META gap through stop",
+    "sym": "META",
+    "total": 7280.8,
+    "basis": "META -10% (the mega-cap tech scenario) with no stop protection",
+    "theme": "MAG7"
+   },
+   {
+    "name": "SOXL gap through stop",
+    "sym": "SOXL",
+    "total": 5894.74,
+    "basis": "SOXL about -30% (semiconductors -10% at its 3.0006 beta to the SOX) with no stop protection",
+    "theme": "Semiconductors"
+   },
+   {
+    "name": "MSFT + META shared report gap",
+    "sym": "MSFT",
+    "total": 17631.4,
+    "basis": "MSFT and META both -10% with no stop protection - both are estimated to report on 28 Oct (unconfirmed)",
+    "theme": "MAG7"
    }
   ],
-  "var95": 5149.640607591121,
-  "var99": 7281.497904715469,
+  "var95": 6560.7938860081895,
+  "var99": 9276.842905079056,
   "correlation": null,
-  "var99_rho1": 10485.03167665053,
-  "var99_noneg": 7651.175105185151,
+  "var99_rho1": 16286.835569997696,
+  "var99_noneg": 9680.635904489725,
   "hist_var": {
    "n": 60,
-   "var95": 2322.345501971236,
-   "var99": 3490.5008149162404,
-   "worst": 3666.6675229144907,
-   "worst_date": "2026-09-04"
+   "var95": 5027.715295416737,
+   "var99": 5875.849490869034,
+   "worst": 6712.455666903097,
+   "worst_date": "2026-09-28"
   },
   "pair_corr": [
    {
+    "a": "META",
+    "b": "MSFT",
+    "rho": -0.06393229687797955
+   },
+   {
+    "a": "META",
+    "b": "SOXL",
+    "rho": 0.08453657021121598
+   },
+   {
+    "a": "META",
+    "b": "UNG",
+    "rho": -0.13800542599564078
+   },
+   {
     "a": "MSFT",
-    "b": "SNOW",
-    "rho": 0.39538318131497796
+    "b": "SOXL",
+    "rho": 0.2070232033478032
    },
    {
     "a": "MSFT",
     "b": "UNG",
-    "rho": -0.13512266484913935
+    "rho": -0.10791452691871153
    },
    {
-    "a": "SNOW",
+    "a": "SOXL",
     "b": "UNG",
-    "rho": -0.23716962171647515
+    "rho": -0.06555942247899904
    }
   ],
   "outliers": [
    {
+    "sym": "META",
+    "date": "2026-09-21",
+    "ret": 0.11340593315809233,
+    "vol_ex": 0.027229874091675547,
+    "vol": 0.030609166532510196,
+    "rolls_off": "2026-12-14"
+   },
+   {
     "sym": "MSFT",
     "date": "2026-07-30",
     "ret": 0.15506733300956488,
-    "vol_ex": 0.01624670866763105,
-    "vol": 0.025425637420734594,
+    "vol_ex": 0.016076692450156672,
+    "vol": 0.02532643776307547,
     "rolls_off": "2026-10-23"
    },
    {
-    "sym": "SNOW",
-    "date": "2026-09-03",
-    "ret": 0.16554409328097397,
-    "vol_ex": 0.02248794353076971,
-    "vol": 0.030714159483312485,
-    "rolls_off": "2026-11-27"
+    "sym": "SOXL",
+    "date": "2026-07-30",
+    "ret": 0.24709211745602033,
+    "vol_ex": 0.0796139384217806,
+    "vol": 0.08527152773951548,
+    "rolls_off": "2026-10-23"
    },
    {
     "sym": "UNG",
     "date": "2026-07-09",
     "ret": -0.06637934762430697,
-    "vol_ex": 0.020227840718201537,
-    "vol": 0.021849584624268246,
+    "vol_ex": 0.021325620371510964,
+    "vol": 0.02277326839259917,
     "rolls_off": "2026-10-02"
    }
   ],
   "long_only": true,
   "theme_binding": "MAG7",
-  "theme_binding_abs": 5033.99658203125,
-  "theme_used": 0.8389994303385416,
-  "portfolio_used": 0.5615554014841716,
+  "theme_binding_abs": 6813.999999999998,
+  "theme_used": 1.1356666666666664,
+  "portfolio_used": 0.7344,
   "theme_gap_applies": true,
-  "theme_gap_abs": 10323.4,
-  "theme_used_gap": 1.7205666666666666,
-  "portfolio_used_gap": 0.5735222222222222,
+  "theme_gap_abs": 17631.4,
+  "theme_used_gap": 2.938566666666667,
+  "portfolio_used_gap": 0.9795222222222223,
   "theme_used_var99": null,
-  "portfolio_used_var99": 0.4045276613730816,
+  "portfolio_used_var99": 0.5153801613932809,
   "themes_live": 3,
   "themes_supported": 3.0
  },
  "excluded": {
   "sym": "TLT",
   "qty": 900.0,
-  "px": 79.31999969482422,
-  "mv": 71387.9997253418,
-  "unreal": -12233.724178658209,
+  "px": 77.48,
+  "mv": 69732.0,
+  "unreal": -13889.723904000002,
   "reason": "Excluded by the account owner as outside this book. Still held in the same margin account, so account-level margin cannot be ring-fenced to the positions above."
  },
  "scenarios": [
   {
    "name": "Natural gas -20%",
-   "naive": -7791.0,
-   "stopped": -4280.0,
-   "gap": -7791.0,
+   "naive": -4188.0,
+   "stopped": -2240.0,
+   "gap": -4188.0,
    "trigger": "UNG",
-   "theme_loss": -4280.0
+   "theme_loss": -2240.0
   },
   {
    "name": "Mega-cap tech -10%",
-   "naive": -10323.4,
-   "stopped": -5034.0,
-   "gap": -10323.4,
-   "trigger": "MSFT",
-   "theme_loss": -5034.0
+   "naive": -17631.4,
+   "stopped": -6814.0,
+   "gap": -17631.4,
+   "trigger": "MSFT + META",
+   "theme_loss": -6814.0
   },
   {
-   "name": "Enterprise software -10%",
-   "naive": -3359.4,
-   "stopped": -794.0,
-   "gap": -3359.4,
-   "trigger": "SNOW",
-   "theme_loss": -794.0
+   "name": "Semiconductors -10%",
+   "naive": -5894.74,
+   "stopped": -4165.2,
+   "gap": -5894.74,
+   "trigger": "SOXL",
+   "theme_loss": -4165.2
   },
   {
    "name": "Broad market -3%",
-   "naive": -7305.92,
-   "stopped": -5828.0,
-   "gap": -7305.92,
-   "trigger": "MSFT + SNOW",
-   "theme_loss": -5034.0
+   "naive": -13417.4,
+   "stopped": -10979.2,
+   "gap": -13417.4,
+   "trigger": "MSFT + META + SOXL",
+   "theme_loss": -6814.0
   },
   {
    "name": "Rates +50bp",
@@ -299,34 +372,34 @@
    "gap": null,
    "trigger": null,
    "theme_loss": null,
-   "note": "not modelled - no significant sensitivity in any holding (3y, n=756)"
+   "note": "not modelled - no holding loses when yields rise, none significant (3y, n=756)"
   }
  ],
  "slippage": [
   {
-   "label": "Clean fills at $10.65 / $9.35",
-   "ung": -4280.0,
-   "total": -4280.0
+   "label": "Clean fill at $9.35",
+   "ung": -2240.0,
+   "total": -2240.0
   },
   {
-   "label": "2% below each stop",
-   "ung": -4973.5,
-   "total": -4973.5
+   "label": "2% below the stop",
+   "ung": -2614.0,
+   "total": -2614.0
   },
   {
-   "label": "5% below each stop (9.35 tranche floored at the -20% gap)",
-   "ung": -5970.75,
-   "total": -5970.75
+   "label": "5% below the stop",
+   "ung": -3175.0,
+   "total": -3175.0
   },
   {
-   "label": "10% below each stop (9.35 tranche floored at the -20% gap)",
-   "ung": -6769.5,
-   "total": -6769.5
+   "label": "10% below the stop",
+   "ung": -4110.0,
+   "total": -4110.0
   },
   {
-   "label": "Full gap - stops give nothing",
-   "ung": -7791.0,
-   "total": -7791.0
+   "label": "Full gap - stop gives nothing",
+   "ung": -4188.0,
+   "total": -4188.0
   }
  ],
  "gross_permitted": [
@@ -337,7 +410,7 @@
   },
   {
    "stop": 0.05,
-   "note": "levered, actively managed - SNOW's stop is 4.8% below its entry",
+   "note": "levered, actively managed - META's stop is 3.7% below its entry",
    "gross": 360000.0
   },
   {
@@ -347,17 +420,17 @@
   },
   {
    "stop": 0.1,
-   "note": "UNG's lower stop is 11.9% below its average entry; the upper one is above it",
+   "note": "wide stops",
    "gross": 180000.0
   },
   {
    "stop": 0.15,
-   "note": "wide stops, low turnover",
+   "note": "UNG's stop is 13.5% below its average entry",
    "gross": 120000.0
   },
   {
    "stop": 0.2,
-   "note": "conviction holds, little protection",
+   "note": "SOXL's stop is 16.2% below its entry - on a 3x fund that is about a 5% fall in the SOX",
    "gross": 90000.0
   }
  ],
@@ -365,117 +438,136 @@
   {
    "name": "Portfolio - all stops fill cleanly",
    "budget": 18000.0,
-   "cur": 10107.997226715088
+   "cur": 13219.2
   },
   {
    "name": "Portfolio - gas gap, no stop protection",
    "budget": 18000.0,
-   "cur": 7791.0
+   "cur": 4188.0
   },
   {
    "name": "Portfolio - MSFT gap through stop, no stop protection",
    "budget": 18000.0,
-   "cur": 10323.4
+   "cur": 10350.6
   },
   {
-   "name": "Portfolio - SNOW gap through stop, no stop protection",
+   "name": "Portfolio - META gap through stop, no stop protection",
    "budget": 18000.0,
-   "cur": 3359.4
+   "cur": 7280.8
+  },
+  {
+   "name": "Portfolio - SOXL gap through stop, no stop protection",
+   "budget": 18000.0,
+   "cur": 5894.74
+  },
+  {
+   "name": "Portfolio - MSFT + META shared report gap, no stop protection",
+   "budget": 18000.0,
+   "cur": 17631.4
   },
   {
    "name": "Portfolio - VaR 99%, correlation-adjusted",
    "budget": 18000.0,
-   "cur": 7281.497904715469
+   "cur": 9276.842905079056
   },
   {
    "name": "Energy theme - all stops fill cleanly",
    "budget": 6000.0,
-   "cur": 4280.000400543213
-  },
-  {
-   "name": "Enterprise software theme - all stops fill cleanly",
-   "budget": 6000.0,
-   "cur": 794.000244140625
+   "cur": 2240.000000000002
   },
   {
    "name": "MAG7 theme - all stops fill cleanly",
    "budget": 6000.0,
-   "cur": 5033.99658203125
+   "cur": 6813.999999999998
+  },
+  {
+   "name": "Semiconductors theme - all stops fill cleanly",
+   "budget": 6000.0,
+   "cur": 4165.200000000001
   },
   {
    "name": "Energy theme - gas gap, no stop protection",
    "budget": 6000.0,
-   "cur": 7791.0
+   "cur": 4188.0
   },
   {
    "name": "MAG7 theme - MSFT gap through stop, no stop protection",
    "budget": 6000.0,
-   "cur": 10323.4
+   "cur": 10350.6
   },
   {
-   "name": "Enterprise software theme - SNOW gap through stop, no stop protection",
+   "name": "MAG7 theme - META gap through stop, no stop protection",
    "budget": 6000.0,
-   "cur": 3359.4
+   "cur": 7280.8
+  },
+  {
+   "name": "Semiconductors theme - SOXL gap through stop, no stop protection",
+   "budget": 6000.0,
+   "cur": 5894.74
+  },
+  {
+   "name": "MAG7 theme - MSFT + META shared report gap, no stop protection",
+   "budget": 6000.0,
+   "cur": 17631.4
   },
   {
    "name": "Portfolio - VaR 95%, correlation-adjusted",
    "budget": 18000.0,
-   "cur": 5149.640607591121
+   "cur": 6560.7938860081895
+  },
+  {
+   "name": "META - position risk at stop",
+   "budget": 6000.0,
+   "cur": 1508.000000000004
   },
   {
    "name": "MSFT - position risk at stop",
    "budget": 6000.0,
-   "cur": 5033.99658203125
+   "cur": 5305.9999999999945
   },
   {
-   "name": "SNOW - position risk at stop",
+   "name": "SOXL - position risk at stop",
    "budget": 6000.0,
-   "cur": 794.000244140625
+   "cur": 4165.200000000001
   },
   {
    "name": "UNG - position risk at stop",
    "budget": 6000.0,
-   "cur": 4280.000400543213
+   "cur": 2240.000000000002
   }
  ],
  "not_configured": [
-  "Single-name concentration (MSFT is 58.7% of the book)",
-  "Single-commodity concentration (UNG is 22.2% of the book)",
+  "Single-name concentration (MSFT is 47.7% of the book)",
+  "Single-commodity concentration (UNG is 9.7% of the book)",
+  "Leveraged-ETF exposure (SOXL, 3x daily semiconductors, is 9.1% of the book)",
   "Gross exposure backstop for gap risk",
   "Net exposure range"
  ],
  "regime": {
   "note": "Read live from regime.json by the tab."
  },
- "news_as_of": "2026-09-27",
+ "news_as_of": "2026-10-03",
  "news": [
   {
    "hot": true,
-   "title": "Pipeline force majeure sends gas futures up 9% in a day",
-   "body": "TC Energy's Columbia Gas Transmission declared force majeure on the Mountaineer XPress pipeline in West Virginia after a leak, cutting the segment to zero capacity from gas day 25 Sep - an estimated 1.4-1.8 Bcf/d. October NYMEX gas settled up 27.4 cents (+9.1%) at $3.297/MMBtu, its biggest one-day gain since January, then fell 15.1 cents (-4.6%) to $3.146 on 25 Sep, giving back about half the gain. UNG ended the week about 7% higher. Next EIA storage report: Thu 1 Oct.",
-   "src": "Marcellus Drilling News, Energy News Beat, Reuters via BOE Report - Sep 2026",
-   "affects": "UNG, $38,955"
+   "title": "MSFT and META both expected to report on 28 Oct - neither date confirmed",
+   "body": "Earnings calendars estimate Wednesday 28 Oct for both Microsoft and Meta, based on past schedules; neither company has confirmed. Both names sit in the MAG7 theme, so a shared report day is one event for the theme: a -10% gap in both costs $17,631 against a $6,000 theme cap, and stops do not protect through a scheduled report.",
+   "src": "MarketBeat, Wall Street Horizon earnings calendars - Oct 2026 (https://www.marketbeat.com/stocks/NASDAQ/META/earnings/, https://www.marketbeat.com/stocks/NASDAQ/MSFT/earnings/)",
+   "affects": "META, $72,808"
   },
   {
    "hot": false,
-   "title": "EIA: 53 Bcf injection, in line; surplus to five-year average narrows",
-   "body": "For the week to 18 Sep the EIA reported a 53 Bcf net injection, matching the Reuters poll, taking working gas to 3,351 Bcf - 95 Bcf above the five-year average (down from 118 Bcf a week earlier) and 146 Bcf below a year ago.",
-   "src": "EIA Weekly Natural Gas Storage Report, IndexBox - Sep 2026",
-   "affects": "UNG, $38,955"
+   "title": "EIA: 64 Bcf injection; surplus to the five-year average narrows",
+   "body": "For the week to 25 Sep the EIA reported a 64 Bcf net injection. Working gas reached 3,415 Bcf: 79 Bcf (2.4%) above the five-year average, down from 95 Bcf a week earlier, and 138 Bcf (3.9%) below a year ago. Next report: Thu 8 Oct.",
+   "src": "EIA Weekly Natural Gas Storage Report, released 1 Oct 2026 (https://ir.eia.gov/ngs/ngs.html)",
+   "affects": "UNG, $20,940"
   },
   {
    "hot": false,
-   "title": "Microsoft up 3.7% on Copilot relaunch; Oppenheimer lifts target",
-   "body": "MSFT closed at $516.17 on 25 Sep, up 3.7% on the day and about 4.5% on the week. Coverage tied the move to Microsoft's Copilot relaunch (Home, Code, Autopilot), and Oppenheimer raised its price target to $570 the same day. The next earnings date is not yet confirmed by the company; calendars estimate late October - the 30 Jul report moved the stock 15.5% in a day, far more than the 4.9% cushion above the 491 stop.",
-   "src": "Motley Fool, 24/7 Wall St, Wall Street Horizon - Sep 2026",
-   "affects": "MSFT, $103,234"
-  },
-  {
-   "hot": false,
-   "title": "Snowflake: no new catalyst since the 2 Sep beat",
-   "body": "No confirmed company news in the fortnight; SNOW closed at $335.94 on 25 Sep, about 1% up on the week. The last report (2 Sep) showed product revenue of $1.491B, +37% year on year, and raised FY27 product revenue guidance to $6.07B.",
-   "src": "Snowflake 8-K (SEC) - Sep 2026",
-   "affects": "SNOW, $33,594"
+   "title": "SOXL +6.5% on 2 Oct; no single catalyst confirmed",
+   "body": "SOXL closed at 163.71 on 2 Oct, up 6.5% from 153.69, 6.3% above the 154.00 entry. No company or sector announcement explaining the day's move was confirmed in the sources checked. SOXL resets its 3x leverage daily, so over several days its move can differ materially from 3x the index.",
+   "src": "IBKR regular-hours daily bars (get_price_history) - 2 Oct 2026",
+   "affects": "SOXL, $19,645"
   }
  ],
  "notes": [
@@ -484,14 +576,16 @@
   "Themes are assigned, not fed. IBKR returns no sector tags; every theme in this file is a stated assumption.",
   "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
   "Stops are the account's GTC working orders, read through the IBKR connector when the board is refreshed in session; the unattended daily run carries the last read forward, because an IBKR Activity Flex Query cannot report working orders. Where a position has more than one stop, the nearest one drives the touch probabilities and the dollar risk sums every tranche. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
-  "Scenario betas: UNG ~1.0 to front-month gas; MSFT and SNOW 1.0 to their own theme; broad-market betas are measured 60-bar OLS (MSFT 1.81, SNOW 1.68) and are inflated by MSFT's 30 Jul earnings day - 1.07 without it. UNG's market beta is near zero to negative (-0.03 over 3 years), and no hedge credit is taken for it.",
-  "Scenario, slippage and gap figures are authored at the prices in price_basis against the positions in basis_book and do not move with the market. The tab flags them when prices drift past tolerance or the book changes.",
-  "Stops do not protect through a scheduled report. MSFT's next earnings (late October, unconfirmed) can gap it through 491: the 30 Jul report moved it 15.5% in a day, which downside would cost about $16.0k - 267% of the theme cap and 89% of the portfolio cap. The MSFT gap row uses the -10% scenario, so it is not the worst case.",
-  "Rates +50bp is not modelled for the book: no holding shows a significant yield sensitivity. The excluded TLT (900 shares) does - 3-year slope -0.137%/bp, t -52 - so +50bp would cost it about $4.9k, inside the same margin account.",
-  "Independently reviewed. The first issue (15 Sep 2026) was blocked and reissued: sigma framing replaced with touch probabilities, the -20% gas scenario corrected, and claims of a risk-free position and that the book was diversified withdrawn. The 27 Sep re-derivation was reviewed the same way; its findings (a buried gap breach, a missing MSFT gap case, a gas settle price, variance shares that ignored covariance) were fixed before publishing.",
-  "Stopped out: GOOGL and GNRC on 23 Sep, SMCI on 24 Sep, CRM on 25 Sep 2026. UNG was added to on 24 Sep (2,000 -> 3,500 shares) with a second stop on the new 1,500. MSFT and SNOW themes are assigned assumptions, not fed.",
-  "Parametric VaR sits above this window's history: the historical 5th percentile loss is $2,322 against a parametric 95% figure of $5,150, because the volatility estimate includes large up-days. That is a sample property, not safety - 60 days is a short tail sample. The worst day for today's holdings in the window was $3,667 on 2026-09-04, 0.50x the 99% VaR.",
-  "One day drives the 60-bar statistics for MSFT, SNOW: MSFT +15.5% on 2026-07-30 (daily vol 2.54%, 1.62% without it; rolls off about 2026-10-23); SNOW +16.6% on 2026-09-03 (daily vol 3.07%, 2.25% without it; rolls off about 2026-11-27). Vol, beta, VaR and touch odds all fall when each leaves the window - a lower reading then is the window rolling, not risk falling, and it can land just before the next report.",
-  "Pairwise correlations over the window: MSFT-SNOW +0.40; MSFT-UNG -0.14; SNOW-UNG -0.24. With 60 observations each carries a standard error near 0.13, so treat any value inside about +/-0.26 as indistinguishable from zero, and a negative one as no dependable hedge. Taking no credit for the negative ones lifts 99% VaR from $7,281 to $7,651."
+  "Scenario betas: UNG ~1.0 to front-month gas; MSFT and META 1.0 to mega-cap tech; SOXL 3.0 to the SOX (60-bar, corr 0.996 - its daily-reset leverage). Broad-market betas are 60-bar OLS on SPX: META 1.38, MSFT 1.88, SOXL 7.75. MSFT's is inflated by its 30 Jul earnings day (1.14 without it) and META's by its +11.3% day on 21 Sep (0.90 without it). UNG's market beta is negative (-0.51) and no hedge credit is taken for it. In the broad-market row MSFT breaches its stop only on the 60-bar beta (-5.6% vs a stop 5.1% below); at its 252-bar beta (0.99) or ex-outlier beta (1.14) it would not, and that row's clean loss would be $1.8k-$2.2k lower.",
+  "Scenario, slippage and gap figures are authored at the prices in price_basis (2 Oct IBKR regular-hours closes) against the positions in basis_book and do not move with the market. The tab flags them when prices drift past tolerance or the book changes.",
+  "The MAG7 theme is over its cap on stops alone: MSFT $5,306 + META $1,508 = $6,814 of stop risk against the $6,000 theme limit (114%). That is the limit set on 15 Sep, measured as written; resolving it is the account owner's call, not the board's.",
+  "Stops do not protect through a scheduled report. MSFT and META are both estimated to report on 28 Oct (unconfirmed). MSFT's 30 Jul report moved it 15.5% in a day; a -10% gap in both names would cost $17,631, 294% of the theme cap. The gap rows use the -10% scenario, so they are not the worst case.",
+  "SOXL is a 3x daily-leveraged fund. The -30% semiconductor row is a one-day shock; over several sessions daily rebalancing makes its path diverge from 3x the index, usually against the holder in a choppy market. Its 129 stop is 21.2% below the mark - about a 7% fall in the SOX.",
+  "Rates +50bp is not modelled for the book: on 3-year daily regressions on ^TNX (n=756) every holding's slope is positive (MSFT +0.020%/bp, t 1.79; SOXL +0.019, t 0.39; UNG +0.019, t 0.78; META +0.009, t 0.58) and none is significant. The excluded TLT (900 shares) is the rate exposure in this account - it falls when yields rise.",
+  "Independently reviewed. The first issue (15 Sep 2026) was blocked and reissued; the 27 Sep and 3 Oct re-derivations were each reviewed the same way before publishing.",
+  "Stopped out: GOOGL and GNRC on 23 Sep, SMCI on 24 Sep, CRM on 25 Sep, SNOW on 28 Sep 2026 (stop order filled 60 @ 319.43 and 40 @ 319.25 against a 328 stop, -$2,511.88 realised) and UNG's upper 1,500-share tranche the same day (10.65 / 10.655). Opened: SOXL 120 @ 154.00 on 1 Oct and META 100 (60 @ 740.59, 40 @ 740.90) on 2 Oct, both via buy stop-limit entries with the protective stops staged in advance - hence stop orders timestamped before the fills. Source: IBKR trade blotter (get_account_trades, 7 days) read 3 Oct. Themes for META (MAG7) and SOXL (Semiconductors) are assigned assumptions, not fed.",
+  "Parametric VaR sits above this window's history: the historical 5th percentile loss is $5,028 against a parametric 95% figure of $6,561, because the volatility estimate includes large up-days. That is a sample property, not safety - 60 days is a short tail sample. The worst day for today's holdings in the window was $6,712 on 2026-09-28, 0.72x the 99% VaR.",
+  "One day drives the 60-bar statistics for MSFT: MSFT +15.5% on 2026-07-30 (daily vol 2.53%, 1.61% without it; rolls off about 2026-10-23). Vol, beta, VaR and touch odds all fall when it leaves the window - a lower reading then is the window rolling, not risk falling, and it can land just before the next report.",
+  "Pairwise correlations over the window: META-MSFT -0.06; META-SOXL +0.08; META-UNG -0.14; MSFT-SOXL +0.21; MSFT-UNG -0.11; SOXL-UNG -0.07. With 60 observations each carries a standard error near 0.13, so treat any value inside about +/-0.26 as indistinguishable from zero, and a negative one as no dependable hedge. Taking no credit for the negative ones lifts 99% VaR from $9,277 to $9,681."
  ]
 }
