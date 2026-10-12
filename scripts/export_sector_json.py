@@ -5,6 +5,9 @@ for consumption by the Global Advisory Dashboard.
 """
 import json
 import sqlite3
+from bisect import bisect_right
+from datetime import date
+from itertools import groupby
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,6 +17,7 @@ LEAD_F   = BASE_DIR / "prototypes" / "leadership.json"
 
 LOOKBACK_2M        = 42            # trading days ~ 2 months, for the "new high" test
 LEAD_HISTORY_START = "2026-06-01"  # earliest day to emit a daily Leadership snapshot
+MAX_DAY_RATIO      = 2.0           # one-day index move treated as a bad print (YTD/1Y/2Y)
 
 
 def country_of(group_id: str) -> str:
@@ -79,6 +83,47 @@ def build_leadership_history(conn, start_date: str) -> dict:
     return snapshots
 
 
+def _years_back(d: date, n: int) -> date:
+    try:
+        return d.replace(year=d.year - n)
+    except ValueError:              # 29 Feb -> 28 Feb
+        return d.replace(year=d.year - n, day=28)
+
+
+def long_horizon_perf(conn) -> dict:
+    """{group_id: {"ytd", "1y", "2y"}} as % change of index_level to each group's
+    latest bar from its last bar on or before: 31 Dec of the prior year, and the
+    same calendar date 1 and 2 years before that latest bar."""
+    rows = conn.execute(
+        "SELECT group_id, date, index_level FROM group_rs "
+        "WHERE index_level IS NOT NULL ORDER BY group_id, date"
+    ).fetchall()
+    out: dict = {}
+    for gid, grp in groupby(rows, key=lambda r: r["group_id"]):
+        g = list(grp)
+        dates = [r["date"] for r in g]
+        last_d = date.fromisoformat(dates[-1])
+        last_px = g[-1]["index_level"]
+        anchors = {
+            "ytd": date(last_d.year - 1, 12, 31),
+            "1y":  _years_back(last_d, 1),
+            "2y":  _years_back(last_d, 2),
+        }
+        lv = [r["index_level"] for r in g]
+        res = {}
+        for k, a in anchors.items():
+            i = bisect_right(dates, a.isoformat()) - 1
+            base = lv[i] if i >= 0 else None
+            # A one-day index move above +100% is a bad constituent print, not a
+            # market move (China Rare Earths, 2025-01-10: +4,880%); a window that
+            # spans one would publish a fabricated multi-year return.
+            if base and any(lv[j] > MAX_DAY_RATIO * lv[j - 1] for j in range(i + 1, len(lv))):
+                base = None
+            res[k] = round((last_px / base - 1) * 100, 4) if base else None
+        out[gid] = res
+    return out
+
+
 def main() -> None:
     if not DB_F.exists():
         print(f"[warn] DB not found: {DB_F}")
@@ -139,6 +184,12 @@ def main() -> None:
         if lvl is not None:
             _levels.append(lvl)
     _flush(_cur_gid, _levels)
+
+    # Long-horizon performance (YTD / 1Y / 2Y), anchored on calendar dates rather
+    # than bar counts: the combined US/HK/KR date index makes N-bar windows drift
+    # over years. Base = the group's last close on or before the anchor date; a
+    # group whose history starts after the anchor gets None, never a short window.
+    long_perf = long_horizon_perf(conn)
 
     # Daily algorithmic Leadership snapshots (baseline history for the tab/charts)
     lead_hist = build_leadership_history(conn, LEAD_HISTORY_START)
@@ -203,7 +254,10 @@ def main() -> None:
             "perf_1m":        _round(r["perf_1m"], 4),
             "perf_2m":        _round(r["perf_2m"], 4),
             "perf_3m":        _round(r["perf_3m"], 4),
-            "tickers":        ticker_map.get(r["group_id"], []),
+            "perf_ytd":       long_perf.get(r["group_id"], {}).get("ytd"),
+            "perf_1y":        long_perf.get(r["group_id"], {}).get("1y"),
+            "perf_2y":        long_perf.get(r["group_id"], {}).get("2y"),
+            "tickers":       ticker_map.get(r["group_id"], []),
         })
 
     out = {"updated": latest, "groups": groups}

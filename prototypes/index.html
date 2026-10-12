@@ -2672,6 +2672,36 @@ html[data-theme="dark"] .main-content::-webkit-scrollbar-thumb:hover{background:
     </div>
   </div>
 
+  <!-- ── Module 4: Long-horizon industry performance ── -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div class="card-header" style="margin-bottom:0">Industry Performance</div>
+      <div class="itabs" id="sr-perf-tabs" style="margin-bottom:0">
+        <button class="itab active" onclick="setSrPerfSort('perf_ytd',this)">YTD</button>
+        <button class="itab"        onclick="setSrPerfSort('perf_1y',this)">1YR</button>
+        <button class="itab"        onclick="setSrPerfSort('perf_2y',this)">2YR</button>
+      </div>
+    </div>
+    <div class="sr-scroll">
+      <table class="sr-table">
+        <colgroup>
+          <col style="width:5%"><col style="width:43%"><col style="width:17%"><col style="width:18%"><col style="width:17%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Industry</th>
+            <th style="text-align:right">YTD</th>
+            <th style="text-align:right">1YR</th>
+            <th style="text-align:right">2YR</th>
+          </tr>
+        </thead>
+        <tbody id="sr-perf-body"><tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:20px">Loading...</td></tr></tbody>
+      </table>
+    </div>
+    <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-top:8px">Price change of each industry index from its last close on or before 31 Dec, and the same date 1 and 2 years ago. &mdash; = not enough history, or the window spans a bad price print.</div>
+  </div>
+
 </div><!-- /breadth panel -->
 
 <!-- ═══════════════════════════ LEADERSHIP TAB ═══════════════════════════ -->
@@ -4411,7 +4441,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       if(window._activeMain==='leadership'||_leadInit)leadInit();
     })
     .catch(()=>{
-      ['sr-gap-body','sr-rank-body'].forEach(id=>{
+      ['sr-gap-body','sr-rank-body','sr-perf-body'].forEach(id=>{
         const el=document.getElementById(id);
         if(el)el.innerHTML='<tr><td colspan="6" style="color:var(--text-muted);text-align:center;padding:16px">sector_rotation.json not found — run export_sector_json.py</td></tr>';
       });
@@ -4454,6 +4484,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 // ── Sector Rotation ─────────────────────────────────────────────────────────
 let srData=null,srCountry='United States',srRankMode='daily',srXAxis='perf_1d',srYAxis='perf_1m';
 let mfraData=null,srAttribMode=false;
+let srPerfSort='perf_ytd';
 
 function setSrCountry(c,btn){
   srCountry=c;
@@ -4485,11 +4516,18 @@ function setSrYAxis(key,btn){
   btn.classList.add('active');
   renderSrQuadrant();
 }
+function setSrPerfSort(key,btn){
+  srPerfSort=key;
+  document.querySelectorAll('#sr-perf-tabs .itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSrPerf();
+}
 function renderSrAll(){
   if(!srData)return;
   renderSrGap();
   renderSrRank();
   renderSrQuadrant();
+  renderSrPerf();
 }
 
 function _srName(gid){
@@ -4629,6 +4667,28 @@ function _renderSrRankAttr(){
     </tr>`;
   });
   body.innerHTML=html||'<tr><td colspan="7" style="color:var(--text-muted);text-align:center;padding:16px">No attribution data for this country</td></tr>';
+}
+
+// All industries for the selected country, sorted by the active period; groups
+// without a value for it sink to the bottom rather than being dropped.
+function renderSrPerf(){
+  const body=document.getElementById('sr-perf-body');
+  if(!body||!srData)return;
+  const k=srPerfSort,boldIf=key=>key===k?'font-weight:600;':'';
+  const rows=srData.groups.filter(g=>g.country===srCountry)
+    .sort((a,b)=>(b[k]??-Infinity)-(a[k]??-Infinity));
+  let html='';
+  rows.forEach((g,i)=>{
+    const tkTip=(g.tickers||[]).join(', ');
+    html+=`<tr>
+      <td style="color:var(--text-muted)">${i+1}</td>
+      <td class="sr-name" onclick="this.classList.toggle('open')"${_srFvAttr(g)}>${_srName(g.group_id)}<div class="sr-name-tickers">${tkTip||'—'}</div></td>
+      <td style="text-align:right;${boldIf('perf_ytd')}">${_fmtPerf(g.perf_ytd)}</td>
+      <td style="text-align:right;${boldIf('perf_1y')}">${_fmtPerf(g.perf_1y)}</td>
+      <td style="text-align:right;${boldIf('perf_2y')}">${_fmtPerf(g.perf_2y)}</td>
+    </tr>`;
+  });
+  body.innerHTML=html||'<tr><td colspan="5" style="color:var(--text-muted);text-align:center;padding:16px">No data</td></tr>';
 }
 
 function renderSrQuadrant(){
