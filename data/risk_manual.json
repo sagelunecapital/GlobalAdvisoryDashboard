@@ -23,46 +23,38 @@
   "output carries judgment_stale=true and the tab says so. Re-derive them, update",
   "basis_book and price_basis, and bump reviewed_on.",
   "",
-  "Derivations for the 7 Oct 2026 book (FPS 1,000, GOOGL 200, META 100, MSFT 137, SOXL 120,",
-  "UNG 3,000), at the 6 Oct regular-session closes in price_basis:",
-  "  Natural gas -20%: UNG at beta 1.0 to front-month gas. -20% takes UNG to 8.59, through",
-  "  both 9.35 tranches, so clean fill = the stop distance; gap = UNG market value x 0.20.",
-  "  Mega-cap tech -10%: MSFT, META and GOOGL at beta 1.0. All three stops (7.2%, 3.5%",
-  "  and 3.6% below the mark) are inside the move, so clean fills = the three stop distances.",
-  "  Semiconductors -10%: SOXL at its 60-bar beta to ^SOX, 2.9954 (corr 0.996) => -30%,",
-  "  through the 129 stop.",
-  "  AI power infrastructure -10%: FPS at beta 1.0; its 38.50 stop is 6.9% below the mark.",
-  "  Broad market -3%: 60-bar OLS betas to SPX on simple daily returns, 2026-07-14 to 2026-10-06 - FPS 3.6936,",
-  "  GOOGL 1.4645, META 1.1706, MSFT 1.9715, SOXL 7.3117. FPS, GOOGL, META and SOXL breach their",
-  "  stops; MSFT (-5.9% vs a stop 7.2% below) does not and takes its full move. UNG's",
-  "  beta is -0.26: no hedge credit, so UNG contributes nothing to the row.",
-  "  Rates +50bp: regressions of daily returns on daily ^TNX changes in bp - 3 years (n=756)",
-  "  for every name except FPS, which has only 167 observations since its Feb 2026 listing.",
-  "  Negative point slopes are applied, positive ones get no credit: FPS -0.216%/bp (t -2.36)",
-  "  => -10.8%, through its stop; GOOGL -0.0052%/bp (t -0.40, not significant) => -0.26%.",
+  "Derivations for the 12 Oct 2026 book (CRM 300, GOOGL 200, MSFT 137, UNG 3,000),",
+  "at the 9 Oct regular-session closes in price_basis:",
+  "  Natural gas -20%: UNG at beta 1.0 to front-month gas. -20% takes UNG to 8.81, through",
+  "  its 9.35 stop, so clean fill = the stop distance; gap = UNG market value x 0.20.",
+  "  Mega-cap tech -10%: MSFT and GOOGL at beta 1.0. Both stops (4.7% below the mark) are",
+  "  inside the move, so clean fills = the two stop distances.",
+  "  Enterprise software -10%: CRM at beta 1.0; its 220 stop is 4.0% below the mark.",
+  "  Broad market -3%: 60-bar OLS betas to SPX on simple daily returns, 2026-07-17 to 2026-10-09 - CRM 0.6840,",
+  "  GOOGL 1.3362, MSFT 2.0507. Only MSFT breaches its stop; GOOGL and CRM take their full moves.",
+  "  UNG's beta is -0.25: no hedge credit, so UNG contributes nothing to the row.",
+  "  Rates +50bp: regressions of daily returns on daily ^TNX changes in bp, 3 years (n=756).",
+  "  Negative point slopes are applied, positive ones get no credit: only GOOGL's is negative",
+  "  (-0.0048%/bp, t -0.37, not significant) => -0.24%.",
   "  theme_loss is the worst single theme's clean-fill loss in the row.",
   "  Gap cases: each name's own scenario move with the stop giving nothing. Alternatives,",
-  "  not additive - except that MSFT, META and GOOGL share an estimated 28 Oct report date,",
-  "  which is its own case.",
-  "  Slippage: UNG's two 9.35 tranches fill x below the stop, floored at the -20% gap price",
-  "  (8.592) - the 10% row hits the floor."
+  "  not additive - except that MSFT (confirmed) and GOOGL (estimated) share a 28 Oct report",
+  "  date, which is its own case.",
+  "  Slippage: UNG's 9.35 stop fills x below the stop, floored at the -20% gap price",
+  "  (8.808) - the 10% row hits the floor."
  ],
- "reviewed_on": "2026-10-07",
+ "reviewed_on": "2026-10-12",
  "drift_tolerance": 0.05,
  "price_basis": {
-  "FPS": 41.35,
-  "GOOGL": 347.68,
-  "META": 738.88,
-  "MSFT": 529.3,
-  "SOXL": 164.26,
-  "UNG": 10.74
+  "CRM": 229.13,
+  "GOOGL": 351.66,
+  "MSFT": 535.07,
+  "UNG": 11.01
  },
  "basis_book": {
-  "FPS": 1000,
+  "CRM": 300,
   "GOOGL": 200,
-  "META": 100,
   "MSFT": 137,
-  "SOXL": 120,
   "UNG": 3000
  },
  "nav": 300000.0,
@@ -74,14 +66,14 @@
   "set_on": "15 Sep 2026"
  },
  "holdings": {
-  "FPS": {
-   "name": "Forgent Power Solutions Inc (Class A)",
-   "theme": "AI power infrastructure",
-   "sub": "Electrical power equipment",
-   "stop": 38.5,
-   "qty": 1000,
-   "stop_confirmed_on": "2026-10-07",
-   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-07"
+  "CRM": {
+   "name": "Salesforce Inc",
+   "theme": "Enterprise software",
+   "sub": "Enterprise software",
+   "stop": 220.0,
+   "qty": 300,
+   "stop_confirmed_on": "2026-10-12",
+   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-12"
   },
   "GOOGL": {
    "name": "Alphabet Inc (Class A)",
@@ -89,52 +81,26 @@
    "sub": "Mega-cap tech",
    "stop": 335.0,
    "qty": 200,
-   "stop_confirmed_on": "2026-10-07",
-   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-07"
-  },
-  "META": {
-   "name": "Meta Platforms Inc",
-   "theme": "MAG7",
-   "sub": "Mega-cap tech",
-   "stop": 713.0,
-   "qty": 100,
-   "stop_confirmed_on": "2026-10-07",
-   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-07"
+   "stop_confirmed_on": "2026-10-12",
+   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-12"
   },
   "MSFT": {
    "name": "Microsoft Corp",
    "theme": "MAG7",
    "sub": "Mega-cap tech",
-   "stop": 491.0,
+   "stop": 510.0,
    "qty": 137,
-   "stop_confirmed_on": "2026-10-07",
-   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-07"
-  },
-  "SOXL": {
-   "name": "Direxion Daily Semiconductor Bull 3x",
-   "theme": "Semiconductors",
-   "sub": "3x daily-leveraged semiconductor ETF",
-   "stop": 129.0,
-   "qty": 120,
-   "stop_confirmed_on": "2026-10-07",
-   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-07"
+   "stop_confirmed_on": "2026-10-12",
+   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-12"
   },
   "UNG": {
    "name": "US Natural Gas Fund",
    "theme": "Energy",
    "sub": "Natural gas futures",
-   "stop_confirmed_on": "2026-10-07",
-   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-07",
-   "stops": [
-    {
-     "qty": 2000,
-     "stop": 9.35
-    },
-    {
-     "qty": 1000,
-     "stop": 9.35
-    }
-   ]
+   "stop_confirmed_on": "2026-10-12",
+   "stop_source": "IBKR live working order (GTC) via the MCP connector, read 2026-10-12",
+   "stop": 9.35,
+   "qty": 3000
   }
  },
  "excluded": {
@@ -145,92 +111,84 @@
  "scenarios": [
   {
    "name": "Natural gas -20%",
-   "naive": -6444.0,
-   "stopped": -4170.0,
-   "gap": -6444.0,
+   "naive": -6606.0,
+   "stopped": -4980.0,
+   "gap": -6606.0,
    "trigger": "UNG",
-   "theme_loss": -4170.0
+   "theme_loss": -4980.0
   },
   {
    "name": "Mega-cap tech -10%",
-   "naive": -21593.81,
-   "stopped": -10371.1,
-   "gap": -21593.81,
-   "trigger": "MSFT + META + GOOGL",
-   "theme_loss": -10371.1
+   "naive": -14363.66,
+   "stopped": -6766.59,
+   "gap": -14363.66,
+   "trigger": "MSFT + GOOGL",
+   "theme_loss": -6766.59
   },
   {
-   "name": "Semiconductors -10%",
-   "naive": -5904.2,
-   "stopped": -4231.2,
-   "gap": -5904.2,
-   "trigger": "SOXL",
-   "theme_loss": -4231.2
-  },
-  {
-   "name": "AI power infrastructure -10%",
-   "naive": -4135.0,
-   "stopped": -2850.0,
-   "gap": -4135.0,
-   "trigger": "FPS",
-   "theme_loss": -2850.0
+   "name": "Enterprise software -10%",
+   "naive": -6873.9,
+   "stopped": -2739.0,
+   "gap": -6873.9,
+   "trigger": "CRM",
+   "theme_loss": -2739.0
   },
   {
    "name": "Broad market -3%",
-   "naive": -18844.28,
-   "stopped": -16494.0,
-   "gap": -18844.28,
-   "trigger": "FPS + GOOGL + META + SOXL",
-   "theme_loss": -9412.8
+   "naive": -8739.62,
+   "stopped": -7664.44,
+   "gap": -8739.62,
+   "trigger": "MSFT",
+   "theme_loss": -6253.92
   },
   {
    "name": "Rates +50bp",
-   "naive": -4639.75,
-   "stopped": -3029.35,
-   "gap": -4639.75,
-   "trigger": "FPS",
-   "theme_loss": -2850.0
+   "naive": -168.8,
+   "stopped": -168.8,
+   "gap": -168.8,
+   "trigger": null,
+   "theme_loss": -168.8
   }
  ],
  "slippage": [
   {
    "label": "Clean fill at $9.35",
-   "ung": -4170.0,
-   "total": -4170.0
+   "ung": -4980.0,
+   "total": -4980.0
   },
   {
    "label": "2% below the stop",
-   "ung": -4731.0,
-   "total": -4731.0
+   "ung": -5541.0,
+   "total": -5541.0
   },
   {
    "label": "5% below the stop",
-   "ung": -5572.5,
-   "total": -5572.5
+   "ung": -6382.5,
+   "total": -6382.5
   },
   {
    "label": "10% below the stop",
-   "ung": -6444.0,
-   "total": -6444.0
+   "ung": -6606.0,
+   "total": -6606.0
   },
   {
    "label": "Full gap - stop gives nothing",
-   "ung": -6444.0,
-   "total": -6444.0
+   "ung": -6606.0,
+   "total": -6606.0
   }
  ],
  "gross_permitted": [
   {
    "stop": 0.03,
-   "note": "tight stops, high turnover - MSFT's stop is 1.6% below its average entry"
+   "note": "tight stops, high turnover"
   },
   {
    "stop": 0.05,
-   "note": "levered, actively managed - META's stop is 3.7% and GOOGL's 4.0% below entry"
+   "note": "levered, actively managed - CRM's stop is 4.3% and GOOGL's 4.0% below entry; MSFT's is 4.7% below the mark and 2.2% above its entry"
   },
   {
    "stop": 0.075,
-   "note": "fully invested, unlevered - FPS's stop is 5.7% below its entry"
+   "note": "fully invested, unlevered"
   },
   {
    "stop": 0.1,
@@ -242,98 +200,83 @@
   },
   {
    "stop": 0.2,
-   "note": "SOXL's stop is 16.2% below its entry - on a 3x fund that is about a 5% fall in the SOX"
+   "note": "very wide stops"
   }
  ],
  "not_configured": [
-  "Single-name concentration (META is {META_PCT} of the book, MSFT {MSFT_PCT}, GOOGL {GOOGL_PCT})",
+  "Single-name concentration (MSFT is {MSFT_PCT} of the book, GOOGL {GOOGL_PCT}, CRM {CRM_PCT})",
   "Single-commodity concentration (UNG is {UNG_PCT} of the book)",
-  "Leveraged-ETF exposure (SOXL, 3x daily semiconductors, is {SOXL_PCT} of the book)",
-  "Recent-IPO exposure (FPS, listed Feb 2026, is {FPS_PCT} of the book)",
   "Gross exposure backstop for gap risk",
   "Net exposure range"
  ],
- "news_as_of": "2026-10-03",
+ "news_as_of": "2026-10-12",
  "news": [
   {
    "hot": true,
-   "title": "MSFT, META and GOOGL all estimated to report on 28 Oct - none confirmed",
-   "body": "Earnings calendars estimate Wednesday 28 Oct for Microsoft, Meta and Alphabet, based on past schedules; none has confirmed. All three sit in the MAG7 theme, so a shared report day is one event for the theme: a -10% gap in all three costs $21,594 against a $6,000 theme cap, and stops do not protect through a scheduled report.",
-   "src": "MarketBeat earnings calendars - Oct 2026 (https://www.marketbeat.com/stocks/NASDAQ/META/earnings/, https://www.marketbeat.com/stocks/NASDAQ/MSFT/earnings/, https://www.marketbeat.com/stocks/NASDAQ/GOOG/earnings); GOOGL date per nextearningsdate.com, read 7 Oct (https://www.nextearningsdate.com/alphabet.html)",
-   "affects": "META"
+   "title": "Microsoft confirms 28 Oct report; Alphabet estimated for the same day",
+   "body": "On 7 Oct Microsoft announced it will publish fiscal 2027 first-quarter results after the close on Wednesday 28 Oct. Alphabet has not confirmed a date; earnings calendars estimate 28 Oct after the close, based on past schedules. Both sit in the MAG7 theme, so a shared report day is one event for the theme: a -10% gap in both costs $14,364 against a $6,000 theme cap, and stops do not protect through a scheduled report.",
+   "src": "Microsoft press release via Finviz, 7 Oct 2026 (https://finviz.com/news/400058/microsoft-announces-quarterly-earnings-release-date); GOOGL date per nextearningsdate.com and Wall Street Horizon, read 12 Oct (https://www.nextearningsdate.com/alphabet.html, https://www.wallstreethorizon.com/alphabet-earnings-calendar)",
+   "affects": "MSFT"
   },
   {
    "hot": false,
-   "title": "EIA: 64 Bcf injection; surplus to the five-year average narrows",
-   "body": "For the week to 25 Sep the EIA reported a 64 Bcf net injection. Working gas reached 3,415 Bcf: 79 Bcf (2.4%) above the five-year average, down from 95 Bcf a week earlier, and 138 Bcf (3.9%) below a year ago. Next report: Thu 8 Oct.",
-   "src": "EIA Weekly Natural Gas Storage Report, released 1 Oct 2026 (https://ir.eia.gov/ngs/ngs.html)",
+   "title": "EIA: 85 Bcf injection; surplus to the five-year average narrows to 68 Bcf",
+   "body": "For the week to 2 Oct the EIA reported an 85 Bcf net injection. Working gas reached 3,500 Bcf: 68 Bcf (2.0%) above the five-year average of 3,432 Bcf, down from 79 Bcf a week earlier, and 130 Bcf (3.6%) below a year ago. Next report: Thu 15 Oct.",
+   "src": "EIA Weekly Natural Gas Storage Report, released 8 Oct 2026 (https://ir.eia.gov/ngs/ngs.html)",
    "affects": "UNG"
   },
   {
    "hot": false,
-   "title": "SOXL +6.5% on 2 Oct; no single catalyst confirmed",
-   "body": "SOXL closed at 163.71 on 2 Oct, up 6.5% from 153.69, 6.3% above the 154.00 entry. No company or sector announcement explaining the day's move was confirmed in the sources checked. SOXL resets its 3x leverage daily, so over several days its move can differ materially from 3x the index.",
-   "src": "IBKR regular-hours daily bars (get_price_history) - 2 Oct 2026",
-   "affects": "SOXL"
+   "title": "CRM opened 9 Oct; next report estimated 2 Dec (unconfirmed)",
+   "body": "CRM 300 was bought on 9 Oct at 230.00 through a buy stop-limit, with a 220 protective stop. Salesforce has not announced its third-quarter fiscal 2027 date; calendars estimate Wednesday 2 Dec after the close, based on its usual pattern. CRM closed 22.58% higher on 27 Aug after its last quarterly results.",
+   "src": "IBKR trade blotter (get_account_trades, 7 days), read 12 Oct; date estimate per days.to, read 12 Oct (https://days.to/salesforce-earnings); 27 Aug move per Finviz, 28 Aug 2026 (https://finviz.com/news/386528/salesforce-shares-post-strongest-one-day-gain-since-2020-after-quarterly-results)",
+   "affects": "CRM"
   }
  ],
  "notes": [
   "NAV is $300,000 throughout - the notional mandate assigned by the firm. Never measured against account equity, by instruction. 1% = $3,000.",
   "Limits are provisional, set 15 Sep 2026: 2% maximum loss per theme, 6% across the portfolio. Not a written company risk policy.",
-  "Themes are assigned, not fed. IBKR returns no sector tags; every theme in this file is a stated assumption.",
+  "Themes are assigned, not fed. IBKR returns no sector tags; every theme in this file is a stated assumption. CRM's theme (Enterprise software) is the one it carried when last held in September.",
   "Stop distances are shown as probability of being touched over a holding period, not in daily sigma - these are GTC orders with no expiry. The probability is the reflection-principle first-passage estimate 2*Phi(-ln(S/B)/(sigma*sqrt(T))) on realised daily vol, zero drift.",
   "Stops are the account's GTC working orders, read through the IBKR connector when the board is refreshed in session; the unattended daily run carries the last read forward, because an IBKR Activity Flex Query cannot report working orders. Where a position has more than one stop, the nearest one drives the touch probabilities and the dollar risk sums every tranche. Still unconfirmed: whether they are enabled outside regular trading hours - most gaps occur overnight, which is exactly when a stop is least likely to help.",
-  "Scenario betas: UNG ~1.0 to front-month gas; MSFT, META and GOOGL 1.0 to mega-cap tech; FPS 1.0 to AI power infrastructure; SOXL 3.00 to the SOX (60-bar, corr 0.996 - its daily-reset leverage). Broad-market betas are 60-bar OLS on SPX: FPS 3.69, GOOGL 1.46, META 1.17, MSFT 1.97, SOXL 7.31. MSFT's is inflated by its 30 Jul earnings day (+15.5%; 252-bar beta 0.99). META's 60-bar beta is below its 252-bar 1.45, so if anything its row understates. FPS's and SOXL's 60-bar windows include +13.8% and +24.7% days on 30 Jul. SOXL's breach is also marginal (-21.9% takes it to 128.23 against the 129 stop). META only just breaches its stop in the broad-market row (-3.51% takes it to 712.93 against the 713 stop); MSFT does not breach at all. UNG's market beta is negative (-0.26) and no hedge credit is taken for it.",
-  "Scenario, slippage and gap figures are authored at the prices in price_basis (6 Oct regular-session closes) against the positions in basis_book and do not move with the market. The tab flags them when prices drift past tolerance or the book changes.",
-  "The MAG7 theme is over its cap on stops alone: MSFT $5,247 + META $2,588 + GOOGL $2,536 = $10,371 of stop risk against the $6,000 theme limit (173%). Adding GOOGL on 6 Oct raised it from 114% on 3 Oct, even after trimming MSFT. That is the limit set on 15 Sep, measured as written; resolving it is the account owner's call, not the board's.",
-  "Stops do not protect through a scheduled report. MSFT, META and GOOGL are all estimated to report on 28 Oct (unconfirmed). MSFT's 30 Jul report moved it 15.5% in a day; a -10% gap in all three would cost $21,594, 360% of the theme cap. The gap rows use the -10% scenario, so they are not the worst case.",
-  "SOXL is a 3x daily-leveraged fund. The -30% semiconductor row is a one-day shock; over several sessions daily rebalancing makes its path diverge from 3x the index, usually against the holder in a choppy market. Its 129 stop is 21.5% below the mark - about a 7% fall in the SOX.",
-  "Rates +50bp is modelled for the first time. FPS has a significant negative slope to yields (-0.216%/bp, t -2.36) - but on only 167 daily observations since its Feb 2026 listing, a period in which AI-infrastructure names and yields may share a common driver, and which includes its +13.8% day on 30 Jul - treat it as indicative. The row also extrapolates a daily slope linearly to a cumulative 50bp move. GOOGL's slope is negative but not significant (-0.0052%/bp, t -0.40). MSFT (+0.020, t 1.82), META (+0.010, t 0.62), SOXL (+0.021, t 0.42) and UNG (+0.019, t 0.78) get no credit. The row excludes TLT (900 shares), which remains the main rate exposure in this account - it falls when yields rise.",
-  "Independently reviewed. The first issue (15 Sep 2026) was blocked and reissued; the 27 Sep, 3 Oct and 7 Oct re-derivations were each reviewed the same way before publishing.",
-  "Book changes since 3 Oct, from the IBKR trade blotter (get_account_trades, 7 days) read 7 Oct: on 6 Oct MSFT was trimmed 200 -> 137 (33 @ 532.40 and 30 @ 532.305, limit orders, +$2,106.14 realised); UNG added 1,000 @ 10.70 (now 3,000 with two 9.35 stop tranches); FPS opened 1,000 @ about 40.82; GOOGL opened 200 @ 349.05 - all via buy stop-limit entries with the protective stops staged in advance. A pending entry order that has not filled is not on the board. Themes for FPS (AI power infrastructure, set by the account owner 7 Oct) and GOOGL (MAG7) are assigned, not fed. Earlier: GOOGL and GNRC stopped out 23 Sep, SMCI 24 Sep, CRM 25 Sep, SNOW 28 Sep."
+  "Scenario betas: UNG ~1.0 to front-month gas; MSFT and GOOGL 1.0 to mega-cap tech; CRM 1.0 to enterprise software. Broad-market betas are 60-bar OLS on SPX, 2026-07-17 to 2026-10-09: CRM 0.68, GOOGL 1.34, MSFT 2.05. MSFT's is inflated by its +15.5% post-results day on 30 Jul, which rolls off the window around 23 Oct. CRM's fit is weak (correlation 0.12) and its window includes its +22.6% post-results day on 27 Aug - treat its row as indicative. Only MSFT breaches its stop in the broad-market row (-6.15% takes it to 502.16 against the 510 stop); GOOGL (-4.01% against a stop 4.74% below) and CRM (-2.05% against 3.98%) take their full moves. UNG's market beta is negative (-0.25) and no hedge credit is taken for it.",
+  "Scenario, slippage and gap figures are authored at the prices in price_basis (9 Oct regular-session closes) against the positions in basis_book and do not move with the market. The tab flags them when prices drift past tolerance or the book changes.",
+  "The MAG7 theme is over its cap on stops alone: MSFT $3,435 + GOOGL $3,332 = $6,767 of stop risk against the $6,000 theme limit (113%). That is down from 173% on 7 Oct, after META stopped out on 8 Oct and MSFT's stop was raised from 491 to 510. That is the limit set on 15 Sep, measured as written; resolving it is the account owner's call, not the board's.",
+  "Stops do not protect through a scheduled report. MSFT reports on 28 Oct (confirmed 7 Oct) and GOOGL is estimated for the same day (unconfirmed). MSFT moved 15.5% in a day on 30 Jul after its last report; a -10% gap in both would cost $14,364, 239% of the theme cap. The gap rows use the -10% scenario, so they are not the worst case.",
+  "Rates +50bp: 3-year regressions (n=756) of daily returns on daily ^TNX changes in bp. Only GOOGL has a negative slope (-0.0048%/bp, t -0.37, not significant) => -0.24%; MSFT (+0.022, t 1.97), CRM (+0.010, t 0.61) and UNG (+0.020, t 0.81) get no credit. The row also extrapolates a daily slope linearly to a cumulative 50bp move, and excludes TLT (900 shares), which remains the main rate exposure in this account - it falls when yields rise.",
+  "Independently reviewed. The first issue (15 Sep 2026) was blocked and reissued; the 27 Sep, 3 Oct, 7 Oct and 12 Oct re-derivations were each reviewed the same way before publishing.",
+  "Book changes since 7 Oct, from the IBKR trade blotter (get_account_trades, 7 days) read 12 Oct: on 8 Oct three GTC stop orders filled - FPS 1,000 at 39.15-39.23 (realised -$1,659.57) and SOXL 120 at 142 (realised -$1,442.35) - both on stops raised after the 7 Oct read (38.50 and 129) - and META 100 at 712.78 (realised -$2,796.85); on 9 Oct CRM opened 300 @ 230.00 via a buy stop-limit entry with its 220 stop staged in advance. MSFT's stop was raised 491 -> 510, above its 498.87 average entry, and UNG's two 9.35 tranches became a single 3,000-share order (both amended 8 Oct). A pending entry order that has not filled is not on the board. Earlier: on 6 Oct MSFT was trimmed 200 -> 137, UNG added 1,000 @ 10.70, FPS and GOOGL opened; GOOGL and GNRC stopped out 23 Sep, SMCI 24 Sep, CRM 25 Sep, SNOW 28 Sep."
  ],
  "gaps": [
   {
    "name": "gas gap",
    "sym": "UNG",
-   "total": 6444.0,
+   "total": 6606.0,
    "basis": "UNG full -20% with no stop protection"
   },
   {
    "name": "MSFT gap through stop",
    "sym": "MSFT",
-   "total": 7251.41,
+   "total": 7330.46,
    "basis": "MSFT -10% (the mega-cap tech scenario) with no stop protection"
-  },
-  {
-   "name": "META gap through stop",
-   "sym": "META",
-   "total": 7388.8,
-   "basis": "META -10% (the mega-cap tech scenario) with no stop protection"
   },
   {
    "name": "GOOGL gap through stop",
    "sym": "GOOGL",
-   "total": 6953.6,
+   "total": 7033.2,
    "basis": "GOOGL -10% (the mega-cap tech scenario) with no stop protection"
   },
   {
-   "name": "SOXL gap through stop",
-   "sym": "SOXL",
-   "total": 5904.2,
-   "basis": "SOXL about -30% (semiconductors -10% at its 2.9954 beta to the SOX) with no stop protection"
-  },
-  {
-   "name": "FPS gap through stop",
-   "sym": "FPS",
-   "total": 4135.0,
-   "basis": "FPS -10% (the AI power infrastructure scenario) with no stop protection"
+   "name": "CRM gap through stop",
+   "sym": "CRM",
+   "total": 6873.9,
+   "basis": "CRM -10% (the enterprise software scenario) with no stop protection"
   },
   {
    "name": "MAG7 shared report gap",
    "sym": "MSFT",
-   "total": 21593.81,
-   "basis": "MSFT, META and GOOGL all -10% with no stop protection - all three are estimated to report on 28 Oct (unconfirmed)"
+   "total": 14363.66,
+   "basis": "MSFT and GOOGL both -10% with no stop protection - MSFT reports 28 Oct (confirmed 7 Oct); GOOGL is estimated for the same day (unconfirmed)"
   }
  ]
 }
