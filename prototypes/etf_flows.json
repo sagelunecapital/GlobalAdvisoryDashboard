@@ -1,10 +1,10 @@
 {
- "generated": "2026-10-22T00:36:59Z",
- "scraped_at": "2026-10-22T00:36:58Z",
+ "generated": "2026-10-23T02:12:55Z",
+ "scraped_at": "2026-10-23T02:12:54Z",
  "source": "etfdb.com Fund Flows chart (Highcharts series 'Fund Flow')",
  "source_url_pattern": "https://etfdb.com/etf/{TICKER}/#fund-flows",
  "unit": "USD millions",
- "as_of": "2026-10-19",
+ "as_of": "2026-10-20",
  "window_rule": "Calendar months, inclusive start: [as_of - N months, as_of]. Calibrated against etfdb's own stated totals.",
  "order": [
   "XLK",
@@ -24,25 +24,25 @@
    "sector": "Technology",
    "periods": {
     "3M": {
-     "total": 886.74,
-     "page_display": "886.74 M",
-     "page_millions": 886.74,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": 1360.76,
+     "page_display": "1.36 B",
+     "page_millions": 1360.0,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": 2107.97,
-     "page_display": "2.11 B",
-     "page_millions": 2110.0,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": 2581.99,
+     "page_display": "2.58 B",
+     "page_millions": 2580.0,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": 2492.9,
-     "page_display": "2.49 B",
-     "page_millions": 2490.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": 2966.92,
+     "page_display": "2.97 B",
+     "page_millions": 2970.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -1089,6 +1089,10 @@
     [
      "2026-10-19",
      -137.587
+    ],
+    [
+     "2026-10-20",
+     474.024
     ]
    ],
    "cumulative": [
@@ -1352,32 +1356,33 @@
     2952.41,
     2904.82,
     2630.49,
-    2492.91
+    2492.91,
+    2966.93
    ]
   },
   "XLF": {
    "sector": "Financials",
    "periods": {
     "3M": {
-     "total": -3004.91,
-     "page_display": "-3 B",
-     "page_millions": -3000.0,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": -3450.98,
+     "page_display": "-3.45 B",
+     "page_millions": -3450.0,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": -2036.64,
-     "page_display": "-2.04 B",
-     "page_millions": -2040.0,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": -2482.71,
+     "page_display": "-2.48 B",
+     "page_millions": -2480.0,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": -2615.05,
-     "page_display": "-2.62 B",
-     "page_millions": -2620.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": -3061.12,
+     "page_display": "-3.06 B",
+     "page_millions": -3060.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -2424,6 +2429,10 @@
     [
      "2026-10-19",
      455.185
+    ],
+    [
+     "2026-10-20",
+     -446.07
     ]
    ],
    "cumulative": [
@@ -2687,32 +2696,33 @@
     -3503.02,
     -3641.98,
     -3070.23,
-    -2615.05
+    -2615.05,
+    -3061.12
    ]
   },
   "XLV": {
    "sector": "Health Care",
    "periods": {
     "3M": {
-     "total": 486.65,
-     "page_display": "486.65 M",
-     "page_millions": 486.65,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": 881.74,
+     "page_display": "881.74 M",
+     "page_millions": 881.74,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": 175.08,
-     "page_display": "175.08 M",
-     "page_millions": 175.08,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": 570.17,
+     "page_display": "570.18 M",
+     "page_millions": 570.18,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": 1723.41,
-     "page_display": "1.72 B",
-     "page_millions": 1720.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": 2118.5,
+     "page_display": "2.12 B",
+     "page_millions": 2120.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -3759,6 +3769,10 @@
     [
      "2026-10-19",
      159.008
+    ],
+    [
+     "2026-10-20",
+     395.092
     ]
    ],
    "cumulative": [
@@ -4022,32 +4036,33 @@
     950.21,
     1254.41,
     1564.39,
-    1723.4
+    1723.4,
+    2118.49
    ]
   },
   "XLY": {
    "sector": "Consumer Discretionary",
    "periods": {
     "3M": {
-     "total": -438.36,
-     "page_display": "-438.36 M",
-     "page_millions": -438.36,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": -632.9,
+     "page_display": "-632.9 M",
+     "page_millions": -632.9,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": -59.79,
-     "page_display": "-59.79 M",
-     "page_millions": -59.79,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": -254.33,
+     "page_display": "-254.33 M",
+     "page_millions": -254.33,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": -1431.03,
-     "page_display": "-1.43 B",
-     "page_millions": -1430.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": -1625.57,
+     "page_display": "-1.63 B",
+     "page_millions": -1630.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -5094,6 +5109,10 @@
     [
      "2026-10-19",
      -354.312
+    ],
+    [
+     "2026-10-20",
+     -194.542
     ]
    ],
    "cumulative": [
@@ -5357,32 +5376,33 @@
     -1015.68,
     -1093.73,
     -1076.72,
-    -1431.03
+    -1431.03,
+    -1625.57
    ]
   },
   "XLI": {
    "sector": "Industrials",
    "periods": {
     "3M": {
-     "total": -537.81,
-     "page_display": "-537.81 M",
-     "page_millions": -537.81,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": -562.82,
+     "page_display": "-562.81 M",
+     "page_millions": -562.81,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": 1059.01,
-     "page_display": "1.06 B",
-     "page_millions": 1060.0,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": 1034.0,
+     "page_display": "1.03 B",
+     "page_millions": 1030.0,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": 4639.75,
-     "page_display": "4.64 B",
-     "page_millions": 4640.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": 4614.75,
+     "page_display": "4.61 B",
+     "page_millions": 4610.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -6429,6 +6449,10 @@
     [
      "2026-10-19",
      -50.329
+    ],
+    [
+     "2026-10-20",
+     -25.002
     ]
    ],
    "cumulative": [
@@ -6692,32 +6716,33 @@
     4722.62,
     4513.83,
     4690.08,
-    4639.75
+    4639.75,
+    4614.75
    ]
   },
   "XLC": {
    "sector": "Communication Services",
    "periods": {
     "3M": {
-     "total": 830.18,
-     "page_display": "830.18 M",
-     "page_millions": 830.18,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": 714.55,
+     "page_display": "714.55 M",
+     "page_millions": 714.55,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": -564.7,
-     "page_display": "-564.7 M",
-     "page_millions": -564.7,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": -680.34,
+     "page_display": "-680.34 M",
+     "page_millions": -680.34,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": -1729.99,
-     "page_display": "-1.73 B",
-     "page_millions": -1730.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": -1845.63,
+     "page_display": "-1.85 B",
+     "page_millions": -1850.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -7764,6 +7789,10 @@
     [
      "2026-10-19",
      0.0
+    ],
+    [
+     "2026-10-20",
+     -115.634
     ]
    ],
    "cumulative": [
@@ -8027,32 +8056,33 @@
     -1947.69,
     -1842.44,
     -1730.0,
-    -1730.0
+    -1730.0,
+    -1845.64
    ]
   },
   "XLP": {
    "sector": "Consumer Staples",
    "periods": {
     "3M": {
-     "total": -35.63,
-     "page_display": "-35.63 M",
-     "page_millions": -35.63,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": 160.65,
+     "page_display": "160.65 M",
+     "page_millions": 160.65,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": -600.76,
-     "page_display": "-600.76 M",
-     "page_millions": -600.76,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": -404.48,
+     "page_display": "-404.48 M",
+     "page_millions": -404.48,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": -2655.56,
-     "page_display": "-2.66 B",
-     "page_millions": -2660.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": -2459.28,
+     "page_display": "-2.46 B",
+     "page_millions": -2460.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -9099,6 +9129,10 @@
     [
      "2026-10-19",
      -35.062
+    ],
+    [
+     "2026-10-20",
+     196.28
     ]
    ],
    "cumulative": [
@@ -9362,32 +9396,33 @@
     -2827.82,
     -2733.19,
     -2620.49,
-    -2655.55
+    -2655.55,
+    -2459.27
    ]
   },
   "XLE": {
    "sector": "Energy",
    "periods": {
     "3M": {
-     "total": -197.92,
-     "page_display": "-197.92 M",
-     "page_millions": -197.92,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": 25.82,
+     "page_display": "25.82 M",
+     "page_millions": 25.82,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": -2087.86,
-     "page_display": "-2.09 B",
-     "page_millions": -2090.0,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": -1864.12,
+     "page_display": "-1.86 B",
+     "page_millions": -1860.0,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": 3466.15,
-     "page_display": "3.47 B",
-     "page_millions": 3470.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": 3689.89,
+     "page_display": "3.69 B",
+     "page_millions": 3690.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -10434,6 +10469,10 @@
     [
      "2026-10-19",
      44.357
+    ],
+    [
+     "2026-10-20",
+     223.74
     ]
    ],
    "cumulative": [
@@ -10697,32 +10736,33 @@
     3258.8,
     3255.42,
     3421.79,
-    3466.15
+    3466.15,
+    3689.89
    ]
   },
   "XLU": {
    "sector": "Utilities",
    "periods": {
     "3M": {
-     "total": 2258.24,
-     "page_display": "2.26 B",
-     "page_millions": 2260.0,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": 2291.35,
+     "page_display": "2.29 B",
+     "page_millions": 2290.0,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": 1603.4,
-     "page_display": "1.6 B",
-     "page_millions": 1600.0,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": 1636.51,
+     "page_display": "1.64 B",
+     "page_millions": 1640.0,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": 3228.61,
-     "page_display": "3.23 B",
-     "page_millions": 3230.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": 3261.73,
+     "page_display": "3.26 B",
+     "page_millions": 3260.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -11769,6 +11809,10 @@
     [
      "2026-10-19",
      -183.668
+    ],
+    [
+     "2026-10-20",
+     33.111
     ]
    ],
    "cumulative": [
@@ -12032,32 +12076,33 @@
     3330.5,
     3612.14,
     3412.28,
-    3228.61
+    3228.61,
+    3261.72
    ]
   },
   "XLRE": {
    "sector": "Real Estate",
    "periods": {
     "3M": {
-     "total": -132.46,
-     "page_display": "-132.46 M",
-     "page_millions": -132.46,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": -103.29,
+     "page_display": "-103.29 M",
+     "page_millions": -103.29,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": 324.96,
-     "page_display": "324.96 M",
-     "page_millions": 324.96,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": 354.13,
+     "page_display": "354.13 M",
+     "page_millions": 354.13,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": -64.22,
-     "page_display": "-64.22 M",
-     "page_millions": -64.22,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": -35.05,
+     "page_display": "-35.05 M",
+     "page_millions": -35.05,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -13104,6 +13149,10 @@
     [
      "2026-10-19",
      29.521
+    ],
+    [
+     "2026-10-20",
+     29.171
     ]
    ],
    "cumulative": [
@@ -13367,32 +13416,33 @@
     -127.11,
     -108.43,
     -93.74,
-    -64.22
+    -64.22,
+    -35.04
    ]
   },
   "XLB": {
    "sector": "Materials",
    "periods": {
     "3M": {
-     "total": -427.46,
-     "page_display": "-427.46 M",
-     "page_millions": -427.46,
-     "start": "2026-07-19",
-     "end": "2026-10-19"
+     "total": -549.7,
+     "page_display": "-549.7 M",
+     "page_millions": -549.7,
+     "start": "2026-07-20",
+     "end": "2026-10-20"
     },
     "6M": {
-     "total": 443.07,
-     "page_display": "443.07 M",
-     "page_millions": 443.07,
-     "start": "2026-04-19",
-     "end": "2026-10-19"
+     "total": 320.83,
+     "page_display": "320.83 M",
+     "page_millions": 320.83,
+     "start": "2026-04-20",
+     "end": "2026-10-20"
     },
     "1Y": {
-     "total": 1683.91,
-     "page_display": "1.68 B",
-     "page_millions": 1680.0,
-     "start": "2025-10-19",
-     "end": "2026-10-19"
+     "total": 1561.68,
+     "page_display": "1.56 B",
+     "page_millions": 1560.0,
+     "start": "2025-10-20",
+     "end": "2026-10-20"
     }
    },
    "daily": [
@@ -14439,6 +14489,10 @@
     [
      "2026-10-19",
      12.728
+    ],
+    [
+     "2026-10-20",
+     -122.237
     ]
    ],
    "cumulative": [
@@ -14702,7 +14756,8 @@
     1801.25,
     1724.3,
     1671.19,
-    1683.91
+    1683.91,
+    1561.68
    ]
   }
  },
@@ -15751,6 +15806,10 @@
    [
     "2026-10-19",
     -60.159
+   ],
+   [
+    "2026-10-20",
+    447.933
    ]
   ],
   "cumulative": [
@@ -16014,101 +16073,102 @@
    7594.47,
    7845.16,
    8799.05,
-   8738.89
+   8738.89,
+   9186.82
   ],
   "periods": {
    "3M": {
-    "total": -312.75,
-    "start": "2026-07-19",
-    "end": "2026-10-19"
+    "total": 135.18,
+    "start": "2026-07-20",
+    "end": "2026-10-20"
    },
    "6M": {
-    "total": 363.72,
-    "start": "2026-04-19",
-    "end": "2026-10-19"
+    "total": 811.65,
+    "start": "2026-04-20",
+    "end": "2026-10-20"
    },
    "1Y": {
-    "total": 8738.89,
-    "start": "2025-10-19",
-    "end": "2026-10-19"
+    "total": 9186.82,
+    "start": "2025-10-20",
+    "end": "2026-10-20"
    }
   }
  },
  "reconciliation": {
   "checks": 33,
-  "mean_abs_err": 1.36,
-  "max_abs_err": 4.95,
+  "mean_abs_err": 1.3,
+  "max_abs_err": 4.75,
   "note": "Daily bars summed over the window vs the figure etfdb prints. Residuals are the site's display rounding (3 significant figures).",
   "rows": [
    {
-    "ticker": "XLF",
+    "ticker": "XLI",
     "period": "1Y",
-    "page": -2620.0,
-    "bars": -2615.05,
-    "abs_err": 4.95
+    "page": 4610.0,
+    "bars": 4614.75,
+    "abs_err": 4.75
    },
    {
-    "ticker": "XLF",
-    "period": "3M",
-    "page": -3000.0,
-    "bars": -3004.91,
-    "abs_err": 4.91
+    "ticker": "XLY",
+    "period": "1Y",
+    "page": -1630.0,
+    "bars": -1625.57,
+    "abs_err": 4.43
    },
    {
-    "ticker": "XLP",
+    "ticker": "XLC",
     "period": "1Y",
-    "page": -2660.0,
-    "bars": -2655.56,
-    "abs_err": 4.44
-   },
-   {
-    "ticker": "XLB",
-    "period": "1Y",
-    "page": 1680.0,
-    "bars": 1683.91,
-    "abs_err": 3.91
+    "page": -1850.0,
+    "bars": -1845.63,
+    "abs_err": 4.37
    },
    {
     "ticker": "XLE",
-    "period": "1Y",
-    "page": 3470.0,
-    "bars": 3466.15,
-    "abs_err": 3.85
+    "period": "6M",
+    "page": -1860.0,
+    "bars": -1864.12,
+    "abs_err": 4.12
    },
    {
-    "ticker": "XLV",
-    "period": "1Y",
-    "page": 1720.0,
-    "bars": 1723.41,
-    "abs_err": 3.41
+    "ticker": "XLI",
+    "period": "6M",
+    "page": 1030.0,
+    "bars": 1034.0,
+    "abs_err": 4.0
    },
    {
     "ticker": "XLU",
     "period": "6M",
-    "page": 1600.0,
-    "bars": 1603.4,
-    "abs_err": 3.4
-   },
-   {
-    "ticker": "XLF",
-    "period": "6M",
-    "page": -2040.0,
-    "bars": -2036.64,
-    "abs_err": 3.36
+    "page": 1640.0,
+    "bars": 1636.51,
+    "abs_err": 3.49
    },
    {
     "ticker": "XLK",
     "period": "1Y",
-    "page": 2490.0,
-    "bars": 2492.9,
-    "abs_err": 2.9
+    "page": 2970.0,
+    "bars": 2966.92,
+    "abs_err": 3.08
    },
    {
-    "ticker": "XLE",
+    "ticker": "XLF",
     "period": "6M",
-    "page": -2090.0,
-    "bars": -2087.86,
-    "abs_err": 2.14
+    "page": -2480.0,
+    "bars": -2482.71,
+    "abs_err": 2.71
+   },
+   {
+    "ticker": "XLK",
+    "period": "6M",
+    "page": 2580.0,
+    "bars": 2581.99,
+    "abs_err": 1.99
+   },
+   {
+    "ticker": "XLU",
+    "period": "1Y",
+    "page": 3260.0,
+    "bars": 3261.73,
+    "abs_err": 1.73
    }
   ]
  }
